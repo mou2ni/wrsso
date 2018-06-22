@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    env(DATABASE_HOST): localhost
 
 services:
     # default configuration for services in *this* file
