@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseJournees index{% endblock %}
+
+{% block body %}
+    <h1>DeviseJournees index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>QteOuv</th>
+                <th>EcartOuv</th>
+                <th>QteAchat</th>
+                <th>QteVente</th>
+                <th>MCvdAchat</th>
+                <th>MCvdVente</th>
+                <th>QteIntercaisse</th>
+                <th>QteFerm</th>
+                <th>EcartFerm</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for devise_journee in devise_journees %}
+            <tr>
+                <td>{{ devise_journee.id }}</td>
+                <td>{{ devise_journee.qteOuv }}</td>
+                <td>{{ devise_journee.ecartOuv }}</td>
+                <td>{{ devise_journee.qteAchat }}</td>
+                <td>{{ devise_journee.qteVente }}</td>
+                <td>{{ devise_journee.mCvdAchat }}</td>
+                <td>{{ devise_journee.mCvdVente }}</td>
+                <td>{{ devise_journee.qteIntercaisse }}</td>
+                <td>{{ devise_journee.qteFerm }}</td>
+                <td>{{ devise_journee.ecartFerm }}</td>
+                <td>
+                    <a href="{{ path('devise_journees_show', {'id': devise_journee.id}) }}">show</a>
+                    <a href="{{ path('devise_journees_edit', {'id': devise_journee.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('devise_journees_new') }}">Create new</a>
+{% endblock %}

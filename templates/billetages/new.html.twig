@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Billetages{% endblock %}
+
+{% block body %}
+    <h1>Create new Billetages</h1>
+
+    {{ include('billetages/_form.html.twig') }}
+
+    <a href="{{ path('billetages_index') }}">back to list</a>
+{% endblock %}

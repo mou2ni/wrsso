@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ParamComptables index{% endblock %}
+
+{% block body %}
+    <h1>ParamComptables index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for param_comptable in param_comptables %}
+            <tr>
+                <td>{{ param_comptable.id }}</td>
+                <td>
+                    <a href="{{ path('param_comptables_show', {'id': param_comptable.id}) }}">show</a>
+                    <a href="{{ path('param_comptables_edit', {'id': param_comptable.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('param_comptables_new') }}">Create new</a>
+{% endblock %}

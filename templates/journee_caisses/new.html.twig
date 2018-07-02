@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New JourneeCaisses{% endblock %}
+
+{% block body %}
+    <h1>Create new JourneeCaisses</h1>
+
+    {{ include('journee_caisses/_form.html.twig') }}
+
+    <a href="{{ path('journee_caisses_index') }}">back to list</a>
+{% endblock %}

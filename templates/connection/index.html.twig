@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}login{% endblock %}
+{% block body %}
+{{ form_start(formLogin) }}
+<table>
+    <tr>
+        <td> {{ form_label(formLogin.login) }}</td>
+        <td> {{ form_widget(formLogin.login) }}</td>
+    </tr>
+    <tr>
+        <td> {{ form_label(formLogin.mdp) }}</td>
+        <td> {{ form_widget(formLogin.mdp) }}</td>
+    </tr>
+    <tr>
+        <td> <button type="submit">connecter</button></td>
+        <td> <button type="reset">annuler</button></td>
+    </tr>
+</table>
+    {{ form(formLogin) }}
+{% endblock %}

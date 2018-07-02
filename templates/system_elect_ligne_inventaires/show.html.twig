@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SystemElectLigneInventaires{% endblock %}
+
+{% block body %}
+    <h1>SystemElectLigneInventaires</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ system_elect_ligne_inventaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Solde</th>
+                <td>{{ system_elect_ligne_inventaire.solde }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('system_elect_ligne_inventaires_index') }}">back to list</a>
+
+    <a href="{{ path('system_elect_ligne_inventaires_edit', {'id': system_elect_ligne_inventaire.id}) }}">edit</a>
+
+    {{ include('system_elect_ligne_inventaires/_delete_form.html.twig') }}
+{% endblock %}

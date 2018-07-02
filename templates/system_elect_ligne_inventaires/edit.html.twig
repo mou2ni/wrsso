@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SystemElectLigneInventaires{% endblock %}
+
+{% block body %}
+    <h1>Edit SystemElectLigneInventaires</h1>
+
+    {{ include('system_elect_ligne_inventaires/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('system_elect_ligne_inventaires_index') }}">back to list</a>
+
+    {{ include('system_elect_ligne_inventaires/_delete_form.html.twig') }}
+{% endblock %}

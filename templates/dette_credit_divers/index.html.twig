@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DetteCreditDivers index{% endblock %}
+
+{% block body %}
+    <h1>DetteCreditDivers index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateDC</th>
+                <th>Libelle</th>
+                <th>Statut</th>
+                <th>MCredit</th>
+                <th>MDette</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dette_credit_diver in dette_credit_divers %}
+            <tr>
+                <td>{{ dette_credit_diver.id }}</td>
+                <td>{{ dette_credit_diver.dateDC ? dette_credit_diver.dateDC|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ dette_credit_diver.libelle }}</td>
+                <td>{{ dette_credit_diver.statut }}</td>
+                <td>{{ dette_credit_diver.mCredit }}</td>
+                <td>{{ dette_credit_diver.mDette }}</td>
+                <td>
+                    <a href="{{ path('dette_credit_divers_show', {'id': dette_credit_diver.id}) }}">show</a>
+                    <a href="{{ path('dette_credit_divers_edit', {'id': dette_credit_diver.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('dette_credit_divers_new') }}">Create new</a>
+{% endblock %}

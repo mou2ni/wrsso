@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DeviseIntercaisses{% endblock %}
+
+{% block body %}
+    <h1>Create new DeviseIntercaisses</h1>
+
+    {{ include('devise_intercaisses/_form.html.twig') }}
+
+    <a href="{{ path('devise_intercaisses_index') }}">back to list</a>
+{% endblock %}

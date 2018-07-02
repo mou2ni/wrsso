@@ -3,6 +3,7 @@
 /.env
 /public/bundles/
 /var/
+/src/Entity/
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-pack ###

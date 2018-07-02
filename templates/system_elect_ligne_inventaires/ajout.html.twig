@@ -1,0 +1,57 @@
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/warisso.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/jquery-3.1.1.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/warisso.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ form_start(systemElectsForm) }}
+    <table onchange="majElectronique()">
+        <thead><tr><th colspan="2">ELECTRONIQUE</th></tr>
+        <tr><th >TOTAL GENERAL</th><th>{% for field in systemElectsForm %}{% if field.vars.name =="soldeTotal" %}{{ form_widget(field) }} {% endif %}{% endfor %}</th></tr>
+        <tr><th>LIBELLE</th><th>SOLDE</th></tr>
+        </thead>
+
+        {% set i = 1 %}
+        {% for ve in elects %}
+            <tr>
+                <td>{% for field in systemElectsForm %}{% if field.vars.name =="SystemElect"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+
+                </td>
+                {#<td>
+                    {% for field in systemElectsForm %}{% if field.vars.name =="libelle"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+                </td>
+                <td>
+                    {% for field in systemElectsForm %}{% if field.vars.name =="soldeElectOuv"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+                </td>#}
+                <td>
+                    {% for field in systemElectsForm %}{% if field.vars.name =="solde"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+                </td>
+                {#<td hidden>
+                    {% for field in formValeurElect %}{% if field.vars.name =="idValeurElect"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+
+                </td>#}
+
+            </tr>
+            {% set i=i+1 %}
+        {% endfor %}
+        <tr>
+            <td hidden><input id="nbrSystemElect" value="{{ elects|length }}"  /></td>
+            <td colspan="3"><button id="btnElectroniqueEffacer" type="reset" class="bouton"> Effacer</button>
+                <button id="btnElectroniqueEnregistrer" type="submit" class="bouton"> Enregistrer</button>
+                <button id="btnElectroniqueFermer" type="button" class="bouton"> Fermer</button></td>
+        </tr>
+    </table>
+    {{ form_end(systemElectsForm) }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TransactionComptes{% endblock %}
+
+{% block body %}
+    <h1>Create new TransactionComptes</h1>
+
+    {{ include('transaction_comptes/_form.html.twig') }}
+
+    <a href="{{ path('transaction_comptes_index') }}">back to list</a>
+{% endblock %}

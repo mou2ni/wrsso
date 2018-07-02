@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SystemTransfert{% endblock %}
+
+{% block body %}
+    <h1>SystemTransfert</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ system_transfert.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ system_transfert.libelle }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('system_transfert_index') }}">back to list</a>
+
+    <a href="{{ path('system_transfert_edit', {'id': system_transfert.id}) }}">edit</a>
+
+    {{ include('system_transfert/_delete_form.html.twig') }}
+{% endblock %}

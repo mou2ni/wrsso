@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SystemTransfert{% endblock %}
+
+{% block body %}
+    <h1>Edit SystemTransfert</h1>
+
+    {{ include('system_transfert/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('system_transfert_index') }}">back to list</a>
+
+    {{ include('system_transfert/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SystemTransfert index{% endblock %}
+
+{% block body %}
+    <h1>SystemTransfert index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for system_transfert in system_transferts %}
+            <tr>
+                <td>{{ system_transfert.id }}</td>
+                <td>{{ system_transfert.libelle }}</td>
+                <td>
+                    <a href="{{ path('system_transfert_show', {'id': system_transfert.id}) }}">show</a>
+                    <a href="{{ path('system_transfert_edit', {'id': system_transfert.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('system_transfert_new') }}">Create new</a>
+{% endblock %}

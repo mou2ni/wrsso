@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SystemElects{% endblock %}
+
+{% block body %}
+    <h1>Create new SystemElects</h1>
+
+    {{ include('system_elects/_form.html.twig') }}
+
+    <a href="{{ path('system_elects_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DeviseJournees{% endblock %}
+
+{% block body %}
+    <h1>Edit DeviseJournees</h1>
+
+    {{ include('devise_journees/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('devise_journees_index') }}">back to list</a>
+
+    {{ include('devise_journees/_delete_form.html.twig') }}
+{% endblock %}

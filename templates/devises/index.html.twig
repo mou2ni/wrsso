@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devises index{% endblock %}
+
+{% block body %}
+    <h1>Devises index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>Libelle</th>
+                <th>DateModification</th>
+                <th>TxAchat</th>
+                <th>TxVente</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for devise in devises %}
+            <tr>
+                <td>{{ devise.id }}</td>
+                <td>{{ devise.code }}</td>
+                <td>{{ devise.libelle }}</td>
+                <td>{{ devise.dateModification ? devise.dateModification|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ devise.txAchat }}</td>
+                <td>{{ devise.txVente }}</td>
+                <td>
+                    <a href="{{ path('devises_show', {'id': devise.id}) }}">show</a>
+                    <a href="{{ path('devises_edit', {'id': devise.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('devises_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DetteCreditDivers{% endblock %}
+
+{% block body %}
+    <h1>DetteCreditDivers</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dette_credit_diver.id }}</td>
+            </tr>
+            <tr>
+                <th>DateDC</th>
+                <td>{{ dette_credit_diver.dateDC ? dette_credit_diver.dateDC|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ dette_credit_diver.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ dette_credit_diver.statut }}</td>
+            </tr>
+            <tr>
+                <th>MCredit</th>
+                <td>{{ dette_credit_diver.mCredit }}</td>
+            </tr>
+            <tr>
+                <th>MDette</th>
+                <td>{{ dette_credit_diver.mDette }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('dette_credit_divers_index') }}">back to list</a>
+
+    <a href="{{ path('dette_credit_divers_edit', {'id': dette_credit_diver.id}) }}">edit</a>
+
+    {{ include('dette_credit_divers/_delete_form.html.twig') }}
+{% endblock %}

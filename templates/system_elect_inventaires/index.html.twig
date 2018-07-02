@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SystemElectInventaires index{% endblock %}
+
+{% block body %}
+    <h1>SystemElectInventaires index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateInventaire</th>
+                <th>SoldeTotal</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for system_elect_inventaire in system_elect_inventaires %}
+            <tr>
+                <td>{{ system_elect_inventaire.id }}</td>
+                <td>{{ system_elect_inventaire.dateInventaire ? system_elect_inventaire.dateInventaire|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ system_elect_inventaire.soldeTotal }}</td>
+                <td>
+                    <a href="{{ path('system_elect_inventaires_show', {'id': system_elect_inventaire.id}) }}">show</a>
+                    <a href="{{ path('system_elect_inventaires_edit', {'id': system_elect_inventaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('system_elect_inventaires_new') }}">Create new</a>
+{% endblock %}
