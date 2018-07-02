@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Billets{% endblock %}
+
+{% block body %}
+    <h1>Create new Billets</h1>
+
+    {{ include('billets/_form.html.twig') }}
+
+    <a href="{{ path('billets_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DeviseMouvements{% endblock %}
+
+{% block body %}
+    <h1>Edit DeviseMouvements</h1>
+
+    {{ include('devise_mouvements/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('devise_mouvements_index') }}">back to list</a>
+
+    {{ include('devise_mouvements/_delete_form.html.twig') }}
+{% endblock %}

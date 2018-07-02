@@ -1,0 +1,197 @@
+input {
+    border-radius: 20px;
+    border-top: 1px double;
+    border-right: 2px double;
+    border-bottom: 2px double;
+}
+
+
+
+#menu {
+    padding: 10px 0;
+    margin: 0 auto;
+    background-color: #1319f5;
+    color: #000;
+    display: block;
+    text-align: center;
+    border: 3px;
+    border-color: #000;
+}
+
+
+.lien_menu {
+    color: #000;
+    margin: 3px;
+    padding: 9px;
+    border: solid;
+    border-color: #1117E6;
+}
+
+.liquidite {
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 25%;
+    background: #e6eafe;
+
+}
+.justification {
+    display: block;
+    position: relative;
+    width: 20%;
+}
+
+.col-xs-12 {
+    width: 35%;
+    position: relative;
+
+}
+
+.ouvertureform{
+    /*display: inline-flex;*/
+}
+
+.soldeelectronique {
+    //display: inline-block;
+    //position: absolute;
+    position: relative;
+    display: inline-block;
+    text-align: center;
+    width: 25%;
+    background: #e6eafe;
+}
+
+.justification .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 2px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+#page {
+    border: solid 1px aqua;
+    height: 1010px;
+
+}
+
+.col {
+    width: 25%;
+    border: thin solid #6495ed;
+    text-align: center;
+
+}
+
+.table-etat {
+    border: thin solid #6495ed;
+    width: -moz-available;
+    margin-bottom: 10px;
+}
+
+#date{
+    text-align: right;
+}
+
+#intitule{
+    text-align: center;
+}
+
+.webmaster {
+
+}
+
+.box-centered{
+    width: -moz-max-content;
+    border: 1px solid #6588A8;
+    background-color: #ffffff;
+    padding: 2px;
+    margin: 50px auto;
+    display: inline-block;
+}
+
+.form-title{
+    background-color: #6588A8;
+    text-align: center;
+    font-size: large;
+    padding: 10px;
+    margin-bottom: 10px;
+
+}
+
+/*form{
+    text-align: center;
+    background: #092ef91a;
+}*/
+
+.table-form{
+    text-align: start;
+    width: -moz-available;
+}
+
+.tr-form {
+    background: aliceblue;
+    border: solid 5px #e6eafe;
+}
+
+.td-form-label {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.td-form-valeur {
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.bouton{
+    margin: 6px 14px;
+    border: 1px solid #aaa;
+    padding: 3px 7px;
+    color: #111;
+    text-decoration: none;
+    background: #ddd;
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    text-shadow: 0 1px 0 #fff;
+    /*background-image: url(./themes/svg_gradient.php?from=f8f8f8&to=d8d8d8);*/
+    background-size: 100% 100%;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#d8d8d8));
+    background: -webkit-linear-gradient(top, #f8f8f8, #d8d8d8);
+    background: -moz-linear-gradient(top, #f8f8f8, #d8d8d8);
+    background: -ms-linear-gradient(top, #f8f8f8, #d8d8d8);
+    background: -o-linear-gradient(top, #f8f8f8, #d8d8d8);
+}
+
+.operation-title {
+    padding: 10px;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: #6588a833;
+}
+
+.caissier{
+    right: 10px;
+    float: right;
+}
+
+.table-jcaisse{
+    width: -moz-available;
+}
+
+.table-liste{
+    font-weight: 600;
+    font-family: sans-serif;
+    width: -moz-available;
+    border-right: white 10px solid;
+    border-left: white 10px solid;
+}
+
+.border-tilte-liste{
+    border-right: white 10px solid;
+    border-left: white 10px solid;
+}
+
+.tr-liste{
+    border-bottom: solid #e0e7ee 1px;
+    background: #d4e2ee66;
+}

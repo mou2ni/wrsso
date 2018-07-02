@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JourneeCaisses index{% endblock %}
+
+{% block body %}
+    <h1>JourneeCaisses index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateOuv</th>
+                <th>Statut</th>
+                <th>ValeurBillet</th>
+                <th>SoldeElectOuv</th>
+                <th>EcartOuv</th>
+                <th>MCvd</th>
+                <th>MEmissionTrans</th>
+                <th>MReceptionTrans</th>
+                <th>MIntercaisse</th>
+                <th>MRetraitClient</th>
+                <th>MDepotClient</th>
+                <th>MCreditDivers</th>
+                <th>MDetteDivers</th>
+                <th>DateFerm</th>
+                <th>IdBilletFerm</th>
+                <th>ValeurBilletFerm</th>
+                <th>SoldeElectFerm</th>
+                <th>MEcartFerm</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for journee_caiss in journee_caisses %}
+            <tr>
+                <td>{{ journee_caiss.id }}</td>
+                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.statut }}</td>
+                <td>{{ journee_caiss.valeurBillet }}</td>
+                <td>{{ journee_caiss.soldeElectOuv }}</td>
+                <td>{{ journee_caiss.ecartOuv }}</td>
+                <td>{{ journee_caiss.mCvd }}</td>
+                <td>{{ journee_caiss.mEmissionTrans }}</td>
+                <td>{{ journee_caiss.mReceptionTrans }}</td>
+                <td>{{ journee_caiss.mIntercaisse }}</td>
+                <td>{{ journee_caiss.mRetraitClient }}</td>
+                <td>{{ journee_caiss.mDepotClient }}</td>
+                <td>{{ journee_caiss.mCreditDivers }}</td>
+                <td>{{ journee_caiss.mDetteDivers }}</td>
+                <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.idBilletFerm ? journee_caiss.idBilletFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.valeurBilletFerm ? journee_caiss.valeurBilletFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.SoldeElectFerm ? journee_caiss.SoldeElectFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.mEcartFerm ? journee_caiss.mEcartFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>
+                    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('journee_caisses_new') }}">Create new</a>
+{% endblock %}

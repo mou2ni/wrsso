@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SystemTransfert{% endblock %}
+
+{% block body %}
+    <h1>Create new SystemTransfert</h1>
+
+    {{ include('system_transfert/_form.html.twig') }}
+
+    <a href="{{ path('system_transfert_index') }}">back to list</a>
+{% endblock %}

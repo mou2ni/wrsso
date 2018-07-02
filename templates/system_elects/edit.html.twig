@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SystemElects{% endblock %}
+
+{% block body %}
+    <h1>Edit SystemElects</h1>
+
+    {{ include('system_elects/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('system_elects_index') }}">back to list</a>
+
+    {{ include('system_elects/_delete_form.html.twig') }}
+{% endblock %}

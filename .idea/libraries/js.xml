@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="js" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/public/js" />
+        <item url="file://$PROJECT_DIR$/public/js/warisso.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/public/js" />
+      <root url="file://$PROJECT_DIR$/public/js/warisso.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

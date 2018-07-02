@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DeviseJournees{% endblock %}
+
+{% block body %}
+    <h1>Create new DeviseJournees</h1>
+
+    {{ include('devise_journees/_form.html.twig') }}
+
+    <a href="{{ path('devise_journees_index') }}">back to list</a>
+{% endblock %}

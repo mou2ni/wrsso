@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecetteDepenses{% endblock %}
+
+{% block body %}
+    <h1>RecetteDepenses</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ recette_depense.id }}</td>
+            </tr>
+            <tr>
+                <th>DateOperation</th>
+                <td>{{ recette_depense.dateOperation ? recette_depense.dateOperation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>MRecette</th>
+                <td>{{ recette_depense.mRecette }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ recette_depense.libelle }}</td>
+            </tr>
+            <tr>
+                <th>MDepense</th>
+                <td>{{ recette_depense.mDepense }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ recette_depense.statut }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('recette_depenses_index') }}">back to list</a>
+
+    <a href="{{ path('recette_depenses_edit', {'id': recette_depense.id}) }}">edit</a>
+
+    {{ include('recette_depenses/_delete_form.html.twig') }}
+{% endblock %}

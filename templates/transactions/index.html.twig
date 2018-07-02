@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transactions index{% endblock %}
+
+{% block body %}
+    <h1>Transactions index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>DateTransaction</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.libelle }}</td>
+                <td>{{ transaction.dateTransaction ? transaction.dateTransaction|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('transactions_show', {'id': transaction.id}) }}">show</a>
+                    <a href="{{ path('transactions_edit', {'id': transaction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('transactions_new') }}">Create new</a>
+{% endblock %}

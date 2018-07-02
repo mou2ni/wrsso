@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SystemElectInventaires{% endblock %}
+
+{% block body %}
+    <h1>SystemElectInventaires</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ system_elect_inventaire.id }}</td>
+            </tr>
+            <tr>
+                <th>DateInventaire</th>
+                <td>{{ system_elect_inventaire.dateInventaire ? system_elect_inventaire.dateInventaire|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>SoldeTotal</th>
+                <td>{{ system_elect_inventaire.soldeTotal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('system_elect_inventaires_index') }}">back to list</a>
+
+    <a href="{{ path('system_elect_inventaires_edit', {'id': system_elect_inventaire.id}) }}">edit</a>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Systeme</th>
+            <th>Solde</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for system_elect_ligne_inventaire in system_elect_Ligne_inventaires %}
+            <tr>
+                <td>{{ system_elect_ligne_inventaire.idSystemElect.libelle }}</td>
+                <td>{{ system_elect_ligne_inventaire.solde }}</td>
+                <td>
+                    <a href="{{ path('system_elect_ligne_inventaires_show', {'id': system_elect_ligne_inventaire.id}) }}">show</a>
+                    <a href="{{ path('system_elect_ligne_inventaires_edit', {'id': system_elect_ligne_inventaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    {{ include('system_elect_inventaires/_delete_form.html.twig') }}
+
+{% endblock %}

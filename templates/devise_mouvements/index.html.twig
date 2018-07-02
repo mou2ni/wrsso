@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseMouvements index{% endblock %}
+
+{% block body %}
+    <h1>DeviseMouvements index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sens</th>
+                <th>Nombre</th>
+                <th>MCvd</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for devise_mouvement in devise_mouvements %}
+            <tr>
+                <td>{{ devise_mouvement.id }}</td>
+                <td>{{ devise_mouvement.sens }}</td>
+                <td>{{ devise_mouvement.nombre }}</td>
+                <td>{{ devise_mouvement.mCvd }}</td>
+                <td>
+                    <a href="{{ path('devise_mouvements_show', {'id': devise_mouvement.id}) }}">show</a>
+                    <a href="{{ path('devise_mouvements_edit', {'id': devise_mouvement.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('devise_mouvements_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New InterCaisses{% endblock %}
+
+{% block body %}
+    <h1>Create new InterCaisses</h1>
+
+    {{ include('inter_caisses/_form.html.twig') }}
+
+    <a href="{{ path('inter_caisses_index') }}">back to list</a>
+{% endblock %}

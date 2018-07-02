@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TransactionComptes index{% endblock %}
+
+{% block body %}
+    <h1>TransactionComptes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NumCompte</th>
+                <th>MDebit</th>
+                <th>MCredit</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction_compte in transaction_comptes %}
+            <tr>
+                <td>{{ transaction_compte.id }}</td>
+                <td>{{ transaction_compte.numCompte }}</td>
+                <td>{{ transaction_compte.mDebit }}</td>
+                <td>{{ transaction_compte.mCredit }}</td>
+                <td>
+                    <a href="{{ path('transaction_comptes_show', {'id': transaction_compte.id}) }}">show</a>
+                    <a href="{{ path('transaction_comptes_edit', {'id': transaction_compte.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('transaction_comptes_new') }}">Create new</a>
+{% endblock %}

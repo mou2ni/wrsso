@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New BilletageLignes{% endblock %}
+
+{% block body %}
+    <h1>Create new BilletageLignes</h1>
+
+    {{ include('billetage_lignes/_form.html.twig') }}
+
+    <a href="{{ path('billetage_lignes_index') }}">back to list</a>
+{% endblock %}

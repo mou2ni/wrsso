@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseMouvements{% endblock %}
+
+{% block body %}
+    <h1>DeviseMouvements</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ devise_mouvement.id }}</td>
+            </tr>
+            <tr>
+                <th>Sens</th>
+                <td>{{ devise_mouvement.sens }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ devise_mouvement.nombre }}</td>
+            </tr>
+            <tr>
+                <th>MCvd</th>
+                <td>{{ devise_mouvement.mCvd }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('devise_mouvements_index') }}">back to list</a>
+
+    <a href="{{ path('devise_mouvements_edit', {'id': devise_mouvement.id}) }}">edit</a>
+
+    {{ include('devise_mouvements/_delete_form.html.twig') }}
+{% endblock %}

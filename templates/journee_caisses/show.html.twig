@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JourneeCaisses{% endblock %}
+
+{% block body %}
+    <h1>JourneeCaisses</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ journee_caiss.id }}</td>
+            </tr>
+            <tr>
+                <th>DateOuv</th>
+                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ journee_caiss.statut }}</td>
+            </tr>
+            <tr>
+                <th>ValeurBillet</th>
+                <td>{{ journee_caiss.valeurBillet }}</td>
+            </tr>
+            <tr>
+                <th>SoldeElectOuv</th>
+                <td>{{ journee_caiss.soldeElectOuv }}</td>
+            </tr>
+            <tr>
+                <th>EcartOuv</th>
+                <td>{{ journee_caiss.ecartOuv }}</td>
+            </tr>
+            <tr>
+                <th>MCvd</th>
+                <td>{{ journee_caiss.mCvd }}</td>
+            </tr>
+            <tr>
+                <th>MEmissionTrans</th>
+                <td>{{ journee_caiss.mEmissionTrans }}</td>
+            </tr>
+            <tr>
+                <th>MReceptionTrans</th>
+                <td>{{ journee_caiss.mReceptionTrans }}</td>
+            </tr>
+            <tr>
+                <th>MIntercaisse</th>
+                <td>{{ journee_caiss.mIntercaisse }}</td>
+            </tr>
+            <tr>
+                <th>MRetraitClient</th>
+                <td>{{ journee_caiss.mRetraitClient }}</td>
+            </tr>
+            <tr>
+                <th>MDepotClient</th>
+                <td>{{ journee_caiss.mDepotClient }}</td>
+            </tr>
+            <tr>
+                <th>MCreditDivers</th>
+                <td>{{ journee_caiss.mCreditDivers }}</td>
+            </tr>
+            <tr>
+                <th>MDetteDivers</th>
+                <td>{{ journee_caiss.mDetteDivers }}</td>
+            </tr>
+            <tr>
+                <th>DateFerm</th>
+                <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IdBilletFerm</th>
+                <td>{{ journee_caiss.idBilletFerm ? journee_caiss.idBilletFerm|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ValeurBilletFerm</th>
+                <td>{{ journee_caiss.valeurBilletFerm ? journee_caiss.valeurBilletFerm|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>SoldeElectFerm</th>
+                <td>{{ journee_caiss.SoldeElectFerm ? journee_caiss.SoldeElectFerm|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>MEcartFerm</th>
+                <td>{{ journee_caiss.mEcartFerm ? journee_caiss.mEcartFerm|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('journee_caisses_index') }}">back to list</a>
+
+    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
+
+    {{ include('journee_caisses/_delete_form.html.twig') }}
+{% endblock %}

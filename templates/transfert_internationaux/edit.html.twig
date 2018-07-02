@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TransfertInternationaux{% endblock %}
+
+{% block body %}
+    <h1>Edit TransfertInternationaux</h1>
+
+    {{ include('transfert_internationaux/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('transfert_internationaux_index') }}">back to list</a>
+
+    {{ include('transfert_internationaux/_delete_form.html.twig') }}
+{% endblock %}

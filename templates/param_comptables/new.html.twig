@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ParamComptables{% endblock %}
+
+{% block body %}
+    <h1>Create new ParamComptables</h1>
+
+    {{ include('param_comptables/_form.html.twig') }}
+
+    <a href="{{ path('param_comptables_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Devises{% endblock %}
+
+{% block body %}
+    <h1>Create new Devises</h1>
+
+    {{ include('devises/_form.html.twig') }}
+
+    <a href="{{ path('devises_index') }}">back to list</a>
+{% endblock %}

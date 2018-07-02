@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devises{% endblock %}
+
+{% block body %}
+    <h1>Devises</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ devise.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ devise.code }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ devise.libelle }}</td>
+            </tr>
+            <tr>
+                <th>DateModification</th>
+                <td>{{ devise.dateModification ? devise.dateModification|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>TxAchat</th>
+                <td>{{ devise.txAchat }}</td>
+            </tr>
+            <tr>
+                <th>TxVente</th>
+                <td>{{ devise.txVente }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('devises_index') }}">back to list</a>
+
+    <a href="{{ path('devises_edit', {'id': devise.id}) }}">edit</a>
+
+    {{ include('devises/_delete_form.html.twig') }}
+{% endblock %}

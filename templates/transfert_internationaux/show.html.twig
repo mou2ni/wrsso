@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TransfertInternationaux{% endblock %}
+
+{% block body %}
+    <h1>TransfertInternationaux</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ transfert_internationaux.id }}</td>
+            </tr>
+            <tr>
+                <th>Sens</th>
+                <td>{{ transfert_internationaux.sens }}</td>
+            </tr>
+            <tr>
+                <th>MTransfert</th>
+                <td>{{ transfert_internationaux.mTransfert }}</td>
+            </tr>
+            <tr>
+                <th>MFraisHt</th>
+                <td>{{ transfert_internationaux.mFraisHt }}</td>
+            </tr>
+            <tr>
+                <th>MTva</th>
+                <td>{{ transfert_internationaux.mTva }}</td>
+            </tr>
+            <tr>
+                <th>MAutresTaxes</th>
+                <td>{{ transfert_internationaux.mAutresTaxes }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('transfert_internationaux_index') }}">back to list</a>
+
+    <a href="{{ path('transfert_internationaux_edit', {'id': transfert_internationaux.id}) }}">edit</a>
+
+    {{ include('transfert_internationaux/_delete_form.html.twig') }}
+{% endblock %}

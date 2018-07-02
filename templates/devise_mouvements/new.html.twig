@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DeviseMouvements{% endblock %}
+
+{% block body %}
+    <h1>Create new DeviseMouvements</h1>
+
+    {{ include('devise_mouvements/_form.html.twig') }}
+
+    <a href="{{ path('devise_mouvements_index') }}">back to list</a>
+{% endblock %}

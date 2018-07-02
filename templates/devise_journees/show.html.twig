@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseJournees{% endblock %}
+
+{% block body %}
+    <h1>DeviseJournees</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ devise_journee.id }}</td>
+            </tr>
+            <tr>
+                <th>QteOuv</th>
+                <td>{{ devise_journee.qteOuv }}</td>
+            </tr>
+            <tr>
+                <th>EcartOuv</th>
+                <td>{{ devise_journee.ecartOuv }}</td>
+            </tr>
+            <tr>
+                <th>QteAchat</th>
+                <td>{{ devise_journee.qteAchat }}</td>
+            </tr>
+            <tr>
+                <th>QteVente</th>
+                <td>{{ devise_journee.qteVente }}</td>
+            </tr>
+            <tr>
+                <th>MCvdAchat</th>
+                <td>{{ devise_journee.mCvdAchat }}</td>
+            </tr>
+            <tr>
+                <th>MCvdVente</th>
+                <td>{{ devise_journee.mCvdVente }}</td>
+            </tr>
+            <tr>
+                <th>QteIntercaisse</th>
+                <td>{{ devise_journee.qteIntercaisse }}</td>
+            </tr>
+            <tr>
+                <th>QteFerm</th>
+                <td>{{ devise_journee.qteFerm }}</td>
+            </tr>
+            <tr>
+                <th>EcartFerm</th>
+                <td>{{ devise_journee.ecartFerm }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('devise_journees_index') }}">back to list</a>
+
+    <a href="{{ path('devise_journees_edit', {'id': devise_journee.id}) }}">edit</a>
+
+    {{ include('devise_journees/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SystemElectInventaires{% endblock %}
+
+{% block body %}
+    <h1>Create new SystemElectInventaires</h1>
+
+    {{ include('system_elect_inventaires/_form.html.twig') }}
+
+    <a href="{{ path('system_elect_inventaires_index') }}">back to list</a>
+{% endblock %}

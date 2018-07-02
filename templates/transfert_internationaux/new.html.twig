@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TransfertInternationaux{% endblock %}
+
+{% block body %}
+    <h1>Create new TransfertInternationaux</h1>
+
+    {{ include('transfert_internationaux/_form.html.twig') }}
+
+    <a href="{{ path('transfert_internationaux_index') }}">back to list</a>
+{% endblock %}

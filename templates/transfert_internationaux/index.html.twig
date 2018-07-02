@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TransfertInternationaux index{% endblock %}
+
+{% block body %}
+    <h1>TransfertInternationaux index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sens</th>
+                <th>MTransfert</th>
+                <th>MFraisHt</th>
+                <th>MTva</th>
+                <th>MAutresTaxes</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transfert_internationaux in transfert_internationauxes %}
+            <tr>
+                <td>{{ transfert_internationaux.id }}</td>
+                <td>{{ transfert_internationaux.sens }}</td>
+                <td>{{ transfert_internationaux.mTransfert }}</td>
+                <td>{{ transfert_internationaux.mFraisHt }}</td>
+                <td>{{ transfert_internationaux.mTva }}</td>
+                <td>{{ transfert_internationaux.mAutresTaxes }}</td>
+                <td>
+                    <a href="{{ path('transfert_internationaux_show', {'id': transfert_internationaux.id}) }}">show</a>
+                    <a href="{{ path('transfert_internationaux_edit', {'id': transfert_internationaux.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('transfert_internationaux_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DetteCreditDivers{% endblock %}
+
+{% block body %}
+    <h1>Edit DetteCreditDivers</h1>
+
+    {{ include('dette_credit_divers/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('dette_credit_divers_index') }}">back to list</a>
+
+    {{ include('dette_credit_divers/_delete_form.html.twig') }}
+{% endblock %}

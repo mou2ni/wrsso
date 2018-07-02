@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DeviseIntercaisses{% endblock %}
+
+{% block body %}
+    <h1>Edit DeviseIntercaisses</h1>
+
+    {{ include('devise_intercaisses/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('devise_intercaisses_index') }}">back to list</a>
+
+    {{ include('devise_intercaisses/_delete_form.html.twig') }}
+{% endblock %}

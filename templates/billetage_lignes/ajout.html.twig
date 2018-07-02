@@ -1,0 +1,48 @@
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/warisso.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/jquery-3.1.1.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+{% endblock %}
+{% block body %}
+{{ form_start(billetForm) }}
+<table border="0px" onchange="majBilletage()">
+    <thead><tr><th colspan="3">BILLETAGE</th></tr>
+    <tr><th colspan="2">TOTAL GENERAL</th><th>{% for field in billetForm %}{% if field.vars.name =="valeurTotal" %}{{ form_widget(field) }} {% endif %}{% endfor %}</th></tr>
+    <tr><th>BILLETS</th><th>NOMBRE</th><th>TOTAL</th></tr>
+    </thead>
+
+    {% set i = 1 %}
+    {% for bill in billet %}
+        <tr>
+            <td>{% for field in billetForm %}{% if field.vars.name =="valeur"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+            </td>
+            <td>
+                {% for field in billetForm %}{% if field.vars.name =="nbBillet"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+            </td>
+            {#<td>
+                {% for field in billetForm %}{% if field.vars.name =="nbFerm"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+            </td>#}
+            <td>
+                {% for field in billetForm %}{% if field.vars.name =="valeurLigne"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+            </td>
+            {#<td hidden>
+                {% for field in billetForm %}{% if field.vars.name =="idBilletage"~i %}{{ form_widget(field) }} {% endif %}{% endfor %}
+            </td>#}
+        </tr>
+        {% set i=i+1 %}
+    {% endfor %}
+    <tr>
+        <td hidden><input  id="nbrBillet" value="{{ billet|length }}"  /></td>
+        <td><button id="btnBilletageEffacer" type="reset"> Effacer</button></td>
+        <td><button id="btnBilletageEnregistrer" type="submit" > Enregistrer</button></td>
+        <td><button id="btnBilletageFermer" type="button"> Fermer</button></td>
+    </tr>
+</table>
+{{ form_end(billetForm) }}
+
+<script TYPE="text/javascript">
+
+</script>
+
+{% endblock %}

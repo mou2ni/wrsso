@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ParamComptables{% endblock %}
+
+{% block body %}
+    <h1>Edit ParamComptables</h1>
+
+    {{ include('param_comptables/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('param_comptables_index') }}">back to list</a>
+
+    {{ include('param_comptables/_delete_form.html.twig') }}
+{% endblock %}
