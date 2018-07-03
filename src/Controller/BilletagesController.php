@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BilletageLignes;
 use App\Entity\Billetages;
 use App\Form\BilletagesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -54,7 +55,12 @@ class BilletagesController extends Controller
      */
     public function show(Billetages $billetage): Response
     {
-        return $this->render('billetages/show.html.twig', ['billetage' => $billetage]);
+        $billetageLignes = $this->getDoctrine()
+            ->getRepository(BilletageLignes::class)
+            ->findBy(['idBilletage' => $billetage]);
+        return $this->render('billetages/show.html.twig', [
+            'billetage' => $billetage,
+            'billetage_lignes' => $billetageLignes]);
     }
 
     /**

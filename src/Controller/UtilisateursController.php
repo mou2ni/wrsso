@@ -36,6 +36,7 @@ class UtilisateursController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
             $em = $this->getDoctrine()->getManager();
             $em->persist($utilisateur);
             $em->flush();
@@ -66,6 +67,7 @@ class UtilisateursController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('utilisateurs_edit', ['id' => $utilisateur->getId()]);

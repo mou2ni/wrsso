@@ -1,8 +1,12 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/warisso.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('js/jquery-3.1.1.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/warisso.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
 {% endblock %}
 {% block body %}
 {{ form_start(billetForm) }}

@@ -3,6 +3,7 @@ input {
     border-top: 1px double;
     border-right: 2px double;
     border-bottom: 2px double;
+    width: 100px;
 }
 
 

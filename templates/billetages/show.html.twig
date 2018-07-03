@@ -26,5 +26,33 @@
 
     <a href="{{ path('billetages_edit', {'id': billetage.id}) }}">edit</a>
 
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>NbBillet</th>
+            <th>ValeurLigne</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for billetage_ligne in billetage_lignes %}
+            <tr>
+                <td>{{ billetage_ligne.id }}</td>
+                <td>{{ billetage_ligne.nbBillet }}</td>
+                <td>{{ billetage_ligne.valeurLigne }}</td>
+                <td>
+                    <a href="{{ path('billetage_lignes_show', {'id': billetage_ligne.id}) }}">show</a>
+                    <a href="{{ path('billetage_lignes_edit', {'id': billetage_ligne.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
     {{ include('billetages/_delete_form.html.twig') }}
 {% endblock %}
