@@ -8,15 +8,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Comptes;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
 use App\Entity\ParamComptables;
-
-use Symfony\Bridge\Doctrine;
-use Doctrine\Common;
+use App\Entity\Utilisateurs;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 
 class GenererEcritureComptaController extends Controller
@@ -30,13 +28,6 @@ class GenererEcritureComptaController extends Controller
     private $_trans;
 
     /**
-     * @var array
-     * Les lignes d'écritures
-     */
-
-    private $tc;
-
-    /**
      * @var
      *
      * Le plan des comptes
@@ -47,28 +38,49 @@ class GenererEcritureComptaController extends Controller
     {
         $this->_em= $this->getDoctrine()->getManager();
         $this->_trans = new Transactions();
-        $this->_trans->setDateTransaction(new \DateTime());
-        $this->tc= new \Doctrine\Common\Collections\ArrayCollection();
-        $this->_pc=$this->_em->getRepository(ParamComptables::class)->find();
-        //$this->_tc->setIdTrans($this->_trans);
+
+        $this->_pc=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['id'=>1]);
+        //$this->_pc->ge
+
+    }
+
+    /**
+     * @param Transactions $transaction
+     * @param Comptes $compte
+     * @param $montant
+     * @param bool $estCredit
+     * @return TransactionComptes
+     */
+    private function fillTransactionCompte(Transactions $transaction, Comptes $compte, $montant, $estCredit=true){
+        $mouvement=new TransactionComptes();
+        $mouvement->setTransaction($transaction);
+        $mouvement->setCompte($compte);
+        $mouvement->setNumCompte($compte->getNumCompte());
+        ($estCredit)?$mouvement->setMCredit($montant):$mouvement->setMDebit($montant);
+
+        return $mouvement;
     }
 
 
 
-    private function addTc(TransactionComptes $transactionCompte){
-        $this->tc[]=$transactionCompte;
-        return $this;
-    }
-
-
-
-    public function ecartOuverture($idUtilisateur, $compteCaisse, $montant=0){
+    public function genComptaEcartOuv(Utilisateurs $utilisateur, Comptes $compteCaisse, $montant=0){
 
         //montant=0 ressortir sans autre écrire
         if($montant==0) return true;
+        
+        $this->_trans->setUtilisateur($utilisateur)->setLibelle("Ecart d'Ouverture");
 
-        $this->_trans->setIdUtilisateur($idUtilisateur)->setLibelle("Ecart d'Ouverture");
+        $estCredit=($montant>0);
+        //ajout de ligne d'écriture du compte d'opération de la caisse
+        $this->_trans->addTransactionComptes($this->fillTransactionCompte($this->_trans, $compteCaisse, $montant, $estCredit));
 
+        //ajout de la ligne d'écriture du compte interne d'écart de caisse
+        $this->_trans->addTransactionComptes($this->fillTransactionCompte($this->_trans, $this->_pc->getCompteEcartCaisse(), $montant, !$estCredit));
+
+        $this->_em->persist($this->_trans);
+        $this->_em->flush();
+
+        return true;
     }
 
 
