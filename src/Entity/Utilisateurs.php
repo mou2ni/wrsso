@@ -55,22 +55,6 @@ class Utilisateurs
     /**
      * @return mixed
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getLogin()
     {
         return $this->login;
@@ -78,10 +62,12 @@ class Utilisateurs
 
     /**
      * @param mixed $login
+     * @return Utilisateurs
      */
     public function setLogin($login)
     {
         $this->login = $login;
+        return $this;
     }
 
     /**
@@ -94,10 +80,12 @@ class Utilisateurs
 
     /**
      * @param mixed $mdp
+     * @return Utilisateurs
      */
     public function setMdp($mdp)
     {
         $this->mdp = $mdp;
+        return $this;
     }
 
     /**
@@ -110,10 +98,12 @@ class Utilisateurs
 
     /**
      * @param mixed $nom
+     * @return Utilisateurs
      */
     public function setNom($nom)
     {
         $this->nom = $nom;
+        return $this;
     }
 
     /**
@@ -126,10 +116,12 @@ class Utilisateurs
 
     /**
      * @param mixed $prenom
+     * @return Utilisateurs
      */
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
+        return $this;
     }
 
     /**
@@ -142,10 +134,12 @@ class Utilisateurs
 
     /**
      * @param mixed $estCaissier
+     * @return Utilisateurs
      */
     public function setEstCaissier($estCaissier)
     {
         $this->estCaissier = $estCaissier;
+        return $this;
     }
 
     /**
@@ -158,11 +152,13 @@ class Utilisateurs
 
     /**
      * @param mixed $status
+     * @return Utilisateurs
      */
     public function setStatus($status)
     {
         $this->status = $status;
+        return $this;
     }
 
-
+    
 }

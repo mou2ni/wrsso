@@ -10,12 +10,13 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\ParamComptables;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Comptes;
 
 
-class LoadParamComptables extends Fixture
+class LoadParamComptables extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -33,11 +34,9 @@ class LoadParamComptables extends Fixture
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        // the order in which fixtures will be loaded
-        // the lower the number, the sooner that this fixture is loaded
-        return 30;
+        return array(LoadComptes::class);
     }
 
 }

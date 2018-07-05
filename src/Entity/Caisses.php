@@ -43,22 +43,6 @@ class Caisses
     /**
      * @return mixed
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getLibelle()
     {
         return $this->libelle;
@@ -66,10 +50,12 @@ class Caisses
 
     /**
      * @param mixed $libelle
+     * @return Caisses
      */
     public function setLibelle($libelle)
     {
         $this->libelle = $libelle;
+        return $this;
     }
 
     /**
@@ -82,10 +68,12 @@ class Caisses
 
     /**
      * @param mixed $idCompteOperation
+     * @return Caisses
      */
     public function setIdCompteOperation($idCompteOperation)
     {
         $this->idCompteOperation = $idCompteOperation;
+        return $this;
     }
 
     /**
@@ -98,11 +86,14 @@ class Caisses
 
     /**
      * @param mixed $idCompteEcart
+     * @return Caisses
      */
     public function setIdCompteEcart($idCompteEcart)
     {
         $this->idCompteEcart = $idCompteEcart;
+        return $this;
     }
 
+   
 
    }

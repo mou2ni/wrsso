@@ -11,6 +11,7 @@ namespace App\DataFixtures\ORM;
 use App\Entity\Clients;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+//use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
@@ -32,10 +33,4 @@ class LoadClients extends Fixture
         $manager->flush();
     }
 
-    public function getOrder()
-    {
-        // the order in which fixtures will be loaded
-        // the lower the number, the sooner that this fixture is loaded
-        return 10;
-    }
 }

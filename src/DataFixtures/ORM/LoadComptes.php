@@ -9,12 +9,13 @@
 namespace App\DataFixtures\ORM;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Comptes;
 use App\Entity\Clients;
 
-class LoadComptes extends Fixture
+class LoadComptes extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -29,7 +30,10 @@ class LoadComptes extends Fixture
             ,array('numCompte'=>'9900000002','intitule'=>'Contre Valeur Devises', 'typeCompte'=>'i', 'client'=>$cltInterne)
             ,array('numCompte'=>'9900000003','intitule'=>'Compense', 'typeCompte'=>'i', 'client'=>$cltInterne)
             ,array('numCompte'=>'9900000004','intitule'=>'Charges Salaires', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000005','intitule'=>'Ecarts de caisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'9900000000','intitule'=>'Ecarts de caisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'9900000001','intitule'=>'Ecarts de caisse 1', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'9900000002','intitule'=>'Ecarts de caisse 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'9900000003','intitule'=>'Ecarts de caisse 3', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'9999999901','intitule'=>'Opérations Caisse 1', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'9999999902','intitule'=>'Opérations Caisse 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'9999999903','intitule'=>'Opérations Caisse 3', 'typeCompte'=>'i', 'client'=>$cltInterne)
@@ -45,11 +49,9 @@ class LoadComptes extends Fixture
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getDependencies()
     {
-        // the order in which fixtures will be loaded
-        // the lower the number, the sooner that this fixture is loaded
-        return 20;
+        return array(LoadClients::class);
     }
 
 }

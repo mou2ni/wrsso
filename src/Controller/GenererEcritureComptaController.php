@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Caisses;
 use App\Entity\Comptes;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
@@ -16,7 +17,9 @@ use App\Entity\Utilisateurs;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-
+/**
+ * @Route("/compta")
+ */
 class GenererEcritureComptaController extends Controller
 {
     private $_em;
@@ -32,14 +35,14 @@ class GenererEcritureComptaController extends Controller
      *
      * Le plan des comptes
      */
-    private $_pc; //Plan comptable
+    //private $_pc; //Plan comptable
 
     public function __construct()
     {
         $this->_em= $this->getDoctrine()->getManager();
         $this->_trans = new Transactions();
 
-        $this->_pc=$this->getDoctrine()->getRepository(ParamComptables::class)->findAll()[0];
+        //$this->_pc=$this->getDoctrine()->getRepository(ParamComptables::class)->findAll()[0];
         //$this->_pc->ge
 
     }
@@ -62,20 +65,20 @@ class GenererEcritureComptaController extends Controller
     }
 
 
-
-    public function genComptaEcartOuv(Utilisateurs $utilisateur, Comptes $compteCaisse, $montant=0){
+     public function genComptaEcartOuv(Utilisateurs $utilisateur, Comptes $compteOperationCaisse, Comptes $compteEcartCaisse, $montant=0){
 
         //montant=0 ressortir sans autre écrire
         if($montant==0) return true;
+        if ($compteOperationCaisse==null or $utilisateur == null or $compteEcartCaisse ==null)return false;
         
         $this->_trans->setUtilisateur($utilisateur)->setLibelle("Ecart d'Ouverture");
 
         $estCredit=($montant>0);
         //ajout de ligne d'écriture du compte d'opération de la caisse
-        $this->_trans->addTransactionComptes($this->fillTransactionCompte($this->_trans, $compteCaisse, $montant, $estCredit));
+        $this->_trans->addTransactionComptes($this->fillTransactionCompte($this->_trans, $compteOperationCaisse, $montant, $estCredit));
 
         //ajout de la ligne d'écriture du compte interne d'écart de caisse
-        $this->_trans->addTransactionComptes($this->fillTransactionCompte($this->_trans, $this->_pc->getCompteEcartCaisse(), $montant, !$estCredit));
+        $this->_trans->addTransactionComptes($this->fillTransactionCompte($this->_trans, $compteEcartCaisse, $montant, !$estCredit));
 
         $this->_em->persist($this->_trans);
         $this->_em->flush();
@@ -84,6 +87,17 @@ class GenererEcritureComptaController extends Controller
     }
 
 
-    
+    /**
+     * @Route("/gen", name="gen_compta", methods="GET")
+     */
+
+    public function mainTest(){
+
+        $utilisateur=$this->_em->getRepository(Utilisateurs::class)->findOneBy(['login'=>'houedraogo']);
+        $caisse=$this->_em->getRepository(Caisses::class)->findOneBy(['libelle'=>'DAPOYA-Caisse 1']);
+
+        $this->genComptaEcartOuv($utilisateur,$caisse->getIdCompteOperation(), $caisse->getIdCompteEcart(), 50000);
+
+    }
 
 }
