@@ -39,7 +39,7 @@ class GenererEcritureComptaController extends Controller
         $this->_em= $this->getDoctrine()->getManager();
         $this->_trans = new Transactions();
 
-        $this->_pc=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['id'=>1]);
+        $this->_pc=$this->getDoctrine()->getRepository(ParamComptables::class)->findAll()[0];
         //$this->_pc->ge
 
     }

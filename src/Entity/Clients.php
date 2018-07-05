@@ -42,22 +42,6 @@ class Clients
     /**
      * @return mixed
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getNom()
     {
         return $this->nom;
@@ -65,10 +49,12 @@ class Clients
 
     /**
      * @param mixed $nom
+     * @return Clients
      */
     public function setNom($nom)
     {
         $this->nom = $nom;
+        return $this;
     }
 
     /**
@@ -81,10 +67,12 @@ class Clients
 
     /**
      * @param mixed $prenom
+     * @return Clients
      */
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
+        return $this;
     }
 
     /**
@@ -97,11 +85,15 @@ class Clients
 
     /**
      * @param mixed $adresse
+     * @return Clients
      */
     public function setAdresse($adresse)
     {
         $this->adresse = $adresse;
+        return $this;
     }
+
+   
 
 
 }

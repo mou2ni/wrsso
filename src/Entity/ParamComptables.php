@@ -25,6 +25,11 @@ class ParamComptables
     private $id;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $codeStructure;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
      * @ORM\JoinColumn(name="id_cpt_intercaisse")
      */
@@ -54,21 +59,40 @@ class ParamComptables
      */
     private $compteEcartCaisse;
 
+    /**
+     * @return mixed
+     */
+    public function getCodeStructure()
+    {
+        return $this->codeStructure;
+    }
+
+    /**
+     * @param mixed $codeStructure
+     * @return ParamComptables
+     */
+    public function setCodeStructure($codeStructure)
+    {
+        $this->codeStructure = $codeStructure;
+        return $this;
+    }
 
     /**
      * @return mixed
      */
     public function getCompteIntercaisse()
     {
-        return $this->CompteIntercaisse;
+        return $this->compteIntercaisse;
     }
 
     /**
-     * @param mixed $CompteIntercaisse
+     * @param mixed $compteIntercaisse
+     * @return ParamComptables
      */
-    public function setCompteIntercaisse($CompteIntercaisse)
+    public function setCompteIntercaisse($compteIntercaisse)
     {
-        $this->CompteIntercaisse = $CompteIntercaisse;
+        $this->compteIntercaisse = $compteIntercaisse;
+        return $this;
     }
 
     /**
@@ -76,15 +100,17 @@ class ParamComptables
      */
     public function getCompteContreValeurDevise()
     {
-        return $this->CompteContreValeurDevise;
+        return $this->compteContreValeurDevise;
     }
 
     /**
-     * @param mixed $CompteContreValeurDevise
+     * @param mixed $compteContreValeurDevise
+     * @return ParamComptables
      */
-    public function setCompteContreValeurDevise($CompteContreValeurDevise)
+    public function setCompteContreValeurDevise($compteContreValeurDevise)
     {
-        $this->CompteContreValeurDevise = $CompteContreValeurDevise;
+        $this->compteContreValeurDevise = $compteContreValeurDevise;
+        return $this;
     }
 
     /**
@@ -92,15 +118,17 @@ class ParamComptables
      */
     public function getCompteCompense()
     {
-        return $this->CompteCompense;
+        return $this->compteCompense;
     }
 
     /**
-     * @param mixed $CompteCompense
+     * @param mixed $compteCompense
+     * @return ParamComptables
      */
-    public function setCompteCompense($CompteCompense)
+    public function setCompteCompense($compteCompense)
     {
-        $this->CompteCompense = $CompteCompense;
+        $this->compteCompense = $compteCompense;
+        return $this;
     }
 
     /**
@@ -108,15 +136,17 @@ class ParamComptables
      */
     public function getCompteChargeSalaireNet()
     {
-        return $this->CompteChargeSalaireNet;
+        return $this->compteChargeSalaireNet;
     }
 
     /**
-     * @param mixed $CompteChargeSalaireNet
+     * @param mixed $compteChargeSalaireNet
+     * @return ParamComptables
      */
-    public function setCompteChargeSalaireNet($CompteChargeSalaireNet)
+    public function setCompteChargeSalaireNet($compteChargeSalaireNet)
     {
-        $this->CompteChargeSalaireNet = $CompteChargeSalaireNet;
+        $this->compteChargeSalaireNet = $compteChargeSalaireNet;
+        return $this;
     }
 
     /**
@@ -136,6 +166,7 @@ class ParamComptables
         $this->compteEcartCaisse = $compteEcartCaisse;
         return $this;
     }
+
 
 
 
