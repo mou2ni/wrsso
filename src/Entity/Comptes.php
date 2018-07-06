@@ -42,7 +42,7 @@ class Comptes
     private $intitule;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer", nullable=true, options={"default":0})
      */
     private $soldeCourant;
 

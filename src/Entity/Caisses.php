@@ -104,9 +104,5 @@ class Caisses
         $this->idCompteEcart = $idCompteEcart;
     }
 
-    public function __toString()
-    {
-        return ''.$this->getLibelle();
-    }
 
    }
