@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20180629135615 extends AbstractMigration
+class Version20180704101552 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -17,7 +17,9 @@ class Version20180629135615 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
-  }
+
+        $this->addSql('ALTER TABLE journeecaisses CHANGE id_journee_suivante_id id_journee_suivante_id INT DEFAULT NULL');
+    }
 
     /**
      * @param Schema $schema
@@ -27,6 +29,6 @@ class Version20180629135615 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-
+        $this->addSql('ALTER TABLE JourneeCaisses CHANGE id_journee_suivante_id id_journee_suivante_id INT NOT NULL');
     }
 }

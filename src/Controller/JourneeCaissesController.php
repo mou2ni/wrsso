@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
+use App\Entity\Utilisateurs;
 use App\Form\JourneeCaissesType;
+use App\Form\OuvertureType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -50,6 +53,41 @@ class JourneeCaissesController extends Controller
     }
 
     /**
+     * @Route("/ouverture", name="journee_caisses_ouverture", methods="GET|POST")
+     */
+    public function ouverture(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $caisse=$em->getRepository('App:Caisses')->find(4);
+        $journeeCaissePrec = $this->getJourneeCaissePrec($caisse);
+        $journeeCaiss = new JourneeCaisses();
+        $form = $this->createForm(OuvertureType::class, $journeeCaiss);
+        //$form['idBilletOuv']->setData($this->get('session')->get('billetage'));
+        $form['valeurBillet']->setData($this->get('session')->get('billetage')->getValeurTotal());
+        $form['soldeElectOuv']->setData($this->get('session')->get('electronic')->getSoldeTotal());
+        $form['idCaisse']->setData($caisse);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $journeeCaiss->setDateOuv(new \DateTime('now'));
+            $journeeCaiss->setDateFerm(new \DateTime('now'));
+
+            $em->persist($journeeCaiss);
+            $em->flush();
+
+            return $this->redirectToRoute('journee_caisses_index');
+        }
+
+        return $this->render('journee_caisses/ouverture.html.twig', [
+            //'journee_caiss' => $journeeCaiss,
+            'form' => $form->createView(),
+            'journeeCaissePrec'=>$journeeCaissePrec
+        ]);
+    }
+
+
+    /**
      * @Route("/{id}", name="journee_caisses_show", methods="GET")
      */
     public function show(JourneeCaisses $journeeCaiss): Response
@@ -90,4 +128,13 @@ class JourneeCaissesController extends Controller
 
         return $this->redirectToRoute('journee_caisses_index');
     }
+
+    public function getJourneeCaissePrec(Caisses $caisse)
+    {
+        $journeeCaissePrec = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->findOneBy(['idCaisse'=>$caisse, 'idJourneeSuivante'=>null, 'statut'=>'F']);
+        return $journeeCaissePrec;
+    }
+
 }

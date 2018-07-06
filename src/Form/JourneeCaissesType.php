@@ -26,7 +26,6 @@ class JourneeCaissesType extends AbstractType
             ->add('mCreditDivers')
             ->add('mDetteDivers')
             ->add('dateFerm')
-            ->add('idBilletFerm')
             ->add('valeurBilletFerm')
             ->add('SoldeElectFerm')
             ->add('mEcartFerm')
@@ -35,6 +34,7 @@ class JourneeCaissesType extends AbstractType
             ->add('idJourneeSuivante')
             ->add('idBilletOuv')
             ->add('idSystemElectInventOuv')
+            ->add('idBilletFerm')
             ->add('idSystemElectInventFerm')
         ;
     }

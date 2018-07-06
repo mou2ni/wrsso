@@ -137,6 +137,7 @@ class SystemElectInventairesController extends Controller
             $electInventaire->setDateInventaire(new \DateTime('now'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($electInventaire);
+            $this->get('session')->set('electronic', $electInventaire);
             $em->flush();
             $i=1;
             foreach ($systemElects as $elect){

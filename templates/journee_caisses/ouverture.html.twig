@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ouverture{% endblock %}
+
+{% block body %}
+    <h1>OUVERTURE DE CAISSE</h1>
+    {{ form_start(form) }}
+    <h3> Choisir la caisse {{ form_widget(form.idCaisse) }}</h3>
+    <div id="contenu" onclick="majOuverture()">
+        <div id="fermeturePrec" class="demi-contenu">
+            <h4> FERMETURE PRECEDENTE</h4>
+            <table>
+                <tr><td>Liquidite CFA</td><td>{{ journeeCaissePrec.valeurBilletFerm }}</td></tr>
+                <tr><td>Solde electronique</td><td>{{ journeeCaissePrec.soldeElectFerm }}</td></tr>
+                <tr><td>Dettes</td><td>{{ journeeCaissePrec.mDetteDivers }}</td></tr>
+                <tr><td>Credits</td><td>{{ journeeCaissePrec.mCreditDivers }}</td></tr>
+                <tr></tr>
+                <tr><td>DISPONIBILITE</td><td>{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm }}</td></tr>
+                <tr><td>SOLDE NET</td><td>{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm + journeeCaissePrec.mCreditDivers - journeeCaissePrec.mDetteDivers}}</td></tr>
+                <tr><td>ECART</td><td>{{ journeeCaissePrec.mEcartFerm }}</td></tr>
+                <tr></tr>
+                <tr><td>Euros</td><td></td></tr>
+                <tr><td>Dollars</td><td></td></tr>
+                <tr><td>Montant CVD</td><td>{{ journeeCaissePrec.mCvd }}</td></tr>
+            </table>
+        </div>
+        <div id="ouverture" class="demi-contenu">
+            <h4>OUVERTURE DU JOUR</h4>
+            <table>
+                <tr><td>{{ form_label(form.valeurBillet) }}</td><td>{{ form_widget(form.valeurBillet) }}<input type="button" name="billetage" value="Billetage" onclick="javascript:window.open('{{ path('billetage_ligne_ajout') }}', 'downwindow', 'width=500,height=500,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=1,scrolling=1,scrollbars=1');" /></td></tr>
+                <tr><td>{{ form_label(form.soldeElectOuv) }}</td><td>{{ form_widget(form.soldeElectOuv) }}<input type="button" name="electronique" value="Electronique" onclick="javascript:window.open('{{ path('electronique_ligne_ajout') }}', 'downwindow', 'width=500,height=500,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=1,scrolling=1,scrollbars=1');" /></td></tr>
+                <tr><td>{{ form_label(form.mDetteDivers) }}</td><td>{{ form_widget(form.mDetteDivers) }}</td></tr>
+                <tr><td>{{ form_label(form.mCreditDivers) }}</td><td>{{ form_widget(form.mCreditDivers) }}</td></tr>
+                <tr></tr>
+                <tr><td>DISPONIBILITE</td><td><input id="dispo" ></td></tr>
+                <tr><td>SOLDE NET</td><td><input id="soldeNet"></td></tr>
+                <tr><td>ECART</td><td>{{ form_widget(form.ecartOuv) }}</td></tr>
+                <tr></tr>
+                <tr><td>Euros</td><td><input id="euros"></td></tr>
+                <tr><td>Dollars</td><td><input id="dollars"></td></tr>
+                <tr><td>Montant CVD</td><td>{{ form_widget(form.mCvd) }}</td></tr>
+            </table>
+
+        </div>
+    </div>
+    <div hidden>
+    {{ form_rest(form) }}
+    </div>
+    <button class="btn">{{ button_label|default('Ouvrir la caisse') }}</button>
+    {{ form_end(form) }}
+    <a href="{{ path('journee_caisses_index') }}">back to list</a>
+{% endblock %}

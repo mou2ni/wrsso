@@ -23,7 +23,6 @@
                 <th>MCreditDivers</th>
                 <th>MDetteDivers</th>
                 <th>DateFerm</th>
-                <th>IdBilletFerm</th>
                 <th>ValeurBilletFerm</th>
                 <th>SoldeElectFerm</th>
                 <th>MEcartFerm</th>
@@ -48,10 +47,9 @@
                 <td>{{ journee_caiss.mCreditDivers }}</td>
                 <td>{{ journee_caiss.mDetteDivers }}</td>
                 <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.idBilletFerm ? journee_caiss.idBilletFerm|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.valeurBilletFerm ? journee_caiss.valeurBilletFerm|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.SoldeElectFerm ? journee_caiss.SoldeElectFerm|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.mEcartFerm ? journee_caiss.mEcartFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.valeurBilletFerm }}</td>
+                <td>{{ journee_caiss.SoldeElectFerm }}</td>
+                <td>{{ journee_caiss.mEcartFerm }}</td>
                 <td>
                     <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>
                     <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
@@ -59,7 +57,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="20">no records found</td>
+                <td colspan="19">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

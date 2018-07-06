@@ -134,6 +134,7 @@ class BilletageLignesController extends Controller
               $billetage->setDateBillettage(new \DateTime('now'));
               $em = $this->getDoctrine()->getManager();
               $em->persist($billetage);
+              $this->get('session')->set('billetage', $billetage);
               $em->flush();
               $i=1;
               foreach ($billets as $ligne){

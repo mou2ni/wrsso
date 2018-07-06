@@ -196,3 +196,14 @@ input {
     border-bottom: solid #e0e7ee 1px;
     background: #d4e2ee66;
 }
+
+#contenu {
+    display: -webkit-flex;
+    position: relative;
+}
+
+.demi-contenu {
+    padding: 20px;
+    margin: 0 20px 0 20px;
+    border: 1px solid aliceblue;
+}

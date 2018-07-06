@@ -26,19 +26,19 @@ class JourneeCaisses
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idCaisse;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idUtilisateur;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idJourneeSuivante;
 
@@ -48,76 +48,76 @@ class JourneeCaisses
     private $dateOuv;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="string")
      */
-    private $statut;
+    private $statut='O';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idBilletOuv;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $valeurBillet;
+    private $valeurBillet=0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idSystemElectInventOuv;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $soldeElectOuv;
+    private $soldeElectOuv=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $ecartOuv;
+    private $ecartOuv=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mCvd;
+    private $mCvd=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mEmissionTrans;
+    private $mEmissionTrans=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mReceptionTrans;
+    private $mReceptionTrans=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mIntercaisse;
+    private $mIntercaisse=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mRetraitClient;
+    private $mRetraitClient=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mDepotClient;
+    private $mDepotClient=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mCreditDivers;
+    private $mCreditDivers=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="bigint")
      */
-    private $mDetteDivers;
+    private $mDetteDivers=0;
 
     /**
      * @ORM\Column(type="datetime")
@@ -125,30 +125,32 @@ class JourneeCaisses
     private $dateFerm;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idBilletFerm;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="bigint")
      */
-    private $valeurBilletFerm;
+    private $valeurBilletFerm=0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idSystemElectInventFerm;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="bigint")
      */
-    private $SoldeElectFerm;
+    private $SoldeElectFerm=0;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="bigint")
      */
-    private $mEcartFerm;
+    private $mEcartFerm=0;
+
 
     /**
      * @return mixed
@@ -550,5 +552,9 @@ class JourneeCaisses
         $this->mEcartFerm = $mEcartFerm;
     }
 
+    public function __toString()
+    {
+        return ''.$this->getIdUtilisateur();
+    }
 
 }

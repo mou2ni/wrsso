@@ -8,7 +8,7 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20180629081458 extends AbstractMigration
+class Version20180704101812 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,8 +18,7 @@ class Version20180629081458 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE billets1');
-        $this->addSql('ALTER TABLE utilisateurs DROP status1');
+        $this->addSql('ALTER TABLE journeecaisses CHANGE id_system_elect_invent_ouv_id id_system_elect_invent_ouv_id INT DEFAULT NULL, CHANGE id_caisse_id id_caisse_id INT DEFAULT NULL, CHANGE id_utilisateur_id id_utilisateur_id INT DEFAULT NULL, CHANGE id_billet_ouv_id id_billet_ouv_id INT DEFAULT NULL');
     }
 
     /**
@@ -30,7 +29,6 @@ class Version20180629081458 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE billets1 (id INT AUTO_INCREMENT NOT NULL, valeur DOUBLE PRECISION NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE Utilisateurs ADD status1 VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci');
+        $this->addSql('ALTER TABLE JourneeCaisses CHANGE id_caisse_id id_caisse_id INT NOT NULL, CHANGE id_utilisateur_id id_utilisateur_id INT NOT NULL, CHANGE id_billet_ouv_id id_billet_ouv_id INT NOT NULL, CHANGE id_system_elect_invent_ouv_id id_system_elect_invent_ouv_id INT NOT NULL');
     }
 }

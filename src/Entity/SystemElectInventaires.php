@@ -81,5 +81,8 @@ class SystemElectInventaires
         $this->soldeTotal = $soldeTotal;
     }
 
-
+    public function __toString()
+    {
+        return ''.$this->getSoldeTotal().' du '.(string)$this->getDateInventaire()->format('d-m-Y H:i:s');
+    }
 }

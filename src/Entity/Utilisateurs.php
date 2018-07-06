@@ -164,5 +164,9 @@ class Utilisateurs
         $this->status = $status;
     }
 
+    public function __toString()
+    {
+        return ''.$this->getNom().' '.$this->getPrenom();
+    }
 
 }

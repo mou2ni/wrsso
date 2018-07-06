@@ -3,7 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/warisso.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery-3.1.1.js') }}"></script>
+            <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
+            <script src="{{ asset('js/warisso.js') }}"></script>
+        {% endblock %}
     </head>
     <body>
     {% for msg in app.session.flashBag.get('success') %}
@@ -13,6 +23,5 @@
     {% endfor %}
         {% block body %}{% endblock %}
 
-        {% block javascripts %}{% endblock %}
     </body>
 </html>

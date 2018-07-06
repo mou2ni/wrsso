@@ -2,6 +2,11 @@
  * Created by Mouni on 07/03/2017.
  */
 
+function majOuverture() {
+    $("#dispo").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv"));
+    $("#soldeNet").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv")+valeur("#ouverture_mCreditDivers")-valeur("#ouverture_mDetteDivers"));
+    $("#ouverture_mCvd").val(valeur("#euros")+valeur("#dollars"));
+}
 
 function majBilletage() {
     var nbrBillet=valeur("#nbrBillet");

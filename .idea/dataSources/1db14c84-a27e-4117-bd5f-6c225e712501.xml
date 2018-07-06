@@ -1758,7 +1758,6 @@
     <column id="393" parent="254" name="id_journee_suivante_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="394" parent="254" name="id_billet_ouv_id">
@@ -1863,27 +1862,27 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="411" parent="254" name="id_billet_ferm">
+    <column id="411" parent="254" name="valeur_billet_ferm">
       <Position>22</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="412" parent="254" name="valeur_billet_ferm">
+    <column id="412" parent="254" name="solde_elect_ferm">
       <Position>23</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="413" parent="254" name="solde_elect_ferm">
+    <column id="413" parent="254" name="m_ecart_ferm">
       <Position>24</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="414" parent="254" name="m_ecart_ferm">
+    <column id="414" parent="254" name="id_billet_ferm_id">
       <Position>25</Position>
-      <DataType>datetime|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
@@ -1911,618 +1910,628 @@
       <ColNames>id_system_elect_invent_ferm_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="421" parent="254" name="PRIMARY">
+    <index id="421" parent="254" name="IDX_EC12D8DFA18A167">
+      <ColNames>id_billet_ferm_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="422" parent="254" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="422" parent="254" name="FK_EC12D8DFA7814298">
+    <foreign-key id="423" parent="254" name="FK_EC12D8DFA7814298">
       <ColNames>id_caisse_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>caisses</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="423" parent="254" name="FK_EC12D8DFC6EE5C49">
+    <foreign-key id="424" parent="254" name="FK_EC12D8DFC6EE5C49">
       <ColNames>id_utilisateur_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>utilisateurs</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="424" parent="254" name="FK_EC12D8DFC2D9BD12">
+    <foreign-key id="425" parent="254" name="FK_EC12D8DFC2D9BD12">
       <ColNames>id_journee_suivante_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>journeecaisses</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="425" parent="254" name="FK_EC12D8DFFAABDE7">
+    <foreign-key id="426" parent="254" name="FK_EC12D8DFFAABDE7">
       <ColNames>id_billet_ouv_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>billetages</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="426" parent="254" name="FK_EC12D8DF575F61FE">
+    <foreign-key id="427" parent="254" name="FK_EC12D8DF575F61FE">
       <ColNames>id_system_elect_invent_ouv_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>systemelectinventaires</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="427" parent="254" name="FK_EC12D8DF6E2BFC7B">
+    <foreign-key id="428" parent="254" name="FK_EC12D8DF6E2BFC7B">
       <ColNames>id_system_elect_invent_ferm_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>systemelectinventaires</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="428" parent="255" name="version">
+    <foreign-key id="429" parent="254" name="FK_EC12D8DFA18A167">
+      <ColNames>id_billet_ferm_id</ColNames>
+      <RefSchemaName>wrsso</RefSchemaName>
+      <RefTableName>billetages</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="430" parent="255" name="version">
       <Position>1</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="429" parent="255" name="PRIMARY">
+    <key id="431" parent="255" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="430" parent="256" name="id">
+    <column id="432" parent="256" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="431" parent="256" name="id_compte_intercaisse_id">
+    <column id="433" parent="256" name="id_compte_intercaisse_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="432" parent="256" name="id_compte_contre_valeur_devise_id">
+    <column id="434" parent="256" name="id_compte_contre_valeur_devise_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="433" parent="256" name="id_compte_compense_id">
+    <column id="435" parent="256" name="id_compte_compense_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="434" parent="256" name="id_compte_charge_salaire_net_id">
+    <column id="436" parent="256" name="id_compte_charge_salaire_net_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="435" parent="256" name="IDX_DED38F082335A176">
+    <index id="437" parent="256" name="IDX_DED38F082335A176">
       <ColNames>id_compte_intercaisse_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="436" parent="256" name="IDX_DED38F08B26A9750">
+    <index id="438" parent="256" name="IDX_DED38F08B26A9750">
       <ColNames>id_compte_contre_valeur_devise_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="437" parent="256" name="IDX_DED38F08ECE85DD4">
+    <index id="439" parent="256" name="IDX_DED38F08ECE85DD4">
       <ColNames>id_compte_compense_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="438" parent="256" name="IDX_DED38F08CF8DE125">
+    <index id="440" parent="256" name="IDX_DED38F08CF8DE125">
       <ColNames>id_compte_charge_salaire_net_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="439" parent="256" name="PRIMARY">
+    <key id="441" parent="256" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="440" parent="256" name="FK_DED38F082335A176">
+    <foreign-key id="442" parent="256" name="FK_DED38F082335A176">
       <ColNames>id_compte_intercaisse_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>comptes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="441" parent="256" name="FK_DED38F08B26A9750">
+    <foreign-key id="443" parent="256" name="FK_DED38F08B26A9750">
       <ColNames>id_compte_contre_valeur_devise_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>comptes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="442" parent="256" name="FK_DED38F08ECE85DD4">
+    <foreign-key id="444" parent="256" name="FK_DED38F08ECE85DD4">
       <ColNames>id_compte_compense_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>comptes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="443" parent="256" name="FK_DED38F08CF8DE125">
+    <foreign-key id="445" parent="256" name="FK_DED38F08CF8DE125">
       <ColNames>id_compte_charge_salaire_net_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>comptes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="444" parent="257" name="id">
+    <column id="446" parent="257" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="445" parent="257" name="libelle">
+    <column id="447" parent="257" name="libelle">
       <Position>2</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="446" parent="257" name="zone">
+    <column id="448" parent="257" name="zone">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="447" parent="257" name="PRIMARY">
+    <key id="449" parent="257" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="448" parent="258" name="id">
+    <column id="450" parent="258" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="449" parent="258" name="id_utilisateur_id">
+    <column id="451" parent="258" name="id_utilisateur_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="450" parent="258" name="id_trans_id">
+    <column id="452" parent="258" name="id_trans_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="451" parent="258" name="date_operation">
+    <column id="453" parent="258" name="date_operation">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="452" parent="258" name="m_recette">
+    <column id="454" parent="258" name="m_recette">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="453" parent="258" name="libelle">
+    <column id="455" parent="258" name="libelle">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="454" parent="258" name="m_depense">
+    <column id="456" parent="258" name="m_depense">
       <Position>7</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="455" parent="258" name="statut">
+    <column id="457" parent="258" name="statut">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="456" parent="258" name="IDX_2FB66904C6EE5C49">
+    <index id="458" parent="258" name="IDX_2FB66904C6EE5C49">
       <ColNames>id_utilisateur_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="457" parent="258" name="IDX_2FB6690463346B17">
+    <index id="459" parent="258" name="IDX_2FB6690463346B17">
       <ColNames>id_trans_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="458" parent="258" name="PRIMARY">
+    <key id="460" parent="258" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="459" parent="258" name="FK_2FB66904C6EE5C49">
+    <foreign-key id="461" parent="258" name="FK_2FB66904C6EE5C49">
       <ColNames>id_utilisateur_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>utilisateurs</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="460" parent="258" name="FK_2FB6690463346B17">
+    <foreign-key id="462" parent="258" name="FK_2FB6690463346B17">
       <ColNames>id_trans_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>comptes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="461" parent="259" name="id">
+    <column id="463" parent="259" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="462" parent="259" name="id_trans_id">
+    <column id="464" parent="259" name="id_trans_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="463" parent="259" name="periode_salaire">
+    <column id="465" parent="259" name="periode_salaire">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="464" parent="259" name="m_salaire">
+    <column id="466" parent="259" name="m_salaire">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="465" parent="259" name="IDX_88F3461263346B17">
+    <index id="467" parent="259" name="IDX_88F3461263346B17">
       <ColNames>id_trans_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="466" parent="259" name="PRIMARY">
+    <key id="468" parent="259" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="467" parent="259" name="FK_88F3461263346B17">
+    <foreign-key id="469" parent="259" name="FK_88F3461263346B17">
       <ColNames>id_trans_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>transactions</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="468" parent="260" name="id">
+    <column id="470" parent="260" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="469" parent="260" name="date_inventaire">
+    <column id="471" parent="260" name="date_inventaire">
       <Position>2</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="470" parent="260" name="solde_total">
+    <column id="472" parent="260" name="solde_total">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="471" parent="260" name="PRIMARY">
+    <key id="473" parent="260" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="472" parent="261" name="id">
+    <column id="474" parent="261" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="473" parent="261" name="id_system_elect_inventaire_id">
+    <column id="475" parent="261" name="id_system_elect_inventaire_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="474" parent="261" name="id_system_elect_id">
+    <column id="476" parent="261" name="id_system_elect_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="475" parent="261" name="solde">
+    <column id="477" parent="261" name="solde">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="476" parent="261" name="IDX_E1A0E8C89D6788D">
+    <index id="478" parent="261" name="IDX_E1A0E8C89D6788D">
       <ColNames>id_system_elect_inventaire_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="477" parent="261" name="IDX_E1A0E8CCA7D9DB0">
+    <index id="479" parent="261" name="IDX_E1A0E8CCA7D9DB0">
       <ColNames>id_system_elect_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="478" parent="261" name="PRIMARY">
+    <key id="480" parent="261" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="479" parent="261" name="FK_E1A0E8C89D6788D">
+    <foreign-key id="481" parent="261" name="FK_E1A0E8C89D6788D">
       <ColNames>id_system_elect_inventaire_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>systemelectinventaires</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="480" parent="261" name="FK_E1A0E8CCA7D9DB0">
+    <foreign-key id="482" parent="261" name="FK_E1A0E8CCA7D9DB0">
       <ColNames>id_system_elect_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>systemelects</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="481" parent="262" name="id">
+    <column id="483" parent="262" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="482" parent="262" name="libelle">
+    <column id="484" parent="262" name="libelle">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="483" parent="262" name="PRIMARY">
+    <key id="485" parent="262" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="484" parent="263" name="id">
+    <column id="486" parent="263" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="485" parent="263" name="libelle">
+    <column id="487" parent="263" name="libelle">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="486" parent="263" name="PRIMARY">
+    <key id="488" parent="263" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="487" parent="264" name="id">
+    <column id="489" parent="264" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="488" parent="264" name="id_trans_id">
+    <column id="490" parent="264" name="id_trans_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="489" parent="264" name="id_compte_id">
+    <column id="491" parent="264" name="id_compte_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="490" parent="264" name="num_compte">
+    <column id="492" parent="264" name="num_compte">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="491" parent="264" name="m_debit">
+    <column id="493" parent="264" name="m_debit">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="492" parent="264" name="m_credit">
+    <column id="494" parent="264" name="m_credit">
       <Position>6</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="493" parent="264" name="IDX_4BC64C6E63346B17">
+    <index id="495" parent="264" name="IDX_4BC64C6E63346B17">
       <ColNames>id_trans_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="494" parent="264" name="IDX_4BC64C6E72F0DA07">
+    <index id="496" parent="264" name="IDX_4BC64C6E72F0DA07">
       <ColNames>id_compte_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="495" parent="264" name="PRIMARY">
+    <key id="497" parent="264" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="496" parent="264" name="FK_4BC64C6E63346B17">
+    <foreign-key id="498" parent="264" name="FK_4BC64C6E63346B17">
       <ColNames>id_trans_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>transactions</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="497" parent="264" name="FK_4BC64C6E72F0DA07">
+    <foreign-key id="499" parent="264" name="FK_4BC64C6E72F0DA07">
       <ColNames>id_compte_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>comptes</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="498" parent="265" name="id">
+    <column id="500" parent="265" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="499" parent="265" name="id_utilisateur_id">
+    <column id="501" parent="265" name="id_utilisateur_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="500" parent="265" name="libelle">
+    <column id="502" parent="265" name="libelle">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="501" parent="265" name="date_transaction">
+    <column id="503" parent="265" name="date_transaction">
       <Position>4</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="502" parent="265" name="IDX_F299C1B4C6EE5C49">
+    <index id="504" parent="265" name="IDX_F299C1B4C6EE5C49">
       <ColNames>id_utilisateur_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="503" parent="265" name="PRIMARY">
+    <key id="505" parent="265" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="504" parent="265" name="FK_F299C1B4C6EE5C49">
+    <foreign-key id="506" parent="265" name="FK_F299C1B4C6EE5C49">
       <ColNames>id_utilisateur_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>utilisateurs</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="505" parent="266" name="id">
+    <column id="507" parent="266" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="506" parent="266" name="id_journee_caisse_id">
+    <column id="508" parent="266" name="id_journee_caisse_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="507" parent="266" name="id_system_transfert_id">
+    <column id="509" parent="266" name="id_system_transfert_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="508" parent="266" name="id_pays_id">
+    <column id="510" parent="266" name="id_pays_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="509" parent="266" name="sens">
+    <column id="511" parent="266" name="sens">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="510" parent="266" name="m_transfert">
+    <column id="512" parent="266" name="m_transfert">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="511" parent="266" name="m_frais_ht">
+    <column id="513" parent="266" name="m_frais_ht">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="512" parent="266" name="m_tva">
+    <column id="514" parent="266" name="m_tva">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="513" parent="266" name="m_autres_taxes">
+    <column id="515" parent="266" name="m_autres_taxes">
       <Position>9</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="514" parent="266" name="IDX_CD12576A1CA528D7">
+    <index id="516" parent="266" name="IDX_CD12576A1CA528D7">
       <ColNames>id_journee_caisse_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="515" parent="266" name="IDX_CD12576A6945FF6B">
+    <index id="517" parent="266" name="IDX_CD12576A6945FF6B">
       <ColNames>id_system_transfert_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="516" parent="266" name="IDX_CD12576A7879EB34">
+    <index id="518" parent="266" name="IDX_CD12576A7879EB34">
       <ColNames>id_pays_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="517" parent="266" name="PRIMARY">
+    <key id="519" parent="266" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="518" parent="266" name="FK_CD12576A1CA528D7">
+    <foreign-key id="520" parent="266" name="FK_CD12576A1CA528D7">
       <ColNames>id_journee_caisse_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>journeecaisses</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="519" parent="266" name="FK_CD12576A6945FF6B">
+    <foreign-key id="521" parent="266" name="FK_CD12576A6945FF6B">
       <ColNames>id_system_transfert_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>systemtransfert</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="520" parent="266" name="FK_CD12576A7879EB34">
+    <foreign-key id="522" parent="266" name="FK_CD12576A7879EB34">
       <ColNames>id_pays_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>pays</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="521" parent="267" name="id">
+    <column id="523" parent="267" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="522" parent="267" name="login">
+    <column id="524" parent="267" name="login">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="523" parent="267" name="mdp">
+    <column id="525" parent="267" name="mdp">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="524" parent="267" name="nom">
+    <column id="526" parent="267" name="nom">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="525" parent="267" name="prenom">
+    <column id="527" parent="267" name="prenom">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="526" parent="267" name="est_caissier">
+    <column id="528" parent="267" name="est_caissier">
       <Position>6</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="527" parent="267" name="status">
+    <column id="529" parent="267" name="status">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="528" parent="267" name="PRIMARY">
+    <key id="530" parent="267" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
