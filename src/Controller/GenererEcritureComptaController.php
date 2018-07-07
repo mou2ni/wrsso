@@ -16,6 +16,7 @@ use App\Entity\ParamComptables;
 use App\Entity\Utilisateurs;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/compta")

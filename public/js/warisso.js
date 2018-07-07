@@ -35,13 +35,30 @@ function majElectronique() {
 
 }
 
-/*$(document).ready(function() {
-    // you may need to change this code if you are not using Bootstrap Datepicker
-    $('.js-datepicker').datepicker({
-        format: 'dd-mm-yyyy'
+$("#ouverture_idCaisse").change(function () {
+    var caisse = valeur("#ouverture_idCaisse");
+    var DATA = 'caisse=' + caisse;
+    $.ajax({
+        type: "POST",
+        url: "{{ path('journee_caisses_ouverture')}}",
+        data: DATA,
+        cache: false,
+        success: function(data){
+            //$('#listeMouvement').html(data);
+            //mouvementFermeture=$("#totalMouvement").val();
+            //$('#fermeture_form_totalMouvement').val(totalMouvement);
+            //differenceFermeture = valeur("#fermeture_form_difference");
+            //ecartFermeture = +differenceFermeture + +mouvementFermeture;
+            //$("#fermeture_form_ecart").val(+difference + +valeur("#fermeture_form_totalMouvement"));
+            alert(data);
+
+        }
     });
+
+    alert('correct');
+    $("#form_mBilletageFem").val(valeur("#totalBilletage"));
+    $("#billetage").hide();
 });
-*/
 
 
 ///////////////////////////////////////////////////////////ancienne version/////////////////////////////////////
@@ -89,7 +106,7 @@ function totalElectronique() {
     tot=+valeur("#solde_electronique_form_AIRTEL") + +valeur("#solde_electronique_form_CANAL")
         + +valeur("#solde_electronique_form_WARI") + +valeur("#solde_electronique_form_MOBICASH");
     $("#ouverture_form_soldeElectroniqueOuverture").val(tot);
-    
+
 }
 
 
@@ -103,7 +120,7 @@ function somCoupures(ev)
         + +valeur("#liquidite_form_coupure25")*25 + +valeur("#liquidite_form_coupure10")*10 + +valeur("#liquidite_form_coupure5")*5;
     $("#ouverture_form_liquiditeOuverture").val(liqid);
     $("#liquidite_form_total").val(liqid);
- }
+}
 
 
 /* LES FONCTIONS APPELEES DANS LA FERMETURE */

@@ -164,5 +164,15 @@ class Utilisateurs
         $this->status = $status;
     }
 
+    public function __toString()
+    {
+        return ''.$this->getNom().' '.$this->getPrenom();
+    }
+
+    public function estActif(){
+        if ($this->getStatus()=='A') return true;
+        else return false;
+    }
+
 
 }

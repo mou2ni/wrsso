@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Billetages;
 use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
+use App\Entity\SystemElectInventaires;
+use App\Entity\SystemElects;
 use App\Entity\Utilisateurs;
 use App\Form\JourneeCaissesType;
 use App\Form\OuvertureType;
@@ -57,33 +60,50 @@ class JourneeCaissesController extends Controller
      */
     public function ouverture(Request $request): Response
     {
+
         $em = $this->getDoctrine()->getManager();
         $caisse=$em->getRepository('App:Caisses')->find(4);
-        $journeeCaissePrec = $this->getJourneeCaissePrec($caisse);
-        $journeeCaiss = new JourneeCaisses();
-        $form = $this->createForm(OuvertureType::class, $journeeCaiss);
-        //$form['idBilletOuv']->setData($this->get('session')->get('billetage'));
-        $form['valeurBillet']->setData($this->get('session')->get('billetage')->getValeurTotal());
-        $form['soldeElectOuv']->setData($this->get('session')->get('electronic')->getSoldeTotal());
-        $form['idCaisse']->setData($caisse);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $journeeCaiss->setDateOuv(new \DateTime('now'));
-            $journeeCaiss->setDateFerm(new \DateTime('now'));
-
-            $em->persist($journeeCaiss);
-            $em->flush();
-
+        $user=$em->getRepository('App:Utilisateurs')->find(1);
+        if (!$user->getEstCaissier()) {
+            $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
+            return $this->redirectToRoute('journee_caisses_index');
+        } elseif ($this->journeeCaisseEnCours($user))
+        {
+            $this->addFlash('success', "vous avez une caisse toutjours en cours. veuillez la fermer dabord");
             return $this->redirectToRoute('journee_caisses_index');
         }
+        else{
 
-        return $this->render('journee_caisses/ouverture.html.twig', [
-            //'journee_caiss' => $journeeCaiss,
-            'form' => $form->createView(),
-            'journeeCaissePrec'=>$journeeCaissePrec
-        ]);
+            if(!$this->get('session')->get('billetage'))$this->get('session')->set('billetage', new Billetages());
+            if(!$this->get('session')->get('electronic'))$this->get('session')->set('electronic', new SystemElectInventaires());
+            //$caisse=$em->getRepository('App:JourneeCaisses')->findBy(['statut'=>'F'])->getIdCaisse();
+            $journeeCaissePrec = $this->getJourneeCaissePrec($caisse);
+            $journeeCaiss = new JourneeCaisses();
+            $form = $this->createForm(OuvertureType::class, $journeeCaiss);
+            //$form['idBilletOuv']->setData($this->get('session')->get('billetage'));
+            $form['valeurBillet']->setData($this->get('session')->get('billetage')->getValeurTotal());
+            $form['soldeElectOuv']->setData($this->get('session')->get('electronic')->getSoldeTotal());
+            $form['idCaisse']->setData($caisse);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $journeeCaiss->setDateOuv(new \DateTime('now'));
+                $journeeCaiss->setDateFerm(new \DateTime('now'));
+
+                $em->persist($journeeCaiss);
+                $em->flush();
+
+                return $this->redirectToRoute('journee_caisses_index');
+            }
+
+            return $this->render('journee_caisses/ouverture.html.twig', [
+                //'journee_caiss' => $journeeCaiss,
+                'form' => $form->createView(),
+                'journeeCaissePrec'=>$journeeCaissePrec
+            ]);
+        }
+
     }
 
 
@@ -135,6 +155,17 @@ class JourneeCaissesController extends Controller
             ->getRepository(JourneeCaisses::class)
             ->findOneBy(['idCaisse'=>$caisse, 'idJourneeSuivante'=>null, 'statut'=>'F']);
         return $journeeCaissePrec;
+    }
+
+    public function journeeCaisseEnCours(Utilisateurs $user){
+        $em = $this->getDoctrine()->getManager();
+        $journecaisse = $em->getRepository('App:JourneeCaisses')->findBy(array('idUtilisateur'=>$user, "statut"=>"O"));
+        if ($journecaisse){
+
+            return true;
+        }
+        else
+            return false;
     }
 
 }
