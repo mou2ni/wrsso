@@ -29,11 +29,6 @@ class Billets
      */
     private $valeur;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $champTest;
-    
 
     public function __toString()
     {
