@@ -83,11 +83,15 @@ class JourneeCaissesController extends Controller
             //$form['idBilletOuv']->setData($this->get('session')->get('billetage'));
             $form['valeurBillet']->setData($this->get('session')->get('billetage')->getValeurTotal());
             $form['soldeElectOuv']->setData($this->get('session')->get('electronic')->getSoldeTotal());
-            $form['idCaisse']->setData($caisse);
+            //$form['idCaisse']->setData($caisse);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                $journeeCaiss->setIdUtilisateur($user);
+                $journeeCaiss->setIdCaisse($caisse);
+                $journeeCaiss->setIdBilletOuv($this->get('session')->get('billetage'));
+                $journeeCaiss->setIdSystemElectInventOuv($this->get('session')->get('electronic'));
                 $journeeCaiss->setDateOuv(new \DateTime('now'));
                 $journeeCaiss->setDateFerm(new \DateTime('now'));
 

@@ -3,9 +3,13 @@
  */
 
 function majOuverture() {
+    alert("booooooom");
     $("#dispo").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv"));
     $("#soldeNet").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv")+valeur("#ouverture_mCreditDivers")-valeur("#ouverture_mDetteDivers"));
     $("#ouverture_mCvd").val(valeur("#euros")+valeur("#dollars"));
+
+    $("#ouverture_ecartOuv").val(valeur("#soldeNetPrec")-valeur("#soldeNet"));
+    alert(valeur("#ouverture_ecartOuv"));
 }
 
 function majBilletage() {
@@ -35,7 +39,7 @@ function majElectronique() {
 
 }
 
-$("#ouverture_idCaisse").change(function () {
+/*$("#ouverture_idCaisse").change(function () {
     var caisse = valeur("#ouverture_idCaisse");
     var DATA = 'caisse=' + caisse;
     $.ajax({
@@ -58,7 +62,7 @@ $("#ouverture_idCaisse").change(function () {
     alert('correct');
     $("#form_mBilletageFem").val(valeur("#totalBilletage"));
     $("#billetage").hide();
-});
+});*/
 
 
 ///////////////////////////////////////////////////////////ancienne version/////////////////////////////////////

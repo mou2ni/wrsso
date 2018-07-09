@@ -5,7 +5,7 @@
 {% block body %}
     <h1>OUVERTURE DE CAISSE</h1>
     {{ form_start(form) }}
-    <h3> Choisir la caisse {{ form_widget(form.idCaisse) }}</h3>
+    {#<h3> Choisir la caisse {{ form_widget(form.idCaisse) }}</h3>#}
     <div id="contenu" onclick="majOuverture()">
         <div id="fermeturePrec" class="demi-contenu">
             <h4> FERMETURE PRECEDENTE</h4>
@@ -16,8 +16,9 @@
                 <tr><td>Credits</td><td>{{ journeeCaissePrec.mCreditDivers }}</td></tr>
                 <tr></tr>
                 <tr><td>DISPONIBILITE</td><td>{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm }}</td></tr>
-                <tr><td>SOLDE NET</td><td>{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm + journeeCaissePrec.mCreditDivers - journeeCaissePrec.mDetteDivers}}</td></tr>
-                <tr><td>ECART</td><td>{{ journeeCaissePrec.mEcartFerm }}</td></tr>
+                <tr><td>SOLDE NET</td><td>{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm + journeeCaissePrec.mCreditDivers - journeeCaissePrec.mDetteDivers}}
+                    <input id="soldeNetPrec"  value="{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm + journeeCaissePrec.mCreditDivers - journeeCaissePrec.mDetteDivers}}"></td></tr>
+                <tr><td>ECART</td><td>{{ journeeCaissePrec.mEcartFerm }} </td></tr>
                 <tr></tr>
                 <tr><td>Euros</td><td></td></tr>
                 <tr><td>Dollars</td><td></td></tr>
