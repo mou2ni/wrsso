@@ -144,5 +144,10 @@ class Devises
         $this->txVente = $txVente;
     }
 
+    public function __toString()
+    {
+        return ''.$this->getCode();
+    }
+
 
 }

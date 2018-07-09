@@ -80,6 +80,8 @@ class JourneeCaissesController extends Controller
             $journeeCaissePrec = $this->getJourneeCaissePrec($caisse);
             $journeeCaiss = new JourneeCaisses();
             $form = $this->createForm(OuvertureType::class, $journeeCaiss);
+            $form['mCreditDivers']->setData($journeeCaissePrec->getMCreditDivers());
+            $form['mDetteDivers']->setData($journeeCaissePrec->getMDetteDivers());
             //$form['idBilletOuv']->setData($this->get('session')->get('billetage'));
             $form['valeurBillet']->setData($this->get('session')->get('billetage')->getValeurTotal());
             $form['soldeElectOuv']->setData($this->get('session')->get('electronic')->getSoldeTotal());

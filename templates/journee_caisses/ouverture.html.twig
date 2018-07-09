@@ -17,7 +17,7 @@
                 <tr></tr>
                 <tr><td>DISPONIBILITE</td><td>{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm }}</td></tr>
                 <tr><td>SOLDE NET</td><td>{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm + journeeCaissePrec.mCreditDivers - journeeCaissePrec.mDetteDivers}}
-                    <input id="soldeNetPrec"  value="{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm + journeeCaissePrec.mCreditDivers - journeeCaissePrec.mDetteDivers}}"></td></tr>
+                    <input hidden id="soldeNetPrec"  value="{{ journeeCaissePrec.valeurBilletFerm + journeeCaissePrec.soldeElectFerm + journeeCaissePrec.mCreditDivers - journeeCaissePrec.mDetteDivers}}"></td></tr>
                 <tr><td>ECART</td><td>{{ journeeCaissePrec.mEcartFerm }} </td></tr>
                 <tr></tr>
                 <tr><td>Euros</td><td></td></tr>

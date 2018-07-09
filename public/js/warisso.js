@@ -3,7 +3,6 @@
  */
 
 function majOuverture() {
-    alert("booooooom");
     $("#dispo").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv"));
     $("#soldeNet").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv")+valeur("#ouverture_mCreditDivers")-valeur("#ouverture_mDetteDivers"));
     $("#ouverture_mCvd").val(valeur("#euros")+valeur("#dollars"));
