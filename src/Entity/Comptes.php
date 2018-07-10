@@ -52,7 +52,7 @@ class Comptes
     private $typeCompte;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TransactionComptes", mappedBy="compte")
+     * @ORM\OneToMany(targetEntity="App\Entity\TransactionComptes", mappedBy="compte", cascade={"persist"})
      */
     private $transactionComptes;
 

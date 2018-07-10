@@ -20,6 +20,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Transactions
 {
+    const ERR_SOLDE_INSUFISANT=1, ERR_NEGATIF=2, ERR_ZERO=3;
+
+    private $e;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -60,7 +63,7 @@ class Transactions
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TransactionComptes", mappedBy="transaction")
+     * @ORM\OneToMany(targetEntity="App\Entity\TransactionComptes", mappedBy="transaction", cascade={"persist"})
      */
     private $transactionComptes;
 
@@ -200,25 +203,64 @@ class Transactions
         return $this->transactionComptes;
     }
 
-    /**
+    /*
      * @param mixed $transactionComptes
      * @return Transactions
-     */
+
     public function setTransactionComptes($transactionComptes)
     {
         $this->transactionComptes = $transactionComptes;
         return $this;
-    }
+    }*/
 
     public function addTransactionComptes(TransactionComptes $transactionCompte)
     {
         $this->transactionComptes->add($transactionCompte);
         $transactionCompte->setTransaction($this);
+        $compte=$transactionCompte->getCompte();
+        $compte->setSoldeCourant($compte->getSoldeCourant()+$transactionCompte->getMCredit()-$transactionCompte->getMDebit());
+        $transactionCompte->setCompte($compte);
     }
 
     public function removeTransactionComptes(TransactionComptes $transactionCompte)
     {
         $this->transactionComptes->removeElement($transactionCompte);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getE()
+    {
+        return $this->e;
+    }
+
+    /**
+     * @param mixed $e
+     * @return Transactions
+     */
+    public function setE($e)
+    {
+        $this->e = $e;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Transactions
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
     
 
