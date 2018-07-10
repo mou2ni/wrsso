@@ -54,6 +54,7 @@ class Caisses
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -70,6 +71,7 @@ class Caisses
     public function setLibelle($libelle)
     {
         $this->libelle = $libelle;
+        return $this;
     }
 
     /**
@@ -86,6 +88,7 @@ class Caisses
     public function setIdCompteOperation($idCompteOperation)
     {
         $this->idCompteOperation = $idCompteOperation;
+        return $this;
     }
 
     /**
@@ -102,6 +105,7 @@ class Caisses
     public function setIdCompteEcart($idCompteEcart)
     {
         $this->idCompteEcart = $idCompteEcart;
+        return $this;
     }
 
     public function __toString()
