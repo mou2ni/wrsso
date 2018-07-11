@@ -53,6 +53,12 @@ class Utilisateurs
     private $status;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
+     * @ORM\JoinColumn(name="IdCompte", referencedColumnName="id", nullable=false)
+     */
+    private $compteEcartCaisse;
+
+    /**
      * @return mixed
      */
     public function getId()

@@ -57,6 +57,11 @@ class Comptes
     private $transactionComptes;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Utilisateurs", mappedBy="compteEcartCaisse", cascade={"persist"})
+     */
+    private $utilisateurCompteEcarts;
+
+    /**
      * Comptes constructor.
      */
     public function __construct()
