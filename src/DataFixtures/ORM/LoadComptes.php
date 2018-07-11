@@ -29,7 +29,6 @@ class LoadComptes extends Fixture implements DependentFixtureInterface
         ,array('numCompte'=>'585001','intitule'=>'Intercaisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'571000','intitule'=>'Contre Valeur Devises', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'585002','intitule'=>'Compense', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'661000','intitule'=>'Charges Salaires', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'497000','intitule'=>'Ecarts de caisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'497001','intitule'=>'Ecarts caissier 1', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'497002','intitule'=>'Ecarts caissier 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
@@ -38,6 +37,9 @@ class LoadComptes extends Fixture implements DependentFixtureInterface
         ,array('numCompte'=>'571002','intitule'=>'Opérations Caisse 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'571003','intitule'=>'Opérations Caisse 3', 'typeCompte'=>'i', 'client'=>$cltInterne)
         ,array('numCompte'=>'571004','intitule'=>'Opérations Caisse 4', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'661000','intitule'=>'Charges Salaires', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'605000','intitule'=>'Charges diverses', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'706000','intitule'=>'Produits divers', 'typeCompte'=>'i', 'client'=>$cltInterne)
         );
 
         foreach ($list as $listElement) {
