@@ -22,16 +22,16 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
     {
         $compteOperationCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 1']);
         $compteOperationCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 2']);
-        $compteEcartCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse 1']);
-        $compteEcartCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse 2']);
+        //$compteEcartCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse 1']);
+        //$compteEcartCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse 2']);
 
-        $lists = array(['libelle' => 'DAPOYA-Caisse 1', 'idCompteOperation' => $compteOperationCaisse1, 'idCompteEcart' => $compteEcartCaisse1]
-            ,['libelle' => 'PISSY-Caisse 1', 'idCompteOperation' => $compteOperationCaisse2, 'idCompteEcart' => $compteEcartCaisse2]
+        $lists = array(['libelle' => 'DAPOYA-Caisse 1', 'idCompteOperation' => $compteOperationCaisse1]
+            ,['libelle' => 'PISSY-Caisse 1', 'idCompteOperation' => $compteOperationCaisse2]
         );
 
         foreach ($lists as $list) {
             $enr = new Caisses();
-            $enr->setLibelle($list['libelle'])->setIdCompteOperation($list['idCompteOperation'])->setIdCompteEcart($list['idCompteEcart']);
+            $enr->setLibelle($list['libelle'])->setIdCompteOperation($list['idCompteOperation']);
             $manager->persist($enr);
         }
 

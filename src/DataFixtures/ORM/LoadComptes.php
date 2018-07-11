@@ -22,22 +22,22 @@ class LoadComptes extends Fixture implements DependentFixtureInterface
         $cltHamado=$manager->getRepository(Clients::class)->findOneBy(['prenom'=>'Hamado']);
         $cltMoumouni=$manager->getRepository(Clients::class)->findOneBy(['prenom'=>'Moumouni']);
         $cltInterne=$manager->getRepository(Clients::class)->findOneBy(['prenom'=>'Interne']);
-        $list=array (array('numCompte'=>'100200300401','intitule'=>'OUEDRAOGO HAMADO - Ordinaire', 'typeCompte'=>'o', 'client'=>$cltHamado)
-        ,array('numCompte'=>'500600700801','intitule'=>'OUEDRAOGO Moumouni - Ordinaire', 'typeCompte'=>'o', 'client'=>$cltMoumouni)
-        ,array('numCompte'=>'100200300402','intitule'=>'OUEDRAOGO HAMADO - Salaire', 'typeCompte'=>'s', 'client'=>$cltHamado)
-        ,array('numCompte'=>'500600700802','intitule'=>'OUEDRAOGO Moumouni - Salaire', 'typeCompte'=>'s', 'client'=>$cltMoumouni)
-        ,array('numCompte'=>'9900000001','intitule'=>'Intercaisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000002','intitule'=>'Contre Valeur Devises', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000003','intitule'=>'Compense', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000004','intitule'=>'Charges Salaires', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000000','intitule'=>'Ecarts de caisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000001','intitule'=>'Ecarts de caisse 1', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000002','intitule'=>'Ecarts de caisse 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9900000003','intitule'=>'Ecarts de caisse 3', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9999999901','intitule'=>'Opérations Caisse 1', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9999999902','intitule'=>'Opérations Caisse 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9999999903','intitule'=>'Opérations Caisse 3', 'typeCompte'=>'i', 'client'=>$cltInterne)
-        ,array('numCompte'=>'9999999904','intitule'=>'Opérations Caisse 4', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        $list=array (array('numCompte'=>'16510000001','intitule'=>'OUEDRAOGO HAMADO - Ordinaire', 'typeCompte'=>'o', 'client'=>$cltHamado)
+        ,array('numCompte'=>'16510000002','intitule'=>'OUEDRAOGO Moumouni - Ordinaire', 'typeCompte'=>'o', 'client'=>$cltMoumouni)
+        ,array('numCompte'=>'16520000001','intitule'=>'OUEDRAOGO HAMADO - Salaire', 'typeCompte'=>'s', 'client'=>$cltHamado)
+        ,array('numCompte'=>'16520000002','intitule'=>'OUEDRAOGO Moumouni - Salaire', 'typeCompte'=>'s', 'client'=>$cltMoumouni)
+        ,array('numCompte'=>'585001','intitule'=>'Intercaisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'571000','intitule'=>'Contre Valeur Devises', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'585002','intitule'=>'Compense', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'661000','intitule'=>'Charges Salaires', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'497000','intitule'=>'Ecarts de caisse', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'497001','intitule'=>'Ecarts caissier 1', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'497002','intitule'=>'Ecarts caissier 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'497003','intitule'=>'Ecarts caissier 3', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'571001','intitule'=>'Opérations Caisse 1', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'571002','intitule'=>'Opérations Caisse 2', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'571003','intitule'=>'Opérations Caisse 3', 'typeCompte'=>'i', 'client'=>$cltInterne)
+        ,array('numCompte'=>'571004','intitule'=>'Opérations Caisse 4', 'typeCompte'=>'i', 'client'=>$cltInterne)
         );
 
         foreach ($list as $listElement) {

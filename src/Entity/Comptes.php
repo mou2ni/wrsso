@@ -189,5 +189,41 @@ class Comptes
         $this->transactionComptes->removeElement($transactionCompte);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getUtilisateurCompteEcarts()
+    {
+        return $this->utilisateurCompteEcarts;
+    }
+
+    /**
+     * @param mixed $utilisateurCompteEcarts
+     * @return Comptes
+     */
+    public function setUtilisateurCompteEcarts($utilisateurCompteEcarts)
+    {
+        $this->utilisateurCompteEcarts = $utilisateurCompteEcarts;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Comptes
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
 
 }

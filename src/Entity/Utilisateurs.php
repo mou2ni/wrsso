@@ -187,5 +187,23 @@ class Utilisateurs
         else return false;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCompteEcartCaisse()
+    {
+        return $this->compteEcartCaisse;
+    }
+
+    /**
+     * @param mixed $compteEcartCaisse
+     * @return Utilisateurs
+     */
+    public function setCompteEcartCaisse($compteEcartCaisse)
+    {
+        $this->compteEcartCaisse = $compteEcartCaisse;
+        return $this;
+    }
+
 
 }

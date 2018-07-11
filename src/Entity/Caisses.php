@@ -34,11 +34,11 @@ class Caisses
      */
     private $idCompteOperation;
 
-    /**
+    /*
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
      * @ORM\JoinColumn(nullable=false)
-     */
-    private $idCompteEcart;
+
+    private $idCompteEcart;*/
 
     /**
      * @return mixed
