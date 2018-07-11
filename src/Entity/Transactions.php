@@ -38,7 +38,7 @@ class Transactions
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
-     * @ORM\JoinColumn(name="idUtilisateurLast", nullable=false)
+     * @ORM\JoinColumn(name="idUtilisateurLast", nullable=true)
      */
     private $utilisateurLast;
 

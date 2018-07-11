@@ -3,9 +3,9 @@
 {% block title %}Transactions{% endblock %}
 
 {% block body %}
-    <h1>Ecritures comptables</h1>
-
-    <table class="table">
+    {% for transaction in transactions %}
+        <h1>{{ transaction.libelle }}</h1>
+        <table class="table">
         <thead>
         <tr>
             <th>Id</th>
@@ -15,16 +15,17 @@
         </tr>
         </thead>
         <tbody>
-        {% for transaction in transactions %}
             <tr>
                 <td>{{ transaction.id }}</td>
                 <td>{{ transaction.libelle }}</td>
                 <td>{{ transaction.dateTransaction ? transaction.dateTransaction|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ transaction.utilisateur.nom }} {{ transaction.utilisateur.prenom }}</td>
             </tr>
-            <h1> Lignes écritures </h1>
-            <tr><table class="table">
+
+
+               <tr><table class="table">
                     <thead>
+                    <tr><h2> Lignes écritures {{ transaction.libelle }}</h2></tr>
                     <tr>
                         <th>Id</th>
                         <th>numéro du compte</th>
@@ -34,8 +35,8 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for transactionCompte in transactionComptes %}
-                        <tr>
+            {% for transactionCompte in transaction.transactionComptes %}
+                <tr>
                             <td>{{ transactionCompte.id }}</td>
                             <td>{{ transactionCompte.numCompte }}</td>
                             <td>{{ transactionCompte.compte.intitule }}</td>
@@ -43,21 +44,23 @@
                             <td>{{ transactionCompte.mCredit ? transactionCompte.mCredit: '0' }}</td>
 
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="4">Aucune ligne trouvée</td>
-                        </tr>
-                    {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucune ligne trouvée</td>
+                </tr>
+            {% endfor %}
                     </tbody>
                     </table>
+
+
             </tr>
         {% else %}
             <tr>
                 <td colspan="4">Aucune écriture comptables</td>
             </tr>
-        {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('transactions_new') }}">Create new</a>
+    {% endfor %}
+    <a href="{{ path('gen_compta') }}"> Tester à nouveau </a>
 {% endblock %}

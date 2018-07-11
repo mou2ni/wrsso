@@ -36,12 +36,12 @@ class TransactionComptes
     private $numCompte;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $mDebit;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $mCredit;
 
@@ -141,5 +141,24 @@ class TransactionComptes
         $this->transaction = $transaction;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return TransactionComptes
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
 
 }

@@ -54,9 +54,15 @@ class Utilisateurs
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
-     * @ORM\JoinColumn(name="IdCompte", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="id_cpt_ecart", referencedColumnName="id", nullable=false)
      */
     private $compteEcartCaisse;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
+     * @ORM\JoinColumn(name="id_cpt_compense", referencedColumnName="id", nullable=false)
+     */
+    private $compteCompense;
 
     /**
      * @return mixed
@@ -202,6 +208,24 @@ class Utilisateurs
     public function setCompteEcartCaisse($compteEcartCaisse)
     {
         $this->compteEcartCaisse = $compteEcartCaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteCompense()
+    {
+        return $this->compteCompense;
+    }
+
+    /**
+     * @param mixed $compteCompense
+     * @return Utilisateurs
+     */
+    public function setCompteCompense($compteCompense)
+    {
+        $this->compteCompense = $compteCompense;
         return $this;
     }
 

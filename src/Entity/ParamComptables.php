@@ -60,6 +60,18 @@ class ParamComptables
     private $compteEcartCaisse;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     * @ORM\JoinColumn(name="id_cpt_charges")
+     */
+    private $compteDiversCharge;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     * @ORM\JoinColumn(name="id_cpt_produits")
+     */
+    private $compteDiversProduits;
+
+    /**
      * @return mixed
      */
     public function getCodeStructure()
@@ -167,7 +179,59 @@ class ParamComptables
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
+    /**
+     * @param mixed $id
+     * @return ParamComptables
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getCompteDiversCharge()
+    {
+        return $this->compteDiversCharge;
+    }
 
+    /**
+     * @param mixed $compteDiversCharge
+     * @return ParamComptables
+     */
+    public function setCompteDiversCharge($compteDiversCharge)
+    {
+        $this->compteDiversCharge = $compteDiversCharge;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteDiversProduits()
+    {
+        return $this->compteDiversProduits;
+    }
+
+    /**
+     * @param mixed $compteDiversProduits
+     * @return ParamComptables
+     */
+    public function setCompteDiversProduits($compteDiversProduits)
+    {
+        $this->compteDiversProduits = $compteDiversProduits;
+        return $this;
+    }
+
+    
 }
