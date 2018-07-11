@@ -126,7 +126,7 @@ class GenererEcritureComptaController extends Controller
 
         if ($transaction->getE()) return $transaction ;
 
-        $compteEcartUtilisateur=$utilisateur->getIdCompteEcart();
+        $compteEcartUtilisateur=$utilisateur->getCompteEcartCaisse();
 
         //ajout des lignes de debit et crédit : comptes en fonction du signe de l'écart
         ($montant>0)?$transaction=$this->debiterCrediter($transaction,$compteEcartUtilisateur,$compteOperationCaisse,$montant)
@@ -227,29 +227,35 @@ class GenererEcritureComptaController extends Controller
     {
         //// A ENVOYER PAR L APPELANT
         $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
-        
+
+        $transactions=array();
+
         /////////////////////////////// ECART OUVERTURE DE CAISSE : RETROUR LA TRANSACTION //////////////////////////
-        //$compteOperationCaisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1'])->getIdCompteOperation();
-        // $transactions=$this->genComptaEcartOuv($utilisateur,$compteOperationCaisse, 7000);
+        $compteOperationCaisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1'])->getIdCompteOperation();
+        $transaction=$this->genComptaEcartOuv($utilisateur,$compteOperationCaisse, 7000);
+        $transactions[]=$transaction;
         ///////////////////////////////////FIN ECART OUVERTURE ////////////////////////////////////////////////////////////////////
 
 
         /////////////////////////////// DEPOT ET RETRAIT :  RETROUR LA TRANSACTION //////////////////////////
-        //$compteOperationCaisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1'])->getIdCompteOperation();
-        //$compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'OUEDRAOGO HAMADO - Ordinaire']);
-        //$transactions=$this->genComptaDepot($utilisateur,$compteOperationCaisse,$compteClient, 'Depot Cash par LMM', 20000);
-        //$transactions=$this->genComptaRetrait($utilisateur,$compteOperationCaisse,$compteClient, 'Retrait Cash par LMM', 1000);
+        $compteOperationCaisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1'])->getIdCompteOperation();
+        $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'OUEDRAOGO HAMADO - Ordinaire']);
+        $transaction=$this->genComptaDepot($utilisateur,$compteOperationCaisse,$compteClient, 'Depot Cash par LMM', 20000);
+        $transactions[]=$transaction;
+        $transaction=$this->genComptaRetrait($utilisateur,$compteOperationCaisse,$compteClient, 'Retrait Cash par LMM', 1000);
+        $transactions[]=$transaction;
         ///////////////////////////////////FIN
 
 
         /////////////////////////////// DEPENSES ET RECETTES :  RETROUR LA TRANSACTION //////////////////////////
         $compteCaisseMD=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Caisse menu depenses']);
 
-        //$compteCharge=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Charges diverses']);
-        //$transactions=$this->genComptaDepenses($utilisateur,$compteCaisseMD,$compteCharge, 'Achats Internet', 10000);
-
-        $compteRecette=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Recettes diverses']);
-        $transactions=$this->genComptaRecettes($utilisateur,$compteCaisseMD,$compteRecette, 'Vente antivirus', 150000);
+        $compteCharge=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Charges diverses']);
+        $transaction=$this->genComptaDepenses($utilisateur,$compteCaisseMD,$compteCharge, 'Achats Internet', 10000);
+        $transactions[]=$transaction;
+        $compteRecette=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Produits divers']);
+        $transaction=$this->genComptaRecettes($utilisateur,$compteCaisseMD,$compteRecette, 'Vente antivirus', 150000);
+        $transactions[]=$transaction;
         ///////////////////////////////////FIN
         return $this->render( 'comptMainTest.html.twig',['transactions'=>$transactions]);
 
