@@ -23,7 +23,7 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $jouneeCaisses= new JourneeCaisses(); //$manager->getRepository(JourneeCaisses::class)->find(1);
+       /* $jouneeCaisses= new JourneeCaisses(); //$manager->getRepository(JourneeCaisses::class)->find(1);
         $devise1=$manager->getRepository(DeviseJournees::class)->find(1);
         $billetageFerm=$manager->getRepository(BilletageLignes::class)->find(2);
         $billetageOuv=$manager->getRepository(BilletageLignes::class)->find(1);
@@ -51,7 +51,7 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($enr);
         }
-
+*/
         $manager->flush();
     }
 
@@ -59,5 +59,6 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
     {
         return array(LoadComptes::class);
     }
+
 
 }
