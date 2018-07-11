@@ -66,6 +66,7 @@ class Utilisateurs
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -82,6 +83,7 @@ class Utilisateurs
     public function setLogin($login)
     {
         $this->login = $login;
+        return $this;
     }
 
     /**
@@ -98,6 +100,7 @@ class Utilisateurs
     public function setMdp($mdp)
     {
         $this->mdp = $mdp;
+        return $this;
     }
 
     /**
@@ -114,6 +117,7 @@ class Utilisateurs
     public function setNom($nom)
     {
         $this->nom = $nom;
+        return $this;
     }
 
     /**
@@ -130,6 +134,7 @@ class Utilisateurs
     public function setPrenom($prenom)
     {
         $this->prenom = $prenom;
+        return $this;
     }
 
     /**
@@ -146,6 +151,7 @@ class Utilisateurs
     public function setEstCaissier($estCaissier)
     {
         $this->estCaissier = $estCaissier;
+        return $this;
     }
 
     /**
@@ -162,6 +168,7 @@ class Utilisateurs
     public function setStatus($status)
     {
         $this->status = $status;
+        return $this;
     }
 
     public function __toString()
