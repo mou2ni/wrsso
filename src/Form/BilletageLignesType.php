@@ -14,7 +14,7 @@ class BilletageLignesType extends AbstractType
         $builder
             ->add('nbBillet')
             ->add('valeurLigne')
-            ->add('idBilletage')
+            ->add('idBilletage', BilletagesType::class)
             ->add('valeurBillet')
         ;
     }

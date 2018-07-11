@@ -58,6 +58,7 @@ class SystemElects
     public function setLibelle($Libelle)
     {
         $this->Libelle = $Libelle;
+        return $this;
     }
 
     public function __toString()

@@ -58,10 +58,12 @@ class Devises
 
     /**
      * @param mixed $id
+     * @return Devises
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -74,10 +76,12 @@ class Devises
 
     /**
      * @param mixed $code
+     * @return Devises
      */
     public function setCode($code)
     {
         $this->code = $code;
+        return $this;
     }
 
     /**
@@ -90,10 +94,12 @@ class Devises
 
     /**
      * @param mixed $libelle
+     * @return Devises
      */
     public function setLibelle($libelle)
     {
         $this->libelle = $libelle;
+        return $this;
     }
 
     /**
@@ -106,10 +112,12 @@ class Devises
 
     /**
      * @param mixed $dateModification
+     * @return Devises
      */
     public function setDateModification($dateModification)
     {
         $this->dateModification = $dateModification;
+        return $this;
     }
 
     /**
@@ -122,10 +130,12 @@ class Devises
 
     /**
      * @param mixed $txAchat
+     * @return Devises
      */
     public function setTxAchat($txAchat)
     {
         $this->txAchat = $txAchat;
+        return $this;
     }
 
     /**
@@ -138,11 +148,15 @@ class Devises
 
     /**
      * @param mixed $txVente
+     * @return Devises
      */
     public function setTxVente($txVente)
     {
         $this->txVente = $txVente;
+        return $this;
     }
+
+
 
     public function __toString()
     {

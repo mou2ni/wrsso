@@ -37,7 +37,7 @@ class DeviseJournees
     private $idDevise;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billets")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BilletageLignes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $idBilletOuv;
@@ -78,7 +78,7 @@ class DeviseJournees
     private $qteIntercaisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billets")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BilletageLignes" )
      * @ORM\JoinColumn(nullable=false)
      */
     private $idBilletFerm;
@@ -103,10 +103,12 @@ class DeviseJournees
 
     /**
      * @param mixed $id
+     * @return DeviseJournees
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -119,10 +121,12 @@ class DeviseJournees
 
     /**
      * @param mixed $idJourneeCaisse
+     * @return DeviseJournees
      */
     public function setIdJourneeCaisse($idJourneeCaisse)
     {
         $this->idJourneeCaisse = $idJourneeCaisse;
+        return $this;
     }
 
     /**
@@ -135,10 +139,12 @@ class DeviseJournees
 
     /**
      * @param mixed $idDevise
+     * @return DeviseJournees
      */
     public function setIdDevise($idDevise)
     {
         $this->idDevise = $idDevise;
+        return $this;
     }
 
     /**
@@ -151,10 +157,12 @@ class DeviseJournees
 
     /**
      * @param mixed $idBilletOuv
+     * @return DeviseJournees
      */
     public function setIdBilletOuv($idBilletOuv)
     {
         $this->idBilletOuv = $idBilletOuv;
+        return $this;
     }
 
     /**
@@ -167,10 +175,12 @@ class DeviseJournees
 
     /**
      * @param mixed $qteOuv
+     * @return DeviseJournees
      */
     public function setQteOuv($qteOuv)
     {
         $this->qteOuv = $qteOuv;
+        return $this;
     }
 
     /**
@@ -183,10 +193,12 @@ class DeviseJournees
 
     /**
      * @param mixed $ecartOuv
+     * @return DeviseJournees
      */
     public function setEcartOuv($ecartOuv)
     {
         $this->ecartOuv = $ecartOuv;
+        return $this;
     }
 
     /**
@@ -199,10 +211,12 @@ class DeviseJournees
 
     /**
      * @param mixed $qteAchat
+     * @return DeviseJournees
      */
     public function setQteAchat($qteAchat)
     {
         $this->qteAchat = $qteAchat;
+        return $this;
     }
 
     /**
@@ -215,10 +229,12 @@ class DeviseJournees
 
     /**
      * @param mixed $qteVente
+     * @return DeviseJournees
      */
     public function setQteVente($qteVente)
     {
         $this->qteVente = $qteVente;
+        return $this;
     }
 
     /**
@@ -231,10 +247,12 @@ class DeviseJournees
 
     /**
      * @param mixed $mCvdAchat
+     * @return DeviseJournees
      */
     public function setMCvdAchat($mCvdAchat)
     {
         $this->mCvdAchat = $mCvdAchat;
+        return $this;
     }
 
     /**
@@ -247,10 +265,12 @@ class DeviseJournees
 
     /**
      * @param mixed $mCvdVente
+     * @return DeviseJournees
      */
     public function setMCvdVente($mCvdVente)
     {
         $this->mCvdVente = $mCvdVente;
+        return $this;
     }
 
     /**
@@ -263,10 +283,12 @@ class DeviseJournees
 
     /**
      * @param mixed $qteIntercaisse
+     * @return DeviseJournees
      */
     public function setQteIntercaisse($qteIntercaisse)
     {
         $this->qteIntercaisse = $qteIntercaisse;
+        return $this;
     }
 
     /**
@@ -279,10 +301,12 @@ class DeviseJournees
 
     /**
      * @param mixed $idBilletFerm
+     * @return DeviseJournees
      */
     public function setIdBilletFerm($idBilletFerm)
     {
         $this->idBilletFerm = $idBilletFerm;
+        return $this;
     }
 
     /**
@@ -295,10 +319,12 @@ class DeviseJournees
 
     /**
      * @param mixed $qteFerm
+     * @return DeviseJournees
      */
     public function setQteFerm($qteFerm)
     {
         $this->qteFerm = $qteFerm;
+        return $this;
     }
 
     /**
@@ -311,10 +337,17 @@ class DeviseJournees
 
     /**
      * @param mixed $ecartFerm
+     * @return DeviseJournees
      */
     public function setEcartFerm($ecartFerm)
     {
         $this->ecartFerm = $ecartFerm;
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getId();
     }
 
 

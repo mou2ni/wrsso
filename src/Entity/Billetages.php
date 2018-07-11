@@ -9,6 +9,8 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,6 +39,13 @@ class Billetages
      * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="idBilletage", cascade={"persist"})
      */
     private $billetageLignes;
+
+    public function __construct()
+    {
+        $this->billetageLignes = new ArrayCollection();
+    }
+
+
 
     /**
      * @return mixed
@@ -89,6 +98,24 @@ class Billetages
     public function __toString()
     {
         return ''.$this->getValeurTotal();
+    }
+
+    /**
+     * @return Collection|BilletageLignes[]
+     */
+    public function getBilletageLignes()
+    {
+        return $this->billetageLignes;
+    }
+
+    /**
+     * @param mixed $billetageLignes
+     * @return Billetages
+     */
+    public function setBilletageLignes($billetageLignes)
+    {
+        $this->billetageLignes = $billetageLignes;
+        return $this;
     }
 
 
