@@ -34,6 +34,11 @@ class Billetages
     private $dateBillettage;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="idBilletage", cascade={"persist"})
+     */
+    private $billetageLignes;
+
+    /**
      * @return mixed
      */
     public function getId()

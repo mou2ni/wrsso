@@ -2,74 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180709183700.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180709184958.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20180709235316.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20180711122039.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wrsso.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wrsso.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Caisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Caisses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Utilisateurs.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Utilisateurs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180703142856.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180703142856.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180703143511.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180703143511.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180703143904.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180703143904.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180703165546.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180703165546.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704063618.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704063618.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704064012.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704064012.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704064218.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704064218.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704064356.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704064356.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704065423.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704065423.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704092907.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704092907.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704095239.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704095239.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704101552.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704101552.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180704101812.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180704101812.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180709150325.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180709150325.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20180709151945.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Migrations - Copie/Version20180709151945.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/.php_cs.dist" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/.php_cs.dist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Configuration/Method.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Configuration/Method.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Configuration/Route.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Configuration/Route.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/DependencyInjection/SensioFrameworkExtraExtension.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/DependencyInjection/SensioFrameworkExtraExtension.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Request/ParamConverter/DateTimeParamConverter.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Request/ParamConverter/DateTimeParamConverter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Resources/config/routing.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Resources/config/routing.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Resources/doc/annotations/view.rst" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Resources/doc/annotations/view.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Resources/doc/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Resources/doc/index.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Routing/AnnotatedRouteControllerLoader.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Routing/AnnotatedRouteControllerLoader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Configuration/RouteTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Configuration/RouteTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/DependencyInjection/Compiler/AddExpressionLanguageProvidersPassTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/DependencyInjection/Compiler/AddExpressionLanguageProvidersPassTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/DependencyInjection/Compiler/AddParamConverterPassTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/DependencyInjection/Compiler/AddParamConverterPassTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/DependencyInjection/SensioFrameworkExtraExtensionTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/DependencyInjection/SensioFrameworkExtraExtensionTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/ActionArgumentsBundle/Controller/ActionArgumentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/ActionArgumentsBundle/Controller/ActionArgumentsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/ActionArgumentsBundle/Controller/NullableArgumentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/ActionArgumentsBundle/Controller/NullableArgumentsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/InvokableClassLevelController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/InvokableClassLevelController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/InvokableContainerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/InvokableContainerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/InvokableController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/InvokableController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/IsGrantedController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/IsGrantedController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/MultipleActionsClassLevelTemplateController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/MultipleActionsClassLevelTemplateController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/OptionalArgumentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/OptionalArgumentsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/SimpleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/FooBundle/Controller/SimpleController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/TestKernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/TestKernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/config/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Fixtures/config/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Request/ParamConverter/DateTimeParamConverterTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Request/ParamConverter/DateTimeParamConverterTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Request/ParamConverter/DoctrineParamConverterTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Request/ParamConverter/DoctrineParamConverterTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Request/ParamConverter/ParamConverterManagerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Request/ParamConverter/ParamConverterManagerTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Routing/AnnotatedRouteControllerLoaderTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/Tests/Routing/AnnotatedRouteControllerLoaderTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/phpunit.xml.dist" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/sensio/framework-extra-bundle/phpunit.xml.dist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/form/Extension/Core/DataTransformer/DateIntervalToArrayTransformer.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/form/Extension/Core/DataTransformer/DateIntervalToArrayTransformer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.hy.xlf" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.hy.xlf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.lt.xlf" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.lt.xlf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.mn.xlf" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.mn.xlf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.ru.xlf" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/form/Resources/translations/validators.ru.xlf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/form/Tests/Extension/Core/DataTransformer/DateIntervalToArrayTransformerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/form/Tests/Extension/Core/DataTransformer/DateIntervalToArrayTransformerTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/intl/Data/Generator/LanguageDataGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/intl/Data/Generator/LanguageDataGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/intl/Intl.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/intl/Intl.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/intl/Resources/bin/icu.ini" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/intl/Resources/bin/icu.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/symfony/intl/Tests/Data/Provider/AbstractScriptDataProviderTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/symfony/intl/Tests/Data/Provider/AbstractScriptDataProviderTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/BilletageLignes.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/BilletageLignes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Billetages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Billetages.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" afterDir="false" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -121,98 +59,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GenererEcritureComptaController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/GenererEcritureComptaController.php">
+      <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1768">
-              <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
+            <state relative-caret-position="90">
+              <caret line="64" column="57" selection-start-line="64" selection-start-column="57" selection-end-line="64" selection-end-column="57" />
               <folding>
-                <element signature="e#6#100#0#PHP" expanded="true" />
-                <element signature="e#129#152#0#PHP" expanded="true" />
+                <element signature="e#1909#1922#1#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="composer.json" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/composer.json">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="Comptes.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Comptes.php">
+      <file leaf-file-name="Billets.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Billets.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
-              <folding>
-                <element signature="e#113#161#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="193">
+              <caret line="35" column="5" selection-start-line="32" selection-start-column="4" selection-end-line="35" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Transactions.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Transactions.php">
+      <file leaf-file-name="Billetages.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2343">
-              <caret line="72" column="7" selection-start-line="72" selection-start-column="7" selection-end-line="72" selection-end-column="7" />
-              <folding>
-                <element signature="e#113#161#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="203">
+              <caret line="38" column="29" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoadUtilisateurs.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadUtilisateurs.php">
+      <file leaf-file-name="BilletageLignes.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Entity/BilletageLignes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="25" column="48" selection-start-line="25" selection-start-column="48" selection-end-line="25" selection-end-column="48" />
+            <state relative-caret-position="180">
+              <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utilisateurs.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Utilisateurs.php">
+      <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="170" column="21" selection-start-line="170" selection-start-column="21" selection-end-line="170" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Caisses.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Caisses.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="107" column="21" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="billets" pinned="false" current-in-tab="false">
-        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billets">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pays" pinned="false" current-in-tab="true">
-        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/pays">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TransactionComptes.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/TransactionComptes.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1408">
-              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+            <state relative-caret-position="418">
+              <caret line="126" column="7" selection-start-line="126" selection-start-column="7" selection-end-line="126" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -227,20 +117,6 @@
   </component>
   <component name="FrameworkCommandLineHistory">
     <commandsHistory>
-      <command text="git push origin master" />
-      <command text="git pull" />
-      <command text="git commit" />
-      <command text="git branch temp" />
-      <command text="git checkout temp" />
-      <command text="git log --graph --decorate --pretty=oneline --abbrev-commit master origin/master temp" />
-      <command text="git diff master temp" />
-      <command text="git diff origin/master temp" />
-      <command text="git branch -f master temp git checkout master" />
-      <command text="git branch -f master temp" />
-      <command text="git checkout master" />
-      <command text="git branch -d temp" />
-      <command text="git push origin master" />
-      <command text="php bin/console make migrate" />
       <command text="php bin/console make migration" />
       <command text="php bin/console make:migration" />
       <command text="php bin/console doctrine:migrations:migrate" />
@@ -252,6 +128,20 @@
       <command text="php bin/console doctrine:migrations:migrate" />
       <command text="php bin/console fixture" />
       <command text="php bin/console doctrine:fixtures:load" />
+      <command text="php bin/console doctrine:migrations:migrate 20180709235316" />
+      <command text="php bin/console doctrine:fixtures:load" />
+      <command text="php bin/console doctrine:migrations:migrate" />
+      <command text="php bin/console doctrine:database:create" />
+      <command text="php bin/console doctrine:schema:validate" />
+      <command text="php bin/console doctrine:make:migration" />
+      <command text="php bin/console make:migration" />
+      <command text="php bin/console doctrine:migrations:migrate" />
+      <command text="php bin/console make:migration" />
+      <command text="php bin/console doctrine:migrations:migrate" />
+      <command text="php bin/console doctrine:fixtures:load" />
+      <command text="php bin/console doctrine:migrations:migrate" />
+      <command text="php bin/console make:migration" />
+      <command text="php bin/console doctrine:migrations:migrate" />
     </commandsHistory>
   </component>
   <component name="Git.Settings">
@@ -278,15 +168,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Entity/Intercaisses.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Billets1.php" />
         <option value="$PROJECT_DIR$/config/packages/doctrine.yaml" />
         <option value="$PROJECT_DIR$/src/Form/BilletsType.php" />
         <option value="$PROJECT_DIR$/templates/billets/ajout.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/BilletsController.php" />
         <option value="$PROJECT_DIR$/templates/billets/index.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/BilletagesType.php" />
-        <option value="$PROJECT_DIR$/src/Entity/BilletageLignes.php" />
         <option value="$PROJECT_DIR$/templates/system_elect/ajout.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/SystemElectsController.php" />
         <option value="$PROJECT_DIR$/templates/system_elects/ajout.html.twig" />
@@ -298,8 +185,6 @@
         <option value="$PROJECT_DIR$/src/Entity/DeviseMouvements.php" />
         <option value="$PROJECT_DIR$/src/Entity/Devises.php" />
         <option value="$PROJECT_DIR$/src/Entity/InterCaisses.php" />
-        <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Pays.php" />
         <option value="$PROJECT_DIR$/src/Entity/RecetteDepenses.php" />
         <option value="$PROJECT_DIR$/src/Entity/Salaires.php" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElectInventaires.php" />
@@ -307,7 +192,6 @@
         <option value="$PROJECT_DIR$/src/Entity/SystemTransfert.php" />
         <option value="$PROJECT_DIR$/src/Entity/TransfertInternationaux.php" />
         <option value="$PROJECT_DIR$/src/Form/BilletageLignesType.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Billetages.php" />
         <option value="$PROJECT_DIR$/public/warisso.js" />
         <option value="$PROJECT_DIR$/templates/base.html.twig" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElects.php" />
@@ -329,6 +213,12 @@
         <option value="$PROJECT_DIR$/src/Controller/GenererEcritureComptaController.php" />
         <option value="$PROJECT_DIR$/src/Entity/Utilisateurs.php" />
         <option value="$PROJECT_DIR$/src/Entity/Caisses.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" />
+        <option value="$PROJECT_DIR$/src/Entity/Pays.php" />
+        <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
+        <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
+        <option value="$PROJECT_DIR$/src/Entity/Billetages.php" />
+        <option value="$PROJECT_DIR$/src/Entity/BilletageLignes.php" />
       </list>
     </option>
   </component>
@@ -483,6 +373,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -494,6 +385,12 @@
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
@@ -514,11 +411,16 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Entity" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -547,6 +449,13 @@
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp1\htdocs\wrsso\src\DataFixtures\ORM" />
+      <recent name="C:\xampp1\htdocs\wrsso\src\Form" />
+      <recent name="C:\xampp1\htdocs\wrsso\src\Entity" />
+      <recent name="C:\xampp1\htdocs\wrsso\public\css" />
+      <recent name="C:\xampp1\htdocs\wrsso\public\js" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp1\htdocs\wrsso\src\Migrations - Copie" />
       <recent name="C:\xampp1\htdocs\wrsso\public" />
@@ -554,13 +463,123 @@
       <recent name="C:\xampp1\htdocs\wrsso\assets\js" />
       <recent name="C:\xampp1\htdocs\wrsso\assets" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp1\htdocs\wrsso\src\Form" />
-      <recent name="C:\xampp1\htdocs\wrsso\src\Entity" />
-      <recent name="C:\xampp1\htdocs\wrsso\public\css" />
-      <recent name="C:\xampp1\htdocs\wrsso\public\js" />
-      <recent name="C:\xampp1\htdocs\wrsso\public" />
-    </key>
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/composer.lock</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/GenererEcritureComptaController.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/Comptes.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/TransactionComptes.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/Transactions.php</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Migrations/Version20180711120117.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/comptMainTest.html.twig</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -705,38 +724,60 @@
       <option name="project" value="LOCAL" />
       <updated>1530608674645</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="projet apres crud">
+      <created>1531306104824</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1531306104824</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164977000" />
+    <option name="totallyTimeSpent" value="172539000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5060514" side_tool="true" weight="0.3291536" />
-      <window_info active="true" anchor="bottom" id="Command Line Tools Console" visible="true" weight="0.32843137" />
-      <window_info anchor="bottom" id="Database Changes" />
+      <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="11" visible="true" weight="0.4722222" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49394855" weight="0.32843137" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49546143" weight="0.3291536" />
-      <window_info anchor="bottom" id="Database Console" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21709532" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22012103" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" visible="true" weight="0.21028744" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21709532" />
+      <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49546143" weight="0.3291536" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.3291536" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49394855" weight="0.32843137" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="11" visible="true" weight="0.32843137" />
+      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.21028744" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5060514" side_tool="true" weight="0.3291536" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Database Console" order="11" />
       <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.3291536" />
+      <window_info id="Favorites" order="3" side_tool="true" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -802,68 +843,8 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Form/SystemElectsType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billetages" />
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billetagelignes" />
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/systemelectinventaires" />
-    <entry file="file://$PROJECT_DIR$/src/Entity/SystemElects.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="899">
-          <caret line="64" column="37" selection-start-line="64" selection-start-column="37" selection-end-line="64" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="30" column="36" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectLigneInventairesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="60" column="74" selection-start-line="60" selection-start-column="74" selection-end-line="60" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/system_elect_ligne_inventaires/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="32" selection-start-line="7" selection-start-column="4" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="62" column="52" selection-start-line="62" selection-start-column="52" selection-end-line="62" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/systemelectligneinventaires" />
     <entry file="file://$PROJECT_DIR$/src/Entity/Test.php" />
     <entry file="file://$PROJECT_DIR$/src/Migrations/Version20180629081458.php" />
-    <entry file="file://$PROJECT_DIR$/src/Entity/BilletageLignes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="30" column="24" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Billets.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="39" column="7" selection-start-line="39" selection-start-column="7" selection-end-line="39" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/billetages/show.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -882,13 +863,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
           <caret line="26" column="36" selection-start-line="26" selection-start-column="36" selection-end-line="26" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="18" column="1" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -977,8 +951,8 @@
     <entry file="file://C:/xampp.1.0/htdocs/symfony_demo/src/AppBundle/Entity/Post.php" />
     <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-504">
-          <caret line="41" column="25" selection-start-line="40" selection-start-column="12" selection-end-line="41" selection-end-column="25" />
+        <state relative-caret-position="748">
+          <caret line="50" column="5" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -992,8 +966,8 @@
     <entry file="file://C:/xampp.1.0/htdocs/hotel/src/YLab1.0/HostingBundle/DataFixtures/ORM/LoadReservation.php" />
     <entry file="file://$PROJECT_DIR$/src/Controller/BilletageLignesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="149" column="57" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="57" />
+        <state relative-caret-position="2159">
+          <caret line="136" column="64" selection-start-line="136" selection-start-column="64" selection-end-line="136" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -1014,28 +988,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/GenererEcritureComptaController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1768">
-          <caret line="104" column="22" selection-start-line="104" selection-start-column="22" selection-end-line="104" selection-end-column="22" />
+        <state relative-caret-position="325">
+          <caret line="74" column="40" selection-start-line="74" selection-start-column="40" selection-end-line="74" selection-end-column="40" />
           <folding>
             <element signature="e#6#100#0#PHP" expanded="true" />
             <element signature="e#129#152#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/TransactionComptes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1408">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Transactions.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2343">
-          <caret line="72" column="7" selection-start-line="72" selection-start-column="7" selection-end-line="72" selection-end-column="7" />
-          <folding>
-            <element signature="e#113#161#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1061,6 +1018,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/pays">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/ComptesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="22" column="32" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Pays.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="852">
+          <caret line="66" column="21" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="33" column="25" selection-start-line="33" selection-start-column="25" selection-end-line="33" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20180709235316.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="10" column="33" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20180711104129.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-94" />
+      </provider>
+    </entry>
     <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billets">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1068,10 +1065,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/pays">
+    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20180711104514.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2567" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="64" column="57" selection-start-line="64" selection-start-column="57" selection-end-line="64" selection-end-column="57" />
+          <folding>
+            <element signature="e#1909#1922#1#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Billets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="35" column="5" selection-start-line="32" selection-start-column="4" selection-end-line="35" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadComptes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-337" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="126" column="7" selection-start-line="126" selection-start-column="7" selection-end-line="126" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/migration_versions">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="38" column="29" selection-start-line="38" selection-start-column="29" selection-end-line="38" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Transactions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="65" column="56" selection-start-line="65" selection-start-column="56" selection-end-line="65" selection-end-column="56" />
+          <folding>
+            <element signature="e#113#161#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/TransactionComptes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="28" column="65" selection-start-line="28" selection-start-column="40" selection-end-line="28" selection-end-column="65" />
+          <folding>
+            <element signature="e#6#87#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/BilletageLignes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="34" column="65" selection-start-line="34" selection-start-column="65" selection-end-line="34" selection-end-column="65" />
         </state>
       </provider>
     </entry>
