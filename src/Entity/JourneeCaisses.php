@@ -53,7 +53,7 @@ class JourneeCaisses
     private $statut='O';
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
      * @ORM\JoinColumn(nullable=true)
      */
     private $idBilletOuv;
@@ -125,7 +125,7 @@ class JourneeCaisses
     private $dateFerm;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
      * @ORM\JoinColumn(nullable=true)
      */
     private $idBilletFerm;

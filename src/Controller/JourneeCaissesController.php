@@ -62,7 +62,7 @@ class JourneeCaissesController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $caisse=$em->getRepository('App:Caisses')->find(4);
+        $caisse=$em->getRepository('App:Caisses')->find(1);
         $user=$em->getRepository('App:Utilisateurs')->find(1);
         if (!$user->getEstCaissier()) {
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
@@ -160,7 +160,9 @@ class JourneeCaissesController extends Controller
         $journeeCaissePrec = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
             ->findOneBy(['idCaisse'=>$caisse, 'idJourneeSuivante'=>null, 'statut'=>'F']);
+        if($journeeCaissePrec)
         return $journeeCaissePrec;
+        else return $journeeCaissePrec=new JourneeCaisses();
     }
 
     public function journeeCaisseEnCours(Utilisateurs $user){
