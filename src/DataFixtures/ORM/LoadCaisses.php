@@ -22,16 +22,18 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
     {
         $compteOperationCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 1']);
         $compteOperationCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 2']);
-        //$compteEcartCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse 1']);
-        //$compteEcartCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse 2']);
+        $compteOperationCaisse3=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Caisse menu depenses']);
+        $compteCvDevise1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 1']);
+        $compteCvDevise2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 2']);
 
-        $lists = array(['libelle' => 'DAPOYA-Caisse 1', 'idCompteOperation' => $compteOperationCaisse1]
-            ,['libelle' => 'PISSY-Caisse 1', 'idCompteOperation' => $compteOperationCaisse2]
+        $lists = array(['libelle' => 'DAPOYA-Caisse 1', 'idCompteOperation' => $compteOperationCaisse1, 'compteCvDevise' => $compteCvDevise1]
+        ,['libelle' => 'PISSY-Caisse 1', 'idCompteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2]
+        ,['libelle' => 'Caisse menu depense', 'idCompteOperation' => $compteOperationCaisse3, 'compteCvDevise' => null]
         );
 
         foreach ($lists as $list) {
             $enr = new Caisses();
-            $enr->setLibelle($list['libelle'])->setIdCompteOperation($list['idCompteOperation']);
+            $enr->setLibelle($list['libelle'])->setIdCompteOperation($list['idCompteOperation'])->setCompteCvDevise($list['compteCvDevise']);
             $manager->persist($enr);
         }
 

@@ -25,7 +25,7 @@
 
                <tr><table class="table">
                     <thead>
-                    <tr><h2> Lignes écritures </h2></tr>
+                    <tr><h2> Lignes écritures {{ transaction.libelle }}</h2></tr>
                     <tr>
                         <th>Id</th>
                         <th>numéro du compte</th>
@@ -62,5 +62,5 @@
     </table>
 
     {% endfor %}
-    <a href="{{ path('transactions_new') }}">Create new</a>
+    <a href="{{ path('gen_compta') }}"> Tester à nouveau </a>
 {% endblock %}

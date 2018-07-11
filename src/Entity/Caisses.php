@@ -34,6 +34,12 @@ class Caisses
      */
     private $idCompteOperation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     * @ORM\JoinColumn(name= "id_cpt_cv_devise",nullable=true)
+     */
+    private $CompteCvDevise;
+
     /*
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
      * @ORM\JoinColumn(nullable=false)
@@ -112,4 +118,24 @@ class Caisses
     {
         return ''.$this->getLibelle();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteCvDevise()
+    {
+        return $this->CompteCvDevise;
+    }
+
+    /**
+     * @param mixed $CompteCvDevise
+     * @return Caisses
+     */
+    public function setCompteCvDevise($CompteCvDevise)
+    {
+        $this->CompteCvDevise = $CompteCvDevise;
+        return $this;
+    }
+
+
    }

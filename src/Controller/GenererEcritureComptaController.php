@@ -119,18 +119,18 @@ class GenererEcritureComptaController extends Controller
      * @param int $montant
      * @return Transactions
      */
-    public function genComptaEcartOuv(Utilisateurs $utilisateur, Comptes $compteOperationCaisse, $montant)
+    public function genComptaEcartOuv(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
         //initiation et controle des conditions de validité de l'appel
         $transaction=$this->initTransaction($utilisateur,"Ecart d'ouverture",$montant);
 
         if ($transaction->getE()) return $transaction ;
 
-        $compteEcartUtilisateur=$utilisateur->getCompteEcartCaisse();
+        //$compteEcartUtilisateur=$utilisateur->getCompteEcartCaisse();
 
         //ajout des lignes de debit et crédit : comptes en fonction du signe de l'écart
-        ($montant>0)?$transaction=$this->debiterCrediter($transaction,$compteEcartUtilisateur,$compteOperationCaisse,$montant)
-                     :$transaction=$this->debiterCrediter($transaction,$compteOperationCaisse,$compteEcartUtilisateur,$montant);
+        ($montant>0)?$transaction=$this->debiterCrediter($transaction,$utilisateur->getCompteEcartCaisse(), $caisse->getIdCompteOperation(),$montant)
+                     :$transaction=$this->debiterCrediter($transaction,$caisse->getIdCompteOperation(),$utilisateur->getCompteEcartCaisse(),$montant);
 
         return $transaction;
     }
@@ -143,7 +143,7 @@ class GenererEcritureComptaController extends Controller
      * @param $montant
      * @return Transactions
      */
-    public function genComptaDepot(Utilisateurs $utilisateur, Comptes $compteOperationCaisse, Comptes $compteClient, $libelle, $montant)
+    public function genComptaDepot(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
     {
         $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
 
@@ -151,7 +151,7 @@ class GenererEcritureComptaController extends Controller
             return $transaction;
         }
         else {
-            return $this->debiterCrediter($transaction, $compteOperationCaisse, $compteClient, $montant);
+            return $this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $compteClient, $montant);
         }
 
     }
@@ -164,7 +164,7 @@ class GenererEcritureComptaController extends Controller
      * @param $montant
      * @return Transactions
      */
-    public function genComptaRetrait(Utilisateurs $utilisateur, Comptes $compteOperationCaisse, Comptes $compteClient, $libelle, $montant)
+    public function genComptaRetrait(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
     {
 
         $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
@@ -177,7 +177,7 @@ class GenererEcritureComptaController extends Controller
             return $transaction;
         }else {
             //ajout des lignes d'écritures debit et crédit
-            return $this->debiterCrediter($transaction, $compteClient, $compteOperationCaisse, $montant);
+            return $this->debiterCrediter($transaction, $compteClient, $caisse->getIdCompteOperation(), $montant);
         }
 
     }
@@ -191,13 +191,13 @@ class GenererEcritureComptaController extends Controller
      * @param $montant
      * @return Transactions
      */
-    public function genComptaDepenses(Utilisateurs $utilisateur, Comptes $compteOperationCaisse, Comptes $compteCharge, $libelle, $montant)
+    public function genComptaDepenses(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteCharge, $libelle, $montant)
     {
         $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
 
         if ($transaction->getE()) return $transaction ;
 
-        return $this->debiterCrediter($transaction, $compteCharge, $compteOperationCaisse, $montant);
+        return $this->debiterCrediter($transaction, $compteCharge, $caisse->getIdCompteOperation(), $montant);
     }
 
     /**
@@ -208,15 +208,37 @@ class GenererEcritureComptaController extends Controller
      * @param $montant
      * @return Transactions
      */
-    public function genComptaRecettes(Utilisateurs $utilisateur, Comptes $compteOperationCaisse, Comptes $compteProduit, $libelle, $montant)
+    public function genComptaRecettes(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteProduit, $libelle, $montant)
     {
         $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
 
         if ($transaction->getE()) return $transaction ;
 
-        return $this->debiterCrediter($transaction, $compteOperationCaisse, $compteProduit, $montant);
+        return $this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $compteProduit, $montant);
     }
 
+    public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, $montant)
+    {
+        $estPositif=($montant>0);
+        $transaction=$this->initTransaction($utilisateur,'Compenses du jour',$montant);
+
+        if ($transaction->getE()) return $transaction ;
+
+        if ($estPositif) return $this->debiterCrediter($transaction, $utilisateur->getCompteCompense(), $caisse->getIdCompteOperation(), $montant);
+       else return $this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $utilisateur->getCompteCompense(), $montant);
+    }
+
+    public function genComptaCvDevise(Utilisateurs $utilisateur, Caisses $caisse, $montant)
+    {
+        $estPositif=($montant>0);
+
+        $transaction=$this->initTransaction($utilisateur,'Contre valeur devises',$montant);
+
+        if ($transaction->getE()) return $transaction ;
+
+        if ($estPositif) return $this->debiterCrediter($transaction,$caisse->getCompteCvDevise(), $caisse->getIdCompteOperation(),$montant);
+        else return $this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $caisse->getCompteCvDevise(),$montant);
+    }
 
 
     /**
@@ -227,36 +249,55 @@ class GenererEcritureComptaController extends Controller
     {
         //// A ENVOYER PAR L APPELANT
         $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
+        $caisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1']);
 
         $transactions=array();
 
         /////////////////////////////// ECART OUVERTURE DE CAISSE : RETROUR LA TRANSACTION //////////////////////////
-        $compteOperationCaisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1'])->getIdCompteOperation();
-        $transaction=$this->genComptaEcartOuv($utilisateur,$compteOperationCaisse, 7000);
+
+        $transaction=$this->genComptaEcartOuv($utilisateur,$caisse, 1000);
         $transactions[]=$transaction;
         ///////////////////////////////////FIN ECART OUVERTURE ////////////////////////////////////////////////////////////////////
 
 
         /////////////////////////////// DEPOT ET RETRAIT :  RETROUR LA TRANSACTION //////////////////////////
-        $compteOperationCaisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1'])->getIdCompteOperation();
+
         $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'OUEDRAOGO HAMADO - Ordinaire']);
-        $transaction=$this->genComptaDepot($utilisateur,$compteOperationCaisse,$compteClient, 'Depot Cash par LMM', 20000);
+        $transaction=$this->genComptaDepot($utilisateur,$caisse,$compteClient, 'Depot Cash par LMM', 3000000);
         $transactions[]=$transaction;
-        $transaction=$this->genComptaRetrait($utilisateur,$compteOperationCaisse,$compteClient, 'Retrait Cash par LMM', 1000);
+        $transaction=$this->genComptaRetrait($utilisateur,$caisse,$compteClient, 'Retrait Cash par LMM', 100000);
         $transactions[]=$transaction;
         ///////////////////////////////////FIN
 
 
         /////////////////////////////// DEPENSES ET RECETTES :  RETROUR LA TRANSACTION //////////////////////////
-        $compteCaisseMD=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Caisse menu depenses']);
+        $caisseMD=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'Caisse menu depense']);
 
         $compteCharge=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Charges diverses']);
-        $transaction=$this->genComptaDepenses($utilisateur,$compteCaisseMD,$compteCharge, 'Achats Internet', 10000);
+        $transaction=$this->genComptaDepenses($utilisateur,$caisseMD,$compteCharge, 'Achats Internet', 50000);
         $transactions[]=$transaction;
+
         $compteRecette=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Produits divers']);
-        $transaction=$this->genComptaRecettes($utilisateur,$compteCaisseMD,$compteRecette, 'Vente antivirus', 150000);
+        $transaction=$this->genComptaRecettes($utilisateur,$caisseMD,$compteRecette, 'Vente antivirus', 60000);
         $transactions[]=$transaction;
         ///////////////////////////////////FIN
+
+        /////////////////////////////// COMPENSES //////////////////////////
+
+        $transaction=$this->genComptaCompense($utilisateur,$caisse,400000);
+        $transactions[]=$transaction;
+        $transaction=$this->genComptaCompense($utilisateur,$caisse,-400000);
+        $transactions[]=$transaction;
+        ///////////////////////////////////FIN
+
+        /////////////////////////////// DEVISE //////////////////////////
+
+        $transaction=$this->genComptaCvDevise($utilisateur,$caisse,671000);
+        $transactions[]=$transaction;
+        $transaction=$this->genComptaCvDevise($utilisateur,$caisse,-661000);
+        $transactions[]=$transaction;
+        ///////////////////////////////////FIN
+
         return $this->render( 'comptMainTest.html.twig',['transactions'=>$transactions]);
 
     }
