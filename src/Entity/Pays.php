@@ -64,6 +64,7 @@ class Pays
     public function setLibelle($libelle)
     {
         $this->libelle = $libelle;
+        return $this;
     }
 
     /**
@@ -80,6 +81,7 @@ class Pays
     public function setZone($zone)
     {
         $this->zone = $zone;
+        return $this;
     }
 
 
