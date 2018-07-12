@@ -19,7 +19,7 @@
                 <td>{{ transaction.id }}</td>
                 <td>{{ transaction.libelle }}</td>
                 <td>{{ transaction.dateTransaction ? transaction.dateTransaction|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ transaction.utilisateur.nom }} {{ transaction.utilisateur.prenom }}</td>
+                <td>{{ transaction.utilisateur }}</td>
             </tr>
 
 

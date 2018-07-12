@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Transactions
 {
-    const ERR_SOLDE_INSUFISANT=1, ERR_NEGATIF=2, ERR_ZERO=3;
+    const ERR_SOLDE_INSUFISANT=1, ERR_NEGATIF=2, ERR_ZERO=3, ERR_DESEQUILIBRE=4;
 
     private $e;
     /**
@@ -203,15 +203,15 @@ class Transactions
         return $this->transactionComptes;
     }
 
-    /*
+    /**
      * @param mixed $transactionComptes
      * @return Transactions
-
+    */
     public function setTransactionComptes($transactionComptes)
     {
         $this->transactionComptes = $transactionComptes;
         return $this;
-    }*/
+    }
 
     public function addTransactionComptes(TransactionComptes $transactionCompte)
     {
