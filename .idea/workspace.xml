@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="projet apres crud">
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadSystemElects.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20180711152941.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20180711173342.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Billetages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Billetages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/DeviseJournees.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/DeviseJournees.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Devises.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Devises.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Pays.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Pays.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/SystemElects.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SystemElects.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BilletageLignesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BilletageLignesType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig" afterDir="false" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -67,11 +57,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="83" column="82" selection-start-line="83" selection-start-column="82" selection-end-line="83" selection-end-column="82" />
+            <state relative-caret-position="254">
+              <caret line="193" column="35" selection-start-line="193" selection-start-column="35" selection-end-line="193" selection-end-column="35" />
               <folding>
                 <element signature="e#1909#1922#1#PHP" expanded="true" />
                 <element signature="e#1967#1985#1#PHP" expanded="true" />
@@ -80,11 +70,47 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoadSystemElects.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadSystemElects.php">
+      <file leaf-file-name="billetages" pinned="false" current-in-tab="false">
+        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billetages">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ouverture.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+            <state relative-caret-position="115">
+              <caret line="30" column="266" selection-start-line="30" selection-start-column="266" selection-end-line="30" selection-end-column="266" />
+              <folding>
+                <element signature="e#12#26#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/journee_caisses/index.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="53" column="85" selection-start-line="53" selection-start-column="61" selection-end-line="53" selection-end-column="85" />
+              <folding>
+                <element signature="e#12#26#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BilletageLignesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/BilletageLignesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="165" column="26" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
+              <folding>
+                <element signature="e#3330#6058#0#PHP" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,15 +133,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DeviseJournees.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Entity/DeviseJournees.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="935">
-              <caret line="60" column="32" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -130,15 +147,6 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file leaf-file-name="billets" pinned="false" current-in-tab="false">
-        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billets">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -149,10 +157,6 @@
   </component>
   <component name="FrameworkCommandLineHistory">
     <commandsHistory>
-      <command text="php bin/console doctrine:fixture -help" />
-      <command text="php bin/console doctrine:fixtures:load" />
-      <command text="php bin/console doctrine:migrations:migrate" />
-      <command text="php bin/console doctrine:fixtures:load" />
       <command text="php bin/console make:migrate" />
       <command text="php bin/console make:migration" />
       <command text="php bin/console doctrine:migrations:migrate" />
@@ -174,6 +178,10 @@
       <command text="php bin/console doctrine:fixtures:load" />
       <command text="php bin/console make:migration" />
       <command text="php bin/console doctrine:migrations:migrate" />
+      <command text="php bin/console doctrine:database:drop --force" />
+      <command text="php bin/console doctrine:database:create" />
+      <command text="php bin/console doctrine:migrations:migrate" />
+      <command text="php bin/console doctrine:fixtures:load" />
     </commandsHistory>
   </component>
   <component name="Git.Settings">
@@ -200,8 +208,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/billets/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Form/BilletagesType.php" />
         <option value="$PROJECT_DIR$/templates/system_elect/ajout.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/SystemElectsController.php" />
         <option value="$PROJECT_DIR$/templates/system_elects/ajout.html.twig" />
@@ -220,7 +226,6 @@
         <option value="$PROJECT_DIR$/public/warisso.js" />
         <option value="$PROJECT_DIR$/templates/base.html.twig" />
         <option value="$PROJECT_DIR$/templates/billetage_lignes/ajout.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" />
         <option value="$PROJECT_DIR$/src/Controller/SystemElectLigneInventairesController.php" />
         <option value="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" />
         <option value="$PROJECT_DIR$/templates/system_elect_inventaires/show.html.twig" />
@@ -243,14 +248,17 @@
         <option value="$PROJECT_DIR$/src/Entity/BilletageLignes.php" />
         <option value="$PROJECT_DIR$/src/Entity/Billetages.php" />
         <option value="$PROJECT_DIR$/src/Form/OuvertureType.php" />
-        <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
         <option value="$PROJECT_DIR$/src/Entity/Devises.php" />
         <option value="$PROJECT_DIR$/src/Entity/Pays.php" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElects.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadSystemElects.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/Entity/DeviseJournees.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php" />
+        <option value="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" />
+        <option value="$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
       </list>
     </option>
   </component>
@@ -454,6 +462,17 @@
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="journee_caisses" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -777,27 +796,42 @@
       <option name="project" value="LOCAL" />
       <updated>1531311726816</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="avec qlq fixtures">
+      <created>1531330503672</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1531330503672</updated>
+    </task>
+    <task id="LOCAL-00017" summary="avec qlq fixtures">
+      <created>1531331274569</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1531331274569</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="189220000" />
+    <option name="totallyTimeSpent" value="202235000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5060514" side_tool="true" weight="0.3291536" />
-      <window_info active="true" anchor="bottom" id="Command Line Tools Console" order="11" visible="true" weight="0.40359476" />
+      <window_info anchor="bottom" id="Command Line Tools Console" order="11" visible="true" weight="0.251634" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49394855" weight="0.32843137" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49394855" weight="0.7385621" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49546143" weight="0.3291536" />
       <window_info anchor="bottom" id="Database Console" order="11" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22012103" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21482602" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" weight="0.18910742" />
+      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.18910742" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -877,7 +911,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="projet de base" />
     <MESSAGE value="projet apres crud" />
-    <option name="LAST_COMMIT_MESSAGE" value="projet apres crud" />
+    <MESSAGE value="avec qlq fixtures" />
+    <option name="LAST_COMMIT_MESSAGE" value="avec qlq fixtures" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand>
@@ -889,12 +924,6 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/xampp.1.0/htdocs/hotel/src/YLab1.0/HostingBundle/Entity/Beneficiaire.php" />
-    <entry file="file://C:/xampp.1.0/htdocs/hotel/src/YLab1.0/HostingBundle/Entity/BeneficiaireChambre.php" />
-    <entry file="file://C:/xampp.1.0/htdocs/hotel/src/YLab1.0/HostingBundle/Entity/Sejour.php" />
-    <entry file="file://C:/xampp.1.0/htdocs/symfony_demo/src/AppBundle/Entity/Comment.php" />
-    <entry file="file://C:/xampp.1.0/htdocs/hotel/src/YLab1.0/HostingBundle/Entity/Chambre.php" />
-    <entry file="file://C:/xampp.1.0/htdocs/symfony_demo/src/AppBundle/Entity/Post.php" />
     <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
@@ -1047,34 +1076,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/BilletageLignesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="49">
-          <caret line="36" column="41" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/OuvertureType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Form/JourneeCaissesType.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-238" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="83" column="82" selection-start-line="83" selection-start-column="82" selection-end-line="83" selection-end-column="82" />
-          <folding>
-            <element signature="e#1909#1922#1#PHP" expanded="true" />
-            <element signature="e#1967#1985#1#PHP" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/utilisateurs">
@@ -1088,13 +1092,6 @@
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadUtilisateurs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="25" column="48" selection-start-line="25" selection-start-column="48" selection-end-line="25" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -1112,13 +1109,6 @@
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadSystemElects.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -1165,6 +1155,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/.gitignore">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseJournees.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="349" column="30" selection-start-line="349" selection-start-column="30" selection-end-line="349" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="52" column="9" lean-forward="true" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+          <folding>
+            <element signature="e#135#166#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Devises.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="98">
@@ -1172,20 +1189,81 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php">
+    <entry file="file://$PROJECT_DIR$/templates/comptMainTest.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="34" column="35" lean-forward="true" selection-end-line="62" selection-end-column="1" />
+        <state>
           <folding>
-            <element signature="e#135#166#0#PHP" expanded="true" />
+            <element signature="e#12#26#0#Twig" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseJournees.php">
+    <entry file="file://$PROJECT_DIR$/src/Form/OuvertureType.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="60" column="32" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
+        <state relative-caret-position="174">
+          <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="53" column="85" selection-start-line="53" selection-start-column="61" selection-end-line="53" selection-end-column="85" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="30" column="266" selection-start-line="30" selection-start-column="266" selection-end-line="30" selection-end-column="266" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billetages">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadSystemElects.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="38" column="35" selection-start-line="38" selection-start-column="35" selection-end-line="38" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadUtilisateurs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="22" column="33" lean-forward="true" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/BilletageLignesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="165" column="26" selection-start-line="165" selection-start-column="26" selection-end-line="165" selection-end-column="26" />
+          <folding>
+            <element signature="e#3330#6058#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="254">
+          <caret line="193" column="35" selection-start-line="193" selection-start-column="35" selection-end-line="193" selection-end-column="35" />
+          <folding>
+            <element signature="e#1909#1922#1#PHP" expanded="true" />
+            <element signature="e#1967#1985#1#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

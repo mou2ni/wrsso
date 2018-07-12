@@ -74,29 +74,19 @@ class JourneeCaissesController extends Controller
         }
         else{
 
-            if(!$this->get('session')->get('billetage'))$this->get('session')->set('billetage', new Billetages());
+
             if(!$this->get('session')->get('electronic'))$this->get('session')->set('electronic', new SystemElectInventaires());
             //$caisse=$em->getRepository('App:JourneeCaisses')->findBy(['statut'=>'F'])->getIdCaisse();
             $journeeCaissePrec = $this->getJourneeCaissePrec($caisse);
             $journeeCaiss = new JourneeCaisses();
+            $journeeCaiss=$this->initJournee($journeeCaiss, $caisse,$user);
+            //dump($journeeCaiss);die();
             $form = $this->createForm(OuvertureType::class, $journeeCaiss);
-            $form['mCreditDivers']->setData($journeeCaissePrec->getMCreditDivers());
-            $form['mDetteDivers']->setData($journeeCaissePrec->getMDetteDivers());
-            //$form['idBilletOuv']->setData($this->get('session')->get('billetage'));
-            $form['valeurBillet']->setData($this->get('session')->get('billetage')->getValeurTotal());
-            $form['soldeElectOuv']->setData($this->get('session')->get('electronic')->getSoldeTotal());
-            //$form['idCaisse']->setData($caisse);
+
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
-                $journeeCaiss->setIdUtilisateur($user);
-                $journeeCaiss->setIdCaisse($caisse);
-                $journeeCaiss->setIdBilletOuv($this->get('session')->get('billetage'));
-                $journeeCaiss->setIdSystemElectInventOuv($this->get('session')->get('electronic'));
-                $journeeCaiss->setDateOuv(new \DateTime('now'));
-                $journeeCaiss->setDateFerm(new \DateTime('now'));
-
                 $em->persist($journeeCaiss);
                 $em->flush();
 
@@ -174,6 +164,39 @@ class JourneeCaissesController extends Controller
         }
         else
             return false;
+    }
+
+    public function recuperationBilletageOuv(){
+        $param=$this->get('session')->get('param');
+        if ($param['classe']=='j' && $param['champ']=='o'&& $this->get('session')->get('billetage'))
+            $billetage=$this->get('session')->get('billetage');
+        else $billetage= $this->getDoctrine()->getRepository( Billetages::class)->find(1);
+
+        return $billetage;
+    }
+
+    public function recuperationBilletageFerm(){
+        $param=$this->get('session')->get('param');
+        if ($param['classe']=='j' && $param['champ']=='f'&& !$this->get('session')->get('billetage'))
+            $billetage=$this->get('session')->get('billetage')->getValeurTotal();
+        else $billetage=new Billetages();
+
+        return $billetage;
+    }
+
+    public function initJournee(JourneeCaisses $journeeCaiss, Caisses $caisse, Utilisateurs $user)
+    {
+        $journeeCaiss->setIdUtilisateur($user);
+        $journeeCaiss->setIdCaisse($caisse);
+        $journeeCaiss->setStatut('O');
+        $journeeCaiss->setMCreditDivers($this->getJourneeCaissePrec($caisse)->getMCreditDivers());
+        $journeeCaiss->setMDetteDivers($this->getJourneeCaissePrec($caisse)->getMDetteDivers());
+        $journeeCaiss->setIdBilletOuv($this->recuperationBilletageOuv());
+        $journeeCaiss->setValeurBillet($this->recuperationBilletageOuv()->getValeurTotal());
+        $journeeCaiss->setSoldeElectOuv($this->get('session')->get('electronic')->getSoldeTotal());
+        $journeeCaiss->setDateOuv(new \DateTime('now'));
+        $journeeCaiss->setDateFerm(new \DateTime('now'));
+        return $journeeCaiss;
     }
 
 }
