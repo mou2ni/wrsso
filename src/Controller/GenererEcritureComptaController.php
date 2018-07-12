@@ -240,7 +240,7 @@ class GenererEcritureComptaController extends Controller
      */
     public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
     {
-       return $this->debiterCrediterSigne($utilisateur,$paramComptable->getCompteCompense(), $caisse->getIdCompteOperation(),$utilisateur.' - Compense attendue',$montant);
+       return $this->debiterCrediterSigne($utilisateur,$paramComptable->getCompteCompense(), $caisse->getIdCompteOperation(),'Compense attendue -'.$utilisateur,$montant);
     }
 
     /**
@@ -257,7 +257,7 @@ class GenererEcritureComptaController extends Controller
 
     public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
     {
-        $this->debiterCrediterSigne($utilisateur,$caisse->getIdCompteOperation(),$paramComptable->getCompteCompense(),$utilisateur.' - Solde intercaissse',$montant);
+        return $this->debiterCrediterSigne($utilisateur,$caisse->getIdCompteOperation(),$paramComptable->getCompteCompense(),'Solde intercaissse - '.$utilisateur,$montant);
     }
 
     /**
@@ -269,6 +269,7 @@ class GenererEcritureComptaController extends Controller
         //// A ENVOYER PAR L APPELANT
         $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
         $caisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1']);
+        $paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
 
         $transactions=array();
 
@@ -303,9 +304,9 @@ class GenererEcritureComptaController extends Controller
 
         /////////////////////////////// COMPENSES //////////////////////////
 
-        $transaction=$this->genComptaCompense($utilisateur,$caisse,400000);
+        $transaction=$this->genComptaCompense($utilisateur,$caisse,$paramComptable,400000);
         $transactions[]=$transaction;
-        $transaction=$this->genComptaCompense($utilisateur,$caisse,-400000);
+        $transaction=$this->genComptaCompense($utilisateur,$caisse,$paramComptable,-300000);
         $transactions[]=$transaction;
         ///////////////////////////////////FIN
 
@@ -314,6 +315,14 @@ class GenererEcritureComptaController extends Controller
         $transaction=$this->genComptaCvDevise($utilisateur,$caisse,671000);
         $transactions[]=$transaction;
         $transaction=$this->genComptaCvDevise($utilisateur,$caisse,-661000);
+        $transactions[]=$transaction;
+        ///////////////////////////////////FIN
+
+        /////////////////////////////// INTER CAISSE //////////////////////////
+
+        $transaction=$this->genComptaIntercaisse($utilisateur,$caisse,$paramComptable,250000);
+        $transactions[]=$transaction;
+        $transaction=$this->genComptaIntercaisse($utilisateur,$caisse,$paramComptable,-200000);
         $transactions[]=$transaction;
         ///////////////////////////////////FIN
 
