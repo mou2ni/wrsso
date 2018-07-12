@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Entity\ParamComptables;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
 //use App\Entity\ParamComptables;
@@ -112,16 +113,28 @@ class GenererEcritureComptaController extends Controller
 
     }
 
+    private function debiterCrediterSigne(Utilisateurs $utilisateur, Comptes $cptDebitSiPositif, Comptes $cptCreditSiPositif, $libelle, $montant)
+    {
+        $estPositif=($montant>0);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
+
+        if ($transaction->getE()) return $transaction ;
+
+        if ($estPositif) return $this->debiterCrediter($transaction, $cptDebitSiPositif, $cptCreditSiPositif, $montant);
+        else return $this->debiterCrediter($transaction, $cptCreditSiPositif, $cptDebitSiPositif, $montant); //inverser l'ordre des comptes si negatif
+    }
+
+
     /**
      * @param Utilisateurs $utilisateur
-     * @param Comptes $compteOperationCaisse
-     * @param Comptes $compteEcartUtilisateur
-     * @param int $montant
+     * @param Caisses $caisse
+     * @param $montant
      * @return Transactions
      */
     public function genComptaEcartOuv(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
-        //initiation et controle des conditions de validité de l'appel
+        return $this->debiterCrediterSigne($utilisateur, $utilisateur->getCompteEcartCaisse(), $caisse->getIdCompteOperation(), 'Ecart ouverture constaté par '.$utilisateur, $montant );
+        /*//initiation et controle des conditions de validité de l'appel
         $transaction=$this->initTransaction($utilisateur,"Ecart d'ouverture",$montant);
 
         if ($transaction->getE()) return $transaction ;
@@ -132,12 +145,13 @@ class GenererEcritureComptaController extends Controller
         ($montant>0)?$transaction=$this->debiterCrediter($transaction,$utilisateur->getCompteEcartCaisse(), $caisse->getIdCompteOperation(),$montant)
                      :$transaction=$this->debiterCrediter($transaction,$caisse->getIdCompteOperation(),$utilisateur->getCompteEcartCaisse(),$montant);
 
-        return $transaction;
+        return $transaction;*/
     }
+
 
     /**
      * @param Utilisateurs $utilisateur
-     * @param Comptes $compteOperationCaisse
+     * @param Caisses $caisse
      * @param Comptes $compteClient
      * @param $libelle
      * @param $montant
@@ -156,9 +170,10 @@ class GenererEcritureComptaController extends Controller
 
     }
 
+
     /**
      * @param Utilisateurs $utilisateur
-     * @param Comptes $compteOperationCaisse
+     * @param Caisses $caisse
      * @param Comptes $compteClient
      * @param $libelle
      * @param $montant
@@ -202,7 +217,7 @@ class GenererEcritureComptaController extends Controller
 
     /**
      * @param Utilisateurs $utilisateur
-     * @param Comptes $compteOperationCaisse
+     * @param Caisses $caisse
      * @param Comptes $compteProduit
      * @param $libelle
      * @param $montant
@@ -217,29 +232,33 @@ class GenererEcritureComptaController extends Controller
         return $this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $compteProduit, $montant);
     }
 
-    public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, $montant)
+    /**
+     * @param Utilisateurs $utilisateur
+     * @param Caisses $caisse
+     * @param $montant
+     * @return Transactions
+     */
+    public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
     {
-        $estPositif=($montant>0);
-        $transaction=$this->initTransaction($utilisateur,'Compenses du jour',$montant);
-
-        if ($transaction->getE()) return $transaction ;
-
-        if ($estPositif) return $this->debiterCrediter($transaction, $utilisateur->getCompteCompense(), $caisse->getIdCompteOperation(), $montant);
-       else return $this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $utilisateur->getCompteCompense(), $montant);
+       return $this->debiterCrediterSigne($utilisateur,$paramComptable->getCompteCompense(), $caisse->getIdCompteOperation(),$utilisateur.' - Compense attendue',$montant);
     }
 
+    /**
+     * @param Utilisateurs $utilisateur
+     * @param Caisses $caisse
+     * @param $montant
+     * @return Transactions
+     */
     public function genComptaCvDevise(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
-        $estPositif=($montant>0);
+        return $this->debiterCrediterSigne($utilisateur,$caisse->getCompteCvDevise(), $caisse->getIdCompteOperation(),$utilisateur.' - Solde Contre valeur devises',$montant);
 
-        $transaction=$this->initTransaction($utilisateur,'Contre valeur devises',$montant);
-
-        if ($transaction->getE()) return $transaction ;
-
-        if ($estPositif) return $this->debiterCrediter($transaction,$caisse->getCompteCvDevise(), $caisse->getIdCompteOperation(),$montant);
-        else return $this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $caisse->getCompteCvDevise(),$montant);
     }
 
+    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
+    {
+        $this->debiterCrediterSigne($utilisateur,$caisse->getIdCompteOperation(),$paramComptable->getCompteCompense(),$utilisateur.' - Solde intercaissse',$montant);
+    }
 
     /**
      * @Route("/gen", name="gen_compta", methods="GET|POST")

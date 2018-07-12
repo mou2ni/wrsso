@@ -22,16 +22,16 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
     {
         $compteEcartCaissier1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts caissier 1']);
         $compteEcartCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts caissier 2']);
-        $compteCompenseCaissier1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 1']);
-        $compteCompenseCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 2']);
-        $lists = array(['login' => 'houedraogo', 'mdp' => 'MD5MDP', 'nom' => 'OUEDRAOGO', 'prenom' => 'Sayouba', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier1, 'compteCompteCaisse'=>$compteCompenseCaissier1]
-        , ['login' => 'asanou', 'mdp' => 'MD5MDPASANOU', 'nom' => 'SANOU', 'prenom' => 'Alfred', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier2, 'compteCompteCaisse'=>$compteCompenseCaissier2]
+        //$compteCompenseCaissier1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 1']);
+        //$compteCompenseCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 2']);
+        $lists = array(['login' => 'houedraogo', 'mdp' => 'MD5MDP', 'nom' => 'OUEDRAOGO', 'prenom' => 'Sayouba', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier1]
+        , ['login' => 'asanou', 'mdp' => 'MD5MDPASANOU', 'nom' => 'SANOU', 'prenom' => 'Alfred', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier2]
         );
 
         foreach ($lists as $list) {
             $enr = new Utilisateurs();
             $enr->setLogin($list['login'])->setMdp($list['mdp'])->setNom($list['nom'])->setPrenom($list['prenom'])->setEstCaissier($list['estCaissier'])->setStatus($list['statut'])->setCompteEcartCaisse($list['compteEcartCaisse'])
-            ->setCompteCompense($list['compteCompteCaisse']);
+            ;
             $manager->persist($enr);
         }
 
