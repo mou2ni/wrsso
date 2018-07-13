@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -150,6 +151,19 @@ class JourneeCaisses
      * @ORM\Column(type="bigint")
      */
     private $mEcartFerm=0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="idJourneeCaisse", cascade={"persist"})
+     */
+    private $deviseJournee;
+
+    /**
+     * JourneeCaisses constructor.
+     */
+    public function __construct()
+    {
+        $this->deviseJournee = new ArrayCollection();
+    }
 
 
     /**
@@ -555,6 +569,17 @@ class JourneeCaisses
     public function __toString()
     {
         return ''.$this->getIdUtilisateur();
+    }
+
+    public function addDeviseJournee(DeviseJournees $deviseJournees)
+    {
+        $this->deviseJournee->add($this->deviseJournee);
+        $deviseJournees->setIdJourneeCaisse($this);
+    }
+
+    public function removeDeviseJournee(DeviseJournees $deviseJournees)
+    {
+        $this->deviseJournee->removeElement($deviseJournees);
     }
 
 }
