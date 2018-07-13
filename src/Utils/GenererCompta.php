@@ -6,28 +6,27 @@
  * Time: 13:37
  */
 
-namespace App\Controller;
+namespace App\Utils;
 
 use App\Entity\Caisses;
 use App\Entity\Comptes;
 use App\Entity\ParamComptables;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
-//use App\Entity\ParamComptables;
 use App\Entity\Utilisateurs;
 
 //use phpDocumentor\Reflection\Types\Boolean;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Persistence\ObjectManager;
 
+//use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+//use Symfony\Component\Routing\Annotation\Route;
+
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 
 
-/**
- * @Route("/compta")
- */
-class GenererEcritureComptaController extends Controller
+class GenererCompta
 {
     /**
      * @var e
@@ -35,14 +34,19 @@ class GenererEcritureComptaController extends Controller
      */
     private $e;
 
+    private $em;
+    private $om;
+
     /**
      * @var transactions
      *
      */
     private $transactions;
 
-    public function __construct()
+    public function __construct(ObjectManager $objectManager, EntityManager $entityManager)
     {
+        $this->em=$entityManager;
+        $this->om=$objectManager;
         $this->transactions= new ArrayCollection();
 
     }
@@ -57,7 +61,7 @@ class GenererEcritureComptaController extends Controller
 
     /**
      * @param e $e
-     * @return GenererEcritureComptaController
+     * @return GenererCompta
      */
     public function setE($e)
     {
@@ -75,7 +79,7 @@ class GenererEcritureComptaController extends Controller
 
     /**
      * @param Transactions $transactions
-     * @return GenererEcritureComptaController
+     * @return GenererCompta
      */
     public function setTransactions($transactions)
     {
@@ -129,9 +133,9 @@ class GenererEcritureComptaController extends Controller
         //ajout de ligne d'écriture credit
         $transaction->addTransactionComptes($this->fillTransactionCompte($compteCredit, $montant, false));
 
-        $em=$this->getDoctrine()->getManager();
-        $em->persist($transaction);
-        $em->flush();
+        //$this->em=$this->getDoctrine()->getManager();
+        $this->em->persist($transaction);
+        $this->em->flush();
         return $transaction;
     }
 
@@ -157,9 +161,9 @@ class GenererEcritureComptaController extends Controller
             return false;
         }
 
-        $em=$this->getDoctrine()->getManager();
-        $em->persist($transaction);
-        $em->flush();
+        //$em=$this->getDoctrine()->getManager();
+        $this->em->persist($transaction);
+        $this->em->flush();
         return $transaction;
     }
 
@@ -378,10 +382,6 @@ class GenererEcritureComptaController extends Controller
         $this->transactions->add($this->debiterCrediterMultiple($transaction,$compteMontantDebits, $listSalaires));
         return !$this->getE();
     }
-
-    /**
-     * @Route("/gen", name="gen_compta", methods="GET|POST")
-     */
 
     public function mainTest(): Response
     {
