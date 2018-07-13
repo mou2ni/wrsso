@@ -37,8 +37,11 @@
                 <tr><td>SOLDE NET</td><td><input id="soldeNet"></td></tr>
                 <tr><td>ECART</td><td>{{ form_widget(form.ecartOuv) }}</td></tr>
                 <tr></tr>
-                <tr><td>Euros</td><td><input id="euros"></td></tr>
+                {#<tr><td>Euros</td><td><input id="euros"></td></tr>
+                <tr><td>Dollars</td><td><input id="dollars"></td></tr>#}
+                <tr><td>{{ form_label(formdevises.idDevise.libelle) }}</td><td><input id="euros"></td></tr>
                 <tr><td>Dollars</td><td><input id="dollars"></td></tr>
+
                 <tr><td>Montant CVD</td><td>{{ form_widget(form.mCvd) }}</td></tr>
             </table>
 
