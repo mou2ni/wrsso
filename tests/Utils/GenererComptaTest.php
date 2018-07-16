@@ -29,7 +29,7 @@ class GenererComptaTest extends Tests
     {
         $compte=new Comptes();
 
-        //$compteRepository=$this->createMock(ObjectRepository::class);
+        $compteRepository=$this->createMock(ObjectRepository::class);
         //$compteRepository->expect()
 
 
