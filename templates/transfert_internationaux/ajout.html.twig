@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {# ... #}
+
+    {# store the prototype on the data-prototype attribute #}
+    <ul id="email-fields-list"
+        data-prototype="{{ form_widget(form.transfertInternationaux.vars.prototype)|e }}"
+        data-widget-tags="{{ '<li></li>'|e }}">
+        {% for emailField in form.transfertInternationaux %}
+            <li>
+                {{ form_errors(emailField) }}
+                {{ form_widget(emailField) }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <button type="button"
+            class="add-another-collection-widget"
+            data-list="#email-fields-list">Add another email</button>
+
+    {# ... #}
+    <input type="submit">
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

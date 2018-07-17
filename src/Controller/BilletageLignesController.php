@@ -159,13 +159,15 @@ class BilletageLignesController extends Controller
       }
 
     /**
-     * @Route("Wrsso/billetages/ajout/{classe}{champ}{devise}", name="billetage_ligne_ajout")
+     * @Route("Wrsso/billetages/ajout/{devise}", name="billetage_ligne_ajout")
      */
-    public function ajoutAction(Request $request, string $classe, string $champ, string $devise)
+    public function ajoutAction(Request $request, int $devise)
     {
-        $param=['classe'=>$classe,'champ'=>$champ,'devise'=>$devise];
+        //$param=['classe'=>$classe,'champ'=>$champ,'devise'=>$devise];
         $em = $this->getDoctrine()->getManager();
         $billets = $em->getRepository('App:Billets')->findAll();
+        $billetage0 = $this->getDoctrine()->getRepository(Billetages::class)->find(1);
+        $billetages= array($billetage0,$billetage0,$billetage0);
         //////////// creation du formulaire personnalise///////////////////////////////
         $formBilletage = $this->get('form.factory')->createNamedBuilder('formBilletage')->getForm();
         $i=1;
@@ -198,8 +200,12 @@ class BilletageLignesController extends Controller
             $billetage->setDateBillettage(new \DateTime('now'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($billetage);
-            $this->get('session')->set('billetage', $billetage);
-            $this->get('session')->set('param', $param);
+            //////////////////  mise en session du billetage /////////////////
+            $billetages=$this->get('session')->get('billetage');
+            $billetages[$devise] = $billetage;
+            $this->get('session')->set('billetage', $billetages);
+            ///////////////// fin ///////////////////////////////////////////
+            //$this->get('session')->set('param', $param);
             $em->flush();
             $i=1;
             foreach ($billets as $ligne){

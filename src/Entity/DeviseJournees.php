@@ -26,7 +26,7 @@ class DeviseJournees
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="DeviseJournees", cascade={"persist"})
-     * @ORM\JoinColumn(name="IdJourneeCaisses", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=false)
      */
     private $idJourneeCaisse;
 
@@ -37,7 +37,7 @@ class DeviseJournees
     private $idDevise;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\BilletageLignes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
      * @ORM\JoinColumn(nullable=false)
      */
     private $idBilletOuv;
@@ -78,7 +78,7 @@ class DeviseJournees
     private $qteIntercaisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\BilletageLignes" )
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages" )
      * @ORM\JoinColumn(nullable=false)
      */
     private $idBilletFerm;
@@ -347,7 +347,7 @@ class DeviseJournees
 
     public function __toString()
     {
-        return $this->getId();
+        return ''.$this->getId();
     }
 
 

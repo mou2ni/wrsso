@@ -78,15 +78,11 @@ class JourneeCaissesController extends Controller
 
 
             if(!$this->get('session')->get('electronic'))$this->get('session')->set('electronic', new SystemElectInventaires());
-            //$caisse=$em->getRepository('App:JourneeCaisses')->findBy(['statut'=>'F'])->getIdCaisse();
             $journeeCaissePrec = $this->getJourneeCaissePrec($caisse);
+            $devises=$em->getRepository('App:Devises')->findAll();
             $journeeCaiss = new JourneeCaisses();
             $journeeCaiss=$this->initJournee($journeeCaiss, $caisse,$user);
-            //dump($journeeCaiss);die();
             $form = $this->createForm(OuvertureType::class, $journeeCaiss);
-            $devises = $this->contreValeurDevise($journeeCaiss);
-            $formDevises = $this->createForm(DeviseJourneesType::class, $devises);
-
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -98,9 +94,8 @@ class JourneeCaissesController extends Controller
             }
 
             return $this->render('journee_caisses/ouverture.html.twig', [
-                //'journee_caiss' => $journeeCaiss,
+                'devises' => $devises,
                 'form' => $form->createView(),
-                'formdevises' => $formDevises->createView(),
                 'journeeCaissePrec'=>$journeeCaissePrec
             ]);
         }
@@ -171,44 +166,39 @@ class JourneeCaissesController extends Controller
             return false;
     }
 
-    public function recuperationBilletageOuv(){
-        $param=$this->get('session')->get('param');
-        if ($param['classe']=='j' && $param['champ']=='o'&& $this->get('session')->get('billetage'))
-            $billetage=$this->get('session')->get('billetage');
-        else $billetage=$this->getDoctrine()->getRepository( Billetages::class)->find(1);
-
-        return $billetage;
-    }
-
-    public function recuperationBilletageFerm(){
-        $param=$this->get('session')->get('param');
-        if ($param['classe']=='j' && $param['champ']=='f'&& !$this->get('session')->get('billetage'))
-            $billetage=$this->get('session')->get('billetage')->getValeurTotal();
-        else $billetage=null;
-
-        return $billetage;
-    }
-
     public function initJournee(JourneeCaisses $journeeCaiss, Caisses $caisse, Utilisateurs $user)
     {
+        if(!$this->get('session')->get('billetage'))
+        {
+            $billetage0 = $this->getDoctrine()->getRepository(Billetages::class)->find(1);
+            $billetages= array($billetage0,$billetage0,$billetage0);
+            $this->get('session')->set('billetage',$billetages);
+        }
         $journeeCaiss->setIdUtilisateur($user);
         $journeeCaiss->setIdCaisse($caisse);
         $journeeCaiss->setStatut('O');
-        $journeeCaiss->setMCreditDivers($this->getJourneeCaissePrec($caisse)->getMCreditDivers());
-        $journeeCaiss->setMDetteDivers($this->getJourneeCaissePrec($caisse)->getMDetteDivers());
-        if($this->recuperationBilletageOuv()!=$this->getDoctrine()->getRepository(Billetages::class)->find(1)){
-            $journeeCaiss->setIdBilletOuv($this->recuperationBilletageOuv());
-            $journeeCaiss->setValeurBillet($this->recuperationBilletageOuv()->getValeurTotal());
-            $this->getDoctrine()->getManager()->persist($this->recuperationBilletageOuv());
+        $journeeCaissePrec=$this->getJourneeCaissePrec($caisse);
+        $journeeCaiss->setMCreditDivers($journeeCaissePrec->getMCreditDivers());
+        $journeeCaiss->setMDetteDivers($journeeCaissePrec->getMDetteDivers());
+        if($this->get('session')->get('billetage')!=$this->getDoctrine()->getRepository(Billetages::class)->find(1)){
+            $journeeCaiss->setIdBilletOuv($this->get('session')->get('billetage')[0]);
+            $journeeCaiss->setValeurBillet($this->get('session')->get('billetage')[0]->getValeurTotal());
+            $this->getDoctrine()->getManager()->persist($this->get('session')->get('billetage')[0]);
         }
-        $journeeCaiss->setSoldeElectOuv($this->get('session')->get('electronic')->getSoldeTotal());
+        if($this->get('session')->get('electronic')!=$this->getDoctrine()->getRepository(SystemElectInventaires::class)->find(1)){
+            $journeeCaiss->setIdSystemElectInventOuv($this->get('session')->get('electronic'));
+            $journeeCaiss->setSoldeElectOuv($this->get('session')->get('electronic')->getSoldeTotal());
+            $this->getDoctrine()->getManager()->persist($this->get('session')->get('electronic'));
+        }
+        //$journeeCaiss->setSoldeElectOuv($this->get('session')->get('electronic')->getSoldeTotal());
         $journeeCaiss->setDateOuv(new \DateTime('now'));
         $journeeCaiss->setDateFerm(new \DateTime('now'));
+        //$journeeCaiss->setDeviseJournee($this->contreValeurDevise($journeeCaissePrec));
         return $journeeCaiss;
     }
 
     public function contreValeurDevise(JourneeCaisses $journeeCaisses){
-        $list=$this->getDoctrine()->getRepository(DeviseJournees::class)->findBy(['idJourneeCaisse'=>$journeeCaisses]);
+        $list=$journeeCaisses->getDeviseJournee();
         return $list;
     }
 

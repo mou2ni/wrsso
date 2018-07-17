@@ -25,8 +25,8 @@ class TransfertInternationaux
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="transfertInternationaux", cascade={"persist"})
+     * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=false)
      */
     private $idJourneeCaisse;
 

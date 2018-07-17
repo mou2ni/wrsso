@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\JourneeCaisses;
 use App\Entity\TransfertInternationaux;
 use App\Form\TransfertInternationauxType;
+use App\Form\TransfertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +47,33 @@ class TransfertInternationauxController extends Controller
 
         return $this->render('transfert_internationaux/new.html.twig', [
             'transfert_internationaux' => $transfertInternationaux,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/ajout", name="transfert_internationaux_ajout", methods="GET|POST")
+     */
+    public function ajout(Request $request): Response
+    {
+        $journeeCaisse = $this->getDoctrine()->getRepository("App:JourneeCaisses")-> findOneBy(['statut' => 'O']);
+        //dump($journeeCaisse); die();
+        $form = $this->createForm(TransfertType::class, $journeeCaisse);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $transfert=$form->getData();
+            $em->persist($journeeCaisse);
+            //$em->persist($journeeCaisse->getTransfertInternationaux());
+
+            $em->flush();
+
+            return $this->redirectToRoute('transfert_internationaux_index');
+        }
+
+        return $this->render('transfert_internationaux/ajout.html.twig', [
+            'transfert_internationaux' => $journeeCaisse,
             'form' => $form->createView(),
         ]);
     }

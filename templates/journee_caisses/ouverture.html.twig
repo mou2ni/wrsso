@@ -28,7 +28,7 @@
         <div id="ouverture" class="demi-contenu">
             <h4>OUVERTURE DU JOUR</h4>
             <table>
-                <tr><td>{{ form_label(form.valeurBillet) }}</td><td>{{ form_widget(form.valeurBillet) }}<input type="button" name="billetage" value="Billetage" onclick="javascript:window.open('{{ path('billetage_ligne_ajout', {'classe': 'j','champ': 'o','devise': 'd'}) }}', 'downwindow', 'width=500,height=500,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=1,scrolling=1,scrollbars=1');" /></td></tr>
+                <tr><td>{{ form_label(form.valeurBillet) }}</td><td>{{ form_widget(form.valeurBillet) }}<input type="button" name="billetage" value="Billetage" onclick="javascript:window.open('{{ path('billetage_ligne_ajout', {'devise': 0}) }}', 'downwindow', 'width=500,height=500,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=1,scrolling=1,scrollbars=1');" /></td></tr>
                 <tr><td>{{ form_label(form.soldeElectOuv) }}</td><td>{{ form_widget(form.soldeElectOuv) }}<input type="button" name="electronique" value="Electronique" onclick="javascript:window.open('{{ path('electronique_ligne_ajout') }}', 'downwindow', 'width=500,height=500,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=1,scrolling=1,scrollbars=1');" /></td></tr>
                 <tr><td>{{ form_label(form.mDetteDivers) }}</td><td>{{ form_widget(form.mDetteDivers) }}</td></tr>
                 <tr><td>{{ form_label(form.mCreditDivers) }}</td><td>{{ form_widget(form.mCreditDivers) }}</td></tr>
@@ -39,9 +39,15 @@
                 <tr></tr>
                 {#<tr><td>Euros</td><td><input id="euros"></td></tr>
                 <tr><td>Dollars</td><td><input id="dollars"></td></tr>#}
-                <tr><td>{{ form_label(formdevises.idDevise.libelle) }}</td><td><input id="euros"></td></tr>
-                <tr><td>Dollars</td><td><input id="dollars"></td></tr>
-
+                {% set i, billetage =1, app.session.get('billetage') %}
+                {% set params = app.session.get('param') %}
+                {% for devise in devises %}
+                <tr><td>{{ devise.code }}</td><td> <input id="devise{{ i }}" value="{{ billetage[i].valeurTotal }}"><input type="button" name="billetage" value="Billetage" onclick="javascript:window.open('{{ path('billetage_ligne_ajout', {'devise': i}) }}', 'downwindow', 'width=500,height=500,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=1,scrolling=1,scrollbars=1');" /></td></tr>
+                    {% set i = i+1
+                    %}
+                {#<tr><td>Dollars</td><td><input id="dollars"></td></tr>#}
+                {% endfor %}
+                <input hidden id="nbrDevises" value="{{ devises|length }}">
                 <tr><td>Montant CVD</td><td>{{ form_widget(form.mCvd) }}</td></tr>
             </table>
 
