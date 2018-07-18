@@ -630,7 +630,7 @@ class JourneeCaisses
 
     public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
-        $this->transfertInternationaux->add($this->transfertInternationaux);
+        $this->transfertInternationaux->add($transfertInternationaux);
         $transfertInternationaux->setIdJourneeCaisse($this);
     }
 

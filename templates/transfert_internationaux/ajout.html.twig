@@ -5,23 +5,51 @@
     {# ... #}
 
     {# store the prototype on the data-prototype attribute #}
-    <ul id="email-fields-list"
-        data-prototype="{{ form_widget(form.transfertInternationaux.vars.prototype)|e }}"
-        data-widget-tags="{{ '<li></li>'|e }}">
-        {% for emailField in form.transfertInternationaux %}
-            <li>
-                {{ form_errors(emailField) }}
-                {{ form_widget(emailField) }}
-            </li>
+
+    <table id="transfert-fields-list"
+        data-prototype="{{ '<td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idSystemTransfert)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.sens)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idPays)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTransfert)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mFraisHt)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTva)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mAutresTaxes)|e }}
+{{ '</td>'|e }}"
+        data-widget-tags="{{ '<tr classe=\"transfert\"></tr>'|e }}" class="add-another-collection-widget1" data-list="#transfert-fields-list" onchange="majTransfert()">
+        <thead>
+        <tr>
+            <h1> Saisie des transferts internationaux</h1>
+        </tr>
+        <tr> <td>Total Emission</td> <td> {{ form_widget(form.mEmissionTrans) }}</td>
+            <td>Total Reception</td> <td> {{ form_widget(form.mReceptionTrans) }}</td> </tr>
+        <tr>
+            <th>Type</th>
+            <th>Sens</th>
+            <th>Pays</th>
+            <th>Montant</th>
+            <th>Frais HT</th>
+            <th>TVA</th>
+            <th>Autres Taxes</th>
+
+        </tr>
+        </thead>
+        {% for trans in form.transfertInternationaux %}
+            <tr class="transfert">
+                <td>{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
+                <td>{{ form_errors(trans.sens) }} {{ form_widget(trans.sens) }}</td>
+                <td>{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
+                <td>{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
+                <td>{{ form_errors(trans.mFraisHt) }} {{ form_widget(trans.mFraisHt) }}</td>
+                <td>{{ form_errors(trans.mTva) }} {{ form_widget(trans.mTva) }}</td>
+                <td>{{ form_errors(trans.mAutresTaxes) }} {{ form_widget(trans.mAutresTaxes) }}</td>
+            </tr>
         {% endfor %}
-    </ul>
-
-    <button type="button"
-            class="add-another-collection-widget"
-            data-list="#email-fields-list">Add another email</button>
-
-    {# ... #}
-    <input type="submit">
+    </table>
+    {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
+    <input type="submit" value="Enregistrer"> <input value="Fermer" type="button">
+    <div hidden>
+        {{ form_rest(form) }}
+    </div>
     {{ form_end(form) }}
 
 {% endblock %}

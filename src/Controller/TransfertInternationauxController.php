@@ -52,19 +52,19 @@ class TransfertInternationauxController extends Controller
     }
 
     /**
-     * @Route("/ajout", name="transfert_internationaux_ajout", methods="GET|POST")
+     * @Route("/ajout/{id}", name="transfert_internationaux_ajout", methods="GET|POST")
      */
-    public function ajout(Request $request): Response
+    public function ajout(Request $request, JourneeCaisses $journeeCaisses): Response
     {
-        $journeeCaisse = $this->getDoctrine()->getRepository("App:JourneeCaisses")-> findOneBy(['statut' => 'O']);
+        //$journeeCaisse = $this->getDoctrine()->getRepository("App:JourneeCaisses")-> findOneBy(['statut' => 'O']);
         //dump($journeeCaisse); die();
-        $form = $this->createForm(TransfertType::class, $journeeCaisse);
+        $form = $this->createForm(TransfertType::class, $journeeCaisses);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $transfert=$form->getData();
-            $em->persist($journeeCaisse);
+            $em->persist($journeeCaisses);
             //$em->persist($journeeCaisse->getTransfertInternationaux());
 
             $em->flush();
@@ -73,7 +73,7 @@ class TransfertInternationauxController extends Controller
         }
 
         return $this->render('transfert_internationaux/ajout.html.twig', [
-            'transfert_internationaux' => $journeeCaisse,
+            'transfert_internationaux' => $journeeCaisses,
             'form' => $form->createView(),
         ]);
     }
