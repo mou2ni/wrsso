@@ -35,7 +35,7 @@ class GenererCompta
     private $e;
 
     private $em;
-    private $om;
+    //private $om;
 
     /**
      * @var transactions
@@ -43,10 +43,10 @@ class GenererCompta
      */
     private $transactions;
 
-    public function __construct(ObjectManager $objectManager, EntityManager $entityManager)
+    public function __construct(ObjectManager $objectManager)
     {
-        $this->em=$entityManager;
-        $this->om=$objectManager;
+        $this->em=$objectManager;
+        //$this->om=$objectManager;
         $this->transactions= new ArrayCollection();
 
     }
@@ -383,6 +383,7 @@ class GenererCompta
         return !$this->getE();
     }
 
+/*
     public function mainTest(): Response
     {
         //// A ENVOYER PAR L APPELANT
@@ -466,6 +467,6 @@ class GenererCompta
             return $this->render( 'comptMainTest.html.twig',['transactions'=>[$transaction]]);
         }
 
-    }
+    }*/
 
 }
