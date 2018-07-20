@@ -34,6 +34,11 @@ class Pays
      */
     private $zone;
 
+    public function __toString()
+    {
+        return ''.$this->getLibelle();
+    }
+
     /**
      * @return mixed
      */

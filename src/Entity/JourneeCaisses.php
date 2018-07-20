@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -150,6 +151,46 @@ class JourneeCaisses
      * @ORM\Column(type="bigint")
      */
     private $mEcartFerm=0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="idJourneeCaisse", cascade={"persist"})
+     */
+    private $deviseJournee;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
+     */
+    private $transfertInternationaux;
+
+    /**
+     * Get deviseJournees
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDeviseJournee()
+    {
+        return $this->deviseJournee;
+    }
+
+    /**
+     * @param mixed $deviseJournee
+     * @return JourneeCaisses
+     */
+    public function setDeviseJournee($deviseJournee)
+    {
+        $this->deviseJournee = $deviseJournee;
+        return $this;
+    }
+
+
+    /**
+     * JourneeCaisses constructor.
+     */
+    public function __construct()
+    {
+        //$this->deviseJournee = new ArrayCollection();
+        $this->transfertInternationaux=new ArrayCollection();
+    }
 
 
     /**
@@ -555,6 +596,47 @@ class JourneeCaisses
     public function __toString()
     {
         return ''.$this->getIdUtilisateur();
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getTransfertInternationaux()
+    {
+        return $this->transfertInternationaux;
+    }
+
+    /**
+     * @param mixed $transfertInternationaux
+     * @return JourneeCaisses
+     */
+    public function setTransfertInternationaux($transfertInternationaux)
+    {
+        $this->transfertInternationaux = $transfertInternationaux;
+        return $this;
+    }
+
+    public function addDeviseJournee(DeviseJournees $deviseJournees)
+    {
+        $this->deviseJournee->add($this->deviseJournee);
+        $deviseJournees->setIdJourneeCaisse($this);
+    }
+
+    public function removeDeviseJournee(DeviseJournees $deviseJournees)
+    {
+        $this->deviseJournee->removeElement($deviseJournees);
+    }
+
+    public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertInternationaux->add($transfertInternationaux);
+        $transfertInternationaux->setIdJourneeCaisse($this);
+    }
+
+    public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertInternationaux->removeElement($transfertInternationaux);
     }
 
 }

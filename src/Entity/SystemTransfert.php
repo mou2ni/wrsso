@@ -32,7 +32,7 @@ class SystemTransfert
 
     public function __toString()
     {
-        return ''.$this->getValeur();
+        return ''.$this->getLibelle();
     }
 
     /**
@@ -51,21 +51,6 @@ class SystemTransfert
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValeur()
-    {
-        return $this->valeur;
-    }
-
-    /**
-     * @param mixed $valeur
-     */
-    public function setValeur($valeur)
-    {
-        $this->valeur = $valeur;
-    }
 
     /**
      * @return mixed

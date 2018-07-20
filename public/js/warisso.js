@@ -1,14 +1,39 @@
 /**
  * Created by Mouni on 07/03/2017.
  */
+function majTransfert() {
+
+    // les variables des totaux
+    var reception = 0;
+    var emission = 0;
+    var i=0;
+    while (valeur("#transfert_transfertInternationaux_"+i+"_sens")) {
+        if (valeur("#transfert_transfertInternationaux_" + i + "_sens") == "1")
+            emission = emission + valeur("#transfert_transfertInternationaux_" + i + "_mTransfert")
+        else reception = reception + valeur("#transfert_transfertInternationaux_" + i + "_mTransfert")
+        i++;
+    }
+
+    $("#transfert_mEmissionTrans").val(emission);
+    $("#transfert_mReceptionTrans").val(reception);
+
+};
 
 function majOuverture() {
+
     $("#dispo").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv"));
     $("#soldeNet").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv")+valeur("#ouverture_mCreditDivers")-valeur("#ouverture_mDetteDivers"));
-    $("#ouverture_mCvd").val(valeur("#euros")+valeur("#dollars"));
-
+    $("#ouverture_mCvd").val(valeurDevises());
     $("#ouverture_ecartOuv").val(valeur("#soldeNetPrec")-valeur("#soldeNet"));
-    alert(valeur("#ouverture_ecartOuv"));
+}
+
+function  valeurDevises() {
+    var valeurDevises=0;
+    var nbrDevises=valeur("#nbrDevises");
+    for (i=1; i<=nbrDevises; i++) {
+        valeurDevises=valeurDevises+valeur("#devise"+i);
+    }
+    return valeurDevises;
 }
 
 function majBilletage() {
@@ -21,8 +46,8 @@ function majBilletage() {
         totalBillet=totalBillet+valeur("#formBilletage_valeurLigne"+b);
 
         $("#formBilletage_valeurTotal").val(totalBillet);
-        //$("#form_mBilletageFerm").val(valeur("#totalBilletage"));
-        //majOuverture();
+
+
     }
 
 }
@@ -37,6 +62,130 @@ function majElectronique() {
     }
 
 }
+
+var $collectionHolder;
+
+// setup an "add a tag" link
+var $addTagButton = $('<button type="button" class="add_tag_link">Ajouter Trans</button>');
+var $newLinkLi = $('<tr></tr>').append($addTagButton);
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('table');
+
+    // add a delete link to all of the existing tag form li elements
+    $collectionHolder.find('tr.transfert').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('table');
+
+    // add the "add a tag" anchor and li to the tags ul
+    $collectionHolder.append($newLinkLi);
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find('tr.transfert').length);
+
+    $addTagButton.on('click', function(e) {
+        // add a new tag form (see next code block)
+        addTagForm($collectionHolder, $newLinkLi);
+    });
+});
+
+function addTagForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    var newForm = prototype;
+    // You need this only if you didn't set 'label' => false in your tags field in TaskType
+    // Replace '__name__label__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    // newForm = newForm.replace(/__name__label__/g, index);
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    newForm = newForm.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<tr></tr>').append(newForm);
+    $newLinkLi.before($newFormLi);
+    // add a delete link to the new form
+    addTagFormDeleteLink($newFormLi);
+}
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button type="button">Supprimer</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+/*
+// add-collection-widget.js
+jQuery(document).ready(function () {
+    jQuery('#add-another-collection-widget').click(function (e) {
+        var list = jQuery(jQuery(this).attr('data-list'));
+        // Try to find the counter of the list
+        var counter = list.data('widget-counter') | list.children().length;
+        // If the counter does not exist, use the length of the list
+        if (!counter) { counter = list.children().length; }
+
+        // grab the prototype template
+        var newWidget = list.attr('data-prototype');
+        // replace the "__name__" used in the id and name of the prototype
+        // with a number that's unique to your emails
+        // end name attribute looks like name="contact[emails][2]"
+        newWidget = newWidget.replace(/__name__/g, counter);
+        // Increase the counter
+        counter++;
+        // And store it, the length cannot be used if deleting widgets is allowed
+        list.data(' widget-counter', counter);
+
+        // create a new list element and add it to the list
+        var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
+        newElem.appendTo(list);
+    });
+});
+
+jQuery(document).ready(function() {
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('table');
+
+    // add a delete link to all of the existing tag form li elements
+    $collectionHolder.find('tr.transfert').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+
+    // ... the rest of the block from above
+});
+
+function addTagForm() {
+    // ...
+
+    // add a delete link to the new form
+    addTagFormDeleteLink($newFormLi);
+}
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button type="button">Supprimer</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+
+*/
 
 /*$("#ouverture_idCaisse").change(function () {
     var caisse = valeur("#ouverture_idCaisse");
