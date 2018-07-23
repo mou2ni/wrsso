@@ -69,6 +69,11 @@ class Comptes
         $this->transactionComptes = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->getNumCompte();
+    }
+
     /**
      * @return mixed
      */

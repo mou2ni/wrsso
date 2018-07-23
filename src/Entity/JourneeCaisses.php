@@ -163,6 +163,16 @@ class JourneeCaisses
     private $transfertInternationaux;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseSortant", cascade={"persist"})
+     */
+    private $intercaisseSortant;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
+     */
+    private $intercaisseEntrant;
+
+    /**
      * Get deviseJournees
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -190,6 +200,8 @@ class JourneeCaisses
     {
         //$this->deviseJournee = new ArrayCollection();
         $this->transfertInternationaux=new ArrayCollection();
+        $this->intercaisseEntrant=new ArrayCollection();
+        $this->intercaisseSortant=new ArrayCollection();
     }
 
 
@@ -595,7 +607,7 @@ class JourneeCaisses
 
     public function __toString()
     {
-        return ''.$this->getIdUtilisateur();
+        return ''.$this->getIdCaisse();
     }
 
 
@@ -606,6 +618,44 @@ class JourneeCaisses
     {
         return $this->transfertInternationaux;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIntercaisseSortant()
+    {
+        return $this->intercaisseSortant;
+    }
+
+    /**
+     * @param mixed $intercaisseSortant
+     * @return JourneeCaisses
+     */
+    public function setIntercaisseSortant($intercaisseSortant)
+    {
+        $this->intercaisseSortant = $intercaisseSortant;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIntercaisseEntrant()
+    {
+        return $this->intercaisseEntrant;
+    }
+
+    /**
+     * @param mixed $intercaisseEntrant
+     * @return JourneeCaisses
+     */
+    public function setIntercaisseEntrant($intercaisseEntrant)
+    {
+        $this->intercaisseEntrant = $intercaisseEntrant;
+        return $this;
+    }
+
+
 
     /**
      * @param mixed $transfertInternationaux
@@ -637,6 +687,28 @@ class JourneeCaisses
     public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
         $this->transfertInternationaux->removeElement($transfertInternationaux);
+    }
+
+    public function addInterCaisseSortant(InterCaisses $interCaisses)
+    {
+        $this->intercaisseSortant->add($interCaisses);
+        $interCaisses->setJourneeCaisseSortant($this);
+    }
+
+    public function removeInterCaisseSortant(InterCaisses $interCaisses)
+    {
+        $this->intercaisseSortant->removeElement($interCaisses);
+    }
+
+    public function addInterCaisseDestination(InterCaisses $interCaisses)
+    {
+        $this->intercaisseEntrant->add($interCaisses);
+        $interCaisses->setJourneeCaisseEntrant($this);
+    }
+
+    public function removeInterCaisseEntrant(InterCaisses $interCaisses)
+    {
+        $this->intercaisseEntrant->removeElement($interCaisses);
     }
 
 }

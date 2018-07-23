@@ -1,6 +1,7 @@
 /**
  * Created by Mouni on 07/03/2017.
  */
+
 function majTransfert() {
 
     // les variables des totaux
@@ -63,6 +64,53 @@ function majElectronique() {
 
 }
 
+///////////////GESTION DES INTERCAISSES ////////////////////////
+jQuery(document).ready(function () {
+    $('.boutonintercaisse').click(function (e) {
+        //alert('boummmmm');
+        var valeur = this.value;
+        var DATA = 'intercaisse=' + valeur;
+        //alert(DATA);
+        $.ajax({
+            type: "POST",
+            data: DATA,
+            cache: false,
+            success: function (data) {
+                $(document).refresh();
+
+
+            }
+        })
+    });
+});
+
+function  valider() {
+    var DATA = 'valider=' + 1;
+    //alert(DATA);
+    $.ajax({
+        type: "POST",
+        data: DATA,
+        cache: false,
+        success: function (data) {
+            $(document).refresh();
+
+
+        }
+    })
+}
+
+/*
+jQuery(document).ready(function() {
+    $("#validerIntercaisses").click(function () {
+        alert($('.boutonintercaisse').value);
+        if ($('.boutonintercaisse').value) {
+            alert('propre');
+        }
+        else alert("de l'autre cote");
+    });
+});
+*/
+
 var $collectionHolder;
 
 // setup an "add a tag" link
@@ -71,14 +119,14 @@ var $newLinkLi = $('<tr></tr>').append($addTagButton);
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
-    $collectionHolder = $('table');
+    $collectionHolder = $('table.transfert');
 
     // add a delete link to all of the existing tag form li elements
     $collectionHolder.find('tr.transfert').each(function() {
         addTagFormDeleteLink($(this));
     });
     // Get the ul that holds the collection of tags
-    $collectionHolder = $('table');
+    $collectionHolder = $('table.transfert');
 
     // add the "add a tag" anchor and li to the tags ul
     $collectionHolder.append($newLinkLi);

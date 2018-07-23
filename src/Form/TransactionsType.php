@@ -14,7 +14,7 @@ class TransactionsType extends AbstractType
         $builder
             ->add('libelle')
             ->add('dateTransaction')
-            ->add('idUtilisateur')
+            ->add('utilisateur')
         ;
     }
 
