@@ -35,7 +35,7 @@ class GenererCompta
     private $e;
 
     private $em;
-    private $om;
+    //private $om;
 
     /**
      * @var transactions
@@ -43,10 +43,10 @@ class GenererCompta
      */
     private $transactions;
 
-    public function __construct(ObjectManager $objectManager, EntityManager $entityManager)
+    public function __construct(ObjectManager $objectManager)
     {
-        $this->em=$entityManager;
-        $this->om=$objectManager;
+        $this->em=$objectManager;
+        //$this->om=$objectManager;
         $this->transactions= new ArrayCollection();
 
     }
@@ -121,7 +121,7 @@ class GenererCompta
 
     }
 
-    private function debiterCrediter($transaction, Comptes $compteDebit, Comptes $compteCredit, $montant)
+    private function debiterCrediter(Transactions $transaction, Comptes $compteDebit, Comptes $compteCredit, $montant)
     {
         //vérification de la non nullité des comptes transmis
         //if ($compteDebit==null or $compteCredit==null) return new Transactions();
@@ -157,7 +157,7 @@ class GenererCompta
         }
 
         if ($sommeDebit!=$sommeCredit){
-            $this->setE(Transactions::ERR_DESEQUILIBRE);
+            $this->setE($transaction::ERR_DESEQUILIBRE);
             return false;
         }
 
@@ -372,7 +372,7 @@ class GenererCompta
         if ($this->getE()) return false;
 
         if( $montantTotal<0){
-            $this->setE(Transactions::ERR_NEGATIF);
+            $this->setE($transaction::ERR_NEGATIF);
             return false;
         }
 
@@ -383,6 +383,7 @@ class GenererCompta
         return !$this->getE();
     }
 
+/*
     public function mainTest(): Response
     {
         //// A ENVOYER PAR L APPELANT
@@ -466,6 +467,6 @@ class GenererCompta
             return $this->render( 'comptMainTest.html.twig',['transactions'=>[$transaction]]);
         }
 
-    }
+    }*/
 
 }
