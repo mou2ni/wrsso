@@ -2,28 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\TransactionComptes;
+use App\Entity\InterCaisses;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TransactionComptesType extends AbstractType
+class InterCaissesJourneeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numCompte')
-            ->add('mDebit')
-            ->add('mCredit')
-            ->add('transaction', TransactionsType::class)
-            ->add('compte')
+            ->add('mIntercaisse')
+            ->add('statut')
+            ->add('observations')
+            ->add('idJourneeCaisseSource')
+            ->add('idJourneeCaisseDestination')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => TransactionComptes::class,
+            'data_class' => InterCaisses::class,
         ]);
     }
 }

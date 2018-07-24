@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\TransactionComptes;
+use App\Form\DepotRetraitType;
 use App\Form\TransactionComptesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,29 @@ class TransactionComptesController extends Controller
             ->findAll();
 
         return $this->render('transaction_comptes/index.html.twig', ['transaction_comptes' => $transactionComptes]);
+    }
+
+    /**
+     * @Route("/ajout", name="transaction_comptes_ajout", methods="GET|POST")
+     */
+    public function ajout(Request $request): Response
+    {
+        $transactionCompte = new TransactionComptes();
+        $form = $this->createForm(DepotRetraitType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($transactionCompte);
+            $em->flush();
+
+            return $this->redirectToRoute('transaction_comptes_index');
+        }
+
+        return $this->render('transaction_comptes/new.html.twig', [
+            'transaction_compte' => $transactionCompte,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

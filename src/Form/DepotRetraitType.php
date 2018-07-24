@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\DepotRetrait;
 use App\Entity\TransactionComptes;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TransactionComptesType extends AbstractType
+class DepotRetraitType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -16,6 +17,7 @@ class TransactionComptesType extends AbstractType
             ->add('mDebit')
             ->add('mCredit')
             ->add('transaction', TransactionsType::class)
+            ->add('libelle')
             ->add('compte')
         ;
     }
@@ -23,7 +25,7 @@ class TransactionComptesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => TransactionComptes::class,
+            'data_class' => DepotRetrait::class,
         ]);
     }
 }
