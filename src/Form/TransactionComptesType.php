@@ -15,8 +15,8 @@ class TransactionComptesType extends AbstractType
             ->add('numCompte')
             ->add('mDebit')
             ->add('mCredit')
-            ->add('IdTrans')
-            ->add('idCompte')
+            ->add('transaction')
+            ->add('compte')
         ;
     }
 

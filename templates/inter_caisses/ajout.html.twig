@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New InterCaisses{% endblock %}
+
+{% block body %}
+    <h1>Inter-Caisse {{ journeeCaisse.idCaisse }}</h1>
+
+    {{ include('inter_caisses/_form.html.twig') }}
+
+    <form method="post" action="{{ path('inter_caisses_ajout', {'id':journeeCaisse.id}) }}">
+        <button type="button" id="validerIntercaisses" value="btest"> VALIDER TOUT</button>
+    <table >
+        <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th><th>Action</th></tr></thead>
+        <tbody>
+        <tr><td>Inter caisses Recus</td><td>{{ totalR }}</td></tr>
+        {% for intercaisse in journeeCaisse.intercaisseEntrant  %}
+            <tr><td>{{ intercaisse.journeeCaisseSortant }}</td><td>{{ intercaisse.mIntercaisse }}</td><td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td><td>{{ intercaisse.observations }}</td>
+                <td>{% if intercaisse.statut=='ae' %}<button value="{{ intercaisse.id }}aa" class="boutonintercaisse" type="button">Accepte Annulation</button>{% endif  %}</td>
+                <td hidden> <input value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{ intercaisse.id }}"></td></tr>
+        {% else %}
+            <tr> <td colspan="5"> Aucun Enregistrement trouve.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <table >
+        <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th><th>Action</th></tr></thead>
+        <tbody>
+        <tr><td>Inter caisses Emis</td><td>{{ totalE }}</td></tr>
+        {% for intercaisse in journeeCaisse.intercaisseSortant  %}
+            <tr><td>{{ intercaisse.journeeCaisseEntrant }}</td><td>{{ intercaisse.mIntercaisse }}</td><td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td><td>{{ intercaisse.observations }}</td>
+                <td>{% if intercaisse.statut=='av' %}<button value="{{ intercaisse.id }}ae" class="boutonintercaisse" type="button" >Annuler</button>{% endif  %}</td>
+            <td hidden> <input value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{ intercaisse.id }}"></td></tr>
+        {% else %}
+            <tr> <td colspan="5">Aucun Enregistrement trouve.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </form>
+    <a href="{{ path('inter_caisses_index') }}">back to list</a>
+
+    <script TYPE="text/javascript">
+        $("#validerIntercaisses").click(function () {
+            var i=1;
+            var estPret=true;
+            while ($("#intercaisse"+i).val()) {
+                if($("#intercaisse"+i).val()=='ae')
+                    estPret=false;
+                i++;
+            }
+            if (estPret==true) {
+                valider();
+            }
+            else alert("Vous avec une annulation d'intercaisse en cours. Corrigez les avant de valider ");
+        });
+    </script>
+{% endblock %}

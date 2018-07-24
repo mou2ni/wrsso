@@ -25,16 +25,16 @@ class InterCaisses
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="intercaisseSortant")
+     * @ORM\JoinColumn(name="journeeCaisseSortant", referencedColumnName="id", nullable=false)
      */
-    private $idJourneeCaisseSource;
+    private $journeeCaisseSortant;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="intercaisseEntrant")
+     * @ORM\JoinColumn(name="journeeCaisseEntrant", referencedColumnName="id", nullable=false)
      */
-    private $idJourneeCaisseDestination;
+    private $journeeCaisseEntrant;
 
     /**
      * @ORM\Column(type="float")
@@ -71,34 +71,39 @@ class InterCaisses
     /**
      * @return mixed
      */
-    public function getIdJourneeCaisseSource()
+    public function getJourneeCaisseSortant()
     {
-        return $this->idJourneeCaisseSource;
+        return $this->journeeCaisseSortant;
     }
 
     /**
-     * @param mixed $idJourneeCaisseSource
+     * @param mixed $journeeCaisseSortant
+     * @return InterCaisses
      */
-    public function setIdJourneeCaisseSource($idJourneeCaisseSource)
+    public function setJourneeCaisseSortant($journeeCaisseSortant)
     {
-        $this->idJourneeCaisseSource = $idJourneeCaisseSource;
+        $this->journeeCaisseSortant = $journeeCaisseSortant;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getIdJourneeCaisseDestination()
+    public function getJourneeCaisseEntrant()
     {
-        return $this->idJourneeCaisseDestination;
+        return $this->journeeCaisseEntrant;
     }
 
     /**
-     * @param mixed $idJourneeCaisseDestination
+     * @param mixed $journeeCaisseEntrant
+     * @return InterCaisses
      */
-    public function setIdJourneeCaisseDestination($idJourneeCaisseDestination)
+    public function setJourneeCaisseEntrant($journeeCaisseEntrant)
     {
-        $this->idJourneeCaisseDestination = $idJourneeCaisseDestination;
+        $this->journeeCaisseEntrant = $journeeCaisseEntrant;
+        return $this;
     }
+
 
     /**
      * @return mixed
@@ -147,6 +152,7 @@ class InterCaisses
     {
         $this->observations = $observations;
     }
+
 
 
    }

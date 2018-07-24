@@ -1446,7 +1446,7 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="339" parent="250" name="IdJourneeCaisses">
+    <column id="339" parent="250" name="idJourneeCaisse">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
@@ -1524,8 +1524,8 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="352" parent="250" name="IDX_282BE5D2EA5532E9">
-      <ColNames>IdJourneeCaisses</ColNames>
+    <index id="352" parent="250" name="IDX_282BE5D27DA9E4F">
+      <ColNames>idJourneeCaisse</ColNames>
       <Type>btree</Type>
     </index>
     <index id="353" parent="250" name="IDX_282BE5D27471EC71">
@@ -1545,8 +1545,8 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="357" parent="250" name="FK_282BE5D2EA5532E9">
-      <ColNames>IdJourneeCaisses</ColNames>
+    <foreign-key id="357" parent="250" name="FK_282BE5D27DA9E4F">
+      <ColNames>idJourneeCaisse</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>journeecaisses</RefTableName>
       <RefColNames>id</RefColNames>
@@ -1560,13 +1560,13 @@
     <foreign-key id="359" parent="250" name="FK_282BE5D2FAABDE7">
       <ColNames>id_billet_ouv_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
-      <RefTableName>billetagelignes</RefTableName>
+      <RefTableName>billetages</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <foreign-key id="360" parent="250" name="FK_282BE5D2A18A167">
       <ColNames>id_billet_ferm_id</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
-      <RefTableName>billetagelignes</RefTableName>
+      <RefTableName>billetages</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
     <column id="361" parent="251" name="id">
@@ -1680,42 +1680,42 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="380" parent="253" name="id_journee_caisse_source_id">
+    <column id="380" parent="253" name="m_intercaisse">
       <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="381" parent="253" name="id_journee_caisse_destination_id">
-      <Position>3</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="382" parent="253" name="m_intercaisse">
-      <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="383" parent="253" name="statut">
+    <column id="381" parent="253" name="statut">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="382" parent="253" name="observations">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="383" parent="253" name="journeeCaisseSource">
       <Position>5</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="384" parent="253" name="observations">
+    <column id="384" parent="253" name="journeeCaisseDestination">
       <Position>6</Position>
-      <DataType>varchar(255)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="385" parent="253" name="IDX_F4C41EC6DAB0C5E">
-      <ColNames>id_journee_caisse_source_id</ColNames>
+    <index id="385" parent="253" name="IDX_F4C41EC81D89780">
+      <ColNames>journeeCaisseSource</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="386" parent="253" name="IDX_F4C41ECD63DDC48">
-      <ColNames>id_journee_caisse_destination_id</ColNames>
+    <index id="386" parent="253" name="IDX_F4C41EC521A6FBF">
+      <ColNames>journeeCaisseDestination</ColNames>
       <Type>btree</Type>
     </index>
     <key id="387" parent="253" name="PRIMARY">
@@ -1723,14 +1723,14 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="388" parent="253" name="FK_F4C41EC6DAB0C5E">
-      <ColNames>id_journee_caisse_source_id</ColNames>
+    <foreign-key id="388" parent="253" name="FK_F4C41EC81D89780">
+      <ColNames>journeeCaisseSource</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>journeecaisses</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="389" parent="253" name="FK_F4C41ECD63DDC48">
-      <ColNames>id_journee_caisse_destination_id</ColNames>
+    <foreign-key id="389" parent="253" name="FK_F4C41EC521A6FBF">
+      <ColNames>journeeCaisseDestination</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>journeecaisses</RefTableName>
       <RefColNames>id</RefColNames>
@@ -2478,7 +2478,7 @@
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="525" parent="266" name="id_journee_caisse_id">
+    <column id="525" parent="266" name="idJourneeCaisse">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
@@ -2526,8 +2526,8 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="533" parent="266" name="IDX_CD12576A1CA528D7">
-      <ColNames>id_journee_caisse_id</ColNames>
+    <index id="533" parent="266" name="IDX_CD12576A7DA9E4F">
+      <ColNames>idJourneeCaisse</ColNames>
       <Type>btree</Type>
     </index>
     <index id="534" parent="266" name="IDX_CD12576A6945FF6B">
@@ -2543,8 +2543,8 @@
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="537" parent="266" name="FK_CD12576A1CA528D7">
-      <ColNames>id_journee_caisse_id</ColNames>
+    <foreign-key id="537" parent="266" name="FK_CD12576A7DA9E4F">
+      <ColNames>idJourneeCaisse</ColNames>
       <RefSchemaName>wrsso</RefSchemaName>
       <RefTableName>journeecaisses</RefTableName>
       <RefColNames>id</RefColNames>

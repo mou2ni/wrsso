@@ -1,4 +1,15 @@
 {{ form_start(form) }}
+<table>
+    <tr>
+        <td>Caisse Partenaire</td><td>{{ form_widget(form.journeeCaisseSortant) }}</td>
+    </tr><tr>
+        <td>Montant</td><td>{{ form_widget(form.mIntercaisse) }}</td>
+    </tr>{#<tr>
+        <td>Status</td><td>{{ form_widget(form.statut) }}</td>
+    </tr>#}<tr>
+        <td>Commentaire</td><td>{{ form_widget(form.observations) }}</td>
+    </tr>
+</table>
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
