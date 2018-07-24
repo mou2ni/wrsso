@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Achat - Vente de devises{% endblock %}
+
+{% block body %}
+    <h1>Achat - vente de devises </h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    <button class="btn">{{ button_label|default('Fermer') }}</button>
+    {{ form_end(form) }}
+
+{% endblock %}
