@@ -33,12 +33,13 @@ class DeviseAchatVentes
     private $dateRecu;
     private $nomPrenom;
     private $typePiece;
+    private $numPiece;
     private $expireLe;
     private $motif;
+    private $journalAchatVente;
 
     public function __construct()
     {
-
     }
 
     /**
@@ -100,16 +101,16 @@ class DeviseAchatVentes
      */
     public function getMCvd()
     {
-        return $this->mCvd;
+        return $this->nombre*$this->taux;
     }
 
     /**
      * @param mixed $mCvd
      * @return AchatVenteDevises
      */
-    public function setMCvd($mCvd)
+    public function setMCvd()
     {
-        $this->mCvd = $mCvd;
+        $this->mCvd = $this->nombre*$this->taux;;
         return $this;
     }
 
@@ -220,5 +221,43 @@ class DeviseAchatVentes
         $this->motif = $motif;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getJournalAchatVente()
+    {
+        return $this->journalAchatVente;
+    }
+
+    /**
+     * @param mixed $journalAchatVente
+     * @return DeviseAchatVentes
+     */
+    public function setJournalAchatVente($journalAchatVente)
+    {
+        $this->journalAchatVente = $journalAchatVente;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumPiece()
+    {
+        return $this->numPiece;
+    }
+
+    /**
+     * @param mixed $numPiece
+     * @return DeviseAchatVentes
+     */
+    public function setNumPiece($numPiece)
+    {
+        $this->numPiece = $numPiece;
+        return $this;
+    }
+
+
 
 }

@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="DeviseMouvements")
+ * @ORM\HasLifecycleCallbacks()
  */
 class DeviseMouvements
 {
@@ -55,6 +56,22 @@ class DeviseMouvements
      * @ORM\Column(type="float")
      */
     private $taux;
+
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateMCvd(){
+        if ($this->getSens()=='v') $this->setMCvd($this->getNombre()*$this->getTaux());
+        else $this->setMCvd(-$this->getNombre()*$this->getTaux());
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function createMCvd(){
+        $this->updateMCvd();
+    }
 
     /**
      * @return mixed

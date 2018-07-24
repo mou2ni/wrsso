@@ -111,14 +111,14 @@ class DeviseRecus
         return $this;
     }
 
-    public function getPieceExpire()
+    public function getExpireLe()
     {
-        return $this->pieceExpire;
+        return $this->expireLe;
     }
 
-    public function setPieceExpire(DateTime $pieceExpire)
+    public function setExpireLe(DateTime $expireLe)
     {
-        $this->pieceExpire = $pieceExpire;
+        $this->expireLe = $expireLe;
 
         return $this;
     }
