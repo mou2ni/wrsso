@@ -31,20 +31,19 @@ class BilletageLignes
     private $idBilletage;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billets")
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
+     * @ORM\Column(type="float")
      */
-    private $valeurBillet;
+    private $valeurBillet=0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nbBillet=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $nbBillet;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $valeurLigne;
+    private $valeurLigne=0;
 
     /**
      * @return mixed
@@ -71,11 +70,13 @@ class BilletageLignes
     }
 
     /**
-     * @param mixed $idBilletage
+     * @param $idBilletage
+     * @return $this
      */
     public function setIdBilletage($idBilletage)
     {
         $this->idBilletage = $idBilletage;
+        return $this;
     }
 
     /**
@@ -87,11 +88,14 @@ class BilletageLignes
     }
 
     /**
-     * @param mixed $valeurBillet
+     * @param $valeurBillet
+     * @return $this
      */
     public function setValeurBillet($valeurBillet)
     {
         $this->valeurBillet = $valeurBillet;
+        ($this->nbBillet !=0)?$this->valeurLigne=$valeurBillet*$this->nbBillet:$this->valeurLigne=0;
+        return $this;
     }
 
     /**
@@ -103,11 +107,14 @@ class BilletageLignes
     }
 
     /**
-     * @param mixed $nbBillet
+     * @param $nbBillet
+     * @return $this
      */
     public function setNbBillet($nbBillet)
     {
         $this->nbBillet = $nbBillet;
+        ($this->valeurBillet !=0)?$this->valeurLigne=$nbBillet*$this->valeurBillet:$this->valeurLigne=0;
+        return $this;
     }
 
     /**

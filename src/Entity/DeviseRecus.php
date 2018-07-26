@@ -8,7 +8,10 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
+//use App\Entity\DeviseAchatVentes;
 
 
 /**
@@ -24,6 +27,11 @@ class DeviseRecus
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="deviseRecu", cascade={"persist"})
+     */
+    private $deviseMouvements;
+
+    /**
      * @ORM\Column(type="date")
      */
     private $dateRecu;
@@ -31,7 +39,12 @@ class DeviseRecus
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $nomPrenom;
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenom;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -41,7 +54,7 @@ class DeviseRecus
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $NumeroPiece;
+    private $numPiece;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -49,14 +62,51 @@ class DeviseRecus
     private $expireLe;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
-    private $Motif;
+    private $paysPiece;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $DeviseRecus;
+    private $motif;
+
+    /**
+     * DeviseRecus constructor.
+     */
+    public function __construct()
+    {
+        $this->deviseMouvements = new ArrayCollection();
+    }
+
+
+    public function setFromDeviseAchatVente(DeviseAchatVentes $deviseAchatVente)
+    {
+        $this->setDateRecu($deviseAchatVente->getDateRecu());
+        //$this->setNomPrenom($deviseAchatVente->getNomPrenom());
+        $this->setTypePiece($deviseAchatVente->getTypePiece());
+        $this->setNumPiece($deviseAchatVente->getNumPiece());
+        $this->setExpireLe($deviseAchatVente->getExpireLe());
+        $this->setMotif($deviseAchatVente->getMotif());
+        $this->setPaysPiece($deviseAchatVente->getPaysPiece());
+
+        return $this;
+    }
+
+
+    public function addDeviseMouvements(DeviseMouvements $deviseMouvement)
+    {
+        $this->deviseMouvements->add($deviseMouvement);
+        $deviseMouvement->setDeviseRecu($this);
+        return $this;
+    }
+
+    public function removeDeviseMouvements(DeviseMouvements $deviseMouvement)
+    {
+        $this->deviseMouvements->removeElement($deviseMouvement);
+        return $this;
+    }
+
 
     public function getId()
     {
@@ -75,15 +125,33 @@ class DeviseRecus
         return $this;
     }
 
-    public function getNomPrenom()
+    public function getNom()
     {
-        return $this->nomPrenom;
+        return $this->nom;
     }
 
-    public function setNomPrenom(String $nomPrenom)
+    public function setNom(String $nom)
     {
-        $this->nomPrenom = $nomPrenom;
+        $this->nom = $nom;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrenom()
+    {
+        return $this->prenom;
+    }
+
+    /**
+     * @param mixed $prenom
+     * @return DeviseRecus
+     */
+    public function setPrenom($prenom)
+    {
+        $this->prenom = $prenom;
         return $this;
     }
 
@@ -99,14 +167,14 @@ class DeviseRecus
         return $this;
     }
 
-    public function getNumeroPiece()
+    public function getNumPiece()
     {
-        return $this->NumeroPiece;
+        return $this->numPiece;
     }
 
-    public function setNumeroPiece(String $NumeroPiece)
+    public function setNumPiece(String $numPiece)
     {
-        $this->NumeroPiece = $NumeroPiece;
+        $this->numPiece = $numPiece;
 
         return $this;
     }
@@ -116,7 +184,7 @@ class DeviseRecus
         return $this->expireLe;
     }
 
-    public function setExpireLe(DateTime $expireLe)
+    public function setExpireLe(\DateTime $expireLe)
     {
         $this->expireLe = $expireLe;
 
@@ -125,25 +193,51 @@ class DeviseRecus
 
     public function getMotif()
     {
-        return $this->Motif;
+        return $this->motif;
     }
 
-    public function setMotif(String $Motif)
+    public function setMotif(String $motif)
     {
-        $this->Motif = $Motif;
+        $this->motif = $motif;
 
         return $this;
     }
 
-    public function getDeviseRecus()
+    /**
+     * @return mixed
+     */
+    public function getPaysPiece()
     {
-        return $this->DeviseRecus;
+        return $this->paysPiece;
     }
 
-    public function setDeviseRecus(string $DeviseRecus)
+    /**
+     * @param mixed $paysPiece
+     * @return DeviseRecus
+     */
+    public function setPaysPiece($paysPiece)
     {
-        $this->DeviseRecus = $DeviseRecus;
-
+        $this->paysPiece = $paysPiece;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseMouvements()
+    {
+        return $this->deviseMouvements;
+    }
+
+    /**
+     * @param mixed $deviseMouvements
+     * @return DeviseRecus
+     */
+    public function setDeviseMouvements($deviseMouvements)
+    {
+        $this->deviseMouvements = $deviseMouvements;
+        return $this;
+    }
+
+
 }

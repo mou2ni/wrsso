@@ -79,8 +79,6 @@ class Utilisateurs
 
     private $compteCompense;*/
 
-
-
     /**
      * @return mixed
      */
@@ -228,6 +226,24 @@ class Utilisateurs
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisses()
+    {
+        return $this->journeeCaisses;
+    }
+
+    /**
+     * @param mixed $journeeCaisses
+     * @return Utilisateurs
+     */
+    public function setJourneeCaisses($journeeCaisses)
+    {
+        $this->journeeCaisses = $journeeCaisses;
+        return $this;
+    }
+
     public function addJourneeCaisses(JourneeCaisses $journeeCaisses)
     {
         $this->journeeCaisses->add($journeeCaisses);
@@ -238,5 +254,5 @@ class Utilisateurs
     {
         $this->journeeCaisses->removeElement($journeeCaisses);
     }
-    
+
 }

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseRecus index{% endblock %}
+
+{% block body %}
+    <h1>DeviseRecus index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateRecu</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>TypePiece</th>
+                <th>NumPiece</th>
+                <th>ExpireLe</th>
+                <th>PaysPiece</th>
+                <th>Motif</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for devise_recus in devise_recuses %}
+            <tr>
+                <td>{{ devise_recus.id }}</td>
+                <td>{{ devise_recus.dateRecu ? devise_recus.dateRecu|date('Y-m-d') : '' }}</td>
+                <td>{{ devise_recus.nom}}</td>
+                <td>{{ devise_recus.prenom }}</td>
+                <td>{{ devise_recus.typePiece }}</td>
+                <td>{{ devise_recus.numPiece }}</td>
+                <td>{{ devise_recus.expireLe ? devise_recus.expireLe|date('Y-m-d') : '' }}</td>
+                <td>{{ devise_recus.paysPiece }}</td>
+                <td>{{ devise_recus.Motif }}</td>
+                <td>
+                    <a href="{{ path('devise_recus_show', {'id': devise_recus.id}) }}">show</a>
+                    <a href="{{ path('devise_recus_edit', {'id': devise_recus.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('devise_recus_new') }}">Create new</a>
+{% endblock %}

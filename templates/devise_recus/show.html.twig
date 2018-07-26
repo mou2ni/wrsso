@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseRecus{% endblock %}
+
+{% block body %}
+    <h1>DeviseRecus</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ devise_recus.id }}</td>
+            </tr>
+            <tr>
+                <th>DateRecu</th>
+                <td>{{ devise_recus.dateRecu ? devise_recus.dateRecu|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ devise_recus.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ devise_recus.Prenom }}</td>
+            </tr>
+            <tr>
+                <th>TypePiece</th>
+                <td>{{ devise_recus.typePiece }}</td>
+            </tr>
+            <tr>
+                <th>NumPiece</th>
+                <td>{{ devise_recus.numPiece }}</td>
+            </tr>
+            <tr>
+                <th>ExpireLe</th>
+                <td>{{ devise_recus.expireLe ? devise_recus.expireLe|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PaysPiece</th>
+                <td>{{ devise_recus.paysPiece }}</td>
+            </tr>
+            <tr>
+                <th>Motif</th>
+                <td>{{ devise_recus.Motif }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('devise_recus_index') }}">back to list</a>
+
+    <a href="{{ path('devise_recus_edit', {'id': devise_recus.id}) }}">edit</a>
+
+    {{ include('devise_recus/_delete_form.html.twig') }}
+{% endblock %}

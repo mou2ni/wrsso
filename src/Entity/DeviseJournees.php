@@ -25,6 +25,11 @@ class DeviseJournees
     private $id;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="deviseJournee", cascade={"persist"})
+     */
+    private $deviseMouvements;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="DeviseJournees", cascade={"persist"})
      * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=false)
      */
@@ -43,55 +48,69 @@ class DeviseJournees
     private $idBilletOuv;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private $qteOuv;
+    private $qteOuv=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $ecartOuv;
+    private $ecartOuv=0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $qteAchat=0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $qteVente=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $qteAchat;
+    private $mCvdAchat=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $qteVente;
+    private $mCvdVente=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private $mCvdAchat;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $mCvdVente;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $qteIntercaisse;
+    private $qteIntercaisse=0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Billetages" )
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idBilletFerm;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private $qteFerm;
+    private $qteFerm=0;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="integer")
      */
-    private $ecartFerm;
+    private $ecartFerm=0;
+
+
+
+    public function increaseMCvdVente($montant)
+    {
+        $this->mCvdVente += $montant;
+        return $this;
+
+    }
+
+    public function increaseMCvdAchat($montant){
+        $this->mCvdAchat += $montant;
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -159,8 +178,9 @@ class DeviseJournees
      * @param mixed $idBilletOuv
      * @return DeviseJournees
      */
-    public function setIdBilletOuv($idBilletOuv)
+    public function setIdBilletOuv(Billetages $idBilletOuv)
     {
+        $this->qteOuv=$idBilletOuv->getValeurTotal();
         $this->idBilletOuv = $idBilletOuv;
         return $this;
     }
@@ -273,6 +293,7 @@ class DeviseJournees
         return $this;
     }
 
+
     /**
      * @return mixed
      */
@@ -349,6 +370,25 @@ class DeviseJournees
     {
         return ''.$this->getId();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseMouvements()
+    {
+        return $this->deviseMouvements;
+    }
+
+    /**
+     * @param mixed $deviseMouvements
+     * @return DeviseJournees
+     */
+    public function setDeviseMouvements($deviseMouvements)
+    {
+        $this->deviseMouvements = $deviseMouvements;
+        return $this;
+    }
+
 
 
 }
