@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DeviseRecus{% endblock %}
+
+{% block body %}
+    <h1>Edit DeviseRecus</h1>
+
+    {{ include('devise_recus/_form.html.twig') }}
+
+    <a href="{{ path('devise_recus_index') }}">back to list</a>
+
+    {{ include('devise_recus/_delete_form.html.twig') }}
+{% endblock %}

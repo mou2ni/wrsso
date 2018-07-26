@@ -45,7 +45,21 @@ class Billetages
         $this->billetageLignes = new ArrayCollection();
     }
 
+    /////// AJOUT HAMADO
 
+    public function addBilletageLignes(BilletageLignes $billetageLigne)
+    {
+        $this->billetageLignes->add($billetageLigne);
+        $billetageLigne->setIdBilletage($this);
+        $this->valeurTotal+=$billetageLigne->getNbBillet()*$billetageLigne->getValeurBillet();
+    }
+
+    public function removeBilletageLignes(BilletageLignes $billetageLigne)
+    {
+        $this->billetageLignes->removeElement($billetageLigne);
+    }
+
+    //// FIN AJOUT HAMADO
 
     /**
      * @return mixed
@@ -72,11 +86,13 @@ class Billetages
     }
 
     /**
-     * @param mixed $valeurTotal
+     * @param $valeurTotal
+     * @return $this
      */
     public function setValeurTotal($valeurTotal)
     {
         $this->valeurTotal = $valeurTotal;
+        return $this;
     }
 
     /**
@@ -88,11 +104,13 @@ class Billetages
     }
 
     /**
-     * @param mixed $dateBillettage
+     * @param $dateBillettage
+     * @return $this
      */
     public function setDateBillettage($dateBillettage)
     {
         $this->dateBillettage = $dateBillettage;
+        return $this;
     }
 
     public function __toString()

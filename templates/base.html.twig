@@ -6,14 +6,13 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/warisso.css') }}">
             <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('build/app.css') }}">
         {% endblock %}
 
-        {% block javascripts %}
-            <script src="{{ asset('js/jquery-3.1.1.js') }}"></script>
-            <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-            <script src="{{ asset('js/main.js') }}"></script>
-            <script src="{{ asset('js/warisso.js') }}"></script>
-        {% endblock %}
+
+
+
     </head>
     <body>
     {% for msg in app.session.flashBag.get('success') %}
@@ -24,4 +23,13 @@
         {% block body %}{% endblock %}
 
     </body>
+
+    {% block javascripts %}
+        <script src="{{ asset('js/jquery-3.1.1.js') }}"></script>
+        <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('js/main.js') }}"></script>
+        <script src="{{ asset('js/warisso.js') }}"></script>
+
+        <script src="{{ asset('build/app.js') }}"></script>
+    {% endblock %}
 </html>

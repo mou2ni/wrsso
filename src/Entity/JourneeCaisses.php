@@ -26,14 +26,14 @@ class JourneeCaisses
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", inversedBy="journeeCaisses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $idCaisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="journeeCaisses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $idUtilisateur;
 
@@ -51,7 +51,7 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="string")
      */
-    private $statut='O';
+    private $statut='o';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
@@ -121,7 +121,7 @@ class JourneeCaisses
     private $mDetteDivers=0;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateFerm;
 
@@ -235,6 +235,7 @@ class JourneeCaisses
     public function setIdCaisse($idCaisse)
     {
         $this->idCaisse = $idCaisse;
+        return $this;
     }
 
     /**
@@ -251,6 +252,7 @@ class JourneeCaisses
     public function setIdUtilisateur($idUtilisateur)
     {
         $this->idUtilisateur = $idUtilisateur;
+        return $this;
     }
 
     /**
@@ -299,6 +301,7 @@ class JourneeCaisses
     public function setStatut($statut)
     {
         $this->statut = $statut;
+        return $this;
     }
 
     /**

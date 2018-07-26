@@ -2,17 +2,16 @@
 /**
  * Created by Hamado OUEDRAOGO.
  * User: houedraogo
- * Date: 05/07/2018
- * Time: 05:40
+ * Date: 26/07/2018
+ * Time: 13:03
  */
 
 namespace App\DataFixtures\ORM;
 
-use App\Entity\BilletageLignes;
-use App\Entity\Comptes;
+use App\Entity\Billetages;
 use App\Entity\DeviseJournees;
+use App\Entity\Devises;
 use App\Entity\JourneeCaisses;
-use App\Entity\Utilisateurs;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -23,6 +22,26 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'T']);
+        $usd=$manager->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
+        $euro=$manager->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
+
+        $idBilletOuv1=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>250]);
+        $idBilletOuv2=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>110]);
+
+
+        $lists = array(['idJourneeCaisse' => $idJourneeCaisse, 'idDevise' => $usd, 'idBilletOuv'=>$idBilletOuv1]
+            ,['idJourneeCaisse' => $idJourneeCaisse, 'idDevise' => $euro, 'idBilletOuv'=>$idBilletOuv2]
+        );
+
+        foreach ($lists as $list) {
+            $enr = new DeviseJournees();
+            $enr->setIdJourneeCaisse($list['idJourneeCaisse'])
+                ->setIdDevise($list['idDevise'])
+                ->setIdBilletOuv($list['idBilletOuv']);
+            $manager->persist($enr);
+        }
+
        /* $jouneeCaisses= new JourneeCaisses(); //$manager->getRepository(JourneeCaisses::class)->find(1);
         $devise1=$manager->getRepository(DeviseJournees::class)->find(1);
         $billetageFerm=$manager->getRepository(BilletageLignes::class)->find(2);
@@ -57,7 +76,7 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(LoadComptes::class);
+        return array(LoadJourneeCaisses::class);
     }
 
 

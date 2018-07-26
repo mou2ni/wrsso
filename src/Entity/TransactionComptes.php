@@ -25,7 +25,7 @@ class TransactionComptes
     private $id;
  
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="Comptes", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="transactionComptes", cascade={"persist"})
      * @ORM\JoinColumn(name="IdCompte", referencedColumnName="id", nullable=false)
      */
     private $compte;

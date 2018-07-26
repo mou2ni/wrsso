@@ -4,34 +4,37 @@ namespace App\Form;
 
 use App\Entity\DeviseAchatVentes;
 use App\Entity\Devises;
-use phpDocumentor\Reflection\Types\Float_;
-use phpDocumentor\Reflection\Types\Integer;
-use phpDocumentor\Reflection\Types\String_;
-use Symfony\Bundle\MakerBundle\Str;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class DeviseAchatVentesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('devise', Devises::class )
+            ->add('devise', EntityType::class, array (
+                'class' => 'App\Entity\Devises',
+                'choice_label' => 'libelle',
+                'multiple' => false,
+                'expanded'=>false))
             ->add('sens', ChoiceType::class
                 ,array('choices'  => ['Achat'=>'a', 'Vente'=>'v']
-                        ,'expend'=>true))
-            ->add('nombre', Integer::class)
-            ->add('taux', Float_::class)
-            ->add('dateRecu', DateTime::class)
-            ->add('nomPrenom', String_::class)
+                        ,'expanded'=>true))
+            ->add('nombre')
+            ->add('taux')
+            ->add('dateRecu', DateTimeType::class)
+            ->add('nomPrenom', TextType::class)
             ->add('typePiece', ChoiceType::class
                 ,array('choices'  => ['CNI'=>1, 'Passport'=>2, 'Autre'=>3]))
-            ->add('numPiece', String_::class)
-            ->add('expireLe', DateTime::class)
-            ->add('motif', String_::class)
+            ->add('numPiece', TextType::class)
+            ->add('expireLe', DateTimeType::class)
+            ->add('motif', TextareaType::class)
         ;
     }
     

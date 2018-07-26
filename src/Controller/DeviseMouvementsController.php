@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DeviseAchatVentes;
 use App\Entity\DeviseMouvements;
 use App\Entity\DeviseRecus;
+use App\Entity\JourneeCaisses;
 use App\Form\DeviseMouvementsType;
 use App\Form\DeviseAchatVentesType;
 
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeviseMouvementsController extends Controller
 {
+    
     /**
      * @Route("/", name="devise_mouvements_index", methods="GET")
      */
@@ -49,6 +51,41 @@ class DeviseMouvementsController extends Controller
 
         return $this->render('devise_mouvements/new.html.twig', [
             'devise_mouvement' => $deviseMouvement,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/achatvente", name="devise_mouvements_achatvente", methods="GET|POST")
+     */
+    public function achatVente(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        //$idJourneeCaisse=$request->getSession()->get('journeeCaisses');
+        $idJourneeCaisse=$em->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'T']);
+
+        $deviseAchatVente = new DeviseAchatVentes();
+        $deviseAchatVente->setJournalAchatVente($em->getRepository(DeviseMouvements::class)->findBy(['idJourneeCaisse'=>$idJourneeCaisse]));
+
+        $form = $this->createForm(DeviseAchatVentesType::class, $deviseAchatVente);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $deviseMouvement= new DeviseMouvements();
+            $deviseRecu= new DeviseRecus();
+            
+
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($deviseMouvement);
+            $em->persist($deviseRecu);
+            $em->flush();
+
+            return $this->redirectToRoute('devise_mouvements_achatvente');
+        }
+
+        return $this->render('devise_mouvements/achat_vente.html.twig', [
+            'devise_achatvente' => $deviseAchatVente,
             'form' => $form->createView(),
         ]);
     }
@@ -95,48 +132,4 @@ class DeviseMouvementsController extends Controller
         return $this->redirectToRoute('devise_mouvements_index');
     }
 
-    /**
-     * @Route("/achatvente", name="devise_mouvements_achatvente", methods="GET|POST")
-     */
-    public function achatVente(Request $request): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $idJourneeCaisse=$request->getSession()->get('journeeCaisses');
-
-        $deviseAchatVente = new DeviseAchatVentes();
-        $deviseAchatVente->setJournalAchatVente($em->getRepository(DeviseMouvements::class)->findBy(['idJourneeCaisse'=>$idJourneeCaisse]));
-
-        $form = $this->createForm(DeviseAchatVentesType::class, $deviseAchatVente);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $deviseMouvement= new DeviseMouvements();
-            $deviseMouvement->setIdDevise($deviseAchatVente->getDevise());
-            $deviseMouvement->setIdJourneeCaisse($idJourneeCaisse);
-            $deviseMouvement->setNombre($deviseAchatVente->getNombre());
-            $deviseMouvement->setSens($deviseAchatVente->getSens());
-            $deviseMouvement->setTaux($deviseAchatVente->getTaux());
-
-            $deviseRecu= new DeviseRecus();
-            $deviseRecu->setDateRecu($deviseAchatVente->getDateRecu());
-            $deviseRecu->setNomPrenom($deviseAchatVente->getNomPrenom());
-            $deviseRecu->setTypePiece($deviseAchatVente->getTypePiece());
-            $deviseRecu->setNumeroPiece($deviseAchatVente->getNumPiece());
-            $deviseRecu->setExpireLe($deviseAchatVente->getExpireLe());
-            $deviseRecu->setMotif($deviseAchatVente->getMotif());
-
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($deviseMouvement);
-            $em->persist($deviseRecu);
-            $em->flush();
-
-            return $this->redirectToRoute('devise_mouvements_index');
-        }
-
-        return $this->render('devise_mouvements/achat_vente.html.twig', [
-            'devise_achat_vente' => $deviseAchatVente,
-            'form' => $form->createView(),
-        ]);
-    }
 }

@@ -35,6 +35,7 @@ class DeviseAchatVentes
     private $typePiece;
     private $numPiece;
     private $expireLe;
+    private $paysPiece;
     private $motif;
     private $journalAchatVente;
 
@@ -257,6 +258,25 @@ class DeviseAchatVentes
         $this->numPiece = $numPiece;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPaysPiece()
+    {
+        return $this->paysPiece;
+    }
+
+    /**
+     * @param mixed $paysPiece
+     * @return DeviseAchatVentes
+     */
+    public function setPaysPiece($paysPiece)
+    {
+        $this->paysPiece = $paysPiece;
+        return $this;
+    }
+    
 
 
 

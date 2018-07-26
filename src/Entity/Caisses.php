@@ -40,11 +40,10 @@ class Caisses
      */
     private $CompteCvDevise;
 
-    /*
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
-     * @ORM\JoinColumn(nullable=false)
-
-    private $idCompteEcart;*/
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="idCaisse", cascade={"persist"})
+     */
+    private $journeeCaisses;
 
     /**
      * @return mixed
@@ -55,7 +54,8 @@ class Caisses
     }
 
     /**
-     * @param mixed $id
+     * @param $id
+     * @return $this
      */
     public function setId($id)
     {
@@ -72,7 +72,8 @@ class Caisses
     }
 
     /**
-     * @param mixed $libelle
+     * @param $libelle
+     * @return $this
      */
     public function setLibelle($libelle)
     {
@@ -89,28 +90,12 @@ class Caisses
     }
 
     /**
-     * @param mixed $idCompteOperation
+     * @param $idCompteOperation
+     * @return $this
      */
     public function setIdCompteOperation($idCompteOperation)
     {
         $this->idCompteOperation = $idCompteOperation;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdCompteEcart()
-    {
-        return $this->idCompteEcart;
-    }
-
-    /**
-     * @param mixed $idCompteEcart
-     */
-    public function setIdCompteEcart($idCompteEcart)
-    {
-        $this->idCompteEcart = $idCompteEcart;
         return $this;
     }
 
@@ -134,6 +119,24 @@ class Caisses
     public function setCompteCvDevise($CompteCvDevise)
     {
         $this->CompteCvDevise = $CompteCvDevise;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisses()
+    {
+        return $this->journeeCaisses;
+    }
+
+    /**
+     * @param mixed $journeeCaisses
+     * @return Caisses
+     */
+    public function setJourneeCaisses($journeeCaisses)
+    {
+        $this->journeeCaisses = $journeeCaisses;
         return $this;
     }
 
