@@ -159,7 +159,7 @@ class BilletageLignesController extends Controller
       }
 
     /**
-     * @Route("Wrsso/billetages/ajout/{devise}", name="billetage_ligne_ajout")
+     * @Route("/billetages/ajout/{devise}", name="billetage_ligne_ajout")
      */
     public function ajoutAction(Request $request, int $devise)
     {

@@ -32,10 +32,10 @@ class JourneeCaisses
     private $idCaisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs" , inversedBy="journeeCaisses", cascade={"persist"})
+     * @ORM\JoinColumn( nullable=false)
      */
-    private $idUtilisateur;
+    private $utilisateur;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
@@ -240,18 +240,22 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getIdUtilisateur()
+    public function getUtilisateur()
     {
-        return $this->idUtilisateur;
+        return $this->utilisateur;
     }
 
     /**
-     * @param mixed $idUtilisateur
+     * @param mixed $utilisateur
+     * @return JourneeCaisses
      */
-    public function setIdUtilisateur($idUtilisateur)
+    public function setUtilisateur($utilisateur)
     {
-        $this->idUtilisateur = $idUtilisateur;
+        $this->utilisateur = $utilisateur;
+        return $this;
     }
+
+
 
     /**
      * @return mixed

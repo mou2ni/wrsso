@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -58,11 +59,27 @@ class Utilisateurs
      */
     private $compteEcartCaisse;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="utilisateur", cascade={"persist"})
+     */
+    private $journeeCaisses;
+
+    /**
+     * Utilisateurs constructor.
+     * @param $journeeCaisses
+     */
+    public function __construct($journeeCaisses)
+    {
+        $this->journeeCaisses = new ArrayCollection();
+    }
+
     /*
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
      * @ORM\JoinColumn(name="id_cpt_compense", referencedColumnName="id", nullable=false)
 
     private $compteCompense;*/
+
+
 
     /**
      * @return mixed
@@ -209,6 +226,17 @@ class Utilisateurs
     {
         $this->compteEcartCaisse = $compteEcartCaisse;
         return $this;
+    }
+
+    public function addJourneeCaisses(JourneeCaisses $journeeCaisses)
+    {
+        $this->journeeCaisses->add($journeeCaisses);
+        $journeeCaisses->setUtilisateur($this);
+    }
+
+    public function removeJourneeCaisses(JourneeCaisses $journeeCaisses)
+    {
+        $this->journeeCaisses->removeElement($journeeCaisses);
     }
     
 }

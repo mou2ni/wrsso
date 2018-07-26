@@ -26,8 +26,8 @@ class Comptes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Clients" , inversedBy="Comptes", cascade={"persist"})
-     * @ORM\JoinColumn(name="IdClient", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Clients" , inversedBy="comptes", cascade={"persist"})
+     * @ORM\JoinColumn(name="client", referencedColumnName="id", nullable=false)
      */
     private $client;
 

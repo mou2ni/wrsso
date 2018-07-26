@@ -157,7 +157,7 @@ class JourneeCaissesController extends Controller
 
     public function journeeCaisseEnCours(Utilisateurs $user){
         $em = $this->getDoctrine()->getManager();
-        $journecaisse = $em->getRepository('App:JourneeCaisses')->findBy(array('idUtilisateur'=>$user, "statut"=>"O"));
+        $journecaisse = $em->getRepository('App:JourneeCaisses')->findBy(array('utilisateur'=>$user, "statut"=>"O"));
         if ($journecaisse){
 
             return true;
@@ -174,7 +174,7 @@ class JourneeCaissesController extends Controller
             $billetages= array($billetage0,$billetage0,$billetage0);
             $this->get('session')->set('billetage',$billetages);
         }
-        $journeeCaiss->setIdUtilisateur($user);
+        $journeeCaiss->setUtilisateur($user);
         $journeeCaiss->setIdCaisse($caisse);
         $journeeCaiss->setStatut('O');
         $journeeCaissePrec=$this->getJourneeCaissePrec($caisse);

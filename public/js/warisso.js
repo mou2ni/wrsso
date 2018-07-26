@@ -92,13 +92,32 @@ function  valider() {
         data: DATA,
         cache: false,
         success: function (data) {
-            $(document).refresh();
-
 
         }
     })
 }
 
+
+
+function  chargerNomCompte() {
+    var nom = $("#depot_retrait_numCompte").val();
+    var DATA = 'num=' + nom;
+    //alert(DATA);
+    $.ajax({
+        type: "POST",
+        data: DATA,
+        cache: false,
+        success: function (data) {
+            //var yourval = jQuery.parseJSON(JSON.stringify(data));
+            //var obj = JSON.parse(data);
+            //console.log(data.compte[0].client);
+            document.getElementById('nom').innerHTML=data.compte[0].client;
+            $("#solde").val(data.compte[0].soldeCourant);
+            console.log(data.compte[0].soldeCourant);
+        }
+
+    })
+}
 /*
 jQuery(document).ready(function() {
     $("#validerIntercaisses").click(function () {

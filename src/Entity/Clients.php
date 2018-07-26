@@ -40,6 +40,11 @@ class Clients
     private $adresse;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comptes", mappedBy="client", cascade={"persist"})
+     */
+    private $comptes;
+
+    /**
      * @return mixed
      */
     public function getNom()
@@ -90,6 +95,24 @@ class Clients
     public function setAdresse($adresse)
     {
         $this->adresse = $adresse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComptes()
+    {
+        return $this->comptes;
+    }
+
+    /**
+     * @param mixed $comptes
+     * @return Clients
+     */
+    public function setComptes($comptes)
+    {
+        $this->comptes = $comptes;
         return $this;
     }
 

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1> Retrait d'un compte</h1>
+    {{ form_start(form) }}
+    <table>
+        <tr>
+            <td>Compte</td><td>{{ form_widget(form.numCompte) }}</td><td><label id="nom"></label></td>
+        </tr>
+        <tr>
+            <td>Montant</td><td>{{ form_widget(form.mDebit) }}</td><td><input id="solde" hidden><label id="ersolde"></label></td>
+        </tr>
+        <tr>
+            <td>Libelle</td><td>{{ form_widget(form.libele) }}</td>
+        </tr>
+        <tr>
+            <td><button type="submit" id="submit">Enregistrer</button></td><td><button type="button">Fermer</button></td>
+        </tr>
+    </table>
+    <div hidden>{{ form_rest(form) }}</div>
+{{ form(form) }}
+    <script type="text/javascript">
+        $("#depot_retrait_numCompte").keyup(function () {
+            chargerNomCompte();
+        });
+
+        $("#depot_retrait_mDebit").keyup(function () {
+            document.getElementById("submit").disabled=false;
+            document.getElementById("ersolde").innerHTML = "";
+            if (valeur("#depot_retrait_mDebit")>valeur("#solde")) {
+                document.getElementById("ersolde").innerHTML = "solde insufisant";
+                document.getElementById("submit").disabled=true;
+            }
+        });
+    </script>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
