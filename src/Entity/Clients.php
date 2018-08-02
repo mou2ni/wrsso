@@ -98,6 +98,24 @@ class Clients
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getComptes()
+    {
+        return $this->comptes;
+    }
+
+    /**
+     * @param mixed $comptes
+     * @return Clients
+     */
+    public function setComptes($comptes)
+    {
+        $this->comptes = $comptes;
+        return $this;
+    }
+
    
 
 

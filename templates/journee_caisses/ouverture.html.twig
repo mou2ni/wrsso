@@ -39,7 +39,7 @@
                 <tr></tr>
                 {#<tr><td>Euros</td><td><input id="euros"></td></tr>
                 <tr><td>Dollars</td><td><input id="dollars"></td></tr>#}
-                {% set i, billetage =1, app.session.get('billetage') %}
+                {% set i, billetage = 1, app.session.get('billetage') %}
                 {% set params = app.session.get('param') %}
                 {% for devise in devises %}
                 <tr><td>{{ devise.code }}</td><td> <input id="devise{{ i }}" value="{{ billetage[i].valeurTotal }}"><input type="button" name="billetage" value="Billetage" onclick="javascript:window.open('{{ path('billetage_ligne_ajout', {'devise': i}) }}', 'downwindow', 'width=500,height=500,toolbar=0,location=0,directories=0,status=0,menubar=0,resizable=1,scrolling=1,scrollbars=1');" /></td></tr>
