@@ -105,10 +105,12 @@ class DeviseJournees
     {
         if ($montant>0){
             $this->mCvdVente += $montant;
-            //$this->idJourneeCaisse->
         }else{
             $this->mCvdAchat += $montant;
         }
+
+        //$this->idJourneeCaisse->updateMCvd($montant);
+
         return $this;
 
     }

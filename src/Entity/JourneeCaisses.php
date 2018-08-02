@@ -35,7 +35,7 @@ class JourneeCaisses
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="journeeCaisses", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idUtilisateur;
+    private $utilisateur;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
@@ -81,7 +81,7 @@ class JourneeCaisses
     private $ecartOuv=0;
 
     /**
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="float")
      */
     private $mCvd=0;
 
@@ -177,6 +177,15 @@ class JourneeCaisses
      */
     private $intercaisseEntrant;
 
+    /////////////////////////// AJOUT HAMADO
+
+    public function updateMCvd($montant){
+        $this->mCvd+=$montant;
+    }
+
+
+    ////////////////////// FIN
+
     /**
      * Get deviseJournees
      *
@@ -250,18 +259,18 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getIdUtilisateur()
+    public function getUtilisateur()
     {
-        return $this->idUtilisateur;
+        return $this->utilisateur;
     }
 
     /**
      * @param $idUtilisateur
      * @return $this
      */
-    public function setIdUtilisateur($idUtilisateur)
+    public function setUtilisateur($utilisateur)
     {
-        $this->idUtilisateur = $idUtilisateur;
+        $this->utilisateur = $utilisateur;
         return $this;
     }
 

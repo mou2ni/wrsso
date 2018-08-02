@@ -42,6 +42,12 @@ class DeviseMouvements
     private $deviseRecu;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DeviseIntercaisses" , inversedBy="deviseMouvements", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $deviseIntercaisse;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Devises")
      * @ORM\JoinColumn(nullable=false)
     */

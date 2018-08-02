@@ -43,9 +43,14 @@ class DeviseIntercaisses
     private $idDevise;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="deviseIntercaisse", cascade={"persist"})
+     */
+    private $deviseMouvements;
+
+    /**
      * @ORM\Column(type="float")
      */
-    private $mIntercaisse;
+    private $qteIntercaisse;
 
     /**
      * @ORM\Column(type="string")
