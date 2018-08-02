@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 //use App\Entity\DeviseAchatVentes;
@@ -62,7 +63,8 @@ class DeviseRecus
     private $expireLe;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Pays")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $paysPiece;
 
@@ -72,14 +74,28 @@ class DeviseRecus
     private $motif;
 
     /**
-     * DeviseRecus constructor.
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="deviseRecus", cascade={"persist"})
+     * @ORM\JoinColumn(name="journeeCaisse", referencedColumnName="id", nullable=false)
      */
-    public function __construct()
+    private $journeeCaisse;
+
+    private $em;
+
+
+    /**
+     * DeviseRecus constructor.
+     * @param JourneeCaisses $journeeCaisse
+     * @param ObjectManager $manager
+     */
+    public function __construct(JourneeCaisses $journeeCaisse, ObjectManager $manager)
     {
+        $this->journeeCaisse=$journeeCaisse;
+        $this->em=$manager;
         $this->deviseMouvements = new ArrayCollection();
+        $this->dateRecu=new \DateTime();
     }
 
-
+/*
     public function setFromDeviseAchatVente(DeviseAchatVentes $deviseAchatVente)
     {
         $this->setDateRecu($deviseAchatVente->getDateRecu());
@@ -91,17 +107,40 @@ class DeviseRecus
         $this->setPaysPiece($deviseAchatVente->getPaysPiece());
 
         return $this;
-    }
+    }*/
 
 
-    public function addDeviseMouvements(DeviseMouvements $deviseMouvement)
+    public function addDeviseMouvement(DeviseMouvements $deviseMouvement)
     {
+        // trouver la DeviseJournee é partir de la Devise saisie et la journeeCaisse passée par le constructeur
+        $deviseJournee=$this->em->getRepository(DeviseJournees::class)
+            ->findOneBy(['idDevise'=>$deviseMouvement->getDevise(), 'idJourneeCaisse'=>$this->journeeCaisse]);
+
+        //die($deviseJournee);
+
+        //Créer un nouveau au cas où çc n'existe pas
+        if ($deviseJournee==null) {
+            $deviseJournee=new DeviseJournees();
+            $deviseJournee->setIdDevise($deviseMouvement->getDevise())->setIdJourneeCaisse($this->journeeCaisse);
+        }
+
+        /*
+        if ($deviseMouvement->getSens()=='V' or $deviseMouvement->getSens()=='v'){
+            $deviseJournee->increaseMCvdVente($deviseMouvement->getContreValeur());
+            $deviseJournee->increaseQteVente($deviseMouvement->getNombre());
+
+        }else{
+            $deviseJournee->increaseMCvdAchat($deviseMouvement->getContreValeur());
+            $deviseJournee->increaseQteAchat($deviseMouvement->getNombre());
+        }*/
+
+        $deviseMouvement->setDeviseJournee($deviseJournee)->setDeviseRecu($this);
+
         $this->deviseMouvements->add($deviseMouvement);
-        $deviseMouvement->setDeviseRecu($this);
         return $this;
     }
 
-    public function removeDeviseMouvements(DeviseMouvements $deviseMouvement)
+    public function removeDeviseMouvement(DeviseMouvements $deviseMouvement)
     {
         $this->deviseMouvements->removeElement($deviseMouvement);
         return $this;
@@ -232,12 +271,32 @@ class DeviseRecus
     /**
      * @param mixed $deviseMouvements
      * @return DeviseRecus
-     */
+    */
     public function setDeviseMouvements($deviseMouvements)
     {
         $this->deviseMouvements = $deviseMouvements;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return DeviseRecus
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+
 
 
 }

@@ -155,7 +155,12 @@ class JourneeCaisses
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="idJourneeCaisse", cascade={"persist"})
      */
-    private $deviseJournee;
+    private $deviseJournees;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseRecus", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $deviseRecus;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
@@ -202,6 +207,9 @@ class JourneeCaisses
         $this->transfertInternationaux=new ArrayCollection();
         $this->intercaisseEntrant=new ArrayCollection();
         $this->intercaisseSortant=new ArrayCollection();
+        $this->deviseRecus=new ArrayCollection();
+        $this->deviseJournee=new ArrayCollection();
+
     }
 
 
@@ -230,7 +238,8 @@ class JourneeCaisses
     }
 
     /**
-     * @param mixed $idCaisse
+     * @param $idCaisse
+     * @return $this
      */
     public function setIdCaisse($idCaisse)
     {
@@ -247,7 +256,8 @@ class JourneeCaisses
     }
 
     /**
-     * @param mixed $idUtilisateur
+     * @param $idUtilisateur
+     * @return $this
      */
     public function setIdUtilisateur($idUtilisateur)
     {
@@ -296,7 +306,8 @@ class JourneeCaisses
     }
 
     /**
-     * @param mixed $statut
+     * @param $statut
+     * @return $this
      */
     public function setStatut($statut)
     {
@@ -610,7 +621,7 @@ class JourneeCaisses
 
     public function __toString()
     {
-        return ''.$this->getIdCaisse();
+        return ''.$this->getIdCaisse().' du '.$this->getDateOuv()->format('d-m-Y');
     }
 
 
@@ -658,6 +669,24 @@ class JourneeCaisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDeviseRecus()
+    {
+        return $this->deviseRecus;
+    }
+
+    /**
+     * @param mixed $deviseRecus
+     * @return JourneeCaisses
+     */
+    public function setDeviseRecus($deviseRecus)
+    {
+        $this->deviseRecus = $deviseRecus;
+        return $this;
+    }
+
 
 
     /**
@@ -670,10 +699,10 @@ class JourneeCaisses
         return $this;
     }
 
-    public function addDeviseJournee(DeviseJournees $deviseJournees)
+    public function addDeviseJournee(DeviseJournees $deviseJournee)
     {
-        $this->deviseJournee->add($this->deviseJournee);
-        $deviseJournees->setIdJourneeCaisse($this);
+        $deviseJournee->setIdJourneeCaisse($this);
+        $this->deviseJournee->add($deviseJournee);
     }
 
     public function removeDeviseJournee(DeviseJournees $deviseJournees)
@@ -714,4 +743,18 @@ class JourneeCaisses
         $this->intercaisseEntrant->removeElement($interCaisses);
     }
 
+    /**
+     * @param DeviseRecus $deviseRecu
+     */
+    public function addDeviseRecu(DeviseRecus $deviseRecu)
+    {
+        $deviseRecu->setJourneeCaisse($this);
+        $this->deviseRecus->add($deviseRecu);
+
+    }
+
+    public function removeDeviseRecu(DeviseRecus $deviseRecu)
+    {
+        $this->deviseRecus->removeElement($deviseRecu);
+    }
 }

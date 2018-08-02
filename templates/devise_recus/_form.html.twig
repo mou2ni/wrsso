@@ -1,6 +1,7 @@
-{{ form_start(form) }}
-    {{ form_widget(form.dateRecu) }}
-    {{ form_widget(form.nom) }}
+<div class="well">
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    {{ form_row(form.dateRecu) }}
+    {{ form_row(form.nom) }}
     {{ form_row(form.prenom) }}
     {{ form_row(form.typePiece) }}
     {{ form_row(form.numPiece) }}
@@ -9,17 +10,26 @@
     {{ form_row(form.motif) }}
 
 <h3>Devises</h3>
-<ul class="deviseMouvements" data-prototype="{{ form_widget(form.deviseMouvements.vars.prototype.sens)|e('html_attr') }}
+    <div class="form-group">
+    <div class="form-row">
+        <div class="form-row deviseMouvements" data-prototype="{{ form_widget(form.deviseMouvements.vars.prototype.sens)|e('html_attr') }}
 {{ form_widget(form.deviseMouvements.vars.prototype.devise)|e('html_attr') }}
     {{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr') }}
-    {{ form_widget(form.deviseMouvements.vars.prototype.taux)|e('html_attr') }}
-    {{ form_widget(form.deviseMouvements.vars.prototype.contreValeur)|e('html_attr') }}
-    {{ form_widget(form.deviseMouvements.vars.prototype.deviseJournee )|e('html_attr') }}">
+    {{ form_widget(form.deviseMouvements.vars.prototype.taux)|e('html_attr') }}">
     {% for deviseMouvement in form.deviseMouvements %}
-        <li>{{ form_widget(deviseMouvement.sens) }}</li>
-        <li>{{ form_widget(deviseMouvement.devise) }}</li>
-        <li>{{ form_widget(deviseMouvement.nombre) }}</li>
-        <li>{{ form_widget(deviseMouvement.taux) }}</li>
+        <div class="form-inline">{{ form_widget(deviseMouvement.sens) }} {{ form_widget(deviseMouvement.devise) }} {{ form_widget(deviseMouvement.nombre) }} {{ form_widget(deviseMouvement.taux) }}
+            </div>
     {% endfor %}
-</ul>
-{{ form_end(form) }}
+        </div>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="form-row">
+    {{ form_widget(form.save_and_new) }}{{ form_widget(form.save_and_print) }}{{ form_widget(form.reset) }}{{ form_widget(form.close) }}
+
+        </div>
+    </div>
+
+    {{ form_end(form) }}
+</div>

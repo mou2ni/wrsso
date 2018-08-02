@@ -40,6 +40,11 @@ class Clients
     private $adresse;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comptes", mappedBy="client", cascade={"persist"})
+     */
+    private $comptes;
+
+    /**
      * @return mixed
      */
     public function getNom()

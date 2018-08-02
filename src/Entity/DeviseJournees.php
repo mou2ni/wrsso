@@ -30,7 +30,7 @@ class DeviseJournees
     private $deviseMouvements;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="DeviseJournees", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="deviseJournees", cascade={"persist"})
      * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=false)
      */
     private $idJourneeCaisse;
@@ -43,7 +43,7 @@ class DeviseJournees
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $idBilletOuv;
 
@@ -67,6 +67,7 @@ class DeviseJournees
      */
     private $qteVente=0;
 
+ 
     /**
      * @ORM\Column(type="float")
      */
@@ -100,18 +101,36 @@ class DeviseJournees
 
 
 
-    public function increaseMCvdVente($montant)
+    public function updateMCvdAchatVente($montant)
     {
-        $this->mCvdVente += $montant;
+        if ($montant>0){
+            $this->mCvdVente += $montant;
+            //$this->idJourneeCaisse->
+        }else{
+            $this->mCvdAchat += $montant;
+        }
         return $this;
 
     }
 
-    public function increaseMCvdAchat($montant){
-        $this->mCvdAchat += $montant;
+    public function updateQteAchatVente($nombre)
+    {
+        if ($nombre>0) {
+            $this->qteAchat += $nombre;
+        }else{
+            $this->qteVente += $nombre;
+        }
         return $this;
+
     }
 
+    public function updateQteIntercaisse($nombre)
+    {
+        $this->qteIntercaisse += $nombre;
+        return $this;
+
+    }
+ 
     /**
      * @return mixed
      */
@@ -224,79 +243,6 @@ class DeviseJournees
     /**
      * @return mixed
      */
-    public function getQteAchat()
-    {
-        return $this->qteAchat;
-    }
-
-    /**
-     * @param mixed $qteAchat
-     * @return DeviseJournees
-     */
-    public function setQteAchat($qteAchat)
-    {
-        $this->qteAchat = $qteAchat;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getQteVente()
-    {
-        return $this->qteVente;
-    }
-
-    /**
-     * @param mixed $qteVente
-     * @return DeviseJournees
-     */
-    public function setQteVente($qteVente)
-    {
-        $this->qteVente = $qteVente;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMCvdAchat()
-    {
-        return $this->mCvdAchat;
-    }
-
-    /**
-     * @param mixed $mCvdAchat
-     * @return DeviseJournees
-     */
-    public function setMCvdAchat($mCvdAchat)
-    {
-        $this->mCvdAchat = $mCvdAchat;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMCvdVente()
-    {
-        return $this->mCvdVente;
-    }
-
-    /**
-     * @param mixed $mCvdVente
-     * @return DeviseJournees
-     */
-    public function setMCvdVente($mCvdVente)
-    {
-        $this->mCvdVente = $mCvdVente;
-        return $this;
-    }
-
-
-    /**
-     * @return mixed
-     */
     public function getQteIntercaisse()
     {
         return $this->qteIntercaisse;
@@ -389,6 +335,84 @@ class DeviseJournees
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getQteAchat()
+    {
+        return $this->qteAchat;
+    }
 
+    /**
+     * @param mixed $qteAchat
+     * @return DeviseJournees
+     */
+    public function setQteAchat($qteAchat)
+    {
+        $this->qteAchat = $qteAchat;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQteVente()
+    {
+        return $this->qteVente;
+    }
+
+    /**
+     * @param mixed $qteVente
+     * @return DeviseJournees
+     */
+    public function setQteVente($qteVente)
+    {
+        $this->qteVente = $qteVente;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMCvdAchat()
+    {
+        return $this->mCvdAchat;
+    }
+
+    /**
+     * @param mixed $mCvdAchat
+     * @return DeviseJournees
+     */
+    public function setMCvdAchat($mCvdAchat)
+    {
+        $this->mCvdAchat = $mCvdAchat;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMCvdVente()
+    {
+        return $this->mCvdVente;
+    }
+
+    /**
+     * @param mixed $mCvdVente
+     * @return DeviseJournees
+     */
+    public function setMCvdVente($mCvdVente)
+    {
+        $this->mCvdVente = $mCvdVente;
+        return $this;
+    }
+
+    public function getSoldeCvdMvt(){
+        return $this->getMCvdAchat()+$this->getMCvdVente();
+    }
+
+    public function getSoldeQteMvt(){
+        return $this->getQteAchat()+$this->getQteVente();
+    }
 
 }

@@ -59,7 +59,7 @@ class Utilisateurs
     private $compteEcartCaisse;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="idCaisse", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="idUtilisateur", cascade={"persist"})
      */
     private $journeeCaisses;
 

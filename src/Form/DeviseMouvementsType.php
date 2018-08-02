@@ -15,7 +15,7 @@ class DeviseMouvementsType extends AbstractType
     {
         $builder
             ->add('sens', ChoiceType::class
-                ,array('choices'  => ['Achat'=>'a', 'Vente'=>'v']
+                ,array('choices'  => ['Achat'=>'A', 'Vente'=>'V']
                 ,'expanded'=>false))
             ->add('devise', EntityType::class, array (
                 'class' => 'App\Entity\Devises',
@@ -24,9 +24,6 @@ class DeviseMouvementsType extends AbstractType
                 'expanded'=>false))
             ->add('nombre')
             ->add('taux')
-            ->add('contreValeur')
-            ->add('deviseJournee', EntityType::class, array('class'=>'App\Entity\DeviseJournees','data'=>$_SESSION['deviseJournee']))
-
         ;
     }
 

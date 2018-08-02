@@ -1,24 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New DeviseRecus{% endblock %}
+{% block title %}Devises - Achat | Vente{% endblock %}
 
 {% block body %}
-    <h1>Create new DeviseRecus</h1>
+    <h1>Bordereau d'achat ou vente de devises</h1>
 
     {{ include('devise_recus/_form.html.twig') }}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>DEVISE</th>
+            <th>QTE</th>
+            <th>TAUX</th>
+            <th>MOUVEMENTS CFA</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for deviseRecu in journeeCaisse.deviseRecus %}
+
+            {% for deviseMouvement in  deviseRecu.deviseMouvements %}
+            <tr>
+                <td> {{ deviseMouvement.devise }}</td>
+                <td>{{ deviseMouvement.nombre }} ( {{ (deviseMouvement.nombre < 0)?'SORTIE':'ENTREE'}} ) </td>
+                <td> {{ deviseMouvement.taux }}</td>
+                <td> {{ deviseMouvement.contreValeur }}  ( {{ (deviseMouvement.contreValeur < 0)?'SORTIE':'ENTREE'}})</td>
+            </tr>
+
+            {% endfor %}
+
+
+    {% endfor %}
+
+        </tbody>
+    </Table>
+
 
     <a href="{{ path('devise_recus_index') }}">back to list</a>
 {% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript">
-        var $addLink = $('<a href="#" class="add-collection">+</a>');
-        var $newLinkLi = $('<li></li>').append($addLink);
 
-        jQuery(document).ready(function() {
+    {{ parent() }}
+
+    <script type="text/javascript">
+        var $addLink = $('<a href="#" class="add-collection"> + </a>');
+        var $newLinkLi = $('<div></div>').append($addLink);
+
+        $(document).ready(function() {
             // Get the ul that holds the collection of tags
-            var $collectionHolder = $('ul.deviseMouvements');
+            var $collectionHolder = $('div.deviseMouvements');
 
             // add the "add a tag" anchor and li to the tags ul
             $collectionHolder.append($newLinkLi);
@@ -26,6 +58,9 @@
             // count the current form inputs we have (e.g. 2), use that as the new
             // index when inserting a new item (e.g. 2)
             $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            //var index = $collectionHolder.data('index');
+            if ($collectionHolder.data('index') == 0) addForm($collectionHolder, $newLinkLi);
 
             $addLink.on('click', function(e) {
                 // prevent the link from creating a "#" on the URL
@@ -53,10 +88,10 @@
             $collectionHolder.data('index', index + 1);
 
             // Display the form in the page in an li, before the "Add a tag" link li
-            var $newFormLi = $('<li></li>').append(newForm);
+            var $newFormLi = $('<div class="form-inline"></div>').append(newForm);
 
             // also add a remove button, just for this example
-            $newFormLi.append('<a href="#" class="remove-collection">x</a>');
+            $newFormLi.append('<a href="#" class="remove-collection"> X </a>');
 
             $newLinkLi.before($newFormLi);
 
@@ -71,4 +106,6 @@
         }
 
     </script>
+
+
 {% endblock %}

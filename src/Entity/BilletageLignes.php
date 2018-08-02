@@ -25,7 +25,7 @@ class BilletageLignes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages", inversedBy="billet", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages", inversedBy="billetageLignes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $idBilletage;

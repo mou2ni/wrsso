@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Devises;
+//use App\Entity\DeviseJournees;
 //use App\Entity\DeviseMouvements;
 use App\Entity\DeviseMouvements;
 use App\Entity\DeviseRecus;
@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/devise/recus")
+ * @Route("/devise/recus/test")
  */
-class DeviseRecusController extends Controller
+class DeviseRecusControllerTest extends Controller
 {
     /**
      * @Route("/", name="devise_recus_index", methods="GET")
@@ -29,7 +29,7 @@ class DeviseRecusController extends Controller
     }
 
     /**
-     * @Route("/achat_vente", name="devise_recus_achat_vente", methods="GET|POST")
+     * @Route("/achat_vente", name="devise_recus_achat_vente_test", methods="GET|POST")
      */
     public function achatVente(Request $request): Response
     {
@@ -41,28 +41,6 @@ class DeviseRecusController extends Controller
 
 
         $deviseRecus = new DeviseRecus($journeeCaisse,$em);
-
-        ////////////////////////////////////////////////TESTS A SUPPRIMER//////////////////////////////////////////////
-
-        $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
-        $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
-        $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setNumPiece('B3520333')->setMotif('Voyage affaire chine');
-
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('A')->setDevise($usd)->setNombre(100)->setTaux(500);
-        $deviseRecus->addDeviseMouvement($deviseMvt);
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('V')->setDevise($usd)->setNombre(50)->setTaux(600);
-        $deviseRecus->addDeviseMouvement($deviseMvt);
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('A')->setDevise($euro)->setNombre(200)->setTaux(650);
-        $deviseRecus->addDeviseMouvement($deviseMvt);
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('V')->setDevise($euro)->setNombre(100)->setTaux(700);
-        $deviseRecus->addDeviseMouvement($deviseMvt);
-
-
-        ////////////////////////////////////////////////FIN TEST A SUPPRIMER
 
         $form = $this->createForm(DeviseRecusType::class, $deviseRecus);
         $form->handleRequest($request);
