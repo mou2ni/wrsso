@@ -27,7 +27,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
         $compteCvDevise2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 2']);
 
         $lists = array(['libelle' => 'DAPOYA-Caisse 1', 'idCompteOperation' => $compteOperationCaisse1, 'compteCvDevise' => $compteCvDevise1]
-        ,['libelle' => 'PISSY-Caisse 1', 'idCompteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2]
+        ,['libelle' => 'PISSY-Caisse Ouvert', 'idCompteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2]
         ,['libelle' => 'Caisse menu depense', 'idCompteOperation' => $compteOperationCaisse3, 'compteCvDevise' => null]
         );
 
