@@ -9,13 +9,14 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 //use App\Entity\DeviseAchatVentes;
 //use App\Entity\DeviseJournees;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\DeviseMouvementsRepository")
  * @ORM\Table(name="DeviseMouvements")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -58,23 +59,12 @@ class DeviseMouvements
     /**
      * @ORM\Column(type="integer")
      */
-    private $nombre;
+    private $nombre=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $taux;
-
-
-    /*
-     * @ORM\Column(type="float")
-
-    private $mCvdAchat;*/
-
-    /*
-     * @ORM\Column(type="float")
-
-    private $mCvdVente;*/
+    private $taux=0;
 
     private $sens='A';
 
@@ -178,6 +168,31 @@ class DeviseMouvements
         return $this->deviseJournee;
     }
 
+
+    /**
+     * @param JourneeCaisses $journeeCaisse
+     * @param ObjectManager $em
+     * @return $this
+     */
+    public function setDeviseJourneeByJourneeCaisse(JourneeCaisses $journeeCaisse, ObjectManager $em)
+    {
+        // trouver la DeviseJournee é partir de la Devise saisie et la journeeCaisse passée par le constructeur
+        $deviseJournee=$em->getRepository(DeviseJournees::class)
+            ->findOneBy(['idDevise'=>$this->getDevise(), 'idJourneeCaisse'=>$journeeCaisse]);
+
+        //die($deviseJournee);
+
+        //Créer un nouveau au cas où çc n'existe pas
+        if ($deviseJournee==null) {
+            $deviseJournee=new DeviseJournees();
+            $deviseJournee->setIdDevise($this->getDevise())->setIdJourneeCaisse($journeeCaisse);
+        }
+
+        $this->setDeviseJournee($deviseJournee);
+
+        return $this;
+    }
+
     /**
      * @param mixed $deviseJournee
      * @return DeviseMouvements
@@ -256,6 +271,24 @@ class DeviseMouvements
     {
         //mouvement CFA de la caisse : inverser le signe de nombre
         return -$this->nombre*$this->taux;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseIntercaisse()
+    {
+        return $this->deviseIntercaisse;
+    }
+
+    /**
+     * @param mixed $deviseIntercaisse
+     * @return DeviseMouvements
+     */
+    public function setDeviseIntercaisse($deviseIntercaisse)
+    {
+        $this->deviseIntercaisse = $deviseIntercaisse;
+        return $this;
     }
 
    }

@@ -9,3 +9,12 @@
 
     <a href="{{ path('devise_intercaisses_index') }}">back to list</a>
 {% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/dm.js') }}"></script>
+
+
+{% endblock %}

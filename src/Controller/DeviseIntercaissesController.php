@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\DeviseIntercaisses;
+use App\Entity\DeviseMouvements;
+use App\Entity\Devises;
+use App\Entity\JourneeCaisses;
 use App\Form\DeviseIntercaissesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +34,33 @@ class DeviseIntercaissesController extends Controller
      */
     public function new(Request $request): Response
     {
-        $deviseIntercaiss = new DeviseIntercaisses();
+        $em = $this->getDoctrine()->getManager();
+
+        $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'T']);
+
+        //die($journeeCaisse);
+
+        $deviseIntercaiss = new DeviseIntercaisses($journeeCaisse,$em);
+
+        //////////////////////////////////////// TEST A SUPPRIMER
+
+       /* $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
+        $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
+        $journeeCaissePartenaire=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
+
+        $deviseIntercaiss->setIdJourneeCaissePartenaire($journeeCaissePartenaire);
+
+        $deviseMvt=new DeviseMouvements();
+        $deviseMvt->setDevise($usd)->setNombre(10);
+        $deviseIntercaiss->addDeviseMouvement($deviseMvt);
+        $deviseMvt=new DeviseMouvements();
+        $deviseMvt->setDevise($euro)->setNombre(20);
+        $deviseIntercaiss->addDeviseMouvement($deviseMvt);*/
+
+
+        ////////////////////////////// FIN
+
+        $deviseIntercaiss->setStatut($deviseIntercaiss::VALIDATION_AUTO);
         $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
         $form->handleRequest($request);
 
@@ -40,7 +69,7 @@ class DeviseIntercaissesController extends Controller
             $em->persist($deviseIntercaiss);
             $em->flush();
 
-            return $this->redirectToRoute('devise_intercaisses_index');
+            return $this->redirectToRoute('devise_intercaisses_new');
         }
 
         return $this->render('devise_intercaisses/new.html.twig', [

@@ -13,11 +13,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\JourneeCaissesRepository")
  * @ORM\Table(name="JourneeCaisses")
  */
 class JourneeCaisses
 {
+    const OUVERT='O', FERME='F';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -51,7 +52,7 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="string")
      */
-    private $statut='o';
+    private $statut='O';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
@@ -265,7 +266,7 @@ class JourneeCaisses
     }
 
     /**
-     * @param $idUtilisateur
+     * @param $utilisateur
      * @return $this
      */
     public function setUtilisateur($utilisateur)
@@ -766,4 +767,28 @@ class JourneeCaisses
     {
         $this->deviseRecus->removeElement($deviseRecu);
     }
+
+    public function getJourneeCaisse(){
+        return $this->__toString();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseJournees()
+    {
+        return $this->deviseJournees;
+    }
+
+    /**
+     * @param mixed $deviseJournees
+     * @return JourneeCaisses
+     */
+    public function setDeviseJournees($deviseJournees)
+    {
+        $this->deviseJournees = $deviseJournees;
+        return $this;
+    }
+
+
 }

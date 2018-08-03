@@ -1,4 +1,31 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="form-group">
+    <div class="form-inline">
+        {{ form_row(form.idJourneeCaissePartenaire) }}
+    </div>
+</div>
+
+<h3>Devises à transferer </h3>
+
+<div class="form-group">
+    <div class="form-row">
+        <div class="form-row deviseMouvements" data-prototype="
+       {{ form_widget(form.deviseMouvements.vars.prototype.devise)|e('html_attr') }}
+    {{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr') }}">
+            {% for deviseMouvement in form.deviseMouvements %}
+                <div class="form-inline">{{ form_widget(deviseMouvement.devise) }} {{ form_widget(deviseMouvement.nombre) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="form-row">
+        {{ form_widget(form.save_and_close) }}{{ form_widget(form.reset) }}{{ form_widget(form.close) }}
+
+    </div>
+</div>
+
 {{ form_end(form) }}
+</div>
