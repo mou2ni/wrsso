@@ -14,7 +14,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\DeviseIntercaissesRepository")
  * @ORM\Table(name="DeviseIntercaisses")
  */
 class DeviseIntercaisses
@@ -29,16 +29,16 @@ class DeviseIntercaisses
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="deviseIntercaisseSortants", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idJourneeCaisseSource;
+    private $journeeCaisseSource;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="deviseIntercaisseEntrants", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idJourneeCaissePartenaire;
+    private $journeeCaisseDestination;
 
 
     /**
@@ -73,7 +73,7 @@ class DeviseIntercaisses
      */
     public function __construct(JourneeCaisses $journeeCaisse, ObjectManager $manager)
     {
-        $this->idJourneeCaisseSource=$journeeCaisse;
+        $this->journeeCaisseDestination=$journeeCaisse;
         $this->em=$manager;
         $this->deviseMouvements = new ArrayCollection();
         $this->dateIntercaisse=new \DateTime();
@@ -98,34 +98,38 @@ class DeviseIntercaisses
     /**
      * @return mixed
      */
-    public function getIdJourneeCaisseSource()
+    public function getJourneeCaisseSource()
     {
-        return $this->idJourneeCaisseSource;
+        return $this->journeeCaisseSource;
     }
 
     /**
-     * @param mixed $idJourneeCaisseSource
+     * @param mixed $journeeCaisseSource
      */
-    public function setIdJourneeCaisseSource($idJourneeCaisseSource)
+    public function setJourneeCaisseSource($journeeCaisseSource)
     {
-        $this->idJourneeCaisseSource = $idJourneeCaisseSource;
+        $this->journeeCaisseSource = $journeeCaisseSource;
     }
 
     /**
      * @return mixed
      */
-    public function getIdJourneeCaissePartenaire()
+    public function getJourneeCaisseDestination()
     {
-        return $this->idJourneeCaissePartenaire;
+        return $this->journeeCaisseDestination;
     }
 
     /**
-     * @param mixed $idJourneeCaissePartenaire
+     * @param $journeeCaisseDestination
+     * @return $this
      */
-    public function setIdJourneeCaissePartenaire($idJourneeCaissePartenaire)
+    public function setJourneeCaisseDestination($journeeCaisseDestination)
     {
-        $this->idJourneeCaissePartenaire = $idJourneeCaissePartenaire;
+        $this->journeeCaisseDestination = $journeeCaisseDestination;
+        return $this;
     }
+
+
 
     /**
      * @return mixed
@@ -211,7 +215,7 @@ class DeviseIntercaisses
     {
 
         $deviseMouvement->setSens($deviseMouvement::INTERCAISSE)
-            ->setDeviseJourneeByJourneeCaisse($this->idJourneeCaisseSource, $this->em)
+            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseDestination, $this->em)
             ->setDeviseIntercaisse($this)        ;
         $this->deviseMouvements->add($deviseMouvement);
         $this->expendObservations($deviseMouvement->getDevise().' = '.$deviseMouvement->getNombre());
@@ -221,7 +225,7 @@ class DeviseIntercaisses
         $deviseMouvementPartenaire->setSens($deviseMouvementPartenaire::INTERCAISSE)
             ->setDevise($deviseMouvement->getDevise())
             ->setNombre(-$deviseMouvement->getNombre())
-            ->setDeviseJourneeByJourneeCaisse($this->idJourneeCaissePartenaire, $this->em)
+            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseSource, $this->em)
             ->setDeviseIntercaisse($this);
         $this->deviseMouvements->add($deviseMouvementPartenaire);
 
@@ -237,6 +241,13 @@ class DeviseIntercaisses
     {
         $this->deviseMouvements->removeElement($deviseMouvement);
         return $this;
+    }
+
+    public function getBtnAction(){
+        if ($this->getStatut() == $this::DEMANDE_ANNULATION) return '<button type="submit" id="devise_intercaisses_valide_annul" name="devise_intercaisses[valide_annul]" class="btn-primary btn">Valider Annulation</button>';
+        if ($this->getStatut() == $this::VALIDATION_AUTO) return '<button type="submit" id="devise_intercaisses_demande_annul" name="devise_intercaisses[demande_annul]" class="btn-primary btn">Demander Annulation</button>';
+
+        return ' ';
     }
 
 

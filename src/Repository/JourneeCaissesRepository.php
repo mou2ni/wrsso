@@ -19,17 +19,13 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         parent::__construct($registry, JourneeCaisses::class);
     }
 
-    public function getOpenJourneeCaisseQb($statut)
+    public function getOpenJourneeCaisseQb( $statut)
 
     {
         return $this
-
             ->createQueryBuilder('jc')
-
             ->where('jc.statut=:statut')
-
-            ->setParameter('statut', $statut)
-
+            ->setParameter('statut',$statut)
             ;
 
     }

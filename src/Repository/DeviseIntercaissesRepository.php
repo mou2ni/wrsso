@@ -2,43 +2,57 @@
 
 namespace App\Repository;
 
-use App\Entity\DeviseMouvements;
+use App\Entity\DeviseIntercaisses;
+use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Proxies\__CG__\App\Entity\JourneeCaisses;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method DeviseMouvements|null find($id, $lockMode = null, $lockVersion = null)
- * @method DeviseMouvements|null findOneBy(array $criteria, array $orderBy = null)
- * @method DeviseMouvements[]    findAll()
- * @method DeviseMouvements[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method DeviseIntercaisses|null find($id, $lockMode = null, $lockVersion = null)
+ * @method DeviseIntercaisses|null findOneBy(array $criteria, array $orderBy = null)
+ * @method DeviseIntercaisses[]    findAll()
+ * @method DeviseIntercaisses[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DeviseMouvementsRepository extends ServiceEntityRepository
+class DeviseIntercaissesRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, DeviseMouvements::class);
+        parent::__construct($registry, DeviseIntercaisses::class);
     }
 
-    public function findMvtIntercaisseRecu(JourneeCaisses $journeeCaisse)
+
+    /**
+     * @param JourneeCaisses $journeeCaisse
+     * @return \App\Entity\DeviseIntercaisses[]
+     */
+    public function findMvtIntercaisseEnvoye(JourneeCaisses $journeeCaisse){
+
+
+
+        return $this->findBy(['journeeCaisseSource'=>$journeeCaisse]);
+
+    }
+
+
+    public function findMvtIntercaisses(JourneeCaisses $journeeCaisse)
     {
-        $qb = $this->createQueryBuilder('dmvt');
+        $qb = $this->createQueryBuilder('di');
 
         // On fait une jointure
         return $qb
-            ->innerJoin('dmvt.deviseIntercaisse', 'di')
-            ->addSelect('di')
-            ->where($qb->expr()->eq('dmvt.journeeCaisse', 'di.journeeCaisseDestination'))
-            ->andWhere($qb->expr()->eq('dmvt.journeeCaisse', ':journeeCaisse'))
+            ->innerJoin('di.deviseMouvements', 'dmvt')
+            ->addSelect('dmvt')
+            ->where($qb->expr()->eq('dmvt.journeeCaisse', ':journeeCaisse'))
             ->setParameter('journeeCaisse', $journeeCaisse)
-            ->groupBy('di')
             ->addOrderBy('dmvt.id', 'DESC')
             ->getQuery()
             ->getResult();
 
-        //return $this->findBy(['journeeCaisseDestination'=>$journeeCaisse]);
+        //return $this->findBy(['journeeCaisseDestination'=>$journeeCaisse]) ->groupBy('di')
+        ;
 
     }
+
 
 //    /**
 //     * @return DeviseRecus[] Returns an array of DeviseRecus objects

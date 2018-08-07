@@ -30,9 +30,9 @@ class DeviseIntercaissesController extends Controller
     }
 
     /**
-     * @Route("/new", name="devise_intercaisses_new", methods="GET|POST")
+     * @Route("/accepter", name="devise_intercaisses_accepter", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function accepter(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -41,24 +41,6 @@ class DeviseIntercaissesController extends Controller
         //die($journeeCaisse);
 
         $deviseIntercaiss = new DeviseIntercaisses($journeeCaisse,$em);
-
-        //////////////////////////////////////// TEST A SUPPRIMER
-
-       /* $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
-        $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
-        $journeeCaissePartenaire=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
-
-        $deviseIntercaiss->setIdJourneeCaissePartenaire($journeeCaissePartenaire);
-
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setDevise($usd)->setNombre(10);
-        $deviseIntercaiss->addDeviseMouvement($deviseMvt);
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setDevise($euro)->setNombre(20);
-        $deviseIntercaiss->addDeviseMouvement($deviseMvt);*/
-
-
-        ////////////////////////////// FIN
 
         $deviseIntercaiss->setStatut($deviseIntercaiss::VALIDATION_AUTO);
         $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
@@ -69,11 +51,22 @@ class DeviseIntercaissesController extends Controller
             $em->persist($deviseIntercaiss);
             $em->flush();
 
-            return $this->redirectToRoute('devise_intercaisses_new');
+
+
+
+            return $this->redirectToRoute('devise_intercaisses_accepter');
         }
 
-        return $this->render('devise_intercaisses/new.html.twig', [
-            'devise_intercaiss' => $deviseIntercaiss,
+        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
+
+       // dump($devise_intercaisse_recus); die();
+
+        //$devise_intercaisse_emis=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisseRecu($journeeCaisse);
+        //$devise_intercaisse_recus=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findIntercaisseRecu($journeeCaisse);
+
+
+        return $this->render('devise_intercaisses/accepter.html.twig', [
+            'devise_intercaiss' => $deviseIntercaiss, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses,
             'form' => $form->createView(),
         ]);
     }

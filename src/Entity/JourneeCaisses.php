@@ -164,20 +164,30 @@ class JourneeCaisses
     private $deviseRecus;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseSource", cascade={"persist"})
+     */
+    private $deviseIntercaisseSortants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseDestination", cascade={"persist"})
+     */
+    private $deviseIntercaisseEntrants;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
      */
     private $transfertInternationaux;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseSortant", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="journeeCaisse", cascade={"persist"})
      */
-    private $intercaisseSortant;
+    private $deviseMouvements;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
-     */
+     
     private $intercaisseEntrant;
-
+*/
     /////////////////////////// AJOUT HAMADO
 
     public function updateMCvd($montant){
@@ -631,7 +641,7 @@ class JourneeCaisses
 
     public function __toString()
     {
-        return ''.$this->getIdCaisse().' du '.$this->getDateOuv()->format('d-m-Y');
+        return ''.$this->getIdCaisse().' du '.$this->getDateOuv()->format('d-m-y');
     }
 
 
@@ -790,5 +800,60 @@ class JourneeCaisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDeviseIntercaisseSortants()
+    {
+        return $this->deviseIntercaisseSortants;
+    }
+
+    /**
+     * @param mixed $deviseIntercaisseSortants
+     * @return JourneeCaisses
+     */
+    public function setDeviseIntercaisseSortants($deviseIntercaisseSortants)
+    {
+        $this->deviseIntercaisseSortants = $deviseIntercaisseSortants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseIntercaisseEntrants()
+    {
+        return $this->deviseIntercaisseEntrants;
+    }
+
+    /**
+     * @param mixed $deviseIntercaisseEntrants
+     * @return JourneeCaisses
+     */
+    public function setDeviseIntercaisseEntrants($deviseIntercaisseEntrants)
+    {
+        $this->deviseIntercaisseEntrants = $deviseIntercaisseEntrants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseMouvements()
+    {
+        return $this->deviseMouvements;
+    }
+
+    /**
+     * @param mixed $deviseMouvements
+     * @return JourneeCaisses
+     */
+    public function setDeviseMouvements($deviseMouvements)
+    {
+        $this->deviseMouvements = $deviseMouvements;
+        return $this;
+    }
+
+    
 
 }

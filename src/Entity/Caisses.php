@@ -29,6 +29,11 @@ class Caisses
     private $libelle;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $code;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -101,7 +106,7 @@ class Caisses
 
     public function __toString()
     {
-        return ''.$this->getLibelle();
+        return ''.$this->getCode();
     }
 
     /**
@@ -137,6 +142,24 @@ class Caisses
     public function setJourneeCaisses($journeeCaisses)
     {
         $this->journeeCaisses = $journeeCaisses;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     * @return Caisses
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
         return $this;
     }
 

@@ -54,6 +54,12 @@ class DeviseMouvements
     */
     private $devise;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="deviseMouvements", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $journeeCaisse;
+
 
 
     /**
@@ -188,6 +194,7 @@ class DeviseMouvements
             $deviseJournee->setIdDevise($this->getDevise())->setIdJourneeCaisse($journeeCaisse);
         }
 
+        $this->setJourneeCaisse($journeeCaisse);
         $this->setDeviseJournee($deviseJournee);
 
         return $this;
@@ -291,4 +298,22 @@ class DeviseMouvements
         return $this;
     }
 
-   }
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return DeviseMouvements
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+}
