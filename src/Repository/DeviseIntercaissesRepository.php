@@ -53,6 +53,25 @@ class DeviseIntercaissesRepository extends ServiceEntityRepository
 
     }
 
+    public function findTmpMvtIntercaisses(JourneeCaisses $journeeCaisse)
+    {
+        $qb = $this->createQueryBuilder('di');
+
+        // On fait une jointure
+        return $qb
+            ->innerJoin('di.deviseTmpMouvements', 'dmvt')
+            ->addSelect('dmvt')
+            ->where($qb->expr()->eq('dmvt.journeeCaisse', ':journeeCaisse'))
+            ->setParameter('journeeCaisse', $journeeCaisse)
+            ->addOrderBy('dmvt.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        //return $this->findBy(['journeeCaisseDestination'=>$journeeCaisse]) ->groupBy('di')
+        ;
+
+    }
+
 
 //    /**
 //     * @return DeviseRecus[] Returns an array of DeviseRecus objects

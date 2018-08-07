@@ -1,7 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mouni
+ * Created by Hamado.
+ * User: houedraogo
  * Date: 22/11/2016
  * Time: 10:39
  */
@@ -47,6 +47,11 @@ class DeviseIntercaisses
     private $deviseMouvements;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseTmpMouvements", mappedBy="deviseIntercaisse", cascade={"persist"})
+     */
+    private $deviseTmpMouvements;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $dateIntercaisse;
@@ -62,9 +67,11 @@ class DeviseIntercaisses
     private $statut='I';
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $observations;
+
+    private $em;
 
     /**
      * DeviseRecus constructor.
@@ -76,6 +83,7 @@ class DeviseIntercaisses
         $this->journeeCaisseDestination=$journeeCaisse;
         $this->em=$manager;
         $this->deviseMouvements = new ArrayCollection();
+        $this->deviseTmpMouvements = new ArrayCollection();
         $this->dateIntercaisse=new \DateTime();
     }
 
@@ -243,12 +251,62 @@ class DeviseIntercaisses
         return $this;
     }
 
-    public function getBtnAction(){
-        if ($this->getStatut() == $this::DEMANDE_ANNULATION) return '<button type="submit" id="devise_intercaisses_valide_annul" name="devise_intercaisses[valide_annul]" class="btn-primary btn">Valider Annulation</button>';
-        if ($this->getStatut() == $this::VALIDATION_AUTO) return '<button type="submit" id="devise_intercaisses_demande_annul" name="devise_intercaisses[demande_annul]" class="btn-primary btn">Demander Annulation</button>';
+    /**
+     * @param DeviseTmpMouvements $deviseTmpMouvement
+     * @return $this
+     */
+    public function addDeviseTmpMouvement(DeviseTmpMouvements $deviseTmpMouvement)
+    {
 
-        return ' ';
+        /*$deviseMouvement->setSens($deviseMouvement::INTERCAISSE)
+            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseDestination, $this->em)*/
+        $deviseTmpMouvement->setDeviseIntercaisse($this)        ;
+        $this->deviseTmpMouvements->add($deviseTmpMouvement);
+        //$this->expendObservations($deviseMouvement->getDevise().' = '.$deviseMouvement->getNombre());
+
+        //ajout du mouvement partenaire correspondant avec signe contraire
+        $deviseTmpMouvementPartenaire=new DeviseTmpMouvements();
+        /*$deviseMouvementPartenaire->setSens($deviseMouvementPartenaire::INTERCAISSE)
+
+            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseSource, $this->em)*/
+        $deviseTmpMouvementPartenaire->setDevise($deviseTmpMouvement->getDevise())
+            ->setNombre(-$deviseTmpMouvement->getNombre())
+            ->setDeviseIntercaisse($this);
+        $this->deviseTmpMouvements->add($deviseTmpMouvementPartenaire);
+
+
+        return $this;
     }
+
+    /**
+     * @param DeviseTmpMouvements $deviseTmpMouvement
+     * @return $this
+     */
+    public function removeDeviseTmpMouvement(DeviseTmpMouvements $deviseTmpMouvement)
+    {
+        $this->deviseTmpMouvements->removeElement($deviseTmpMouvement);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseTmpMouvements()
+    {
+        return $this->deviseTmpMouvements;
+    }
+
+    /**
+     * @param mixed $deviseTmpMouvements
+     * @return DeviseIntercaisses
+     */
+    public function setDeviseTmpMouvements($deviseTmpMouvements)
+    {
+        $this->deviseTmpMouvements = $deviseTmpMouvements;
+        return $this;
+    }
+
+
 
 
 }

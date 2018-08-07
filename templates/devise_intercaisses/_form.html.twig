@@ -10,10 +10,10 @@
 <div class="form-group">
     <div class="form-row">
         <div class="form-row deviseMouvements" data-prototype="
-       {{ form_widget(form.deviseMouvements.vars.prototype.devise)|e('html_attr') }}
-    {{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr') }}">
-            {% for deviseMouvement in form.deviseMouvements %}
-                <div class="form-inline">{{ form_widget(deviseMouvement.devise) }} {{ form_widget(deviseMouvement.nombre) }}
+       {{ form_widget(form.deviseTmpMouvements.vars.prototype.devise)|e('html_attr') }}
+    {{ form_widget(form.deviseTmpMouvements.vars.prototype.nombre)|e('html_attr') }}">
+            {% for deviseTmpMouvement in form.deviseTmpMouvements %}
+                <div class="form-inline">{{ form_widget(deviseTmpMouvement.devise) }} {{ form_widget(deviseTmMouvement.nombre) }}
                 </div>
             {% endfor %}
         </div>

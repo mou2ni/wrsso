@@ -116,6 +116,24 @@ class Clients
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     * @return Clients
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
    
 
 

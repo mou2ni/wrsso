@@ -28,7 +28,7 @@ class DeviseIntercaissesType extends AbstractType
                 'query_builder' => function(JourneeCaissesRepository $repository) use($statut) {
                     return $repository->getOpenJourneeCaisseQb($statut);
                 }
-            ))->add ('deviseMouvements', CollectionType::class, array (
+            ))->add ('deviseTmpMouvements', CollectionType::class, array (
                 'entry_type' => DeviseMvtIntercaisseType::class,
                 'entry_options' => array('label' => false),
                 'allow_add' => true,

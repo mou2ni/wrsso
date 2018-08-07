@@ -13,10 +13,10 @@ class DeviseMvtIntercaisseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->remove('sens')->remove('taux');
+        $builder->remove('taux');
     }
 
     public function getParent(){
-        return DeviseMouvementsType::class;
+        return DeviseTmpMouvementsType::class;
     }
 }
