@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/utilisateurs")
@@ -37,6 +38,9 @@ class UtilisateursController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
+            $utilisateur->setCompteEcartCaisse($this->getDoctrine()->getRepository('App:Comptes')->find(257));
+            //dump($utilisateur);die();
+            //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
             $em = $this->getDoctrine()->getManager();
             $em->persist($utilisateur);
             $em->flush();

@@ -64,8 +64,8 @@ class JourneeCaissesController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $caisse=$em->getRepository('App:Caisses')->find(2);
-        $user=$em->getRepository('App:Utilisateurs')->find(1);
+        $caisse=$em->getRepository('App:Caisses')->find(23);
+        $user=$this->get('session')->get('user');
         if (!$user->getEstCaissier()) {
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
             return $this->redirectToRoute('journee_caisses_index');
@@ -180,7 +180,7 @@ class JourneeCaissesController extends Controller
         $journeeCaissePrec=$this->getJourneeCaissePrec($caisse);
         $journeeCaiss->setMCreditDivers($journeeCaissePrec->getMCreditDivers());
         $journeeCaiss->setMDetteDivers($journeeCaissePrec->getMDetteDivers());
-        if($this->get('session')->get('billetage')!=$this->getDoctrine()->getRepository(Billetages::class)->find(1)){
+        if($this->get('session')->get('billetage') && $this->get('session')->get('billetage')!=$this->getDoctrine()->getRepository(Billetages::class)->find(1)){
             $journeeCaiss->setIdBilletOuv($this->get('session')->get('billetage')[0]);
             $journeeCaiss->setValeurBillet($this->get('session')->get('billetage')[0]->getValeurTotal());
             $this->getDoctrine()->getManager()->persist($this->get('session')->get('billetage')[0]);

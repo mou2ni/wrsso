@@ -9,10 +9,11 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity()
  * @ORM\Table(name="Utilisateurs")
  */
 class Utilisateurs
@@ -63,6 +64,23 @@ class Utilisateurs
      */
     private $journeeCaisses;
 
+    private $isAuthaticate;
+
+    /**
+     * Utilisateurs constructor.
+     * @param $journeeCaisses
+     */
+    public function __construct()
+    {
+        $this->journeeCaisses = new ArrayCollection();
+    }
+
+    /*
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
+     * @ORM\JoinColumn(name="id_cpt_compense", referencedColumnName="id", nullable=false)
+
+    private $compteCompense;*/
+
     /**
      * @return mixed
      */
@@ -90,6 +108,7 @@ class Utilisateurs
 
     /**
      * @param mixed $login
+     * @return Utilisateurs
      */
     public function setLogin($login)
     {
@@ -107,12 +126,14 @@ class Utilisateurs
 
     /**
      * @param mixed $mdp
+     * @return Utilisateurs
      */
     public function setMdp($mdp)
     {
         $this->mdp = $mdp;
         return $this;
     }
+
 
     /**
      * @return mixed
@@ -227,5 +248,25 @@ class Utilisateurs
         $this->journeeCaisses = $journeeCaisses;
         return $this;
     }
-    
+
+    /**
+     * @return mixed
+     */
+    public function getisAuthaticate()
+    {
+        return $this->isAuthaticate;
+    }
+
+    /**
+     * @param mixed $isAuthaticate
+     * @return Utilisateurs
+     */
+    public function setIsAuthaticate($isAuthaticate)
+    {
+        $this->isAuthaticate = $isAuthaticate;
+        return $this;
+    }
+
+
+
 }
