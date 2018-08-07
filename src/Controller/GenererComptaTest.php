@@ -37,7 +37,7 @@ class GenererComptaTest extends Controller
         $genererCompta=new GenererCompta($this->getDoctrine()->getManager());
 
         $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
-        $caisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'PISSY-Caisse 1']);
+        $caisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['code'=>'KD01']);
         $paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
 
         /////////////////////////////// ECART OUVERTURE DE CAISSE : RETROUR LA TRANSACTION //////////////////////////
@@ -60,7 +60,7 @@ class GenererComptaTest extends Controller
 
 
         /////////////////////////////// DEPENSES ET RECETTES :  RETROUR LA TRANSACTION //////////////////////////
-        $caisseMD=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['libelle'=>'Caisse menu depense']);
+        $caisseMD=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['code'=>'CMD']);
 
         $compteCharge=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['intitule'=>'Charges diverses']);
         if(!$genererCompta->genComptaDepenses($utilisateur,$caisseMD,$compteCharge, 'Achats Internet', 50000)) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);

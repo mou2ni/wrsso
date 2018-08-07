@@ -110,36 +110,23 @@ class DeviseRecus
     }*/
 
 
+    /**
+     * @param DeviseMouvements $deviseMouvement
+     * @return $this
+     */
     public function addDeviseMouvement(DeviseMouvements $deviseMouvement)
     {
-        // trouver la DeviseJournee é partir de la Devise saisie et la journeeCaisse passée par le constructeur
-        $deviseJournee=$this->em->getRepository(DeviseJournees::class)
-            ->findOneBy(['idDevise'=>$deviseMouvement->getDevise(), 'idJourneeCaisse'=>$this->journeeCaisse]);
 
-        //die($deviseJournee);
-
-        //Créer un nouveau au cas où çc n'existe pas
-        if ($deviseJournee==null) {
-            $deviseJournee=new DeviseJournees();
-            $deviseJournee->setIdDevise($deviseMouvement->getDevise())->setIdJourneeCaisse($this->journeeCaisse);
-        }
-
-        /*
-        if ($deviseMouvement->getSens()=='V' or $deviseMouvement->getSens()=='v'){
-            $deviseJournee->increaseMCvdVente($deviseMouvement->getContreValeur());
-            $deviseJournee->increaseQteVente($deviseMouvement->getNombre());
-
-        }else{
-            $deviseJournee->increaseMCvdAchat($deviseMouvement->getContreValeur());
-            $deviseJournee->increaseQteAchat($deviseMouvement->getNombre());
-        }*/
-
-        $deviseMouvement->setDeviseJournee($deviseJournee)->setDeviseRecu($this);
+        $deviseMouvement->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)->setDeviseRecu($this);
 
         $this->deviseMouvements->add($deviseMouvement);
         return $this;
     }
 
+    /**
+     * @param DeviseMouvements $deviseMouvement
+     * @return $this
+     */
     public function removeDeviseMouvement(DeviseMouvements $deviseMouvement)
     {
         $this->deviseMouvements->removeElement($deviseMouvement);

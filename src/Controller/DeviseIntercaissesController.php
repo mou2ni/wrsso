@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\DeviseIntercaisses;
+use App\Entity\DeviseMouvements;
+use App\Entity\Devises;
+use App\Entity\JourneeCaisses;
 use App\Form\DeviseIntercaissesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,11 +30,19 @@ class DeviseIntercaissesController extends Controller
     }
 
     /**
-     * @Route("/new", name="devise_intercaisses_new", methods="GET|POST")
+     * @Route("/accepter", name="devise_intercaisses_accepter", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function accepter(Request $request): Response
     {
-        $deviseIntercaiss = new DeviseIntercaisses();
+        $em = $this->getDoctrine()->getManager();
+
+        $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'T']);
+
+        //die($journeeCaisse);
+
+        $deviseIntercaiss = new DeviseIntercaisses($journeeCaisse,$em);
+
+        $deviseIntercaiss->setStatut($deviseIntercaiss::VALIDATION_AUTO);
         $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
         $form->handleRequest($request);
 
@@ -40,11 +51,22 @@ class DeviseIntercaissesController extends Controller
             $em->persist($deviseIntercaiss);
             $em->flush();
 
-            return $this->redirectToRoute('devise_intercaisses_index');
+
+
+
+            return $this->redirectToRoute('devise_intercaisses_accepter');
         }
 
-        return $this->render('devise_intercaisses/new.html.twig', [
-            'devise_intercaiss' => $deviseIntercaiss,
+        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
+
+       // dump($devise_intercaisse_recus); die();
+
+        //$devise_intercaisse_emis=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisseRecu($journeeCaisse);
+        //$devise_intercaisse_recus=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findIntercaisseRecu($journeeCaisse);
+
+
+        return $this->render('devise_intercaisses/accepter.html.twig', [
+            'devise_intercaiss' => $deviseIntercaiss, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses,
             'form' => $form->createView(),
         ]);
     }

@@ -22,7 +22,8 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'T']);
+        $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
+        //$idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::OUVERT]);
         $usd=$manager->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $euro=$manager->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
 

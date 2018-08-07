@@ -13,11 +13,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\JourneeCaissesRepository")
  * @ORM\Table(name="JourneeCaisses")
  */
 class JourneeCaisses
 {
+    const OUVERT='O', FERME='F';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -51,7 +52,7 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="string")
      */
-    private $statut='o';
+    private $statut='O';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
@@ -163,20 +164,30 @@ class JourneeCaisses
     private $deviseRecus;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseSource", cascade={"persist"})
+     */
+    private $deviseIntercaisseSortants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseDestination", cascade={"persist"})
+     */
+    private $deviseIntercaisseEntrants;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
      */
     private $transfertInternationaux;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseSortant", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="journeeCaisse", cascade={"persist"})
      */
-    private $intercaisseSortant;
+    private $deviseMouvements;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
-     */
+     
     private $intercaisseEntrant;
-
+*/
     /////////////////////////// AJOUT HAMADO
 
     public function updateMCvd($montant){
@@ -265,7 +276,7 @@ class JourneeCaisses
     }
 
     /**
-     * @param $idUtilisateur
+     * @param $utilisateur
      * @return $this
      */
     public function setUtilisateur($utilisateur)
@@ -630,7 +641,7 @@ class JourneeCaisses
 
     public function __toString()
     {
-        return ''.$this->getIdCaisse().' du '.$this->getDateOuv()->format('d-m-Y');
+        return ''.$this->getIdCaisse().' du '.$this->getDateOuv()->format('d-m-y');
     }
 
 
@@ -766,4 +777,83 @@ class JourneeCaisses
     {
         $this->deviseRecus->removeElement($deviseRecu);
     }
+
+    public function getJourneeCaisse(){
+        return $this->__toString();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseJournees()
+    {
+        return $this->deviseJournees;
+    }
+
+    /**
+     * @param mixed $deviseJournees
+     * @return JourneeCaisses
+     */
+    public function setDeviseJournees($deviseJournees)
+    {
+        $this->deviseJournees = $deviseJournees;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseIntercaisseSortants()
+    {
+        return $this->deviseIntercaisseSortants;
+    }
+
+    /**
+     * @param mixed $deviseIntercaisseSortants
+     * @return JourneeCaisses
+     */
+    public function setDeviseIntercaisseSortants($deviseIntercaisseSortants)
+    {
+        $this->deviseIntercaisseSortants = $deviseIntercaisseSortants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseIntercaisseEntrants()
+    {
+        return $this->deviseIntercaisseEntrants;
+    }
+
+    /**
+     * @param mixed $deviseIntercaisseEntrants
+     * @return JourneeCaisses
+     */
+    public function setDeviseIntercaisseEntrants($deviseIntercaisseEntrants)
+    {
+        $this->deviseIntercaisseEntrants = $deviseIntercaisseEntrants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDeviseMouvements()
+    {
+        return $this->deviseMouvements;
+    }
+
+    /**
+     * @param mixed $deviseMouvements
+     * @return JourneeCaisses
+     */
+    public function setDeviseMouvements($deviseMouvements)
+    {
+        $this->deviseMouvements = $deviseMouvements;
+        return $this;
+    }
+
+    
+
 }

@@ -49,16 +49,16 @@ class DeviseRecusController extends Controller
         $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setNumPiece('B3520333')->setMotif('Voyage affaire chine');
 
         $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('A')->setDevise($usd)->setNombre(100)->setTaux(500);
+        $deviseMvt->setSens($deviseMvt::ACHAT)->setDevise($usd)->setNombre(100)->setTaux(500);
         $deviseRecus->addDeviseMouvement($deviseMvt);
         $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('V')->setDevise($usd)->setNombre(50)->setTaux(600);
+        $deviseMvt->setSens($deviseMvt::VENTE)->setDevise($usd)->setNombre(50)->setTaux(600);
         $deviseRecus->addDeviseMouvement($deviseMvt);
         $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('A')->setDevise($euro)->setNombre(200)->setTaux(650);
+        $deviseMvt->setSens($deviseMvt::ACHAT)->setDevise($euro)->setNombre(200)->setTaux(650);
         $deviseRecus->addDeviseMouvement($deviseMvt);
         $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens('V')->setDevise($euro)->setNombre(100)->setTaux(700);
+        $deviseMvt->setSens($deviseMvt::VENTE)->setDevise($euro)->setNombre(100)->setTaux(700);
         $deviseRecus->addDeviseMouvement($deviseMvt);
 
 
