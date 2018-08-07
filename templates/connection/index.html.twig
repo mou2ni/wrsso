@@ -1,20 +1,37 @@
 {% extends 'base.html.twig' %}
 {% block title %}login{% endblock %}
 {% block body %}
-{{ form_start(formLogin) }}
+{% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+{% if error %}
+        <div>{{ error }}</div>
+    {% endif %}
+{{ form_start(form) }}
 <table>
     <tr>
-        <td> {{ form_label(formLogin.login) }}</td>
-        <td> {{ form_widget(formLogin.login) }}</td>
+        <td> {{ form_label(form.login) }} </td>
+        <td> {{ form_widget(form.login) }}</td>
     </tr>
     <tr>
-        <td> {{ form_label(formLogin.mdp) }}</td>
-        <td> {{ form_widget(formLogin.mdp) }}</td>
+        <td> {{ form_label(form.mdp) }}</td>
+        <td> {{ form_widget(form.mdp) }}</td>
     </tr>
+	{#<tr>
+        <td> {{ form_label(form.caisse) }}</td>
+        <td> {{ form_widget(form.caisse) }}</td>
+    </tr>#}
     <tr>
         <td> <button type="submit">connecter</button></td>
         <td> <button type="reset">annuler</button></td>
     </tr>
 </table>
-    {{ form(formLogin) }}
+
+    {{ form(form) }}
 {% endblock %}
