@@ -146,6 +146,7 @@ public $totalR=0;
         $em=$this->getDoctrine()->getManager();
         $intercaissesE = $journeeCaisses->getIntercaisseSortant();
         $intercaissesR = $journeeCaisses->getIntercaisseEntrant();
+        //dump($journeeCaisses);die();
         foreach ($intercaissesR as $intercaiss) if ($intercaiss->getStatut()!='aa')$this->totalR=$this->totalR+$intercaiss->getMIntercaisse();
         foreach ($intercaissesE as $intercaiss) if ($intercaiss->getStatut()!='aa')$this->totalE=$this->totalE+$intercaiss->getMIntercaisse();
         //$journeeCaisses->setIntercaisseEntrant($intercaissesR)->setIntercaisseSortant($intercaissesE);

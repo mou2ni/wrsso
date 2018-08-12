@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Caisses;
+use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,8 +14,11 @@ class CaissesType extends AbstractType
     {
         $builder
             ->add('libelle')
+            ->add('compteCvDevise')
+            ->add('journeeCaisses')
             ->add('idCompteOperation')
-            ->add('idCompteEcart')
+            ->add('code')
+            ->add('statut')
         ;
     }
 

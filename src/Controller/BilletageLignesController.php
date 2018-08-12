@@ -184,7 +184,7 @@ class BilletageLignesController extends Controller
         $billets = $em->getRepository('App:Billets')->findAll();
         $i=1;
         foreach ($billets as $billet) {
-            $formBilletage['valeur'.$i]->setData($billet);
+            $formBilletage['valeur'.$i]->setData($billet->getValeur());
             $formBilletage['nbBillet'.$i]->setData(0);
             $formBilletage['valeurLigne'.$i]->setData(0);
             $i++;

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\JourneeCaisses;
 use App\Entity\Utilisateurs;
 use App\Entity\Caisses;
 use App\Form\LoginType;
@@ -29,38 +30,27 @@ class ConnectionController extends Controller
         $erreur='';
         $user = new Utilisateurs();
 		$form = $this->createForm(LoginType::class, $user );
-
-        $form->handleRequest($request);
-
-        $pass=hash('SHA1', "".$user->getMdp());
-
-        $user->setMdp($pass);
+		$form->handleRequest($request);
+		$pass=hash('SHA1', "".$user->getMdp());
+		$user->setMdp($pass);
 			
         if ($form->isSubmitted() && $form->isValid()) {
-
-			$user = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>$user->getLogin(),'mdp'=>$user->getMdp()]);
+            $user = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>$user->getLogin(),'mdp'=>$user->getMdp()]);
             if ($user)
             {
                 $user->setIsAuthaticate('true');
+                $jc=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['utilisateur'=>$user, 'statut'=>JourneeCaisses::OUVERT]);
+                $jc ?: $jc = new JourneeCaisses();
                 $this->get('session')->set('user', $user);
+                $this->get('session')->set('journeeCaisse', $jc);
                 return $this->redirectToRoute('journee_caisses_index');
             }
             else
                 $erreur="Nom d'utilisateur et ou mot de passe incorect";
-
-
-                //return $this->redirectToRoute('journee_caisses_ouverture');
-
-            //return $this->redirectToRoute('billetages_index');
-			/*if($this->get('security.token_storage')->getToken()){
-				$this->get('security.token_storage')->getToken()->setAttribute('caisse', $form['caisse']->getData());
-				dump($this->get('security.token_storage')->getToken());die();
-			}*/
 			
       }
 
         return $this->render('connection/index.html.twig', array(
-            //'last_username' => $lastUsername,
             'error'         => $erreur,
             'form' => $form->createView()
         ));

@@ -12,6 +12,7 @@ use App\Entity\Utilisateurs;
 use App\Form\DeviseJourneesType;
 use App\Form\JourneeCaissesType;
 use App\Form\OuvertureType;
+use App\Utils\GenererCompta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +65,7 @@ class JourneeCaissesController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $caisse=$em->getRepository('App:Caisses')->find(23);
+        $caisse=$this->get('session')->get('journeeCaisse')->getIdCaisse();
         $user=$this->get('session')->get('user');
         if (!$user->getEstCaissier()) {
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
@@ -87,6 +88,12 @@ class JourneeCaissesController extends Controller
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
+                //dump($journeeCaiss);die();
+                //$em->persist($journeeCaiss-)
+                //dump($journeeCaiss->getIdCaisse()->getIdCompteOperation()->getNumCompte());die();
+                echo ($journeeCaiss);
+                //$genererCompta=new GenererCompta($this->getDoctrine()->getManager());
+                //if (!$genererCompta->genComptaEcart($journeeCaiss->getUtilisateur(),$caisse, 'Ecart ouverture', $journeeCaiss->getEcartOuv())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
                 $em->persist($journeeCaiss);
                 $em->flush();
 
@@ -159,7 +166,6 @@ class JourneeCaissesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $journecaisse = $em->getRepository('App:JourneeCaisses')->findBy(array('utilisateur'=>$user, "statut"=>"O"));
         if ($journecaisse){
-
             return true;
         }
         else

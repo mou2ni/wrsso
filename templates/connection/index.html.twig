@@ -1,20 +1,12 @@
 {% extends 'base.html.twig' %}
 {% block title %}login{% endblock %}
 {% block body %}
-{% if app.request.hasPreviousSession %}
-            {% for type, messages in app.session.flashbag.all() %}
-                {% for message in messages %}
-                    <div class="flash-{{ type }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
+
 {% if error %}
         <div>{{ error }}</div>
     {% endif %}
 {{ form_start(form) }}
-<table>
+<table class="table">
     <tr>
         <td> {{ form_label(form.login) }} </td>
         <td> {{ form_widget(form.login) }}</td>
@@ -28,7 +20,7 @@
         <td> {{ form_widget(form.caisse) }}</td>
     </tr>#}
     <tr>
-        <td> <button type="submit">connecter</button></td>
+        <td> <button class="btn-primary btn" type="submit">connecter</button></td>
         <td> <button type="reset">annuler</button></td>
     </tr>
 </table>

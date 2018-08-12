@@ -183,11 +183,27 @@ class JourneeCaisses
      */
     private $deviseMouvements;
 
-    /**
+    /*
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
-     
+    */
     private $intercaisseEntrant;
-*/
+
+    /*
+     * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseSortant", cascade={"persist"})
+    */
+    private $intercaisseSortant;
+
+    /*
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreation", cascade={"persist"})
+    */
+    private $creation;
+
+    /*
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesRemb", cascade={"persist"})
+    */
+    private $remboursement;
+
+
     /////////////////////////// AJOUT HAMADO
 
     public function updateMCvd($montant){
@@ -854,6 +870,41 @@ class JourneeCaisses
         return $this;
     }
 
-    
+    /**
+     * @return mixed
+     */
+    public function getCreation()
+    {
+        return $this->creation;
+    }
+
+    /**
+     * @param mixed $creation
+     * @return JourneeCaisses
+     */
+    public function setCreation($creation)
+    {
+        $this->creation = $creation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRemboursement()
+    {
+        return $this->remboursement;
+    }
+
+    /**
+     * @param mixed $remboursement
+     * @return JourneeCaisses
+     */
+    public function setRemboursement($remboursement)
+    {
+        $this->remboursement = $remboursement;
+        return $this;
+    }
+
 
 }

@@ -52,7 +52,6 @@ class TransactionComptesController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depot->getNumCompte()]);
-
             if(!$genererCompta->genComptaDepot($journeeCaisses->getUtilisateur(),$journeeCaisses->getIdCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
 
             $journeeCaisses->setMDepotClient($this->getTotalDepot($journeeCaisses));

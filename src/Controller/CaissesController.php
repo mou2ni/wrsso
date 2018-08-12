@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Caisses;
+use App\Entity\JourneeCaisses;
 use App\Form\CaissesType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,6 +53,37 @@ class CaissesController extends Controller
     }
 
     /**
+     * @Route("/choisir", name="caisses_choisir", methods="GET|POST")
+     */
+    public function choisir(Request $request): Response
+    {
+        $form = $this->get('form.factory')->createNamedBuilder('form')->getForm();
+        $caisses = $this->getDoctrine()
+            ->getRepository(Caisses::class)
+            ->findAll();
+        $caisseOuv = $this->getDoctrine()->getRepository(Caisses::class)->findBy(['statut'=>!JourneeCaisses::OUVERT]);
+        $form->add('caisse', EntityType::class,['class'=>Caisses::class
+            ,'choices'=>$caisseOuv
+        ]);
+        //->add('valider', SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $caiss = $form['caisse']->getData();
+            $jc=$this->get('session')->get('journeeCaisse');
+            $jc->setIdCaisse($caiss);
+            $this->get('session')->set('journeeCaisse',$jc);
+            //dump($this->get('session')->get('journeeCaisse'));die();
+            return $this->redirectToRoute('caisses_index');
+        }
+        if ($form->isSubmitted())
+            dump($form);
+
+
+        return $this->render('caisses/choixCaisse.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
      * @Route("/{id}", name="caisses_show", methods="GET")
      */
     public function show(Caisses $caiss): Response
@@ -90,4 +124,6 @@ class CaissesController extends Controller
 
         return $this->redirectToRoute('caisses_index');
     }
+
+
 }

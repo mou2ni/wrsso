@@ -3,7 +3,6 @@
  */
 
 function majTransfert() {
-
     // les variables des totaux
     var reception = 0;
     var emission = 0;

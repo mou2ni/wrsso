@@ -12,11 +12,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\CaissesRepository")
  * @ORM\Table(name="Caisses")
  */
 class Caisses
 {
+    const OUVERT='O', FERME='F';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -34,14 +35,19 @@ class Caisses
     private $code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="transactionComptes", cascade={"persist"})
+     * @ORM\JoinColumn(name="IdCompte", referencedColumnName="id", nullable=false)
+     */
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="operation", cascade={"persist"} )
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
      */
     private $idCompteOperation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
-     * @ORM\JoinColumn(name= "id_cpt_cv_devise",nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="cvdDevise", cascade={"persist"} )
+     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
      */
     private $CompteCvDevise;
 
@@ -49,6 +55,11 @@ class Caisses
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="idCaisse", cascade={"persist"})
      */
     private $journeeCaisses;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $statut;
 
     /**
      * @return mixed
@@ -163,5 +174,30 @@ class Caisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * @param mixed $statut
+     * @return Caisses
+     */
+    public function setStatut($statut)
+    {
+        $this->statut = $statut;
+        return $this;
+    }
+
+    public function fermerCaisse(){
+        return $this->setStatut($this::FERME);
+    }
+
+    public function ouvrirCaisse(){
+        return $this->setStatut($this::OUVERT);
+    }
 
    }

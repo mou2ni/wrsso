@@ -19,6 +19,16 @@
     </table>
     <div hidden>{{ form_rest(form) }}</div>
 {{ form(form) }}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
     <script type="text/javascript">
         $("#depot_retrait_numCompte").keyup(function () {
             chargerNomCompte();
@@ -33,9 +43,8 @@
             }
         });
     </script>
-{% endblock %}
 
-{% block title %}
+
 
 {% endblock %}
 

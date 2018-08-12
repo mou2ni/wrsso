@@ -31,16 +31,16 @@ class DetteCreditDivers
     private $idCaisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="creation", cascade={persist})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idUtilisateurCreation;
+    private $journeeCaissesCreation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="remboursement", cascade={persist})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idUtilisateurRemb;
+    private $journeeCaissesRemb;
 
     /**
      * @ORM\Column(type="datetime")

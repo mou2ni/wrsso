@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use function Sodium\add;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -28,6 +29,22 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->setParameter('statut',$statut)
             ;
 
+    }
+
+    /**
+     * @return int []
+     */
+    public function getOpenJourneeCaisse()
+    {
+        return $this
+            ->createQueryBuilder('jc')
+            ->innerJoin('jc.idCaisse','c')
+            ->select('c.id as caisse')
+            ->andWhere('jc.statut=:statut')
+            ->setParameter('statut',JourneeCaisses::OUVERT)
+            ->getQuery()
+            ->getResult();
+            //;
     }
 
 //    /**
