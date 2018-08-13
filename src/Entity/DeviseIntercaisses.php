@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DeviseIntercaisses
 {
-    const INIT='I', ANNULE='A', VALIDE='V', VALIDATION_AUTO='VA', DEMANDE_ANNULATION='DA';
+    const INIT='I', ANNULE='X', VALIDE='V', VALIDATION_AUTO='VA';
 
     /**
      * @ORM\Id
@@ -260,19 +260,21 @@ class DeviseIntercaisses
 
         /*$deviseMouvement->setSens($deviseMouvement::INTERCAISSE)
             ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseDestination, $this->em)*/
+        //$deviseTmpMouvement->setJourneeCaisse($this->journeeCaisseDestination);
         $deviseTmpMouvement->setDeviseIntercaisse($this)        ;
         $this->deviseTmpMouvements->add($deviseTmpMouvement);
         //$this->expendObservations($deviseMouvement->getDevise().' = '.$deviseMouvement->getNombre());
 
         //ajout du mouvement partenaire correspondant avec signe contraire
-        $deviseTmpMouvementPartenaire=new DeviseTmpMouvements();
+        //$deviseTmpMouvementPartenaire=new DeviseTmpMouvements();
         /*$deviseMouvementPartenaire->setSens($deviseMouvementPartenaire::INTERCAISSE)
 
             ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseSource, $this->em)*/
-        $deviseTmpMouvementPartenaire->setDevise($deviseTmpMouvement->getDevise())
-            ->setNombre(-$deviseTmpMouvement->getNombre())
-            ->setDeviseIntercaisse($this);
-        $this->deviseTmpMouvements->add($deviseTmpMouvementPartenaire);
+        //$deviseTmpMouvementPartenaire->setJourneeCaisse($this->journeeCaisseSource);
+        //$deviseTmpMouvementPartenaire->setDevise($deviseTmpMouvement->getDevise())
+        //    ->setNombre(-$deviseTmpMouvement->getNombre())
+         //   ->setDeviseIntercaisse($this);
+        //$this->deviseTmpMouvements->add($deviseTmpMouvementPartenaire);
 
 
         return $this;
@@ -303,6 +305,24 @@ class DeviseIntercaisses
     public function setDeviseTmpMouvements($deviseTmpMouvements)
     {
         $this->deviseTmpMouvements = $deviseTmpMouvements;
+        return $this;
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    public function getEm()
+    {
+        return $this->em;
+    }
+
+    /**
+     * @param ObjectManager $em
+     * @return DeviseIntercaisses
+     */
+    public function setEm($em)
+    {
+        $this->em = $em;
         return $this;
     }
 

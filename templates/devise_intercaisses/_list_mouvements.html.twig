@@ -1,24 +1,4 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Devise - Intercaisses{% endblock %}
-
-{% block body %}
-    <h1>Demande d'intercaisse</h1>
-
-    {{ include('devise_intercaisses/_form.html.twig') }}
-
- <!--   <table class="table">
-        <thead>
-        <tr>
-            <th>CAISSE PARTENAIRE</th>
-            <th>DEVISE</th>
-            <th>QTE | STATUT</th>
-        </tr>
-        </thead>
-
-        <tbody> -->
-
-<h1>Intercaisses validées</h1>
+<h1>Intercaisses encours </h1>
     <div class="form-inline">
              <table class="table">
                  <thead>
@@ -35,36 +15,43 @@
                     <tr>
                         <td>{{ devise_tmp_mvt_intercaisse.journeeCaisseSource }}=>{{ devise_tmp_mvt_intercaisse.journeeCaisseDestination }}</td>
                         <td>{{ devise_tmp_mvt_intercaisse.observations }} </td>
-                        <td>{{ (devise_mvt_intercaisse.statut=='VA')
-                            ?'Auto validé':(devise_mvt_intercaisse.statut=='V')
-                            ?'Validé':'Annulation demandée' }}
+                        <td>{{ (devise_tmp_mvt_intercaisse.statut=='I')
+                            ?'Initié':(devise_tmp_mvt_intercaisse.statut=='V')
+                            ?'Validé':(devise_tmp_mvt_intercaisse.statut=='VA')
+                            ?'Auto validé':'Non defini'}}
                         </td>
-                        <td>{% if  devise_tmp_mvt_intercaisse.statut=='I' %}
+                        <td><div class="form-row">
+                            {% if  devise_tmp_mvt_intercaisse.statut=='I' %}
                                 {% if  myJourneeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseSource %}
-                                     | <a href="{{ path('devise_intercaisses_valider', {'id': devise_mvt_intercaisse.id}) }}">Valider</a>
+                                   {{ include('devise_intercaisses/_btn_action.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
                                 {% endif %}
-                                {% if  myJourneeCaisse==devise_mvt_intercaisse.journeeCaisseDestination %}
-                                     | <a href="{{ path('devise_intercaisses_demande_annulation', {'id': devise_mvt_intercaisse.id}) }}">Annuler</a>
+                                {% if  myJourneeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseDestination %}
+                                    {{ include('devise_intercaisses/_btn_action.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'}) }}
                                 {% endif %}
                             {% else %}
 
-                              ' '
                             {% endif %}
+                            </div>
                         </td>
                     </tr>
                     <tr><td colspan="4">
                     <ul>
-                    {% for deviseMouvement in  devise_mvt_intercaisse.deviseMouvements %}
+                    {% for deviseTmpMouvement in  devise_tmp_mvt_intercaisse.deviseTmpMouvements %}
                         <li>
-                            {{ (deviseMouvement.nombre < 0)?'SORTIE':'ENTREE'}} {{ deviseMouvement.nombre }} {{ deviseMouvement.devise }}
+                            {{ (deviseTmpMouvement.nombre < 0)?'SORTIE':'ENTREE'}} {{ deviseTmpMouvement.nombre }} {{ deviseTmpMouvement.devise }}
                         </li>
 
                     {% endfor %}
                     </ul>
                         </td></tr>
+                 {% else %}
+                 <tr>
+                     <td colspan="4" class="text-danger">Aucune intercaisse en instance</td>
+                 </tr>
                  </tbody>
                 {% endfor %}
              </table>
+    </div>
 
  <h1>Intercaisses validées</h1>
 
@@ -84,9 +71,10 @@
                     <tr>
                         <td>{{ devise_mvt_intercaisse.journeeCaisseSource }}=>{{ devise_mvt_intercaisse.journeeCaisseDestination }}</td>
                         <td>{{ devise_mvt_intercaisse.observations }} </td>
-                        <td>{{ (devise_mvt_intercaisse.statut=='VA')
-                            ?'Auto validé':(devise_mvt_intercaisse.statut=='V')
-                            ?'Validé':'Annulation demandée' }}
+                        <td>{{ (devise_mvt_intercaisse.statut=='I')
+                            ?'Initié':(devise_mvt_intercaisse.statut=='V')
+                            ?'Validé':(devise_mvt_intercaisse.statut=='VA')
+                            ?'Auto validé':'Non defini'}}
                         </td>
                         <td> </td>
                     </tr>
@@ -100,22 +88,12 @@
                     {% endfor %}
                     </ul>
                         </td></tr>
+                 {% else %}
+                 <tr>
+                     <td colspan="4" class="text-danger">Aucune intercaisse Validée</td>
+                 </tr>
                  </tbody>
                 {% endfor %}
              </table>
 
     </div>
-
-
-
-    <a href="{{ path('devise_intercaisses_index') }}">back to list</a>
-{% endblock %}
-
-{% block javascripts %}
-
-    {{ parent() }}
-
-    <script src="{{ asset('js/dm.js') }}"></script>
-
-
-{% endblock %}

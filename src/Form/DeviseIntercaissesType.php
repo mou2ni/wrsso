@@ -8,6 +8,7 @@ use App\Repository\JourneeCaissesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,7 +37,7 @@ class DeviseIntercaissesType extends AbstractType
                 'by_reference' => false,
                 'label' => false,
             ))->add ('save_and_close', SubmitType::class, array('label' => 'Enregistrer et fermer'
-            ))->add('reset', SubmitType::class, array('label' => 'Effacer'
+            ))->add('reset', ResetType::class, array('label' => 'Effacer'
             ))->add('close', SubmitType::class, array('label' => 'Fermer'
             ));
         ;

@@ -9,6 +9,7 @@
             -->
 
             <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+
         {% endblock %}
 
 
@@ -21,7 +22,9 @@
             {{ msg }}
         </div>
     {% endfor %}
-        {% block body %}{% endblock %}
+
+        {% block body %}
+        {% endblock %}
 
     </body>
 

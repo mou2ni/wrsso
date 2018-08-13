@@ -15,7 +15,7 @@ class DeviseMouvementsType extends AbstractType
     {
         $builder
             ->add('sens', ChoiceType::class
-                ,array('choices'  => ['Achat'=>'A', 'Vente'=>'V']
+                ,array('choices'  => ['Achat'=>DeviseMouvements::ACHAT, 'Vente'=>DeviseMouvements::VENTE,'Intercaisse'=>DeviseMouvements::INTERCAISSE]
                 ,'expanded'=>false))
             ->add('devise', EntityType::class, array (
                 'class' => 'App\Entity\Devises',

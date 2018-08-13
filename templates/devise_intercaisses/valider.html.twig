@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Validation d'intercaisse{% endblock %}
+
+{% block body %}
+    <h1>Confirmer la validation de l'intercaisse</h1>
+
+    {% include('devise_intercaisses/_detail_intercaisse.html.twig') %}
+
+    {% include('devise_intercaisses/_valider_form.html.twig') %}
+
+{% endblock %}

@@ -3,41 +3,46 @@
 {% block title %}Devises - Achat | Vente{% endblock %}
 
 {% block body %}
-    <h1>Bordereau d'achat ou vente de devises</h1>
+    <h1>Bordereau de négociation des devises</h1>
 
     {{ include('devise_recus/_form.html.twig') }}
 
     <table class="table">
         <thead>
         <tr>
-            <th>DEVISE</th>
-            <th>QTE</th>
-            <th>TAUX</th>
-            <th>MOUVEMENTS CFA</th>
+            <th>Document</th>
+            <th>Date</th>
+            <th>Prenom et nom</th>
+            <th>Action</th>
         </tr>
         </thead>
 
         <tbody>
-            {% for deviseRecu in journeeCaisse.deviseRecus %}
-
-            {% for deviseMouvement in  deviseRecu.deviseMouvements %}
-            <tr>
-                <td> {{ deviseMouvement.devise }}</td>
-                <td>{{ deviseMouvement.nombre }} ( {{ (deviseMouvement.nombre < 0)?'SORTIE':'ENTREE'}} ) </td>
-                <td> {{ deviseMouvement.taux }}</td>
-                <td> {{ deviseMouvement.contreValeur }}  ( {{ (deviseMouvement.contreValeur < 0)?'SORTIE':'ENTREE'}})</td>
-            </tr>
-
-            {% endfor %}
-
+            {% for deviseRecu in my_devise_recus %}
+                <tr>
+                    <td>BORDERAU {{ (deviseRecu.sens=='A')?' D\'ACHAT ':' DE VENTE ' }} DE DEVISES N° {{ deviseRecu.id }}</td>
+                    <td>{{ deviseRecu.dateRecu ? deviseRecu.dateRecu|date('d/m/Y H:i:s') : '' }}</td>
+                    <td>{{ deviseRecu.Prenom }}{{ deviseRecu.nom }}</td>
+                    <td><a href="{{ path('devise_recus_imprimer', {'id': deviseRecu.id}) }}">Imprimer</a></td>
+                </tr>
+                <tr> <td colspan="4">
+                    <ul>
+                    {% for deviseMouvement in  deviseRecu.deviseMouvements %}
+                            <li>
+                                {{ deviseMouvement.devise }}
+                                {{ deviseMouvement.nombre }} ( {{ (deviseMouvement.nombre < 0)?'SORTIE':'ENTREE'}} )
+                                {{ deviseMouvement.taux }}
+                                {{ deviseMouvement.contreValeur }}  ( {{ (deviseMouvement.contreValeur < 0)?'SORTIE':'ENTREE'}})
+                            </li>
+                    {% endfor %}
+                    </ul>
+                </td></tr>
 
     {% endfor %}
 
         </tbody>
     </Table>
 
-
-    <a href="{{ path('devise_recus_index') }}">back to list</a>
 {% endblock %}
 
 {% block javascripts %}

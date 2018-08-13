@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Devise - Intercaisses{% endblock %}
+
+{% block body %}
+    <h1>Demande d'intercaisse</h1>
+
+    {{ include('devise_intercaisses/_form.html.twig') }}
+
+    {{ include('devise_intercaisses/_list_mouvements.html.twig') }}
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/dm.js') }}"></script>
+
+
+{% endblock %}
