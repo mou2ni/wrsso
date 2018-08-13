@@ -13,8 +13,8 @@ namespace Symfony\Component\Form\Tests\Extension\HttpFoundation;
 
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationRequestHandler;
 use Symfony\Component\Form\Tests\AbstractRequestHandlerTest;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @author Bernhard Schussek <bschussek@gmail.com>

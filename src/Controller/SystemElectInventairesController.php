@@ -126,7 +126,7 @@ class SystemElectInventairesController extends Controller
             $formElect['solde'.$i]->setData(0);
             $i++;
         }
-        $formElect['soldeTotal']->setData(0);
+        $formElect['soldeTotal']->setData(10);
 
 
         // only handles data on POST
@@ -151,7 +151,7 @@ class SystemElectInventairesController extends Controller
 
                 $em->flush();
             }
-            $this->addFlash('success', 'Solde electronique sauvegade!');
+            $this->addFlash('success', 'Billet Créé!');
             return $this->redirectToRoute('system_elect_ligne_inventaires_index');
         }
         return $this->render('system_elect_ligne_inventaires/ajout.html.twig', [

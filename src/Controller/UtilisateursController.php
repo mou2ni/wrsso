@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Comptes;
 use App\Entity\Utilisateurs;
 use App\Form\UtilisateursType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,17 +32,15 @@ class UtilisateursController extends Controller
      */
     public function new(Request $request): Response
     {
-        $compteEcart=$this->getDoctrine()->getRepository('App:Comptes')->findOneBy(['intitule'=>'Ecarts caissier 1']);
-
         $utilisateur = new Utilisateurs();
         $form = $this->createForm(UtilisateursType::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
-            //$dernierCompteEcartCaisse=$this->getDoctrine()->getRepository(Comptes::class)->findAll();
-
-            $utilisateur->setCompteEcartCaisse($compteEcart);
+            $utilisateur->setCompteEcartCaisse($this->getDoctrine()->getRepository('App:Comptes')->find(257));
+            //dump($utilisateur);die();
+            //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
             $em = $this->getDoctrine()->getManager();
             $em->persist($utilisateur);
             $em->flush();

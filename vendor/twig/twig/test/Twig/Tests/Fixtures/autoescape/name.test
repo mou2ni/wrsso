@@ -17,6 +17,6 @@ return array('br' => '<br />')
 return array('autoescape' => 'name')
 --EXPECT--
 &lt;br /&gt;
-\u003Cbr\u0020\/\u003E
+\x3Cbr\x20\x2F\x3E
 &lt;br /&gt;
 <br />

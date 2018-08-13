@@ -12,7 +12,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity (repositoryClass="App\Repository\CaissesRepository")
+ * @ORM\Entity
  * @ORM\Table(name="Caisses")
  */
 class Caisses
@@ -35,19 +35,14 @@ class Caisses
     private $code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="transactionComptes", cascade={"persist"})
-     * @ORM\JoinColumn(name="IdCompte", referencedColumnName="id", nullable=false)
-     */
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="operation", cascade={"persist"} )
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="operations", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      */
     private $idCompteOperation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="cvdDevise", cascade={"persist"} )
-     * @ORM\JoinColumn(referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="devises", cascade={"persist"})
+     * @ORM\JoinColumn(name= "id_cpt_cv_devise",nullable=true)
      */
     private $CompteCvDevise;
 
@@ -59,7 +54,7 @@ class Caisses
     /**
      * @ORM\Column(type="string")
      */
-    private $statut;
+    private $status;
 
     /**
      * @return mixed
@@ -177,27 +172,39 @@ class Caisses
     /**
      * @return mixed
      */
-    public function getStatut()
+    public function getStatus()
     {
-        return $this->statut;
+        return $this->status;
     }
 
     /**
-     * @param mixed $statut
+     * @param mixed $status
      * @return Caisses
      */
-    public function setStatut($statut)
+    public function setStatus($status)
     {
-        $this->statut = $statut;
+        $this->status = $status;
         return $this;
     }
 
-    public function fermerCaisse(){
-        return $this->setStatut($this::FERME);
+    /**
+     * @param mixed $status
+     * @return Caisses
+     */
+    public function fermer()
+    {
+        $this->status = $this::FERME;
+        return $this;
+    }
+    /**
+     * @param mixed $status
+     * @return Caisses
+     */
+    public function ouvrir()
+    {
+        $this->status = $this::OUVERT;
+        return $this;
     }
 
-    public function ouvrirCaisse(){
-        return $this->setStatut($this::OUVERT);
-    }
 
-   }
+}

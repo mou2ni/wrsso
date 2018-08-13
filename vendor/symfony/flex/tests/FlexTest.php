@@ -12,16 +12,14 @@
 namespace Symfony\Flex\Tests;
 
 use Composer\Composer;
+use Composer\Config;
 use Composer\DependencyResolver\Operation\InstallOperation;
-use Composer\Factory;
 use Composer\Installer\PackageEvent;
-use Composer\IO\BufferIO;
 use Composer\Package\Locker;
-use Composer\Package\Package;
 use Composer\Package\RootPackageInterface;
-use Composer\Repository\RepositoryManager;
-use Composer\Repository\WritableRepositoryInterface;
 use Composer\Script\Event;
+use Composer\IO\BufferIO;
+use Composer\Package\Package;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Flex\Configurator;
@@ -162,18 +160,12 @@ EOF
 
     public function testActivateLoadsClasses()
     {
-        $io = new BufferIO('', OutputInterface::VERBOSITY_VERBOSE);
         $composer = new Composer();
-        $composer->setConfig(Factory::createConfig($io));
+        $composer->setConfig($this->getMockBuilder(Config::class)->disableOriginalConstructor()->getMock());
         $package = $this->getMockBuilder(RootPackageInterface::class)->disableOriginalConstructor()->getMock();
         $package->method('getExtra')->will($this->returnValue(['symfony' => ['allow-contrib' => true]]));
         $composer->setPackage($package);
-        $localRepo = $this->getMockBuilder(WritableRepositoryInterface::class)->disableOriginalConstructor()->getMock();
-        $manager = $this->getMockBuilder(RepositoryManager::class)->disableOriginalConstructor()->getMock();
-        $manager->expects($this->once())
-            ->method('getLocalRepository')
-            ->willReturn($localRepo);
-        $composer->setRepositoryManager($manager);
+        $io = new BufferIO('', OutputInterface::VERBOSITY_VERBOSE);
 
         $flex = new Flex();
         $flex->activate($composer, $io);

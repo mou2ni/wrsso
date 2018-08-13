@@ -30,16 +30,3 @@
 
 {% endblock %}
 
-{% block javascripts %}
-
-    {{ parent() }}
-    <script type="text/javascript">
-        $("#depot_retrait_numCompte").keyup(function () {
-            chargerNomCompte();
-        });
-    </script>
-
-
-
-{% endblock %}
-

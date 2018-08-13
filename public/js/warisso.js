@@ -3,6 +3,7 @@
  */
 
 function majTransfert() {
+
     // les variables des totaux
     var reception = 0;
     var emission = 0;
@@ -20,7 +21,7 @@ function majTransfert() {
 };
 
 function majOuverture() {
-
+alert('top');
     $("#dispo").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv"));
     $("#soldeNet").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv")+valeur("#ouverture_mCreditDivers")-valeur("#ouverture_mDetteDivers"));
     $("#ouverture_mCvd").val(valeurDevises());

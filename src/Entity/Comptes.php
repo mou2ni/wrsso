@@ -62,14 +62,14 @@ class Comptes
     private $utilisateurCompteEcarts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="CompteCvDevise", cascade={"persist"})
-     */
-    private $cvdDevise;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="idCompteOperation", cascade={"persist"})
      */
-    private $operation;
+    private $operations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="CompteCvDevise", cascade={"persist"})
+     */
+    private $devises;
 
     /**
      * Comptes constructor.
@@ -77,9 +77,6 @@ class Comptes
     public function __construct()
     {
         $this->transactionComptes = new ArrayCollection();
-        $this->utilisateurCompteEcarts = new ArrayCollection();
-        $this->cvdDevise = new ArrayCollection();
-        $this->operation = new ArrayCollection();
     }
 
     public function __toString()
@@ -215,17 +212,6 @@ class Comptes
         return $this->utilisateurCompteEcarts;
     }
 
-    public function addUtilisateurCompteEcarts(Utilisateurs $utilisateurs)
-    {
-        $this->utilisateurCompteEcarts->add($utilisateurs);
-        $utilisateurs->setCompteEcartCaisse($this);
-    }
-
-    public function removeUtilisateurCompteEcarts(Utilisateurs $utilisateurs)
-    {
-        $this->utilisateurCompteEcarts->removeElement($utilisateurs);
-    }
-
     /**
      * @param mixed $utilisateurCompteEcarts
      * @return Comptes
@@ -235,7 +221,6 @@ class Comptes
         $this->utilisateurCompteEcarts = $utilisateurCompteEcarts;
         return $this;
     }
-
 
     /**
      * @return mixed
@@ -252,42 +237,6 @@ class Comptes
     public function setId($id)
     {
         $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCvdDevise()
-    {
-        return $this->cvdDevise;
-    }
-
-    /**
-     * @param mixed $cvdDevise
-     * @return Comptes
-     */
-    public function setCvdDevise($cvdDevise)
-    {
-        $this->cvdDevise = $cvdDevise;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOperation()
-    {
-        return $this->operation;
-    }
-
-    /**
-     * @param mixed $operation
-     * @return Comptes
-     */
-    public function setOperation($operation)
-    {
-        $this->operation = $operation;
         return $this;
     }
 

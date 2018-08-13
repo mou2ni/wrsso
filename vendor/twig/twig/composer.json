@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Twig, the flexible, fast, and secure template language for PHP",
     "keywords": ["templating"],
-    "homepage": "https://twig.symfony.com",
+    "homepage": "http://twig.sensiolabs.org",
     "license": "BSD-3-Clause",
     "authors": [
         {
@@ -14,7 +14,7 @@
         },
         {
             "name": "Twig Team",
-            "homepage": "https://twig.symfony.com/contributors",
+            "homepage": "http://twig.sensiolabs.org/contributors",
             "role": "Contributors"
         },
         {
@@ -28,8 +28,7 @@
     },
     "require": {
         "php": "^7.0",
-        "symfony/polyfill-mbstring": "~1.0",
-        "symfony/polyfill-ctype": "^1.8"
+        "symfony/polyfill-mbstring": "~1.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.3",
@@ -51,7 +50,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.5-dev"
+            "dev-master": "2.4-dev"
         }
     }
 }

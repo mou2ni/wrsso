@@ -15,12 +15,6 @@ if (!isset($_SERVER['APP_ENV'])) {
     (new Dotenv())->load(__DIR__.'/../.env');
 }
 
-///////////////////////////////////// modifications ///////////////////////
-//if (!isset($_SESSION['user']))
-   // return header('login');
-
-//////////////////////////////////// fin modifications /////////////////////
-
 $env = $_SERVER['APP_ENV'] ?? 'dev';
 $debug = (bool) ($_SERVER['APP_DEBUG'] ?? ('prod' !== $env));
 

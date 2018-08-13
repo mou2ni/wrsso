@@ -31,7 +31,7 @@ class Transactions
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
      * @ORM\JoinColumn(name="idUtilisateur", nullable=false)
      */
     private $utilisateur;
@@ -262,7 +262,7 @@ class Transactions
         $this->id = $id;
         return $this;
     }
-
+    
 
 
 }

@@ -16,7 +16,7 @@
  *
  * @author Fabien Potencier <fabien@symfony.com>
  *
- * @see https://twig.symfony.com/doc/templates.html#test-operator
+ * @see http://twig.sensiolabs.org/doc/templates.html#test-operator
  */
 class Twig_Test
 {

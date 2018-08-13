@@ -13,24 +13,21 @@ namespace Symfony\Flex\Tests\Configurator;
 
 require_once __DIR__.'/TmpDirMock.php';
 
-use Composer\Composer;
-use Composer\IO\IOInterface;
-use PHPUnit\Framework\TestCase;
 use Symfony\Flex\Configurator\EnvConfigurator;
 use Symfony\Flex\Options;
-use Symfony\Flex\Recipe;
+use PHPUnit\Framework\TestCase;
 
 class EnvConfiguratorTest extends TestCase
 {
     public function testConfigure()
     {
         $configurator = new EnvConfigurator(
-            $this->getMockBuilder(Composer::class)->getMock(),
-            $this->getMockBuilder(IOInterface::class)->getMock(),
+            $this->getMockBuilder('Composer\Composer')->getMock(),
+            $this->getMockBuilder('Composer\IO\IOInterface')->getMock(),
             new Options()
         );
 
-        $recipe = $this->getMockBuilder(Recipe::class)->disableOriginalConstructor()->getMock();
+        $recipe = $this->getMockBuilder('Symfony\Flex\Recipe')->disableOriginalConstructor()->getMock();
         $recipe->expects($this->any())->method('getName')->will($this->returnValue('FooBundle'));
 
         $env = sys_get_temp_dir().'/.env.dist';
@@ -152,12 +149,12 @@ EOF
     public function testConfigureGeneratedSecret()
     {
         $configurator = new EnvConfigurator(
-            $this->getMockBuilder(Composer::class)->getMock(),
-            $this->getMockBuilder(IOInterface::class)->getMock(),
+            $this->getMockBuilder('Composer\Composer')->getMock(),
+            $this->getMockBuilder('Composer\IO\IOInterface')->getMock(),
             new Options()
         );
 
-        $recipe = $this->getMockBuilder(Recipe::class)->disableOriginalConstructor()->getMock();
+        $recipe = $this->getMockBuilder('Symfony\Flex\Recipe')->disableOriginalConstructor()->getMock();
         $recipe->expects($this->any())->method('getName')->will($this->returnValue('FooBundle'));
 
         $env = sys_get_temp_dir().'/.env.dist';

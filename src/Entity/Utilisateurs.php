@@ -55,7 +55,7 @@ class Utilisateurs
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
-     * @ORM\JoinColumn(name="idCompteEcartCaisse", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="id_cpt_ecart", referencedColumnName="id", nullable=false)
      */
     private $compteEcartCaisse;
 
@@ -63,11 +63,6 @@ class Utilisateurs
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="utilisateur", cascade={"persist"})
      */
     private $journeeCaisses;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Transactions", mappedBy="", cascade={"persist"})
-     */
-    private $transaction;
 
     private $isAuthaticate;
 
