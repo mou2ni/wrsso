@@ -16,26 +16,27 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/devise/recus")
+ * @Route("/devise/negoce")
  */
 class DeviseRecusController extends Controller
 {
-    /**
+    const COPIE1=0, COPIE2=600;
+    /*
      * @Route("/", name="devise_recus_index", methods="GET")
-     */
+
     public function index(DeviseRecusRepository $deviseRecusRepository): Response
     {
         return $this->render('devise_recus/index.html.twig', ['devise_recuses' => $deviseRecusRepository->findAll()]);
     }
-
+*/
     /**
-     * @Route("/achat_vente", name="devise_recus_achat_vente", methods="GET|POST")
+     * @Route("/", name="devise_recus_achat_vente", methods="GET|POST")
      */
     public function achatVente(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
-        $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'T']);
+        $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
 
         //die($journeeCaisse);
 
@@ -43,24 +44,18 @@ class DeviseRecusController extends Controller
         $deviseRecus = new DeviseRecus($journeeCaisse,$em);
 
         ////////////////////////////////////////////////TESTS A SUPPRIMER//////////////////////////////////////////////
-
+/*
         $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
-        $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setNumPiece('B3520333')->setMotif('Voyage affaire chine');
+        $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setNumPiece('B3520333')->setMotif('Voyage affaire chine')->setSens(DeviseMouvements::ACHAT);
 
         $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens($deviseMvt::ACHAT)->setDevise($usd)->setNombre(100)->setTaux(500);
+        $deviseMvt->setDevise($usd)->setNombre(100)->setTaux(500);
         $deviseRecus->addDeviseMouvement($deviseMvt);
         $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens($deviseMvt::VENTE)->setDevise($usd)->setNombre(50)->setTaux(600);
+        $deviseMvt->setDevise($euro)->setNombre(200)->setTaux(650);
         $deviseRecus->addDeviseMouvement($deviseMvt);
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens($deviseMvt::ACHAT)->setDevise($euro)->setNombre(200)->setTaux(650);
-        $deviseRecus->addDeviseMouvement($deviseMvt);
-        $deviseMvt=new DeviseMouvements();
-        $deviseMvt->setSens($deviseMvt::VENTE)->setDevise($euro)->setNombre(100)->setTaux(700);
-        $deviseRecus->addDeviseMouvement($deviseMvt);
-
+*/
 
         ////////////////////////////////////////////////FIN TEST A SUPPRIMER
 
@@ -69,16 +64,7 @@ class DeviseRecusController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            if ($form->getClickedButton()->getName()=='close' ){
-                // History -1 here
-
-                //echo 'CLOSE ..............';
-            }
-
-            if ( $form->getClickedButton()->getName()=='reset'){
-               // echo 'RESET ..............';
-                $deviseRecus = new DeviseRecus($journeeCaisse,$em);
-            }
+            
 
             $save_and_new=$form->getClickedButton()->getName()== 'save_and_new';
             $save_and_print= $form->getClickedButton()->getName()== 'save_and_print';
@@ -92,10 +78,9 @@ class DeviseRecusController extends Controller
 
                 if ($save_and_print) {
 
-                    //print  HERE
-                    //echo '$save_and_print ..............';
+                    //return $this->redirectToRoute('devise_recus_imprimer', ['devise_recus' => $deviseRecus]);
 
-                    $deviseRecusNew = new DeviseRecus($journeeCaisse,$em);
+                    return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(), 'copies'=>[$this::COPIE1,$this::COPIE2]]);
                 }
 
                 if ($save_and_new) {
@@ -117,10 +102,26 @@ class DeviseRecusController extends Controller
             return $this->redirectToRoute('devise_recus_achat_vente');
         }
 
+        $my_devise_recus=$this->getDoctrine()->getRepository(DeviseRecus::class)->findMyDeviseRecus($journeeCaisse);
+
         return $this->render('devise_recus/achat_vente.html.twig', [
-            'devise_recus' => $deviseRecus, 'journeeCaisse'=>$journeeCaisse,
+            'devise_recus' => $deviseRecus, 'my_devise_recus'=>$my_devise_recus,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/imprimer/{id}", name="devise_recus_imprimer", methods="GET|POST")
+     */
+    public function imprimer(Request $request, DeviseRecus $deviseRecus): Response
+    {
+        /*$form = $this->createForm(DeviseRecusType::class, $deviseRecus);
+        $form->handleRequest($request);*/
+        //if ($form->isSubmitted() && $form->isValid()){
+        if ($request->query->has('retour')){
+            return $this->redirectToRoute('devise_recus_achat_vente');
+        }
+        return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(), 'copies'=>[$this::COPIE1,$this::COPIE2]]);
     }
 
     /**

@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('devise_intercaisses_annuler', {'id': devise_intercaiss.id}) }}">
+    <input type="hidden" name="_method" value="UPDATE">
+    <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ devise_intercaiss.id) }}">
+    {{ include('devise_intercaisses/_btn_action.html.twig', {'btn_confirmation_label': 'Confirmer l\'annulation ?'}) }}
+</form>

@@ -1,0 +1,134 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+<script type="text/javascript">
+    function imprimer_recu(){
+        window.print();
+    }
+</script>
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/impression.css') }}" type="text/css" media="print" />
+{% endblock %}
+
+
+</head>
+<body >
+{% block body %}
+
+
+    <DIV id="btn-action" class="btn-action" style="position:absolute; left:10px; top:10px;">
+        <form>
+            <input id="imprimer" name="imprimer" type="button" onclick="imprimer_recu()" value="Imprimer" class="btn-primary"/>
+            <input id="retour" name="retour" type="submit"  value="Fermer" class="btn-primary"/>
+        </form>
+    </DIV>
+
+    {% for copie in copies %}
+    <DIV>
+
+    <DIV id=ou2 style="position:absolute; left:40px; top:40px; width:111px; height:101px;; overflow:visible; ">
+
+  <span style="position:absolute; left:0px; top:{{ copie+0 }}px; width:140px; height:140px; );
+">{#{% if (copie==false) %}#}
+      <img style="width:130px; height:120px; "
+       src="/wrsso/public/images/logo.jpg" border="0" alt="">
+      {#{% else %}
+          <p>COPIE</p>
+      {% endif %}#}
+  </span>
+
+    </DIV>
+
+    <DIV id=u4 style="position:absolute; left:190px; top:{{ copie+40 }}px; width:150px; height:24px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u4_rtf><span style=" font-family:'Arial'; color:#000000; font-size:21px;"><b>YESBO SARL</b></span></DIV></DIV>
+    <DIV id=u5 style="position:absolute; left:190px; top:{{ copie+70 }}px; height:22px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u5_rtf><span style=" font-family:'Arial'; color:#000000; font-size:20px;">Bureau de change</span></DIV></DIV>
+    <DIV id=u6 style="position:absolute; left:190px; top:{{ copie+95 }}px; width:310px; height:22px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u6_rtf><span style=" font-family:'Arial'; color:#000000; font-size:18px;">Agrément YESBO N° 0169-007E </span></DIV></DIV>
+    <DIV id=u6 style="position:absolute; left:190px; top:{{ copie+120 }}px; width:310px; height:22px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u6_rtf><span style=" font-family:'Arial'; color:#000000; font-size:20px;">Transferts d'argent</span></DIV></DIV>
+    <DIV id=u7 style="position:absolute; left:550px; top:{{ copie+40 }}px; width:180px; height:70px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u7_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;">www.yesbo.bf<br>infos@yesbo.bf<br>Tél : (+226) 25 33 22 05</span></DIV></DIV>
+    <DIV id=u8 style="position:absolute; left:190px; top:{{ copie+150 }}px; width:470px; height:22px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u8_rtf><span style=" font-family:'Arial'; color:#000000; font-size:19px;"><u>BORDERAU {{ (devise_recus.sens=='A')?' D\'ACHAT ':' DE VENTE ' }} DE DEVISES N°{{ devise_recus.id  }}</u></span></DIV></DIV>
+    <DIV id=u9 style="position:absolute; left:50px; top:{{ copie+185 }}px; width:470px; height:22px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u9_rtf><span style=" font-family:'Arial'; color:#000000; font-size:19px;"><u>INFORMATIONS SUR LE CLIENT</u></span></DIV></DIV>
+    <DIV id=u10 style="position:absolute; left:50px; top:{{ copie+220 }}px; width:110px; height:19px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u10_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Nom</u></span></DIV></DIV>
+    <DIV id=u11 style="position:absolute; left:250px; top:{{ copie+220 }}px; width:110px; height:19px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u11_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Prénom</u></span></DIV></DIV>
+    <DIV id=u12 style="position:absolute; left:50px; top:{{ copie+240 }}px; width:150px; height:17px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u12_rtf><span style=" font-family:'Arial'; color:#000000; font-size:15px;">{{ devise_recus.nom }}</span></DIV></DIV>
+    <DIV id=u13 style="position:absolute; left:250px; top:{{ copie+240 }}px; width:150px; height:17px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u13_rtf><span style=" font-family:'Arial'; color:#000000; font-size:15px;">{{ devise_recus.prenom }}</span></DIV></DIV>
+    <DIV id=u14 style="position:absolute; left:50px; top:{{ copie+265 }}px; width:110px; height:19px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u14_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Résidence</u></span></DIV></DIV>
+    <DIV id=u15 style="position:absolute; left:250px; top:{{ copie+265 }}px; width:110px; height:19px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u15_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Numéro ID</u></span></DIV></DIV>
+    <DIV id=u16 style="position:absolute; left:50px; top:{{ copie+285 }}px; width:150px; height:17px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u16_rtf><span style=" font-family:'Arial'; color:#000000; font-size:15px;">{{ devise_recus.paysPiece }}</span></DIV></DIV>
+    <DIV id=u17 style="position:absolute; left:250px; top:{{ copie+285 }}px; width:150px; height:17px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u17_rtf><span style=" font-family:'Arial'; color:#000000; font-size:15px;">{{ devise_recus.numPiece }}</span></DIV></DIV>
+    <DIV id=u18 style="position:absolute; left:50px; top:{{ copie+315 }}px; width:80px; height:35px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u18_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Adresse</u></span></DIV></DIV>
+    <DIV id=u19 style="position:absolute; left:50px; top:{{ copie+335 }}px; width:270px; height:17px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u19_rtf><span style=" font-family:'Arial'; color:#000000; font-size:15px;">{{ devise_recus.adresse }}</span></DIV></DIV>
+    <DIV id=u20 style="position:absolute; left:410px; top:{{ copie+185 }}px; width:470px; height:22px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u20_rtf><span style=" font-family:'Arial'; color:#000000; font-size:19px;"><u>DETAILS DE LA TRANSACTION</u></span></DIV></DIV>
+    <DIV id=u21 style="position:absolute; left:410px; top:{{ copie+220 }}px; width:110px; height:19px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u21_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Date</u></span></DIV></DIV>
+    <DIV id=u22 style="position:absolute; left:610px; top:{{ copie+220 }}px; width:110px; height:19px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u22_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Motifs</u></span></DIV></DIV>
+    <DIV id=u23 style="position:absolute; left:410px; top:{{ copie+240 }}px; width:150px; height:17px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u23_rtf><span style=" font-family:'Arial'; color:#000000; font-size:15px;">{{ devise_recus.dateRecu ? devise_recus.dateRecu|date('d/m/Y') : '' }}</span></DIV></DIV>
+    <DIV id=u24 style="position:absolute; left:610px; top:{{ copie+240 }}px; width:190px; height:17px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u24_rtf><span style=" font-family:'Arial'; color:#000000; font-size:15px;">{{ devise_recus.Motif }}</span></DIV></DIV>
+    <DIV id=u25 style="position:absolute; left:407px; top:{{ copie+285 }}px; width:438px; height:91px;">
+
+
+    </DIV>
+
+    <DIV id=u25container style="position:absolute; left:407px; top:{{ copie+290 }}px; width:438px; height:91px; overflow:visible">
+
+        <table width="100%" cellspacing="0" cellpadding="10" border="1">
+            <thead >
+            <tr bgcolor="#ECECEC" >
+                <th align="right" height="25"><span style=" font-family:'Arial'; color:#000000; font-size:14px;">Devises</span></th>
+                <th align="right" height="25"><span style=" font-family:'Arial'; color:#000000; font-size:14px;">Nombre</span></th>
+                <th align="right" height="25"><span style=" font-family:'Arial'; color:#000000; font-size:14px;">Taux</span></th>
+                <th align="right" height="25"><span style=" font-family:'Arial'; color:#000000; font-size:14px;">Contre Valeur</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for devise_mouvement in devise_mouvements %}
+            <tr>
+                <td align="right" height="20"><span style=" font-family:'Arial'; color:#000000; font-size:12px;" >{{ devise_mouvement.devise }}</span></td>
+                <td align="right" height="20"><span style=" font-family:'Arial'; color:#000000; font-size:12px;">{{ devise_mouvement.nombre|abs }}</span></td>
+                <td align="right" height="20"><span style=" font-family:'Arial'; color:#000000; font-size:12px;">{{ devise_mouvement.taux }}</span></td>
+                <td align="right" height="20"><span style=" font-family:'Arial'; color:#000000; font-size:14px;">{{ devise_mouvement.contreValeur|abs|number_format(0,',', ' ')  }}</span></td>
+            </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun mouvement</td>
+                </tr>
+            {% endfor %}
+            <tr bgcolor="#ECECEC">
+                <th align="right" height="25" colspan="3"><span style=" font-family:'Arial'; color:#000000; font-size:14px;">TOTAL</span></th>
+                <th align="right" height="25"><span style=" font-family:'Arial'; color:#000000; font-size:14px;">{{ devise_recus.total|abs|number_format(0,',', ' ') }}</span></th>
+            </tr>
+            </tbody>
+        </table>
+    </DIV>
+
+    <DIV id=u55 style="position:absolute; left:40px; top:{{ copie+380 }}px; width:150px; height:34px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u55_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Signature Agent</u></span></DIV></DIV>
+    <DIV id=u56 style="position:absolute; left:230px; top:{{ copie+380 }}px; width:150px; height:34px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u56_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;"><u>Signature Client</u></span></DIV></DIV>
+
+    <DIV id=u56 style="position:absolute; left:230px; top:{{ copie+600 }}px; height:34px; ; ; text-align: left ; font-family:Arial; text-align:left; word-wrap:break-word;" >
+        <DIV id=u56_rtf><span style=" font-family:'Arial'; color:#000000; font-size:16px;">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span></DIV></DIV>
+    </DIV>
+{% endfor %}
+{% endblock %}
+</body>

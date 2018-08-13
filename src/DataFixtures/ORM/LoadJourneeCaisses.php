@@ -26,7 +26,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         $caisseO=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD03']);
 
 
-        $lists = array(['utilisateur' => $utilisateur, 'idCaisse' => $caisse, 'statut'=>'O', 'dateOuv'=>new \DateTime()]
+        $lists = array(['utilisateur' => $utilisateur, 'idCaisse' => $caisse, 'statut'=>'T', 'dateOuv'=>new \DateTime()]
         ,['utilisateur' => $utilisateur, 'idCaisse' => $caisseO, 'statut'=>'O', 'dateOuv'=>new \DateTime()]);
 
         foreach ($lists as $list) {

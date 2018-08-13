@@ -8,7 +8,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Persistence\ObjectManager;
+//use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +36,12 @@ class DeviseTmpMouvements
      * @ORM\JoinColumn(nullable=false)
      */
     private $devise;
+
+    /*
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\JoinColumn(nullable=true)
+
+    private $journeeCaisse;*/
 
     /**
      * @ORM\Column(type="integer")
@@ -136,7 +142,5 @@ class DeviseTmpMouvements
         $this->taux = $taux;
         return $this;
     }
-
-
 
 }

@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('devise_intercaisses_valider', {'id': devise_intercaiss.id}) }}">
+    <input type="hidden" name="_method" value="UPDATE">
+    <input type="hidden" name="_token" value="{{ csrf_token('valider' ~ devise_intercaiss.id) }}">
+
+    {{ include('devise_intercaisses/_btn_action.html.twig', {'btn_confirmation_label': 'Confirmer la Validation ?'}) }}
+</form>

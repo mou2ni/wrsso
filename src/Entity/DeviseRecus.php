@@ -17,9 +17,11 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DeviseRecusRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class DeviseRecus
 {
+    const ACHAT='BORDEREAU D\'ACHAT', VENTE='BORDEREAU DE VENTE';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -33,7 +35,7 @@ class DeviseRecus
     private $deviseMouvements;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $dateRecu;
 
@@ -46,6 +48,11 @@ class DeviseRecus
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adresse;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -74,6 +81,11 @@ class DeviseRecus
     private $motif;
 
     /**
+     * @ORM\Column(type="string", length=1, nullable=false)
+     */
+    private $sens;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="deviseRecus", cascade={"persist"})
      * @ORM\JoinColumn(name="journeeCaisse", referencedColumnName="id", nullable=false)
      */
@@ -95,19 +107,20 @@ class DeviseRecus
         $this->dateRecu=new \DateTime();
     }
 
-/*
-    public function setFromDeviseAchatVente(DeviseAchatVentes $deviseAchatVente)
-    {
-        $this->setDateRecu($deviseAchatVente->getDateRecu());
-        //$this->setNomPrenom($deviseAchatVente->getNomPrenom());
-        $this->setTypePiece($deviseAchatVente->getTypePiece());
-        $this->setNumPiece($deviseAchatVente->getNumPiece());
-        $this->setExpireLe($deviseAchatVente->getExpireLe());
-        $this->setMotif($deviseAchatVente->getMotif());
-        $this->setPaysPiece($deviseAchatVente->getPaysPiece());
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateNature(){
 
-        return $this;
-    }*/
+        //$this->setNature();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setNature(){
+        //($this->sens == DeviseMouvements::ACHAT)?$this->nature=$this::ACHAT:$this->nature=$this::VENTE;
+    }
 
 
     /**
@@ -117,7 +130,9 @@ class DeviseRecus
     public function addDeviseMouvement(DeviseMouvements $deviseMouvement)
     {
 
-        $deviseMouvement->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)->setDeviseRecu($this);
+        $deviseMouvement->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)
+            ->setSens($this->getSens())
+            ->setDeviseRecu($this);
 
         $this->deviseMouvements->add($deviseMouvement);
         return $this;
@@ -282,8 +297,71 @@ class DeviseRecus
         $this->journeeCaisse = $journeeCaisse;
         return $this;
     }
+    
+    /**
+     * @return ObjectManager
+     */
+    public function getEm()
+    {
+        return $this->em;
+    }
 
+    /**
+     * @param ObjectManager $em
+     * @return DeviseRecus
+     */
+    public function setEm($em)
+    {
+        $this->em = $em;
+        return $this;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getSens()
+    {
+        return $this->sens;
+    }
 
+    /**
+     * @param mixed $sens
+     * @return DeviseRecus
+     */
+    public function setSens($sens)
+    {
+        $this->sens = $sens;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotal()
+    {
+        $total=0;
+        foreach ($this->getDeviseMouvements() as $mvt){
+            $total+=$mvt->getContreValeur();
+        }
+        return $total;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param mixed $adresse
+     * @return DeviseRecus
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+        return $this;
+    }
 
 }

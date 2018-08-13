@@ -1,21 +1,23 @@
 <div class="well">
-{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+{{ form_start(form, {'attr': {'class': 'form-horizontal','onsubmit':"return confirm('Confirmer la validation ?');"}}) }}
     {{ form_row(form.dateRecu) }}
     {{ form_row(form.nom) }}
     {{ form_row(form.prenom) }}
+    {{ form_row(form.adresse) }}
     {{ form_row(form.typePiece) }}
     {{ form_row(form.numPiece) }}
     {{ form_row(form.expireLe) }}
     {{ form_row(form.paysPiece) }}
     {{ form_row(form.motif) }}
+    {{ form_row(form.sens) }}
 
 <h3>Devises</h3>
 
-    {{ include('devise_mouvements/_inline_form.html.twig') }}
+    {{ include('devise_recus/_inline_achat_vente_form.html.twig') }}
 
     <div class="form-group">
     <div class="form-row">
-    {{ form_widget(form.save_and_new) }}{{ form_widget(form.save_and_print) }}{{ form_widget(form.reset) }}{{ form_widget(form.close) }}
+    {{ form_widget(form.save_and_new) }}{{ form_widget(form.save_and_print) }}{{ include('_btn_close.html.twig')}}
 
     </div>
     </div>

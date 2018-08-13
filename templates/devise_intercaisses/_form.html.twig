@@ -13,7 +13,7 @@
        {{ form_widget(form.deviseTmpMouvements.vars.prototype.devise)|e('html_attr') }}
     {{ form_widget(form.deviseTmpMouvements.vars.prototype.nombre)|e('html_attr') }}">
             {% for deviseTmpMouvement in form.deviseTmpMouvements %}
-                <div class="form-inline">{{ form_widget(deviseTmpMouvement.devise) }} {{ form_widget(deviseTmMouvement.nombre) }}
+                <div class="form-inline">{{ form_widget(deviseTmpMouvement.devise) }} {{ form_widget(deviseTmpMouvement.nombre) }}
                 </div>
             {% endfor %}
         </div>

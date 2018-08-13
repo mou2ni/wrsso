@@ -8,14 +8,16 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20180802221019 extends AbstractMigration
+final class Version20180808134909 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        //$this->addSql('DROP TABLE user');
+        $this->addSql('ALTER TABLE devise_tmp_mouvements DROP FOREIGN KEY FK_2C09D408ED9240C0');
+        $this->addSql('DROP INDEX IDX_2C09D408ED9240C0 ON devise_tmp_mouvements');
+        $this->addSql('ALTER TABLE devise_tmp_mouvements DROP journee_caisse_id');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +25,8 @@ final class Version20180802221019 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        //$this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, password VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, nom VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, prenom VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, est_caissier TINYINT(1) NOT NULL, status VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE devise_tmp_mouvements ADD journee_caisse_id INT NOT NULL');
+        $this->addSql('ALTER TABLE devise_tmp_mouvements ADD CONSTRAINT FK_2C09D408ED9240C0 FOREIGN KEY (journee_caisse_id) REFERENCES journeecaisses (id)');
+        $this->addSql('CREATE INDEX IDX_2C09D408ED9240C0 ON devise_tmp_mouvements (journee_caisse_id)');
     }
 }

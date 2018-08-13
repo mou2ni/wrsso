@@ -1,0 +1,41 @@
+<table class="table">
+    <tbody>
+    <tr>
+        <th>Id</th>
+        <td>{{ devise_intercaiss.id }}</td>
+    </tr>
+    <tr>
+        <th>Caisse Source</th>
+        <td>{{ devise_intercaiss.journeeCaisseSource }}</td>
+    </tr>
+    <tr>
+        <th>Caisse Destination</th>
+        <td>{{ devise_intercaiss.journeeCaisseDestination }}</td>
+    </tr>
+    <tr>
+        <th>Statut</th>
+        <td>{{ devise_intercaiss.statut }}</td>
+    </tr>
+    <tr>
+        <th>Observations</th>
+        <td>{{ devise_intercaiss.observations }}</td>
+    </tr>
+    </tbody>
+</table>
+<h1>DEVISES</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Devise</th>
+        <th>Nombre</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for deviseTmpMouvement in devise_intercaiss.deviseTmpMouvements %}
+        <tr>
+            <td>{{ deviseTmpMouvement.devise }}</td>
+            <td>{{ deviseTmpMouvement.nombre }}</td>
+        </tr>
+    {% endfor %}
+    <tbody>
+</table>

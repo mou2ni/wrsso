@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DeviseRecus;
+use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,22 @@ class DeviseRecusRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, DeviseRecus::class);
+    }
+
+    /**
+     * @param JourneeCaisses $journeeCaisse
+     * @return mixed
+     */
+    public function findMyDeviseRecus(JourneeCaisses $journeeCaisse)
+    {
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.journeeCaisse = :journeeCaisse')
+            ->setParameter('journeeCaisse', $journeeCaisse)
+            ->orderBy('d.id', 'DESC')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //    /**

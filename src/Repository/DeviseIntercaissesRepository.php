@@ -21,18 +21,6 @@ class DeviseIntercaissesRepository extends ServiceEntityRepository
     }
 
 
-    /**
-     * @param JourneeCaisses $journeeCaisse
-     * @return \App\Entity\DeviseIntercaisses[]
-     */
-    public function findMvtIntercaisseEnvoye(JourneeCaisses $journeeCaisse){
-
-
-
-        return $this->findBy(['journeeCaisseSource'=>$journeeCaisse]);
-
-    }
-
 
     public function findMvtIntercaisses(JourneeCaisses $journeeCaisse)
     {
@@ -43,7 +31,7 @@ class DeviseIntercaissesRepository extends ServiceEntityRepository
             ->innerJoin('di.deviseMouvements', 'dmvt')
             ->addSelect('dmvt')
             ->where($qb->expr()->eq('dmvt.journeeCaisse', ':journeeCaisse'))
-            ->setParameter('journeeCaisse', $journeeCaisse)
+            ->setParameters(['journeeCaisse'=>$journeeCaisse])
             ->addOrderBy('dmvt.id', 'DESC')
             ->getQuery()
             ->getResult();
@@ -57,12 +45,16 @@ class DeviseIntercaissesRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('di');
 
+        $statut=array(DeviseIntercaisses::ANNULE,DeviseIntercaisses::VALIDE);
+
         // On fait une jointure
         return $qb
             ->innerJoin('di.deviseTmpMouvements', 'dmvt')
             ->addSelect('dmvt')
-            ->where($qb->expr()->eq('dmvt.journeeCaisse', ':journeeCaisse'))
-            ->setParameter('journeeCaisse', $journeeCaisse)
+            ->where($qb->expr()->eq('di.journeeCaisseSource', ':journeeCaisseSource'))
+            ->orWhere($qb->expr()->eq('di.journeeCaisseDestination', ':journeeCaisseDestination'))
+            ->andWhere($qb->expr()->notIn('di.statut', ':statut'))
+            ->setParameters(['journeeCaisseSource'=>$journeeCaisse,'statut'=>$statut,'journeeCaisseDestination'=>$journeeCaisse])
             ->addOrderBy('dmvt.id', 'DESC')
             ->getQuery()
             ->getResult();
