@@ -28,12 +28,13 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
 
         $lists = array(['libelle' => 'DAPOYA KD01','code' => 'KD01', 'idCompteOperation' => $compteOperationCaisse1, 'compteCvDevise' => $compteCvDevise1]
         ,['libelle' => 'PISSY KD03', 'code' => 'KD03','idCompteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2]
-        ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'idCompteOperation' => $compteOperationCaisse3, 'compteCvDevise' => null]
+        ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'idCompteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise2]
         );
 
         foreach ($lists as $list) {
             $enr = new Caisses();
-            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setIdCompteOperation($list['idCompteOperation'])->setCompteCvDevise($list['compteCvDevise']);
+            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setIdCompteOperation($list['idCompteOperation'])
+                ->setCompteCvDevise($list['compteCvDevise'])->setStatus(Caisses::FERME);
             $manager->persist($enr);
         }
 

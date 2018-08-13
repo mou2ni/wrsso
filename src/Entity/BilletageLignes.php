@@ -29,6 +29,11 @@ class BilletageLignes
      * @ORM\JoinColumn(nullable=false)
      */
     private $idBilletage;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billets", inversedBy="id", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $billet;
 
     /**
      * @ORM\Column(type="float")

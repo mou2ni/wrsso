@@ -21,13 +21,16 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $utilisateur=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'houedraogo']);
+        $utilisateur=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
+        $utilisateur1=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login1']);
         $caisse=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD01']);
         $caisseO=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD03']);
 
 
         $lists = array(['utilisateur' => $utilisateur, 'idCaisse' => $caisse, 'statut'=>'T', 'dateOuv'=>new \DateTime()]
-        ,['utilisateur' => $utilisateur, 'idCaisse' => $caisseO, 'statut'=>'O', 'dateOuv'=>new \DateTime()]);
+        ,['utilisateur' => $utilisateur, 'idCaisse' => $caisseO, 'statut'=>'O', 'dateOuv'=>new \DateTime()]
+        ,['utilisateur' => $utilisateur1, 'idCaisse' => $caisseO, 'statut'=>'F', 'dateOuv'=>new \DateTime()]
+        );
 
         foreach ($lists as $list) {
             $enr = new JourneeCaisses();

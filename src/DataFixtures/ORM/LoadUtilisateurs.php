@@ -24,8 +24,8 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
         $compteEcartCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts caissier 2']);
         //$compteCompenseCaissier1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 1']);
         //$compteCompenseCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 2']);
-        $lists = array(['login' => 'houedraogo', 'mdp' => 'MD5MDP', 'nom' => 'OUEDRAOGO', 'prenom' => 'Sayouba', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier1]
-        , ['login' => 'asanou', 'mdp' => 'MD5MDPASANOU', 'nom' => 'SANOU', 'prenom' => 'Alfred', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier2]
+        $lists = array(['login' => 'login', 'mdp' => 'login', 'nom' => 'OUEDRAOGO', 'prenom' => 'Sayouba', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier1]
+        , ['login' => 'login1', 'mdp' => 'login1', 'nom' => 'SANOU', 'prenom' => 'Alfred', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier2]
         );
 
         foreach ($lists as $list) {

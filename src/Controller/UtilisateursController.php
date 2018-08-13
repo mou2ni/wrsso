@@ -37,7 +37,7 @@ class UtilisateursController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
+            //$utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
             $utilisateur->setCompteEcartCaisse($this->getDoctrine()->getRepository('App:Comptes')->find(257));
             //dump($utilisateur);die();
             //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());

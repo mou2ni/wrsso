@@ -28,8 +28,8 @@ class BilletagesController extends Controller
     }
 
     /**
-     * @Route("/new", name="billetages_new", methods="GET|POST")
-     */
+ * @Route("/new", name="billetages_new", methods="GET|POST")
+ */
     public function new(Request $request): Response
     {
         $billetage = new Billetages();
@@ -49,6 +49,30 @@ class BilletagesController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/ajout", name="billetages_ajout", methods="GET|POST")
+     */
+    public function ajout(Request $request): Response
+    {
+        $billetage = new Billetages();
+        $form = $this->createForm(BilletagesType::class, $billetage);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($billetage);
+            $em->flush();
+
+            return $this->redirectToRoute('billetages_index');
+        }
+
+        return $this->render('billetages/ajout.html.twig', [
+            'billetage' => $billetage,
+            'form' => $form->createView(),
+        ]);
+    }
+
 
     /**
      * @Route("/{id}", name="billetages_show", methods="GET")

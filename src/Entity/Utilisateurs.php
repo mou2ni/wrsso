@@ -130,7 +130,9 @@ class Utilisateurs
      */
     public function setMdp($mdp)
     {
-        $this->mdp = $mdp;
+
+        //$this->mdp = $mdp;
+        $this->mdp =hash('SHA1',''.$mdp);
         return $this;
     }
 

@@ -189,7 +189,12 @@ class JourneeCaisses
     private $intercaisseEntrant;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreati", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseSortant", cascade={"persist"})
+     */
+    private $intercaisseSortant;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreation", cascade={"persist"})
      */
     private $creation;
 

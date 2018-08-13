@@ -14,6 +14,7 @@ class BilletagesType extends AbstractType
         $builder
             ->add('valeurTotal')
             ->add('dateBillettage')
+            ->add('billetageLignes')
         ;
     }
 
