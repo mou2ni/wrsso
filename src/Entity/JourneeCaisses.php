@@ -185,9 +185,19 @@ class JourneeCaisses
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
-     
+     */
     private $intercaisseEntrant;
-*/
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreati", cascade={"persist"})
+     */
+    private $creation;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesRemb", cascade={"persist"})
+     */
+    private $remboursement;
+
     /////////////////////////// AJOUT HAMADO
 
     public function updateMCvd($montant){
@@ -314,7 +324,7 @@ class JourneeCaisses
      */
     public function setDateOuv($dateOuv)
     {
-        $this->dateOuv = $dateOuv;
+        return $this->dateOuv = $dateOuv;
     }
 
     /**
@@ -556,7 +566,7 @@ class JourneeCaisses
      */
     public function setDateFerm($dateFerm)
     {
-        $this->dateFerm = $dateFerm;
+        return $this->dateFerm = $dateFerm;
     }
 
     /**

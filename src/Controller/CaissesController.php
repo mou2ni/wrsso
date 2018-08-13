@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Caisses;
 use App\Form\CaissesType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,29 @@ class CaissesController extends Controller
             ->findAll();
 
         return $this->render('caisses/index.html.twig', ['caisses' => $caisses]);
+    }
+
+    /**
+     * @Route("/choisir", name="choisir_caisse", methods="GET|POST")
+     */
+    public function choisirCaisse(Request $request): Response
+    {
+        $caisses = $this->getDoctrine()
+            ->getRepository(Caisses::class)
+            ->findBy(['status'=>Caisses::FERME]);
+        $form = $this->get('form.factory')->createNamedBuilder('form')->getForm();
+        $form->add('caisse',EntityType::class,['class'=>Caisses::class, 'choices'=>$caisses]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $caiss=$form['caisse']->getData();
+            $this->get('session')->get('journeeCaisse')->setIdCaisse($caiss);
+
+            return $this->redirectToRoute('caisses_index');
+        }
+
+        return $this->render('caisses/choisirCaisse.html.twig',
+            ['form' => $form->createView(),
+                'caisses' => $caisses]);
     }
 
     /**

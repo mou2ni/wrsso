@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\JourneeCaisses;
 use App\Entity\Utilisateurs;
 use App\Entity\Caisses;
 use App\Form\LoginType;
@@ -42,7 +43,11 @@ class ConnectionController extends Controller
             if ($user)
             {
                 $user->setIsAuthaticate('true');
-                $this->get('session')->set('user', $user);
+                //$this->get('session')->set('user', $user);
+                $journeeCaisseEnCour=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findBy(['utilisateur'=>$user, 'statut'=>JourneeCaisses::OUVERT]);
+                if(!$journeeCaisseEnCour){$journeeCaisseEnCour=new JourneeCaisses();
+                $journeeCaisseEnCour->setUtilisateur($user);}
+                $this->get('session')->set('journeeCaisse', $journeeCaisseEnCour);
                 return $this->redirectToRoute('journee_caisses_index');
             }
             else

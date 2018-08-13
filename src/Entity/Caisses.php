@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Caisses
 {
+    const OUVERT='O', FERME='F';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -34,13 +35,13 @@ class Caisses
     private $code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="operations", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      */
     private $idCompteOperation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="devises", cascade={"persist"})
      * @ORM\JoinColumn(name= "id_cpt_cv_devise",nullable=true)
      */
     private $CompteCvDevise;
@@ -49,6 +50,11 @@ class Caisses
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="idCaisse", cascade={"persist"})
      */
     private $journeeCaisses;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $status;
 
     /**
      * @return mixed
@@ -163,5 +169,42 @@ class Caisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
 
-   }
+    /**
+     * @param mixed $status
+     * @return Caisses
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @param mixed $status
+     * @return Caisses
+     */
+    public function fermer()
+    {
+        $this->status = $this::FERME;
+        return $this;
+    }
+    /**
+     * @param mixed $status
+     * @return Caisses
+     */
+    public function ouvrir()
+    {
+        $this->status = $this::OUVERT;
+        return $this;
+    }
+
+
+}

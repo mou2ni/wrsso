@@ -94,7 +94,7 @@ class BilletageLignes
     public function setValeurBillet($valeurBillet)
     {
         $this->valeurBillet = $valeurBillet;
-        ($this->nbBillet !=0)?$this->valeurLigne=$valeurBillet*$this->nbBillet:$this->valeurLigne=0;
+        //($this->nbBillet !=0)?$this->valeurLigne=$valeurBillet*$this->nbBillet:$this->valeurLigne=0;
         return $this;
     }
 
@@ -113,7 +113,7 @@ class BilletageLignes
     public function setNbBillet($nbBillet)
     {
         $this->nbBillet = $nbBillet;
-        ($this->valeurBillet !=0)?$this->valeurLigne=$nbBillet*$this->valeurBillet:$this->valeurLigne=0;
+        //($this->valeurBillet !=0)?$this->valeurLigne=$nbBillet*$this->valeurBillet:$this->valeurLigne=0;
         return $this;
     }
 
