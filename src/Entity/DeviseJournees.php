@@ -33,19 +33,19 @@ class DeviseJournees
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="deviseJournees", cascade={"persist"})
      * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=false)
      */
-    private $idJourneeCaisse;
+    private $journeeCaisse;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Devises")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idDevise;
+    private $devise;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idBilletOuv;
+    private $billetOuv;
 
     /**
      * @ORM\Column(type="integer")
@@ -87,7 +87,7 @@ class DeviseJournees
      * @ORM\ManyToOne(targetEntity="App\Entity\Billetages" )
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idBilletFerm;
+    private $billetFerm;
 
     /**
      * @ORM\Column(type="integer")
@@ -139,71 +139,6 @@ class DeviseJournees
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     * @return DeviseJournees
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdJourneeCaisse()
-    {
-        return $this->idJourneeCaisse;
-    }
-
-    /**
-     * @param mixed $idJourneeCaisse
-     * @return DeviseJournees
-     */
-    public function setIdJourneeCaisse($idJourneeCaisse)
-    {
-        $this->idJourneeCaisse = $idJourneeCaisse;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdDevise()
-    {
-        return $this->idDevise;
-    }
-
-    /**
-     * @param mixed $idDevise
-     * @return DeviseJournees
-     */
-    public function setIdDevise($idDevise)
-    {
-        $this->idDevise = $idDevise;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdBilletOuv()
-    {
-        return $this->idBilletOuv;
-    }
-
-    /**
-     * @param mixed $idBilletOuv
-     * @return DeviseJournees
-     */
-    public function setIdBilletOuv(Billetages $idBilletOuv)
-    {
-        $this->qteOuv=$idBilletOuv->getValeurTotal();
-        $this->idBilletOuv = $idBilletOuv;
-        return $this;
     }
 
     /**
@@ -259,25 +194,7 @@ class DeviseJournees
         $this->qteIntercaisse = $qteIntercaisse;
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getIdBilletFerm()
-    {
-        return $this->idBilletFerm;
-    }
-
-    /**
-     * @param mixed $idBilletFerm
-     * @return DeviseJournees
-     */
-    public function setIdBilletFerm($idBilletFerm)
-    {
-        $this->idBilletFerm = $idBilletFerm;
-        return $this;
-    }
-
+    
     /**
      * @return mixed
      */
@@ -415,6 +332,79 @@ class DeviseJournees
 
     public function getSoldeQteMvt(){
         return $this->getQteAchat()+$this->getQteVente();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return DeviseJournees
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDevise()
+    {
+        return $this->devise;
+    }
+
+    /**
+     * @param mixed $devise
+     * @return DeviseJournees
+     */
+    public function setDevise($devise)
+    {
+        $this->devise = $devise;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBilletOuv()
+    {
+        return $this->billetOuv;
+    }
+
+    /**
+     * @param mixed $billetOuv
+     * @return DeviseJournees
+     */
+    public function setBilletOuv($billetOuv)
+    {
+        $this->qteOuv=$billetOuv->getValeurTotal();
+        $this->billetOuv = $billetOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBilletFerm()
+    {
+        return $this->billetFerm;
+    }
+
+    /**
+     * @param mixed $billetFerm
+     * @return DeviseJournees
+     */
+    public function setBilletFerm($billetFerm)
+    {
+        $this->billetFerm = $billetFerm;
+        return $this;
     }
 
 }

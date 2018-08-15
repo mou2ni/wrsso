@@ -51,6 +51,28 @@ class CaissesController extends Controller
     }
 
     /**
+     * @Route("/ouvrir", name="caisse_ouvrir", methods="GET|POST")
+     */
+    public function ouvrirCaisse(Request $request): Response
+    {
+        $caisses = $this->getDoctrine()
+            ->getRepository(Caisses::class)
+            ->findBy(['journeeOuverte'=>null]);
+        $form = $this->get('form.factory')->createNamedBuilder('form')->getForm();
+        $form->add('caisse',EntityType::class,['class'=>Caisses::class, 'choices'=>$caisses]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $caiss=$form['caisse']->getData();
+            $this->get('session')->get('journeeCaisse')->setIdCaisse($caiss);
+
+            return $this->redirectToRoute('caisses_index');
+        }
+
+        return $this->render('caisses/choisirCaisse.html.twig',
+            ['form' => $form->createView(),
+                'caisses' => $caisses]);
+    }
+    /**
      * @Route("/new", name="caisses_new", methods="GET|POST")
      */
     public function new(Request $request): Response

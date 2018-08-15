@@ -64,7 +64,14 @@ class Utilisateurs
      */
     private $journeeCaisses;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $journeeCaisseActive;
+
     private $isAuthaticate;
+
 
     /**
      * Utilisateurs constructor.
@@ -264,6 +271,24 @@ class Utilisateurs
     public function setIsAuthaticate($isAuthaticate)
     {
         $this->isAuthaticate = $isAuthaticate;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisseActive()
+    {
+        return $this->journeeCaisseActive;
+    }
+
+    /**
+     * @param mixed $journeeCaisseActive
+     * @return Utilisateurs
+     */
+    public function setJourneeCaisseActive(JourneeCaisses $journeeCaisseActive)
+    {
+        $this->journeeCaisseActive = $journeeCaisseActive;
         return $this;
     }
 

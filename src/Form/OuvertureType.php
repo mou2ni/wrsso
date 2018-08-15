@@ -13,30 +13,17 @@ class OuvertureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateOuv')
-            //->add('statut')
-            ->add('valeurBillet')
-            ->add('soldeElectOuv')
-            ->add('ecartOuv')
-            ->add('mCvd')
-            ->add('mCreditDivers')
-            ->add('mDetteDivers')
-            /*->add('deviseJournee', CollectionType::class, array(
-                'entry_type' => DeviseJourneesType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true
-            ))*/
-            //->add('idUtilisateur')
-            //->add('idJourneeSuivante')
-            ->add('idBilletOuv')
-            ->add('idSystemElectInventOuv')
+            ->remove('billetFerm')
+            ->remove('systemElectInventFerm')
+            ->remove('detteCreditCreations')
+            ->remove('detteCreditRembs')
+            ->remove('intercaisseEntrants')
+            ->remove('intercaisseSortants')
+            ->remove('transfertInternationaux')
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => JourneeCaisses::class,
-        ]);
+    public function getParent(){
+        return JourneeCaisses::class;
     }
 }

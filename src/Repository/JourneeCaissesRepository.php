@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,15 +20,30 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         parent::__construct($registry, JourneeCaisses::class);
     }
 
-    public function getOpenJourneeCaisseQb( $statut)
+    public function getOpenJourneeCaisseQb()
 
     {
         return $this
             ->createQueryBuilder('jc')
             ->where('jc.statut=:statut')
-            ->setParameter('statut',$statut)
+            ->setParameter('statut',JourneeCaisses::OUVERT)
             ;
 
+    }
+
+   
+    public function findOneJourneeActive( Caisses $caisse)
+    {
+        $qb = $this->createQueryBuilder('j');
+
+        return $qb
+            -->where($qb->expr()->eq('j.caisse', ':caisse'))
+            ->andWhere($qb->expr()->isNull('j.journeeSuivante'))
+            ->andWhere($qb->expr()->eq('j.statut',':initial'))
+            ->orWhere($qb->expr()->eq('j.statut',':ouvert'))
+            ->setParameters(['caisse'=>$caisse, 'initial'=>JourneeCaisses::INITIAL,'ouvert'=>JourneeCaisses::OUVERT])
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
 //    /**

@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DetteCreditDivers
 {
+    const REMB='R',INIT='I', PARCIEL='P';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,16 +29,16 @@ class DetteCreditDivers
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idCaisse;
+    private $caisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="creation")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="detteCreditCreations")
      * @ORM\JoinColumn(name="journeeCaissesCreation", referencedColumnName="id",nullable=false)
      */
     private $journeeCaissesCreation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="remboursement")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="detteCreditRembs")
      * @ORM\JoinColumn(name="journeeCaisseRemb", referencedColumnName="id",nullable=false)
      */
     private $journeeCaissesRemb;
@@ -81,54 +82,6 @@ class DetteCreditDivers
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdCaisse()
-    {
-        return $this->idCaisse;
-    }
-
-    /**
-     * @param mixed $idCaisse
-     */
-    public function setIdCaisse($idCaisse)
-    {
-        $this->idCaisse = $idCaisse;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdUtilisateurCreation()
-    {
-        return $this->idUtilisateurCreation;
-    }
-
-    /**
-     * @param mixed $idUtilisateurCreation
-     */
-    public function setIdUtilisateurCreation($idUtilisateurCreation)
-    {
-        $this->idUtilisateurCreation = $idUtilisateurCreation;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdUtilisateurRemb()
-    {
-        return $this->idUtilisateurRemb;
-    }
-
-    /**
-     * @param mixed $idUtilisateurRemb
-     */
-    public function setIdUtilisateurRemb($idUtilisateurRemb)
-    {
-        $this->idUtilisateurRemb = $idUtilisateurRemb;
     }
 
     /**
@@ -209,6 +162,60 @@ class DetteCreditDivers
     public function setMDette($mDette)
     {
         $this->mDette = $mDette;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCaisse()
+    {
+        return $this->caisse;
+    }
+
+    /**
+     * @param mixed $caisse
+     * @return DetteCreditDivers
+     */
+    public function setCaisse($caisse)
+    {
+        $this->caisse = $caisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaissesCreation()
+    {
+        return $this->journeeCaissesCreation;
+    }
+
+    /**
+     * @param mixed $journeeCaissesCreation
+     * @return DetteCreditDivers
+     */
+    public function setJourneeCaissesCreation($journeeCaissesCreation)
+    {
+        $this->journeeCaissesCreation = $journeeCaissesCreation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaissesRemb()
+    {
+        return $this->journeeCaissesRemb;
+    }
+
+    /**
+     * @param mixed $journeeCaissesRemb
+     * @return DetteCreditDivers
+     */
+    public function setJourneeCaissesRemb($journeeCaissesRemb)
+    {
+        $this->journeeCaissesRemb = $journeeCaissesRemb;
+        return $this;
     }
 
 

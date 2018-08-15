@@ -66,7 +66,7 @@ class DeviseIntercaissesController extends Controller
             return $this->redirectToRoute('devise_intercaisses_gestion');
         }
 
-        $journeeCaisse = $em->getRepository(JourneeCaisses::class)->findOneBy(['statut' => 'T']);
+        $journeeCaisse = $em->getRepository(JourneeCaisses::class)->findOneBy(['statut' => 'O']);
 
         $deviseIntercaiss = new DeviseIntercaisses($journeeCaisse, $em);
 

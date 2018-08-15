@@ -17,7 +17,7 @@ class DeviseIntercaissesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $statut=JourneeCaisses::OUVERT;
+        //$statut=JourneeCaisses::OUVERT;
         //$statut='T';
 
         $builder
@@ -26,8 +26,8 @@ class DeviseIntercaissesType extends AbstractType
                 'choice_label' => 'journeeCaisse',
                 'multiple' => false,
                 'expanded'=>false,
-                'query_builder' => function(JourneeCaissesRepository $repository) use($statut) {
-                    return $repository->getOpenJourneeCaisseQb($statut);
+                'query_builder' => function(JourneeCaissesRepository $repository) {
+                    return $repository->getOpenJourneeCaisseQb();
                 }
             ))->add ('deviseTmpMouvements', CollectionType::class, array (
                 'entry_type' => DeviseMvtIntercaisseType::class,
