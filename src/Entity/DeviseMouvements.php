@@ -184,14 +184,14 @@ class DeviseMouvements
     {
         // trouver la DeviseJournee é partir de la Devise saisie et la journeeCaisse passée par le constructeur
         $deviseJournee=$em->getRepository(DeviseJournees::class)
-            ->findOneBy(['idDevise'=>$this->getDevise(), 'idJourneeCaisse'=>$journeeCaisse]);
+            ->findOneBy(['devise'=>$this->getDevise(), 'journeeCaisse'=>$journeeCaisse]);
 
         //die($deviseJournee);
 
         //Créer un nouveau au cas où çc n'existe pas
         if ($deviseJournee==null) {
             $deviseJournee=new DeviseJournees();
-            $deviseJournee->setIdDevise($this->getDevise())->setIdJourneeCaisse($journeeCaisse);
+            $deviseJournee->setDevise($this->getDevise())->setJourneeCaisse($journeeCaisse);
         }
 
         $this->setJourneeCaisse($journeeCaisse);

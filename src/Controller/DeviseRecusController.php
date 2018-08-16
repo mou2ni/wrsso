@@ -47,7 +47,8 @@ class DeviseRecusController extends Controller
 
         $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
-        $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setNumPiece('B3520333')->setMotif('Voyage affaire chine')->setSens(DeviseMouvements::ACHAT);
+        $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setAdresse('837, Avenue DIMDOLOBSON, DAPOYA')->setNumPiece('B3520333')
+            ->setMotif('Voyage affaire chine')->setSens(DeviseMouvements::ACHAT);
 
         $deviseMvt=new DeviseMouvements();
         $deviseMvt->setDevise($usd)->setNombre(100)->setTaux(500);
@@ -89,6 +90,7 @@ class DeviseRecusController extends Controller
                     $deviseRecusNew = new DeviseRecus($journeeCaisse,$em);
                     $deviseRecusNew->setDateRecu(new \DateTime());
                     $deviseRecusNew->setMotif($deviseRecus->getMotif());
+                    $deviseRecusNew->setAdresse($deviseRecus->getAdresse());
                     $deviseRecusNew->setNom($deviseRecus->getNom());
                     $deviseRecusNew->setPrenom($deviseRecus->getPrenom());
                     $deviseRecusNew->setPaysPiece($deviseRecus->getPaysPiece());

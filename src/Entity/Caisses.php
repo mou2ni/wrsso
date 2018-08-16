@@ -59,11 +59,6 @@ class Caisses
      */
     private $journeeOuverte;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $status;
-    
     private $em;
 
     /**
@@ -171,25 +166,6 @@ class Caisses
     }
 
     /**
-     * @return mixed
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param mixed $status
-     * @return Caisses
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-        return $this;
-    }
-
-
-    /**
      * @return $this
      */
     public function fermer()
@@ -243,6 +219,7 @@ class Caisses
             $nouvellleJournee=new JourneeCaisses();
             $this->addJourneeCaisse($nouvellleJournee);
         }
+        
         return $nouvellleJournee;
     }
 

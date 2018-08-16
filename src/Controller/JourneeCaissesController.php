@@ -74,6 +74,7 @@ class JourneeCaissesController extends Controller
         if( $request->query->has('initialise')){
             $caisse=$request->get('caisse');
             $journeeCaisse = $caisse->getNouvelleJournee();
+            $utilisateur->setLastCaisse($caisse);
         }else{
             $journeeCaisse=$utilisateur->getJourneeCaisseActive();
         }
@@ -82,14 +83,31 @@ class JourneeCaissesController extends Controller
         if (!$journeeCaisse){
             $journeeCaisse = new JourneeCaisses();
             $journeeCaisse->setUtilisateur($utilisateur);
+            $journeeCaisse->setCaisse($utilisateur->getLastCaisse());
             $utilisateur->setJourneeCaisseActive($journeeCaisse);
         }
 
-        $form = $this->createForm(OuvertureType::class, $journeeCaisse);
+        $form = $this->createForm(JourneeCaissesType::class, $journeeCaisse);
         $form->handleRequest($request);
-        $journeeCaissePrec=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['journeeCaisseSuivant'=>$journeeCaisse]);
+        $journeeCaissePrec=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['journeeSuivante'=>$journeeCaisse]);
 
 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            //dump($journeeCaiss);die();
+           // $em->persist($journeeCaiss);
+            //$em->flush();
+
+            //return $this->redirectToRoute('journee_caisses_index');
+        }
+
+        $devises=null;
+
+        return $this->render('journee_caisses/ouvrir.html.twig', [
+            'journee_caisse' => $journeeCaisse,
+            'form' => $form->createView(),
+            'journee_caisse_prec'=>$journeeCaissePrec
+        ]);
 
 
     }

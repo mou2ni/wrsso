@@ -1,0 +1,16 @@
+<div class="btn-action">
+
+    {% set left= btn_left|default(0)%}
+    {% set top=btn_top|default(0) %}
+    {% set width =btn_width|default(150)%}
+
+    {% set save_value=save_value|default('Enregistrer') %}
+    {% set close_value=close_value|default('Fermer') %}
+    {% set reset_value=reset_value|default('Effacer') %}
+
+    <INPUT id=u37  type=submit value="{{ save_value }}" class="btn-secondary btn" style="position:absolute; left:{{ left }}px; top:{{ top }}px;width:{{ width }}px;">
+
+    <INPUT id=u38  type=submit value="{{ close_value }}" class="btn-secondary btn" style="position:absolute; left:{{ left+width+10 }}px; top:{{ top }}px;width:{{ width }}px;">
+
+    <INPUT id=u39  type=submit value="{{ reset_value }}" class="btn-cancel btn" style="position:absolute; left:{{ left+2*width+20  }}px; top:{{ top }}px;width:{{ width }}px;" onclick="window.history.back()">
+</div>

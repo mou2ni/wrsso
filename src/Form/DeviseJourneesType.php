@@ -21,10 +21,10 @@ class DeviseJourneesType extends AbstractType
             ->add('qteIntercaisse')
             ->add('qteFerm')
             ->add('ecartFerm')
-            ->add('idJourneeCaisse')
-            ->add('idDevise')
-            ->add('idBilletOuv')
-            ->add('idBilletFerm')
+            ->add('journeeCaisse')
+            ->add('devise')
+            ->add('billetOuv')
+            ->add('billetFerm')
         ;
     }
 

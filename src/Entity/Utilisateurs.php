@@ -70,6 +70,12 @@ class Utilisateurs
      */
     private $journeeCaisseActive;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $lastCaisse;
+
     private $isAuthaticate;
 
 
@@ -289,6 +295,24 @@ class Utilisateurs
     public function setJourneeCaisseActive(JourneeCaisses $journeeCaisseActive)
     {
         $this->journeeCaisseActive = $journeeCaisseActive;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastCaisse()
+    {
+        return $this->lastCaisse;
+    }
+
+    /**
+     * @param mixed $lastCaisse
+     * @return Utilisateurs
+     */
+    public function setLastCaisse($lastCaisse)
+    {
+        $this->lastCaisse = $lastCaisse;
         return $this;
     }
 

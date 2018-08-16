@@ -31,15 +31,15 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
         $idBilletOuv2=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>110]);
 
 
-        $lists = array(['idJourneeCaisse' => $idJourneeCaisse, 'idDevise' => $usd, 'idBilletOuv'=>$idBilletOuv1]
-            ,['idJourneeCaisse' => $idJourneeCaisse, 'idDevise' => $euro, 'idBilletOuv'=>$idBilletOuv2]
+        $lists = array(['journeeCaisse' => $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$idBilletOuv1]
+            ,['journeeCaisse' => $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$idBilletOuv2]
         );
 
         foreach ($lists as $list) {
             $enr = new DeviseJournees();
-            $enr->setIdJourneeCaisse($list['idJourneeCaisse'])
-                ->setIdDevise($list['idDevise'])
-                ->setIdBilletOuv($list['idBilletOuv']);
+            $enr->setJourneeCaisse($list['journeeCaisse'])
+                ->setDevise($list['devise'])
+                ->setBilletOuv($list['billetOuv']);
             $manager->persist($enr);
         }
 

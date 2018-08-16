@@ -32,7 +32,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
         );
 
         foreach ($lists as $list) {
-            $enr = new Caisses();
+            $enr = new Caisses($manager);
             $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise']);
             $manager->persist($enr);
         }

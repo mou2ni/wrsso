@@ -32,7 +32,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         foreach ($lists as $list) {
             $enr = new JourneeCaisses();
             $enr->setUtilisateur($list['utilisateur'])
-                ->setIdCaisse($list['idCaisse'])
+                ->setCaisse($list['caisse'])
                 ->setStatut($list['statut'])
                 ->setDateOuv($list['dateOuv']);
             $manager->persist($enr);
