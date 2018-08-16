@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\JourneeCaisses;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,6 +31,7 @@ class OuvertureType extends AbstractType
             //->add('idJourneeSuivante')
             ->add('idBilletOuv')
             ->add('idSystemElectInventOuv')
+            ->add('billetageOuv', SubmitType::class, ['label' => 'Billetage'])
         ;
     }
 

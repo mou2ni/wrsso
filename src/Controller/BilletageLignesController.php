@@ -160,7 +160,7 @@ class BilletageLignesController extends Controller
 
     /**
      * @Route("/billetages/ajout/{devise}", name="billetage_ligne_ajout")
-     */
+
     public function ajoutAction(Request $request, int $devise)
     {
         //$param=['classe'=>$classe,'champ'=>$champ,'devise'=>$devise];
@@ -227,5 +227,5 @@ class BilletageLignesController extends Controller
             ,'billet'=>$billets
         ]);
     }
-
+*/
 }

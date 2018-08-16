@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,27 @@ class SystemElectInventaires
     private $soldeTotal;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SystemElectLigneInventaires", mappedBy="idSystemElectInventaire", cascade={"persist"})
+     */
+    private $systemElectLigneInventaires;
+
+    public function __construct()
+    {
+        $this->systemElectLigneInventaires = new ArrayCollection();
+    }
+
+    public function addSystemElectLigneInventaires(SystemElectLigneInventaires $systemElectLigneInventaire)
+    {
+        $this->systemElectLigneInventaires->add($systemElectLigneInventaire);
+        $systemElectLigneInventaire->setIdSystemElectInventaire($this);
+    }
+
+    public function removeSystemElectLigneInventaires(SystemElectLigneInventaires $systemElectLigneInventaire)
+    {
+        $this->systemElectLigneInventaires->removeElement($systemElectLigneInventaire);
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -43,10 +65,12 @@ class SystemElectInventaires
 
     /**
      * @param mixed $id
+     * @return SystemElectInventaires
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -59,10 +83,12 @@ class SystemElectInventaires
 
     /**
      * @param mixed $dateInventaire
+     * @return SystemElectInventaires
      */
     public function setDateInventaire($dateInventaire)
     {
         $this->dateInventaire = $dateInventaire;
+        return $this;
     }
 
     /**
@@ -75,11 +101,33 @@ class SystemElectInventaires
 
     /**
      * @param mixed $soldeTotal
+     * @return SystemElectInventaires
      */
     public function setSoldeTotal($soldeTotal)
     {
         $this->soldeTotal = $soldeTotal;
+        return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSystemElectLigneInventaires()
+    {
+        return $this->systemElectLigneInventaires;
+    }
+
+    /**
+     * @param mixed $systemElectLigneInventaires
+     * @return SystemElectInventaires
+     */
+    public function setSystemElectLigneInventaires($systemElectLigneInventaires)
+    {
+        $this->systemElectLigneInventaires = $systemElectLigneInventaires;
+        return $this;
+    }
+
+
 
     public function __toString()
     {

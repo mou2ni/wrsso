@@ -37,21 +37,21 @@ function  valeurDevises() {
     return valeurDevises;
 }
 
-function majBilletage() {
-    var nbrBillet=valeur("#nbrBillet");
+/*function majBilletage() {
+    var nbrBillet=valeur("#nombreLigne");
     var totalBillet=0;
     for ( b=1;b<=nbrBillet;b++){
-        var nbr=valeur("#formBilletage_nbBillet"+b);
-        $("#formBilletage_valeurLigne"+b).val(valeur("#formBilletage_valeur"+b)*nbr);
+        var nbr=valeur("#billetages_billetageLignes_"+b+"_nbBillet");
+        $("#billetages_billetageLignes_"+b+"_nbBillet").val(valeur("billetages_billetageLignes_"+b+"_valeurLigne")*nbr);
 
-        totalBillet=totalBillet+valeur("#formBilletage_valeurLigne"+b);
+        totalBillet=totalBillet+valeur("billetages_billetageLignes_"+b+"_valeurLigne");
 
-        $("#formBilletage_valeurTotal").val(totalBillet);
+        $("#billetages_valeurTotal").val(totalBillet);
 
 
     }
 
-}
+}*/
 
 function majElectronique() {
     var nbrSystemElect=valeur("#nbrSystemElect");
@@ -65,7 +65,7 @@ function majElectronique() {
 }
 
 ///////////////GESTION DES INTERCAISSES ////////////////////////
-jQuery(document).ready(function () {
+$(document).ready(function () {
     $('.boutonintercaisse').click(function (e) {
         //alert('boummmmm');
         var valeur = this.value;

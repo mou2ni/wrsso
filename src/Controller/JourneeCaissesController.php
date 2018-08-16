@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Billetages;
+use App\Entity\Billets;
 use App\Entity\Caisses;
 use App\Entity\DeviseJournees;
 use App\Entity\JourneeCaisses;
 use App\Entity\SystemElectInventaires;
 use App\Entity\SystemElects;
 use App\Entity\Utilisateurs;
+use App\Form\BilletagesType;
 use App\Form\DeviseJourneesType;
 use App\Form\JourneeCaissesType;
 use App\Form\OuvertureType;
@@ -87,7 +89,24 @@ class JourneeCaissesController extends Controller
             $form = $this->createForm(OuvertureType::class, $journeeCaiss);
             $form->handleRequest($request);
 
+            if($request->request->get('billetageOuv')){
+                $billets=$this->getDoctrine()->getRepository(Billets::class)->findAll();
+                $this->render('billetages/ajout.html.twig', [
+                    'billets' => $billets,
+                    'form' => $form->createView(),
+                ]);
+            }
             if ($form->isSubmitted() && $form->isValid()) {
+                if($form->getClickedButton()->getName()=="billetageOuv"){
+                    $billetage = $this->getDoctrine()->getRepository(Billetages::class)->find(26);
+                    $form1 = $this->createForm(BilletagesType::class, $billetage);
+                    $form1->handleRequest($request);
+                    $billets=$this->getDoctrine()->getRepository(Billets::class)->findAll();
+                    return $this->render('billetages/ajout.html.twig', [
+                        'billets' => $billets,
+                        'form' => $form1->createView(),
+                    ]);
+                }
                 $em = $this->getDoctrine()->getManager();
                 //dump($journeeCaiss);die();
                 $em->persist($journeeCaiss);

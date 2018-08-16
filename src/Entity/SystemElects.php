@@ -29,6 +29,11 @@ class SystemElects
     private $Libelle;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SystemElectLigneInventaires", mappedBy="idSystemElect", cascade={"persist"})
+     */
+    private $systemElectInventaire;
+
+    /**
      * @return mixed
      */
     public function getId()

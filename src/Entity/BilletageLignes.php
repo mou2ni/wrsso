@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,12 +26,12 @@ class BilletageLignes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages", inversedBy="billetageLignes", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages", inversedBy="billetageLignes")
+     * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      */
     private $idBilletage;
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billets", inversedBy="id", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Billets", inversedBy="billetageLignes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $billet;
@@ -49,6 +50,17 @@ class BilletageLignes
      * @ORM\Column(type="float")
      */
     private $valeurLigne=0;
+
+    /**
+     * billetageLignes constructor.
+     * @param Billetages $billetages
+     * @param ObjectManager $manager
+     */
+    public function __construct(Billetages $billetages, ObjectManager $manager)
+    {
+        $this->idBilletage=$billetages;
+        $this->em=$manager;
+    }
 
     /**
      * @return mixed
@@ -136,6 +148,24 @@ class BilletageLignes
     public function setValeurLigne($valeurLigne)
     {
         $this->valeurLigne = $valeurLigne;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBillet()
+    {
+        return $this->billet;
+    }
+
+    /**
+     * @param mixed $billet
+     * @return BilletageLignes
+     */
+    public function setBillet($billet)
+    {
+        $this->billet = $billet;
+        return $this;
     }
 
 
