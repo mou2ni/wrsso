@@ -12,7 +12,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\BilletsRepository")
  * @ORM\Table(name="billets")
  */
 class Billets
@@ -34,6 +34,12 @@ class Billets
      * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billet", cascade={"persist"})
      */
     private $billetageLignes;
+
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive=true;
 
 
     public function __toString()
@@ -71,6 +77,24 @@ class Billets
     public function setValeur($valeur)
     {
         $this->valeur = $valeur;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     * @return Billets
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+        return $this;
     }
 
 

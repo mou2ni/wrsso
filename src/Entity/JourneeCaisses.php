@@ -28,13 +28,13 @@ class JourneeCaisses
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", inversedBy="journeeCaisses", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
      */
     private $caisse;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="journeeCaisses", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
      */
     private $utilisateur;
 

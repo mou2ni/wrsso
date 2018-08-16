@@ -11,11 +11,13 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="billetages")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Billetages
 {
@@ -40,25 +42,71 @@ class Billetages
      */
     private $billetageLignes;
 
-    public function __construct()
+    private $billetageLigneAffiches;
+
+
+    private $em;
+
+    public function __construct(ObjectManager $manager)
     {
+        $this->em=$manager;
         $this->billetageLignes = new ArrayCollection();
+        $this->billetageLigneAffiches = new ArrayCollection();
     }
 
-    /////// AJOUT HAMADO
+    public function fillBilletageLignes(){
+        //$this->billetageLignes = new ArrayCollection();
+        foreach ($this->billetageLignes as $bl){
 
-    /*public function addBilletageLignes(BilletageLignes $billetageLigne)
+            $this->billetageLignes->remove($bl);
+        }
+
+        foreach ($this->billetageLigneAffiches as $billetageLigne){
+            //$this->billetageLignes->remove($billetageLigne);
+            //$this->removeBilletageLignes($billetageLigne);
+            if ($billetageLigne->getNbBillet()>0) {
+                $this->billetageLignes->add($billetageLigne);
+            }
+
+        }
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function fillOnUpdate(){
+        //$this->fillBilletageLignes();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function fillOnPersist(){
+        //$this->fillBilletageLignes();
+    }
+
+
+    public function addBilletageLigneAffiche(BilletageLignes $billetageLigne)
     {
-        $this->billetageLignes->add($billetageLigne);
-        $billetageLigne->setIdBilletage($this);
-        //$this->valeurTotal+=$billetageLigne->getNbBillet()*$billetageLigne->getValeurBillet();
+        //dump($billetageLigne);die();
+        $this->billetageLigneAffiches->add($billetageLigne);
+        $billetageLigne->setBilletages($this);
+        if ($billetageLigne->getNbBillet()>0) {
+            $this->addBilletageLignes($billetageLigne);
+        }
+
     }
-    */
+
+    public function removeBilletageLigneAffiche(BilletageLignes $billetageLigne)
+    {
+        $this->billetageLigneAffiches->removeElement($billetageLigne);
+    }
+
     public function addBilletageLignes(BilletageLignes $billetageLignes)
-    {
-        $this->billetageLignes->add($billetageLignes);
-        $billetageLignes->setBilletages($this);
-    }
+{
+    $this->billetageLignes->add($billetageLignes);
+    $billetageLignes->setBilletages($this);
+}
 
     public function removeBilletageLignes(BilletageLignes $billetageLigne)
     {
@@ -147,6 +195,63 @@ class Billetages
         $this->billetageLignes = $billetageLignes;
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getBilletageLigneAffiches(): ArrayCollection
+    {
+        if (!$this->billetageLigneAffiches)$this->billetageLigneAffiches=new ArrayCollection();
+        $billets=$this->em->getRepository('App:Billets')->findActive();
+        foreach ($billets as $billet){
+            $billetageLigne = new BilletageLignes();
+            $billetageLigne->setBillet($billet)->setValeurBillet($billet->getValeur())->setNbBillet(0);
+            //dump($this->billetageLignes);die();
+            foreach ($this->billetageLignes as $ligneEnreg){
+                if ($ligneEnreg->getBillet()->getValeur()==$billet->getValeur()){
+                    echo($ligneEnreg->getNbBillet());echo(":");//echo($billet->getValeur()); echo("===\n");
+                    //dump($billet);die();
+                    $billetageLigne->setNbBillet($ligneEnreg->getNbBillet());
+                }
+            }
+            //die();
+
+            //$this->addBilletageLigneAffiche($billetageLigne);
+            $this->addBilletageLigneAffiche($billetageLigne);
+        }
+
+
+        return $this->billetageLigneAffiches;
+    }
+
+    /**
+     * @param ArrayCollection $billetageLigneAffiches
+     * @return Billetages
+     */
+    public function setBilletageLigneAffiches(ArrayCollection $billetageLigneAffiches): Billetages
+    {
+        $this->billetageLigneAffiches = $billetageLigneAffiches;
+        return $this;
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    public function getEm(): ObjectManager
+    {
+        return $this->em;
+    }
+
+    /**
+     * @param ObjectManager $em
+     * @return Billetages
+     */
+    public function setEm(ObjectManager $em): Billetages
+    {
+        $this->em = $em;
+        return $this;
+    }
+
 
 
 }

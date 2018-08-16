@@ -63,6 +63,15 @@ class BilletageLignes
     /**
      * @return mixed
      */
+    public function getValeurLigne()
+    {
+        return $this->getValeurBillet()*$this->getNbBillet();
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;
@@ -114,13 +123,6 @@ class BilletageLignes
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValeurLigne()
-    {
-        return $this->getValeurBillet()*$this->getNbBillet();
-    }
 
 
     /**

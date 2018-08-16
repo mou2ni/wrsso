@@ -14,7 +14,7 @@ class BilletagesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('valeurTotal')
+            //->add('valeurTotal')
             ->add('dateBillettage')
             ->add('billetageLignes', CollectionType::class, [
                 'entry_type' => BilletageLignesType::class,

@@ -15,8 +15,8 @@ class BilletageLignesType extends AbstractType
     {
         $builder
             ->add('nbBillet')
-            ->add('valeurLigne')
-            ->add('idBilletage')
+            //->add('valeurLigne')
+            //->add('billetages')
             ->add('valeurBillet',TextType::class,array('disabled'=>true))
         ;
     }

@@ -117,12 +117,13 @@ class SystemElectInventairesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $systemElects = $em->getRepository('App:SystemElects')->findAll();
         //////////////////TEST A SUPPRIMER///////////////
-        $journeeCaisse=$em->getRepository('App:JourneeCaisses')->findOneBy(['statut'=>JourneeCaisses::FERME]);
+        $journeeCaisse=$em->getRepository('App:JourneeCaisses')->find(5);
+        //dump($journeeCaisse);die();
           //$journeeCaisse=new JourneeCaisses();
         //////////////////FIN TEST ///////////////////////
                 //////////// creation du formulaire personnalise///////////////////////////////
 
-        if (($operation=='1'&&!$journeeCaisse->getIdSystemElectInventOuv()) || ($operation=='2'&&!$journeeCaisse->getIdSystemElectInventFerm())) {
+        if (($operation=='1'&&!$journeeCaisse->getSystemElectInventOuv()) || ($operation=='2'&&!$journeeCaisse->getSystemElectInventFerm())) {
 
             $systemElectInventaire=new SystemElectInventaires();
             $systemElectInventaire->setDateInventaire(new \DateTime())->setSoldeTotal(0);

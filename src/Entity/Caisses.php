@@ -54,6 +54,11 @@ class Caisses
     private $journeeCaisses;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Utilisateurs", mappedBy="lastCaisse", cascade={"persist"})
+     */
+    private $utilisateurs;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
      * @ORM\JoinColumn(nullable=true)
      */

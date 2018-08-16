@@ -53,43 +53,36 @@ class BilletagesController extends Controller
     }
 
 
-    /**
-     * @Route("/{id}", name="billetages_show", methods="GET")
-     */
-    public function show(Billetages $billetage): Response
-    {
-        $billetageLignes = $this->getDoctrine()
-            ->getRepository(BilletageLignes::class)
-            ->findBy(['idBilletage' => $billetage]);
-        return $this->render('billetages/show.html.twig', [
-            'billetage' => $billetage,
-            'billetage_lignes' => $billetageLignes]);
-    }
+
 
     /**
-     * @Route("/{id}/ajout", name="billetages_ajout", methods="GET|POST")
+     * @Route("/{id}", name="billetages_ajout", methods="GET|POST")
      */
     public function ajouter(Request $request, Billetages $billetage): Response
     {
-        $this->getDoctrine()->getManager()->persist($billetage);
-        $billets=$this->getDoctrine()->getRepository(Billets::class)->findAll();
+        $em=$this->getDoctrine()->getManager();
+        $em->persist($billetage);
+        $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive();
         $em = $this->getDoctrine()->getManager();
+        if (!$billetage->getBilletageLignes())
         foreach ($billets as $billet) {
-            $billetageLigne=new BilletageLignes($billetage,$em);
+            $billetageLigne=new BilletageLignes();
             $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
             $billetage->addBilletageLignes($billetageLigne);
         }
 
         //dump($billetage);die();
+        $billetage->setEm($this->getDoctrine()->getManager());
+        //$billetage->getBilletageLigneAffiches();
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
-
-        //dump($form);die();
+        //$billetage->fillBilletageLignes();
+        //dump($billetage);die();
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($billetage);
             $em->flush();
 
-            return $this->redirectToRoute('billetages_index');
+            //return $this->redirectToRoute('billetages_ajout');
         }
 
         return $this->render('billetages/ajout.html.twig', [
@@ -118,7 +111,18 @@ class BilletagesController extends Controller
         ]);
     }
 
-
+    /**
+     * @Route("/{id}", name="billetages_show", methods="GET")
+     */
+    public function show(Billetages $billetage): Response
+    {
+        $billetageLignes = $this->getDoctrine()
+            ->getRepository(BilletageLignes::class)
+            ->findBy(['idBilletage' => $billetage]);
+        return $this->render('billetages/show.html.twig', [
+            'billetage' => $billetage,
+            'billetage_lignes' => $billetageLignes]);
+    }
     /**
      * @Route("/{id}", name="billetages_delete", methods="DELETE")
      */

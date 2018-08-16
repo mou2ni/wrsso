@@ -61,17 +61,18 @@ class Utilisateurs
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="utilisateur", cascade={"persist"})
+     * @ORM\JoinColumn()
      */
     private $journeeCaisses;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $journeeCaisseActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", inversedBy="utilisateurs", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $lastCaisse;
