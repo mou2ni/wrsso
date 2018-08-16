@@ -22,6 +22,7 @@ class LoadBillet extends Fixture
         $lists=array (
             array('valeur'=>5),
             array('valeur'=>10),
+            array('valeur'=>20),
             array('valeur'=>25),
             array('valeur'=>50),
             array('valeur'=>100),
