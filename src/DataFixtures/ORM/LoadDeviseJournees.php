@@ -37,7 +37,7 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
         $billetage=$manager->getRepository(Billetages::class)->findAll();
 
 
-        $lists = array(['journeeCaisse' => $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$billetage[1]]
+        $lists = array(['journeeCaisse' =>  $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$billetage[1]]
             ,['journeeCaisse' => $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$billetage[2]]
         );
 
