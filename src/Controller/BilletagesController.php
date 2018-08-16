@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\BilletageLignes;
 use App\Entity\Billetages;
+use App\Entity\Billets;
+use App\Entity\JourneeCaisses;
 use App\Form\BilletagesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +30,8 @@ class BilletagesController extends Controller
     }
 
     /**
-     * @Route("/new", name="billetages_new", methods="GET|POST")
-     */
+ * @Route("/new", name="billetages_new", methods="GET|POST")
+ */
     public function new(Request $request): Response
     {
         $billetage = new Billetages();
@@ -50,6 +52,7 @@ class BilletagesController extends Controller
         ]);
     }
 
+
     /**
      * @Route("/{id}", name="billetages_show", methods="GET")
      */
@@ -61,6 +64,38 @@ class BilletagesController extends Controller
         return $this->render('billetages/show.html.twig', [
             'billetage' => $billetage,
             'billetage_lignes' => $billetageLignes]);
+    }
+
+    /**
+     * @Route("/{id}/ajout", name="billetages_ajout", methods="GET|POST")
+     */
+    public function ajouter(Request $request, Billetages $billetage): Response
+    {
+        $this->getDoctrine()->getManager()->persist($billetage);
+        $billets=$this->getDoctrine()->getRepository(Billets::class)->findAll();
+        $em = $this->getDoctrine()->getManager();
+        foreach ($billets as $billet) {
+            $billetageLigne=new BilletageLignes($billetage,$em);
+            $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
+            $billetage->addBilletageLignes($billetageLigne);
+        }
+
+        //dump($billetage);die();
+        $form = $this->createForm(BilletagesType::class, $billetage);
+        $form->handleRequest($request);
+
+        //dump($form);die();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($billetage);
+            $em->flush();
+
+            return $this->redirectToRoute('billetages_index');
+        }
+
+        return $this->render('billetages/ajout.html.twig', [
+            'billets' => $billets,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -82,6 +117,7 @@ class BilletagesController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
 
     /**
      * @Route("/{id}", name="billetages_delete", methods="DELETE")

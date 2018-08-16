@@ -27,15 +27,19 @@ class ConnectionController extends Controller
      */
     public function identifier(Request $request)
     {
+        //dump($request);die();
+        //if ($this->get('session')->get('journeeCaisse'))
         $erreur='';
         $user = new Utilisateurs();
 		$form = $this->createForm(LoginType::class, $user );
 
         $form->handleRequest($request);
 
-        $pass=hash('SHA1', "".$user->getMdp());
+        //dump($user); die();
 
-        $user->setMdp($pass);
+        //$pass=hash('SHA1', "".$user->getMdp());
+
+        //$user->setMdp($pass);
 			
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -44,9 +48,10 @@ class ConnectionController extends Controller
             {
                 $user->setIsAuthaticate('true');
                 //$this->get('session')->set('user', $user);
-                $journeeCaisseEnCour=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findBy(['utilisateur'=>$user, 'statut'=>JourneeCaisses::OUVERT]);
+                $journeeCaisseEnCour=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['utilisateur'=>$user, 'statut'=>JourneeCaisses::OUVERT]);
                 if(!$journeeCaisseEnCour){$journeeCaisseEnCour=new JourneeCaisses();
                 $journeeCaisseEnCour->setUtilisateur($user);}
+                //$this->get('session')->remove('journeeCaisse');
                 $this->get('session')->set('journeeCaisse', $journeeCaisseEnCour);
                 return $this->redirectToRoute('journee_caisses_index');
             }

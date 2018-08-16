@@ -25,13 +25,13 @@ class SystemElectLigneInventaires
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", inversedBy="systemElectLigneInventaires", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $idSystemElectInventaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElects")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElects",inversedBy="systemElectInventaire")
      * @ORM\JoinColumn(nullable=false)
      */
     private $idSystemElect;
@@ -40,6 +40,11 @@ class SystemElectLigneInventaires
      * @ORM\Column(type="float")
      */
     private $solde;
+
+    public function __toString()
+    {
+        return ''.$this->getSolde();
+    }
 
     /**
      * @return mixed
@@ -51,10 +56,12 @@ class SystemElectLigneInventaires
 
     /**
      * @param mixed $id
+     * @return SystemElectLigneInventaires
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -67,11 +74,15 @@ class SystemElectLigneInventaires
 
     /**
      * @param mixed $idSystemElectInventaire
+     * @return SystemElectLigneInventaires
      */
     public function setIdSystemElectInventaire($idSystemElectInventaire)
     {
         $this->idSystemElectInventaire = $idSystemElectInventaire;
+        return $this;
     }
+
+
 
     /**
      * @return mixed
@@ -83,10 +94,12 @@ class SystemElectLigneInventaires
 
     /**
      * @param mixed $idSystemElect
+     * @return SystemElectLigneInventaires
      */
     public function setIdSystemElect($idSystemElect)
     {
         $this->idSystemElect = $idSystemElect;
+        return $this;
     }
 
     /**
@@ -99,10 +112,12 @@ class SystemElectLigneInventaires
 
     /**
      * @param mixed $solde
+     * @return SystemElectLigneInventaires
      */
     public function setSolde($solde)
     {
         $this->solde = $solde;
+        return $this;
     }
 
 

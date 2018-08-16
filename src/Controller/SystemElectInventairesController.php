@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\JourneeCaisses;
 use App\Entity\SystemElectInventaires;
 use App\Entity\SystemElectLigneInventaires;
 use App\Form\SystemElectInventairesType;
@@ -99,9 +100,63 @@ class SystemElectInventairesController extends Controller
         return $this->redirectToRoute('system_elect_inventaires_index');
     }
 
+    ////////////////cette partie s'occupe de l'enregistrement des soldes Electroniques
+    /// id de l'url nous permettra de savoir l'operation qu'on effectue
+    /// si id=1 nous sommes a l'ouverture
+    /// si 2 c'est la fermeture
+    ///
+    /// la journee caisse sera prise en session.
+    /// Apres traitement on met a jour la variable session
+
+    /**
+     * @Route("/electroniques/ajout/{operation}", name="electroniques_ajout")
+     */
+    public function ajoutAction(Request $request, string $operation)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $systemElects = $em->getRepository('App:SystemElects')->findAll();
+        //////////////////TEST A SUPPRIMER///////////////
+        $journeeCaisse=$em->getRepository('App:JourneeCaisses')->findOneBy(['statut'=>JourneeCaisses::FERME]);
+          //$journeeCaisse=new JourneeCaisses();
+        //////////////////FIN TEST ///////////////////////
+                //////////// creation du formulaire personnalise///////////////////////////////
+
+        if (($operation=='1'&&!$journeeCaisse->getIdSystemElectInventOuv()) || ($operation=='2'&&!$journeeCaisse->getIdSystemElectInventFerm())) {
+
+            $systemElectInventaire=new SystemElectInventaires();
+            $systemElectInventaire->setDateInventaire(new \DateTime())->setSoldeTotal(0);
+            $em->persist($systemElectInventaire);
+            ////////////////Creation des lignes ///////////////////////////////
+
+            foreach ($systemElects as $elect) {
+                $systemElectLigneInventaire = new SystemElectLigneInventaires();
+                $systemElectLigneInventaire->setIdSystemElect($elect)->setSolde(0)->setIdSystemElectInventaire($systemElectInventaire->getId());
+                $systemElectInventaire->addSystemElectLigneInventaires($systemElectLigneInventaire);
+            }
+        }
+        else{
+            $systemElectInventaire=$journeeCaisse->getIdSystemElectInventOuv();
+        }
+        $form = $this->createForm(SystemElectInventairesType::class, $systemElectInventaire);
+        // only handles data on POST
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$em->persist($systemElectInventaire);
+            $em->flush();
+            $operation=='1'?$journeeCaisse->setIdSystemElectInventOuv($systemElectInventaire):$journeeCaisse->setIdSystemElectInventFerm($systemElectInventaire);
+            $this->addFlash('success', 'Billet Créé!');
+            return $this->render('system_elect_ligne_inventaires/index.html.twig', ['system_elect_ligne_inventaires' => $systemElectInventaire->getSystemElectLigneInventaires()]);
+        }
+        return $this->render('system_elect_inventaires/ajout.html.twig', [
+            'form' => $form->createView()
+            ,'elects'=>$systemElects
+        ]);
+    }
+
     /**
      * @Route("Wrsso/electronique/lignes/ajout", name="electronique_ligne_ajout")
-     */
+
     public function ajoutAction(Request $request)
     {
 
@@ -158,5 +213,5 @@ class SystemElectInventairesController extends Controller
             'systemElectsForm' => $formElect->createView()
             ,'elects'=>$systemElects
         ]);
-    }
+    }*/
 }

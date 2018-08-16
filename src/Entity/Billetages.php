@@ -47,11 +47,17 @@ class Billetages
 
     /////// AJOUT HAMADO
 
-    public function addBilletageLignes(BilletageLignes $billetageLigne)
+    /*public function addBilletageLignes(BilletageLignes $billetageLigne)
     {
         $this->billetageLignes->add($billetageLigne);
         $billetageLigne->setIdBilletage($this);
-        $this->valeurTotal+=$billetageLigne->getNbBillet()*$billetageLigne->getValeurBillet();
+        //$this->valeurTotal+=$billetageLigne->getNbBillet()*$billetageLigne->getValeurBillet();
+    }
+    */
+    public function addBilletageLignes(BilletageLignes $billetageLignes)
+    {
+        $this->billetageLignes->add($billetageLignes);
+        $billetageLignes->setIdBilletage($this);
     }
 
     public function removeBilletageLignes(BilletageLignes $billetageLigne)
@@ -60,6 +66,17 @@ class Billetages
     }
 
     //// FIN AJOUT HAMADO
+
+    /*public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertInternationaux->add($transfertInternationaux);
+        $transfertInternationaux->setIdJourneeCaisse($this);
+    }
+
+    public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertInternationaux->removeElement($transfertInternationaux);
+    }*/
 
     /**
      * @return mixed
