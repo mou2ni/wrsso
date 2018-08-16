@@ -44,7 +44,7 @@ class LoadBillettages extends Fixture  implements DependentFixtureInterface
             ]
             );
 
-        foreach ($listss as $lists){
+        foreach ($listss as $lists ){
         $billetage=new Billetages();
         $billetage->setDateBillettage(new \DateTime());
         foreach ($lists as $list) {
