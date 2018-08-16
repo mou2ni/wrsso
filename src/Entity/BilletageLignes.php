@@ -9,7 +9,6 @@
 namespace App\Entity;
 
 
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,7 +28,7 @@ class BilletageLignes
      * @ORM\ManyToOne(targetEntity="App\Entity\Billetages", inversedBy="billetageLignes")
      * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      */
-    private $idBilletage;
+    private $billetages;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Billets", inversedBy="billetageLignes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
@@ -46,20 +45,19 @@ class BilletageLignes
      */
     private $nbBillet=0;
 
-    /**
+    /*
      * @ORM\Column(type="float")
-     */
+
     private $valeurLigne=0;
+*/
 
     /**
-     * billetageLignes constructor.
-     * @param Billetages $billetages
-     * @param ObjectManager $manager
+     * BilletageLignes constructor.
      */
-    public function __construct(Billetages $billetages, ObjectManager $manager)
+    public function __construct()
     {
-        $this->idBilletage=$billetages;
-        $this->em=$manager;
+        //$this->billetages=$billetages;
+        //$this->em=$manager;
     }
 
     /**
@@ -76,24 +74,6 @@ class BilletageLignes
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdBilletage()
-    {
-        return $this->idBilletage;
-    }
-
-    /**
-     * @param $idBilletage
-     * @return $this
-     */
-    public function setIdBilletage($idBilletage)
-    {
-        $this->idBilletage = $idBilletage;
-        return $this;
     }
 
     /**
@@ -139,16 +119,9 @@ class BilletageLignes
      */
     public function getValeurLigne()
     {
-        return $this->valeurLigne;
+        return $this->getValeurBillet()*$this->getNbBillet();
     }
 
-    /**
-     * @param mixed $valeurLigne
-     */
-    public function setValeurLigne($valeurLigne)
-    {
-        $this->valeurLigne = $valeurLigne;
-    }
 
     /**
      * @return mixed
@@ -168,6 +141,23 @@ class BilletageLignes
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBilletages()
+    {
+        return $this->billetages;
+    }
+
+    /**
+     * @param mixed $billetages
+     * @return BilletageLignes
+     */
+    public function setBilletages($billetages)
+    {
+        $this->billetages = $billetages;
+        return $this;
+    }
 
 
 }

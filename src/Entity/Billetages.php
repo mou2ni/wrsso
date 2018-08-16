@@ -25,18 +25,18 @@ class Billetages
      * @ORM\Column(type="integer")
      */
     private $id;
-    /**
+    /*
      * @ORM\Column(type="float")
-     */
-    private $valeurTotal;
 
+    private $valeurTotal=0;
+*/
     /**
      * @ORM\Column(type="datetime")
      */
     private $dateBillettage;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="idBilletage", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billetages", cascade={"persist"})
      */
     private $billetageLignes;
 
@@ -57,7 +57,7 @@ class Billetages
     public function addBilletageLignes(BilletageLignes $billetageLignes)
     {
         $this->billetageLignes->add($billetageLignes);
-        $billetageLignes->setIdBilletage($this);
+        $billetageLignes->setBilletages($this);
     }
 
     public function removeBilletageLignes(BilletageLignes $billetageLigne)
@@ -99,18 +99,13 @@ class Billetages
      */
     public function getValeurTotal()
     {
-        return $this->valeurTotal;
+        $valeurTotal=0;
+        foreach ($this->getBilletageLignes() as $ligne){
+            $valeurTotal += $ligne->getValeurLigne();
+        }
+        return $valeurTotal;
     }
 
-    /**
-     * @param $valeurTotal
-     * @return $this
-     */
-    public function setValeurTotal($valeurTotal)
-    {
-        $this->valeurTotal = $valeurTotal;
-        return $this;
-    }
 
     /**
      * @return mixed

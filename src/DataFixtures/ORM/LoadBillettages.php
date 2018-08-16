@@ -20,29 +20,41 @@ class LoadBillettages extends Fixture  implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $billetageLigne1=new BilletageLignes();
-        $billetageLigne1->setValeurBillet(50)->setNbBillet(1);
-        $billetageLigne2=new BilletageLignes();
-        $billetageLigne2->setValeurBillet(100)->setNbBillet(2);
 
-        $billetageLigne10=new BilletageLignes();
-        $billetageLigne10->setValeurBillet(10)->setNbBillet(1);
-        $billetageLigne20=new BilletageLignes();
-        $billetageLigne20->setValeurBillet(50)->setNbBillet(2);
+        $billet1=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>10000]);
+        $billet2=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>5000]);
+        $billet3=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>2000]);
 
-        $lists=array (
-            array('dateBillettage'=>new \DateTime(),'billetageLigne1'=>$billetageLigne1, 'billetageLigne2'=>$billetageLigne2)
-            ,array('dateBillettage'=>new \DateTime(),'billetageLigne1'=>$billetageLigne10, 'billetageLigne2'=>$billetageLigne20)
-        );
+        $billet50=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>50]);
+        $billet100=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>100]);
+        $billet20=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>20]);
+        $listss=array([
+            array('billet'=>$billet1,'valeurBillet'=>10000, 'nbBillet'=>3)
+            ,array('billet'=>$billet2,'valeurBillet'=>5000, 'nbBillet'=>4)
+            ,array('billet'=>$billet3,'valeurBillet'=>2000, 'nbBillet'=>5)
+        ],
+            [
+                array('billet'=>$billet50,'valeurBillet'=>$billet50->getValeur(), 'nbBillet'=>3)
+                ,array('billet'=>$billet100,'valeurBillet'=>$billet100->getValeur(), 'nbBillet'=>4)
+                ,array('billet'=>$billet20,'valeurBillet'=>$billet20->getValeur(), 'nbBillet'=>5)
+            ],
+            [
+            array('billet'=>$billet50,'valeurBillet'=>$billet50->getValeur(), 'nbBillet'=>20)
+                ,array('billet'=>$billet100,'valeurBillet'=>$billet100->getValeur(), 'nbBillet'=>20)
+            ]
+            );
 
+        foreach ($listss as $lists){
+        $billetage=new Billetages();
+        $billetage->setDateBillettage(new \DateTime());
         foreach ($lists as $list) {
-            $objet=new Billetages();
-            $objet->setDateBillettage($list['dateBillettage']);
-            $objet->addBilletageLignes($list['billetageLigne1']);
-            $objet->addBilletageLignes($list['billetageLigne2']);
-            $manager->persist($objet);
+            $billetageLigne=new BilletageLignes();
+            $billetageLigne->setNbBillet($list['nbBillet'])->setValeurBillet($list['valeurBillet'])->setBillet($list['billet']);
+            $billetage->addBilletageLignes($billetageLigne);
         }
 
+        $manager->persist($billetage);
+        }
         $manager->flush();
     }
 
