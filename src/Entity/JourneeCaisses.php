@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class JourneeCaisses
 {
-    const OUVERT='O', FERME='F';
+    const OUVERT='O', FERME='F', INITIAL='I';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,7 +30,7 @@ class JourneeCaisses
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", inversedBy="journeeCaisses", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idCaisse;
+    private $caisse;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="journeeCaisses", cascade={"persist"})
@@ -42,7 +42,7 @@ class JourneeCaisses
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idJourneeSuivante;
+    private $journeeSuivante;
 
     /**
      * @ORM\Column(type="datetime")
@@ -58,7 +58,7 @@ class JourneeCaisses
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idBilletOuv;
+    private $billetOuv;
 
     /**
      * @ORM\Column(type="bigint")
@@ -66,10 +66,10 @@ class JourneeCaisses
     private $valeurBillet=0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires")
+     * @ORM\OneToOne(targetEntity="App\Entity\SystemElectInventaires")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idSystemElectInventOuv;
+    private $systemElectInventOuv;
 
     /**
      * @ORM\Column(type="bigint")
@@ -130,7 +130,7 @@ class JourneeCaisses
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idBilletFerm;
+    private $billetFerm;
 
     /**
      * @ORM\Column(type="bigint")
@@ -141,7 +141,7 @@ class JourneeCaisses
      * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $idSystemElectInventFerm;
+    private $systemElectInventFerm;
 
     /**
      * @ORM\Column(type="bigint")
@@ -154,7 +154,7 @@ class JourneeCaisses
     private $mEcartFerm=0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="idJourneeCaisse", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="journeeCaisse", cascade={"persist"})
      */
     private $deviseJournees;
 
@@ -186,22 +186,22 @@ class JourneeCaisses
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
      */
-    private $intercaisseEntrant;
+    private $intercaisseEntrants;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseSortant", cascade={"persist"})
      */
-    private $intercaisseSortant;
+    private $intercaisseSortants;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreation", cascade={"persist"})
      */
-    private $creation;
+    private $detteCreditCreations;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesRemb", cascade={"persist"})
      */
-    private $remboursement;
+    private $detteCreditRembs;
 
     /////////////////////////// AJOUT HAMADO
 
@@ -264,25 +264,7 @@ class JourneeCaisses
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIdCaisse()
-    {
-        return $this->idCaisse;
-    }
-
-    /**
-     * @param $idCaisse
-     * @return $this
-     */
-    public function setIdCaisse($idCaisse)
-    {
-        $this->idCaisse = $idCaisse;
-        return $this;
-    }
-
-    /**
+     /**
      * @return mixed
      */
     public function getUtilisateur()
@@ -303,29 +285,14 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getIdJourneeSuivante()
-    {
-        return $this->idJourneeSuivante;
-    }
-
-    /**
-     * @param mixed $idJourneeSuivante
-     */
-    public function setIdJourneeSuivante($idJourneeSuivante)
-    {
-        $this->idJourneeSuivante = $idJourneeSuivante;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getDateOuv()
     {
         return $this->dateOuv;
     }
 
     /**
-     * @param mixed $dateOuv
+     * @param $dateOuv
+     * @return mixed
      */
     public function setDateOuv($dateOuv)
     {
@@ -346,24 +313,13 @@ class JourneeCaisses
      */
     public function setStatut($statut)
     {
+        if ($statut==$this::OUVERT ) {
+            $this->caisse->setJourneeOuverte($this);
+        }else{
+            $this->caisse->setJourneeOuverte(null);
+        }
         $this->statut = $statut;
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdBilletOuv()
-    {
-        return $this->idBilletOuv;
-    }
-
-    /**
-     * @param mixed $idBilletOuv
-     */
-    public function setIdBilletOuv($idBilletOuv)
-    {
-        $this->idBilletOuv = $idBilletOuv;
     }
 
     /**
@@ -380,22 +336,6 @@ class JourneeCaisses
     public function setValeurBillet($valeurBillet)
     {
         $this->valeurBillet = $valeurBillet;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdSystemElectInventOuv()
-    {
-        return $this->idSystemElectInventOuv;
-    }
-
-    /**
-     * @param mixed $idSystemElectInventOuv
-     */
-    public function setIdSystemElectInventOuv($idSystemElectInventOuv)
-    {
-        $this->idSystemElectInventOuv = $idSystemElectInventOuv;
     }
 
     /**
@@ -567,27 +507,12 @@ class JourneeCaisses
     }
 
     /**
-     * @param mixed $dateFerm
+     * @param $dateFerm
+     * @return mixed
      */
     public function setDateFerm($dateFerm)
     {
         return $this->dateFerm = $dateFerm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdBilletFerm()
-    {
-        return $this->idBilletFerm;
-    }
-
-    /**
-     * @param mixed $idBilletFerm
-     */
-    public function setIdBilletFerm($idBilletFerm)
-    {
-        $this->idBilletFerm = $idBilletFerm;
     }
 
     /**
@@ -604,22 +529,6 @@ class JourneeCaisses
     public function setValeurBilletFerm($valeurBilletFerm)
     {
         $this->valeurBilletFerm = $valeurBilletFerm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdSystemElectInventFerm()
-    {
-        return $this->idSystemElectInventFerm;
-    }
-
-    /**
-     * @param mixed $idSystemElectInventFerm
-     */
-    public function setIdSystemElectInventFerm($idSystemElectInventFerm)
-    {
-        $this->idSystemElectInventFerm = $idSystemElectInventFerm;
     }
 
     /**
@@ -656,7 +565,7 @@ class JourneeCaisses
 
     public function __toString()
     {
-        return ''.$this->getIdCaisse().' du '.$this->getDateOuv()->format('d-m-y');
+        return ''.$this->getCaisse().' du '.$this->getDateOuv()->format('d-m-y');
     }
 
 
@@ -736,7 +645,7 @@ class JourneeCaisses
 
     public function addDeviseJournee(DeviseJournees $deviseJournee)
     {
-        $deviseJournee->setIdJourneeCaisse($this);
+        $deviseJournee->setJourneeCaisse($this);
         $this->deviseJournee->add($deviseJournee);
     }
 
@@ -866,6 +775,186 @@ class JourneeCaisses
     public function setDeviseMouvements($deviseMouvements)
     {
         $this->deviseMouvements = $deviseMouvements;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCaisse()
+    {
+        return $this->caisse;
+    }
+
+    /**
+     * @param mixed $caisse
+     * @return JourneeCaisses
+     */
+    public function setCaisse($caisse)
+    {
+        $this->caisse = $caisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeSuivante()
+    {
+        return $this->journeeSuivante;
+    }
+
+    /**
+     * @param mixed $journeeSuivante
+     * @return JourneeCaisses
+     */
+    public function setJourneeSuivante($journeeSuivante)
+    {
+        $this->journeeSuivante = $journeeSuivante;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBilletOuv()
+    {
+        return $this->billetOuv;
+    }
+
+    /**
+     * @param mixed $billetOuv
+     * @return JourneeCaisses
+     */
+    public function setBilletOuv($billetOuv)
+    {
+        $this->billetOuv = $billetOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBilletFerm()
+    {
+        return $this->billetFerm;
+    }
+
+    /**
+     * @param mixed $billetFerm
+     * @return JourneeCaisses
+     */
+    public function setBilletFerm($billetFerm)
+    {
+        $this->billetFerm = $billetFerm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetteCreditCreations()
+    {
+        return $this->detteCreditCreations;
+    }
+
+    /**
+     * @param mixed $detteCreditCreations
+     * @return JourneeCaisses
+     */
+    public function setDetteCreditCreations($detteCreditCreations)
+    {
+        $this->detteCreditCreations = $detteCreditCreations;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetteCreditRembs()
+    {
+        return $this->detteCreditRembs;
+    }
+
+    /**
+     * @param mixed $detteCreditRembs
+     * @return JourneeCaisses
+     */
+    public function setDetteCreditRembs($detteCreditRembs)
+    {
+        $this->detteCreditRembs = $detteCreditRembs;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSystemElectInventOuv()
+    {
+        return $this->systemElectInventOuv;
+    }
+
+    /**
+     * @param mixed $systemElectInventOuv
+     * @return JourneeCaisses
+     */
+    public function setSystemElectInventOuv($systemElectInventOuv)
+    {
+        $this->systemElectInventOuv = $systemElectInventOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSystemElectInventFerm()
+    {
+        return $this->systemElectInventFerm;
+    }
+
+    /**
+     * @param mixed $systemElectInventFerm
+     * @return JourneeCaisses
+     */
+    public function setSystemElectInventFerm($systemElectInventFerm)
+    {
+        $this->systemElectInventFerm = $systemElectInventFerm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIntercaisseEntrants()
+    {
+        return $this->intercaisseEntrants;
+    }
+
+    /**
+     * @param mixed $intercaisseEntrants
+     * @return JourneeCaisses
+     */
+    public function setIntercaisseEntrants($intercaisseEntrants)
+    {
+        $this->intercaisseEntrants = $intercaisseEntrants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIntercaisseSortants()
+    {
+        return $this->intercaisseSortants;
+    }
+
+    /**
+     * @param mixed $intercaisseSortants
+     * @return JourneeCaisses
+     */
+    public function setIntercaisseSortants($intercaisseSortants)
+    {
+        $this->intercaisseSortants = $intercaisseSortants;
         return $this;
     }
 

@@ -60,6 +60,43 @@ class JourneeCaissesController extends Controller
     }
 
     /**
+     * @Route("/ouvrir", name="journee_caisses_ouvrir", methods="GET|POST")
+     */
+    public function ouvrir(Request $request): Response
+    {
+        $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
+
+        if(!$utilisateur->getEstcaissier()){
+            $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
+            return $this->render('main.html.twig'
+            );
+        }
+
+        //si l'utilisateur a choisi une caisse et cliquer sur 'initialise' retrouver ou attribuer une nouvelle journee caisse
+        if( $request->query->has('initialise')){
+            $caisse=$request->get('caisse');
+            $journeeCaisse = $caisse->getNouvelleJournee();
+        }else{
+            $journeeCaisse=$utilisateur->getJourneeCaisseActive();
+        }
+        
+        //si l'utilisateur n'a pas de caisse active et n'a pas demander une initialisation (Chargement nouvelle de la page)
+        if (!$journeeCaisse){
+            $journeeCaisse = new JourneeCaisses();
+            $journeeCaisse->setUtilisateur($utilisateur);
+            $utilisateur->setJourneeCaisseActive($journeeCaisse);
+        }
+
+        $form = $this->createForm(OuvertureType::class, $journeeCaisse);
+        $form->handleRequest($request);
+        $journeeCaissePrec=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['journeeCaisseSuivant'=>$journeeCaisse]);
+
+
+
+
+    }
+
+    /**
      * @Route("/ouverture", name="journee_caisses_ouverture", methods="GET|POST")
      */
     public function ouverture(Request $request): Response
@@ -68,7 +105,7 @@ class JourneeCaissesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $journeeCaisse=$this->get('session')->get('journeeCaisse');
         $user=$journeeCaisse->getUtilisateur();
-        $caisse=$journeeCaisse->getIdCaisse();
+        $caisse=$journeeCaisse->getCaisse();
 
         if (!$user->getEstCaissier()) {
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");

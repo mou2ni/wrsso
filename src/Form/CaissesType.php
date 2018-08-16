@@ -13,8 +13,8 @@ class CaissesType extends AbstractType
     {
         $builder
             ->add('libelle')
-            ->add('idCompteOperation')
-            ->add('idCompteEcart')
+            ->add('compteOperation')
+            ->add('compteEcart')
         ;
     }
 

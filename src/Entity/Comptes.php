@@ -62,9 +62,9 @@ class Comptes
     private $utilisateurCompteEcarts;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="idCompteOperation", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="compteOperation", cascade={"persist"})
      */
-    private $operations;
+    private $caisses;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="CompteCvDevise", cascade={"persist"})
@@ -237,6 +237,42 @@ class Comptes
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCaisses()
+    {
+        return $this->caisses;
+    }
+
+    /**
+     * @param mixed $caisses
+     * @return Comptes
+     */
+    public function setCaisses($caisses)
+    {
+        $this->caisses = $caisses;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDevises()
+    {
+        return $this->devises;
+    }
+
+    /**
+     * @param mixed $devises
+     * @return Comptes
+     */
+    public function setDevises($devises)
+    {
+        $this->devises = $devises;
         return $this;
     }
 

@@ -9,10 +9,12 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\CaissesRepository")
  * @ORM\Table(name="Caisses")
  */
 class Caisses
@@ -35,10 +37,10 @@ class Caisses
     private $code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="operations", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="caisses", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false, referencedColumnName="id")
      */
-    private $idCompteOperation;
+    private $compteOperation;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="devises", cascade={"persist"})
@@ -47,14 +49,31 @@ class Caisses
     private $CompteCvDevise;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="idCaisse", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="caisse", cascade={"persist"})
      */
     private $journeeCaisses;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $journeeOuverte;
 
     /**
      * @ORM\Column(type="string")
      */
     private $status;
+    
+    private $em;
+
+    /**
+     * Caisses constructor.
+     */
+    public function __construct(ObjectManager $em)
+    {
+        $this->em=$em;
+        $this->journeeCaisses=new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -89,24 +108,6 @@ class Caisses
     public function setLibelle($libelle)
     {
         $this->libelle = $libelle;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIdCompteOperation()
-    {
-        return $this->idCompteOperation;
-    }
-
-    /**
-     * @param $idCompteOperation
-     * @return $this
-     */
-    public function setIdCompteOperation($idCompteOperation)
-    {
-        $this->idCompteOperation = $idCompteOperation;
         return $this;
     }
 
@@ -187,18 +188,18 @@ class Caisses
         return $this;
     }
 
+
     /**
-     * @param mixed $status
-     * @return Caisses
+     * @return $this
      */
     public function fermer()
     {
         $this->status = $this::FERME;
         return $this;
     }
+
     /**
-     * @param mixed $status
-     * @return Caisses
+     * @return $this
      */
     public function ouvrir()
     {
@@ -206,5 +207,79 @@ class Caisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCompteOperation()
+    {
+        return $this->compteOperation;
+    }
+
+    /**
+     * @param mixed $compteOperation
+     * @return Caisses
+     */
+    public function setCompteOperation($compteOperation)
+    {
+        $this->compteOperation = $compteOperation;
+        return $this;
+    }
+
+    public function addJourneeCaisse(JourneeCaisses $journeeCaisse)
+    {
+        $journeeCaisse->setCaisse($this);
+        $this->journeeCaisses->add($journeeCaisse);
+    }
+
+    public function removeJourneeCaisse(JourneeCaisses $journeeCaisse)
+    {
+        $this->journeeCaisses->removeElement($journeeCaisse);
+    }
+    
+    public function getNouvelleJournee(){
+
+        $nouvellleJournee=$this->em->getRepository(JourneeCaisses::class)->findOneJourneeActive($this);
+        if(!$nouvellleJournee){
+            $nouvellleJournee=new JourneeCaisses();
+            $this->addJourneeCaisse($nouvellleJournee);
+        }
+        return $nouvellleJournee;
+    }
+
+    /**
+     * @return ObjectManager
+     */
+    public function getEm()
+    {
+        return $this->em;
+    }
+
+    /**
+     * @param ObjectManager $em
+     * @return Caisses
+     */
+    public function setEm($em)
+    {
+        $this->em = $em;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeOuverte()
+    {
+        return $this->journeeOuverte;
+    }
+
+    /**
+     * @param mixed $journeeOuverte
+     * @return Caisses
+     */
+    public function setJourneeOuverte($journeeOuverte)
+    {
+        $this->journeeOuverte = $journeeOuverte;
+        return $this;
+    }
 
 }

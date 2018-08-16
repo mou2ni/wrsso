@@ -1,5 +1,6 @@
 <div class="well">
-{{ form_start(form, {'attr': {'class': 'form-horizontal','onsubmit':"return confirm('Confirmer la validation ?');"}}) }}
+    <div class="form-inline">
+{{ form_start(form, {'attr': {'class': 'form-vertical','onsubmit':"return confirm('Confirmer la validation ?');"}}) }}
     {{ form_row(form.dateRecu) }}
     {{ form_row(form.nom) }}
     {{ form_row(form.prenom) }}
@@ -10,7 +11,7 @@
     {{ form_row(form.paysPiece) }}
     {{ form_row(form.motif) }}
     {{ form_row(form.sens) }}
-
+</div>
 <h3>Devises</h3>
 
     {{ include('devise_recus/_inline_achat_vente_form.html.twig') }}

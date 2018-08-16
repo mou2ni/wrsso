@@ -25,13 +25,13 @@ class InterCaisses
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="intercaisseSortant")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="intercaisseSortants")
      * @ORM\JoinColumn(name="journeeCaisseSortant", referencedColumnName="id", nullable=false)
      */
     private $journeeCaisseSortant;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="intercaisseEntrant")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="intercaisseEntrants")
      * @ORM\JoinColumn(name="journeeCaisseEntrant", referencedColumnName="id", nullable=false)
      */
     private $journeeCaisseEntrant;
