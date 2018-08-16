@@ -26,6 +26,7 @@ class Billets
 
     /**
      * @ORM\Column(type="float")
+     * @ORM\Column(unique=true)
      */
     private $valeur;
 

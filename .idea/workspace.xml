@@ -2,27 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/warisso.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/warisso.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BilletagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BilletagesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillettages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillettages.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/BilletageLignes.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/BilletageLignes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Billetages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Billetages.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Billets.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Billets.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/SystemElectInventaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SystemElectInventaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/SystemElects.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SystemElects.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BilletageLignesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BilletageLignesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BilletagesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BilletagesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/OuvertureType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/OuvertureType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/SystemElectInventairesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SystemElectInventairesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/SystemElectLigneInventairesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SystemElectLigneInventairesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/billetages/ajout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/billetages/ajout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig" afterDir="false" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,79 +58,89 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SystemElectInventairesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="150" column="58" lean-forward="true" selection-start-line="150" selection-start-column="58" selection-end-line="150" selection-end-column="58" />
-              <folding>
-                <element signature="e#34#64#0#PHP" expanded="true" />
-                <element signature="e#893#935#0#PHP" expanded="true" />
-                <element signature="e#1682#1722#0#PHP" expanded="true" />
-                <element signature="e#2297#2338#0#PHP" expanded="true" />
-                <element signature="e#3147#3188#0#PHP" expanded="true" />
-                <element signature="e#4162#4180#1#PHP" expanded="true" />
-                <element signature="e#4542#4562#1#PHP" expanded="true" />
-                <element signature="e#6427#6475#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SystemElectLigneInventairesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectLigneInventairesController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="25" column="145" selection-start-line="25" selection-start-column="79" selection-end-line="25" selection-end-column="145" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-748" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SystemElectInventaires.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectInventaires.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="129" selection-start-line="129" selection-end-line="129" />
-              <folding>
-                <element signature="e#113#161#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SystemElectInventairesType.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Form/SystemElectInventairesType.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="18" column="49" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SystemElectLigneInventairesType.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Form/SystemElectLigneInventairesType.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-              <folding>
-                <element signature="e#28#71#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ajout.html.twig" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ajout.html.twig" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="20" lean-forward="true" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+            <state relative-caret-position="296">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BilletageLignes.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/BilletageLignes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1105">
+              <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Billetages.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Billets.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Billets.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoadBillettages.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillettages.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="46" column="36" lean-forward="true" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+              <folding>
+                <element signature="e#1023#1036#1#PHP" expanded="true" />
+                <element signature="e#1110#1123#1#PHP" expanded="true" />
+                <element signature="e#1196#1209#1#PHP" expanded="true" />
+                <element signature="e#799#812#1#PHP" expanded="true" />
+                <element signature="e#886#899#1#PHP" expanded="true" />
+                <element signature="e#972#985#1#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoadDeviseJournees.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-114" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoadDevises.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="17" selection-start-line="17" selection-end-line="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeviseRecusController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/DeviseRecusController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2106">
+              <caret line="154" column="5" selection-start-line="154" selection-start-column="5" selection-end-line="154" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ajout.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/billetages/ajout.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="527">
+              <caret line="57" column="14" selection-start-line="33" selection-end-line="57" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -220,7 +214,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Form/TransactionComptesType.php" />
         <option value="$PROJECT_DIR$/src/Form/DepotRetraitType.php" />
         <option value="$PROJECT_DIR$/src/Controller/Controller.php" />
         <option value="$PROJECT_DIR$/src/Entity/Clients.php" />
@@ -253,24 +246,25 @@
         <option value="$PROJECT_DIR$/src/Controller/ConnectionController.php" />
         <option value="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" />
         <option value="$PROJECT_DIR$/src/Form/BilletagesType.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Billetages.php" />
         <option value="$PROJECT_DIR$/public/js/warisso.js" />
         <option value="$PROJECT_DIR$/templates/base.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/BilletageLignesType.php" />
         <option value="$PROJECT_DIR$/templates/billetages/ajout.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/BilletageLignes.php" />
         <option value="$PROJECT_DIR$/src/Form/OuvertureType.php" />
         <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
         <option value="$PROJECT_DIR$/templates/journee_caisses/ouverture.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/BilletagesController.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Billets.php" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElects.php" />
         <option value="$PROJECT_DIR$/src/Form/SystemElectInventairesType.php" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElectInventaires.php" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" />
         <option value="$PROJECT_DIR$/src/Form/SystemElectLigneInventairesType.php" />
-        <option value="$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" />
+        <option value="$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig" />
+        <option value="$PROJECT_DIR$/src/Entity/BilletageLignes.php" />
+        <option value="$PROJECT_DIR$/src/Entity/Billetages.php" />
+        <option value="$PROJECT_DIR$/src/Entity/Billets.php" />
+        <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillettages.php" />
       </list>
     </option>
   </component>
@@ -488,19 +482,7 @@
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Entity" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Form" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Migrations" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
@@ -639,6 +621,116 @@
       <recent name="C:\xampp1\htdocs\wrsso\src\Form" />
     </key>
   </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Migrations/Version20180816102617.php</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -700,7 +792,7 @@
       <workItem from="1533246573957" duration="10676000" />
       <workItem from="1533590296386" duration="592000" />
       <workItem from="1533634287968" duration="16030000" />
-      <workItem from="1534354472912" duration="9674000" />
+      <workItem from="1534354472912" duration="18208000" />
     </task>
     <task id="LOCAL-00001" summary="projet de base">
       <created>1529658481864</created>
@@ -898,11 +990,25 @@
       <option name="project" value="LOCAL" />
       <updated>1534204298360</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="electronique">
+      <created>1534411348312</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1534411348312</updated>
+    </task>
+    <task id="LOCAL-00030" summary="electronique">
+      <created>1534413614380</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1534413614380</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="570113000" />
+    <option name="totallyTimeSpent" value="578647000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -914,8 +1020,8 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" weight="0.36928105" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.37745097" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21028744" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" visible="true" weight="0.37745097" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21028744" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.17019667" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1014,7 +1120,8 @@
     <MESSAGE value="intercaisses" />
     <MESSAGE value="depot-retrait" />
     <MESSAGE value="correction d'ouverture" />
-    <option name="LAST_COMMIT_MESSAGE" value="correction d'ouverture" />
+    <MESSAGE value="electronique" />
+    <option name="LAST_COMMIT_MESSAGE" value="electronique" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand>
@@ -1026,26 +1133,6 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Form/DeviseTmpMouvementsType.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/DeviseIntercaissesType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/transfert_internationaux/ajout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="48" column="82" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseMouvementsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1680" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Form/DeviseAchatVentesType.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1053,13 +1140,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="51" selection-start-line="51" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseRecusController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2397">
-          <caret line="154" column="7" selection-start-line="154" selection-start-column="7" selection-end-line="154" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1156,34 +1236,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="65" column="5" lean-forward="true" selection-start-line="56" selection-start-column="4" selection-end-line="65" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Billets.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="32" column="81" selection-start-line="32" selection-start-column="81" selection-end-line="32" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/BilletageLignes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="63" lean-forward="true" selection-start-line="53" selection-start-column="4" selection-end-line="63" />
-          <folding>
-            <element signature="e#113#159#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Form/BilletagesType.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
           <caret line="24" column="14" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="24" selection-end-column="14" />
+          <folding>
+            <element signature="e#28#59#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1255,26 +1314,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/SystemElectLigneInventairesType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-          <folding>
-            <element signature="e#28#71#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/system_elect_ligne_inventaires/ajout.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/billetages/ajout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="23" column="103" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="103" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-748" />
@@ -1311,7 +1350,7 @@
     <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="463">
-          <caret line="150" column="58" lean-forward="true" selection-start-line="150" selection-start-column="58" selection-end-line="150" selection-end-column="58" />
+          <caret line="150" column="58" selection-start-line="150" selection-start-column="58" selection-end-line="150" selection-end-column="58" />
           <folding>
             <element signature="e#34#64#0#PHP" expanded="true" />
             <element signature="e#893#935#0#PHP" expanded="true" />
@@ -1325,10 +1364,94 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/system_elect_ligne_inventaires/ajout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="39" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/SystemElectLigneInventairesType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+          <folding>
+            <element signature="e#28#71#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/billetages/ajout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="57" column="14" selection-start-line="33" selection-end-line="57" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="20" lean-forward="true" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+        <state relative-caret-position="296">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/BilletageLignes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1105">
+          <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseRecusController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2106">
+          <caret line="154" column="5" selection-start-line="154" selection-start-column="5" selection-end-line="154" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-114" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillet.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-195" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Billets.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="27" column="32" selection-start-line="27" selection-start-column="32" selection-end-line="27" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillettages.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="46" column="36" lean-forward="true" selection-start-line="46" selection-start-column="36" selection-end-line="46" selection-end-column="36" />
+          <folding>
+            <element signature="e#1023#1036#1#PHP" expanded="true" />
+            <element signature="e#1110#1123#1#PHP" expanded="true" />
+            <element signature="e#1196#1209#1#PHP" expanded="true" />
+            <element signature="e#799#812#1#PHP" expanded="true" />
+            <element signature="e#886#899#1#PHP" expanded="true" />
+            <element signature="e#972#985#1#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
