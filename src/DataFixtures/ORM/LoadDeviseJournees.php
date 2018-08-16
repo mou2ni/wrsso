@@ -9,6 +9,7 @@
 namespace App\DataFixtures\ORM;
 
 use App\Entity\Billetages;
+use App\Entity\Billets;
 use App\Entity\DeviseJournees;
 use App\Entity\Devises;
 use App\Entity\JourneeCaisses;
@@ -27,12 +28,17 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
         $usd=$manager->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $euro=$manager->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
 
+        /*$billet50=$manager->getRepository(Billets::class)->findOneBy(['valeurBillet'=>50]);
+        $billet100=$manager->getRepository(Billets::class)->findOneBy(['valeurBillet'=>100]);
+
         $idBilletOuv1=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>250]);
-        $idBilletOuv2=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>110]);
+        $idBilletOuv2=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>110]);*/
+
+        $billetage=$manager->getRepository(Billetages::class)->findAll();
 
 
-        $lists = array(['journeeCaisse' => $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$idBilletOuv1]
-            ,['journeeCaisse' => $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$idBilletOuv2]
+        $lists = array(['journeeCaisse' => $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$billetage[1]]
+            ,['journeeCaisse' => $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$billetage[2]]
         );
 
         foreach ($lists as $list) {
