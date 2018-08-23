@@ -38,21 +38,23 @@ class JourneeCaisses
      */
     private $utilisateur;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\Column(type="string")
+     */
+    private $statut=self::INITIAL;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $journeeSuivante;
+    private $journeePrecedente;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $dateOuv;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $statut='O';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
@@ -63,7 +65,7 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="bigint")
      */
-    private $valeurBillet=0;
+    private $mLiquiditeOuv=0;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\SystemElectInventaires")
@@ -74,52 +76,10 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="bigint")
      */
-    private $soldeElectOuv=0;
+    private $mSoldeElectOuv=0;
 
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $ecartOuv=0;
+//     private $mEcartOuv=0;
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $mCvd=0;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $mEmissionTrans=0;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $mReceptionTrans=0;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $mIntercaisse=0;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $mRetraitClient=0;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $mDepotClient=0;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $mCreditDivers=0;
-
-    /**
-     * @ORM\Column(type="bigint")
-     */
-    private $mDetteDivers=0;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -135,7 +95,7 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="bigint")
      */
-    private $valeurBilletFerm=0;
+    private $mLiquiditeFerm=0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires")
@@ -146,42 +106,28 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="bigint")
      */
-    private $SoldeElectFerm=0;
+    private $mSoldeElectFerm=0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreation", cascade={"persist"})
+     */
+    private $detteCreditCreations;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesRemb", cascade={"persist"})
+     */
+    private $detteCreditRembs;
 
     /**
      * @ORM\Column(type="bigint")
      */
-    private $mEcartFerm=0;
+    private $mDetteDivers=0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="journeeCaisse", cascade={"persist"})
+     * @ORM\Column(type="bigint")
      */
-    private $deviseJournees;
+    private $mCreditDivers=0;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DeviseRecus", mappedBy="journeeCaisse", cascade={"persist"})
-     */
-    private $deviseRecus;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseSource", cascade={"persist"})
-     */
-    private $deviseIntercaisseSortants;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseDestination", cascade={"persist"})
-     */
-    private $deviseIntercaisseEntrants;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
-     */
-    private $transfertInternationaux;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="journeeCaisse", cascade={"persist"})
-     */
-    private $deviseMouvements;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
@@ -194,23 +140,95 @@ class JourneeCaisses
     private $intercaisseSortants;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreation", cascade={"persist"})
+     * @ORM\Column(type="bigint")
      */
-    private $detteCreditCreations;
+    private $mIntercaisses=0;
+
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesRemb", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
      */
-    private $detteCreditRembs;
+    private $transfertInternationaux;
 
-    /////////////////////////// AJOUT HAMADO
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mEmissionTrans=0;
 
-    public function updateMCvd($montant){
-        $this->mCvd+=$montant;
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mReceptionTrans=0;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $deviseMouvements;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mCvd=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mRetraitClient=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mDepotClient=0;
+
+    private $mEcartFerm=0;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseSource", cascade={"persist"})
+     */
+    private $deviseIntercaisseSortants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseDestination", cascade={"persist"})
+     */
+    private $deviseIntercaisseEntrants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $deviseJournees;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseRecus", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $deviseRecus;
+
+
+    /**
+     * JourneeCaisses constructor.
+     */
+    public function __construct()
+    {
+        //$this->deviseJournee = new ArrayCollection();
+        $this->transfertInternationaux=new ArrayCollection();
+        $this->intercaisseEntrant=new ArrayCollection();
+        $this->intercaisseSortant=new ArrayCollection();
+        $this->deviseRecus=new ArrayCollection();
+        $this->deviseJournee=new ArrayCollection();
+
     }
 
+    public function updateM($champ,$montant){
+        $this->$champ+=$montant;
+    }
 
-    ////////////////////// FIN
+    public function maintenirMCvd(){
+        $this->mCvd=0;
+        foreach ($this->getDeviseMouvements() as $deviseMouvement){
+            $this->updateM('mCvd', $deviseMouvement->getContreValeur());
+        }
+    }
+
 
     /**
      * Get deviseJournees
@@ -231,22 +249,6 @@ class JourneeCaisses
         $this->deviseJournee = $deviseJournee;
         return $this;
     }
-
-
-    /**
-     * JourneeCaisses constructor.
-     */
-    public function __construct()
-    {
-        //$this->deviseJournee = new ArrayCollection();
-        $this->transfertInternationaux=new ArrayCollection();
-        $this->intercaisseEntrant=new ArrayCollection();
-        $this->intercaisseSortant=new ArrayCollection();
-        $this->deviseRecus=new ArrayCollection();
-        $this->deviseJournee=new ArrayCollection();
-
-    }
-
 
     /**
      * @return mixed
@@ -322,53 +324,6 @@ class JourneeCaisses
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValeurBillet()
-    {
-        return $this->valeurBillet;
-    }
-
-    /**
-     * @param mixed $valeurBillet
-     */
-    public function setValeurBillet($valeurBillet)
-    {
-        $this->valeurBillet = $valeurBillet;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSoldeElectOuv()
-    {
-        return $this->soldeElectOuv;
-    }
-
-    /**
-     * @param mixed $soldeElectOuv
-     */
-    public function setSoldeElectOuv($soldeElectOuv)
-    {
-        $this->soldeElectOuv = $soldeElectOuv;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEcartOuv()
-    {
-        return $this->ecartOuv;
-    }
-
-    /**
-     * @param mixed $ecartOuv
-     */
-    public function setEcartOuv($ecartOuv)
-    {
-        $this->ecartOuv = $ecartOuv;
-    }
 
     /**
      * @return mixed
@@ -416,22 +371,6 @@ class JourneeCaisses
     public function setMReceptionTrans($mReceptionTrans)
     {
         $this->mReceptionTrans = $mReceptionTrans;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMIntercaisse()
-    {
-        return $this->mIntercaisse;
-    }
-
-    /**
-     * @param mixed $mIntercaisse
-     */
-    public function setMIntercaisse($mIntercaisse)
-    {
-        $this->mIntercaisse = $mIntercaisse;
     }
 
     /**
@@ -513,38 +452,6 @@ class JourneeCaisses
     public function setDateFerm($dateFerm)
     {
         return $this->dateFerm = $dateFerm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getValeurBilletFerm()
-    {
-        return $this->valeurBilletFerm;
-    }
-
-    /**
-     * @param mixed $valeurBilletFerm
-     */
-    public function setValeurBilletFerm($valeurBilletFerm)
-    {
-        $this->valeurBilletFerm = $valeurBilletFerm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSoldeElectFerm()
-    {
-        return $this->SoldeElectFerm;
-    }
-
-    /**
-     * @param mixed $SoldeElectFerm
-     */
-    public function setSoldeElectFerm($SoldeElectFerm)
-    {
-        $this->SoldeElectFerm = $SoldeElectFerm;
     }
 
     /**
@@ -799,24 +706,6 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getJourneeSuivante()
-    {
-        return $this->journeeSuivante;
-    }
-
-    /**
-     * @param mixed $journeeSuivante
-     * @return JourneeCaisses
-     */
-    public function setJourneeSuivante($journeeSuivante)
-    {
-        $this->journeeSuivante = $journeeSuivante;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getBilletOuv()
     {
         return $this->billetOuv;
@@ -955,6 +844,134 @@ class JourneeCaisses
     public function setIntercaisseSortants($intercaisseSortants)
     {
         $this->intercaisseSortants = $intercaisseSortants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMLiquiditeOuv()
+    {
+        return $this->mLiquiditeOuv;
+    }
+
+    /**
+     * @param mixed $mLiquiditeOuv
+     * @return JourneeCaisses
+     */
+    public function setMLiquiditeOuv($mLiquiditeOuv)
+    {
+        $this->mLiquiditeOuv = $mLiquiditeOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMSoldeElectOuv()
+    {
+        return $this->mSoldeElectOuv;
+    }
+
+    /**
+     * @param mixed $mSoldeElectOuv
+     * @return JourneeCaisses
+     */
+    public function setMSoldeElectOuv($mSoldeElectOuv)
+    {
+        $this->mSoldeElectOuv = $mSoldeElectOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMEcartOuv()
+    {
+        return $this->journeePrecedente->getMLiquiditeFerm()
+            + $this->journeePrecedente->getMSoldeElectFerm()
+            +$this->journeePrecedente->get;
+    }
+
+    /*
+     * @param mixed $mEcartOuv
+     * @return JourneeCaisses
+
+    public function setMEcartOuv($mEcartOuv)
+    {
+        $this->mEcartOuv = $mEcartOuv;
+        return $this;
+    }*/
+
+    /**
+     * @return mixed
+     */
+    public function getMLiquiditeFerm()
+    {
+        return $this->mLiquiditeFerm;
+    }
+
+    /**
+     * @param mixed $mLiquiditeFerm
+     * @return JourneeCaisses
+     */
+    public function setMLiquiditeFerm($mLiquiditeFerm)
+    {
+        $this->mLiquiditeFerm = $mLiquiditeFerm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMSoldeElectFerm()
+    {
+        return $this->mSoldeElectFerm;
+    }
+
+    /**
+     * @param mixed $mSoldeElectFerm
+     * @return JourneeCaisses
+     */
+    public function setMSoldeElectFerm($mSoldeElectFerm)
+    {
+        $this->mSoldeElectFerm = $mSoldeElectFerm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMIntercaisses()
+    {
+        return $this->mIntercaisses;
+    }
+
+    /**
+     * @param mixed $mIntercaisses
+     * @return JourneeCaisses
+     */
+    public function setMIntercaisses($mIntercaisses)
+    {
+        $this->mIntercaisses = $mIntercaisses;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneePrecedente()
+    {
+        return $this->journeePrecedente;
+    }
+
+    /**
+     * @param mixed $journeePrecedente
+     * @return JourneeCaisses
+     */
+    public function setJourneePrecedente($journeePrecedente)
+    {
+        $this->journeePrecedente = $journeePrecedente;
         return $this;
     }
 

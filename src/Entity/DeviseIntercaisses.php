@@ -257,6 +257,7 @@ class DeviseIntercaisses
      */
     public function addDeviseTmpMouvement(DeviseTmpMouvements $deviseTmpMouvement)
     {
+        //dump($deviseTmpMouvement); die();
 
         /*$deviseMouvement->setSens($deviseMouvement::INTERCAISSE)
             ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseDestination, $this->em)*/

@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\JourneeCaisses;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CurrencyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,17 +16,29 @@ class JourneeCaissesType extends AbstractType
         $builder
             ->add('caisse')
             ->add('billetOuv')
+            ->add('mLiquiditeOuv')
             ->add('systemElectInventOuv')
-            ->add('ecartOuv')
+            ->add('mSoldeElectOuv')
+            ->add('mEcartOuv', NumberType::class,array('disabled'=>true))
             ->add('billetFerm')
+            ->add('mLiquiditeFerm')
             ->add('systemElectInventFerm')
-            ->add('detteCreditCreations')
-            ->add('detteCreditRembs')
-            ->add('intercaisseEntrants')
-            ->add('intercaisseSortants')
+            ->add('mSoldeElectFerm')
+            ->add('mDetteDivers')
+            ->add('mCreditDivers')
+            ->add('mIntercaisses')
             ->add('transfertInternationaux')
-            ->add('deviseJournees')
+            ->add('mEmissionTrans')
+            ->add('mReceptionTrans')
+            ->add('mCvd')
+            ->add('mRetraitClient')
+            ->add('mDepotClient')
+            ->add('mEcartFerm', NumberType::class,array('disabled'=>true))
         ;
+
+
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

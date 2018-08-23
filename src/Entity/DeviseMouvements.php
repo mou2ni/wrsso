@@ -90,6 +90,15 @@ class DeviseMouvements
     }
 
     /**
+     * @return mixed
+     */
+    public function getContreValeur()
+    {
+        //mouvement CFA de la caisse : inverser le signe de nombre
+        return -$this->nombre*$this->taux;
+    }
+
+    /**
      * @ORM\PreUpdate
      */
     public function updateMCvd(){
@@ -104,13 +113,16 @@ class DeviseMouvements
         }*/
 
 
+        $this->journeeCaisse->maintenirMCvd();
+
     }
 
     /**
      * @ORM\PrePersist
      */
-    public function createMCvd(){
-        $this->updateMCvd();
+    public function increaseMCvd(){
+
+        $this->journeeCaisse->updateM('mCvd', $this->getContreValeur());
     }
 
     /**
@@ -269,15 +281,6 @@ class DeviseMouvements
     {
         $this->devise = $devise;
         return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContreValeur()
-    {
-        //mouvement CFA de la caisse : inverser le signe de nombre
-        return -$this->nombre*$this->taux;
     }
 
     /**

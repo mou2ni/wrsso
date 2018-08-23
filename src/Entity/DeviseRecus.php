@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DeviseRecus
 {
-    const ACHAT='BORDEREAU D\'ACHAT', VENTE='BORDEREAU DE VENTE';
+    //const ACHAT='BORDEREAU D\'ACHAT', VENTE='BORDEREAU DE VENTE';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -129,9 +129,10 @@ class DeviseRecus
      */
     public function addDeviseMouvement(DeviseMouvements $deviseMouvement)
     {
+        //dump($deviseMouvement); die();
 
-        $deviseMouvement->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)
-            ->setSens($this->getSens())
+        $deviseMouvement->setSens($this->getSens())
+            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)
             ->setDeviseRecu($this);
 
         $this->deviseMouvements->add($deviseMouvement);

@@ -38,9 +38,9 @@ class DeviseRecusType extends AbstractType
             ))->add('motif', TextareaType::class, array('required' => false
             ))->add('sens', ChoiceType::class
                 ,array('choices'  => ['Achat'=>DeviseMouvements::ACHAT, 'Vente'=>DeviseMouvements::VENTE]
-            ,'expanded'=>false
+            ,'expanded'=>false,
             ))->add ('deviseMouvements', CollectionType::class, array (
-                'entry_type' => DeviseAchatVentesType::class,
+                'entry_type' => DeviseMouvementsType::class,
                 'entry_options' => array('label' => false),
                 'allow_add' => true,
                 'allow_delete' => true,

@@ -8,22 +8,20 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OuvertureType extends AbstractType
+class OuvertureFermetureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->remove('billetOuv')
+            ->remove('systemElectInventOuv')
             ->remove('billetFerm')
             ->remove('systemElectInventFerm')
-            ->remove('detteCreditCreations')
-            ->remove('detteCreditRembs')
-            ->remove('intercaisseEntrants')
-            ->remove('intercaisseSortants')
             ->remove('transfertInternationaux')
         ;
     }
 
     public function getParent(){
-        return JourneeCaisses::class;
+        return JourneeCaissesType::class;
     }
 }
