@@ -54,12 +54,13 @@ function  valeurDevises() {
 }*/
 
 function majElectronique() {
-    var nbrSystemElect=valeur("#nbrSystemElect");
+    var nbrSystemElect=valeur("#nombreElect");
     var totalElect=0;
-    for ( a=1;a<=nbrSystemElect;a++){
-        solde=valeur("#formElectronic_solde"+a);
+
+    for ( a=0;a<nbrSystemElect;a++){
+        solde=valeur("#system_elect_inventaires_systemElectLigneInventaires_" + a + "_solde");
         totalElect=totalElect+solde;
-        $("#formElectronic_soldeTotal").val(totalElect);
+        $("#system_elect_inventaires_soldeTotal").val(totalElect);
     }
 
 }

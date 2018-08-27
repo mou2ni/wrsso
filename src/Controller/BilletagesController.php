@@ -56,28 +56,25 @@ class BilletagesController extends Controller
 
 
     /**
-     * @Route("/{id}", name="billetages_ajout", methods="GET|POST")
+     * @Route("/{id}/{devise}", name="billetages_ajout", methods="GET|POST")
      */
-    public function ajouter(Request $request, Billetages $billetage): Response
+    public function ajouter(Request $request, int $id, int $devise): Response
     {
         $em=$this->getDoctrine()->getManager();
-        $em->persist($billetage);
-        $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive();
+        $billetage=$em->getRepository(Billetages::class)->find($id);
+        $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
         $em = $this->getDoctrine()->getManager();
-        if (!$billetage->getBilletageLignes())
-        foreach ($billets as $billet) {
-            $billetageLigne=new BilletageLignes();
-            $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
-            $billetage->addBilletageLignes($billetageLigne);
+        if (!$billetage){
+            $billetage=new Billetages($em);
+            foreach ($billets as $billet) {
+                $billetageLigne=new BilletageLignes();
+                $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
+                $billetage->addBilletageLignes($billetageLigne);
+            }
         }
 
-        //dump($billetage);die();
-        $billetage->setEm($this->getDoctrine()->getManager());
-        //$billetage->getBilletageLigneAffiches();
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
-        //$billetage->fillBilletageLignes();
-        //dump($billetage);die();
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($billetage);
             $em->flush();

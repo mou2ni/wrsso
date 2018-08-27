@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Billets;
+use App\Entity\Devises;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -20,13 +21,28 @@ class BilletsRepository extends ServiceEntityRepository
         parent::__construct($registry, Billets::class);
     }
 
-    public function findActive(){
-        return $this->createQueryBuilder('b')
+    public function findActive(int $devise){
+        if ($devise==0){
+            $query = $this->createQueryBuilder('b')
+                ->andWhere('b.isActive = true')
+                ->andWhere('b.devise is null')
+                //->setParameter('statut', true)
+                //->setParameter('billet',null)
+                ->orderBy('b.valeur', 'DESC')
+                ->getQuery()
+                ->getResult()
+            ;
+        }
+        else
+         $query = $this->createQueryBuilder('b')
             ->andWhere('b.isActive = :statut')
+            ->andWhere('b.devise = :devise')
             ->setParameter('statut', true)
+            ->setParameter('devise',$devise)
             ->orderBy('b.valeur', 'DESC')
             ->getQuery()
             ->getResult()
             ;
+         return $query;
     }
 }

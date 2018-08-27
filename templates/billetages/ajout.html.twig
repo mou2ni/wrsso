@@ -8,16 +8,18 @@
     {{ form_start(form) }}
     <table onchange="majBilletage()">
         <thead>
-        <tr><th> Date</th> <th> {{ form_widget(form.dateBillettage) }}</th><th> Total</th> <th> </th></tr>
+        <tr><th> Date</th> <th> {{ form_widget(form.dateBillettage) }}</th><th> Total</th> <th><input id="billetages_valeurTotal"  name="billetages_valeurTotal" required="required" class="form-control" value="" type="number"> </th></tr>
         <tr><th>VALEUR</th><th>NOMBRE</th><th>TOTAL</th></tr>
         </thead>
         <tbody>
+        {% set i=0 %}
         {% for bl in form.billetageLignes %}
             <tr class="transfert">
                 <td>{{ form_errors(bl.valeurBillet) }} {{ form_widget(bl.valeurBillet) }}</td>
                 <td>{{ form_errors(bl.nbBillet) }} {{ form_widget(bl.nbBillet) }}</td>
-                <td>-</td>
+                <td><input id="billetages_billetageLignes_{{i}}_valeurLigne"  name="[valeurLigne][{{ i }}]" required="required" class="form-control" value="" type="number"></td>
             </tr>
+            {% set i=i+1 %}
         {% endfor %}
         </tbody>
     </table>

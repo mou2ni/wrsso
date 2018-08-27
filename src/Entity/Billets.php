@@ -35,6 +35,12 @@ class Billets
      */
     private $billetageLignes;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Devises", inversedBy="billets", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $devise;
+
 
     /**
      * @ORM\Column(type="boolean")
@@ -63,21 +69,7 @@ class Billets
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValeur()
-    {
-        return $this->valeur;
-    }
 
-    /**
-     * @param mixed $valeur
-     */
-    public function setValeur($valeur)
-    {
-        $this->valeur = $valeur;
-    }
 
     /**
      * @return mixed
@@ -96,6 +88,61 @@ class Billets
         $this->isActive = $isActive;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getBilletageLignes()
+    {
+        return $this->billetageLignes;
+    }
+
+    /**
+     * @param mixed $billetageLignes
+     * @return Billets
+     */
+    public function setBilletageLignes($billetageLignes)
+    {
+        $this->billetageLignes = $billetageLignes;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValeur()
+    {
+        return $this->valeur;
+    }
+
+    /**
+     * @param mixed $valeur
+     * @return Billets
+     */
+    public function setValeur($valeur)
+    {
+        $this->valeur = $valeur;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDevise()
+    {
+        return $this->devise;
+    }
+
+    /**
+     * @param mixed $devise
+     * @return Billets
+     */
+    public function setDevise($devise)
+    {
+        $this->devise = $devise;
+        return $this;
+    }
+
 
 
 
