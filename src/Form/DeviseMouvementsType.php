@@ -14,9 +14,9 @@ class DeviseMouvementsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('sens', ChoiceType::class
-                ,array('choices'  => ['Achat'=>DeviseMouvements::ACHAT, 'Vente'=>DeviseMouvements::VENTE,'Intercaisse'=>DeviseMouvements::INTERCAISSE]
-                ,'expanded'=>false))
+            //->add('sens', ChoiceType::class
+            //    ,array('choices'  => ['Achat'=>DeviseMouvements::ACHAT, 'Vente'=>DeviseMouvements::VENTE,'Intercaisse'=>DeviseMouvements::INTERCAISSE]
+            //    ,'expanded'=>false))
             ->add('devise', EntityType::class, array (
                 'class' => 'App\Entity\Devises',
                 'choice_label' => 'libelle',

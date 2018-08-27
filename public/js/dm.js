@@ -5,7 +5,7 @@
 var $addLink = $('<a href="#" class="add-collection"> + </a>');
 var $newLinkLi = $('<div></div>').append($addLink);
 
-$(document).ready(function() {
+jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
     var $collectionHolder = $('div.deviseMouvements');
 

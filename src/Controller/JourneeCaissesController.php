@@ -13,6 +13,7 @@ use App\Entity\Utilisateurs;
 use App\Form\BilletagesType;
 use App\Form\DeviseJourneesType;
 use App\Form\JourneeCaissesType;
+use App\Form\OuvertureFermetureType;
 use App\Form\OuvertureType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +90,7 @@ class JourneeCaissesController extends Controller
             $utilisateur->setJourneeCaisseActive($journeeCaisse);
         }
 
-        $form = $this->createForm(JourneeCaissesType::class, $journeeCaisse);
+        $form = $this->createForm(OuvertureFermetureType::class, $journeeCaisse);
         $form->handleRequest($request);
         $journeeCaissePrec=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['journeeSuivante'=>$journeeCaisse]);
 

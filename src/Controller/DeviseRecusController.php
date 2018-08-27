@@ -45,17 +45,17 @@ class DeviseRecusController extends Controller
 
         ////////////////////////////////////////////////TESTS A SUPPRIMER//////////////////////////////////////////////
 
-        $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
+       $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
         $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setAdresse('837, Avenue DIMDOLOBSON, DAPOYA')->setNumPiece('B3520333')
-            ->setMotif('Voyage affaire chine')->setSens(DeviseMouvements::ACHAT);
+            ->setMotif('Voyage affaire chine');
 
-        $deviseMvt=new DeviseMouvements();
+        /* $deviseMvt=new DeviseMouvements();
         $deviseMvt->setDevise($usd)->setNombre(100)->setTaux(500);
         $deviseRecus->addDeviseMouvement($deviseMvt);
         $deviseMvt=new DeviseMouvements();
         $deviseMvt->setDevise($euro)->setNombre(200)->setTaux(650);
-        $deviseRecus->addDeviseMouvement($deviseMvt);
+        $deviseRecus->addDeviseMouvement($deviseMvt);*/
 
 
         ////////////////////////////////////////////////FIN TEST A SUPPRIMER
@@ -73,6 +73,8 @@ class DeviseRecusController extends Controller
 
             if ( $save_and_new  or $save_and_print){
                 //echo '$save_and_new  $save_and_print..............';
+
+                //dump($form); die();
 
                 $em->persist($deviseRecus);
                 $em->flush();

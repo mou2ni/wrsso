@@ -1,7 +1,6 @@
-<div class="well">
-    <div class="form-inline">
 {{ form_start(form, {'attr': {'class': 'form-vertical','onsubmit':"return confirm('Confirmer la validation ?');"}}) }}
-    {{ form_row(form.dateRecu) }}
+<div class="form-group">
+        {{ form_row(form.dateRecu) }}
     {{ form_row(form.nom) }}
     {{ form_row(form.prenom) }}
     {{ form_row(form.adresse) }}
@@ -14,14 +13,25 @@
 </div>
 <h3>Devises</h3>
 
-    {{ include('devise_recus/_inline_achat_vente_form.html.twig') }}
+    <div class="form-group">
+        <div class="form-row">
+            <div class="form-row deviseMouvements" data-prototype="
+    {{ form_widget(form.deviseMouvements.vars.prototype.devise)|e('html_attr')}}
+    {{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr')}}
+    {{ form_widget(form.deviseMouvements.vars.prototype.taux)|e('html_attr')}}">
+                {% for deviseMouvement in form.deviseMouvements %}
+                    <div class="form-inline">{{ form_widget(deviseMouvement.devise) }} {{ form_widget(deviseMouvement.nombre) }} {{ form_widget(deviseMouvement.taux) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 
     <div class="form-group">
     <div class="form-row">
-    {{ form_widget(form.save_and_new) }}{{ form_widget(form.save_and_print) }}{{ include('_btn_close.html.twig')}}
+    {{ form_widget(form.save_and_new) }}{{ form_widget(form.save_and_print) }}
 
     </div>
     </div>
 
     {{ form_end(form) }}
-</div>
