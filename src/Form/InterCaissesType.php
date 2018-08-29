@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\InterCaisses;
+use App\Repository\JourneeCaissesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,7 +19,15 @@ class InterCaissesType extends AbstractType
             ->add('mIntercaisse')
             //->add('statut')
             ->add('observations', TextareaType::class)
-            ->add('journeeCaisseSortant'/*, ChoiceType::class, array('placeholder' => 'Choisir la caisse')*/)
+            ->add('journeeCaisseSortant', EntityType::class, array (
+                'class' => 'App\Entity\JourneeCaisses',
+                'choice_label' => 'journeeCaisse',
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function(JourneeCaissesRepository $repository) {
+                    return $repository->getOpenJourneeCaisseQb();
+                }
+            ))
             //->add('journeeCaisseEntrant'/*, ChoiceType::class, array('placeholder' => 'Choisir la caisse')*/)
         ;
     }

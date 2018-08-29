@@ -66,24 +66,28 @@ function majElectronique() {
 }
 
 ///////////////GESTION DES INTERCAISSES ////////////////////////
+
+
 $(document).ready(function () {
     $('.boutonintercaisse').click(function (e) {
-        //alert('boummmmm');
+        var x = $(this).attr('id');
+        if (confirm('Are you sure?')){
         var valeur = this.value;
         var DATA = 'intercaisse=' + valeur;
-        //alert(DATA);
         $.ajax({
             type: "POST",
             data: DATA,
             cache: false,
             success: function (data) {
-                $(document).refresh();
-
-
-            }
+                $("#"+x).hide();
+                }
         })
+        }
+        else return false;
     });
 });
+
+
 
 function  valider() {
     var DATA = 'valider=' + 1;
@@ -93,7 +97,8 @@ function  valider() {
         data: DATA,
         cache: false,
         success: function (data) {
-
+            document.location.reload(true);
+            //document.getElementsByTagName('table').load(true);
         }
     })
 }

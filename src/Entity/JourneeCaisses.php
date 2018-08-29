@@ -211,8 +211,8 @@ class JourneeCaisses
     {
         //$this->deviseJournee = new ArrayCollection();
         $this->transfertInternationaux=new ArrayCollection();
-        $this->intercaisseEntrant=new ArrayCollection();
-        $this->intercaisseSortant=new ArrayCollection();
+        $this->intercaisseEntrants=new ArrayCollection();
+        $this->intercaisseSortants=new ArrayCollection();
         $this->deviseRecus=new ArrayCollection();
         $this->deviseJournee=new ArrayCollection();
 
@@ -487,36 +487,36 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getIntercaisseSortant()
+    public function getIntercaisseSortants()
     {
-        return $this->intercaisseSortant;
+        return $this->intercaisseSortants;
     }
 
     /**
      * @param mixed $intercaisseSortant
      * @return JourneeCaisses
      */
-    public function setIntercaisseSortant($intercaisseSortant)
+    public function setIntercaisseSortants($intercaisseSortant)
     {
-        $this->intercaisseSortant = $intercaisseSortant;
+        $this->intercaisseSortants = $intercaisseSortant;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getIntercaisseEntrant()
+    public function getIntercaisseEntrants()
     {
-        return $this->intercaisseEntrant;
+        return $this->intercaisseEntrants;
     }
 
     /**
      * @param mixed $intercaisseEntrant
      * @return JourneeCaisses
      */
-    public function setIntercaisseEntrant($intercaisseEntrant)
+    public function setIntercaisseEntrants($intercaisseEntrant)
     {
-        $this->intercaisseEntrant = $intercaisseEntrant;
+        $this->intercaisseEntrants = $intercaisseEntrant;
         return $this;
     }
 
@@ -574,24 +574,24 @@ class JourneeCaisses
 
     public function addInterCaisseSortant(InterCaisses $interCaisses)
     {
-        $this->intercaisseSortant->add($interCaisses);
+        $this->intercaisseSortants->add($interCaisses);
         $interCaisses->setJourneeCaisseSortant($this);
     }
 
     public function removeInterCaisseSortant(InterCaisses $interCaisses)
     {
-        $this->intercaisseSortant->removeElement($interCaisses);
+        $this->intercaisseSortants->removeElement($interCaisses);
     }
 
     public function addInterCaisseDestination(InterCaisses $interCaisses)
     {
-        $this->intercaisseEntrant->add($interCaisses);
+        $this->intercaisseEntrants->add($interCaisses);
         $interCaisses->setJourneeCaisseEntrant($this);
     }
 
     public function removeInterCaisseEntrant(InterCaisses $interCaisses)
     {
-        $this->intercaisseEntrant->removeElement($interCaisses);
+        $this->intercaisseEntrants->removeElement($interCaisses);
     }
 
     /**
@@ -814,42 +814,6 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getIntercaisseEntrants()
-    {
-        return $this->intercaisseEntrants;
-    }
-
-    /**
-     * @param mixed $intercaisseEntrants
-     * @return JourneeCaisses
-     */
-    public function setIntercaisseEntrants($intercaisseEntrants)
-    {
-        $this->intercaisseEntrants = $intercaisseEntrants;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIntercaisseSortants()
-    {
-        return $this->intercaisseSortants;
-    }
-
-    /**
-     * @param mixed $intercaisseSortants
-     * @return JourneeCaisses
-     */
-    public function setIntercaisseSortants($intercaisseSortants)
-    {
-        $this->intercaisseSortants = $intercaisseSortants;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getMLiquiditeOuv()
     {
         return $this->mLiquiditeOuv;
@@ -974,6 +938,7 @@ class JourneeCaisses
         $this->journeePrecedente = $journeePrecedente;
         return $this;
     }
+
 
     
 

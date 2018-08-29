@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class InterCaisses
 {
+    const ANNULATION_EN_COURS='XE', ANNULE='XD', VALIDE='VD', VALIDATION_AUTO='VA';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -51,6 +52,13 @@ class InterCaisses
      * @ORM\Column(type="string")
      */
     private $observations;
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->getJourneeCaisseSortant().' => '.$this->getJourneeCaisseSortant();
+    }
+
 
     /**
      * @return mixed
@@ -153,6 +161,23 @@ class InterCaisses
         $this->observations = $observations;
     }
 
-
+    public function valider(){
+        foreach ($this->getIntercaisseEntrants() as $intercaisseEntrant){
+            if($intercaisseEntrant->getStatut() == InterCaisses::ANNULATION_EN_COURS){
+                $this->addFlash('success', "vous avez une intercaisse en cours d'annulation");
+                return $this->redirectToRoute('inter_caisses_index');
+            }
+            elseif($intercaisseEntrant->getStatut() == InterCaisses::VALIDATION_AUTO)
+                $intercaisseEntrant->setStatut(InterCaisses::VALIDE);
+        }
+        foreach ($this->getIntercaisseSortants() as $intercaisseSortant){
+            if($intercaisseSortant->getStatut() == InterCaisses::ANNULATION_EN_COURS){
+                $this->addFlash('success', "vous avez une intercaisse en cours d'annulation");
+                return $this->redirectToRoute('inter_caisses_demande');
+            }
+            elseif($intercaisseSortant->getStatut() == InterCaisses::VALIDATION_AUTO)
+                $intercaisseSortant->setStatut(InterCaisses::VALIDE);
+        }
+    }
 
    }
