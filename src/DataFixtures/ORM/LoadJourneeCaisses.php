@@ -27,7 +27,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
 
 
         $lists = array(['utilisateur' => $utilisateur, 'caisse' => $caisse, 'statut'=>'T', 'dateOuv'=>new \DateTime()]
-        ,['utilisateur' => $utilisateur, 'caisse' => $caisseO, 'statut'=>'O', 'dateOuv'=>new \DateTime()]);
+        ,['utilisateur' => $utilisateur, 'caisse' => $caisseO, 'statut'=>JourneeCaisses::FERME, 'dateOuv'=>new \DateTime()]);
 
         foreach ($lists as $list) {
             $enr = new JourneeCaisses();
@@ -35,9 +35,28 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
                 ->setCaisse($list['caisse'])
                 ->setStatut($list['statut'])
                 ->setDateOuv($list['dateOuv']);
+            if ($enr->getStatut()==JourneeCaisses::FERME) {
+                $enr->setMLiquiditeFerm(1000000)->setMSoldeElectFerm(500000)->setMDetteDivers(2000)->setMCreditDivers(1000);
+                $journeePrecedente=$enr;
+            }
             $manager->persist($enr);
         }
+        
+        $journeeOuverte=new JourneeCaisses();
+        $journeeOuverte->setCaisse($journeePrecedente->getCaisse())
+            ->setUtilisateur($journeePrecedente->getUtilisateur())
+            ->setMLiquiditeOuv($journeePrecedente->getMLiquiditeFerm())
+            ->setMSoldeElectOuv($journeePrecedente->getSoldeNetFerm())
+            ->setMDetteDivers($journeePrecedente->getMDetteDivers())
+            ->setMCreditDivers($journeePrecedente->getMCreditDivers())
+            ->setStatut(JourneeCaisses::OUVERT)
+            ->setJourneePrecedente($journeePrecedente)
+            ->setDateOuv(new \DateTime());
 
+        $utilisateur->setJourneeCaisseActive($journeeOuverte);
+
+        $manager->persist($journeeOuverte);
+        $manager->persist($utilisateur);
         $manager->flush();
     }
 

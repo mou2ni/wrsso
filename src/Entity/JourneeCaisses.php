@@ -11,10 +11,12 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 /**
  * @ORM\Entity (repositoryClass="App\Repository\JourneeCaissesRepository")
  * @ORM\Table(name="JourneeCaisses")
+ * @ORM\HasLifecycleCallbacks()
  */
 class JourneeCaisses
 {
@@ -78,7 +80,10 @@ class JourneeCaisses
      */
     private $mSoldeElectOuv=0;
 
-//     private $mEcartOuv=0;
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mEcartOuv=0;
 
 
     /**
@@ -180,6 +185,9 @@ class JourneeCaisses
      */
     private $mDepotClient=0;
 
+    /**
+     * @ORM\Column(type="bigint")
+     */
     private $mEcartFerm=0;
 
 
@@ -218,6 +226,84 @@ class JourneeCaisses
 
     }
 
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateMEcarts(){
+        $this->setMEcarts();
+
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setMEcarts(){
+        $this->setMEcartOuv();
+        $this->setMEcartFerm();
+    }
+
+    public function getMEcartFerm(){
+        return $this->mEcartFerm;
+    }
+
+    public function setMEcartFerm()
+    {
+        $this->mEcartFerm = $this->getSoldeNetOuv()-$this->getSoldeNetFerm();
+        return $this;
+    }
+
+
+
+    public function getMEcartOuv()
+    {
+        return $this->mEcartOuv;
+    }
+
+    public function setMEcartOuv()
+    {
+        ($this->journeePrecedente!=null)?$soldeNetFerm=$this->journeePrecedente->getSoldeNetFerm():$soldeNetFerm=0;
+        $this->mEcartOuv = $soldeNetFerm - $this->getSoldeNetOuv();
+        return $this;
+    }
+
+
+    public function getDisponibliteFerm(){
+        return $this->getMLiquiditeFerm()
+        + $this->getMSoldeElectFerm();
+    }
+
+    public function getSoldeNetFerm(){
+        return
+            ($this->getDisponibliteFerm()
+            + $this->getMDetteDivers()
+            + $this->getMEmissionTrans()
+            + $this->getMCvd()
+            + $this->getMDepotClient()) -
+            ( $this->getMCreditDivers()
+            + $this->getMReceptionTrans()
+            + $this->getMRetraitClient()
+            );
+
+    }
+
+    public function getDisponibliteOuv(){
+        return $this->getMLiquiditeOuv()
+        + $this->getMSoldeElectOuv();
+    }
+
+    public function getSoldeNetOuv(){
+        if ($this->journeePrecedente!=null){
+            $detteDivers=$this->journeePrecedente->getMDetteDivers();
+            $creditDivers=$this->journeePrecedente->getMCreditDivers();
+        }else{
+            $detteDivers=0;
+            $creditDivers=0;
+        }
+
+        return $this->getDisponibliteOuv() +$detteDivers - $creditDivers;
+    }
+
+
     public function updateM($champ,$montant){
         $this->$champ+=$montant;
     }
@@ -229,6 +315,8 @@ class JourneeCaisses
         }
     }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Get deviseJournees
@@ -413,12 +501,10 @@ class JourneeCaisses
         return $this->mCreditDivers;
     }
 
-    /**
-     * @param mixed $mCreditDivers
-     */
-    public function setMCreditDivers($mCreditDivers)
+     public function setMCreditDivers($mCreditDivers)
     {
         $this->mCreditDivers = $mCreditDivers;
+        return $this;
     }
 
     /**
@@ -435,6 +521,7 @@ class JourneeCaisses
     public function setMDetteDivers($mDetteDivers)
     {
         $this->mDetteDivers = $mDetteDivers;
+        return $this;
     }
 
     /**
@@ -452,22 +539,6 @@ class JourneeCaisses
     public function setDateFerm($dateFerm)
     {
         return $this->dateFerm = $dateFerm;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMEcartFerm()
-    {
-        return $this->mEcartFerm;
-    }
-
-    /**
-     * @param mixed $mEcartFerm
-     */
-    public function setMEcartFerm($mEcartFerm)
-    {
-        $this->mEcartFerm = $mEcartFerm;
     }
 
     public function __toString()
@@ -883,25 +954,7 @@ class JourneeCaisses
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getMEcartOuv()
-    {
-        return $this->journeePrecedente->getMLiquiditeFerm()
-            + $this->journeePrecedente->getMSoldeElectFerm()
-            +$this->journeePrecedente->get;
-    }
 
-    /*
-     * @param mixed $mEcartOuv
-     * @return JourneeCaisses
-
-    public function setMEcartOuv($mEcartOuv)
-    {
-        $this->mEcartOuv = $mEcartOuv;
-        return $this;
-    }*/
 
     /**
      * @return mixed

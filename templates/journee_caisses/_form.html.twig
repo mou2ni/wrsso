@@ -1,4 +1,16 @@
 {{ form_start(form) }}
-    {{ form_widget(form, {'attr': {'class': 'form-horizontal'}}) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="form-group">
+    {{ form_row(form.journeePrecedente.) }}
+    {{ form_row(form.nom) }}
+    {{ form_row(form.prenom) }}
+    {{ form_row(form.adresse) }}
+    {{ form_row(form.typePiece) }}
+    {{ form_row(form.numPiece) }}
+    {{ form_row(form.expireLe) }}
+    {{ form_row(form.paysPiece) }}
+    {{ form_row(form.motif) }}
+    {{ form_row(form.sens) }}
+</div>
+
 {{ form_end(form) }}
