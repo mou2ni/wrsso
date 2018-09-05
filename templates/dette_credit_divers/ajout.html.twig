@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DetteCreditDivers{% endblock %}
+
+{% block body %}
+    <h1>Create new DetteCreditDivers</h1>
+
+    {{ include('dette_credit_divers/_form.html.twig') }}
+    {{ include('dette_credit_divers/_liste.html.twig') }}
+
+    <a href="{{ path('dette_credit_divers_index') }}">back to list</a>
+{% endblock %}
+

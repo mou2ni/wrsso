@@ -14,19 +14,27 @@
             <td>Libelle</td><td>{{ form_widget(form.libele) }}</td>
         </tr>
         <tr>
-            <td><button type="submit">Enregistrer</button></td><td><button type="button">Fermer</button></td>
+            <td><button class="btn-primary btn" type="submit">Enregistrer</button></td><td><button class="btn-primary btn" type="button">Fermer</button></td>
         </tr>
     </table>
     <div hidden>{{ form_rest(form) }}</div>
 {{ form(form) }}
-    <script type="text/javascript">
-        $("#depot_retrait_numCompte").keyup(function () {
-            chargerNomCompte();
-        });
-    </script>
+    {{ include('transaction_comptes/_liste_depots.html.twig') }}
 {% endblock %}
 
 {% block title %}
 
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $("#depot_retrait_numCompte").keyup(function () {
+            chargerNomCompte();
+        });
+
+    </script>
 {% endblock %}
 

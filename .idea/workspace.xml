@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="billetage et electronique">
-      <change afterPath="$PROJECT_DIR$/templates/intercaisses/_btn_action.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/warisso.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/warisso.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InterCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InterCaissesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/InterCaisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/InterCaisses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/InterCaissesJourneeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/InterCaissesJourneeType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/InterCaissesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/InterCaissesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inter_caisses/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inter_caisses/_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/inter_caisses/ajout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/inter_caisses/ajout.html.twig" afterDir="false" />
-    </list>
     <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
+    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="intercaisse">
+      <change afterPath="$PROJECT_DIR$/templates/dette_credit_divers/_liste.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/dette_credit_divers/ajout.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/transaction_comptes/_liste_depots.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/transaction_comptes/_liste_retraits.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/GenererComptaTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/GenererComptaTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TransactionComptesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TransactionComptesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/DetteCreditDivers.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/DetteCreditDivers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Transactions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Transactions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/DetteCreditDiversType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/DetteCreditDiversType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Utils/GenererCompta.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Utils/GenererCompta.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/dette_credit_divers/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dette_credit_divers/_form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/transaction_comptes/depot.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transaction_comptes/depot.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/transaction_comptes/retrait.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transaction_comptes/retrait.html.twig" afterDir="false" />
+    </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -64,92 +70,94 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="InterCaissesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/InterCaissesController.php">
+      <file leaf-file-name="_form.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/dette_credit_divers/_form.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
+            <state relative-caret-position="323">
+              <caret line="19" column="19" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransactionComptesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/TransactionComptesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1088">
+              <caret line="82" column="52" selection-start-line="82" selection-start-column="52" selection-end-line="82" selection-end-column="52" />
               <folding>
-                <element signature="e#973#2506#0#PHP" />
+                <element signature="e#34#57#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DepotRetrait.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Entity/DepotRetrait.php">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="InterCaisses.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/InterCaisses.php">
+      <file leaf-file-name="depot.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/depot.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="61" selection-start-line="61" selection-end-line="61" />
+            <state relative-caret-position="357">
+              <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_liste_depots.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/_liste_depots.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JourneeCaissesType.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Form/JourneeCaissesType.php">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="941" selection-start-line="941" selection-end-line="941" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ajout.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/inter_caisses/ajout.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="54" column="72" lean-forward="true" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
+            <state relative-caret-position="5474">
+              <caret line="328" column="20" selection-start-line="328" selection-start-column="20" selection-end-line="328" selection-end-column="20" />
               <folding>
-                <element signature="e#12#26#0#Twig" expanded="true" />
-                <element signature="e#4753#4774#0#HTML" expanded="true" />
-                <element signature="e#4870#4910#0#HTML" expanded="true" />
+                <element signature="e#114#162#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_btn_action.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/intercaisses/_btn_action.html.twig">
+      <file leaf-file-name="GenererCompta.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utils/GenererCompta.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="24" selection-start-column="24" selection-end-column="24" />
+            <state relative-caret-position="4148">
+              <caret line="258" column="52" selection-start-line="258" selection-start-column="52" selection-end-line="258" selection-end-column="52" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ajout.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/billetage_lignes/ajout.html.twig">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file leaf-file-name="intercaisses" pinned="false" current-in-tab="false">
-        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/intercaisses">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
+      <file leaf-file-name="GenererComptaTest.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/GenererComptaTest.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="42" column="63" selection-start-line="42" selection-start-column="63" selection-end-line="42" selection-end-column="63" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="warisso.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/warisso.js">
+      <file leaf-file-name="Transactions.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Entity/Transactions.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="78" column="23" selection-start-line="78" selection-start-column="23" selection-end-line="78" selection-end-column="23" />
+            <state relative-caret-position="306">
+              <caret line="76" column="20" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ajout.html.twig" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/transfert_internationaux/ajout.html.twig">
+      <file leaf-file-name="DepotRetrait.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/DepotRetrait.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="14" selection-start-column="14" selection-end-column="14" />
+            <state relative-caret-position="119">
+              <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -225,20 +233,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/config/packages/security.yaml" />
-        <option value="$PROJECT_DIR$/src/Form/UtilisateursType.php" />
-        <option value="$PROJECT_DIR$/templates/utilisateurs/index.html.twig" />
-        <option value="$PROJECT_DIR$/templates/connection/index.html.twig" />
-        <option value="$PROJECT_DIR$/templates/caisses/choisirCaisse.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/CaissesController.php" />
-        <option value="$PROJECT_DIR$/src/Entity/Comptes.php" />
-        <option value="$PROJECT_DIR$/src/Entity/DetteCreditDivers.php" />
-        <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadCaisses.php" />
-        <option value="$PROJECT_DIR$/src/Controller/UtilisateursController.php" />
-        <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadUtilisateurs.php" />
-        <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadJourneeCaisses.php" />
-        <option value="$PROJECT_DIR$/src/Controller/ConnectionController.php" />
-        <option value="$PROJECT_DIR$/src/Controller/BilletageLignesController.php" />
         <option value="$PROJECT_DIR$/templates/base.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/OuvertureType.php" />
         <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
@@ -263,7 +257,6 @@
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillet.php" />
         <option value="$PROJECT_DIR$/templates/billetages/ajout.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" />
-        <option value="$PROJECT_DIR$/src/Controller/BilletagesController.php" />
         <option value="$PROJECT_DIR$/src/Entity/Billetages.php" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElectInventaires.php" />
         <option value="$PROJECT_DIR$/src/Controller/DeviseIntercaissesController.php" />
@@ -273,9 +266,24 @@
         <option value="$PROJECT_DIR$/templates/intercaisses/_btn_action.html.twig" />
         <option value="$PROJECT_DIR$/public/js/warisso.js" />
         <option value="$PROJECT_DIR$/templates/inter_caisses/ajout.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
         <option value="$PROJECT_DIR$/src/Entity/InterCaisses.php" />
         <option value="$PROJECT_DIR$/src/Controller/InterCaissesController.php" />
+        <option value="$PROJECT_DIR$/src/Controller/GenererComptaTest.php" />
+        <option value="$PROJECT_DIR$/templates/transaction_comptes/depot.html.twig" />
+        <option value="$PROJECT_DIR$/src/Entity/Transactions.php" />
+        <option value="$PROJECT_DIR$/templates/transaction_comptes/retrait.html.twig" />
+        <option value="$PROJECT_DIR$/templates/transaction_comptes/_liste_retraits.html.twig" />
+        <option value="$PROJECT_DIR$/templates/transaction_comptes/_liste_depots.html.twig" />
+        <option value="$PROJECT_DIR$/src/Form/DetteCreditDiversType.php" />
+        <option value="$PROJECT_DIR$/src/Entity/DetteCreditDivers.php" />
+        <option value="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" />
+        <option value="$PROJECT_DIR$/templates/dette_credit_divers/ajout.html.twig" />
+        <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
+        <option value="$PROJECT_DIR$/templates/dette_credit_divers/_liste.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/BilletagesController.php" />
+        <option value="$PROJECT_DIR$/templates/dette_credit_divers/_form.html.twig" />
+        <option value="$PROJECT_DIR$/src/Utils/GenererCompta.php" />
+        <option value="$PROJECT_DIR$/src/Controller/TransactionComptesController.php" />
       </list>
     </option>
   </component>
@@ -420,6 +428,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -547,6 +556,12 @@
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="dette_credit_divers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="devise_intercaisses" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -613,7 +628,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -724,7 +738,9 @@
       <workItem from="1535055372437" duration="7367000" />
       <workItem from="1535099881031" duration="418000" />
       <workItem from="1535126929605" duration="10570000" />
-      <workItem from="1535391608133" duration="56227000" />
+      <workItem from="1535391608133" duration="105962000" />
+      <workItem from="1536139662880" duration="226000" />
+      <workItem from="1536152454654" duration="591000" />
     </task>
     <task id="LOCAL-00001" summary="projet de base">
       <created>1529658481864</created>
@@ -985,11 +1001,18 @@
       <option name="project" value="LOCAL" />
       <updated>1535393890549</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="intercaisse">
+      <created>1535582658444</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1535582658444</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="686495000" />
+    <option name="totallyTimeSpent" value="737047000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -997,12 +1020,11 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50680786" side_tool="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Database Changes" order="13" weight="0.32843137" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" weight="0.36928105" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" weight="0.5751634" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.37745097" />
-      <window_info anchor="bottom" id="Database Console" order="11" weight="0.32843137" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16490166" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16944024" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.17019667" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1017,34 +1039,9 @@
       <window_info anchor="bottom" id="Messages" order="8" weight="0.61601305" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Database Console" order="11" weight="0.32843137" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
     </layout>
-    <layout-to-restore>
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
-      <window_info anchor="bottom" id="Database Console" order="11" weight="0.32843137" />
-      <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
-      <window_info id="npm" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16565809" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Database Changes" order="13" weight="0.32843137" />
-      <window_info anchor="bottom" id="SQL Generator" order="14" weight="0.32843137" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Command Line Tools Console" order="15" weight="0.4379085" />
-      <window_info anchor="right" id="Database" order="3" weight="0.17019667" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.37745097" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50680786" side_tool="true" weight="0.32843137" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" weight="0.36928105" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.61601305" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -1107,7 +1104,8 @@
     <MESSAGE value="load billet" />
     <MESSAGE value="travaux en cours sur billetage et electronique" />
     <MESSAGE value="billetage et electronique" />
-    <option name="LAST_COMMIT_MESSAGE" value="billetage et electronique" />
+    <MESSAGE value="intercaisse" />
+    <option name="LAST_COMMIT_MESSAGE" value="intercaisse" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand>
@@ -1119,297 +1117,10 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/devises">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1db14c84-a27e-4117-bd5f-6c225e712501/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillettages.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="50" column="47" selection-start-line="50" selection-start-column="47" selection-end-line="50" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadClients.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-248" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="37" column="31" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadComptes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-408">
-          <caret line="23" column="15" selection-start-line="23" selection-start-column="15" selection-end-line="23" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillet.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billets">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Billets.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="145" selection-start-line="145" selection-end-line="145" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/packages/doctrine.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-218" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/packages/framework.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/BilletsRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
-          <folding>
-            <element signature="e#34#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billetagelignes">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/symfony/form/FormView.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billetages">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1734">
-          <caret line="107" column="30" selection-start-line="107" selection-start-column="20" selection-end-line="107" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="30" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectInventaires.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="118" selection-start-line="118" selection-end-line="118" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/SystemElectInventairesType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="125" column="55" selection-start-line="125" selection-start-column="55" selection-end-line="125" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="153" column="28" selection-start-line="149" selection-start-column="8" selection-end-line="153" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/BilletagesType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="18" column="27" selection-start-line="18" selection-start-column="27" selection-end-line="18" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devise_intercaisses/_form.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseMouvements.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="22" column="6" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/devise_tmp_mouvements">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/DeviseIntercaissesType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="31" column="13" selection-start-line="23" selection-start-column="39" selection-end-line="31" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseIntercaisses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="44" column="56" selection-start-line="44" selection-start-column="56" selection-end-line="44" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/InterCaissesJourneeType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="24" column="14" selection-start-line="24" selection-start-column="14" selection-end-line="24" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devise_intercaisses/gestion.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="39" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devise_intercaisses/_list_mouvements.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="34" column="29" selection-start-line="22" selection-start-column="24" selection-end-line="34" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="39" selection-start-line="35" selection-start-column="39" selection-end-line="35" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-510">
-          <caret line="75" column="41" selection-start-line="75" selection-start-column="41" selection-end-line="75" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="71" selection-start-line="70" selection-start-column="12" selection-end-line="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/InterCaissesType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="37" column="36" selection-start-line="37" selection-start-column="36" selection-end-line="37" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/journeecaisses">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/inter_caisses/_form.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/Ouverture_Caisse.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1697" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/system_elect_inventaires/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/dm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="35" selection-start-line="9" selection-start-column="35" selection-end-line="9" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/transfert_internationaux/ajout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="14" selection-start-column="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/billetages/ajout.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="50" column="38" selection-start-line="50" selection-start-column="38" selection-end-line="50" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/billetage_lignes/ajout.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/intercaisses">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/intercaisses/_btn_action.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="24" selection-start-column="24" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1420,51 +1131,337 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/ComptesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1138" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="56" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="phar://$PROJECT_DIR$/composer.phar/src/Composer/DependencyResolver/Transaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="25">
+          <caret line="19" column="6" selection-start-line="19" selection-start-column="6" selection-end-line="19" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/DepotRetraitType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-51">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="18" column="41" selection-start-line="18" selection-start-column="41" selection-end-line="18" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Comptes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="28" column="50" selection-start-line="28" selection-start-column="50" selection-end-line="28" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Clients.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="49">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/intercaisses/_btn_action.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="65" selection-start-column="50" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/inter_caisses/ajout.html.twig">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-544">
+          <caret line="45" column="60" selection-start-line="45" selection-start-column="60" selection-end-line="45" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/utilisateurs">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/retrait.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="21" column="51" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/TransactionComptes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/comptes">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/transactioncomptes">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/transactions">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/_liste_retraits.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="54" column="72" lean-forward="true" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
+          <caret line="9" column="69" selection-start-line="9" selection-start-column="50" selection-end-line="9" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/dette_credit_divers/new.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="14" lean-forward="true" selection-end-line="10" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="292">
+          <caret line="297" column="56" selection-start-line="297" selection-start-column="36" selection-end-line="297" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/DetteCreditDivers.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="73" column="37" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
           <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-            <element signature="e#4753#4774#0#HTML" expanded="true" />
-            <element signature="e#4870#4910#0#HTML" expanded="true" />
+            <element signature="e#113#145#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseIntercaissesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="91" column="53" selection-start-line="91" selection-start-column="53" selection-end-line="91" selection-end-column="53" />
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/dettecreditdivers">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+    <entry file="file://$PROJECT_DIR$/templates/dette_credit_divers/_liste.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
-          <caret line="941" selection-start-line="941" selection-end-line="941" />
+          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/dette_credit_divers/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="42" column="14" selection-start-line="2" selection-end-line="42" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Utilisateurs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-578">
+          <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseRecusController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-289">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/BilletageLignesController.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/journeecaisses">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/devisejournees">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseIntercaisses.php">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/InterCaisses.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
+        <state relative-caret-position="238">
+          <caret line="19" column="81" selection-start-line="19" selection-start-column="81" selection-end-line="19" selection-end-column="81" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/InterCaissesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
-          <folding>
-            <element signature="e#973#2506#0#PHP" />
-          </folding>
+        <state relative-caret-position="166">
+          <caret line="99" column="98" selection-start-line="99" selection-start-column="65" selection-end-line="99" selection-end-column="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseMouvements.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1309">
+          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseRecus.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="135" column="24" selection-start-line="135" selection-start-column="24" selection-end-line="135" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseAchatVentesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-238" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseIntercaissesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="91" column="53" selection-start-line="91" selection-start-column="53" selection-end-line="91" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="63" column="68" selection-start-line="63" selection-start-column="68" selection-end-line="63" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/dette_credit_divers/ajout.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="35" column="49" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/DetteCreditDiversType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/dette_credit_divers/_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="19" selection-start-line="19" selection-start-column="12" selection-end-line="19" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/DepotRetrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/GenererComptaTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="42" column="63" selection-start-line="42" selection-start-column="63" selection-end-line="42" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/GenererCompta.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4148">
+          <caret line="258" column="52" selection-start-line="258" selection-start-column="52" selection-end-line="258" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5474">
+          <caret line="328" column="20" selection-start-line="328" selection-start-column="20" selection-end-line="328" selection-end-column="20" />
+          <folding>
+            <element signature="e#114#162#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/TransactionComptesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="82" column="52" selection-start-line="82" selection-start-column="52" selection-end-line="82" selection-end-column="52" />
+          <folding>
+            <element signature="e#34#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/depot.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/transaction_comptes/_liste_depots.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/JourneeCaissesType.php">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Transactions.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="76" column="20" selection-start-line="76" selection-start-column="20" selection-end-line="76" selection-end-column="20" />
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">

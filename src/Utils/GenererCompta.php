@@ -10,6 +10,7 @@ namespace App\Utils;
 
 use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
@@ -201,7 +202,7 @@ class GenererCompta
      */
     public function genComptaEcart(Utilisateurs $utilisateur, Caisses $caisse, $libelle, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $utilisateur->getCompteEcartCaisse(), $caisse->getIdCompteOperation(), $libelle.' - '.$utilisateur, $montant ));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $utilisateur->getCompteEcartCaisse(), $caisse->getCompteOperation(), $libelle.' - '.$utilisateur, $montant ));
         return !$this->getE();
     }
 
@@ -214,7 +215,7 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaDepot(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
+    public function genComptaDepot( Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
     {
         $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
 
@@ -222,8 +223,9 @@ class GenererCompta
             //if ($transaction->getE()) {
                 return false;
         }
-        else {
-            $this->transactions->add($this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $compteClient, $montant));
+        else { ///modifie par Moumouni
+            $depotRetrait = $this->debiterCrediter($transaction, $caisse->getCompteOperation(), $compteClient, $montant);
+            $this->transactions->add($depotRetrait);
             return !$this->getE();
         }
 
@@ -251,8 +253,10 @@ class GenererCompta
             $this->setE($transaction::ERR_SOLDE_INSUFISANT);
             return false;
         }else {
+            ///modifie par Moumouni
+            $depotRetrait = $this->debiterCrediter($transaction, $compteClient, $caisse->getCompteOperation(), $montant);
             //ajout des lignes d'écritures debit et crédit
-            $this->transactions->add($this->debiterCrediter($transaction, $compteClient, $caisse->getIdCompteOperation(), $montant));
+            $this->transactions->add($depotRetrait);
             return !$this->getE();
         }
 

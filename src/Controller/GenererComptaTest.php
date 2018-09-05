@@ -36,7 +36,7 @@ class GenererComptaTest extends Controller
     {
         $genererCompta=new GenererCompta($this->getDoctrine()->getManager());
 
-        $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
+        $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
         $caisse=$this->getDoctrine()->getRepository(Caisses::class)->findOneBy(['code'=>'KD01']);
         $paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
 
