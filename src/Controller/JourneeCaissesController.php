@@ -92,7 +92,7 @@ class JourneeCaissesController extends Controller
 
         $form = $this->createForm(OuvertureFermetureType::class, $journeeCaisse);
         $form->handleRequest($request);
-        $journeeCaissePrec=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['journeeSuivante'=>$journeeCaisse]);
+        //$journeeCaissePrec=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['journeeSuivante'=>$journeeCaisse]);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -107,11 +107,12 @@ class JourneeCaissesController extends Controller
         $devises=null;
 
         return $this->render('journee_caisses/ouvrir.html.twig', [
-            'journee_caisse' => $journeeCaisse,
+            'journeeCaisse' => $journeeCaisse,
             'form' => $form->createView(),
-            'journee_caisse_prec'=>$journeeCaissePrec
-        ]);
+            'journeePrecedente'=>$journeeCaisse->getJourneePrecedente(),
 
+        ]);
+        //'journee_caisse_prec'=>$journeeCaissePrec
 
     }
 
@@ -174,7 +175,7 @@ class JourneeCaissesController extends Controller
             return $this->render('journee_caisses/ouverture.html.twig', [
                 'devises' => $devises,
                 'form' => $form->createView(),
-                'journeeCaissePrec'=>$journeeCaissePrec
+                'journeePrecedente'=>$journeeCaissePrec
             ]);
         }
 

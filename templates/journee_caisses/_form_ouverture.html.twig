@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+
+<div class="form-group">
+    <h3>Fermeture précédente</h3>
+    {{ form_row(journeePrecedente.mLiquiditeFerm)}}
+    {{ form_row(journeePrecedente.mSoldeElectFerm) }}
+    {{ form_row(journeePrecedente.mDetteDivers) }}
+    {{ form_row(journeePrecedente.mCreditDivers) }}
+    ==========================================
+    {{ form_row(journeePrecedente.mDisponibilteFerm) }}
+    {{ form_row(journeePrecedente.mSoldeNetFerm) }}
+    ==========================================
+
+    {% for deviseJournee in journeePrecedente.deviseJournees %}
+
+        {{ form_widget(deviseJournee.devise) }} {{ form_widget(deviseJournee.qteFerm) }}
+    {% else %}
+        Aucune devise
+    {% endfor %}
+
+</div>
+
+{{ form_end(form) }}
