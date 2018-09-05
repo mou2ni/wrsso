@@ -302,7 +302,7 @@ class Utilisateurs
     }
 
     /**
-     * @return mixed
+     * @return Caisses
      */
     public function getLastCaisse()
     {

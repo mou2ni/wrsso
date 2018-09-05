@@ -84,9 +84,11 @@ class JourneeCaissesController extends Controller
         
         //si l'utilisateur n'a pas de caisse active et n'a pas demander une initialisation (Chargement nouvelle de la page)
         if (!$journeeCaisse){
-            $journeeCaisse = new JourneeCaisses();
+            $caisse=$utilisateur->getLastCaisse();
+            //$journeeCaisse = new JourneeCaisses();
+            $journeeCaisse=$caisse->getNouvelleJournee();
             $journeeCaisse->setUtilisateur($utilisateur);
-            $journeeCaisse->setCaisse($utilisateur->getLastCaisse());
+            $journeeCaisse->setCaisse($caisse);
             $utilisateur->setJourneeCaisseActive($journeeCaisse);
         }
 
