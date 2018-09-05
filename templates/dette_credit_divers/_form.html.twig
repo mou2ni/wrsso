@@ -1,4 +1,24 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<table class="table">
+    <tr>
+        <td>Operation</td><td>
+                <input type="radio" name="operation" value="credit"> Credit
+                <input type="radio" name="operation" value="dette"> Dette
+
+        </td>
+    </tr>
+    <tr>
+        <td>Montant</td><td>{{ form_widget(form.mCredit) }}</td>
+    </tr>
+    <tr>
+        <td>Montant</td><td>{{ form_widget(form.mDette) }}</td>
+    </tr>
+    <tr>
+        <td>{{ form_widget(form.libelle) }}</td><td></td>
+    </tr>
+    <tr>
+        <td>Montant</td><td></td>
+    </tr>
+</table>
+    <button class="btn-primary btn">{{ button_label|default('Ajouter') }}</button><button class="btn-primary btn" type="reset">{{ button_label|default('Effacer') }}</button>
 {{ form_end(form) }}

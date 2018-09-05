@@ -10,6 +10,7 @@
         <td>Commentaire</td><td>{{ form_widget(form.observations) }}</td>
     </tr>
 </table>
-    {{ form_widget(form) }}
+
+    {#{{ form(form) }}#}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

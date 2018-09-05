@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DetteCreditDivers;
+use App\Entity\JourneeCaisses;
 use App\Form\DetteCreditDiversType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,31 @@ class DetteCreditDiversController extends Controller
             ->findAll();
 
         return $this->render('dette_credit_divers/index.html.twig', ['dette_credit_divers' => $detteCreditDivers]);
+    }
+
+    /**
+     * @Route("/ajout/{id}", name="dette_credit_divers", methods="GET|POST")
+     */
+    public function ajout(Request $request, JourneeCaisses $journeeCaisse): Response
+    {
+        $detteCredit = new DetteCreditDivers($journeeCaisse);
+        $form = $this->createForm(DetteCreditDiversType::class, $detteCredit);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $journeeCaisse->addDetteCredit($detteCredit);
+            $em->persist($journeeCaisse);
+            $em->flush();
+
+            return $this->redirectToRoute('dette_credit_divers',['id'=>$journeeCaisse->getId()]);
+        }
+
+        return $this->render('dette_credit_divers/ajout.html.twig', [
+            'journeeCaisse'=>$journeeCaisse,
+            //'detteCredit' => $detteCredit,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**

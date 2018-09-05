@@ -10,6 +10,8 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity
@@ -17,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DetteCreditDivers
 {
-    const REMB='R',INIT='I', PARCIEL='P';
+    const REMB='R',INIT='I';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,17 +34,17 @@ class DetteCreditDivers
     private $caisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="detteCreditCreations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="detteCredits")
      * @ORM\JoinColumn(name="journeeCaissesCreation", referencedColumnName="id",nullable=false)
      */
-    private $journeeCaissesCreation;
+    private $journeeCaisse;
 
-    /**
+    /*
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="detteCreditRembs")
      * @ORM\JoinColumn(name="journeeCaisseRemb", referencedColumnName="id",nullable=false)
-     */
-    private $journeeCaissesRemb;
 
+    private $journeeCaissesRemb;
+*/
     /**
      * @ORM\Column(type="datetime")
      */
@@ -67,6 +69,26 @@ class DetteCreditDivers
      * @ORM\Column(type="float")
      */
     private $mDette;
+
+    /**
+     * DetteCreditDivers constructor.
+     * @param $caisse
+     * @param $journeeCaisse
+     * @param $dateDC
+     * @param $statut
+     * @param $mCredit
+     * @param $mDette
+     */
+    public function __construct(JourneeCaisses $journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        $this->caisse = $journeeCaisse->getCaisse();
+        $this->dateDC = new \DateTime('now');
+        $this->statut = $this::INIT;
+        $this->mCredit = 0;
+        $this->mDette = 0;
+    }
+
 
     /**
      * @return mixed
@@ -185,36 +207,18 @@ class DetteCreditDivers
     /**
      * @return mixed
      */
-    public function getJourneeCaissesCreation()
+    public function getJourneeCaisse()
     {
-        return $this->journeeCaissesCreation;
+        return $this->journeeCaisse;
     }
 
     /**
-     * @param mixed $journeeCaissesCreation
+     * @param mixed $journeeCaisse
      * @return DetteCreditDivers
      */
-    public function setJourneeCaissesCreation($journeeCaissesCreation)
+    public function setJourneeCaisse($journeeCaisse)
     {
-        $this->journeeCaissesCreation = $journeeCaissesCreation;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getJourneeCaissesRemb()
-    {
-        return $this->journeeCaissesRemb;
-    }
-
-    /**
-     * @param mixed $journeeCaissesRemb
-     * @return DetteCreditDivers
-     */
-    public function setJourneeCaissesRemb($journeeCaissesRemb)
-    {
-        $this->journeeCaissesRemb = $journeeCaissesRemb;
+        $this->journeeCaisse = $journeeCaisse;
         return $this;
     }
 

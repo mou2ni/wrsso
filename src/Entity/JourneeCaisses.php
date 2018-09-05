@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
@@ -114,15 +115,15 @@ class JourneeCaisses
     private $mSoldeElectFerm=0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesCreation", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaisse", cascade={"persist"})
      */
-    private $detteCreditCreations;
+    private $detteCredits;
 
-    /**
+    /*
      * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaissesRemb", cascade={"persist"})
-     */
-    private $detteCreditRembs;
 
+    private $detteCreditRembs;
+*/
     /**
      * @ORM\Column(type="bigint")
      */
@@ -211,6 +212,22 @@ class JourneeCaisses
      */
     private $deviseRecus;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transactions", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $transactions;
+
+//    /**
+//     * @ORM\OneToMany(targetEntity="App\Entity\Transactions", mappedBy="journeeCaisse", cascade={"persist"})
+//     */
+//    private $depots;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity="App\Entity\Transactions", mappedBy="journeeCaisse", cascade={"persist"})
+//     */
+//    private $retraits;
+
+
 
     /**
      * JourneeCaisses constructor.
@@ -219,10 +236,14 @@ class JourneeCaisses
     {
         //$this->deviseJournee = new ArrayCollection();
         $this->transfertInternationaux=new ArrayCollection();
-        $this->intercaisseEntrant=new ArrayCollection();
-        $this->intercaisseSortant=new ArrayCollection();
+        $this->intercaisseEntrants=new ArrayCollection();
+        $this->intercaisseSortants=new ArrayCollection();
         $this->deviseRecus=new ArrayCollection();
         $this->deviseJournee=new ArrayCollection();
+        $this->transactions=new ArrayCollection();
+        /*$this->depots=new ArrayCollection();
+        $this->retraits=new ArrayCollection();*/
+        $this->detteCredits=new ArrayCollection();
 
     }
 
@@ -317,6 +338,152 @@ class JourneeCaisses
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param mixed $transfertInternationaux
+     * @return JourneeCaisses
+     */
+    public function setTransfertInternationaux($transfertInternationaux)
+    {
+        $this->transfertInternationaux = $transfertInternationaux;
+        return $this;
+    }
+
+    public function addDeviseJournee(DeviseJournees $deviseJournee)
+    {
+        $deviseJournee->setJourneeCaisse($this);
+        $this->deviseJournee->add($deviseJournee);
+    }
+
+    public function removeDeviseJournee(DeviseJournees $deviseJournees)
+    {
+        $this->deviseJournee->removeElement($deviseJournees);
+    }
+
+    public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertInternationaux->add($transfertInternationaux);
+        $transfertInternationaux->setIdJourneeCaisse($this);
+    }
+
+    public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertInternationaux->removeElement($transfertInternationaux);
+    }
+
+    public function addInterCaisseSortant(InterCaisses $interCaisses)
+    {
+        $this->intercaisseSortants->add($interCaisses);
+        $interCaisses->setJourneeCaisseSortant($this);
+    }
+
+    public function removeInterCaisseSortant(InterCaisses $interCaisses)
+    {
+        $this->intercaisseSortants->removeElement($interCaisses);
+    }
+
+    public function addInterCaisseDestination(InterCaisses $interCaisses)
+    {
+        $this->intercaisseEntrants->add($interCaisses);
+        $interCaisses->setJourneeCaisseEntrant($this);
+    }
+
+    public function removeInterCaisseEntrant(InterCaisses $interCaisses)
+    {
+        $this->intercaisseEntrants->removeElement($interCaisses);
+    }
+
+    /**
+     * @param DeviseRecus $deviseRecu
+     */
+    public function addDeviseRecu(DeviseRecus $deviseRecu)
+    {
+        $deviseRecu->setJourneeCaisse($this);
+        $this->deviseRecus->add($deviseRecu);
+
+    }
+
+    /**
+     * @param DeviseRecus $deviseRecu
+     */
+    public function removeDeviseRecu(DeviseRecus $deviseRecu)
+    {
+        $this->deviseRecus->removeElement($deviseRecu);
+    }
+
+    /**
+     * @param Transactions $transaction
+     */
+    public function addTransaction(Transactions $transaction)
+    {
+        $this->transactions->add($transaction);
+        $transaction->setJourneeCaisse($this);
+    }
+
+    /**
+     * @param Transactions $transaction
+     */
+    public function removeTransaction(Transactions $transaction)
+    {
+        $this->transactions->removeElement($transaction);
+    }
+    /*
+     * @param Transactions $transaction
+
+    public function addDepot(Transactions $transaction)
+    {
+        $this->depots->add($transaction);
+        $this->transactions->add($transaction);
+        $transaction->setJourneeCaisse($this);
+    }
+
+    **
+     * @param Transactions $transaction
+
+    public function removeDepot(Transactions $transaction)
+    {
+        $this->depots->removeElement($transaction);
+    }
+
+    *
+     * @param Transactions $transaction
+
+    public function addRetrait(Transactions $transaction)
+    {
+        $this->retraits->add($transaction);
+        $this->transactions->add($transaction);
+        $transaction->setJourneeCaisse($this);
+    }
+
+
+    public function removeRetrait(Transactions $transaction)
+    {
+        $this->retraits->removeElement($transaction);
+    }
+*/
+    /**
+     * @param Transactions $transaction
+     */
+    public function addDetteCredit(DetteCreditDivers $detteCreditDiver)
+    {
+        $this->detteCredits->add($detteCreditDiver);
+        $detteCreditDiver->setJourneeCaisse($this);
+    }
+
+    /**
+     * @param Transactions $transaction
+     */
+    public function removeDetteCredit(DetteCreditDivers $detteCreditDiver)
+    {
+        $this->transactions->removeElement($detteCreditDiver);
+    }
+
+
+    public function getJourneeCaisse(){
+        return $this->__toString();
+    }
+
+
 
     /**
      * Get deviseJournees
@@ -558,36 +725,36 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getIntercaisseSortant()
+    public function getIntercaisseSortants()
     {
-        return $this->intercaisseSortant;
+        return $this->intercaisseSortants;
     }
 
     /**
      * @param mixed $intercaisseSortant
      * @return JourneeCaisses
      */
-    public function setIntercaisseSortant($intercaisseSortant)
+    public function setIntercaisseSortants($intercaisseSortant)
     {
-        $this->intercaisseSortant = $intercaisseSortant;
+        $this->intercaisseSortants = $intercaisseSortant;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getIntercaisseEntrant()
+    public function getIntercaisseEntrants()
     {
-        return $this->intercaisseEntrant;
+        return $this->intercaisseEntrants;
     }
 
     /**
      * @param mixed $intercaisseEntrant
      * @return JourneeCaisses
      */
-    public function setIntercaisseEntrant($intercaisseEntrant)
+    public function setIntercaisseEntrants($intercaisseEntrant)
     {
-        $this->intercaisseEntrant = $intercaisseEntrant;
+        $this->intercaisseEntrants = $intercaisseEntrant;
         return $this;
     }
 
@@ -607,81 +774,6 @@ class JourneeCaisses
     {
         $this->deviseRecus = $deviseRecus;
         return $this;
-    }
-
-
-
-    /**
-     * @param mixed $transfertInternationaux
-     * @return JourneeCaisses
-     */
-    public function setTransfertInternationaux($transfertInternationaux)
-    {
-        $this->transfertInternationaux = $transfertInternationaux;
-        return $this;
-    }
-
-    public function addDeviseJournee(DeviseJournees $deviseJournee)
-    {
-        $deviseJournee->setJourneeCaisse($this);
-        $this->deviseJournee->add($deviseJournee);
-    }
-
-    public function removeDeviseJournee(DeviseJournees $deviseJournees)
-    {
-        $this->deviseJournee->removeElement($deviseJournees);
-    }
-
-    public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
-    {
-        $this->transfertInternationaux->add($transfertInternationaux);
-        $transfertInternationaux->setIdJourneeCaisse($this);
-    }
-
-    public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
-    {
-        $this->transfertInternationaux->removeElement($transfertInternationaux);
-    }
-
-    public function addInterCaisseSortant(InterCaisses $interCaisses)
-    {
-        $this->intercaisseSortant->add($interCaisses);
-        $interCaisses->setJourneeCaisseSortant($this);
-    }
-
-    public function removeInterCaisseSortant(InterCaisses $interCaisses)
-    {
-        $this->intercaisseSortant->removeElement($interCaisses);
-    }
-
-    public function addInterCaisseDestination(InterCaisses $interCaisses)
-    {
-        $this->intercaisseEntrant->add($interCaisses);
-        $interCaisses->setJourneeCaisseEntrant($this);
-    }
-
-    public function removeInterCaisseEntrant(InterCaisses $interCaisses)
-    {
-        $this->intercaisseEntrant->removeElement($interCaisses);
-    }
-
-    /**
-     * @param DeviseRecus $deviseRecu
-     */
-    public function addDeviseRecu(DeviseRecus $deviseRecu)
-    {
-        $deviseRecu->setJourneeCaisse($this);
-        $this->deviseRecus->add($deviseRecu);
-
-    }
-
-    public function removeDeviseRecu(DeviseRecus $deviseRecu)
-    {
-        $this->deviseRecus->removeElement($deviseRecu);
-    }
-
-    public function getJourneeCaisse(){
-        return $this->__toString();
     }
 
     /**
@@ -810,41 +902,6 @@ class JourneeCaisses
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDetteCreditCreations()
-    {
-        return $this->detteCreditCreations;
-    }
-
-    /**
-     * @param mixed $detteCreditCreations
-     * @return JourneeCaisses
-     */
-    public function setDetteCreditCreations($detteCreditCreations)
-    {
-        $this->detteCreditCreations = $detteCreditCreations;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDetteCreditRembs()
-    {
-        return $this->detteCreditRembs;
-    }
-
-    /**
-     * @param mixed $detteCreditRembs
-     * @return JourneeCaisses
-     */
-    public function setDetteCreditRembs($detteCreditRembs)
-    {
-        $this->detteCreditRembs = $detteCreditRembs;
-        return $this;
-    }
 
     /**
      * @return mixed
@@ -879,42 +936,6 @@ class JourneeCaisses
     public function setSystemElectInventFerm($systemElectInventFerm)
     {
         $this->systemElectInventFerm = $systemElectInventFerm;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIntercaisseEntrants()
-    {
-        return $this->intercaisseEntrants;
-    }
-
-    /**
-     * @param mixed $intercaisseEntrants
-     * @return JourneeCaisses
-     */
-    public function setIntercaisseEntrants($intercaisseEntrants)
-    {
-        $this->intercaisseEntrants = $intercaisseEntrants;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIntercaisseSortants()
-    {
-        return $this->intercaisseSortants;
-    }
-
-    /**
-     * @param mixed $intercaisseSortants
-     * @return JourneeCaisses
-     */
-    public function setIntercaisseSortants($intercaisseSortants)
-    {
-        $this->intercaisseSortants = $intercaisseSortants;
         return $this;
     }
 
@@ -1028,6 +1049,41 @@ class JourneeCaisses
         return $this;
     }
 
-    
+    /**
+     * @return mixed
+     */
+    public function getTransactions()
+    {
+        return $this->transactions;
+    }
+
+    /**
+     * @param mixed $transactions
+     * @return JourneeCaisses
+     */
+    public function setTransactions($transactions)
+    {
+        $this->transactions = $transactions;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetteCredits()
+    {
+        return $this->detteCredits;
+    }
+
+    /**
+     * @param mixed $detteCredits
+     * @return JourneeCaisses
+     */
+    public function setDetteCredits($detteCredits)
+    {
+        $this->detteCredits = $detteCredits;
+        return $this;
+    }
+
 
 }

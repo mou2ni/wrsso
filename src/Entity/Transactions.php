@@ -37,6 +37,12 @@ class Transactions
     private $utilisateur;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="transactions", cascade={"persist"} )
+     * @ORM\JoinColumn(name="idJourneeCaisse", nullable=true)
+     */
+    private $journeeCaisse;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
      * @ORM\JoinColumn(name="idUtilisateurLast", nullable=true)
      */
@@ -262,7 +268,24 @@ class Transactions
         $this->id = $id;
         return $this;
     }
-    
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return Transactions
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
 
 
 }
