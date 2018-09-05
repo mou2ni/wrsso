@@ -49,6 +49,11 @@ class Devises
     private $txVente;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Billets", mappedBy="devise", cascade={"persist"})
+     */
+    private $billets;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -163,5 +168,23 @@ class Devises
         return ''.$this->getCode();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBillets()
+    {
+        return $this->billets;
+    }
 
+    /**
+     * @param mixed $billets
+     * @return Devises
+     */
+    public function setBillets($billets)
+    {
+        $this->billets = $billets;
+        return $this;
+    }
+
+    
 }

@@ -33,4 +33,8 @@ class LoadDevises extends Fixture
         $manager->flush();
     }
 
+    public function getDependencies()
+    {
+        return array(LoadBillet::class);
+    }
 }

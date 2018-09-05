@@ -29,15 +29,18 @@ class SystemElectInventaires
      */
     private $dateInventaire;
 
-    /**
+    /*
      * @ORM\Column(type="float")
-     */
+
     private $soldeTotal;
+    */
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SystemElectLigneInventaires", mappedBy="idSystemElectInventaire", cascade={"persist"})
      */
     private $systemElectLigneInventaires;
+
+    private $soldeTotal;
 
     public function __construct()
     {
@@ -96,7 +99,11 @@ class SystemElectInventaires
      */
     public function getSoldeTotal()
     {
-        return $this->soldeTotal;
+        $valeurTotal=0;
+        foreach ($this->getSystemElectLigneInventaires() as $ligne){
+            $valeurTotal += $ligne->getSolde();
+        }
+        return $valeurTotal;
     }
 
     /**
@@ -108,6 +115,8 @@ class SystemElectInventaires
         $this->soldeTotal = $soldeTotal;
         return $this;
     }
+
+
 
     /**
      * @return mixed

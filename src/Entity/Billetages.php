@@ -190,7 +190,7 @@ class Billetages
      * @param mixed $billetageLignes
      * @return Billetages
      */
-    public function setBilletageLignes($billetageLignes)
+    public function  setBilletageLignes($billetageLignes)
     {
         $this->billetageLignes = $billetageLignes;
         return $this;
