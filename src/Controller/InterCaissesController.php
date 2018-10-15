@@ -33,13 +33,14 @@ public $totalR=0;
     }
 
     /**
-     * @Route("/ajout/{id}", name="inter_caisses_ajout", methods="GET|POST")
+     * @Route("/ajout/{id}", name="inter_caisses_ajout", methods="GET|POST|UPDATE")
      */
     public function ajout(Request $request, JourneeCaisses $journeeCaisses): Response
     {
 
+        $operation=$request->request->get('_operation');
         $interCaiss = new InterCaisses();
-        $interCaiss->setJourneeCaisseEntrant($journeeCaisses)->setStatut('av');
+        $interCaiss->setJourneeCaisseEntrant($journeeCaisses)->setStatut($interCaiss::VALIDATION_AUTO);
         $form = $this->createForm(InterCaissesType::class, $interCaiss);
         $form->handleRequest($request);
         $this->totalInterCaisse($journeeCaisses);
@@ -49,7 +50,7 @@ public $totalR=0;
             $em->persist($interCaiss);
             $em->flush();
 
-            return $this->redirectToRoute('inter_caisses_index');
+            return $this->redirectToRoute('inter_caisses_ajout',['id'=>$journeeCaisses->getId()]);
         }
 
         if($request->isXmlHttpRequest()){
@@ -63,7 +64,7 @@ public $totalR=0;
             }
             if ($request->request->get('valider')){
 
-                $journeeCaisses->setMIntercaisse($this->totalR-$this->totalE);
+                $journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
             }
 
             $em->flush();
@@ -76,6 +77,7 @@ public $totalR=0;
             'totalR'=>$this->totalR,
             'totalE'=>$this->totalE,
             'form' => $form->createView(),
+            'operation'=>$operation
         ]);
     }
 

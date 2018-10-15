@@ -12,5 +12,14 @@
 </table>
 
     {#{{ form(form) }}#}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
+{% if operation=="FERMER" %}
+    <div class="form-inline">
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+    </div>
+{% elseif operation=="OUVRIR" %}
+    <div class="form-inline">
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+    </div>
+{% endif %}

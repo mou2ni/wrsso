@@ -35,20 +35,20 @@
                 <td>{{ journee_caiss.id }}</td>
                 <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ journee_caiss.statut }}</td>
-                <td>{{ journee_caiss.valeurBillet }}</td>
-                <td>{{ journee_caiss.soldeElectOuv }}</td>
-                <td>{{ journee_caiss.ecartOuv }}</td>
+                <td>{{ journee_caiss.mLiquiditeOuv }}</td>
+                <td>{{ journee_caiss.mSoldeElectOuv }}</td>
+                <td>{{ journee_caiss.mecartOuv }}</td>
                 <td>{{ journee_caiss.mCvd }}</td>
                 <td>{{ journee_caiss.mEmissionTrans }}</td>
                 <td>{{ journee_caiss.mReceptionTrans }}</td>
-                <td>{{ journee_caiss.mIntercaisse }}</td>
+                <td>{{ journee_caiss.mIntercaisses }}</td>
                 <td>{{ journee_caiss.mRetraitClient }}</td>
                 <td>{{ journee_caiss.mDepotClient }}</td>
-                <td>{{ journee_caiss.mCreditDivers }}</td>
-                <td>{{ journee_caiss.mDetteDivers }}</td>
+                <td>{{ journee_caiss.mCreditDiversOuv }}</td>
+                <td>{{ journee_caiss.mDetteDiversOuv }}</td>
                 <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.valeurBilletFerm }}</td>
-                <td>{{ journee_caiss.SoldeElectFerm }}</td>
+                <td>{{ journee_caiss.mLiquiditeFerm }}</td>
+                <td>{{ journee_caiss.mSoldeElectFerm }}</td>
                 <td>{{ journee_caiss.mEcartFerm }}</td>
                 <td>
                     <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>

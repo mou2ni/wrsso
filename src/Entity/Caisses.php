@@ -221,7 +221,7 @@ class Caisses
 
         $nouvellleJournee=$this->em->getRepository(JourneeCaisses::class)->findOneJourneeActive($this);
         if(!$nouvellleJournee){
-            $nouvellleJournee=new JourneeCaisses();
+            $nouvellleJournee=new JourneeCaisses($this->em);
             $this->addJourneeCaisse($nouvellleJournee);
         }
         

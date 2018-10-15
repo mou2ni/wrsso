@@ -8,7 +8,9 @@
     {{ include('inter_caisses/_form.html.twig') }}
 
     <form method="post" action="{{ path('inter_caisses_ajout', {'id':journeeCaisse.id}) }}">
+
         <button type="button" id="validerIntercaisses" value="btest"> VALIDER TOUT</button>
+
     <table class="table">
         <thead>
         <tr>
@@ -98,8 +100,12 @@
 
         </tbody>
     </table>
+        <div hidden>
+            <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+            <input type="hidden" name="_operation" value="{{ operation }}">
+        </div>
     </form>
-    <a href="{{ path('inter_caisses_index') }}">back to list</a>
+
 
 {% endblock %}
 {% block javascripts %}

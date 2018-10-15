@@ -46,12 +46,22 @@
         {% endfor %}
     </table>
     {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
-    <input type="submit" value="Enregistrer"> <input value="Fermer" type="button">
+    <input type="submit" value="Enregistrer">
     <div hidden>
         {{ form_rest(form) }}
+        <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+        <input type="hidden" name="_operation" value="{{ operation }}">
     </div>
     {{ form_end(form) }}
-
+    {% if operation=="FERMER" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% elseif operation=="OUVRIR" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block title %}

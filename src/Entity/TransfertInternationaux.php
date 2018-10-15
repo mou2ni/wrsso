@@ -67,6 +67,11 @@ class TransfertInternationaux
      */
     private $mAutresTaxes;
 
+    public function __toString()
+    {
+        return ''.$this->getSens().' '.$this->getIdSystemTransfert().' '.$this->getMTransfert();
+    }
+
     /**
      * @return mixed
      */

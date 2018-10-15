@@ -42,6 +42,9 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(LoadComptes::class);
+        return array(
+            LoadClients::class,
+            LoadComptes::class
+        );
     }
 }

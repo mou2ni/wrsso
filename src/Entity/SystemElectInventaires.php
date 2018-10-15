@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  * @ORM\Table(name="SystemElectInventaires")
+ * @ORM\HasLifecycleCallbacks()
  */
 class SystemElectInventaires
 {
@@ -29,21 +30,27 @@ class SystemElectInventaires
      */
     private $dateInventaire;
 
-    /*
-     * @ORM\Column(type="float")
-
-    private $soldeTotal;
-    */
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SystemElectLigneInventaires", mappedBy="idSystemElectInventaire", cascade={"persist"})
      */
     private $systemElectLigneInventaires;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="systemElectInventOuv")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $journeeCaisse;
+
+    ////METTRE EN BD A RENSEIGNER POUR TOUT AJOUT DE LIGNE
+    /**
+     * @ORM\Column(type="float")
+     */
     private $soldeTotal;
 
     public function __construct()
     {
+        $this->dateInventaire=new \DateTime('now');
         $this->systemElectLigneInventaires = new ArrayCollection();
     }
 
@@ -136,10 +143,62 @@ class SystemElectInventaires
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return SystemElectInventaires
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+
 
 
     public function __toString()
     {
         return ''.$this->getSoldeTotal().' du '.(string)$this->getDateInventaire()->format('d-m-Y H:i:s');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValeurTotal()
+    {
+        $valeurTotal=0;
+        foreach ($this->getSystemElectLigneInventaires() as $ligne){
+            $valeurTotal += $ligne->getSolde();
+        }
+        return $valeurTotal;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function fillOnUpdate(){
+        //$this->fillBilletageLignes();
+        $valeurTotal = 0;
+        foreach ($this->getSystemElectLigneInventaires() as $ligne){
+            $valeurTotal += $ligne->getSolde();
+        }
+        $this->soldeTotal=$valeurTotal;
+
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function fillOnPersist(){
+        //$this->fillBilletageLignes();
+        $this->fillOnUpdate();
     }
 }

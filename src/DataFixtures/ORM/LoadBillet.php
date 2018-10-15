@@ -11,12 +11,13 @@ namespace App\DataFixtures\ORM;
 use App\Entity\Billets;
 use App\Entity\Devises;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 //use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
-class LoadBillet extends Fixture
+class LoadBillet extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -66,7 +67,8 @@ class LoadBillet extends Fixture
 
     public function getDependencies()
     {
-        return array(LoadDevises::class);
+        return array(
+            LoadDevises::class,
+        );
     }
-
 }

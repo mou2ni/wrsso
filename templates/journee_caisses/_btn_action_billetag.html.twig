@@ -1,0 +1,8 @@
+<form class="form-inline" method="POST" action="{{ path('' ~ path)}}" onsubmit="return confirm('{{ confirm_message }} ');">
+    <input type="hidden" name="_method" value="UPDATE">
+    <input type="hidden" name="_token" value="{{ csrf_token('billetage' ~ id)}}">
+    <input type="hidden" name="_id" value="{{ id }}">
+    <input type="hidden" name="_devise" value="{{ devise }}">
+    <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+    <button class="btn-primary btn" name={{ btn_name }}>{{ btn_label }}</button>
+</form>

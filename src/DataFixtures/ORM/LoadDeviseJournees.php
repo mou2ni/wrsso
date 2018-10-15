@@ -83,7 +83,11 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(LoadJourneeCaisses::class);
+        return array(
+            LoadDevises::class,
+            LoadBillettages::class,
+            LoadJourneeCaisses::class
+        );
     }
 
 

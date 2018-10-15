@@ -40,7 +40,9 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(LoadComptes::class);
+        return array(
+            LoadComptes::class
+        );
     }
 
 }

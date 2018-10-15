@@ -11,6 +11,7 @@ namespace App\Entity;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
@@ -49,7 +50,7 @@ class JourneeCaisses
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $journeePrecedente;
 
@@ -60,7 +61,7 @@ class JourneeCaisses
 
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $billetOuv;
@@ -71,7 +72,7 @@ class JourneeCaisses
     private $mLiquiditeOuv=0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\SystemElectInventaires")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $systemElectInventOuv;
@@ -93,7 +94,7 @@ class JourneeCaisses
     private $dateFerm;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $billetFerm;
@@ -104,7 +105,7 @@ class JourneeCaisses
     private $mLiquiditeFerm=0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires")
+     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $systemElectInventFerm;
@@ -127,12 +128,22 @@ class JourneeCaisses
     /**
      * @ORM\Column(type="bigint")
      */
-    private $mDetteDivers=0;
+    private $mDetteDiversOuv=0;
 
     /**
      * @ORM\Column(type="bigint")
      */
-    private $mCreditDivers=0;
+    private $mCreditDiversOuv=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mDetteDiversFerm=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mCreditDiversFerm=0;
 
 
     /**
@@ -234,16 +245,20 @@ class JourneeCaisses
      */
     public function __construct()
     {
-        //$this->deviseJournee = new ArrayCollection();
         $this->transfertInternationaux=new ArrayCollection();
         $this->intercaisseEntrants=new ArrayCollection();
         $this->intercaisseSortants=new ArrayCollection();
         $this->deviseRecus=new ArrayCollection();
         $this->deviseJournee=new ArrayCollection();
         $this->transactions=new ArrayCollection();
-        /*$this->depots=new ArrayCollection();
-        $this->retraits=new ArrayCollection();*/
         $this->detteCredits=new ArrayCollection();
+
+        $this->billetOuv=new Billetages();
+        $this->systemElectInventOuv=new SystemElectInventaires();
+        $this->billetFerm=new Billetages();
+        $this->systemElectInventFerm=new SystemElectInventaires();
+
+
 
     }
 
@@ -252,13 +267,14 @@ class JourneeCaisses
      */
     public function updateMEcarts(){
         $this->setMEcarts();
-
+        $this->setMLiquiditeOuv($this->billetOuv->getValeurTotal());
     }
 
     /**
      * @ORM\PrePersist
      */
     public function setMEcarts(){
+        $this->setDateOuv(new \DateTime('now'));
         $this->setMEcartOuv();
         $this->setMEcartFerm();
     }
@@ -288,40 +304,40 @@ class JourneeCaisses
     }
 
 
-    public function getDisponibliteFerm(){
+    public function getDisponibiliteFerm(){
         return $this->getMLiquiditeFerm()
         + $this->getMSoldeElectFerm();
     }
 
     public function getSoldeNetFerm(){
         return
-            ($this->getDisponibliteFerm()
-            + $this->getMDetteDivers()
+            ($this->getDisponibiliteFerm()
+            + $this->getMDetteDiversFerm()
             + $this->getMEmissionTrans()
             + $this->getMCvd()
             + $this->getMDepotClient()) -
-            ( $this->getMCreditDivers()
+            ( $this->getMCreditDiversOuv()
             + $this->getMReceptionTrans()
             + $this->getMRetraitClient()
             );
 
     }
 
-    public function getDisponibliteOuv(){
+    public function getDisponibiliteOuv(){
         return $this->getMLiquiditeOuv()
         + $this->getMSoldeElectOuv();
     }
 
     public function getSoldeNetOuv(){
         if ($this->journeePrecedente!=null){
-            $detteDivers=$this->journeePrecedente->getMDetteDivers();
-            $creditDivers=$this->journeePrecedente->getMCreditDivers();
+            $detteDivers=$this->journeePrecedente->getMDetteDiversFerm();
+            $creditDivers=$this->journeePrecedente->getMCreditDiversFerm();
         }else{
             $detteDivers=0;
             $creditDivers=0;
         }
 
-        return $this->getDisponibliteOuv() +$detteDivers - $creditDivers;
+        return $this->getDisponibiliteOuv() +$detteDivers - $creditDivers;
     }
 
 
@@ -663,31 +679,72 @@ class JourneeCaisses
     /**
      * @return mixed
      */
-    public function getMCreditDivers()
+    public function getMDetteDiversOuv()
     {
-        return $this->mCreditDivers;
+        return $this->mDetteDiversOuv;
     }
 
-     public function setMCreditDivers($mCreditDivers)
+    /**
+     * @param mixed $mDetteDiversOuv
+     * @return JourneeCaisses
+     */
+    public function setMDetteDiversOuv($mDetteDiversOuv)
     {
-        $this->mCreditDivers = $mCreditDivers;
+        $this->mDetteDiversOuv = $mDetteDiversOuv;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getMDetteDivers()
+    public function getMCreditDiversOuv()
     {
-        return $this->mDetteDivers;
+        return $this->mCreditDiversOuv;
     }
 
     /**
-     * @param mixed $mDetteDivers
+     * @param mixed $mCreditDiversOuv
+     * @return JourneeCaisses
      */
-    public function setMDetteDivers($mDetteDivers)
+    public function setMCreditDiversOuv($mCreditDiversOuv)
     {
-        $this->mDetteDivers = $mDetteDivers;
+        $this->mCreditDiversOuv = $mCreditDiversOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMDetteDiversFerm()
+    {
+        return $this->mDetteDiversFerm;
+    }
+
+    /**
+     * @param mixed $mDetteDiversFerm
+     * @return JourneeCaisses
+     */
+    public function setMDetteDiversFerm($mDetteDiversFerm)
+    {
+        $this->mDetteDiversFerm = $mDetteDiversFerm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMCreditDiversFerm()
+    {
+        return $this->mCreditDiversFerm;
+    }
+
+    /**
+     * @param mixed $mCreditDiversFerm
+     * @return JourneeCaisses
+     */
+    public function setMCreditDiversFerm($mCreditDiversFerm)
+    {
+        $this->mCreditDiversFerm = $mCreditDiversFerm;
         return $this;
     }
 
@@ -1085,5 +1142,35 @@ class JourneeCaisses
         return $this;
     }
 
+    public function getTotalDepot(){
+        $total=0;
+        foreach ($this->transactions as $tr)
+            foreach ($tr->getTransactionComptes() as $depot)
+                if ($depot->getCompte()->getTypeCompte()=='o' || $depot->getCompte()->getTypeCompte()=='s')
+                    $total=$total+$depot->getMCredit();
+        return $total;
+    }
+
+    public function getTotalRetrait(){
+        $total=0;
+        foreach ($this->transactions as $tr)
+            foreach ($tr->getTransactionComptes() as $retrait)
+                if ($retrait->getCompte()->getTypeCompte()=='o' || $retrait->getCompte()->getTypeCompte()=='s')
+                    $total=$total+$retrait->getMDebit();
+        return $total;
+    }
+
+    public function preparerOuverture(){
+
+        $newJourneeCaisse=new JourneeCaisses();
+        $newJourneeCaisse->setMLiquiditeOuv($this->getMLiquiditeFerm())
+            ->setMSoldeElectOuv($this->getMSoldeElectFerm())
+            ->setCaisse($this->getCaisse())
+            ->setUtilisateur($this->getUtilisateur())
+            ->setMCreditDiversOuv($this->getMCreditDiversFerm())->setMDetteDiversOuv($this->getMDetteDiversFerm())->setJourneePrecedente($this);
+        //$this->getUtilisateur()->setJourneeCaisseActive($this);
+
+        return $newJourneeCaisse;
+    }
 
 }

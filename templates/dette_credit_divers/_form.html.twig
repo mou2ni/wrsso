@@ -2,23 +2,32 @@
 <table class="table">
     <tr>
         <td>Operation</td><td>
-                <input type="radio" name="operation" value="credit"> Credit
-                <input type="radio" name="operation" value="dette"> Dette
-
+                <input id="chbxCredit" type="radio" name="operation" value="credit" checked="checked"> Credit
+                <input id="chbxDette" type="radio" name="operation" value="dette"> Dette
         </td>
     </tr>
-    <tr>
-        <td>Montant</td><td>{{ form_widget(form.mCredit) }}</td>
+    <tr id="credit">
+        <td>Montant Credit</td><td>{{ form_widget(form.mCredit) }}</td>
+    </tr>
+    <tr id="dette">
+        <td>Montant Dette</td><td>{{ form_widget(form.mDette) }}</td>
     </tr>
     <tr>
-        <td>Montant</td><td>{{ form_widget(form.mDette) }}</td>
+        <td>Commentaire</td><td>{{ form_widget(form.libelle) }}</td><td></td>
     </tr>
-    <tr>
-        <td>{{ form_widget(form.libelle) }}</td><td></td>
-    </tr>
-    <tr>
-        <td>Montant</td><td></td>
-    </tr>
+
 </table>
-    <button class="btn-primary btn">{{ button_label|default('Ajouter') }}</button><button class="btn-primary btn" type="reset">{{ button_label|default('Effacer') }}</button>
+<button class="btn-primary btn">{{ button_label|default('Ajouter') }}</button>
+<button class="btn-primary btn" type="reset">{{ button_label|default('Effacer') }}</button>
+
 {{ form_end(form) }}
+
+{% if operation=="FERMER" %}
+    <div class="form-inline">
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+    </div>
+{% elseif operation=="OUVRIR" %}
+    <div class="form-inline">
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+    </div>
+{% endif %}

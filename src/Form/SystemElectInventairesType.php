@@ -22,6 +22,7 @@ class SystemElectInventairesType extends AbstractType
                 'prototype' => true,
                 'by_reference' => false
             ])
+            ->add('journeeCaisse')
         ;
     }
 

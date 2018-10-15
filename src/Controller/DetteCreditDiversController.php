@@ -28,17 +28,32 @@ class DetteCreditDiversController extends Controller
     }
 
     /**
-     * @Route("/ajout/{id}", name="dette_credit_divers", methods="GET|POST")
+     * @Route("/ajout/{id}", name="dette_credit_divers", methods="GET|POST|UPDATE")
      */
     public function ajout(Request $request, JourneeCaisses $journeeCaisse): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $operation=$request->request->get('_operation');
         $detteCredit = new DetteCreditDivers($journeeCaisse);
         $form = $this->createForm(DetteCreditDiversType::class, $detteCredit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+
+            if($request->request->has('fermer')){
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
+
             $journeeCaisse->addDetteCredit($detteCredit);
+            /*if ($operation=='OUVRIR'){
+                $journeeCaisse->setMCreditDiversOuv($journeeCaisse->getMCreditDiversOuv() + $detteCredit->getMCredit());
+                $journeeCaisse->setMDetteDiversOuv($journeeCaisse->getMDetteDiversOuv() + $detteCredit->getMDette());
+            }
+            elseif ($operation=='FERMER'){*/
+                $journeeCaisse->setMCreditDiversFerm($this->getTotalCredits($journeeCaisse));
+                $journeeCaisse->setMDetteDiversFerm($this->getTotalDettes($journeeCaisse));
+            //dump($journeeCaisse);die();
+            //}
             $em->persist($journeeCaisse);
             $em->flush();
 
@@ -49,6 +64,7 @@ class DetteCreditDiversController extends Controller
             'journeeCaisse'=>$journeeCaisse,
             //'detteCredit' => $detteCredit,
             'form' => $form->createView(),
+            'operation'=>$operation
         ]);
     }
 
@@ -115,5 +131,21 @@ class DetteCreditDiversController extends Controller
         }
 
         return $this->redirectToRoute('dette_credit_divers_index');
+    }
+
+    public function getTotalDettes(JourneeCaisses $journeeCaisse){
+        $total=0;
+        foreach ($journeeCaisse->getDetteCredits() as $dc){
+            $total=$total + $dc->getMDette();
+        }
+        return $total;
+    }
+
+    public function getTotalCredits(JourneeCaisses $journeeCaisse){
+        $total=0;
+        foreach ($journeeCaisse->getDetteCredits() as $dc){
+            $total=$total + $dc->getMCredit();
+        }
+        return $total;
     }
 }
