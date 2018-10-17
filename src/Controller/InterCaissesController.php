@@ -40,7 +40,7 @@ public $totalR=0;
 
         $operation=$request->request->get('_operation');
         $interCaiss = new InterCaisses();
-        $interCaiss->setJourneeCaisseEntrant($journeeCaisses)->setStatut($interCaiss::VALIDATION_AUTO);
+        $interCaiss->setJourneeCaisseEntrant($journeeCaisses)->setStatut($interCaiss::INITIE);
         $form = $this->createForm(InterCaissesType::class, $interCaiss);
         $form->handleRequest($request);
         $this->totalInterCaisse($journeeCaisses);
@@ -56,8 +56,10 @@ public $totalR=0;
         if($request->isXmlHttpRequest()){
             $em=$this->getDoctrine()->getManager();
             if($interCaiss = $request->request->get('intercaisse')) {
-                $statut = $interCaiss[1] . $interCaiss[2];
+                $statut = $interCaiss[1];// . $interCaiss[2];
                 $idIntercaisse = $interCaiss[0];
+                $statut = substr($interCaiss,-1);
+                $idIntercaisse = substr($interCaiss,0,-1);
                 $interCaisse = $em->getRepository("App:InterCaisses")->find($idIntercaisse);
                 $interCaisse->setStatut($statut);
                 $em->persist($interCaisse);

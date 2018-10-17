@@ -22,11 +22,27 @@ class BilletagesController extends Controller
      */
     public function index(): Response
     {
-        $billetages = $this->getDoctrine()
+        $em=$this->getDoctrine()->getManager();
+        $billets=$this->getDoctrine()->getRepository(Billets::class)->findAll();
+        $billetage=new Billetages();
+        foreach ($billets as $billet) {
+            $billetageLigne=new BilletageLignes();
+            $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
+            $billetage->addBilletageLigne($billetageLigne);
+        }
+        $form = $this->createForm(BilletagesType::class, $billetage);
+        //$form->handleRequest($request);
+        return $this->render('billetages/billetage.html.twig', [
+            'billets' => $billets,
+            'billetage' => $billetage,
+            'form' => $form->createView(),
+        ]);
+
+        /*$billetages = $this->getDoctrine()
             ->getRepository(Billetages::class)
             ->findAll();
 
-        return $this->render('billetages/index.html.twig', ['billetages' => $billetages]);
+        return $this->render('billetages/index.html.twig', ['billetages' => $billetages]);*/
     }
 
     /**
@@ -119,6 +135,7 @@ class BilletagesController extends Controller
         return $this->render('billetages/ajout.html.twig', [
             'devise' => $devise,
             'billets' => $billets,
+            'billetage' => $billetage,
             'form' => $form->createView(),
             'journeeCaisse'=>$jc,
             'operation'=>$operation

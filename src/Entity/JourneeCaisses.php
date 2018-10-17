@@ -228,6 +228,8 @@ class JourneeCaisses
      */
     private $transactions;
 
+    private $em;
+
 //    /**
 //     * @ORM\OneToMany(targetEntity="App\Entity\Transactions", mappedBy="journeeCaisse", cascade={"persist"})
 //     */
@@ -243,13 +245,14 @@ class JourneeCaisses
     /**
      * JourneeCaisses constructor.
      */
-    public function __construct()
+    public function __construct(ObjectManager $em)
     {
+        $this->em=$em;
         $this->transfertInternationaux=new ArrayCollection();
         $this->intercaisseEntrants=new ArrayCollection();
         $this->intercaisseSortants=new ArrayCollection();
         $this->deviseRecus=new ArrayCollection();
-        $this->deviseJournee=new ArrayCollection();
+        $this->deviseJournees=new ArrayCollection();
         $this->transactions=new ArrayCollection();
         $this->detteCredits=new ArrayCollection();
 
@@ -257,6 +260,14 @@ class JourneeCaisses
         $this->systemElectInventOuv=new SystemElectInventaires();
         $this->billetFerm=new Billetages();
         $this->systemElectInventFerm=new SystemElectInventaires();
+        $devises = $this->em->getRepository(Devises::class)->findAll();
+        foreach ($devises as $devise){
+            $deviseJournee = new DeviseJournees($this,$devise);
+            $this->addDeviseJournee($deviseJournee);
+            $this->em->persist($deviseJournee);
+        }
+
+        $this->em->persist($this);
 
 
 
@@ -368,12 +379,12 @@ class JourneeCaisses
     public function addDeviseJournee(DeviseJournees $deviseJournee)
     {
         $deviseJournee->setJourneeCaisse($this);
-        $this->deviseJournee->add($deviseJournee);
+        $this->deviseJournees->add($deviseJournee);
     }
 
     public function removeDeviseJournee(DeviseJournees $deviseJournees)
     {
-        $this->deviseJournee->removeElement($deviseJournees);
+        $this->deviseJournees->removeElement($deviseJournees);
     }
 
     public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
@@ -654,10 +665,12 @@ class JourneeCaisses
 
     /**
      * @param mixed $mRetraitClient
+     * @return JourneeCaisses
      */
     public function setMRetraitClient($mRetraitClient)
     {
         $this->mRetraitClient = $mRetraitClient;
+        return $this;
     }
 
     /**
@@ -670,11 +683,32 @@ class JourneeCaisses
 
     /**
      * @param mixed $mDepotClient
+     * @return JourneeCaisses
      */
     public function setMDepotClient($mDepotClient)
     {
         $this->mDepotClient = $mDepotClient;
+        return $this;
     }
+
+    /**
+     * @return ObjectManager
+     */
+    public function getEm(): ObjectManager
+    {
+        return $this->em;
+    }
+
+    /**
+     * @param ObjectManager $em
+     * @return JourneeCaisses
+     */
+    public function setEm(ObjectManager $em): JourneeCaisses
+    {
+        $this->em = $em;
+        return $this;
+    }
+
 
     /**
      * @return mixed
@@ -1162,15 +1196,15 @@ class JourneeCaisses
 
     public function preparerOuverture(){
 
-        $newJourneeCaisse=new JourneeCaisses();
-        $newJourneeCaisse->setMLiquiditeOuv($this->getMLiquiditeFerm())
+        //$newJourneeCaisse=new JourneeCaisses($this->em);
+        $this->setMLiquiditeOuv($this->getMLiquiditeFerm())
             ->setMSoldeElectOuv($this->getMSoldeElectFerm())
             ->setCaisse($this->getCaisse())
             ->setUtilisateur($this->getUtilisateur())
             ->setMCreditDiversOuv($this->getMCreditDiversFerm())->setMDetteDiversOuv($this->getMDetteDiversFerm())->setJourneePrecedente($this);
         //$this->getUtilisateur()->setJourneeCaisseActive($this);
 
-        return $newJourneeCaisse;
+        return $this;
     }
 
 }

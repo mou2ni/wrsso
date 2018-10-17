@@ -48,24 +48,30 @@ class TransfertInternationaux
     private $sens;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="float")
      */
-    private $mTransfert;
+    private $mTransfert=0;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="float")
      */
-    private $mFraisHt;
+    private $mFraisHt=0;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="float")
      */
-    private $mTva;
+    private $mTva=0;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="float")
      */
-    private $mAutresTaxes;
+    private $mAutresTaxes=0;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mTransfertTTC=0;
+
 
     public function __toString()
     {
@@ -214,6 +220,24 @@ class TransfertInternationaux
     public function setMAutresTaxes($mAutresTaxes)
     {
         $this->mAutresTaxes = $mAutresTaxes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMTransfertTTC()
+    {
+        return $this->mTransfertTTC;
+    }
+
+    /**
+     * @param mixed $mTransfertTTC
+     * @return TransfertInternationaux
+     */
+    public function setMTransfertTTC($mTransfertTTC)
+    {
+        $this->mTransfertTTC = $mTransfertTTC;
+        return $this;
     }
 
 

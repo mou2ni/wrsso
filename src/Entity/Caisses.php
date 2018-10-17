@@ -67,6 +67,11 @@ class Caisses
     private $em;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $statut=self::FERME;
+
+    /**
      * Caisses constructor.
      */
     public function __construct(ObjectManager $em)
@@ -219,9 +224,10 @@ class Caisses
     
     public function getNouvelleJournee(){
 
+        //dump($this);die();
         $nouvellleJournee=$this->em->getRepository(JourneeCaisses::class)->findOneJourneeActive($this);
         if(!$nouvellleJournee){
-            $nouvellleJournee=new JourneeCaisses($this->em);
+            $nouvellleJournee=new JourneeCaisses();
             $this->addJourneeCaisse($nouvellleJournee);
         }
         
@@ -263,5 +269,42 @@ class Caisses
         $this->journeeOuverte = $journeeOuverte;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUtilisateurs()
+    {
+        return $this->utilisateurs;
+    }
+
+    /**
+     * @param mixed $utilisateurs
+     * @return Caisses
+     */
+    public function setUtilisateurs($utilisateurs)
+    {
+        $this->utilisateurs = $utilisateurs;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * @param mixed $statut
+     * @return Caisses
+     */
+    public function setStatut($statut)
+    {
+        $this->statut = $statut;
+        return $this;
+    }
+
 
 }

@@ -6,6 +6,7 @@ use App\Entity\JourneeCaisses;
 use App\Entity\TransfertInternationaux;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +15,8 @@ class TransfertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('mReceptionTrans')
-            ->add('mEmissionTrans')
+            ->add('mReceptionTrans', NumberType::class)
+            ->add('mEmissionTrans', NumberType::class)
             ->add('transfertInternationaux', CollectionType::class, array(
                 'entry_type' => TransfertInternationauxType::class,
                 'allow_add'=>true,

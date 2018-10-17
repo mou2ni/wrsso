@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,13 +37,13 @@ class DeviseJournees
     private $journeeCaisse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Devises")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Devises", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $devise;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $billetOuv;
@@ -84,7 +85,7 @@ class DeviseJournees
     private $qteIntercaisse=0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Billetages" )
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"} )
      * @ORM\JoinColumn(nullable=true)
      */
     private $billetFerm;
@@ -99,6 +100,22 @@ class DeviseJournees
      */
     private $ecartFerm=0;
 
+    /**
+     * DeviseJournees constructor.
+     * @param $deviseMouvements
+     * @param $journeeCaisse
+     * @param $devise
+     * @param $billetOuv
+     * @param $billetFerm
+     */
+    public function __construct($journeeCaisse, $devise)
+    {
+        $this->deviseMouvements = new ArrayCollection();
+        $this->journeeCaisse = $journeeCaisse;
+        $this->devise = $devise;
+        $this->billetOuv = new Billetages();
+        $this->billetFerm = new Billetages();
+    }
 
 
     public function updateMCvdAchatVente($montant)

@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class InterCaisses
 {
-    const ANNULATION_EN_COURS='XE', ANNULE='XD', VALIDE='VD', VALIDATION_AUTO='VA';
+    const INITIE='I', ANNULE='X', VALIDE='V';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -56,7 +56,7 @@ class InterCaisses
     public function __toString()
     {
         // TODO: Implement __toString() method.
-        return $this->getJourneeCaisseSortant().' => '.$this->getJourneeCaisseSortant();
+        return $this->getJourneeCaisseSortant().' => '.$this->getJourneeCaisseEntrant();
     }
 
 

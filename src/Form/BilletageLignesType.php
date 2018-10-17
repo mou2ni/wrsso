@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\BilletageLignes;
 use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,10 +15,10 @@ class BilletageLignesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nbBillet')
+            ->add('nbBillet', NumberType::class)
             //->add('valeurLigne')
             //->add('billetages')
-            ->add('valeurBillet',TextType::class,array('disabled'=>true))
+            ->add('valeurBillet', NumberType::class,array('disabled'=>true))
         ;
     }
 

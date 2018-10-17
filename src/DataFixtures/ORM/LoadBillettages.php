@@ -55,6 +55,14 @@ class LoadBillettages extends Fixture implements DependentFixtureInterface
 
         $manager->persist($billetage);
         }
+        $billetage=new Billetages($manager);
+        $billetage->setDateBillettage(new \DateTime());
+        $manager->persist($billetage);
+        $billetage=new Billetages($manager);
+        $billetage->setDateBillettage(new \DateTime());
+        $manager->persist($billetage);
+
+
         $manager->flush();
     }
 

@@ -8,7 +8,17 @@ function majTransfert() {
     var reception = 0;
     var emission = 0;
     var i=0;
+    var tva = 0;
+    var autresTaxes = 0;
     while (valeur("#transfert_transfertInternationaux_"+i+"_sens")) {
+        tva=valeur("#transfert_transfertInternationaux_"+i+"_mFraisHt")*0.18;
+        tva=Math.round(tva)
+        autresTaxes = valeur("#transfert_transfertInternationaux_"+i+"_mTransfertTTC")
+            - valeur("#transfert_transfertInternationaux_"+i+"_mTransfert")
+            - valeur("#transfert_transfertInternationaux_"+i+"_mFraisHt")
+            - tva;
+        $("#transfert_transfertInternationaux_"+i+"_mTva").val(tva);
+        $("#transfert_transfertInternationaux_"+i+"_mAutresTaxes").val(autresTaxes);
         if (valeur("#transfert_transfertInternationaux_" + i + "_sens") == "1")
             emission = emission + valeur("#transfert_transfertInternationaux_" + i + "_mTransfert")
         else reception = reception + valeur("#transfert_transfertInternationaux_" + i + "_mTransfert")
@@ -71,7 +81,7 @@ function majElectronique() {
 $(document).ready(function () {
     $('.boutonintercaisse').click(function (e) {
         var x = $(this).attr('id');
-        if (confirm('Are you sure?')){
+        if (confirm('Voulez vous continuer ?')){
         var valeur = this.value;
         var DATA = 'intercaisse=' + valeur;
         $.ajax({
@@ -79,6 +89,7 @@ $(document).ready(function () {
             data: DATA,
             cache: false,
             success: function (data) {
+                document.location.reload(true);
                 $("#"+x).hide();
                 }
         })

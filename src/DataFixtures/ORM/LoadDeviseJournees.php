@@ -23,8 +23,8 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
-        //$idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::OUVERT]);
+        $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::INITIAL]);
+        $idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::OUVERT]);
         $usd=$manager->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $euro=$manager->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
 
@@ -37,15 +37,17 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
         $billetage=$manager->getRepository(Billetages::class)->findAll();
 
 
-        $lists = array(['journeeCaisse' =>  $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$billetage[1]]
-            ,['journeeCaisse' => $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$billetage[2]]
+        $lists = array(['journeeCaisse' =>  $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$billetage[1], 'billetFerm'=> $billetage[3]]
+        ,['journeeCaisse' => $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$billetage[2], 'billetFerm'=> $billetage[4]]
+            //,['journeeCaisse' => $idJourneeCaisseO, 'devise' => $euro, 'billetOuv'=>$billetage[2], 'billetFerm'=> $billetage[4]]
         );
 
         foreach ($lists as $list) {
-            $enr = new DeviseJournees();
+            $enr = new DeviseJournees($list['journeeCaisse'], $list['devise']);
             $enr->setJourneeCaisse($list['journeeCaisse'])
                 ->setDevise($list['devise'])
-                ->setBilletOuv($list['billetOuv']);
+                ->setBilletOuv($list['billetOuv'])
+            ->setBilletFerm($list['billetFerm']);
             $manager->persist($enr);
         }
 

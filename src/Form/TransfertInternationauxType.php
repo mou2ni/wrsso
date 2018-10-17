@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\TransfertInternationaux;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,10 +18,11 @@ class TransfertInternationauxType extends AbstractType
                 'choices'  => array(
                     'Envoi' => 1,
                     'Reception' => 2)))
-            ->add('mTransfert')
-            ->add('mFraisHt')
-            ->add('mTva')
-            ->add('mAutresTaxes')
+            ->add('mTransfert', NumberType::class)
+            ->add('mTransfertTTC', NumberType::class)
+            ->add('mFraisHt', NumberType::class)
+            ->add('mTva', NumberType::class)
+            ->add('mAutresTaxes', NumberType::class)
             ->add('idJourneeCaisse')
             ->add('idSystemTransfert')
             ->add('idPays')
