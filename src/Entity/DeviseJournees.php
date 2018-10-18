@@ -42,7 +42,7 @@ class DeviseJournees
     private $devise;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages")
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages")
      * @ORM\JoinColumn(nullable=true)
      */
     private $billetOuv;
@@ -84,7 +84,7 @@ class DeviseJournees
     private $qteIntercaisse=0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Billetages" )
+     * @ORM\OneToOne(targetEntity="App\Entity\Billetages" )
      * @ORM\JoinColumn(nullable=true)
      */
     private $billetFerm;

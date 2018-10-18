@@ -10,9 +10,8 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\Clients;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-//use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 
 
 class LoadClients extends Fixture

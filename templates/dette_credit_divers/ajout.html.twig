@@ -11,3 +11,22 @@
     <a href="{{ path('dette_credit_divers_index') }}">back to list</a>
 {% endblock %}
 
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $("#dette").hide();
+        $("#chbxDette").click(function () {
+            $("#dette_credit_divers_mCredit").val(0);
+            $("#credit").hide();
+            $("#dette").show();
+        });
+        $("#chbxCredit").click(function () {
+            $("#dette").hide();
+            $("#dette_credit_divers_mDette").val(0);
+            $("#credit").show();
+        });
+    </script>
+
+{% endblock %}

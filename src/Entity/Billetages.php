@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity
@@ -27,11 +28,7 @@ class Billetages
      * @ORM\Column(type="integer")
      */
     private $id;
-    /*
-     * @ORM\Column(type="float")
 
-    private $valeurTotal=0;
-*/
     /**
      * @ORM\Column(type="datetime")
      */
@@ -44,12 +41,23 @@ class Billetages
 
     private $billetageLigneAffiches;
 
+    ////METTRE EN BD A RENSEIGNER POUR TOUT AJOUT DE LIGNE
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $valeurTotal=0;
+
+    /*
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true, unique=false)
+
+    private $journeeCaisse;*/
 
     private $em;
 
-    public function __construct(ObjectManager $manager)
+    public function __construct()
     {
-        $this->em=$manager;
+        $this->dateBillettage=new \DateTime('now');
         $this->billetageLignes = new ArrayCollection();
         $this->billetageLigneAffiches = new ArrayCollection();
     }
@@ -76,6 +84,13 @@ class Billetages
      */
     public function fillOnUpdate(){
         //$this->fillBilletageLignes();
+        $total = 0;
+        foreach ($this->billetageLignes as $bl)
+        {
+            $total += $bl->getValeurLigne();
+        }
+        $this->valeurTotal=$total;
+
     }
 
     /**
@@ -83,6 +98,7 @@ class Billetages
      */
     public function fillOnPersist(){
         //$this->fillBilletageLignes();
+        $this->fillOnUpdate();
     }
 
 
@@ -102,15 +118,17 @@ class Billetages
         $this->billetageLigneAffiches->removeElement($billetageLigne);
     }
 
-    public function addBilletageLignes(BilletageLignes $billetageLignes)
+    public function addBilletageLigne(BilletageLignes $billetageLigne)
 {
-    $this->billetageLignes->add($billetageLignes);
-    $billetageLignes->setBilletages($this);
+    $this->billetageLignes->add($billetageLigne);
+    $billetageLigne->setBilletages($this);
+    $this->valeurTotal += $billetageLigne->getValeurLigne();
 }
 
     public function removeBilletageLignes(BilletageLignes $billetageLigne)
     {
         $this->billetageLignes->removeElement($billetageLigne);
+        $this->valeurTotal -= $billetageLigne->getValeurLigne();
     }
 
     //// FIN AJOUT HAMADO

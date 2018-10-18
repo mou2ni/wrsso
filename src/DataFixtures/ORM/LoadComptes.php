@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Comptes;
 use App\Entity\Clients;
 
-class LoadComptes extends Fixture implements DependentFixtureInterface
+class LoadComptes extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -58,7 +58,9 @@ class LoadComptes extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(LoadClients::class);
+        return array(
+            LoadClients::class,
+        );
     }
 
 }

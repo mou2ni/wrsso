@@ -16,7 +16,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
-class LoadBillettages extends Fixture  implements DependentFixtureInterface
+class LoadBillettages extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -50,7 +50,7 @@ class LoadBillettages extends Fixture  implements DependentFixtureInterface
         foreach ($lists as $list) {
             $billetageLigne=new BilletageLignes();
             $billetageLigne->setNbBillet($list['nbBillet'])->setValeurBillet($list['valeurBillet'])->setBillet($list['billet']);
-            $billetage->addBilletageLignes($billetageLigne);
+            $billetage->addBilletageLigne($billetageLigne);
         }
 
         $manager->persist($billetage);
@@ -60,7 +60,9 @@ class LoadBillettages extends Fixture  implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(LoadBillet::class);
+        return array(
+            LoadBillet::class,
+        );
     }
 
 }

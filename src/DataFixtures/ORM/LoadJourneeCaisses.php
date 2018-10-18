@@ -46,7 +46,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         $journeeOuverte->setCaisse($journeePrecedente->getCaisse())
             ->setUtilisateur($journeePrecedente->getUtilisateur())
             ->setMLiquiditeOuv($journeePrecedente->getMLiquiditeFerm())
-            ->setMSoldeElectOuv($journeePrecedente->getSoldeNetFerm())
+            ->setMSoldeElectOuv($journeePrecedente->getMSoldeElectFerm())
             ->setMDetteDivers($journeePrecedente->getMDetteDivers())
             ->setMCreditDivers($journeePrecedente->getMCreditDivers())
             ->setStatut(JourneeCaisses::OUVERT)
@@ -62,6 +62,9 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(LoadCaisses::class, LoadUtilisateurs::class);
+        return array(
+            LoadCaisses::class,
+            LoadUtilisateurs::class
+        );
     }
 }

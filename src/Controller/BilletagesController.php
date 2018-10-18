@@ -30,10 +30,11 @@ class BilletagesController extends Controller
     }
 
     /**
- * @Route("/new", name="billetages_new", methods="GET|POST")
+ * @Route("/new", name="billetages_new", methods="GET|POST|UPDATE")
  */
     public function new(Request $request): Response
     {
+        if ($request->getMethod()=='UPDATE')
         $billetage = new Billetages();
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
@@ -56,35 +57,71 @@ class BilletagesController extends Controller
 
 
     /**
-     * @Route("/{id}/{devise}", name="billetages_ajout", methods="GET|POST")
+     * @Route("/{id}/{devise}", name="billetages_ajout", methods="GET|POST|UPDATE")
      */
     public function ajouter(Request $request, int $id, int $devise): Response
     {
         $em=$this->getDoctrine()->getManager();
         $billetage=$em->getRepository(Billetages::class)->find($id);
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
-        $em = $this->getDoctrine()->getManager();
-        if (!$billetage){
-            $billetage=new Billetages($em);
+        $operation=$request->request->get('_operation');
+
+        if ($billetage->getBilletageLignes()->isEmpty()){
             foreach ($billets as $billet) {
                 $billetageLigne=new BilletageLignes();
                 $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
-                $billetage->addBilletageLignes($billetageLigne);
+                $billetage->addBilletageLigne($billetageLigne);
             }
         }
 
+        //if ($this->isCsrfTokenValid('billetage'.$id, $request->request->get('_token'))){
+            $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
+        //}
+
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($billetage);
-            $em->flush();
+        /*if ($operation=='OUVERT') {
+            if ($devise == 0) {
+                $jc->setBilletOuv($billetage);
+                $jc->setMLiquiditeOuv($billetage->getValeurTotal());
+            } else {
+                foreach ($jc->getDeviseJournees() as $deviseJournee)
+                    if ($deviseJournee->getDevise()->getId() == $devise)
+                        $deviseJournee->setQteOuv($billetage->getValeurTotal());
+            }
+        }
+        elseif ($operation=='FERMER') {
 
-            //return $this->redirectToRoute('billetages_ajout');
+            if ($devise == 0) {
+                $jc->setBilletFerm($billetage);
+                $jc->setMLiquiditeFerm($billetage->getValeurTotal());
+                //dump($jc);die();
+            } else {
+                foreach ($jc->getDeviseJournees() as $deviseJournee)
+                    if ($deviseJournee->getDevise()->getId() == $devise)
+                        $deviseJournee->setQteFerm($billetage->getValeurTotal());
+            }
+        }*/
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
+            $em->persist($billetage);
+            $jc->setMLiquiditeOuv($jc->getBilletOuv()->getValeurTotal());
+            $jc->setMLiquiditeFerm($jc->getBilletFerm()->getValeurTotal());
+            $em->persist($jc);
+            //$billetage->getJourneeCaisse()->setMLiquiditeOuv($billetage->getValeurTotal());
+            $em->flush();
+            if ($operation=="FERMER")
+                return $this->redirectToRoute('journee_caisses_gerer');
+            return $this->redirectToRoute('journee_caisses_ouvrir');
         }
 
         return $this->render('billetages/ajout.html.twig', [
+            'devise' => $devise,
             'billets' => $billets,
             'form' => $form->createView(),
+            'journeeCaisse'=>$jc,
+            'operation'=>$operation
         ]);
     }
 

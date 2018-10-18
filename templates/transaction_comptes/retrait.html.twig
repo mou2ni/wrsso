@@ -14,11 +14,23 @@
             <td>Libelle</td><td>{{ form_widget(form.libele) }}</td>
         </tr>
         <tr>
-            <td><button type="submit" id="submit">Enregistrer</button></td><td><button type="button">Fermer</button></td>
+            <td><button type="submit" id="submit">Enregistrer</button></td><td></td>
         </tr>
     </table>
-    <div hidden>{{ form_rest(form) }}</div>
-{{ form(form) }}
+    <div hidden>{{ form_rest(form) }}
+        <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+        <input type="hidden" name="_operation" value="{{ operation }}">
+    </div>
+{{ form_end(form) }}
+    {% if operation=="FERMER" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% elseif operation=="OUVRIR" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% endif %}
     {{ include('transaction_comptes/_liste_retraits.html.twig') }}
 {% endblock %}
 
@@ -39,7 +51,7 @@
             document.getElementById("ersolde").innerHTML = "";
             if (valeur("#depot_retrait_mDebit")>valeur("#solde")) {
                 document.getElementById("ersolde").innerHTML = "solde insufisant";
-                document.getElementById("submit").disabled=true;
+                //document.getElementById("submit").disabled=true;
             }
         });
     </script>

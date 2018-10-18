@@ -112,6 +112,10 @@ class SystemElectInventairesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $systemElects = $em->getRepository('App:SystemElects')->findAll();
         $systemElectInventaire = $em->getRepository('App:SystemElectInventaires')->find($id);
+        //dump($operation=$request->request->get('_operation')); die();
+        $operation=$request->request->get('_operation');
+        //dump(!$systemElectInventaire->getSystemElectLigneInventaires());die();
+
                 //////////// creation du formulaire personnalise///////////////////////////////
         if (!$systemElectInventaire) {
             $systemElectInventaire=new SystemElectInventaires();
@@ -123,18 +127,42 @@ class SystemElectInventairesController extends Controller
                 $systemElectInventaire->addSystemElectLigneInventaires($systemElectLigneInventaire);
             }
         }
+        elseif ($systemElectInventaire->getSystemElectLigneInventaires()->isEmpty()){
+            $systemElectInventaire->setDateInventaire(new \DateTime());
+            ////////////////Creation des lignes ///////////////////////////////
+            foreach ($systemElects as $elect) {
+                $systemElectLigneInventaire = new SystemElectLigneInventaires();
+                $systemElectLigneInventaire->setIdSystemElect($elect)->setSolde(0)->setIdSystemElectInventaire($systemElectInventaire->getId());
+                $systemElectInventaire->addSystemElectLigneInventaires($systemElectLigneInventaire);
+            }
+        }
+        //if ($this->isCsrfTokenValid('elect'.$id, $request->request->get('_token'))){
+            $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
+            //$systemElectInventaire->setJourneeCaisse($jc);
+
+            //}
+
         $form = $this->createForm(SystemElectInventairesType::class, $systemElectInventaire);
         // only handles data on POST
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($systemElectInventaire);
+            $jc->setMSoldeElectOuv($jc->getSystemElectInventOuv()->getSoldeTotal());
+            $jc->setMSoldeElectFerm($jc->getSystemElectInventFerm()->getSoldeTotal());
+            $em->persist($jc);
             $em->flush();
             $this->addFlash('success', 'Inventaire electronique Créé!');
-            return $this->render('system_elect_ligne_inventaires/index.html.twig', ['system_elect_ligne_inventaires' => $systemElectInventaire->getSystemElectLigneInventaires()]);
+            if ($operation=="FERMER")
+                return $this->redirectToRoute('journee_caisses_gerer');
+            return $this->redirectToRoute('journee_caisses_ouvrir');
+            //return $this->render('system_elect_ligne_inventaires/index.html.twig', ['system_elect_ligne_inventaires' => $systemElectInventaire->getSystemElectLigneInventaires()]);
         }
         return $this->render('system_elect_inventaires/ajout.html.twig', [
             'form' => $form->createView()
-            ,'elects'=>$systemElects
+            ,'elects'=>$systemElects,
+            'journeeCaisse'=>$jc,
+            'operation'=>$operation
         ]);
     }
 

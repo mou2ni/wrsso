@@ -2,6 +2,7 @@
 
 {% block body %}
     {{ form_start(form) }}
+    <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
     <table onchange="majElectronique()">
         <thead>
         <tr><th>Date</th><th>{{ form_widget(form.dateInventaire) }}</th><th>Total</th><th>{{ form_widget(form.soldeTotal) }}</th></tr>
@@ -13,12 +14,22 @@
         {% endfor %}
         </tbody>
     </table>
-    <input type="submit" value="Enregistrer"> <input type="reset"> <input value="Fermer" type="button">
+    <input type="submit" value="Enregistrer"> <input type="reset">
     <div hidden>
         {{ form_rest(form) }}
+        <input type="hidden" name="_operation" value="{{ operation }}">
         <input id="nombreElect" value="{{ elects|length}}">
     </div>
     {{ form_end(form) }}
+    {% if operation=="FERMER" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% elseif operation=="OUVRIR" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block title %}

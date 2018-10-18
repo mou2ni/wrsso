@@ -30,13 +30,13 @@ class DeviseRecusController extends Controller
     }
 */
     /**
-     * @Route("/", name="devise_recus_achat_vente", methods="GET|POST")
+     * @Route("/{id}", name="devise_recus_achat_vente", methods="GET|POST")
      */
-    public function achatVente(Request $request): Response
+    public function achatVente(Request $request, JourneeCaisses $journeeCaisse): Response
     {
         $em = $this->getDoctrine()->getManager();
 
-        $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
+        //$journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
 
         //die($journeeCaisse);
 
@@ -103,7 +103,7 @@ class DeviseRecusController extends Controller
 
             }
 
-            return $this->redirectToRoute('devise_recus_achat_vente');
+            return $this->redirectToRoute('devise_recus_achat_vente',['id'=>$journeeCaisse->getId()]);
         }
 
         $my_devise_recus=$this->getDoctrine()->getRepository(DeviseRecus::class)->findMyDeviseRecus($journeeCaisse);
