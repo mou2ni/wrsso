@@ -72,7 +72,7 @@ class JourneeCaisses
     private $mLiquiditeOuv=0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", inversedBy="journeeCaisse", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $systemElectInventOuv;
@@ -229,6 +229,7 @@ class JourneeCaisses
     private $transactions;
 
     private $em;
+
 
 //    /**
 //     * @ORM\OneToMany(targetEntity="App\Entity\Transactions", mappedBy="journeeCaisse", cascade={"persist"})
@@ -519,7 +520,7 @@ class JourneeCaisses
      */
     public function getDeviseJournee()
     {
-        return $this->deviseJournee;
+        return $this->deviseJournees;
     }
 
     /**

@@ -30,7 +30,7 @@ class DeviseRecusController extends Controller
     }
 */
     /**
-     * @Route("/{id}", name="devise_recus_achat_vente", methods="GET|POST")
+     * @Route("/{id}", name="devise_recus_achat_vente", methods="GET|POST|UPDATE")
      */
     public function achatVente(Request $request, JourneeCaisses $journeeCaisse): Response
     {

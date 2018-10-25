@@ -42,7 +42,7 @@ class TransactionComptesController extends Controller
     /**
      * @Route("/depot/{id}", name="depot", methods="GET|POST|UPDATE")
      */
-    public function depot(Request $request, JourneeCaisses $journeeCaisses): Response
+    public function depot(Request $request, JourneeCaisses $journeeCaisse): Response
     {
         $operation=$request->request->get('_operation');
         //$transactionCompte = new TransactionComptes();
@@ -57,16 +57,21 @@ class TransactionComptesController extends Controller
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depot->getNumCompte()]);
 
             //dump($journeeCaisses->getUtilisateur()->getLogin());die();
-            $transaction = $genererCompta->genComptaDepot($journeeCaisses->getUtilisateur(),$journeeCaisses->getCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit());
+            $transaction = $genererCompta->genComptaDepot($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit());
             if(!$transaction) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
-            $journeeCaisses->addTransaction($genererCompta->getTransactions()[0]);
+            $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
             //dump($journeeCaisses->getTotalDepot());die();
-            $journeeCaisses->setMDepotClient($journeeCaisses->getTotalDepot());
+            $journeeCaisse->setMDepotClient($journeeCaisse->getTotalDepot());
             //dump($journeeCaisses);die();
-            $em->persist($journeeCaisses);
+            $em->persist($journeeCaisse);
             $em->flush();
 
-            return $this->redirectToRoute('depot',['id'=>$journeeCaisses->getId()]);
+            return $this->render('transaction_comptes/depot.html.twig', [
+                'journeeCaisse' => $journeeCaisse,
+                'form' => $form->createView(),
+                'operation'=>$operation
+            ]);
+            //return $this->redirectToRoute('depot',['id'=>$journeeCaisses->getId()]);
         }
 
         if ($request->isXmlHttpRequest()){
@@ -84,7 +89,7 @@ class TransactionComptesController extends Controller
         }
 
         return $this->render('transaction_comptes/depot.html.twig', [
-            'journeeCaisse' => $journeeCaisses,
+            'journeeCaisse' => $journeeCaisse,
             'form' => $form->createView(),
             'operation'=>$operation
         ]);
@@ -116,7 +121,12 @@ class TransactionComptesController extends Controller
             $em->persist($journeeCaisse);
             $em->flush();
 
-            return $this->redirectToRoute('retrait',['id'=>$journeeCaisse->getId()]);
+            return $this->render('transaction_comptes/depot.html.twig', [
+                'journeeCaisse' => $journeeCaisse,
+                'form' => $form->createView(),
+                'operation'=>$operation
+            ]);
+            //return $this->redirectToRoute('retrait',['id'=>$journeeCaisse->getId()]);
         }
 
         if ($request->isXmlHttpRequest()){

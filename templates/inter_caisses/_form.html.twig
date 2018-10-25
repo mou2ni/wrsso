@@ -13,6 +13,7 @@
 
     {#{{ form(form) }}#}
     <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+<input type="hidden" name="_operation" value="{{ operation }}">
 {{ form_end(form) }}
 {% if operation=="FERMER" %}
     <div class="form-inline">

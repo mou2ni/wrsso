@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\BilletageLignes;
 use App\Entity\Billetages;
 use App\Entity\Billets;
+use App\Entity\DeviseJournees;
 use App\Entity\JourneeCaisses;
 use App\Form\BilletagesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -96,39 +97,38 @@ class BilletagesController extends Controller
 
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
-        /*if ($operation=='OUVERT') {
-            if ($devise == 0) {
-                $jc->setBilletOuv($billetage);
-                $jc->setMLiquiditeOuv($billetage->getValeurTotal());
-            } else {
-                foreach ($jc->getDeviseJournees() as $deviseJournee)
-                    if ($deviseJournee->getDevise()->getId() == $devise)
-                        $deviseJournee->setQteOuv($billetage->getValeurTotal());
-            }
-        }
-        elseif ($operation=='FERMER') {
 
-            if ($devise == 0) {
-                $jc->setBilletFerm($billetage);
-                $jc->setMLiquiditeFerm($billetage->getValeurTotal());
-                //dump($jc);die();
-            } else {
-                foreach ($jc->getDeviseJournees() as $deviseJournee)
-                    if ($deviseJournee->getDevise()->getId() == $devise)
-                        $deviseJournee->setQteFerm($billetage->getValeurTotal());
-            }
-        }*/
 
         if ($form->isSubmitted() && $form->isValid()) {
             $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
+            $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['billetOuv'=>$billetage]);
+            $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['billetFerm'=>$billetage]);
+            if ($djOuv){
+                $djOuv->setQteOuv($djOuv->getBilletOuv()->getValeurTotal());
+                $djPrec=$em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$jc->getJourneePrecedente(),'devise'=>$djOuv->getDevise()]);
+                //$jc->addDeviseJournee()
+                $djOuv->setEcartOuv($djOuv->getQteOuv() - $djPrec->getQteFerm());
+                $em->persist($djOuv);
+                //dump($djPrec->getQteFerm());die();
+                //$djOuv->setEcartOuv()
+            }
+            if ($djFerm){
+                $djFerm->setQteFerm($djFerm->getBilletFerm()->getValeurTotal());
+                $djFerm->setEcartFerm($djFerm->getQteFerm() - $djFerm->getQteOuv() - $djFerm->getQteAchat() + $djFerm->getQteVente() - $djFerm->getQteIntercaisse());
+                $em->persist($djFerm);
+            }
             $em->persist($billetage);
             $jc->setMLiquiditeOuv($jc->getBilletOuv()->getValeurTotal());
             $jc->setMLiquiditeFerm($jc->getBilletFerm()->getValeurTotal());
+
             $em->persist($jc);
+
             //$billetage->getJourneeCaisse()->setMLiquiditeOuv($billetage->getValeurTotal());
             $em->flush();
-            if ($operation=="FERMER")
+            if ($operation=="FERMER"){
+                $this->addFlash('success', 'Billetage Enregistré!');
                 return $this->redirectToRoute('journee_caisses_gerer');
+            }
             return $this->redirectToRoute('journee_caisses_ouvrir');
         }
 

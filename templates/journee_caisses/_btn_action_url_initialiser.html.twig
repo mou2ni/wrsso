@@ -1,4 +1,4 @@
-<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':journeeCaisse.id})}}" onsubmit="return confirm('Are you sure you want to delete this item?');" >
+<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':journeeCaisse.id})}}" onsubmit="return confirm('Voulez vous ouvrir la caisse selectionée ?');" >
     <input type="hidden" name="_method" value="UPDATE">
     <input type="hidden" name="_operation" value="{{ operation }}">
     <input type="hidden" name="_token" value="{{ csrf_token('action' ~ journeeCaisse.id)}}">

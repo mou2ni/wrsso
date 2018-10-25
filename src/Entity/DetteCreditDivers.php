@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class DetteCreditDivers
 {
-    const REMB='R',INIT='I';
+    const CREDIT_EN_COUR='C',DETTE_EN_COUR='D', CREDIT_REMBOURSE='X', DETTE_REMBOURSE='Y';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -39,16 +39,27 @@ class DetteCreditDivers
      */
     private $journeeCaisse;
 
-    /*
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="detteCreditRembs")
-     * @ORM\JoinColumn(name="journeeCaisseRemb", referencedColumnName="id",nullable=false)
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="detteCreditCrees", cascade={"persist"})
+     * @ORM\JoinColumn(name="utilisateurCreat", referencedColumnName="id", nullable=true)
+     */
+    private $utilisateurCreation;
 
-    private $journeeCaissesRemb;
-*/
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="detteCreditRembourses", cascade={"persist"})
+     * @ORM\JoinColumn(name="utilisateurRemb", referencedColumnName="id", nullable=true)
+     */
+    private $utilisateurRemboursement;
+
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateDC;
+    private $dateCreation;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateRemboursement;
 
     /**
      * @ORM\Column(type="string")
@@ -83,8 +94,9 @@ class DetteCreditDivers
     {
         $this->journeeCaisse = $journeeCaisse;
         $this->caisse = $journeeCaisse->getCaisse();
-        $this->dateDC = new \DateTime('now');
-        $this->statut = $this::INIT;
+        $this->utilisateurCreation = $journeeCaisse->getUtilisateur();
+        $this->dateCreation = new \DateTime('now');
+        //$this->statut = $this::INIT;
         $this->mCredit = 0;
         $this->mDette = 0;
     }
@@ -219,6 +231,78 @@ class DetteCreditDivers
     public function setJourneeCaisse($journeeCaisse)
     {
         $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUtilisateurCreation()
+    {
+        return $this->utilisateurCreation;
+    }
+
+    /**
+     * @param mixed $utilisateurCreation
+     * @return DetteCreditDivers
+     */
+    public function setUtilisateurCreation($utilisateurCreation)
+    {
+        $this->utilisateurCreation = $utilisateurCreation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUtilisateurRemboursement()
+    {
+        return $this->utilisateurRemboursement;
+    }
+
+    /**
+     * @param mixed $utilisateurRemboursement
+     * @return DetteCreditDivers
+     */
+    public function setUtilisateurRemboursement($utilisateurRemboursement)
+    {
+        $this->utilisateurRemboursement = $utilisateurRemboursement;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+
+    /**
+     * @param mixed $dateCreation
+     * @return DetteCreditDivers
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateRemboursement()
+    {
+        return $this->dateRemboursement;
+    }
+
+    /**
+     * @param mixed $dateRemboursement
+     * @return DetteCreditDivers
+     */
+    public function setDateRemboursement($dateRemboursement)
+    {
+        $this->dateRemboursement = $dateRemboursement;
         return $this;
     }
 

@@ -77,7 +77,25 @@ class Utilisateurs
      */
     private $lastCaisse;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\DetteCreditDivers" ,cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $detteCreditCrees;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\DetteCreditDivers" ,cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $detteCreditRembourses;
+
+    /**
+     * @ORM\Column(type="string", length=200)
+     */
+    private $role;
+
     private $isAuthaticate;
+
 
 
     /**
@@ -95,6 +113,20 @@ class Utilisateurs
 
     private $compteCompense;*/
 
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role = null)
+    {
+        $this->role = $role;
+    }
+
+    public function getRoles()
+    {
+        return [$this->getRole()];
+    }
     /**
      * @return mixed
      */

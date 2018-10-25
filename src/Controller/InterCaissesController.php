@@ -44,13 +44,24 @@ public $totalR=0;
         $form = $this->createForm(InterCaissesType::class, $interCaiss);
         $form->handleRequest($request);
         $this->totalInterCaisse($journeeCaisses);
+        $journeeCaisses->setMIntercaisses($this->totalE-$this->totalR);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $operation=$request->request->get('_operation');
             $em = $this->getDoctrine()->getManager();
+            $em->persist($interCaiss);
             $em->persist($interCaiss);
             $em->flush();
 
-            return $this->redirectToRoute('inter_caisses_ajout',['id'=>$journeeCaisses->getId()]);
+            //return $this->redirectToRoute('inter_caisses_ajout',['id'=>$journeeCaisses->getId()]);
+            return $this->render('inter_caisses/ajout.html.twig', [
+                'journeeCaisse' => $journeeCaisses,
+                'totalR'=>$this->totalR,
+                'totalE'=>$this->totalE,
+                'form' => $form->createView(),
+                'operation'=>$operation
+            ]);
         }
 
         if($request->isXmlHttpRequest()){
@@ -216,8 +227,8 @@ public $totalR=0;
         $em=$this->getDoctrine()->getManager();
         $intercaissesE = $journeeCaisses->getIntercaisseSortants();
         $intercaissesR = $journeeCaisses->getIntercaisseEntrants();
-        foreach ($intercaissesR as $intercaiss) if ($intercaiss->getStatut()!='aa')$this->totalR=$this->totalR+$intercaiss->getMIntercaisse();
-        foreach ($intercaissesE as $intercaiss) if ($intercaiss->getStatut()!='aa')$this->totalE=$this->totalE+$intercaiss->getMIntercaisse();
+        foreach ($intercaissesR as $intercaiss) if ($intercaiss->getStatut()==InterCaisses::VALIDE)$this->totalR=$this->totalR+$intercaiss->getMIntercaisse();
+        foreach ($intercaissesE as $intercaiss) if ($intercaiss->getStatut()==InterCaisses::VALIDE)$this->totalE=$this->totalE+$intercaiss->getMIntercaisse();
         //$journeeCaisses->setIntercaisseEntrant($intercaissesR)->setIntercaisseSortant($intercaissesE);
         //return $journeeCaisses;
     }

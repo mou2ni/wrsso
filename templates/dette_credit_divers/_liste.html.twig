@@ -1,26 +1,33 @@
 <table class="table">
     <thead>
     <tr>
-        <th>DateDC</th>
-        <th>Libelle</th>
-        <th>MCredit</th>
-        <th>MDette</th>
-        <th>actions</th>
+        <th>Date Création</th>
+        <th>Libellé</th>
+        <th>Montant Crédit</th>
+        <th>Montant Dette</th>
+        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
+    <tr>
+    <td></td>
+    <td>Totaux </td>
+    <td>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ') }}</td>
+    <td>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</td>
+    </tr>
     {% for dette_credit_diver in journeeCaisse.detteCredits %}
+        {% if dette_credit_diver.statut in ['C','D'] %}
         <tr>
 
-            <td>{{ dette_credit_diver.dateDC ? dette_credit_diver.dateDC|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ dette_credit_diver.dateCreation ? dette_credit_diver.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{ dette_credit_diver.libelle }}</td>
-            <td>{{ dette_credit_diver.mCredit }}</td>
-            <td>{{ dette_credit_diver.mDette }}</td>
+            <td>{{ dette_credit_diver.mCredit|number_format(0, '.', ' ') }}</td>
+            <td>{{ dette_credit_diver.mDette|number_format(0, '.', ' ') }}</td>
             <td>
-                <a href="{{ path('dette_credit_divers_show', {'id': dette_credit_diver.id}) }}">show</a>
-                <a href="{{ path('dette_credit_divers_edit', {'id': dette_credit_diver.id}) }}">edit</a>
+                {{ include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser'}) }}
             </td>
         </tr>
+        {% endif %}
     {% else %}
         <tr>
             <td colspan="5">no records found</td>

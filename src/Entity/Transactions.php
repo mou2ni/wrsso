@@ -31,7 +31,7 @@ class Transactions
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", cascade={"persist"})
      * @ORM\JoinColumn(name="idUtilisateur", nullable=false)
      */
     private $utilisateur;

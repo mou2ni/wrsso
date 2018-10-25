@@ -23,7 +23,7 @@ class ConnectionController extends Controller
 {
 
     /**
-     * @Route("/login", name="login", methods="GET|POST")
+     * @Route("/login1", name="login", methods="GET|POST")
      */
     public function identifier(Request $request)
     {
@@ -44,16 +44,24 @@ class ConnectionController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
 			$user = $this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>$user->getLogin(),'mdp'=>$user->getMdp()]);
-            if ($user)
+			if ($user)
             {
+                $roles[] = 'ROLE_USER';
+                $user->setRole($roles);
+                //dump($user);die();
                 $user->setIsAuthaticate('true');
+
                 //$this->get('session')->set('user', $user);
-                $journeeCaisseEnCour=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['utilisateur'=>$user, 'statut'=>JourneeCaisses::OUVERT]);
-                if(!$journeeCaisseEnCour){$journeeCaisseEnCour=new JourneeCaisses();
-                $journeeCaisseEnCour->setUtilisateur($user);}
+                /*$journeeCaisseEnCour=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['utilisateur'=>$user, 'statut'=>JourneeCaisses::OUVERT]);
+                if(!$journeeCaisseEnCour){
+                    $journeeCaisseEnCour=new JourneeCaisses();
+                $journeeCaisseEnCour->setUtilisateur($user);
+                }*/
                 //$this->get('session')->remove('journeeCaisse');
-                $this->get('session')->set('journeeCaisse', $journeeCaisseEnCour);
-                return $this->redirectToRoute('journee_caisses_index');
+
+
+                $this->get('session')->set('utilisateur', $user);
+                return $this->redirectToRoute('journee_caisses_gerer');
             }
             else
                 $erreur="Nom d'utilisateur et ou mot de passe incorect";

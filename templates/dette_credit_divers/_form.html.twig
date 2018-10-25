@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-<table class="table">
+<table class="table" onload="reset()">
     <tr>
         <td>Operation</td><td>
                 <input id="chbxCredit" type="radio" name="operation" value="credit" checked="checked"> Credit
@@ -19,15 +19,10 @@
 </table>
 <button class="btn-primary btn">{{ button_label|default('Ajouter') }}</button>
 <button class="btn-primary btn" type="reset">{{ button_label|default('Effacer') }}</button>
-
+<input type="hidden" name="_operation" value="{{ operation }}">
 {{ form_end(form) }}
 
-{% if operation=="FERMER" %}
+
     <div class="form-inline">
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
     </div>
-{% elseif operation=="OUVRIR" %}
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
-    </div>
-{% endif %}
