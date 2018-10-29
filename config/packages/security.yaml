@@ -1,85 +1,38 @@
-#security:
-#
-#    # encoders pour my_memory_provider..
-#    encoders:
-#            App\Entity\Utilisateurs: SHA2
-#
-#    #encoders:
-#     #       Symfony\Component\Security\Core\User\User :
-#      #          algorithm: bcrypt
-#
-#    #providers:
-#     #   my_memory_provider:
-#      #              memory:
-#       #                 users:
-#        #                    houedraogo:
-#         #                       password:            MD5MDP
-#          #                      roles:               ROLE_USER
-#           #                 asanou:
-#            #                    password:            MD5MDPASANOU
-#             #                   roles:               [ROLE_USER, ROLE_ADMIN]
-#    my_db_provider:
-#          entity:
-#            class:    App\Entity\Utilisateurs
-#
-#
-#
-#    firewalls:
-#        main:
-#            anonymous: ~
-#            form_login:
-#                login_path: login
-#                check_path: check
-#                username_parameter: login[username]
-#                password_parameter: login[password]
-#                default_target_path: /Wrsso
-#            #provider: my_db_provider
-#            logout: true
-#            #logout_path: login
-#
-
 security:
     encoders:
-        FOS\UserBundle\Model\UserInterface: text
-
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
-
+        App\Entity\Utilisateurs:
+              algorithm: bcrypt
+              cost: 12
+        Symfony\Component\Security\Core\User\User:
+                algorithm: bcrypt
+                cost: 12
     providers:
-        my_provider :
-              entity:
-                    class: Entity\Utilisateurs
-
+#            my_memory_provider:
+#                        memory:
+#                            users:
+#                                houedraogo:
+#                                    password:            $2y$12$a3WFzXhlukdaHJBGD9/.Ou752Xwh0UJN8X/fFAxV9xYdczVgDLeVW #MD5MDP
+#                                    roles:               ROLE_USER
+#                                asanou:
+#                                    password:            $2y$12$mweyBueue5ZdN0oqUUH/Qeb3/eNh65JDl.QPGN4tsaVMghBbvEVma #MD5MDPASANOU
+#                                    roles:               [ROLE_USER, ROLE_ADMIN]
+            our_db_provider:
+                        entity:
+                            class: App\Entity\Utilisateurs
+                            property: login
     firewalls:
-        #secured_area:
-#                    pattern: ^/admin
-#                    # ...
-#                    simple_form:
-#                        authenticator: App\Security\TimeAuthenticator
-#                        check_path:    login_check
-#                        login_path:    login
-        main:
-            #default_target_path: /warisso
-            pattern: ^/
-            form_login:
-                #authenticator: App\Security\Authenticator
-                check_path:    login_check
-                login_path: login
-                default_target_path: /ouvrir
-                provider: my_provider
-                csrf_token_generator: security.csrf.token_manager
+            main:
+                provider: our_db_provider
+                anonymous: ~
+                form_login:
+                    login_path: login
+                    check_path: login
 
-
-                #csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4
-            logout:       #true
-              path:       /logout
-              target:     /login
-            anonymous:    true
+                logout:       #true
+                    path:  logout
+                    target:  login
 
 
     access_control:
-        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/warisso/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/warisso/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/, role: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }

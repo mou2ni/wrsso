@@ -118,16 +118,18 @@
         <div class="form-inline">
 
             <div>{{ form_widget(form.mLiquiditeOuv) }}</div>
+
             <div class="form-inline">
-                {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetOuv.id, 'operation':'OUVER', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}
+                {{ journeeCaisse.billetOuv.id ? include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetOuv.id, 'operation':'OUVER', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}
             </div>
+
 
         </div>
         <div class="form-inline">
 
             <div>{{ form_widget(form.mSoldeElectOuv) }}</div>
             <div class="form-inline">
-                {{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventOuv.id, 'operation':'OUVRIR', 'btn_name':'Solde', 'btn_label':'Solde'}) }}
+                {{ journeeCaisse.systemElectInventOuv.id ? include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventOuv.id, 'operation':'OUVRIR', 'btn_name':'Solde', 'btn_label':'Solde'}) }}
             </div>
 
         </div>

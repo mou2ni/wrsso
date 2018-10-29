@@ -23,10 +23,11 @@ class ConnectionController extends Controller
 {
 
     /**
-     * @Route("/login1", name="login", methods="GET|POST")
+     * @Route("/login1", name="app_login1", methods={"GET|POST"})
      */
     public function identifier(Request $request)
     {
+
         //dump($request);die();
         //if ($this->get('session')->get('journeeCaisse'))
         $erreur='';
@@ -34,8 +35,6 @@ class ConnectionController extends Controller
 		$form = $this->createForm(LoginType::class, $user );
 
         $form->handleRequest($request);
-
-        //dump($user); die();
 
         //$pass=hash('SHA1', "".$user->getMdp());
 
@@ -48,8 +47,9 @@ class ConnectionController extends Controller
             {
                 $roles[] = 'ROLE_USER';
                 $user->setRole($roles);
-                //dump($user);die();
+                dump($user);die();
                 $user->setIsAuthaticate('true');
+                //dump($this->se);die();
 
                 //$this->get('session')->set('user', $user);
                 /*$journeeCaisseEnCour=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['utilisateur'=>$user, 'statut'=>JourneeCaisses::OUVERT]);

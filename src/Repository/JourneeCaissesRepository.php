@@ -59,6 +59,20 @@ class JourneeCaissesRepository extends ServiceEntityRepository
                 ->getOneOrNullResult();
     }
 
+    public function findLastJournee( Caisses $caisse)
+    {
+        $qb = $this->createQueryBuilder('j');
+
+        return $qb
+            ->where($qb->expr()->eq('j.caisse', ':caisse'))
+            //->andWhere($qb->expr()->isNull('j.journeeSuivante'))
+            ->andWhere($qb->expr()->eq('j.statut', ':ouvert'))
+            ->addOrderBy('j.id', 'DESC')
+            ->setParameters(['caisse' => $caisse, 'ouvert' => JourneeCaisses::INITIAL])
+            ->getQuery()
+            ->getResult();
+        //->getSQL();
+    }
 //    /**
 //     * @return DeviseRecus[] Returns an array of DeviseRecus objects
 //     */

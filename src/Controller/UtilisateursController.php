@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Comptes;
 use App\Entity\Utilisateurs;
 use App\Form\UtilisateursType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -37,11 +38,12 @@ class UtilisateursController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
-            $utilisateur->setCompteEcartCaisse($this->getDoctrine()->getRepository('App:Comptes')->find(257));
+            $em = $this->getDoctrine()->getManager();
+            $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
+            $utilisateur->setCompteEcartCaisse($em->getRepository(Comptes::class)->findOneBy(['numCompte'=>499003]));
             //dump($utilisateur);die();
             //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
-            $em = $this->getDoctrine()->getManager();
+
             $em->persist($utilisateur);
             $em->flush();
 

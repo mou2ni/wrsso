@@ -50,7 +50,7 @@ The default configuration is as follow:
     .. code-block:: yaml
 
         sensio_framework_extra:
-            router:      { annotations: true }
+            router:      { annotations: true } # Deprecated; use routing annotations of Symfony core instead
             request:     { converters: true, auto_convert: true }
             view:        { annotations: true }
             cache:       { annotations: true }
@@ -181,8 +181,6 @@ example:
     annot:
         resource: "@AnnotRoutingBundle/Controller"
         type:     annotation
-
-see :ref:`Annotated Routes Activation<frameworkextra-annotations-routing-activation>` for more details.
 
 PSR-7 support
 -------------

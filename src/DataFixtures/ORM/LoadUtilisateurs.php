@@ -22,15 +22,17 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
     {
         $compteEcartCaissier1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts caissier 1']);
         $compteEcartCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts caissier 2']);
-        //$compteCompenseCaissier1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 1']);
-        //$compteCompenseCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense caissier 2']);
-        $lists = array(['login' => 'login', 'mdp' => 'login', 'nom' => 'OUEDRAOGO', 'prenom' => 'Sayouba', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier1]
-        , ['login' => 'login1', 'mdp' => 'login1', 'nom' => 'SANOU', 'prenom' => 'Alfred', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier2]
+
+        //$mdp = $this->container->get('security.password_encoder')->encodePassword('login');
+        //$mdp = $this->container->get('security.password_encoder')->encodePassword('login1');
+
+        $lists = array(['login' => 'login', 'mdp' => '$2y$12$kB6SgGAC.G/Hcdhv0iaYd.0dI4RJNpHrVR5gTZVE9qfQNVjprdspi', 'nom' => 'OUEDRAOGO', 'prenom' => 'Sayouba', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier1, 'role'=>'ROLE_USER']
+        , ['login' => 'login1', 'mdp' => '$2y$12$pKORCggAl.2/MlEmkTspMuydovYzM5yhMTBlYVIbJd7BFHutWE4u.', 'nom' => 'SANOU', 'prenom' => 'Alfred', 'estCaissier' => true, 'statut' => 'a', 'compteEcartCaisse'=>$compteEcartCaissier2, 'role'=>'ROLE_USER']
         );
 
         foreach ($lists as $list) {
             $enr = new Utilisateurs();
-            $enr->setLogin($list['login'])->setMdp($list['mdp'])->setNom($list['nom'])->setPrenom($list['prenom'])->setEstCaissier($list['estCaissier'])->setStatus($list['statut'])->setCompteEcartCaisse($list['compteEcartCaisse'])
+            $enr->setLogin($list['login'])->setMdp($list['mdp'])->setNom($list['nom'])->setPrenom($list['prenom'])->setEstCaissier($list['estCaissier'])->setStatus($list['statut'])->setCompteEcartCaisse($list['compteEcartCaisse'])->setRole($list['role'])
             ;
             $manager->persist($enr);
         }

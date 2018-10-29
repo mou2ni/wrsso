@@ -31,6 +31,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class JourneeCaissesController extends Controller
 {
+
     /**
      * @Route("/", name="journee_caisses_index", methods="GET")
      */
@@ -72,32 +73,20 @@ class JourneeCaissesController extends Controller
     public function initialiser(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $utilisateur=$this->get('session')->get('utilisateur');
-        $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->find($utilisateur->getId());
-        //dump($utilisateur->getCompteEcartCaisse());die();
+        $journeeCaisse = new JourneeCaisses($em);
+        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
         //si l'utilisateur a choisi une caisse et cliquer sur 'initialise' retrouver ou attribuer une nouvelle journee caisse
             $caisse = $request->get('ouverture')['caisse'];
-
+            //dump($request);die();
             if ($caisse){
             $caisse = $this->getDoctrine()->getRepository(Caisses::class)->find($caisse);
             $caisse->setEm($em);
-
+                //dump($this->getDoctrine()->getRepository(JourneeCaisses::class)->findLastJournee($caisse)[0]);die();
+                $journeeCaissePrec = $this->getDoctrine()->getRepository(JourneeCaisses::class)->findLastJournee($caisse)[0];
             if ($caisse->getStatut()==$caisse::FERME){
-                dump($caisse);die();
-                $journeeCaisse = new JourneeCaisses($em);
-                $journeeCaisse->setCaisse($caisse);
-                $journeeCaisse->setUtilisateur($utilisateur);
-                $journeeCaisse->setJourneePrecedente($caisse->getJourneeOuverte());
-
-                $caisse->setJourneeOuverte($journeeCaisse);
-                $utilisateur->setLastCaisse($caisse);
-                $utilisateur->setJourneeCaisseActive($journeeCaisse);
-                //dump($journeeCaisse);die();
-                $em->persist($caisse);
-                $em->persist($journeeCaisse);
-                $em->persist($utilisateur);
-                $em->flush();
+                $this->initJournee($journeeCaissePrec);
                 return $this->redirectToRoute('journee_caisses_ouvrir');
+
             }
             else{
                 $this->addFlash('success', "Cette caisse est déjà occupée. Veuillez choisir une autre caisse.");
@@ -120,9 +109,9 @@ class JourneeCaissesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        //$utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login1']);
-        $utilisateur=$this->get('session')->get('utilisateur');
-        $journeeCaisseActive = $this->getDoctrine()->getRepository(JourneeCaisses::class)->find($utilisateur->getJourneeCaisseActive()->getId());
+        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+
+        !$utilisateur->getJourneeCaisseActive()?$journeeCaisseActive=null:$journeeCaisseActive = $this->getDoctrine()->getRepository(JourneeCaisses::class)->find($utilisateur->getJourneeCaisseActive()->getId());
 
         if(!$utilisateur->getEstcaissier()){
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
@@ -150,16 +139,6 @@ class JourneeCaissesController extends Controller
             return $this->redirectToRoute('journee_caisses_initialiser');
         }
 
-        //else{
-
-            /*$caisse = $utilisateur->getLastCaisse();
-            $journeeCaisse = $caisse->getNouvelleJournee();
-            $journeeCaisse->setUtilisateur($utilisateur);
-            $journeeCaisse->setCaisse($caisse);
-            $utilisateur->setJourneeCaisseActive($journeeCaisse);*/
-        //}
-
-//dump($journeeCaisse->getJourneePrecedente()->getMLiquiditeFerm());die();
         $form = $this->createForm(OuvertureType::class, $journeeCaisse);
         $form->handleRequest($request);
 
@@ -188,8 +167,8 @@ class JourneeCaissesController extends Controller
      * @Route("/enregistrer", name="journee_caisses_enregistrer", methods="GET|POST|UPDATE")
      */
     public function enregistrer(Request $request){
-        //$utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
-        $utilisateur=$this->get('session')->get('utilisateur');
+
+        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
 
         $em=$this->getDoctrine()->getManager();
         $operation=$request->request->get('_operation');
@@ -212,53 +191,7 @@ class JourneeCaissesController extends Controller
         }
         else{
             $journeeCaisse->setStatut(JourneeCaisses::FERME);
-
-            $newJournee = new JourneeCaisses($em);
-            $newJournee->setJourneePrecedente($journeeCaisse)
-                ->setCaisse($journeeCaisse->getCaisse())
-                ->setUtilisateur($journeeCaisse->getUtilisateur())
-                ->setMCreditDiversOuv($journeeCaisse->getMCreditDiversFerm())
-                ->setMDetteDiversOuv($journeeCaisse->getMDetteDiversFerm())
-                ->setMCreditDiversFerm($journeeCaisse->getMCreditDiversFerm())
-                ->setMDetteDiversFerm($journeeCaisse->getMDetteDiversFerm())
-                ->setMSoldeElectOuv($journeeCaisse->getMSoldeElectFerm())
-                ->setMLiquiditeOuv($journeeCaisse->getMLiquiditeFerm())
-                //->setMDepotClient($journeeCaisse->getMDepotClient())
-                //->setMRetraitClient($journeeCaisse->getMRetraitClient())
-                //->addDetteCredit($journeeCaisse->getDetteCredits())
-            ;
-            //dump($newJournee);die();
-            foreach ($journeeCaisse->getDetteCredits() as $detteCredit){
-                $newJournee->addDetteCredit($detteCredit);
-            }
-            //dump($newJournee);
-            //die();
-            foreach ($journeeCaisse->getBilletFerm()->getBilletageLignes() as $bl){
-                foreach ($newJournee->getBilletFerm()->getBilletageLignes() as $newBl){
-                    if ($bl->getBillet()==$newBl->getBillet()){
-                        $newBl->setNbBillet($bl->getNbBillet());
-                        $em->persist($newBl);
-                    }
-                }
-            }
-            foreach ($journeeCaisse->getDeviseJournees() as $dvj){
-                foreach ($newJournee->getDeviseJournees() as $newdvj){
-                    if ($dvj->getDevise()==$newdvj->getDevise()){
-                        $newdvj->setQteOuv($dvj->getQteFerm());
-                        $em->persist($newdvj);
-                    }
-                }
-            }
-            //dump($newJournee->getDeviseJournees());die();
-            //foreach ($journeeCaisse->getDeviseJournee())
-
-            $utilisateur=$newJournee->getUtilisateur();
-            $em->persist($journeeCaisse);
-            $em->persist($newJournee);
-            $utilisateur->setJourneeCaisseActive($newJournee);
-            $em->persist($utilisateur);
-            $em->flush();
-
+            $this->initJournee($journeeCaisse);
             return $this->redirectToRoute('journee_caisses_show', ['id'=>$journeeCaisse->getId()]);
         }
 
@@ -271,10 +204,12 @@ class JourneeCaissesController extends Controller
      */
     public function gerer(Request $request): Response
     {
-        //$utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
-        $utilisateur=$this->get('session')->get('utilisateur');
+        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
 
-        //dump($utilisateur,$utilisateur1);die();
+        /*$em=$this->getDoctrine()->getManager();
+        $utilisateur->setStatus('B');
+        $em->persist($utilisateur);
+        $em->flush();*/
         if(!$utilisateur->getEstcaissier()){
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
             return $this->render('main.html.twig'
@@ -437,43 +372,12 @@ class JourneeCaissesController extends Controller
             return false;
     }
 
-    public function initJournee1(JourneeCaisses $journeeCaiss, Caisses $caisse, Utilisateurs $user)
-    {
-        if(!$this->get('session')->get('billetage'))
-        {
-            $billetage0 = $this->getDoctrine()->getRepository(Billetages::class)->find(1);
-            $billetages= array($billetage0,$billetage0,$billetage0);
-            $this->get('session')->set('billetage',$billetages);
-        }
-        $journeeCaiss->setUtilisateur($user);
-        $journeeCaiss->setIdCaisse($caisse);
-        $journeeCaiss->setStatut('O');
-        $journeeCaissePrec=$this->getJourneeCaissePrec($caisse);
-        $journeeCaiss->setMCreditDivers($journeeCaissePrec->getMCreditDivers());
-        $journeeCaiss->setMDetteDivers($journeeCaissePrec->getMDetteDivers());
-        if($this->get('session')->get('billetage') && $this->get('session')->get('billetage')!=$this->getDoctrine()->getRepository(Billetages::class)->find(1)){
-            $journeeCaiss->setIdBilletOuv($this->get('session')->get('billetage')[0]);
-            $journeeCaiss->setValeurBillet($this->get('session')->get('billetage')[0]->getValeurTotal());
-            $this->getDoctrine()->getManager()->persist($this->get('session')->get('billetage')[0]);
-        }
-        if($this->get('session')->get('electronic')!=$this->getDoctrine()->getRepository(SystemElectInventaires::class)->find(1)){
-            $journeeCaiss->setIdSystemElectInventOuv($this->get('session')->get('electronic'));
-            $journeeCaiss->setSoldeElectOuv($this->get('session')->get('electronic')->getSoldeTotal());
-            $this->getDoctrine()->getManager()->persist($this->get('session')->get('electronic'));
-        }
-        //$journeeCaiss->setSoldeElectOuv($this->get('session')->get('electronic')->getSoldeTotal());
-        $journeeCaiss->setDateOuv(new \DateTime('now'));
-        $journeeCaiss->setDateFerm(new \DateTime('now'));
-        //$journeeCaiss->setDeviseJournee($this->contreValeurDevise($journeeCaissePrec));
-        return $journeeCaiss;
-    }
-
     public function contreValeurDevise(JourneeCaisses $journeeCaisses){
         $list=$journeeCaisses->getDeviseJournee();
         return $list;
     }
 
-    public function initJournee(JourneeCaisses $journeeCaisses)
+    public function initJournee1(JourneeCaisses $journeeCaisses)
     {
 
         $journeeCaisses=$this->get('session')->get('journeeCaisse');
@@ -493,6 +397,53 @@ class JourneeCaissesController extends Controller
 
         return $journeeCaisses;
 
+
+    }
+
+    public function initJournee(JourneeCaisses $journeeCaisse)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $newJournee = new JourneeCaisses($em);
+        $newJournee->setJourneePrecedente($journeeCaisse)
+            ->setCaisse($journeeCaisse->getCaisse())
+            //->setUtilisateur($journeeCaisse->getUtilisateur())
+            ->setMCreditDiversOuv($journeeCaisse->getMCreditDiversFerm())
+            ->setMDetteDiversOuv($journeeCaisse->getMDetteDiversFerm())
+            ->setMCreditDiversFerm($journeeCaisse->getMCreditDiversFerm())
+            ->setMDetteDiversFerm($journeeCaisse->getMDetteDiversFerm())
+            ->setMSoldeElectOuv($journeeCaisse->getMSoldeElectFerm())
+            ->setMLiquiditeOuv($journeeCaisse->getMLiquiditeFerm());
+
+        foreach ($journeeCaisse->getDetteCredits() as $detteCredit){
+            $newJournee->addDetteCredit($detteCredit);
+        }
+        //dump($newJournee);
+        //die();
+        foreach ($journeeCaisse->getBilletFerm()->getBilletageLignes() as $bl){
+            foreach ($newJournee->getBilletFerm()->getBilletageLignes() as $newBl){
+                if ($bl->getBillet()==$newBl->getBillet()){
+                    $newBl->setNbBillet($bl->getNbBillet());
+                    $em->persist($newBl);
+                }
+            }
+        }
+        foreach ($journeeCaisse->getDeviseJournees() as $dvj){
+            foreach ($newJournee->getDeviseJournees() as $newdvj){
+                if ($dvj->getDevise()==$newdvj->getDevise()){
+                    $newdvj->setQteOuv($dvj->getQteFerm());
+                    $em->persist($newdvj);
+                }
+            }
+        }
+
+        $utilisateur=$newJournee->getUtilisateur();
+        $em->persist($journeeCaisse);
+        $em->persist($newJournee);
+        //$utilisateur->setJourneeCaisseActive($newJournee);
+        //$em->persist($utilisateur);
+        $em->flush();
+
+        return $newJournee;
 
     }
 
