@@ -162,6 +162,13 @@ class InterCaisses
     }
 
     public function valider(){
+        $this->statut = $this::VALIDE;
+        $this->journeeCaisseSortant->setMIntercaisseSortants($this->journeeCaisseSortant->getMIntercaisseSortants()+ $this->mIntercaisse);
+        $this->journeeCaisseEntrant->setMIntercaisseEntrants($this->journeeCaisseEntrant->getMIntercaisseEntrants()+ $this->mIntercaisse);
+        //$this->journeeCaisseSortant->addInterCaisseEntrant($this);
+        //$this->journeeCaisseEntrant->addInterCaisseSortant($this);
+    }
+    /*public function valider(){
         foreach ($this->getIntercaisseEntrants() as $intercaisseEntrant){
             if($intercaisseEntrant->getStatut() == InterCaisses::ANNULATION_EN_COURS){
                 $this->addFlash('success', "vous avez une intercaisse en cours d'annulation");
@@ -178,6 +185,6 @@ class InterCaisses
             elseif($intercaisseSortant->getStatut() == InterCaisses::VALIDATION_AUTO)
                 $intercaisseSortant->setStatut(InterCaisses::VALIDE);
         }
-    }
+    }*/
 
    }

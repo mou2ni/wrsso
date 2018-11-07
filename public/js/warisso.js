@@ -10,8 +10,9 @@ function majTransfert() {
     var i=0;
     var tva = 0;
     var autresTaxes = 0;
+    var mTTC = 0;
     while (valeur("#transfert_transfertInternationaux_"+i+"_sens")) {
-        tva=valeur("#transfert_transfertInternationaux_"+i+"_mFraisHt")*0.18;
+        tva=Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val())*0.18;
         tva=Math.round(tva)
         autresTaxes = valeur("#transfert_transfertInternationaux_"+i+"_mTransfertTTC")
             - valeur("#transfert_transfertInternationaux_"+i+"_mTransfert")
@@ -20,8 +21,8 @@ function majTransfert() {
         $("#transfert_transfertInternationaux_"+i+"_mTva").val(tva);
         $("#transfert_transfertInternationaux_"+i+"_mAutresTaxes").val(autresTaxes);
         if (valeur("#transfert_transfertInternationaux_" + i + "_sens") == "1")
-            emission = emission + valeur("#transfert_transfertInternationaux_" + i + "_mTransfert")
-        else reception = reception + valeur("#transfert_transfertInternationaux_" + i + "_mTransfert")
+            emission = emission + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
+        else reception = reception + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
         i++;
     }
 
@@ -29,6 +30,11 @@ function majTransfert() {
     $("#transfert_mReceptionTrans").val(reception);
 
 };
+
+function Echape(data)
+{
+    return data.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "");
+}
 
 function majOuverture() {
 alert('top');
@@ -46,6 +52,12 @@ function  valeurDevises() {
     }
     return valeurDevises;
 }
+
+/*$("<input>").on('click', function () {
+    var x = $(this).attr('id');
+    var valeur = this.value;
+    alert(valeur);
+});*/
 
 /*function majBilletage() {
     var nbrBillet=valeur("#nombreLigne");
@@ -174,6 +186,14 @@ jQuery(document).ready(function() {
     $addTagButton.on('click', function(e) {
         // add a new tag form (see next code block)
         addTagForm($collectionHolder, $newLinkLi);
+        // get the new index
+        /*var i = $collectionHolder.data('index');
+        alert(i);
+        $("#transfert_transfertInternationaux_"+i+"_mTransfert").val(0);
+        $("#transfert_transfertInternationaux_"+i+"_mTransfertTTC").val(0);
+        $("#transfert_transfertInternationaux_"+i+"_mFraisHt").val(0);
+        $("#transfert_transfertInternationaux_"+i+"_mAutresTaxes").val(0);
+        $("#transfert_transfertInternationaux_"+i+"_mTva").val(0);*/
     });
 });
 
@@ -193,12 +213,12 @@ function addTagForm($collectionHolder, $newLinkLi) {
     // Replace '__name__' in the prototype's HTML to
     // instead be a number based on how many items we have
     newForm = newForm.replace(/__name__/g, index);
-
+    //alert(newForm);
     // increase the index with one for the next item
     $collectionHolder.data('index', index + 1);
 
     // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<tr></tr>').append(newForm);
+    var $newFormLi = $('<tr class=""></tr>').append(newForm);
     $newLinkLi.before($newFormLi);
     // add a delete link to the new form
     addTagFormDeleteLink($newFormLi);

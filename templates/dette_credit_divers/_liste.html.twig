@@ -11,9 +11,9 @@
     <tbody>
     <tr>
     <td></td>
-    <td>Totaux </td>
-    <td>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ') }}</td>
-    <td>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</td>
+    <th>Totaux </th>
+    <th>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ') }}</th>
+    <th>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</th>
     </tr>
     {% for dette_credit_diver in journeeCaisse.detteCredits %}
         {% if dette_credit_diver.statut in ['C','D'] %}

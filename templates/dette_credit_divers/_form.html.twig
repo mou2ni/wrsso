@@ -17,12 +17,10 @@
     </tr>
 
 </table>
-<button class="btn-primary btn">{{ button_label|default('Ajouter') }}</button>
-<button class="btn-primary btn" type="reset">{{ button_label|default('Effacer') }}</button>
+<button class="btn-primary btn" name="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
+<button class="btn-primary btn" name="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
 <input type="hidden" name="_operation" value="{{ operation }}">
 {{ form_end(form) }}
-
-
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
-    </div>
+<div class="form-inline">
+    {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+</div>

@@ -5,10 +5,11 @@
     </tr>
     </thead>
     <tbody>
+    <th colspan="2">Total</th><th>{{ journeeCaisse.mDepotClient }}</th>
     {% for depot in journeeCaisse.transactions %}
         {% for trcpte in depot.transactionComptes %}
             {% if (trcpte.compte.typeCompte!='i') and (trcpte.mCredit) %}
-                <tr><td>{{ trcpte.numCompte }}</td><td>{{ trcpte.compte.client.nom }}  {{ trcpte.compte.client.prenom }}</td><td>{{ trcpte.mCredit }}</td><td>{{ depot.libelle }}</td></tr>
+                <tr><td>{{ trcpte.numCompte }}</td><td>{{ trcpte.compte.client.nom }}  {{ trcpte.compte.client.prenom }}</td><td>{{ trcpte.mCredit|number_format(0, '.', ' ') }}</td><td>{{ depot.libelle }}</td></tr>
             {% endif %}
         {% endfor %}
     {% endfor %}

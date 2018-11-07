@@ -23,15 +23,15 @@
         </thead>
         <tbody>
         <tr>
-            <td>Inter caisses Recus</td>
-            <td>{{ totalR }}</td>
+            <th>Inter caisses Recus</th>
+            <th>{{ totalR|number_format(0, '.', ' ') }}</th>
         </tr>
         {% set i = 0 %}
-        {% for intercaisse in journeeCaisse.intercaisseEntrants  %}
-
+        {% for intercaisse in journeeCaisse.intercaisseEntrants %}
+            {% if  intercaisse.statut!='X'  %}
             <tr>
                 <td>{{ intercaisse }}</td>
-                <td>{{ intercaisse.mIntercaisse }}</td>
+                <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
                 <td>{{ (intercaisse.statut=='I')
                     ?'Initié':(intercaisse.statut=='V')
                     ?'Validé':(intercaisse.statut=='X')
@@ -40,7 +40,8 @@
                 {#<td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td>#}
                 <td>{{ intercaisse.observations }}</td>
                 {#<td>{% if intercaisse.statut=='ae' %}<button value="{{ intercaisse.id }}aa" class="boutonintercaisse" type="button">Accepte Annulation</button>{% endif  %}</td>#}
-                <td><div class="form-row">
+                <td>
+                    <div class="form-row">
                         {#{% if  intercaisse.statut=='X'  %}
                                 {{ include('intercaisses/_btn_action.html.twig',{'btn_id':"{{ intercaisse.id }}v",'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
                             {% endif %}#}
@@ -53,8 +54,10 @@
                 <td > <input hidden value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{ i }}"></td>
                 {% set i = i+1 %}
             </tr>
+            {% endif %}
         {% else %}
             <tr> <td colspan="5"> Aucun Enregistrement trouve.</td></tr>
+
         {% endfor %}
         </tbody>
     </table>
@@ -62,11 +65,12 @@
     <table class="table">
         <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th><th>Action</th></tr></thead>
         <tbody>
-        <tr><td>Inter caisses Emis</td><td>{{ totalE }}</td></tr>
+        <tr><th>Inter caisses Emis</th><th>{{ totalE|number_format(0, '.', ' ') }}</th></tr>
         {% for intercaisse in journeeCaisse.intercaisseSortants  %}
+            {% if  intercaisse.statut!='X'  %}
             <tr>
                 <td>{{ intercaisse }}</td>
-                <td>{{ intercaisse.mIntercaisse }}</td>
+                <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
                 <td>{{ (intercaisse.statut=='I')
                     ?'Initié':(intercaisse.statut=='V')
                     ?'Validé':(intercaisse.statut=='X')
@@ -89,15 +93,16 @@
                 <td > <input hidden value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{i}}"></td>
                 {% set i = i+1 %}
             </tr>
+            {% endif %}
         {% else %}
             <tr> <td colspan="5">Aucun Enregistrement trouve.</td></tr>
         {% endfor %}
-        <div id="dialog-confirm" title="Confirmation de la suppression" style="display:none;">
+        {#<div id="dialog-confirm" title="Confirmation de la suppression" style="display:none;">
             <p>
                 <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
                 Etes-vous sûr de vouloir supprimer cet élément ?
             </p>
-        </div>
+        </div>#}
 
         </tbody>
     </table>
@@ -115,7 +120,9 @@
 
 <script type="text/javascript">
     $("#validerIntercaisses").click(function () {
-        //var i=1;
+        if (confirm("Voulez vous vraiment tout valider ? ")) 
+        valider();
+        /*//var i=1;
         var estPret=true;
         var list= $('form').find("input.statutintercaisse");
         for (var i = 0; i < list.length; i++) {
@@ -126,7 +133,7 @@
         if (estPret==true) {
             valider();
         }
-        else alert("Vous avez une intercaisse non valider. Corrigez les avant de valider ");
+        else alert("Vous avez une intercaisse non valider. Corrigez les avant de valider ");*/
     });
 
 </script>

@@ -65,7 +65,9 @@ class TransactionComptesController extends Controller
             //dump($journeeCaisses);die();
             $em->persist($journeeCaisse);
             $em->flush();
-
+            if($request->request->has('enregistreretfermer')){
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
             return $this->render('transaction_comptes/depot.html.twig', [
                 'journeeCaisse' => $journeeCaisse,
                 'form' => $form->createView(),
@@ -109,18 +111,14 @@ class TransactionComptesController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
-            /*dump($journeeCaisses->getUtilisateur());
-            dump($journeeCaisses->getIdCaisse());
-            dump($compteClient);
-            dump($retrait->getLibele());
-            dump($retrait->getMDebit());
-            die();*/
             if(!$genererCompta->genComptaRetrait($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
             $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
             $journeeCaisse->setMRetraitClient($journeeCaisse->getTotalRetrait());
             $em->persist($journeeCaisse);
             $em->flush();
-
+            if($request->request->has('enregistreretfermer')){
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
             return $this->render('transaction_comptes/depot.html.twig', [
                 'journeeCaisse' => $journeeCaisse,
                 'form' => $form->createView(),

@@ -5,7 +5,7 @@
     <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
     <table onchange="majElectronique()">
         <thead>
-        <tr><th>Date</th><th>{{ form_widget(form.dateInventaire) }}</th><th>Total</th><th>{{ form_widget(form.soldeTotal) }}</th></tr>
+        <tr><th>Date</th><th>{{ journeeCaisse.dateOuv.format('d-m-Y H:i:s') }}</th><th>Total</th><th>{{ form_widget(form.soldeTotal) }}</th></tr>
         <tr><th>Systemes electroniques</th><th>Solde</th></tr>
         </thead>
         <tbody>

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\DeviseJournees;
 use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,8 +19,8 @@ class DeviseJourneesType extends AbstractType
             ->add('ecartOuv')
             ->add('qteAchat')
             ->add('qteVente')
-            ->add('mCvdAchat')
-            ->add('mCvdVente')
+            ->add('mCvdAchat',NumberType::class,array('grouping'=>3,'scale'=>0,'disabled'=>true))
+            ->add('mCvdVente',NumberType::class,array('grouping'=>3,'scale'=>0,'disabled'=>true))
             ->add('qteIntercaisse')
             ->add('qteFerm')
             ->add('ecartFerm')

@@ -14,7 +14,8 @@
             <td>Libelle</td><td>{{ form_widget(form.libele) }}</td>
         </tr>
         <tr>
-            <td><button type="submit" id="submit">Enregistrer</button></td><td></td>
+            <td><button class="btn-primary btn" name="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button></td>
+            <td><button class="btn-primary btn" name="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button></td>
         </tr>
     </table>
     <div hidden>{{ form_rest(form) }}
@@ -22,11 +23,11 @@
         <input type="hidden" name="_operation" value="{{ operation }}">
     </div>
 {{ form_end(form) }}
-    {% if operation=="FERMER" %}
+    {% if journeeCaisse.statut=="O" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
-    {% elseif operation=="OUVRIR" %}
+    {% elseif journeeCaisse.statut=="I" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>

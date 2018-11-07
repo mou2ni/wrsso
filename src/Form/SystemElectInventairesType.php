@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\SystemElectInventaires;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,7 @@ class SystemElectInventairesType extends AbstractType
     {
         $builder
             ->add('dateInventaire')
-            ->add('soldeTotal')
+            ->add('soldeTotal', NumberType::class,array('grouping'=>3,'scale'=>0, 'disabled'=>true))
             ->add('systemElectLigneInventaires', CollectionType::class, [
                 'entry_type' => SystemElectLigneInventairesType::class,
                 'allow_add'=>true,

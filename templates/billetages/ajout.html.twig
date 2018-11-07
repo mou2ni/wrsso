@@ -9,17 +9,18 @@
 
     <table onchange="majBilletage()">
         <thead>
-        <tr><th> Date</th> <th> {{ billetage.dateBillettage.format('d-m-Y H:i:s') }}</th><th> Total</th> <th><input id="billetages_valeurTotal"  name="billetages_valeurTotal" required="required" class="form-control" value="" > </th></tr>
+        <tr><th> Date</th> <th> {{ billetage.dateBillettage.format('d-m-Y H:i:s') }}</th><th> Total</th> <td>{{ form_widget(form.valeurTotal) }}{#<input  id="billetages_valeurTotal"  name="billetages_valeurTotal" required="required" class="form-control" value="" >#} </td></tr>
         <tr><th>VALEUR</th><th>NOMBRE</th><th>TOTAL</th></tr>
         </thead>
         <tbody>
         {% set i=0 %}
         {% for bl in form.billetageLignes %}
-            <tr class="transfert">
+            <tr class="">
                 <td>{{ form_errors(bl.valeurBillet) }} {{ form_widget(bl.valeurBillet) }}</td>
                 <td>{{ form_errors(bl.nbBillet) }} {{ form_widget(bl.nbBillet) }}</td>
-                <td><input id="billetages_billetageLignes_{{i}}_valeurLigne"  name="[valeurLigne][{{ i }}]" required="required" class="form-control" value="" type="text"></td>
-            </tr>
+                <td>{{ form_errors(bl.valeurLigne) }} {{ form_widget(bl.valeurLigne) }}</td>
+                {#<td><input  id="billetages_billetageLignes_{{i}}_valeurLigne"  name="[valeurLigne][{{ i }}]" required="required" class="form-control" value="" type="text"></td>
+                #}</tr>
             {% set i=i+1 %}
         {% endfor %}
         </tbody>
@@ -32,11 +33,11 @@
         <input id="nombreLigne" value="{{ billets|length}}">
     </div>
     {{ form_end(form) }}
-    {% if operation=="FERMER" %}
+    {% if journeeCaisse.statut=="O" %}
     <div class="form-inline">
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
     </div>
-    {% elseif operation=="OUVRIR" %}
+    {% elseif journeeCaisse.statut=="I" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
@@ -54,12 +55,10 @@
     });
     function majBilletage() {
         var nbrBillet = valeur("#nombreLigne");
-        //alert(nbrBillet);
         var totalBillet = 0;
         for (b = 0; b <= nbrBillet; b++) {
             var nbr = valeur("#billetages_billetageLignes_" + b + "_nbBillet");
-            var valeurBillet=valeur("#billetages_billetageLignes_" + b + "_valeurBillet");
-            //alert( valeurBillet);
+            var valeurBillet=Echape($("#billetages_billetageLignes_" + b + "_valeurBillet").val());
             $("#billetages_billetageLignes_" + b + "_valeurLigne").val(valeurBillet * nbr);
 
             totalBillet = totalBillet + valeur("#billetages_billetageLignes_" + b + "_valeurLigne");
@@ -69,6 +68,8 @@
 
         }
     }
+
+
 </script>
 
 {% endblock %}

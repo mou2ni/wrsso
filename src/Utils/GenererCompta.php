@@ -277,7 +277,7 @@ class GenererCompta
 
         if (!$transaction) return false ;
 
-        $this->transactions->add($this->debiterCrediter($transaction, $compteCharge, $caisse->getIdCompteOperation(), $montant));
+        $this->transactions->add($this->debiterCrediter($transaction, $compteCharge, $caisse->getCompteOperation(), $montant));
         return !$this->getE();
     }
 
@@ -296,7 +296,7 @@ class GenererCompta
 
         if (!$transaction) return false ;
 
-        $this->transactions->add($this->debiterCrediter($transaction, $caisse->getIdCompteOperation(), $compteProduit, $montant));
+        $this->transactions->add($this->debiterCrediter($transaction, $caisse->getCompteOperation(), $compteProduit, $montant));
         return !$this->getE();
     }
 
@@ -310,7 +310,7 @@ class GenererCompta
      */
     public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
     {
-       $this->transactions->add($this->debiterCrediterSigne($utilisateur,$paramComptable->getCompteCompense(), $caisse->getIdCompteOperation(),'Compense attendue -'.$utilisateur,$montant));
+       $this->transactions->add($this->debiterCrediterSigne($utilisateur,$paramComptable->getCompteCompense(), $caisse->getCompteOperation(),'Compense attendue -'.$utilisateur,$montant));
         return !$this->getE();
     }
 
@@ -323,7 +323,7 @@ class GenererCompta
      */
     public function genComptaCvDevise(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteCvDevise(), $caisse->getIdCompteOperation(),$utilisateur.' - Solde Contre valeur devises',$montant));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteCvDevise(), $caisse->getCompteOperation(),$utilisateur.' - Solde Contre valeur devises',$montant));
         return !$this->getE();
 
     }
@@ -338,7 +338,7 @@ class GenererCompta
      */
     public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getIdCompteOperation(),$paramComptable->getCompteIntercaisse(),'Solde intercaissse - '.$utilisateur,$montant));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteOperation(),$paramComptable->getCompteIntercaisse(),'Solde intercaissse - '.$utilisateur,$montant));
         return !$this->getE();
     }
 

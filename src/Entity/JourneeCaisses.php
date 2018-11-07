@@ -72,7 +72,7 @@ class JourneeCaisses
     private $mLiquiditeOuv=0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", inversedBy="journeeCaisse", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\SystemElectInventaires", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $systemElectInventOuv;
@@ -161,6 +161,16 @@ class JourneeCaisses
      */
     private $mIntercaisses=0;
 
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mIntercaisseSortants=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mIntercaisseEntrants=0;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
@@ -230,6 +240,14 @@ class JourneeCaisses
 
     private $em;
 
+    private $mouvementFond;
+
+    /*
+    *
+     * @ORM\Column(type="bigint")
+
+    private $mIntercaisseDevise=0;
+*/
 
 //    /**
 //     * @ORM\OneToMany(targetEntity="App\Entity\Transactions", mappedBy="journeeCaisse", cascade={"persist"})
@@ -262,13 +280,13 @@ class JourneeCaisses
         $this->billetFerm=new Billetages();
         $this->systemElectInventFerm=new SystemElectInventaires();
         $devises = $this->em->getRepository(Devises::class)->findAll();
-        foreach ($devises as $devise){
+        /*foreach ($devises as $devise){
             $deviseJournee = new DeviseJournees($this,$devise);
             $this->addDeviseJournee($deviseJournee);
-            $this->em->persist($deviseJournee);
-        }
+            //$this->em->persist($deviseJournee);
+        }*/
 
-        $this->em->persist($this);
+        //$this->em->persist($this);
 
 
 
@@ -280,6 +298,7 @@ class JourneeCaisses
     public function updateMEcarts(){
         $this->setMEcarts();
         $this->setMLiquiditeOuv($this->billetOuv->getValeurTotal());
+        $this->setMIntercaisses($this->getmIntercaisseEntrants()-$this->getmIntercaisseSortants());
     }
 
     /**
@@ -297,11 +316,10 @@ class JourneeCaisses
 
     public function setMEcartFerm()
     {
-        $this->mEcartFerm = $this->getSoldeNetOuv()-$this->getSoldeNetFerm();
+        $this->mEcartFerm = $this->getSoldeNetFerm() - $this->getSoldeNetOuv() - $this->getMouvementFond();
+        //dump($this->mEcartFerm);die();
         return $this;
     }
-
-
 
     public function getMEcartOuv()
     {
@@ -311,7 +329,7 @@ class JourneeCaisses
     public function setMEcartOuv()
     {
         ($this->journeePrecedente!=null)?$soldeNetFerm=$this->journeePrecedente->getSoldeNetFerm():$soldeNetFerm=0;
-        $this->mEcartOuv = $soldeNetFerm - $this->getSoldeNetOuv();
+        $this->mEcartOuv = $this->getSoldeNetOuv() - $soldeNetFerm ;
         return $this;
     }
 
@@ -324,14 +342,23 @@ class JourneeCaisses
     public function getSoldeNetFerm(){
         return
             ($this->getDisponibiliteFerm()
-            + $this->getMDetteDiversFerm()
-            + $this->getMEmissionTrans()
-            + $this->getMCvd()
-            + $this->getMDepotClient()) -
-            ( $this->getMCreditDiversOuv()
-            + $this->getMReceptionTrans()
-            + $this->getMRetraitClient()
+                + $this->getMDetteDiversFerm()
+                - $this->getMCreditDiversOuv()
             );
+
+    }
+
+
+    public function getMouvementFond(){
+        return $this->mouvementFond =
+            + $this->getMEmissionTrans()
+            - $this->getMReceptionTrans()
+            + $this->getMCvd()
+            + $this->getMIntercaisseEntrants()
+            - $this->getMIntercaisseSortants()
+            + $this->getMDepotClient()
+            - $this->getMRetraitClient()
+            ;
 
     }
 
@@ -410,7 +437,7 @@ class JourneeCaisses
         $this->intercaisseSortants->removeElement($interCaisses);
     }
 
-    public function addInterCaisseDestination(InterCaisses $interCaisses)
+    public function addInterCaisseEntrant(InterCaisses $interCaisses)
     {
         $this->intercaisseEntrants->add($interCaisses);
         $interCaisses->setJourneeCaisseEntrant($this);
@@ -420,6 +447,13 @@ class JourneeCaisses
     {
         $this->intercaisseEntrants->removeElement($interCaisses);
     }
+
+    public function addInterCaisseDestination(InterCaisses $interCaisses)
+    {
+        $this->intercaisseEntrants->add($interCaisses);
+        $interCaisses->setJourneeCaisseEntrant($this);
+    }
+
 
     /**
      * @param DeviseRecus $deviseRecu
@@ -455,40 +489,7 @@ class JourneeCaisses
     {
         $this->transactions->removeElement($transaction);
     }
-    /*
-     * @param Transactions $transaction
 
-    public function addDepot(Transactions $transaction)
-    {
-        $this->depots->add($transaction);
-        $this->transactions->add($transaction);
-        $transaction->setJourneeCaisse($this);
-    }
-
-    **
-     * @param Transactions $transaction
-
-    public function removeDepot(Transactions $transaction)
-    {
-        $this->depots->removeElement($transaction);
-    }
-
-    *
-     * @param Transactions $transaction
-
-    public function addRetrait(Transactions $transaction)
-    {
-        $this->retraits->add($transaction);
-        $this->transactions->add($transaction);
-        $transaction->setJourneeCaisse($this);
-    }
-
-
-    public function removeRetrait(Transactions $transaction)
-    {
-        $this->retraits->removeElement($transaction);
-    }
-*/
     /**
      * @param Transactions $transaction
      */
@@ -508,7 +509,7 @@ class JourneeCaisses
 
 
     public function getJourneeCaisse(){
-        return $this->__toString();
+        return $this;
     }
 
 
@@ -599,10 +600,10 @@ class JourneeCaisses
     public function setStatut($statut)
     {
         if ($statut==$this::OUVERT ) {
-            $this->caisse->setJourneeOuverte($this);
-        }else{
-            $this->caisse->setJourneeOuverte(null);
-        }
+            $this->caisse->setJourneeOuverteId($this->getId());
+        }/*else{
+            $this->caisse->setJourneeOuverteId($this->getId());
+        }*/
         $this->statut = $statut;
         return $this;
     }
@@ -1110,7 +1111,8 @@ class JourneeCaisses
      */
     public function getMIntercaisses()
     {
-        return $this->mIntercaisses;
+        //$this->mIntercaisses = $this->mIntercaisseEntrants - $this->mIntercaisseSortants;
+        return $this->mIntercaisses ;
     }
 
     /**
@@ -1176,6 +1178,44 @@ class JourneeCaisses
         $this->detteCredits = $detteCredits;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMIntercaisseSortants()
+    {
+        return $this->mIntercaisseSortants;
+    }
+
+    /**
+     * @param mixed $mIntercaisseSortants
+     * @return JourneeCaisses
+     */
+    public function setMIntercaisseSortants($mIntercaisseSortants)
+    {
+        $this->mIntercaisseSortants = $mIntercaisseSortants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMIntercaisseEntrants()
+    {
+        return $this->mIntercaisseEntrants;
+    }
+
+    /**
+     * @param mixed $mIntercaisseEntrants
+     * @return JourneeCaisses
+     */
+    public function setMIntercaisseEntrants($mIntercaisseEntrants)
+    {
+        $this->mIntercaisseEntrants = $mIntercaisseEntrants;
+        return $this;
+    }
+
+
 
     public function getTotalDepot(){
         $total=0;

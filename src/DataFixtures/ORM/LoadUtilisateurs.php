@@ -23,6 +23,7 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
         $compteEcartCaissier1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts caissier 1']);
         $compteEcartCaissier2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts caissier 2']);
 
+
         //$mdp = $this->container->get('security.password_encoder')->encodePassword('login');
         //$mdp = $this->container->get('security.password_encoder')->encodePassword('login1');
 

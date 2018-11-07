@@ -8,6 +8,7 @@
 
 namespace App\DataFixtures\ORM;
 
+use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -28,15 +29,19 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
         $compteCvDevise2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 2']);
         $compteCvDevise3=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 3']);
 
-        $lists = array(['libelle' => 'DAPOYA KD01','code' => 'KD01', 'compteOperation' => $compteOperationCaisse1, 'compteCvDevise' => $compteCvDevise1]
-        ,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3]
-        ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'compteOperation' => $compteOperationCaisseCMD, 'compteCvDevise' => null]
-        ,['libelle' => 'DAPOYA KD02', 'code' => 'KD02', 'compteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2]
+        $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::INITIAL]);
+        $idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::OUVERT]);
+
+
+        $lists = array(['libelle' => 'DAPOYA KD01','code' => 'KD01', 'compteOperation' => $compteOperationCaisse1, 'compteCvDevise' => $compteCvDevise1, 'journeeCaisse' => $idJourneeCaisse]
+        ,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3, 'journeeCaisse' => $idJourneeCaisseO]
+        ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'compteOperation' => $compteOperationCaisseCMD, 'compteCvDevise' => null, 'journeeCaisse' => null]
+        ,['libelle' => 'DAPOYA KD02', 'code' => 'KD02', 'compteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2, 'journeeCaisse' => null]
         );
 
         foreach ($lists as $list) {
             $enr = new Caisses($manager);
-            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise']);
+            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise'])->setJourneeOuverteId($list['journeeCaisse']);
             $manager->persist($enr);
         }
 

@@ -90,10 +90,12 @@ class BilletagesController extends Controller
                 $billetage->addBilletageLigne($billetageLigne);
             }
         }
+        $jc = $em->getRepository(JourneeCaisses::class)->findOneBy(['billetOuv'=>$billetage]);
+        $jc = $jc?$jc:$em->getRepository(JourneeCaisses::class)->findOneBy([ 'billetFerm'=>$billetage]);
 
-        //if ($this->isCsrfTokenValid('billetage'.$id, $request->request->get('_token'))){
+        if ($this->isCsrfTokenValid('billetage'.$id, $request->request->get('_token'))){
             $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
-        //}
+        }
 
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
@@ -107,7 +109,7 @@ class BilletagesController extends Controller
                 $djOuv->setQteOuv($djOuv->getBilletOuv()->getValeurTotal());
                 $djPrec=$em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$jc->getJourneePrecedente(),'devise'=>$djOuv->getDevise()]);
                 //$jc->addDeviseJournee()
-                $djOuv->setEcartOuv($djOuv->getQteOuv() - $djPrec->getQteFerm());
+                $djPrec?$djOuv->setEcartOuv($djOuv->getQteOuv() - $djPrec->getQteFerm()):$djOuv->setEcartOuv($djOuv->getQteOuv() - 0);
                 $em->persist($djOuv);
                 //dump($djPrec->getQteFerm());die();
                 //$djOuv->setEcartOuv()
@@ -118,6 +120,7 @@ class BilletagesController extends Controller
                 $em->persist($djFerm);
             }
             $em->persist($billetage);
+
             $jc->setMLiquiditeOuv($jc->getBilletOuv()->getValeurTotal());
             $jc->setMLiquiditeFerm($jc->getBilletFerm()->getValeurTotal());
 
@@ -125,6 +128,7 @@ class BilletagesController extends Controller
 
             //$billetage->getJourneeCaisse()->setMLiquiditeOuv($billetage->getValeurTotal());
             $em->flush();
+
             if ($operation=="FERMER"){
                 $this->addFlash('success', 'Billetage Enregistré!');
                 return $this->redirectToRoute('journee_caisses_gerer');

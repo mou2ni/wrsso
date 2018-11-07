@@ -28,7 +28,7 @@
             <th>Sens</th>
             <th>Pays</th>
             <th>Montant</th>
-            <th>Montant TTC</th>
+            <th>Montant Total</th>
             <th>Frais HT</th>
             <th>TVA</th>
             <th>Autres Taxes</th>
@@ -56,11 +56,11 @@
         <input type="hidden" name="_operation" value="{{ operation }}">
     </div>
     {{ form_end(form) }}
-    {% if operation=="FERMER" %}
+    {% if journeeCaisse.statut=="O" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
-    {% elseif operation=="OUVRIR" %}
+    {% elseif journeeCaisse.statut=="I" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>

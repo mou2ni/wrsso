@@ -424,4 +424,5 @@ class DeviseJournees
         return $this;
     }
 
+
 }

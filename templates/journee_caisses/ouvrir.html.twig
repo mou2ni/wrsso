@@ -12,20 +12,8 @@
 
     </div>
 
-   {# {{ include ('_btn_action.html.twig', {'btn_left':240, 'btn_top':455, 'btn_width':150, 'save_value':'Ouvrir la caisse'}) }}
-    #}
 
     {{ journeeCaisse.billetOuv ? include('_modal_form.html.twig',{'modal_id':'modal_billetage', 'modal_form': 'billetages/_form.html.twig', 'titre':'Billetage'}) }}
-<!--
-    <div class="btn-action">
-
-        <INPUT id=u37  type=submit value="Ouvrir la caisse" class="btn-secondary btn" style="position:absolute; left:250px; top:455px;width:150px;">
-
-        <INPUT id=u38  type=submit value="Effacer" class="btn-secondary btn" style="position:absolute; left:410px; top:455px;width:150px;">
-
-        <INPUT id=u39  type=submit value="Fermer" class="btn-secondary btn" style="position:absolute; left:570px; top:455px;width:150px;">
-    </div>
-    -->
 
 
 {% endblock %}

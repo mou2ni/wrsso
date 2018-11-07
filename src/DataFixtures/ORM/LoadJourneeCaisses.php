@@ -29,7 +29,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         $caisse1=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD02']);
         //$utilisateur1->setJourneeCaisseActive($caisseO->)
 
-        $lists = array(['utilisateur' => $utilisateur, 'caisse' => $caisse, 'statut'=>'T', 'dateOuv'=>new \DateTime()]
+        $lists = array(['utilisateur' => $utilisateur1, 'caisse' => $caisse, 'statut'=>'T', 'dateOuv'=>new \DateTime()]
         ,['utilisateur' => $utilisateur, 'caisse' => $caisseO, 'statut'=>JourneeCaisses::FERME, 'dateOuv'=>new \DateTime()]
         ,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::INITIAL, 'dateOuv'=>new \DateTime()]);
 
@@ -64,8 +64,23 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         $utilisateur->setJourneeCaisseActive($journeeOuverte);
         $utilisateur1->setJourneeCaisseActive($journeeInitial);
 
+
+        $utilisateur->setLastCaisse($journeeOuverte->getCaisse());
+        $utilisateur1->setLastCaisse($journeeInitial->getCaisse());
+
+        $journeeOuverte->getCaisse()->setStatut(Caisses::OUVERT);
+        $journeeInitial->getCaisse()->setStatut(Caisses::OUVERT);
+
+
         $manager->persist($journeeOuverte);
         $manager->persist($utilisateur);
+        $manager->flush();
+        $journeeOuverte->getCaisse()->setJourneeOuverteId($journeeOuverte->getId());
+        $utilisateur->setJourneeCaisseActiveId($journeeOuverte->getId());
+        $utilisateur1->setJourneeCaisseActiveId($journeeInitial->getId());
+        $manager->persist($journeeOuverte);
+        $manager->persist($utilisateur);
+        $manager->persist($utilisateur1);
         $manager->flush();
     }
 

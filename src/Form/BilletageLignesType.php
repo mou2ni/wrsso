@@ -15,10 +15,10 @@ class BilletageLignesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nbBillet', NumberType::class)
-            //->add('valeurLigne')
+            ->add('nbBillet', NumberType::class,array('grouping'=>3,'scale'=>0))
+            ->add('valeurLigne', NumberType::class,array('mapped'=>false,'grouping'=>3,'scale'=>0, 'disabled'=>true))
             //->add('billetages')
-            ->add('valeurBillet', NumberType::class,array('disabled'=>true))
+            ->add('valeurBillet', NumberType::class,array('grouping'=>3,'scale'=>0, 'disabled'=>true))
         ;
     }
 

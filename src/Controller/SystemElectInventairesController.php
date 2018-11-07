@@ -136,11 +136,12 @@ class SystemElectInventairesController extends Controller
                 $systemElectInventaire->addSystemElectLigneInventaires($systemElectLigneInventaire);
             }
         }
-        //if ($this->isCsrfTokenValid('elect'.$id, $request->request->get('_token'))){
+        $jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventOuv'=>$systemElectInventaire]);
+        $jc?:$jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventFerm'=>$systemElectInventaire]);
+        /*if ($request->request->get('_journeeCaisse')){
             $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
             //$systemElectInventaire->setJourneeCaisse($jc);
-
-            //}
+        }*/
 
         $form = $this->createForm(SystemElectInventairesType::class, $systemElectInventaire);
         // only handles data on POST

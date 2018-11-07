@@ -58,11 +58,17 @@ class Caisses
      */
     private $utilisateurs;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
+    /*
+    **
+      @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $journeeOuverte;
+    //private $journeeOuverte;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $journeeOuverteId;
 
     private $em;
 
@@ -263,12 +269,12 @@ class Caisses
     /**
      * @param mixed $journeeOuverte
      * @return Caisses
-     */
+
     public function setJourneeOuverte($journeeOuverte)
     {
         $this->journeeOuverte = $journeeOuverte;
         return $this;
-    }
+    }*/
 
     /**
      * @return mixed
@@ -305,6 +311,25 @@ class Caisses
         $this->statut = $statut;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeOuverteId()
+    {
+        return $this->journeeOuverteId;
+    }
+
+    /**
+     * @param mixed $journeeOuverteId
+     * @return Caisses
+     */
+    public function setJourneeOuverteId($journeeOuverteId)
+    {
+        $this->journeeOuverteId = $journeeOuverteId;
+        return $this;
+    }
+
 
 
 }

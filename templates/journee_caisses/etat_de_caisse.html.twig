@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}etat caisse{% endblock %}
+
+{% block body %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th colspan="14">FICHE ARRET CAISSE : </th>
+        </tr>
+            <tr>
+                <th>Ouverture</th>
+                <th>Net Ouverture</th>
+                <th>MCvd</th>
+                <th>Crédits</th>
+                <th>Dettes</th>
+                <th>Intercaisse</th>
+                <th>Compense</th>
+                <th>Retraits</th>
+                <th>Dépots</th>
+                <th>Fermeture</th>
+                <th>Disponibilité</th>
+                <th>Net Fermeture</th>
+                <th>Ecart</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for journee_caiss in journee_caisses %}
+            <tr>
+                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
+                <th>{{ journee_caiss.soldeNetOuv|number_format(0, '.', ' ') }}</th>
+                <td>{{ journee_caiss.mCvd|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mCreditDiversFerm|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mDetteDiversFerm|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mIntercaisses|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
+                <td>{{ journee_caiss.mRetraitClient|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mDepotClient }}</td>
+                <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
+                <th>{{ journee_caiss.soldeNetFerm|number_format(0, '.', ' ') }}</th>
+                <td>{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
+                <td>
+                    <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>
+                    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('journee_caisses_new') }}">Create new</a>
+{% endblock %}

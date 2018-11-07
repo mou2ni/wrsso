@@ -64,20 +64,9 @@ class DetteCreditDiversController extends Controller
             $em->persist($journeeCaisse);
             $em->flush();
 
-            /*foreach ($journeeCaisse->getDetteCredits() as $detteCredit ){
-                if ($detteCredit->getStatut()==DetteCreditDivers::DETTE_EN_COUR){
-                    $totalDette+=$detteCredit->getMDette();
-                }elseif ($detteCredit->getStatut()==DetteCreditDivers::CREDIT_EN_COUR){
-                    $totalCredit+=$detteCredit->getMCredit();
-                }
-            }*/
-
-            return $this->render('dette_credit_divers/ajout.html.twig', [
-                'journeeCaisse'=>$journeeCaisse,
-
-                'form' => $form->createView(),
-                'operation'=>$operation
-            ]);
+            if($request->request->has('enregistreretfermer')){
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
         }
 
         return $this->render('dette_credit_divers/ajout.html.twig', [

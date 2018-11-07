@@ -18,11 +18,11 @@ class TransfertInternationauxType extends AbstractType
                 'choices'  => array(
                     'Envoi' => 1,
                     'Reception' => 2)))
-            ->add('mTransfert', NumberType::class)
-            ->add('mTransfertTTC', NumberType::class)
-            ->add('mFraisHt', NumberType::class)
-            ->add('mTva', NumberType::class)
-            ->add('mAutresTaxes', NumberType::class)
+            ->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'empty_data'=>0, 'attr'=>['class'=>'mtransfert']))
+            ->add('mTransfertTTC', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>';transfertttc']))
+            ->add('mFraisHt', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mfraisht']))
+            ->add('mTva', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtva']))
+            ->add('mAutresTaxes', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mautrestaxes', 'placeholder'=>0]))
             ->add('idJourneeCaisse')
             ->add('idSystemTransfert')
             ->add('idPays')

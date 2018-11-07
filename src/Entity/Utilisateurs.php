@@ -69,10 +69,15 @@ class Utilisateurs implements UserInterface
     private $journeeCaisses;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses" ,cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $journeeCaisseActive;
+    //private $journeeCaisseActive;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $journeeCaisseActiveId;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", inversedBy="utilisateurs", cascade={"persist"})
@@ -339,6 +344,61 @@ class Utilisateurs implements UserInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getJourneeCaisseActiveId()
+    {
+        return $this->journeeCaisseActiveId;
+    }
+
+    /**
+     * @param mixed $journeeCaisseActiveId
+     * @return Utilisateurs
+     */
+    public function setJourneeCaisseActiveId($journeeCaisseActiveId)
+    {
+        $this->journeeCaisseActiveId = $journeeCaisseActiveId;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetteCreditCrees()
+    {
+        return $this->detteCreditCrees;
+    }
+
+    /**
+     * @param mixed $detteCreditCrees
+     * @return Utilisateurs
+     */
+    public function setDetteCreditCrees($detteCreditCrees)
+    {
+        $this->detteCreditCrees = $detteCreditCrees;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetteCreditRembourses()
+    {
+        return $this->detteCreditRembourses;
+    }
+
+    /**
+     * @param mixed $detteCreditRembourses
+     * @return Utilisateurs
+     */
+    public function setDetteCreditRembourses($detteCreditRembourses)
+    {
+        $this->detteCreditRembourses = $detteCreditRembourses;
+        return $this;
+    }
+
+
+    /**
      * @return Caisses
      */
     public function getLastCaisse()
@@ -354,6 +414,11 @@ class Utilisateurs implements UserInterface
     {
         $this->lastCaisse = $lastCaisse;
         return $this;
+    }
+
+    public function updateJourneeCaisse(JourneeCaisses $journeeCaisse){
+        $this->journeeCaisseActive = $journeeCaisse;
+        $this->lastCaisse = $journeeCaisse->getCaisse();
     }
 
 

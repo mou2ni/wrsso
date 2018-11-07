@@ -37,9 +37,11 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
         $billetage=$manager->getRepository(Billetages::class)->findAll();
 
 
-        $lists = array(['journeeCaisse' =>  $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$billetage[1], 'billetFerm'=> $billetage[3]]
-        ,['journeeCaisse' => $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$billetage[2], 'billetFerm'=> $billetage[4]]
-            //,['journeeCaisse' => $idJourneeCaisseO, 'devise' => $euro, 'billetOuv'=>$billetage[2], 'billetFerm'=> $billetage[4]]
+        $lists = array(
+            ['journeeCaisse' =>  $idJourneeCaisse, 'devise' => $usd, 'billetOuv'=>$billetage[1], 'billetFerm'=> $billetage[3]]
+            ,['journeeCaisse' =>  $idJourneeCaisse, 'devise' => $euro, 'billetOuv'=>$billetage[7], 'billetFerm'=> $billetage[8]]
+        ,['journeeCaisse' => $idJourneeCaisseO, 'devise' => $euro, 'billetOuv'=>$billetage[2], 'billetFerm'=> $billetage[4]]
+        ,['journeeCaisse' => $idJourneeCaisseO, 'devise' => $usd, 'billetOuv'=>$billetage[5], 'billetFerm'=> $billetage[6]]
         );
 
         foreach ($lists as $list) {
@@ -47,7 +49,7 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
             $enr->setJourneeCaisse($list['journeeCaisse'])
                 ->setDevise($list['devise'])
                 ->setBilletOuv($list['billetOuv'])
-            ->setBilletFerm($list['billetFerm']);
+                ->setBilletFerm($list['billetFerm']);
             $manager->persist($enr);
         }
 

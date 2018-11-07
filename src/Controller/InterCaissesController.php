@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\InterCaisses;
 use App\Entity\JourneeCaisses;
+use App\Entity\ParamComptables;
 use App\Form\InterCaissesJourneeType;
 use App\Form\InterCaissesType;
 use App\Form\JourneeCaissesType;
+use App\Utils\GenererCompta;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,17 +53,12 @@ public $totalR=0;
             $operation=$request->request->get('_operation');
             $em = $this->getDoctrine()->getManager();
             $em->persist($interCaiss);
-            $em->persist($interCaiss);
             $em->flush();
 
-            //return $this->redirectToRoute('inter_caisses_ajout',['id'=>$journeeCaisses->getId()]);
-            return $this->render('inter_caisses/ajout.html.twig', [
-                'journeeCaisse' => $journeeCaisses,
-                'totalR'=>$this->totalR,
-                'totalE'=>$this->totalE,
-                'form' => $form->createView(),
-                'operation'=>$operation
-            ]);
+            if($request->request->has('enregistreretfermer')){
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
+
         }
 
         if($request->isXmlHttpRequest()){
@@ -72,12 +69,19 @@ public $totalR=0;
                 $statut = substr($interCaiss,-1);
                 $idIntercaisse = substr($interCaiss,0,-1);
                 $interCaisse = $em->getRepository("App:InterCaisses")->find($idIntercaisse);
-                $interCaisse->setStatut($statut);
+                $interCaisse->valider();
+                //$interCaisse->setStatut($statut);
                 $em->persist($interCaisse);
+                //$journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
             }
             if ($request->request->get('valider')){
+                //$journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
+                foreach ($journeeCaisses->getIntercaisseSortants() as $intercaisseSortant ){
+                    if ($intercaisseSortant->getStatut()== InterCaisses::INITIE){
+                        $intercaisseSortant->valider();
+                    }
+                }
 
-                $journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
             }
 
             $em->flush();

@@ -15,14 +15,15 @@ class TransfertType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('mReceptionTrans', NumberType::class)
-            ->add('mEmissionTrans', NumberType::class)
+            ->add('mReceptionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
+            ->add('mEmissionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('transfertInternationaux', CollectionType::class, array(
                 'entry_type' => TransfertInternationauxType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,
                 'prototype' => true,
-                'by_reference' => false
+                'by_reference' => false,
+                'attr' => ['class' => 'lignetransfert']
             ))
 
 

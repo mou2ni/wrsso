@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
+use App\Entity\Utilisateurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -43,6 +44,20 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->setParameters(['caisse'=>$caisse,'ouvert'=>JourneeCaisses::INITIAL])
             ->getQuery()
             ->getFirstResult();
+    }
+
+    public function findJourneeActive( Utilisateurs $utilisateur)
+    {
+        $qb = $this->createQueryBuilder('j');
+
+        return $qb
+            ->where($qb->expr()->eq('j.utilisateur', ':utilisateur'))
+            ->andWhere($qb->expr()->isNotNull('j.dateFerm'))
+            //->andWhere($qb->expr()->eq('j.statut',':ferme'))
+            ->addOrderBy('j.dateFerm','DESC')
+            ->setParameters(['utilisateur'=>$utilisateur])
+            ->getQuery()
+            ->getResult();
     }
 
     public function findOneJourneeActive1( Caisses $caisse)
