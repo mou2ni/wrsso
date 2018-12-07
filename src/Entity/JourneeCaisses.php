@@ -14,8 +14,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use APY\DataGridBundle\Grid\Mapping as GRID;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
+ * @GRID\Source(columns="id, caisse, utilisateur, dateOuv")
  * @ORM\Entity (repositoryClass="App\Repository\JourneeCaissesRepository")
  * @ORM\Table(name="JourneeCaisses")
  * @ORM\HasLifecycleCallbacks()
@@ -68,6 +73,7 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mLiquiditeOuv=0;
 
@@ -79,11 +85,13 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mSoldeElectOuv=0;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mEcartOuv=0;
 
@@ -101,6 +109,7 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mLiquiditeFerm=0;
 
@@ -112,6 +121,7 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mSoldeElectFerm=0;
 
@@ -127,21 +137,25 @@ class JourneeCaisses
 */
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mDetteDiversOuv=0;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mCreditDiversOuv=0;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mDetteDiversFerm=0;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mCreditDiversFerm=0;
 
@@ -163,11 +177,13 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mIntercaisseSortants=0;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mIntercaisseEntrants=0;
 
@@ -175,15 +191,38 @@ class JourneeCaisses
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
      */
+    /* @Assert\Collection(
+     *     fields={
+     *      "" = {@Assert\GreaterThan(0)}
+     *     }
+     * )
+     *
+    *
+      @Assert\Collection(
+     *     fields = {
+     *         "personal_email" = @Assert\Email,
+     *         "short_bio" = {
+     *             @Assert\NotBlank(),
+     *             @Assert\Length(
+     *                 max = 100,
+     *                 maxMessage = "Your short bio is too long!"
+     *             )
+     *         }
+     *     },
+     *     allowMissingFields = true
+     * )
+     */
     private $transfertInternationaux;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mEmissionTrans=0;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mReceptionTrans=0;
 
@@ -199,11 +238,13 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mRetraitClient=0;
 
     /**
      * @ORM\Column(type="bigint")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mDepotClient=0;
 
@@ -343,7 +384,7 @@ class JourneeCaisses
         return
             ($this->getDisponibiliteFerm()
                 + $this->getMDetteDiversFerm()
-                - $this->getMCreditDiversOuv()
+                - $this->getMCreditDiversFerm()
             );
 
     }
@@ -417,8 +458,28 @@ class JourneeCaisses
 
     public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
-        $this->transfertInternationaux->add($transfertInternationaux);
-        $transfertInternationaux->setIdJourneeCaisse($this);
+        /*$validator = new Assert\GreaterThan();
+        $NumberConstraint = new Assert\GreaterThan(0);
+        // all constraint "options" can be set this way
+        $NumberConstraint->message = 'Valeur negative ou nulle';
+        //dump($NumberConstraint);die();
+        // use the validator to validate the value
+        $errors = $validator->validate(
+            $transfertInternationaux->getMTransfert(),
+            $NumberConstraint
+        );
+*/
+        if (!$transfertInternationaux->getE()) {
+            $this->transfertInternationaux->add($transfertInternationaux);
+            $transfertInternationaux->setIdJourneeCaisse($this);
+        } /*else {
+            // this is *not* a valid email address
+            $errorMessage = $errors[0]->getMessage();
+            dump($errorMessage);die();
+
+            // ... do something with the error
+        }*/
+
     }
 
     public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
@@ -1246,6 +1307,11 @@ class JourneeCaisses
         //$this->getUtilisateur()->setJourneeCaisseActive($this);
 
         return $this;
+    }
+
+    public function getCompense()
+    {
+        return $this->mEmissionTrans - $this->mReceptionTrans;
     }
 
 }

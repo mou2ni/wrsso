@@ -10,24 +10,30 @@
         </thead>
         <tbody>
         {% for seil in form.systemElectLigneInventaires %}
-        <tr><td>{{ form_widget(seil.idSystemElect) }}</td><td>{{ form_widget(seil.solde) }}</td></tr>
+        <tr><td>{{ form_widget(seil.idSystemElect) }}</td><td>{{ form_widget(seil.solde) }}{{ form_errors(seil.solde) }}</td></tr>
         {% endfor %}
         </tbody>
     </table>
-    <input type="submit" value="Enregistrer">
+    {% if journeeCaisse.statut!="F" %}
+        <input type="submit" value="Enregistrer">
+    {% endif %}
     <div hidden>
         {{ form_rest(form) }}
         <input type="hidden" name="_operation" value="{{ operation }}">
         <input id="nombreElect" value="{{ elects|length}}">
     </div>
     {{ form_end(form) }}
-    {% if operation=="FERMER" %}
+    {% if journeeCaisse.statut=="O" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
-    {% elseif operation=="OUVRIR" %}
+    {% elseif journeeCaisse.statut=="I" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% elseif journeeCaisse.statut=="F" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
     {% endif %}
 {% endblock %}

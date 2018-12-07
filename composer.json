@@ -4,6 +4,8 @@
     "require": {
         "php": "^7.0.8",
         "ext-iconv": "*",
+        "apy/datagrid-bundle": "dev-master",
+        "doctrine/annotations": "^1.6",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "^3.4",
         "symfony/console": "^3.4",
@@ -18,6 +20,7 @@
         "symfony/security-bundle": "^3.4",
         "symfony/serializer-pack": "*",
         "symfony/swiftmailer-bundle": "^3.1",
+        "symfony/templating": "^3.4",
         "symfony/twig-bundle": "^3.4",
         "symfony/validator": "^3.4",
         "symfony/web-link": "^3.4",
@@ -75,4 +78,11 @@
             "allow-contrib": false
         }
     }
+    ,"repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/acseo/APYDataGridBundle.git"
+        }
+    ]
+
 }

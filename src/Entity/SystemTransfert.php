@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\SystemTransfertRepository")
  * @ORM\Table(name="SystemTransfert")
  */
 class SystemTransfert
@@ -28,7 +29,11 @@ class SystemTransfert
      */
     private $libelle;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idSystemTransfert" )
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $transfertInternationaux;
 
     public function __toString()
     {
@@ -67,6 +72,25 @@ class SystemTransfert
     {
         $this->libelle = $libelle;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTransfertInternationaux()
+    {
+        return $this->transfertInternationaux;
+    }
+
+    /**
+     * @param mixed $transfertInternationaux
+     * @return SystemTransfert
+     */
+    public function setTransfertInternationaux($transfertInternationaux)
+    {
+        $this->transfertInternationaux = $transfertInternationaux;
+        return $this;
+    }
+
 
 
 }

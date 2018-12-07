@@ -45,8 +45,8 @@ public $totalR=0;
         $interCaiss->setJourneeCaisseEntrant($journeeCaisses)->setStatut($interCaiss::INITIE);
         $form = $this->createForm(InterCaissesType::class, $interCaiss);
         $form->handleRequest($request);
-        $this->totalInterCaisse($journeeCaisses);
-        $journeeCaisses->setMIntercaisses($this->totalE-$this->totalR);
+        //$this->totalInterCaisse($journeeCaisses);
+        //$journeeCaisses->setMIntercaisses($this->totalE-$this->totalR);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -58,6 +58,7 @@ public $totalR=0;
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
+            return $this->redirectToRoute('inter_caisses_ajout', ['id'=>$journeeCaisses->getId()]);
 
         }
 
@@ -69,7 +70,8 @@ public $totalR=0;
                 $statut = substr($interCaiss,-1);
                 $idIntercaisse = substr($interCaiss,0,-1);
                 $interCaisse = $em->getRepository("App:InterCaisses")->find($idIntercaisse);
-                $interCaisse->valider();
+                if ($statut=='V')$interCaisse->valider();
+                else $interCaisse->setStatut(InterCaisses::ANNULE);
                 //$interCaisse->setStatut($statut);
                 $em->persist($interCaisse);
                 //$journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);

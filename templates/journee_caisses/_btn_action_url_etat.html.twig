@@ -1,0 +1,8 @@
+<form class="form-inline" method="POST" action="{{ path('' ~ path)}}" >
+    <input type="hidden" name="_method" value="UPDATE">
+    <input type="hidden" name="_operation" value="{{ operation }}">
+    Caisse :
+    Du :<input  name="dateDeb" type="date" value="" >
+    Au :<input  name="dateFin" type="date" value="" >
+    <button class="btn-primary btn" name={{ btn_name }}>{{ btn_label }}</button>
+</form>

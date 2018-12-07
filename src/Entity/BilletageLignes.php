@@ -10,6 +10,7 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -37,11 +38,13 @@ class BilletageLignes
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $valeurBillet=0;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $nbBillet=0;
 
@@ -118,7 +121,7 @@ class BilletageLignes
      */
     public function setNbBillet($nbBillet)
     {
-        $this->nbBillet = $nbBillet;
+        if ($nbBillet>0)$this->nbBillet = $nbBillet;
         //($this->valeurBillet !=0)?$this->valeurLigne=$nbBillet*$this->valeurBillet:$this->valeurLigne=0;
         return $this;
     }

@@ -10,6 +10,7 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -38,6 +39,7 @@ class SystemElectLigneInventaires
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $solde;
 
@@ -116,7 +118,7 @@ class SystemElectLigneInventaires
      */
     public function setSolde($solde)
     {
-        $this->solde = $solde;
+        if ($solde>0)$this->solde = $solde;
         return $this;
     }
 

@@ -2,6 +2,7 @@
  * Created by Mouni on 07/03/2017.
  */
 
+
 function majTransfert() {
 
     // les variables des totaux
@@ -12,15 +13,19 @@ function majTransfert() {
     var autresTaxes = 0;
     var mTTC = 0;
     while (valeur("#transfert_transfertInternationaux_"+i+"_sens")) {
+        //alert(Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val()));
         tva=Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val())*0.18;
         tva=Math.round(tva)
-        autresTaxes = valeur("#transfert_transfertInternationaux_"+i+"_mTransfertTTC")
-            - valeur("#transfert_transfertInternationaux_"+i+"_mTransfert")
-            - valeur("#transfert_transfertInternationaux_"+i+"_mFraisHt")
+
+        autresTaxes = Echape($("#transfert_transfertInternationaux_"+i+"_mTransfertTTC").val())
+            - Echape($("#transfert_transfertInternationaux_"+i+"_mTransfert").val())
+            - Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val())
             - tva;
+        /*if (autresTaxes<0)
+        autresTaxes = 0;*/
         $("#transfert_transfertInternationaux_"+i+"_mTva").val(tva);
         $("#transfert_transfertInternationaux_"+i+"_mAutresTaxes").val(autresTaxes);
-        if (valeur("#transfert_transfertInternationaux_" + i + "_sens") == "1")
+        if (Echape($("#transfert_transfertInternationaux_" + i + "_sens").val()) == "1")
             emission = emission + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
         else reception = reception + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
         i++;
@@ -129,7 +134,8 @@ function  valider() {
 
 
 function  chargerNomCompte() {
-    var nom = $("#depot_retrait_numCompte").val();
+    var nom = $("#retrait_numCompte").val();
+    if (!nom) nom = $("#depot_numCompte").val();
     var DATA = 'num=' + nom;
     //alert(DATA);
     $.ajax({
@@ -140,9 +146,9 @@ function  chargerNomCompte() {
             //var yourval = jQuery.parseJSON(JSON.stringify(data));
             //var obj = JSON.parse(data);
             //console.log(data.compte[0].client);
+            console.log(data.compte[0].client);
             document.getElementById('nom').innerHTML=data.compte[0].client;
             $("#solde").val(data.compte[0].soldeCourant);
-            console.log(data.compte[0].soldeCourant);
         }
 
     })
@@ -218,7 +224,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
     $collectionHolder.data('index', index + 1);
 
     // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<tr class=""></tr>').append(newForm);
+    var $newFormLi = $('<tr class="transfert"></tr>').append(newForm);
     $newLinkLi.before($newFormLi);
     // add a delete link to the new form
     addTagFormDeleteLink($newFormLi);

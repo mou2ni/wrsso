@@ -22,8 +22,16 @@ use App\Form\JourneeCaissesType;
 use App\Form\OuvertureFermetureType;
 use App\Form\OuvertureType;
 use App\Utils\GenererCompta;
+use APY\DataGridBundle\Grid\GridBuilder;
+use APY\DataGridBundle\Grid\Source\Entity;
+use APY\DataGridBundle\Grid\Source\Source;
+use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\ORM\Mapping as ORM;
+//use APY\DataGridBundle\Grid\Source\Entity;
+use function Sodium\add;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -198,8 +206,7 @@ class JourneeCaissesController extends Controller
         $journeeCaisse=$em->getRepository('App:JourneeCaisses')->find($request->request->get('_journeeCaisse'));
         if ($operation=="OUVRIR"){
             $em = $this->getDoctrine()->getManager();
-            if (!$genererCompta->genComptaEcart($utilisateur, $journeeCaisse->getCaisse(), 'Ecart ouverture' . $journeeCaisse, $journeeCaisse->getMEcartOuv()))
-                dump($genererCompta); //die();
+            $genererCompta->genComptaEcart($utilisateur, $journeeCaisse->getCaisse(), 'Ecart ouverture' . $journeeCaisse, $journeeCaisse->getMEcartOuv());
             $journeeCaisse->setStatut(JourneeCaisses::OUVERT);
             $journeeCaisse->getCaisse()->setJourneeOuverteId($journeeCaisse->getId());
             $journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
@@ -224,7 +231,7 @@ class JourneeCaissesController extends Controller
 
             //$genererCompta->genComptaIntercaisse($intercaisseSortant->getJourneeCaisseEntrant(),$intercaisseSortant->getJourneeCaisseEntrant()->getCaisse(),$paramComptable,$intercaisseSortant);
 
-            return $this->redirectToRoute('journee_caisses_ouvrir');
+            return $this->redirectToRoute('journee_caisses_etat_de_caisse');
         }
 
 
@@ -270,19 +277,164 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/etat/caisse", name="journee_caisses_etat_de_caisse", methods="GET")
+     * @Route("/etat/caisse", name="journee_caisses_etat_de_caisse", methods="GET|POST|UPDATE")
      */
-    public function etatDeCaisse(): Response
+    public function etatDeCaisse(Request $request): Response
     {
+        $data = array();
+        $form = $this->createFormBuilder($data)
+            ->add('caisse',EntityType::class, [
+                'class' => Caisses::class
+            ])
+            //->add('dateDeb')
+            //->add('dateFin')
+            ->getForm();
+        $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
         $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
         $jc = $em->getRepository(JourneeCaisses::class)->findOneById($utilisateur->getJourneeCaisseActiveId());
         $caisse = $jc->getCaisse();
+        //dump($caisse);die();
+        $dateDeb = new \DateTime("01-11-2018");
+        $dateFin = new \DateTime('now');
+        if ($request->get('dateDeb'))
+            $dateDeb = new \DateTime($request->get('dateDeb'));
+        if ($request->get('dateFin'))
+            $dateFin = new \DateTime($request->get('dateFin'));
+            if ( $form->isSubmitted())$caisse = $form['caisse']->getData();
+        //dump($request->get('form_caisse'));die();
         $journeeCaisses = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
-            ->findBy(['caisse'=>$caisse]);
+            ->getJourneesDeCaisse($caisse, $dateDeb, $dateFin);
 
-        return $this->render('journee_caisses/etat_de_caisse.html.twig', ['journee_caisses' => $journeeCaisses]);
+
+        if ($form->isSubmitted()){
+
+            //dump($request);die();
+        }
+
+        return $this->render('journee_caisses/etat_de_caisse.html.twig', [
+            'journee_caisses' => $journeeCaisses,
+            'form' => $form->createView()]);
+
+    }
+
+    /**
+     * @Route("/etat/compense", name="journee_caisses_compense", methods="GET|POST|UPDATE")
+     */
+    public function etatCompense(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $date = new \DateTime('now');
+        $date->setDate(2018, 11, 6);
+        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+        if ($request->get('date'))
+        $date = new \DateTime($request->get('date'));
+        $journeeCaisses = $em->getRepository(JourneeCaisses::class)->getJourneeCaissesDuJour($date);
+
+        $ecart=0;
+        $cvd=0;
+        $intercaisse=0;
+        $mouvementFond=0;
+        $credit=0;
+        $dette=0;
+        $depot=0;
+        $retrait=0;
+        $liquidite=0;
+        $elect=0;
+        $disponibilite=0;
+        $netFermeture=0;
+        $netOuverture=0;
+        $compense=0;
+        $caisses='';
+        foreach ($journeeCaisses as $journeeCaisse){
+            /*foreach ($journeeCaisse->getDeviseJournee() as $deviseJournee){
+                dump($deviseJournee->getDevise().' '.$deviseJournee->getBilletOuv());
+            }
+            dump('------------------');
+            */
+            $ecart += $journeeCaisse->getMEcartFerm();
+            $cvd += $journeeCaisse->getMCvd();
+            $intercaisse += $journeeCaisse->getMIntercaisses();
+            $mouvementFond += $journeeCaisse->getMouvementFond();
+            $credit+=$journeeCaisse->getMCreditDiversFerm();
+            $dette+=$journeeCaisse->getMDetteDiversFerm();
+            $depot+=$journeeCaisse->getMDepotClient();
+            $retrait+=$journeeCaisse->getMRetraitClient();
+            $liquidite+=$journeeCaisse->getMLiquiditeFerm();
+            $elect+=$journeeCaisse->getMSoldeElectFerm();
+            $disponibilite += $journeeCaisse->getDisponibiliteFerm();
+            $netOuverture += $journeeCaisse->getSoldeNetOuv();
+            $netFermeture += $journeeCaisse->getSoldeNetFerm();
+            //$journeeCaisse=new JourneeCaisses();
+            $compense += $journeeCaisse->getCompense();
+            $caisses = $caisses.', '.$journeeCaisse->getCaisse();
+        }//die();
+        $journeeCaisseRecap = array('ecart'=>$ecart, 'cvd'=>$cvd, 'intercaisse'=>$intercaisse,
+            'mouvement'=>$mouvementFond, 'credit'=>$credit, 'dette'=>$dette, 'depot'=>$depot,
+            'retrait'=>$retrait, 'liquidite'=>$liquidite, 'disponibilite'=>$disponibilite,
+            'netOuv'=>$netOuverture, 'netFerm'=>$netFermeture, 'compense'=>$compense,
+            'date'=>$date, 'caisse'=>$caisses);
+        /*dump($journeeCaisseRecap);
+        dump($cvd);
+        dump($intercaisse);
+        dump($liquidite);
+        dump($elect);
+        die();*/
+
+        return $this->render('journee_caisses/etat_compense.html.twig'
+            , ['journee_caisses' => $journeeCaisses,
+                'journee_caisses_recap' => $journeeCaisseRecap]
+            );
+
+    }
+
+    /*public function myGridAction()
+     {
+         // Creates a simple grid based on your entity (ORM)
+         $source = new Entity('App\Entity\JourneeCaisses');
+
+         // Get a Grid instance
+         $grid = $this->get('grid');
+
+         // Attach the source to the grid
+         $grid->setSource($source);
+
+         // Return the response of the grid to the template
+         return $grid->getGridResponse('journee_caisses\liste.html.twig',['grid' => $grid]);
+   }
+
+      /*public function listAction(Request $request)
+     {
+         // Creates the builder
+         $em = $this->getDoctrine()->getManager();
+         // Creates a simple grid based on your entity (ORM)
+         $source = new Entity('App\Entity\JourneeCaisses');
+         $grid = $this->createGridBuilder($source)
+         //->add('id', 'number', ['primary' => 'true'])
+         //->add('name', 'text')
+         //->add('date_ouv', 'datetime', ['field' => 'dateOuv'])
+         //->add('status', 'text')
+         ;
+         $grid->getRoute();
+         //dump($grid); die();
+         //->getGrid();
+
+         // Handles filters, sort, exports, action
+         //$grid->handleRequest($request);
+
+         // Renders the grid
+         return $this->render('journee_caisses/liste.html.twig', ['grid' => $grid]);
+     }*/
+
+    /**
+     * @param Source|null $source
+     * @param array $options
+     * @return GridBuilder
+     */
+    public function createGridBuilder(Source $source = null, array $options = [])
+    {
+        return $this->container->get('apy_grid.factory')->createBuilder('grid', $source, $options);
     }
 
     /**
@@ -353,11 +505,20 @@ class JourneeCaissesController extends Controller
 
 
     /**
-     * @Route("/{id}", name="journee_caisses_show", methods="GET")
+     * @Route("/{id}", name="journee_caisses_show", methods="GET|UPDATE")
      */
     public function show(JourneeCaisses $journeeCaiss): Response
     {
-        return $this->render('journee_caisses/show.html.twig', ['journee_caiss' => $journeeCaiss]);
+        $form = $this->createForm(FermetureType::class, $journeeCaiss);
+        //$form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            dump($journeeCaiss);die();
+        }
+        return $this->render('journee_caisses/gerer.html.twig', [
+            'form' => $form->createView(),
+            'journeeCaisse' => $journeeCaiss,
+        ]);
+        //return $this->render('journee_caisses/gerer.html.twig', ['journee_caiss' => $journeeCaiss]);
     }
 
     /**

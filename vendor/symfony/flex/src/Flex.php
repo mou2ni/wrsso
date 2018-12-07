@@ -83,7 +83,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
 
     public function activate(Composer $composer, IOInterface $io)
     {
-        if (!extension_loaded('openssl')) {
+        if (!\extension_loaded('openssl')) {
             self::$activated = false;
             $io->writeError('<warning>Symfony Flex has been disabled. You must enable the openssl extension in your "php.ini" file.</warning>');
 
@@ -109,7 +109,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
         $symfonyRequire = getenv('SYMFONY_REQUIRE') ?: ($composer->getPackage()->getExtra()['symfony']['require'] ?? null);
 
         $manager = RepositoryFactory::manager($this->io, $this->config, $composer->getEventDispatcher(), $this->rfs);
-        $setRepositories = \Closure::bind(function (RepositoryManager $manager) use ($symfonyRequire) {
+        $setRepositories = \Closure::bind(function (RepositoryManager $manager) use (&$symfonyRequire) {
             $manager->repositoryClasses = $this->repositoryClasses;
             $manager->setRepositoryClass('composer', TruncatedComposerRepository::class);
             $manager->repositories = $this->repositories;
@@ -133,7 +133,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
         $populateRepoCacheDir = __CLASS__ === self::class;
         if ($composer->getPluginManager()) {
             foreach ($composer->getPluginManager()->getPlugins() as $plugin) {
-                if (0 === strpos(get_class($plugin), 'Hirak\Prestissimo\Plugin')) {
+                if (0 === strpos(\get_class($plugin), 'Hirak\Prestissimo\Plugin')) {
                     if (method_exists($rfs, 'getRemoteContents')) {
                         $plugin->disable();
                     } else {
@@ -190,6 +190,9 @@ class Flex implements PluginInterface, EventSubscriberInterface
                 }
             } elseif ('update' === $command) {
                 $this->displayThanksReminder = 1;
+            } elseif ('outdated' === $command) {
+                $symfonyRequire = null;
+                $setRepositories($manager);
             }
 
             if (isset(self::$aliasResolveCommands[$command])) {
@@ -237,9 +240,26 @@ class Flex implements PluginInterface, EventSubscriberInterface
     public function configureProject(Event $event)
     {
         $json = new JsonFile(Factory::getComposerFile());
-        $manipulator = new JsonManipulator(file_get_contents($json->getPath()));
+        $contents = file_get_contents($json->getPath());
+        $manipulator = new JsonManipulator($contents);
+
         // new projects are most of the time proprietary
         $manipulator->addMainKey('license', 'proprietary');
+
+        // replace unbounded contraints for symfony/* packages by extra.symfony.require
+        $config = json_decode($contents, true);
+        if ($symfonyVersion = $config['extra']['symfony']['require'] ?? null) {
+            $response = $this->downloader->get('/versions.json');
+            $versions = $response->getBody();
+            foreach (['require', 'require-dev'] as $type) {
+                foreach ($config[$type] ?? [] as $package => $version) {
+                    if ('*' === $version && isset($versions['splits'][$package])) {
+                        $manipulator->addLink($type, $package, $symfonyVersion);
+                    }
+                }
+            }
+        }
+
         // 'name' and 'description' are only required for public packages
         // don't use $manipulator->removeProperty() for BC with Composer 1.0
         $contents = preg_replace('{^\s*+"(?:name|description)":.*,$\n}m', '', $manipulator->getContents());
@@ -255,7 +275,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
         }
 
         $operation = $event->getOperation();
-        if ($operation instanceof InstallOperation && in_array($packageName = $operation->getPackage()->getName(), ['symfony/framework-bundle', 'symfony/flex'])) {
+        if ($operation instanceof InstallOperation && \in_array($packageName = $operation->getPackage()->getName(), ['symfony/framework-bundle', 'symfony/flex'])) {
             if ('symfony/flex' === $packageName) {
                 array_unshift($this->operations, $operation);
             } else {
@@ -284,14 +304,15 @@ class Flex implements PluginInterface, EventSubscriberInterface
         if ($operations) {
             $this->operations = $operations;
         }
+        $cwd = getcwd();
 
-        if (!file_exists(getcwd().'/.env') && file_exists(getcwd().'/.env.dist')) {
+        if (!file_exists("$cwd/.env") && !file_exists("$cwd/.env.local") && file_exists("$cwd/.env.dist") && false === strpos(file_get_contents("$cwd/.env.dist"), '.env.local')) {
             copy(getcwd().'/.env.dist', getcwd().'/.env');
         }
 
         list($recipes, $vulnerabilities) = $this->fetchRecipes();
         if ($vulnerabilities) {
-            $this->io->writeError(sprintf('<info>Vulnerabilities: %d package%s</>', count($vulnerabilities), count($recipes) > 1 ? 's' : ''));
+            $this->io->writeError(sprintf('<info>Vulnerabilities: %d package%s</>', \count($vulnerabilities), \count($recipes) > 1 ? 's' : ''));
         }
         foreach ($vulnerabilities as $name => $vulns) {
             foreach ($vulns as $v) {
@@ -315,7 +336,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
             return;
         }
 
-        $this->io->writeError(sprintf('<info>Symfony operations: %d recipe%s (%s)</>', count($recipes), count($recipes) > 1 ? 's' : '', $this->downloader->getSessionId()));
+        $this->io->writeError(sprintf('<info>Symfony operations: %d recipe%s (%s)</>', \count($recipes), \count($recipes) > 1 ? 's' : '', $this->downloader->getSessionId()));
         $installContribs = $this->composer->getPackage()->getExtra()['symfony']['allow-contrib'] ?? false;
         $manifest = null;
         foreach ($recipes as $recipe) {
@@ -338,7 +359,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
                             return 'n';
                         }
                         $value = strtolower($value[0]);
-                        if (!in_array($value, ['y', 'n', 'a', 'p'])) {
+                        if (!\in_array($value, ['y', 'n', 'a', 'p'])) {
                             throw new \InvalidArgumentException('Invalid choice');
                         }
 
@@ -514,9 +535,9 @@ class Flex implements PluginInterface, EventSubscriberInterface
                 continue;
             }
 
-            @mkdir(dirname($file), 0775, true);
+            @mkdir(\dirname($file), 0775, true);
 
-            if (!is_dir(dirname($file))) {
+            if (!is_dir(\dirname($file))) {
                 continue;
             }
 
@@ -527,7 +548,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
             $downloads[] = [$originUrl, $fileUrl, [], $file, false];
         }
 
-        if (1 < count($downloads)) {
+        if (1 < \count($downloads)) {
             $this->rfs->download($downloads, [$this->rfs, 'get'], false, $this->progress);
         }
     }
@@ -597,7 +618,7 @@ class Flex implements PluginInterface, EventSubscriberInterface
                 if (null === $devPackages) {
                     $devPackages = array_column($this->composer->getLocker()->getLockData()['packages-dev'], 'name');
                 }
-                $envs = in_array($name, $devPackages) ? ['dev', 'test'] : ['all'];
+                $envs = \in_array($name, $devPackages) ? ['dev', 'test'] : ['all'];
                 foreach ($bundle->getClassNames() as $class) {
                     $manifest['manifest']['bundles'][$class] = $envs;
                 }

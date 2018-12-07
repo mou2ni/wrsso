@@ -10,12 +10,14 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="DetteCreditDivers")
+ * @ORM\Entity (repositoryClass="App\Repository\DetteCreditDiversRepository")
  */
 class DetteCreditDivers
 {
@@ -73,12 +75,14 @@ class DetteCreditDivers
 
     /**
      * @ORM\Column(type="float")
-     */
+     */ //     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
+
     private $mCredit;
 
     /**
      * @ORM\Column(type="float")
-     */
+     */ //     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
+
     private $mDette;
 
     /**

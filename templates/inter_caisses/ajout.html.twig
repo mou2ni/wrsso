@@ -8,104 +8,104 @@
     {{ include('inter_caisses/_form.html.twig') }}
 
     <form method="post" action="{{ path('inter_caisses_ajout', {'id':journeeCaisse.id}) }}">
-
+        {% if journeeCaisse.statut!="F" %}
         <button type="button" id="validerIntercaisses" value="btest"> VALIDER TOUT</button>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Partenaire</th>
-            <th>Montant</th>
-            <th>Status</th>
-            <th>Observations</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <th>Inter caisses Recus</th>
-            <th>{{ totalR|number_format(0, '.', ' ') }}</th>
-        </tr>
-        {% set i = 0 %}
-        {% for intercaisse in journeeCaisse.intercaisseEntrants %}
-            {% if  intercaisse.statut!='X'  %}
+        {% endif %}
+        <table class="table">
+            <thead>
             <tr>
-                <td>{{ intercaisse }}</td>
-                <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
-                <td>{{ (intercaisse.statut=='I')
-                    ?'Initié':(intercaisse.statut=='V')
-                    ?'Validé':(intercaisse.statut=='X')
-                    ?'Annulé'}}
-                </td>
-                {#<td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td>#}
-                <td>{{ intercaisse.observations }}</td>
-                {#<td>{% if intercaisse.statut=='ae' %}<button value="{{ intercaisse.id }}aa" class="boutonintercaisse" type="button">Accepte Annulation</button>{% endif  %}</td>#}
-                <td>
-                    <div class="form-row">
-                        {#{% if  intercaisse.statut=='X'  %}
-                                {{ include('intercaisses/_btn_action.html.twig',{'btn_id':"{{ intercaisse.id }}v",'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
-                            {% endif %}#}
-                            {% if  intercaisse.statut=='I' %}
-                                {{ include('intercaisses/_btn_action.html.twig',{'btn_value':''~intercaisse.id~'X','btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Voulez vous annuler cet intercaisse ?'}) }}
-                            {% endif %}
-
-                    </div>
-                </td>
-                <td > <input hidden value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{ i }}"></td>
-                {% set i = i+1 %}
+                <th>Partenaire</th>
+                <th>Montant</th>
+                <th>Status</th>
+                <th>Observations</th>
+                <th>Action</th>
             </tr>
-            {% endif %}
-        {% else %}
-            <tr> <td colspan="5"> Aucun Enregistrement trouve.</td></tr>
-
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <table class="table">
-        <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th><th>Action</th></tr></thead>
-        <tbody>
-        <tr><th>Inter caisses Emis</th><th>{{ totalE|number_format(0, '.', ' ') }}</th></tr>
-        {% for intercaisse in journeeCaisse.intercaisseSortants  %}
-            {% if  intercaisse.statut!='X'  %}
+            </thead>
+            <tbody>
             <tr>
-                <td>{{ intercaisse }}</td>
-                <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
-                <td>{{ (intercaisse.statut=='I')
-                    ?'Initié':(intercaisse.statut=='V')
-                    ?'Validé':(intercaisse.statut=='X')
-                    ?'Annulé'}}
-                </td>
-                {#<td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td>#}
-                <td>{{ intercaisse.observations }}</td>
-                {#<td>{% if intercaisse.statut=='ae' %}<button value="{{ intercaisse.id }}aa" class="boutonintercaisse" type="button">Accepte Annulation</button>{% endif  %}</td>#}
-                <td><div class="form-row">
-                        {#{% if  intercaisse.statut=='XE'  %}
-                            {{ include('intercaisses/_btn_action.html.twig',{'btn_id':"{{ intercaisse.id }}v",'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
-                        {% endif %}#}
-                        {% if  intercaisse.statut=='I' %}
-                            {{ include('intercaisses/_btn_action.html.twig',{'btn_id':''~intercaisse.id~'X', 'btn_value':''~intercaisse.id~'X','btn_name':'Annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'}) }}
-                            {{ include('intercaisses/_btn_action.html.twig',{'btn_id':''~intercaisse.id~'V', 'btn_value':''~intercaisse.id~'V','btn_name':'Valider', 'btn_label':'Valider', 'confirm_message':'Voulez vous valider cet intercaisse ?'}) }}
-                        {% endif %}
-
-                    </div>
-                </td>
-                <td > <input hidden value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{i}}"></td>
-                {% set i = i+1 %}
+                <th>Inter caisses Recus</th>
+                <th>{{ totalR|number_format(0, '.', ' ') }}</th>
             </tr>
-            {% endif %}
-        {% else %}
-            <tr> <td colspan="5">Aucun Enregistrement trouve.</td></tr>
-        {% endfor %}
-        {#<div id="dialog-confirm" title="Confirmation de la suppression" style="display:none;">
-            <p>
-                <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-                Etes-vous sûr de vouloir supprimer cet élément ?
-            </p>
-        </div>#}
+            {% set i = 0 %}
+            {% for intercaisse in journeeCaisse.intercaisseEntrants %}
+                {% if  intercaisse.statut!='X'  %}
+                    <tr>
+                        <td>{{ intercaisse }}</td>
+                        <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
+                        <td>{{ (intercaisse.statut=='I')
+                            ?'Initié':(intercaisse.statut=='V')
+                            ?'Validé':(intercaisse.statut=='X')
+                            ?'Annulé'}}
+                        </td>
+                        {#<td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td>#}
+                        <td>{{ intercaisse.observations }}</td>
+                        {#<td>{% if intercaisse.statut=='ae' %}<button value="{{ intercaisse.id }}aa" class="boutonintercaisse" type="button">Accepte Annulation</button>{% endif  %}</td>#}
+                        <td>
+                            <div class="form-row">
+                                {#{% if  intercaisse.statut=='X'  %}
+                                        {{ include('intercaisses/_btn_action.html.twig',{'btn_id':"{{ intercaisse.id }}v",'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
+                                    {% endif %}#}
+                                {% if  intercaisse.statut=='I' %}
+                                    {{ include('intercaisses/_btn_action.html.twig',{'btn_value':''~intercaisse.id~'X','btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Voulez vous annuler cet intercaisse ?'}) }}
+                                {% endif %}
 
-        </tbody>
-    </table>
+                            </div>
+                        </td>
+                        <td > <input hidden value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{ i }}"></td>
+                        {% set i = i+1 %}
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr> <td colspan="5"> Aucun Enregistrement trouve.</td></tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table">
+            <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th><th>Action</th></tr></thead>
+            <tbody>
+            <tr><th>Inter caisses Emis</th><th>{{ totalE|number_format(0, '.', ' ') }}</th></tr>
+            {% for intercaisse in journeeCaisse.intercaisseSortants  %}
+                {% if  intercaisse.statut!='X'  %}
+                    <tr>
+                        <td>{{ intercaisse }}</td>
+                        <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
+                        <td>{{ (intercaisse.statut=='I')
+                            ?'Initié':(intercaisse.statut=='V')
+                            ?'Validé':(intercaisse.statut=='X')
+                            ?'Annulé'}}
+                        </td>
+                        {#<td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td>#}
+                        <td>{{ intercaisse.observations }}</td>
+                        {#<td>{% if intercaisse.statut=='ae' %}<button value="{{ intercaisse.id }}aa" class="boutonintercaisse" type="button">Accepte Annulation</button>{% endif  %}</td>#}
+                        <td><div class="form-row">
+                                {#{% if  intercaisse.statut=='XE'  %}
+                                    {{ include('intercaisses/_btn_action.html.twig',{'btn_id':"{{ intercaisse.id }}v",'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
+                                {% endif %}#}
+                                {% if  intercaisse.statut=='I' %}
+                                    {{ include('intercaisses/_btn_action.html.twig',{'btn_id':''~intercaisse.id~'X', 'btn_value':''~intercaisse.id~'X','btn_name':'Annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'}) }}
+                                    {{ include('intercaisses/_btn_action.html.twig',{'btn_id':''~intercaisse.id~'V', 'btn_value':''~intercaisse.id~'V','btn_name':'Valider', 'btn_label':'Valider', 'confirm_message':'Voulez vous valider cet intercaisse ?'}) }}
+                                {% endif %}
+
+                            </div>
+                        </td>
+                        <td > <input hidden value="{{ intercaisse.statut }}" class="statutintercaisse" id="intercaisse{{i}}"></td>
+                        {% set i = i+1 %}
+                    </tr>
+                {% endif %}
+            {% else %}
+                <tr> <td colspan="5">Aucun Enregistrement trouve.</td></tr>
+            {% endfor %}
+            {#<div id="dialog-confirm" title="Confirmation de la suppression" style="display:none;">
+                <p>
+                    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+                    Etes-vous sûr de vouloir supprimer cet élément ?
+                </p>
+            </div>#}
+
+            </tbody>
+        </table>
         <div hidden>
             <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
 
@@ -118,23 +118,11 @@
 
     {{ parent() }}
 
-<script type="text/javascript">
-    $("#validerIntercaisses").click(function () {
-        if (confirm("Voulez vous vraiment tout valider ? ")) 
-        valider();
-        /*//var i=1;
-        var estPret=true;
-        var list= $('form').find("input.statutintercaisse");
-        for (var i = 0; i < list.length; i++) {
-            if($("#intercaisse"+i).val()=='I')
-                estPret=false;
-        }
+    <script type="text/javascript">
+        $("#validerIntercaisses").click(function () {
+            if (confirm("Voulez vous vraiment tout valider ? "))
+                valider();
+        });
 
-        if (estPret==true) {
-            valider();
-        }
-        else alert("Vous avez une intercaisse non valider. Corrigez les avant de valider ");*/
-    });
-
-</script>
+    </script>
 {% endblock %}

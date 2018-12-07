@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
 class TransfertInternationauxType extends AbstractType
 {
@@ -18,11 +19,11 @@ class TransfertInternationauxType extends AbstractType
                 'choices'  => array(
                     'Envoi' => 1,
                     'Reception' => 2)))
-            ->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'empty_data'=>0, 'attr'=>['class'=>'mtransfert']))
-            ->add('mTransfertTTC', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>';transfertttc']))
-            ->add('mFraisHt', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mfraisht']))
-            ->add('mTva', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtva']))
-            ->add('mAutresTaxes', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mautrestaxes', 'placeholder'=>0]))
+            ->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtransfert'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            ->add('mTransfertTTC', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'transfertttc'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            ->add('mFraisHt', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mfraisht'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
+            ->add('mTva', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtva'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
+            ->add('mAutresTaxes', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mautrestaxes']))
             ->add('idJourneeCaisse')
             ->add('idSystemTransfert')
             ->add('idPays')

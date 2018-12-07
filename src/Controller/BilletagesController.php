@@ -102,6 +102,7 @@ class BilletagesController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //if ($billetage->getValeurTotal()); die();
             $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
             $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['billetOuv'=>$billetage]);
             $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['billetFerm'=>$billetage]);

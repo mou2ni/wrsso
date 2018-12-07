@@ -10,6 +10,7 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -39,6 +40,7 @@ class InterCaisses
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\GreaterThan(value="0", message="la valeur doit positive")
      */
     private $mIntercaisse;
 

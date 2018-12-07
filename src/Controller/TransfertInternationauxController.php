@@ -7,9 +7,13 @@ use App\Entity\TransfertInternationaux;
 use App\Form\TransfertInternationauxType;
 use App\Form\TransfertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Builder\ValidationBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+//use Webmozart\Assert\Assert;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @Route("/transfert/internationaux")
@@ -54,7 +58,7 @@ class TransfertInternationauxController extends Controller
     /**
      * @Route("/ajout/{id}", name="transfert_internationaux_ajout", methods="GET|POST|UPDATE")
      */
-    public function ajout(Request $request, JourneeCaisses $journeeCaisses): Response
+    public function ajout(Request $request, JourneeCaisses $journeeCaisses, ValidatorInterface $validator): Response
     {
         //$journeeCaisse = $this->getDoctrine()->getRepository("App:JourneeCaisses")-> findOneBy(['statut' => 'O']);
         //dump($journeeCaisse); die();
@@ -65,12 +69,32 @@ class TransfertInternationauxController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $transfert=$form->getData();
+            /*foreach ($journeeCaisses->getTransfertInternationaux() as $transfertInternationaux)
+            //dump($journeeCaisses->getTransfertInternationaux()->getE());die();
+            //if ($transfertInternationaux->getE())
+                $constraint = new Assert\GreaterThan(0);
+            //$constraint->message = "Valeur négative.";
+            $errors = $validator->validate(
+                $transfertInternationaux,
+                $constraint
+            );
+            dump($errors);die();
+            //$validator->rule($transfertInternationaux->getMTransfert() > 0);
+            //$validator->rules;
+                dump($transfertInternationaux->getE());die();*/
+            //dump($journeeCaisses); die();
+            $errors=null;
+            foreach ($journeeCaisses->getTransfertInternationaux() as $transfertInternationaux){
+                //$journeeCaisses->addTransfertInternationaux($transfertInternationaux);
+                !$transfertInternationaux->getE()?:$errors[]=$transfertInternationaux->getE();
+            }
+            //dump($transfert);die();
             $em->persist($journeeCaisses);
-            //$em->persist($journeeCaisse->getTransfertInternationaux());
-
             $em->flush();
-
-            //return $this->redirectToRoute('transfert_internationaux_index');
+            if ($errors)
+                $this->addFlash('error', 'Certaines lignes contiennent des valeurs négatives!');
+            else
+            return $this->redirectToRoute('transfert_internationaux_ajout', ['id'=>$journeeCaisses->getId()]);
         }
 
         return $this->render('transfert_internationaux/ajout.html.twig', [

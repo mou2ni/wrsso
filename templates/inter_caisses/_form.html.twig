@@ -1,20 +1,32 @@
-{{ form_start(form) }}
+{#{{ form_start(form , 'attr': {'onsubmit' : 'return confirm();'}) }}#}
+{{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
 <table>
     <tr>
         <td>Caisse Partenaire</td><td>{{ form_widget(form.journeeCaisseSortant) }}</td>
     </tr><tr>
-        <td>Montant</td><td>{{ form_widget(form.mIntercaisse) }}</td>
+        <td>Montant</td><td>{{ form_widget(form.mIntercaisse) }} {{ form_errors(form.mIntercaisse) }}</td>
     </tr>{#<tr>
         <td>Status</td><td>{{ form_widget(form.statut) }}</td>
     </tr>#}<tr>
         <td>Commentaire</td><td>{{ form_widget(form.observations) }}</td>
     </tr>
 </table>
-
-<button class="btn-primary btn" name="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
-<button class="btn-primary btn" name="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
+{% if journeeCaisse.statut!="F" %}
+<button  class="btn-primary btn" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
+<button  class="btn-primary btn" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
+{% endif %}
 <input type="hidden" name="_operation" value="{{ operation }}">
 {{ form_end(form) }}
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
-    </div>
+    {% if journeeCaisse.statut=="O" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% elseif journeeCaisse.statut=="I" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% elseif journeeCaisse.statut=="F" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% endif %}

@@ -407,7 +407,14 @@
 
     </div>
     <div hidden>{{ form_rest(form) }}</div>
-    <div class="">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_enregistrer' , 'operation':'FERMER','btn_name':'submit', 'btn_label':'Arreter la Caisse'}) }}
-    </div>
+    {% if journeeCaisse.statut=="F" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_etat_de_caisse', 'operation':'FERMER','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
+    {% else %}
+        <div class="">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_enregistrer' , 'operation':'FERMER','btn_name':'submit', 'btn_label':'Arreter la Caisse'}) }}
+        </div>
+    {% endif %}
+
 </div>

@@ -3,12 +3,33 @@
 {% block title %}etat caisse{% endblock %}
 
 {% block body %}
+    <div class="form-inline">
+        <form method="post" action="{{ path('journee_caisses_etat_de_caisse') }}">
+        {#{{ form(form) }}
+        {{ form_start(form) }}
+#}
+        Caisse : {{ form_widget(form.caisse) }}
+        Du : <input type="date" id="form_dateDeb" name="dateDeb"  class="form-control" value="">
+        Au : <input type="date" id="form_dateFin" name="dateFin"  class="form-control" value="">
+        <button class="btn-primary btn" name="modifier" > Changer</button>
+
+        </form>
+        {#{{ form_end(form) }}<div >{{ form_rest(form) }}</div>
+        {{ include('journee_caisses/_btn_action_url_etat.html.twig',{'path':'journee_caisses_etat_de_caisse' , 'operation':'ETAT','btn_name':'midifier', 'btn_label':'Chancer'}) }}
+                #}
+    </div>
 
     <table class="table">
         <thead>
+        {% if journee_caisses %}
         <tr>
-            <th colspan="14">FICHE ARRET CAISSE : </th>
+            <th colspan="14">FICHE ARRET CAISSE : {{ journee_caisses[0].caisse }}</th>
         </tr>
+        {% else %}
+        <tr>
+            <th colspan="14">REVOIR LES CRITERES DE SELECTION</th>
+        </tr>
+        {% endif %}
             <tr>
                 <th>Ouverture</th>
                 <th>Net Ouverture</th>
@@ -44,7 +65,7 @@
                 <td>{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
                 <td>
                     <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>
-                    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
+                    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}" hidden>edit</a>
                 </td>
             </tr>
         {% else %}
@@ -54,6 +75,5 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('journee_caisses_new') }}">Create new</a>
+    <div hidden>{{ form_rest(form) }}</div>
 {% endblock %}

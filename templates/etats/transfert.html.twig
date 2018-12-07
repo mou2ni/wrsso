@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% for etatType in etatType %}
+        {% set nrecus=0%}
+        {% set nemis=0%}
+        <table class="table">
+            <tr id="date"> <td>Ouagadougou le, {{ 'now'|date('d/m/Y') }}</td></tr>
+            <tr id="intitule"><td>RELEVE DES OPERATIONS DE TRANSFERTS DU {#{{ dateDeb.format('d/m/Y/H/i/s') }} au {{ dateFin.format('d/m/Y/H/i/s') }}#}</td></tr>
+            <tr><td>Nom et Prénom du Répondant</td><td>{#{{ entreprise.repondant }}#}</td></tr>
+            <tr><td>Qualité du Répondant</td><td>{#{{ entreprise.qualiteRepondant }}#}</td></tr>
+            <tr><td>Téléphone/Fax/e_mail du Répondant</td><td>{adresse}</td></tr>
+            <tr><td>Société Répresentée</td><td>{{ etatType.typeTransfert }}</td></tr>
+            <tr><td>Répresentant</td><td>{#{{ ltrans.representant }}#}</td></tr>
+            <tr>
+                <th>TRANSFERT EN MILLIONS</th>
+                <th>EMIS</th>
+                <th>RECUS</th>
+            </tr>
+            {% for etatTypeZone in etatTypeZone %}
+                {% if etatTypeZone.typeTransfert == etatType.typeTransfert %}
+                    <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>
+                    {% for transfert in etat %}
+                        {% if transfert.typeTransfert == etatTypeZone.typeTransfert %}
+                            {% if transfert.zone == etatTypeZone.zone %}
+                                {% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}
+                                <tr><td>{{ transfert.nomPays }}</td><td>{{ transfert.EMIS }}</td><td>{{ transfert.RECUS }}</td></tr>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            <tr><td>TOTAL</td><td>{{ etatType.EMIS }}</td><td>{{ etatType.RECUS }}</td></tr>
+            <tr><td>NOMBRE D'OPERATIONS</td><td>{{ nemis }}</td><td>{{ nrecus }}</td></tr>
+        </table>
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

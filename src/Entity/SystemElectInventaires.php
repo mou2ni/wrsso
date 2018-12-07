@@ -11,6 +11,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -45,6 +46,7 @@ class SystemElectInventaires
     ////METTRE EN BD A RENSEIGNER POUR TOUT AJOUT DE LIGNE
     /**
      * @ORM\Column(type="float")
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $soldeTotal;
 

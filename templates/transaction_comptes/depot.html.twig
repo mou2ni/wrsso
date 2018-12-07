@@ -2,20 +2,22 @@
 
 {% block body %}
     <h1> Depot dans un compte</h1>
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
     <table>
         <tr>
             <td>Compte</td><td>{{ form_widget(form.numCompte) }}</td><td><p id="nom"></p></td>
         </tr>
         <tr>
-            <td>Montant</td><td>{{ form_widget(form.mCredit) }}</td>
+            <td>Montant</td><td>{{ form_widget(form.mCredit) }}{{ form_errors(form.mCredit) }}</td>
         </tr>
         <tr>
             <td>Libelle</td><td>{{ form_widget(form.libele) }}</td>
         </tr>
         <tr>
-            <td><button class="btn-primary btn" name="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button></td>
-            <td><button class="btn-primary btn" name="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button></td>
+            {% if journeeCaisse.statut!="F" %}
+            <td><button class="btn-primary btn" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button></td>
+            <td><button class="btn-primary btn" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button></td>
+            {% endif %}
         </tr>
     </table>
     <div hidden>{{ form_rest(form) }}
@@ -32,6 +34,10 @@
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
+    {% elseif journeeCaisse.statut=="F" %}
+        <div class="form-inline">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
+        </div>
     {% endif %}
     {{ include('transaction_comptes/_liste_depots.html.twig') }}
 {% endblock %}
@@ -45,9 +51,10 @@
     {{ parent() }}
 
     <script type="text/javascript">
-        $("#depot_retrait_numCompte").keyup(function () {
+        $("#retrait_numCompte").change(function () {
             chargerNomCompte();
         });
+
 
     </script>
 {% endblock %}

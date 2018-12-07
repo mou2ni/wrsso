@@ -10,6 +10,7 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -37,11 +38,13 @@ class TransactionComptes
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
      */
     private $mDebit;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
      */
     private $mCredit;
 

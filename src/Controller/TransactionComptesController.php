@@ -8,8 +8,11 @@ use App\Entity\DepotRetrait;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\TransactionComptes;
+use App\Entity\Transactions;
 use App\Entity\Utilisateurs;
 use App\Form\DepotRetraitType;
+use App\Form\DepotType;
+use App\Form\RetraitType;
 use App\Form\TransactionComptesType;
 use App\Utils\GenererCompta;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -48,32 +51,39 @@ class TransactionComptesController extends Controller
         //$transactionCompte = new TransactionComptes();
         $em = $this->getDoctrine()->getManager();
         $genererCompta=new GenererCompta($em);
-                $depot=new DepotRetrait();
-                //$journeeCaisses->addDepot($depot);
-        $form = $this->createForm(DepotRetraitType::class, $depot);
+        $depot=new DepotRetrait();
+        //$journeeCaisses->addDepot($depot);
+        $form = $this->createForm(DepotType::class, $depot);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depot->getNumCompte()]);
-
             //dump($journeeCaisses->getUtilisateur()->getLogin());die();
             $transaction = $genererCompta->genComptaDepot($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit());
-            if(!$transaction) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
-            $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
-            //dump($journeeCaisses->getTotalDepot());die();
-            $journeeCaisse->setMDepotClient($journeeCaisse->getTotalDepot());
-            //dump($journeeCaisses);die();
-            $em->persist($journeeCaisse);
-            $em->flush();
-            if($request->request->has('enregistreretfermer')){
-                return $this->redirectToRoute('journee_caisses_gerer');
+            if(!$transaction) {
+
+                //dump($genererCompta->getE()===2);die();
+                if($genererCompta->getE()==Transactions::ERR_ZERO)$message =  'Montant égale 0';
+                elseif ($genererCompta->getE()==Transactions::ERR_NEGATIF)$message = 'Montant négatif';
+                elseif ($genererCompta->getE()===Transactions::ERR_SOLDE_INSUFISANT)$message = ' Solde Insuffisant';
+                else $message = 'Deséquilibre';
+                $this->addFlash('error', 'erreur : '.$message);
+                //dump($genererCompta->getE());die();
+
             }
-            return $this->render('transaction_comptes/depot.html.twig', [
-                'journeeCaisse' => $journeeCaisse,
-                'form' => $form->createView(),
-                'operation'=>$operation
-            ]);
-            //return $this->redirectToRoute('depot',['id'=>$journeeCaisses->getId()]);
+            else{
+                $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
+                //dump($journeeCaisses->getTotalDepot());die();
+                $journeeCaisse->setMDepotClient($journeeCaisse->getTotalDepot());
+                //dump($journeeCaisses);die();
+                $em->persist($journeeCaisse);
+                $em->flush();
+                if($request->request->has('enregistreretfermer')){
+                    return $this->redirectToRoute('journee_caisses_gerer');
+                }
+                return $this->redirectToRoute('depot',['id'=>$journeeCaisse->getId()]);
+            }
+
         }
 
         if ($request->isXmlHttpRequest()){
@@ -107,24 +117,31 @@ class TransactionComptesController extends Controller
         $em = $this->getDoctrine()->getManager();
         $genererCompta=new GenererCompta($em);
         $retrait=new DepotRetrait();
-        $form = $this->createForm(DepotRetraitType::class, $retrait);
+        $form = $this->createForm(RetraitType::class, $retrait);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //dump($retrait);die();
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
-            if(!$genererCompta->genComptaRetrait($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
-            $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
-            $journeeCaisse->setMRetraitClient($journeeCaisse->getTotalRetrait());
-            $em->persist($journeeCaisse);
-            $em->flush();
-            if($request->request->has('enregistreretfermer')){
-                return $this->redirectToRoute('journee_caisses_gerer');
+            if(!$genererCompta->genComptaRetrait($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit()))
+            {
+                //dump($genererCompta->getE()===2);die();
+                if($genererCompta->getE()==Transactions::ERR_ZERO)$message =  'Montant égale 0';
+                elseif ($genererCompta->getE()==Transactions::ERR_NEGATIF)$message = 'Montant négatif';
+                elseif ($genererCompta->getE()===Transactions::ERR_SOLDE_INSUFISANT)$message = ' Solde Insuffisant';
+                else $message = 'Deséquilibre';
+                $this->addFlash('error', 'erreur : '.$message);
+                //dump($genererCompta->getE());die();
             }
-            return $this->render('transaction_comptes/depot.html.twig', [
-                'journeeCaisse' => $journeeCaisse,
-                'form' => $form->createView(),
-                'operation'=>$operation
-            ]);
-            //return $this->redirectToRoute('retrait',['id'=>$journeeCaisse->getId()]);
+            else {
+                $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
+                $journeeCaisse->setMRetraitClient($journeeCaisse->getTotalRetrait());
+                $em->persist($journeeCaisse);
+                $em->flush();
+                if($request->request->has('enregistreretfermer')){
+                    return $this->redirectToRoute('journee_caisses_gerer');
+                }
+                return $this->redirectToRoute('retrait',['id'=>$journeeCaisse->getId()]);
+            }
         }
 
         if ($request->isXmlHttpRequest()){
@@ -154,50 +171,50 @@ class TransactionComptesController extends Controller
 
     public function retrait(Request $request): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $genererCompta=new GenererCompta($em);
-        $journeeCaisses= $em->getRepository('App:JourneeCaisses')->find(1);
-        $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
+    $em = $this->getDoctrine()->getManager();
+    $genererCompta=new GenererCompta($em);
+    $journeeCaisses= $em->getRepository('App:JourneeCaisses')->find(1);
+    $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
 
-        $retrait=new DepotRetrait();
-        $form = $this->createForm(DepotRetraitType::class, $retrait);
-        $form->handleRequest($request);
+    $retrait=new DepotRetrait();
+    $form = $this->createForm(DepotRetraitType::class, $retrait);
+    $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
-            dump($journeeCaisses->getUtilisateur());die();
-            if(!$genererCompta->genComptaRetrait($utilisateur,$journeeCaisses->getIdCaisse(),$compteClient, "RETRAIT TEST", 40000)) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
-            //if(!$genererCompta->genComptaRetrait($journeeCaisses->getIdUtilisateur(),$journeeCaisses->getIdCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
+    if ($form->isSubmitted() && $form->isValid()) {
+    $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
+    dump($journeeCaisses->getUtilisateur());die();
+    if(!$genererCompta->genComptaRetrait($utilisateur,$journeeCaisses->getIdCaisse(),$compteClient, "RETRAIT TEST", 40000)) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
+    //if(!$genererCompta->genComptaRetrait($journeeCaisses->getIdUtilisateur(),$journeeCaisses->getIdCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
 
-            //if(!$genererCompta->genComptaRetrait($journeeCaisses->getIdUtilisateur(),$journeeCaisses->getIdCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
+    //if(!$genererCompta->genComptaRetrait($journeeCaisses->getIdUtilisateur(),$journeeCaisses->getIdCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
 
-            $journeeCaisses->setMDepotClient($this->getTotalDepot($journeeCaisses));
-            $em->persist($journeeCaisses);
-            $em->flush();
+    $journeeCaisses->setMDepotClient($this->getTotalDepot($journeeCaisses));
+    $em->persist($journeeCaisses);
+    $em->flush();
 
-            return $this->redirectToRoute('transaction_comptes_index');
-        }
-
-        if ($request->isXmlHttpRequest()){
-
-            $num=$request->get('num');
-            $comptes=$this->getDoctrine()->getManager()->getRepository('App:Comptes')->findOneBy(['numCompte'=>$num]);
-
-            $compte=[
-                ['client'=>$comptes?$comptes->getClient()->getPrenom().' '.$comptes->getClient()->getNom():'','intitule'=>$comptes?$comptes->getIntitule():'']
-            ];
-
-            $data = ["compte"=>$compte];
-
-            return new JsonResponse($data);
-        }
-
-        return $this->render('transaction_comptes/retrait.html.twig', [
-            //'transaction_compte' => $transactionCompte,
-            'form' => $form->createView(),
-        ]);
+    return $this->redirectToRoute('transaction_comptes_index');
     }
-*/
+
+    if ($request->isXmlHttpRequest()){
+
+    $num=$request->get('num');
+    $comptes=$this->getDoctrine()->getManager()->getRepository('App:Comptes')->findOneBy(['numCompte'=>$num]);
+
+    $compte=[
+    ['client'=>$comptes?$comptes->getClient()->getPrenom().' '.$comptes->getClient()->getNom():'','intitule'=>$comptes?$comptes->getIntitule():'']
+    ];
+
+    $data = ["compte"=>$compte];
+
+    return new JsonResponse($data);
+    }
+
+    return $this->render('transaction_comptes/retrait.html.twig', [
+    //'transaction_compte' => $transactionCompte,
+    'form' => $form->createView(),
+    ]);
+    }
+     */
     /**
      * @Route("/new", name="transaction_comptes_new", methods="GET|POST")
      */
