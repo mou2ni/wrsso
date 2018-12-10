@@ -30,8 +30,9 @@ class EtatsController extends Controller
         $etatTransfert = $em->getRepository(TransfertInternationaux::class)->trouverTransfert($date);
         $etatTransfertTypeZone = $em->getRepository(TransfertInternationaux::class)->trouverTransfertTypeZone($date);
         $etatTransfertType = $em->getRepository(TransfertInternationaux::class)->trouverTransfertType($date);
+        $nombreTransfertType = $em->getRepository(TransfertInternationaux::class)->nombreTransfertType($date);
         //$etat=$etatRepo->etatTransfertMois($date);
-        //dump($etatTransfertType);die();
+        //dump($nombreTransfertType);die();
         return $this->render('etats/transfert.html.twig', [
             'etat' => $etatTransfert,
             'etatTypeZone' => $etatTransfertTypeZone,

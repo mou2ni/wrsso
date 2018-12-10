@@ -3,7 +3,8 @@
     {% for etatType in etatType %}
         {% set nrecus=0%}
         {% set nemis=0%}
-        <table class="table">
+        <div style="page-break-after: always">
+            <table class="table">
             <tr id="date"> <td>Ouagadougou le, {{ 'now'|date('d/m/Y') }}</td></tr>
             <tr id="intitule"><td>RELEVE DES OPERATIONS DE TRANSFERTS DU {#{{ dateDeb.format('d/m/Y/H/i/s') }} au {{ dateFin.format('d/m/Y/H/i/s') }}#}</td></tr>
             <tr><td>Nom et Prénom du Répondant</td><td>{#{{ entreprise.repondant }}#}</td></tr>
@@ -21,8 +22,8 @@
                     <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>
                     {% for transfert in etat %}
                         {% if transfert.typeTransfert == etatTypeZone.typeTransfert %}
+                            {% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}
                             {% if transfert.zone == etatTypeZone.zone %}
-                                {% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}
                                 <tr><td>{{ transfert.nomPays }}</td><td>{{ transfert.EMIS }}</td><td>{{ transfert.RECUS }}</td></tr>
                             {% endif %}
                         {% endif %}
@@ -30,8 +31,12 @@
                 {% endif %}
             {% endfor %}
             <tr><td>TOTAL</td><td>{{ etatType.EMIS }}</td><td>{{ etatType.RECUS }}</td></tr>
-            <tr><td>NOMBRE D'OPERATIONS</td><td>{{ nemis }}</td><td>{{ nrecus }}</td></tr>
+            <tr><td>NOMBRE D'OPERATIONS</td><td>{{ etatType.NEMIS }}</td><td>{{ etatType.NRECUS }}</td></tr>
+            <tr> <td>MONTANT DES TAXES RECUES (en F CFA)</td><td></td><td></td></tr>
+            <tr><td>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</td><td></td><td></td></tr>
+            <tr><td>NOMBRE D'EMPLOIS GENERES</td><td></td><td></td></tr>
         </table>
+        </div>
     {% endfor %}
 {% endblock %}
 
