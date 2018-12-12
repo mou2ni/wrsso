@@ -64,14 +64,14 @@ class DeviseRecusController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
-            
+
+
 
             $save_and_new=$form->getClickedButton()->getName()== 'save_and_new';
             $save_and_print= $form->getClickedButton()->getName()== 'save_and_print';
+            $save_and_close=$form->getClickedButton()->getName()== 'save_and_close';
 
-
-            if ( $save_and_new  or $save_and_print){
+            if ( $save_and_new  or $save_and_print or $save_and_close){
                 //echo '$save_and_new  $save_and_print..............';
 
                 //dump($form); die();
@@ -101,8 +101,10 @@ class DeviseRecusController extends Controller
                     $deviseRecus=$deviseRecusNew;
                 }
 
+                if ($save_and_close) {
+                    $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
+                }
             }
-
             return $this->redirectToRoute('devise_recus_achat_vente',['id'=>$journeeCaisse->getId()]);
         }
 

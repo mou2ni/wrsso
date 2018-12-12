@@ -47,7 +47,9 @@ class DeviseRecusType extends AbstractType
                 'by_reference' => false,
                 'label' => false,
             ))->add ('save_and_new', SubmitType::class, array('label' => 'Enregistrer Ajouter'
-            ))->add('save_and_print', SubmitType::class, array('label' => 'Enregistrer et imprimer'
+            ))->add ('save_and_close', SubmitType::class, array('label' => 'Enregistrer Fermer'
+            ))->add('save_and_print', SubmitType::class, array('label' => 'Enregistrer Imprimer'
+            ))->add('close', SubmitType::class, array('label' => 'Fermer'
             ));
     }
 
