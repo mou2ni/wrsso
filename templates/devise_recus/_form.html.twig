@@ -29,7 +29,8 @@
 
     <div class="form-group">
     <div class="form-row">
-    {{ form_widget(form.save_and_new) }}{{ form_widget(form.save_and_print) }}
+    {{ form_widget(form.save_and_new) }} {{ form_widget(form.save_and_close) }} {{ form_widget(form.save_and_print) }}
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
 
     </div>
     </div>

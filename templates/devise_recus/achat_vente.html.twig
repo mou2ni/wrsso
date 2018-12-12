@@ -24,7 +24,7 @@
                 <tr>
                     <td>BORDERAU {{ (deviseRecu.sens=='A')?' D\'ACHAT ':' DE VENTE ' }} DE DEVISES N° {{ deviseRecu.id }}</td>
                     <td>{{ deviseRecu.dateRecu ? deviseRecu.dateRecu|date('d/m/Y H:i:s') : '' }}</td>
-                    <td>{{ deviseRecu.Prenom }}{{ deviseRecu.nom }}</td>
+                    <td>{{ deviseRecu.Prenom }} {{ deviseRecu.nom }}</td>
                     <td><a href="{{ path('devise_recus_imprimer', {'id': deviseRecu.id}) }}">Imprimer</a></td>
                 </tr>
                 <tr> <td colspan="4">
