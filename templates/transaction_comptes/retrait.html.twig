@@ -15,8 +15,8 @@
         </tr>
         <tr>
             {% if journeeCaisse.statut!="F" %}
-                <td><button class="btn-primary btn" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button></td>
-                <td><button class="btn-primary btn" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button></td>
+                <td><button TYPE="submit" class="btn-primary btn" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button></td>
+                <td><button TYPE="submit" class="btn-primary btn" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button></td>
             {% endif %}
         </tr>
     </table>
@@ -25,7 +25,10 @@
         <input type="hidden" name="_operation" value="{{ operation }}">
     </div>
 {{ form_end(form) }}
-    {% if journeeCaisse.statut=="O" %}
+    <div class="form-inline">
+        {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+    </div>
+{#{% if journeeCaisse.statut=="O" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
@@ -37,7 +40,7 @@
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
         </div>
-    {% endif %}
+    {% endif %}#}
     {{ include('transaction_comptes/_liste_retraits.html.twig') }}
 {% endblock %}
 

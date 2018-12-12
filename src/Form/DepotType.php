@@ -20,7 +20,7 @@ class DepotType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->remove('mDette')
+            ->remove('mDebit')
         ;
     }
 

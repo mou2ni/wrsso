@@ -58,6 +58,23 @@ class JourneeCaissesController extends Controller
     }
 
     /**
+     * @Route("/gerer/{id}", name="journee_caisses_gerer", methods="GET|POST")
+     */
+    public function gerer(JourneeCaisses $journeeCaisse): Response
+    {
+        switch ($journeeCaisse->getStatut()){
+            case JourneeCaisses::OUVERT : return $this->redirectToRoute('journee_caisses_encours');
+            case JourneeCaisses::INITIAL : return $this->redirectToRoute('journee_caisses_ouvrir');
+            case JourneeCaisses::FERME : return $this->redirectToRoute('journee_caisses_show',['id'=>$journeeCaisse->getId()]);
+        }
+        $journeeCaisses = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->findAll();
+
+        return $this->render('journee_caisses/index.html.twig', ['journee_caisses' => $journeeCaisses]);
+    }
+
+    /**
      * @Route("/new", name="journee_caisses_new", methods="GET|POST|UPDATE")
      */
     public function new(Request $request): Response
@@ -155,7 +172,7 @@ class JourneeCaissesController extends Controller
 
         if($journeeCaisseActive->getStatut() == JourneeCaisses::OUVERT) { //si la journée active est deja ouverte on le renvoie à la la gestion fermeture
 
-            return $this->redirectToRoute('journee_caisses_gerer');
+            return $this->redirectToRoute('journee_caisses_encours');
         }
         /*elseif ($journeeCaisseActive->getStatut() == JourneeCaisses::FERME){ // si la journée active est fermée on le renvoie à initialiser
             return $this->redirectToRoute('journee_caisses_initialiser');
@@ -214,7 +231,7 @@ class JourneeCaissesController extends Controller
 
             $em->flush();
 
-            return $this->redirectToRoute('journee_caisses_gerer');
+            return $this->redirectToRoute('journee_caisses_encours');
         }
         else{
             $journeeCaisse->setDateFerm(new \DateTime());
@@ -239,9 +256,9 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/gerer", name="journee_caisses_gerer", methods="GET|POST|UPDATE")
+     * @Route("/encours", name="journee_caisses_encours", methods="GET|POST|UPDATE")
      */
-    public function gerer(Request $request): Response
+    public function enCours(Request $request): Response
     {
         $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
         if(!$utilisateur->getEstcaissier()){
