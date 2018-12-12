@@ -142,12 +142,13 @@ class SystemElectInventairesController extends Controller
             $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
             //$systemElectInventaire->setJourneeCaisse($jc);
         }*/
-
+        //dump($systemElectInventaire);die();
         $form = $this->createForm(SystemElectInventairesType::class, $systemElectInventaire);
         // only handles data on POST
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //dump($form);die();
             $em->persist($systemElectInventaire);
             $jc->setMSoldeElectOuv($jc->getSystemElectInventOuv()->getSoldeTotal());
             $jc->setMSoldeElectFerm($jc->getSystemElectInventFerm()->getSoldeTotal());

@@ -39,9 +39,8 @@ class SystemElectLigneInventaires
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
-    private $solde;
+    private $solde = 0;
 
     public function __toString()
     {
