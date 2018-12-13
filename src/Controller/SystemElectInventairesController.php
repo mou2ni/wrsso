@@ -156,7 +156,7 @@ class SystemElectInventairesController extends Controller
             $em->flush();
             $this->addFlash('success', 'Inventaire electronique Créé!');
             if ($operation=="FERMER")
-                return $this->redirectToRoute('journee_caisses_gerer');
+                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$jc->getId()]);
             return $this->redirectToRoute('journee_caisses_ouvrir');
             //return $this->render('system_elect_ligne_inventaires/index.html.twig', ['system_elect_ligne_inventaires' => $systemElectInventaire->getSystemElectLigneInventaires()]);
         }

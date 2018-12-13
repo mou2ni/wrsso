@@ -38,3 +38,6 @@ doctrine:
                     dir: '%kernel.project_dir%/src/Entity' #'%kernel.project_dir%/config/doctrine/mapping' # configuration du mapping
                     prefix: 'App\Entity'
                     alias: App
+            dql:
+                string_functions:
+                        CAST: App\DoctrineExtensions\Query\Mysql\Cast

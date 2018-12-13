@@ -132,7 +132,7 @@ class BilletagesController extends Controller
 
             if ($operation=="FERMER"){
                 $this->addFlash('success', 'Billetage Enregistré!');
-                return $this->redirectToRoute('journee_caisses_gerer');
+                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$jc->getId()]);
             }
             return $this->redirectToRoute('journee_caisses_ouvrir');
         }
