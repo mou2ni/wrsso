@@ -29,6 +29,9 @@ class LoadSystemElects extends Fixture
             array('libelle'=>'Nana Express'),
             array('libelle'=>'Sap Sap'),
             array('libelle'=>'Flash'),
+            array('libelle'=>'Nana Express (GROS)'),
+            array('libelle'=>'Sap Sap (GROS)'),
+            array('libelle'=>'Flash (GROS)'),
             array('libelle'=>'Rapid Transfert'),
             array('libelle'=>'Wari'),
         );
