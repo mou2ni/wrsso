@@ -31,6 +31,7 @@ class EtatsController extends Controller
         $etatTransfert = $em->getRepository(TransfertInternationaux::class)->trouverTransfert($date);
         $etatTransfertTypeZone = $em->getRepository(TransfertInternationaux::class)->trouverTransfertTypeZone($date);
         $etatTransfertType = $em->getRepository(TransfertInternationaux::class)->trouverTransfertType($date);
+        //dump($etatTransfertType);die();
         return $this->render('etats/transfert.html.twig', [
             'etat' => $etatTransfert,
             'etatTypeZone' => $etatTransfertTypeZone,
@@ -49,11 +50,11 @@ class EtatsController extends Controller
         $etatDevise = $em->getRepository(DeviseJournees::class)->trouverDevise($date);
         $etatTransfertTypeZone = $em->getRepository(TransfertInternationaux::class)->trouverTransfertTypeZone($date);
         $etatTransfertType = $em->getRepository(TransfertInternationaux::class)->trouverTransfertType($date);
-        dump($etatDevise);die();
-        return $this->render('etats/transfert.html.twig', [
+        //dump($etatDevise);die();
+        return $this->render('etats/devises.html.twig', [
             'etat' => $etatDevise,
-            'etatTypeZone' => $etatTransfertTypeZone,
-            'etatType' => $etatTransfertType,
+            //'etatTypeZone' => $etatTransfertTypeZone,
+            //'etatType' => $etatTransfertType,
         ]);
     }
 }

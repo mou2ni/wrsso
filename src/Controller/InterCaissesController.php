@@ -56,7 +56,7 @@ public $totalR=0;
             $em->flush();
 
             if($request->request->has('enregistreretfermer')){
-                return $this->redirectToRoute('journee_caisses_gerer');
+                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisses->getId()]);
             }
             return $this->redirectToRoute('inter_caisses_ajout', ['id'=>$journeeCaisses->getId()]);
 

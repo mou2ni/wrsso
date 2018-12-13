@@ -91,7 +91,6 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
-     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mEcartOuv=0;
 

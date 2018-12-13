@@ -79,7 +79,7 @@ class TransactionComptesController extends Controller
                 $em->persist($journeeCaisse);
                 $em->flush();
                 if($request->request->has('enregistreretfermer')){
-                    return $this->redirectToRoute('journee_caisses_gerer');
+                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
                 }
                 return $this->redirectToRoute('depot',['id'=>$journeeCaisse->getId()]);
             }
@@ -138,7 +138,7 @@ class TransactionComptesController extends Controller
                 $em->persist($journeeCaisse);
                 $em->flush();
                 if($request->request->has('enregistreretfermer')){
-                    return $this->redirectToRoute('journee_caisses_gerer');
+                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
                 }
                 return $this->redirectToRoute('retrait',['id'=>$journeeCaisse->getId()]);
             }

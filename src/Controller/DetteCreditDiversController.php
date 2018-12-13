@@ -75,7 +75,7 @@ class DetteCreditDiversController extends Controller
             $em->flush();
 
             if($request->request->has('enregistreretfermer')){
-                return $this->redirectToRoute('journee_caisses_gerer');
+                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
             }
             return $this->redirectToRoute('dette_credit_divers',['id'=>$journeeCaisse->getId()]);
         }
