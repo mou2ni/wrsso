@@ -19,8 +19,11 @@
     <DIV id="btn-action" class="btn-action" style="position:absolute; left:10px; top:10px;">
         <form>
             <input id="imprimer" name="imprimer" type="button" onclick="imprimer_recu()" value="Imprimer" class="btn-primary"/>
-            <input id="retour" name="retour" type="submit"  value="Fermer" class="btn-primary"/>
+            <input id="retour" name="retour" type="button" onclick="window.history.back()" value="retour" class="btn-primary"/>
         </form>
+        <div style="position: absolute;left:130px;top:0px;">
+            {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+        </div>
     </DIV>
 
     {% for copie in copies %}

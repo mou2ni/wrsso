@@ -22,10 +22,10 @@
                         </td>
                         <td><div class="form-row">
                             {% if  devise_tmp_mvt_intercaisse.statut=='I' %}
-                                {% if  myJourneeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseSource %}
+                                {% if  journeeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseSource %}
                                    {{ include('devise_intercaisses/_btn_action.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
                                 {% endif %}
-                                {% if  myJourneeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseDestination %}
+                                {% if  journeeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseDestination %}
                                     {{ include('devise_intercaisses/_btn_action.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'}) }}
                                 {% endif %}
                             {% else %}

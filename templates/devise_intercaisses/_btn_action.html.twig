@@ -1,5 +1,5 @@
-<form class="form-inline" method="POST" action="{{ path('devise_intercaisses_gestion', {'id': devise_tmp_mvt_intercaisse.id})}}" onsubmit="return confirm('{{ confirm_message }} ');">
+<form class="form-inline" method="POST" action="{{ path('devise_intercaisses_autorisation',{'id': devise_tmp_mvt_intercaisse.id, 'jc':journeeCaisse.id})}}" onsubmit="return confirm('{{ confirm_message }} ');">
     <input type="hidden" name="_method" value="UPDATE">
-    <input type="hidden" name="_token" value="{{ csrf_token('update' ~ devise_tmp_mvt_intercaisse.id)}}">
+    <input type="hidden" name="_token" value="{{ csrf_token('update'~devise_tmp_mvt_intercaisse.id)}}">
     <button class="btn-primary btn" name={{ btn_name }}>{{ btn_label }}</button>
 </form>

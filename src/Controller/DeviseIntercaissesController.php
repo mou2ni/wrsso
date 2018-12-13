@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\DeviseIntercaisses;
 use App\Entity\DeviseMouvements;
+use App\Entity\DeviseTmpMouvements;
 use App\Entity\JourneeCaisses;
 use App\Form\DeviseIntercaissesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -29,23 +30,71 @@ class DeviseIntercaissesController extends Controller
     }
 */
     /**
-     * @Route("/", name="devise_intercaisses_gestion", methods="GET|POST|UPDATE")
+     * @Route("/{id}", name="devise_intercaisses_gestion", methods="GET|POST")
      */
-    public function demander(Request $request): Response
+    public function demander(Request $request, JourneeCaisses $journeeCaisse ): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        //dump($request);die();
+
+        //$journeeCaisse = $em->getRepository(JourneeCaisses::class)->findOneBy(['statut' => 'O']);
+
+        $deviseIntercaiss = new DeviseIntercaisses($journeeCaisse, $em);
+
+        $deviseIntercaiss->setStatut($deviseIntercaiss::INIT);
+        $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $save_and_new=$form->getClickedButton()->getName()== 'save_and_new';
+            //$save_and_print= $form->getClickedButton()->getName()== 'save_and_print';
+            $save_and_close=$form->getClickedButton()->getName()== 'save_and_close';
+
+
+            if ($save_and_new or $save_and_close) {
+                $em->persist($deviseIntercaiss);
+                $em->flush();
+                if ($save_and_close) return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
+                if ($save_and_new) return $this->redirectToRoute('devise_intercaisses_gestion', ['id'=>$journeeCaisse->getId(),]);
+
+            }
+        }
+        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
+        $devise_tmp_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findTmpMvtIntercaisses($journeeCaisse);
+
+        //dump($deviseIntercaiss); die();
+
+        return $this->render('devise_intercaisses/gestion.html.twig', [
+            'devise_intercaiss' => $deviseIntercaiss, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses
+            , 'journeeCaisse'=>$journeeCaisse, 'devise_tmp_mvt_intercaisses'=>$devise_tmp_mvt_intercaisses,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/autoriser/{id}/{jc}", name="devise_intercaisses_autorisation", methods="UPDATE")
+     */
+    public function autoriser(Request $request, DeviseIntercaisses $deviseIntercaiss, $jc ): Response
     {
         $em = $this->getDoctrine()->getManager();
 
         //dump($request);die();
 
         if ($request->getMethod()=='UPDATE'){ //Actions sur les intercaisses
-            $deviseIntercaiss=$em->getRepository(DeviseIntercaisses::class)->find($request->query->get('id'));
+            //$deviseIntercaiss=$em->getRepository(DeviseIntercaisses::class)->find($request->query->get('id'));
             $deviseIntercaiss->setEm($em);
-            if ($this->isCsrfTokenValid('update'.$request->query->get('id'), $request->request->get('_token'))) {
+            //dump($request);die();
+            if ($this->isCsrfTokenValid('update'.$request->get('id'), $request->request->get('_token'))) {
+                //dump($request->request->get('_token'));die();
                 //bouton "annuler" cliqué
                 if ( $request->request->has('annuler')){
                     $deviseIntercaiss->setStatut($deviseIntercaiss::ANNULE);
                 }
-                //bouton "annuler" cliqué
+
+                //bouton "valider" cliqué
                 if ( $request->request->has('valider')){
                     foreach ($deviseIntercaiss->getDeviseTmpMouvements() as $deviseTmpMouvement)
                     {
@@ -62,79 +111,8 @@ class DeviseIntercaissesController extends Controller
                 }
                 $em->flush();
             }
-
-            return $this->redirectToRoute('devise_intercaisses_gestion');
         }
-
-        $journeeCaisse = $em->getRepository(JourneeCaisses::class)->findOneBy(['statut' => 'O']);
-
-        $deviseIntercaiss = new DeviseIntercaisses($journeeCaisse, $em);
-
-        $deviseIntercaiss->setStatut($deviseIntercaiss::INIT);
-        $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            if ($form->getClickedButton()->getName() == 'close') {
-                // Retour à la journée caisse
-                return $this->redirectToRoute('journee_caisses_show', ['journee_caiss' => $journeeCaisse]);
-            }
-
-            if ($form->getClickedButton()->getName() == 'save_and_close') {
-                $em->persist($deviseIntercaiss);
-                $em->flush();
-            }
-        }
-        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
-        $devise_tmp_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findTmpMvtIntercaisses($journeeCaisse);
-
-        return $this->render('devise_intercaisses/gestion.html.twig', [
-            'devise_intercaiss' => $deviseIntercaiss, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses
-            , 'myJourneeCaisse'=>$journeeCaisse, 'devise_tmp_mvt_intercaisses'=>$devise_tmp_mvt_intercaisses,
-            'form' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('devise_intercaisses_gestion', ['id'=>$jc]);
     }
 
-    /**
-     * @Route("/{id}", name="devise_intercaisses_show", methods="GET")
-     */
-    public function show(DeviseIntercaisses $deviseIntercaiss): Response
-    {
-        return $this->render('devise_intercaisses/show.html.twig', ['devise_intercaiss' => $deviseIntercaiss]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="devise_intercaisses_edit", methods="GET|POST")
-     */
-    public function edit(Request $request, DeviseIntercaisses $deviseIntercaiss): Response
-    {
-        $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('devise_intercaisses_edit', ['id' => $deviseIntercaiss->getId()]);
-        }
-
-        return $this->render('devise_intercaisses/edit.html.twig', [
-            'devise_intercaiss' => $deviseIntercaiss,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="devise_intercaisses_delete", methods="DELETE")
-     */
-    public function delete(Request $request, DeviseIntercaisses $deviseIntercaiss): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$deviseIntercaiss->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($deviseIntercaiss);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('devise_intercaisses_index');
-    }
 }

@@ -65,8 +65,6 @@ class DeviseRecusController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
-
             $save_and_new=$form->getClickedButton()->getName()== 'save_and_new';
             $save_and_print= $form->getClickedButton()->getName()== 'save_and_print';
             $save_and_close=$form->getClickedButton()->getName()== 'save_and_close';
@@ -74,7 +72,7 @@ class DeviseRecusController extends Controller
             if ( $save_and_new  or $save_and_print or $save_and_close){
                 //echo '$save_and_new  $save_and_print..............';
 
-                //dump($form); die();
+                //dump($form->getClickedButton()->getName()); die();
 
                 $em->persist($deviseRecus);
                 $em->flush();
@@ -83,7 +81,7 @@ class DeviseRecusController extends Controller
 
                     //return $this->redirectToRoute('devise_recus_imprimer', ['devise_recus' => $deviseRecus]);
 
-                    return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(), 'copies'=>[$this::COPIE1,$this::COPIE2]]);
+                    return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(),'journeeCaisse'=>$journeeCaisse, 'copies'=>[$this::COPIE1,$this::COPIE2]]);
                 }
 
                 if ($save_and_new) {
@@ -102,7 +100,8 @@ class DeviseRecusController extends Controller
                 }
 
                 if ($save_and_close) {
-                    $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
+                    //dump($form->getClickedButton()->getName()); die();
+                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
                 }
             }
             return $this->redirectToRoute('devise_recus_achat_vente',['id'=>$journeeCaisse->getId()]);
@@ -112,7 +111,7 @@ class DeviseRecusController extends Controller
 
         return $this->render('devise_recus/achat_vente.html.twig', [
             'devise_recus' => $deviseRecus, 'my_devise_recus'=>$my_devise_recus,
-            'form' => $form->createView(),
+            'form' => $form->createView(),'journeeCaisse'=>$journeeCaisse,
         ]);
     }
 
@@ -122,12 +121,12 @@ class DeviseRecusController extends Controller
     public function imprimer(Request $request, DeviseRecus $deviseRecus): Response
     {
         /*$form = $this->createForm(DeviseRecusType::class, $deviseRecus);
-        $form->handleRequest($request);*/
+        $form->handleRequest($request);
         //if ($form->isSubmitted() && $form->isValid()){
         if ($request->query->has('retour')){
             return $this->redirectToRoute('devise_recus_achat_vente');
-        }
-        return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(), 'copies'=>[$this::COPIE1,$this::COPIE2]]);
+        }*/
+        return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(),'journeeCaisse'=>$deviseRecus->getJourneeCaisse(), 'copies'=>[$this::COPIE1,$this::COPIE2]]);
     }
 
     /**

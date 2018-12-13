@@ -7,7 +7,7 @@ var $newLinkLi = $('<div></div>').append($addLink);
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
-    var $collectionHolder = $('div.deviseMouvements');
+    var $collectionHolder = $('tbody.deviseMouvements');
 
     // add the "add a tag" anchor and li to the tags ul
     $collectionHolder.append($newLinkLi);
@@ -45,7 +45,7 @@ function addForm($collectionHolder, $newLinkLi) {
     $collectionHolder.data('index', index + 1);
 
     // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<div class="form-inline"></div>').append(newForm);
+    var $newFormLi = $('<tr class="form-inline"></tr>').append(newForm);
 
     // also add a remove button, just for this example
     $newFormLi.append('<a href="#" class="remove-collection"> X </a>');

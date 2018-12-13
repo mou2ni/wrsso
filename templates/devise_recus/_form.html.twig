@@ -14,25 +14,29 @@
 <h3>Devises</h3>
 
     <div class="form-group">
-        <div class="form-row">
-            <div class="form-row deviseMouvements" data-prototype="
-    {{ form_widget(form.deviseMouvements.vars.prototype.devise)|e('html_attr')}}
-    {{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr')}}
-    {{ form_widget(form.deviseMouvements.vars.prototype.taux)|e('html_attr')}}">
-                {% for deviseMouvement in form.deviseMouvements %}
-                    <div class="form-inline">{{ form_widget(deviseMouvement.devise) }} {{ form_widget(deviseMouvement.nombre) }} {{ form_widget(deviseMouvement.taux) }}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+        <table>
+            <thead class="form-row">
+            <tr class="form-inline">
+                <th width="180"> DEVISES</th>
+                <th width="180"> QUANTITE</th>
+                <th width="180"> TAUX</th>
+            </tr>
+            </thead>
+            <tbody class="form-row deviseMouvements" data-prototype="
+<td>{{ form_widget(form.deviseMouvements.vars.prototype.devise)|e('html_attr')}}</td>
+<td>{{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr')}}</td>
+<td>{{ form_widget(form.deviseMouvements.vars.prototype.taux)|e('html_attr')}} </td> ">
+
+            </tbody>
+
+        </table>
     </div>
 
     <div class="form-group">
     <div class="form-row">
     {{ form_widget(form.save_and_new) }} {{ form_widget(form.save_and_close) }} {{ form_widget(form.save_and_print) }}
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
-
+        {{ form_end(form) }}
+        {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
     </div>
     </div>
 
-    {{ form_end(form) }}
