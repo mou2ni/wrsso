@@ -39,8 +39,8 @@ dev.code as devise,
 SUM(d.qte_ouv) as ouverture,
 SUM(d.qte_ferm) as fermeture,
 dev.tx_vente as taux,
-d.qte_vente - d.qte_achat as VA,
-  SUM(d.qte_vente - d.qte_achat) as cummul,
+d.qte_vente * tx_vente - d.qte_achat * tx_achat as VA,
+  SUM(d.qte_vente * tx_vente - d.qte_achat * tx_achat) as cummul,
   d.qte_ferm * dev.tx_vente + SUM(d.qte_vente - d.qte_achat) as marge
 FROM devisejournees d, journeecaisses jc, devises dev
 WHERE d.idJourneeCaisse=jc.id AND d.devise_id=dev.id AND date_ferm >= '$dateDeb' AND date_ferm <= '$dateFin'

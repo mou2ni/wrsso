@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% set cumul = 0 %}
 {% block body %}
     <table class="table">
         <thead>
@@ -7,7 +7,7 @@
         </thead>
         <tbody>
         {% for row in etat %}
-            <tr><td>{{ row.dt }}</td><td>{{ row.devise }}</td><td>{{ row.ouverture }}</td><td>{{ row.fermeture }}</td><td>{{ row.taux }}</td><td>{{ row.marge }}</td><td>{{ row.VA }}</td><td>{{ row.cummul }}</td></tr>
+            <tr><td>{{ row.dt }}</td><td>{{ row.devise }}</td><td>{{ row.ouverture }}</td><td>{{ row.fermeture }}</td><td>{{ row.taux }}</td><td>{{ row.marge }}</td><td>{{ row.VA }}</td><td>{% set cumul = cumul + row.cummul %}{{ cumul }}</td></tr>
         {% endfor %}
         </tbody>
     </table>

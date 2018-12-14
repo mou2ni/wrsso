@@ -348,6 +348,7 @@ class JourneeCaisses
         $this->setDateOuv(new \DateTime('now'));
         $this->setMEcartOuv();
         $this->setMEcartFerm();
+        //$this->maintenirDetteCreditDiversFerm();
     }
 
     public function getMEcartFerm(){
@@ -429,6 +430,19 @@ class JourneeCaisses
         foreach ($this->getDeviseMouvements() as $deviseMouvement){
             $this->updateM('mCvd', $deviseMouvement->getContreValeur());
         }
+    }
+    public function maintenirDetteCreditDiversFerm(){
+        $this->mCreditDiversFerm=0;
+        $this->mDetteDiversFerm=0;
+        foreach ($this->getDetteCredits() as $detteCredit){
+            if ($detteCredit->getStatut()==DetteCreditDivers::DETTE_EN_COUR) {
+                //dump($detteCredit->getMCredit());
+                $this->updateM('mDetteDiversFerm', $detteCredit->getMDette());
+            }
+            elseif ($detteCredit->getStatut()==DetteCreditDivers::CREDIT_EN_COUR)
+                $this->updateM('mCreditDiversFerm', $detteCredit->getMCredit());
+            }
+            die();
     }
 
 
