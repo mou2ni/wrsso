@@ -55,7 +55,6 @@ function addForm($collectionHolder, $newLinkLi) {
     // handle the removal, just for this example
     $('.remove-collection').click(function(e) {
         e.preventDefault();
-
         $(this).parent().remove();
 
         return false;

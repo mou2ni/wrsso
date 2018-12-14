@@ -27,6 +27,14 @@
 <td>{{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr')}}</td>
 <td>{{ form_widget(form.deviseMouvements.vars.prototype.taux)|e('html_attr')}} </td> ">
 
+            {% for deviseMouvement in form.deviseMouvements %}
+                <tr class="form-inline">
+                    <td>{{ form_widget(deviseMouvement.devise) }}</td>
+                    <td>{{ form_widget(deviseMouvement.nombre) }}</td>
+                    <td>{{ form_widget(deviseMouvement.taux) }}</td>
+                </tr>
+            {% endfor %}
+
             </tbody>
 
         </table>
