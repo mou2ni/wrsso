@@ -45,8 +45,8 @@ class DeviseRecusController extends Controller
 
         ////////////////////////////////////////////////TESTS A SUPPRIMER//////////////////////////////////////////////
 
-       $usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
-        $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
+       //$usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
+       // $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
         $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setAdresse('837, Avenue DIMDOLOBSON, DAPOYA')->setNumPiece('B3520333')
             ->setMotif('Voyage affaire chine');
 
