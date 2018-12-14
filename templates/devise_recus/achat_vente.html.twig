@@ -5,46 +5,7 @@
 {% block title %}Devises - Achat | Vente{% endblock %}
 
 {% block body %}
-    <h1>Bordereau de négociation des devises</h1>
-
-    {{ include('devise_recus/_form.html.twig') }}
-
-    <table class="table table-striped table-responsive">
-        <thead>
-        <tr>
-            <th>Document</th>
-            <th>Date</th>
-            <th>Prenom et nom</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-
-        <tbody>
-            {% for deviseRecu in my_devise_recus %}
-                <tr>
-                    <td>BORDERAU {{ (deviseRecu.sens=='A')?' D\'ACHAT ':' DE VENTE ' }} DE DEVISES N° {{ deviseRecu.id }}</td>
-                    <td>{{ deviseRecu.dateRecu ? deviseRecu.dateRecu|date('d/m/Y H:i:s') : '' }}</td>
-                    <td>{{ deviseRecu.Prenom }} {{ deviseRecu.nom }}</td>
-                    <td><a href="{{ path('devise_recus_imprimer', {'id': deviseRecu.id}) }}">Imprimer</a></td>
-                </tr>
-                <tr> <td colspan="4">
-                    <ul>
-                    {% for deviseMouvement in  deviseRecu.deviseMouvements %}
-                            <li>
-                                {{ deviseMouvement.devise }}
-                                {{ deviseMouvement.nombre }} ( {{ (deviseMouvement.nombre < 0)?'SORTIE':'ENTREE'}} )
-                                {{ deviseMouvement.taux }}
-                                {{ deviseMouvement.contreValeur }}  ( {{ (deviseMouvement.contreValeur < 0)?'SORTIE':'ENTREE'}})
-                            </li>
-                    {% endfor %}
-                    </ul>
-                </td></tr>
-
-    {% endfor %}
-
-        </tbody>
-    </Table>
-
+    {{ include('devise_recus/_achat_vente_body.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
