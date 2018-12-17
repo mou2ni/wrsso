@@ -4,16 +4,6 @@
     <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="pettites retouches">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BilletagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BilletagesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/SystemElectInventairesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SystemElectInventairesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TransfertInternationauxType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TransfertInternationauxType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_btn_close.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_btn_close.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/_btn_return_gerer.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/_btn_return_gerer.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/_form_fermeture.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/_form_fermeture.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig" afterDir="false" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -107,11 +97,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Utilisateurs.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Utilisateurs.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/Utilisateurs.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+            <state relative-caret-position="73">
+              <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -131,6 +121,15 @@
               <folding>
                 <element signature="e#114#162#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="73">
+              <caret line="88" column="10" selection-start-line="88" selection-start-column="10" selection-end-line="88" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -289,7 +288,6 @@
         <option value="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" />
         <option value="$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/JourneeCaissesType.php" />
-        <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
         <option value="$PROJECT_DIR$/src/Form/TransfertInternationauxType.php" />
         <option value="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" />
         <option value="$PROJECT_DIR$/templates/journee_caisses/_form_fermeture.html.twig" />
@@ -300,6 +298,7 @@
         <option value="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" />
         <option value="$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig" />
         <option value="$PROJECT_DIR$/templates/_btn_close.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
       </list>
     </option>
   </component>
@@ -795,7 +794,7 @@
       <workItem from="1542353865215" duration="9015000" />
       <workItem from="1542970264912" duration="17696000" />
       <workItem from="1543426549340" duration="13817000" />
-      <workItem from="1543853533905" duration="138752000" />
+      <workItem from="1543853533905" duration="141114000" />
     </task>
     <task id="LOCAL-00001" summary="projet de base">
       <created>1529658481864</created>
@@ -1126,11 +1125,25 @@
       <option name="project" value="LOCAL" />
       <updated>1544808502911</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="pettites retouches">
+      <created>1545052618929</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1545052618929</updated>
+    </task>
+    <task id="LOCAL-00049" summary="pettites retouches">
+      <created>1545054832220</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1545054832220</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1461804000" />
+    <option name="totallyTimeSpent" value="1464166000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1153,7 +1166,7 @@
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.2908497" />
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.2322239" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.2322239" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.1505295" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
@@ -1533,16 +1546,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="285" column="17" selection-start-line="285" selection-start-column="17" selection-end-line="285" selection-end-column="17" />
-          <folding>
-            <element signature="e#12654#12687#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="350">
@@ -1583,16 +1586,6 @@
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="565" selection-start-line="565" selection-end-line="565" />
-          <folding>
-            <element signature="e#114#162#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1639,8 +1632,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Utilisateurs.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
+        <state relative-caret-position="73">
+          <caret line="25" column="34" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="565" selection-start-line="565" selection-end-line="565" />
+          <folding>
+            <element signature="e#114#162#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="73">
+          <caret line="88" column="10" selection-start-line="88" selection-start-column="10" selection-end-line="88" selection-end-column="10" />
         </state>
       </provider>
     </entry>
