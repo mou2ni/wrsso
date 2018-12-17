@@ -85,7 +85,8 @@ class JourneeCaissesController extends Controller
     {
         $utilisateur=$request->getSession()->get('utilisateur');
         //dump($utilisateur);die();
-        $journeeCaisse=$utilisateur['journeeCaisseActive'];
+        $journeeCaisse=$utilisateur->getJourneeCaisseActive();
+        //dump($journeeCaisse);die();
         switch ($journeeCaisse->getStatut()){
             case JourneeCaisses::OUVERT : return $this->redirectToRoute('journee_caisses_encours');
             case JourneeCaisses::INITIAL : return $this->redirectToRoute('journee_caisses_ouvrir');
