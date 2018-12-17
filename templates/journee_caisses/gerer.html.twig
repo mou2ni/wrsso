@@ -1,7 +1,150 @@
 {% extends 'base.html.twig' %}
 {% block title %}Gestion de Journee{% endblock %}
 {% block body %}
-    {{ include ('journee_caisses/_form_fermeture.html.twig') }}
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>RUBRIQUE</th>
+                <th colspan="2" width="150">SOLDE OUVERTURE</th>
+                <th colspan="2" width="150">SOLDE FERMETURE</th>
+                <th>ACTIONS</th>
+            </tr>
+            </thead>
+            <tbody class="text-thin">
+            <tr>
+                <td class="text-bold">Liquidité : </td>
+                <td colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
+                <td colspan="2">{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Electronique : </td>
+                <td colspan="2">{{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</td>
+                <td colspan="2">{{ journeeCaisse.mSoldeElectFerm|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Dettes diverses : </td>
+                <td colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
+                <td colspan="2">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Crédits divers : </td>
+                <td colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
+                <td colspan="2">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Intercaisses : </td>
+                <td colspan="2">-</td>
+                <td colspan="2">{{ journeeCaisse.mIntercaisses|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Transferts émis : </td>
+                <td colspan="2">-</td>
+                <td colspan="2">{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Transferts payés : </td>
+                <td colspan="2">-</td>
+                <td colspan="2">{{ journeeCaisse.mReceptionTrans|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Contre valeur devises : </td>
+                <td colspan="2">-</td>
+                <td colspan="2">{{ journeeCaisse.mCvd|number_format(0, '.', ' ')  }}</td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_recus_achat_vente' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }}</td>
+            </tr>
+            <tr>
+                <td class="text-bold">Dépot : </td>
+                <td colspan="2">-</td>
+                <td colspan="2">{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold">Retrait : </td>
+                <td colspan="2">-</td>
+                <td colspan="2">{{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="text-bold" align="center" colspan="6" bgcolor="#a9a9a9"> </td>
+            </tr>
+            <tr>
+                <td class="text-bold">DISPONIBILITE : </td>
+                <td colspan="2" class="text-bold">{{ journeeCaisse.disponibiliteOuv|number_format(0, '.', ' ')  }}</td>
+                <td colspan="2" class="text-bold">{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ')  }}</td>
+                <td class="text-bold"></td>
+            </tr>
+            <tr>
+                <td class="text-bold">SOLDE NET : </td>
+                <td colspan="2" class="text-bold">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ')  }}</td>
+                <td colspan="2" class="text-bold">{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ')  }}</td>
+                <td class="text-bold"></td>
+            </tr>
+            <tr>
+                <td class="text-bold">MOUVEMENTS DE FONDS : </td>
+                <td colspan="2" class="text-bold">-</td>
+                <td colspan="2" class="text-bold">{{ journeeCaisse.mouvementFond|number_format(0, '.', ' ')  }}</td>
+                <td class="text-bold"></td>
+            </tr>
+            <tr>
+                <td class="text-bold">ECARTS : </td>
+                <td colspan="2" class="text-bold">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
+                <td colspan="2" class="text-bold">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ')  }}</td>
+                <td class="text-bold"></td>
+            </tr>
+            <tr>
+                <td class="text-bold" align="center" colspan="6" bgcolor="#a9a9a9">===================== DEVISES ===================== </td>
+            </tr>
+            <tr>
+                <th class="text-bold">Devises </th>
+                <th class="text-bold">Ouverture</th>
+                <th class="text-bold">Mouvements</th>
+                <th class="text-bold">Solde</th>
+                <th class="text-bold">Inventaire</th>
+                <th class="text-bold">Ecart</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-bold">  </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+    {#/////////////////////////////////////// MODALS ///////////////////////////////////////#}
+
+<div class="modal fade" id="achat-vente-devise" tabindex="-1" role="dialog" aria-labelledby="modal-default-header" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="icon-cross"></span></button>
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-large-header">Achat Vente Devise</h4>
+            </div>
+            <div class="modal-body">
+                <p>Vestibulum eget risus id ante semper sodales vel sed nibh. Nullam tortor tellus, vestibulum a laoreet laoreet, lacinia in lorem. Fusce tempor lorem tellus, sed egestas velit ornare et.</p>
+                <p>Vivamus viverra sem non imperdiet porta. Suspendisse quis dolor varius, gravida felis nec, vulputate sem. Nunc at rhoncus dui. Aenean quis quam diam. Nam fringilla arcu ipsum, vel venenatis tellus aliquam eu. Nam vehicula quis diam vel placerat. Vivamus a congue erat. Ut venenatis libero massa, sed tincidunt nunc ultricies eget. Vestibulum in ultricies sem. Duis ac risus et leo egestas aliquet ac nec ante. Donec varius pharetra tristique.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 

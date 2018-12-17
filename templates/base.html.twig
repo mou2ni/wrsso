@@ -9,6 +9,8 @@
             -->
 
             <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+            <link rel="stylesheet" href="{{ asset('css/select2/select2.min.css') }}">
 
         {% endblock %}
 
@@ -17,20 +19,44 @@
 
     </head>
     <body>
-    {% for msg in app.session.flashBag.get('success') %}
-        <div class="alert alert-success">
-            {{ msg }}
-        </div>
-    {% endfor %}
-    {% for msg in app.session.flashBag.get('error') %}
-        <div class="alert alert-danger">
-            {{ msg }}
-        </div>
-    {% endfor %}
 
-        {% block body %}
-        {% endblock %}
+    <div class="app">
+        <div class="app-container">
 
+            <div class="app-content">
+                <!-- START PAGE CONTAINER -->
+                <div class="container">
+                    {% for msg in app.session.flashBag.get('success') %}
+                        <div class="alert alert-success">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                    {% for msg in app.session.flashBag.get('error') %}
+                        <div class="alert alert-danger">
+                            {{ msg }}
+                        </div>
+                    {% endfor %}
+                    <div class="app-content-separate-content">
+                        <!-- CONTENT CONTAINER -->
+                        <div class="container">
+                            <div class="block block-condensed padding-top-20">
+                                <div class="block-content">
+                                    {% block body %}
+
+                                    {% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CONTENT CONTAINER -->
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </body>
     {% block javascripts %}
         <!-- <script src="{ asset('js/jquery-3.1.1.js') }}"></script>
             <script src="{ asset('js/jquery-ui.min.js') }}"></script>
@@ -39,10 +65,13 @@
 
         <script src="{{ asset('build/js/app.js') }}"></script>
         <script src="{{   asset('js/warisso.js') }}"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/app_plugins.js') }}"></script>
+        <script src="{{ asset('js/select2/select2.min.js') }}"></script>
 
     {% endblock %}
 
-    </body>
+
 
 
 </html>

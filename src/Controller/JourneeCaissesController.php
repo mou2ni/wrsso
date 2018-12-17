@@ -28,7 +28,6 @@ use APY\DataGridBundle\Grid\Source\Source;
 use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\ORM\Mapping as ORM;
 //use APY\DataGridBundle\Grid\Source\Entity;
-use function Sodium\add;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -44,6 +43,12 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class JourneeCaissesController extends Controller
 {
+    private $utilisateur;
+
+    public function __construct()
+    {
+
+    }
 
     /**
      * @Route("/", name="journee_caisses_index", methods="GET")
@@ -58,20 +63,34 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/gerer/{id}", name="journee_caisses_gerer", methods="GET|POST")
+     * @Route("/negoceDevise", name="journee_caisses_negoce_devise", methods="POST")
      */
-    public function gerer(JourneeCaisses $journeeCaisse): Response
+    public function achatVenteDevise(Request $request): Response
     {
+        $deviseRecus=$this->utilisateur->getJourneeCaisseActive()->getDeviseRecus();
+        $form = $this->createForm(DeviseRecusType::class, $deviseRecus);
+        $form->handleRequest($request);
+
+        return $this->render('devise_recus/achat_vente.html.twig', [
+            'devise_recus' => $deviseRecus, 'my_devise_recus'=>$deviseRecus,
+            'form' => $form->createView(),'journeeCaisse'=>$this->utilisateur->getJourneeCaisseActive(),
+        ]);
+
+    }
+
+    /**
+     * @Route("/gerer", name="journee_caisses_gerer", methods="GET|POST")
+     */
+    public function gerer(Request $request): Response
+    {
+        $utilisateur=$request->getSession()->get('utilisateur');
+        //dump($utilisateur);die();
+        $journeeCaisse=$utilisateur['journeeCaisseActive'];
         switch ($journeeCaisse->getStatut()){
             case JourneeCaisses::OUVERT : return $this->redirectToRoute('journee_caisses_encours');
             case JourneeCaisses::INITIAL : return $this->redirectToRoute('journee_caisses_ouvrir');
             case JourneeCaisses::FERME : return $this->redirectToRoute('journee_caisses_show',['id'=>$journeeCaisse->getId()]);
         }
-        $journeeCaisses = $this->getDoctrine()
-            ->getRepository(JourneeCaisses::class)
-            ->findAll();
-
-        return $this->render('journee_caisses/index.html.twig', ['journee_caisses' => $journeeCaisses]);
     }
 
     /**
@@ -260,34 +279,18 @@ class JourneeCaissesController extends Controller
      */
     public function enCours(Request $request): Response
     {
-        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
-        //dump($utilisateur); die();
+        $utilisateur=$this->get('security.token_storage')->getToken()->getUser();
         if(!$utilisateur->getEstcaissier()){
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
             return $this->render('main.html.twig'
             );
         }
-        if ($request->query->has('submit')){
-            dump($request->query());die();
-        }
         $journeeCaisseActive = $this->getDoctrine()->getRepository(JourneeCaisses::class)->find($utilisateur->getJourneeCaisseActiveId());
+        //$journeeCaisseActive=$this->utilisateur->getJourneeCaisseActive();
         //dump($journeeCaisseActive); die();
         if ($journeeCaisseActive->getStatut() == JourneeCaisses::OUVERT) {
-            $journeeCaisse = $journeeCaisseActive;
-            $form = $this->createForm(FermetureType::class, $journeeCaisse);
-            //dump($journeeCaisse);
-            $form->handleRequest($request);
-            //dump($journeeCaisse);die();
-            if ($form->isSubmitted() && $form->isValid()){
-                dump($journeeCaisse);die();
-            }
-            /*return $this->render('journee_caisses/gerer.html.twig',[
-                'form' => $form->createView(),
-            ]);*/
-            return $this->render('journee_caisses/gerer.html.twig', [
-                'form' => $form->createView(),
-                'journeeCaisse' => $journeeCaisse,
-            ]);
+            //dump($journeeCaisseActive);die();
+            return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisseActive,]);
         }
         else
         {

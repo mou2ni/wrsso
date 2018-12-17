@@ -11,13 +11,14 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Serializable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="Utilisateurs")
  */
-class Utilisateurs implements UserInterface
+class Utilisateurs implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -72,7 +73,7 @@ class Utilisateurs implements UserInterface
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    //private $journeeCaisseActive;
+    private $journeeCaisseActive;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -422,6 +423,8 @@ class Utilisateurs implements UserInterface
     }
 
 
+
+
     /**
      * Returns the password used to authenticate the user.
      *
@@ -466,5 +469,31 @@ class Utilisateurs implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function serialize() {
+        return serialize(array(
+            $this->id,
+            $this->login,
+            $this->nom,
+            $this->prenom,
+            $this->mdp,
+            $this->estCaissier,
+            $this->journeeCaisseActive,
+        ));
+    }
+
+    public function unserialize($serialized) {
+        list (
+            $this->id,
+            $this->login,
+            $this->nom,
+            $this->prenom,
+            $this->mdp,
+            $this->estCaissier,
+            $this->journeeCaisseActive,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
     }
 }
