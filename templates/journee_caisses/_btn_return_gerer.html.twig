@@ -1,5 +1,5 @@
-<form class="form-inline" method="POST" action="{{ path('journee_caisses_gerer' ,{'id':journeeCaisse.id})}}" >
+{% if journeeCaisse %}<form class="form-inline" method="POST" action="{{ path('journee_caisses_gerer' ,{'id':journeeCaisse.id})}}" >
     <input type="hidden" name="_method" value="GET">
     <input type="hidden" name="_token" value="{{ csrf_token('action' ~ journeeCaisse.id)}}">
-    <button class="btn-primary btn" name="fermer">{{ btn_label|default("FERMER") }}</button>
-</form>
+    <button class="btn-primary btn" name="fermer">{{ btn_label|default("GERER CAISSE") }}</button>
+</form>{% endif %}

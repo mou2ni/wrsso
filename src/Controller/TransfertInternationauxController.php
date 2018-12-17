@@ -62,13 +62,13 @@ class TransfertInternationauxController extends Controller
     {
         //$journeeCaisse = $this->getDoctrine()->getRepository("App:JourneeCaisses")-> findOneBy(['statut' => 'O']);
         //dump($journeeCaisse); die();
-        $operation=$request->request->get('_operation');
+        //$operation=$request->request->get('_operation');
+
         $form = $this->createForm(TransfertType::class, $journeeCaisses);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $transfert=$form->getData();
+            //$transfert=$form->getData();
             /*foreach ($journeeCaisses->getTransfertInternationaux() as $transfertInternationaux)
             //dump($journeeCaisses->getTransfertInternationaux()->getE());die();
             //if ($transfertInternationaux->getE())
@@ -83,24 +83,24 @@ class TransfertInternationauxController extends Controller
             //$validator->rules;
                 dump($transfertInternationaux->getE());die();*/
             //dump($journeeCaisses); die();
-            $errors=null;
-            foreach ($journeeCaisses->getTransfertInternationaux() as $transfertInternationaux){
+            //$errors=null;
+            /*foreach ($journeeCaisses->getTransfertInternationaux() as $transfertInternationaux){
                 //$journeeCaisses->addTransfertInternationaux($transfertInternationaux);
                 !$transfertInternationaux->getE()?:$errors[]=$transfertInternationaux->getE();
-            }
+            }*/
             //dump($transfert);die();
             $em->persist($journeeCaisses);
             $em->flush();
-            if ($errors)
+            /*if ($errors)
                 $this->addFlash('error', 'Certaines lignes contiennent des valeurs négatives!');
             else
-            return $this->redirectToRoute('transfert_internationaux_ajout', ['id'=>$journeeCaisses->getId()]);
+            return $this->redirectToRoute('transfert_internationaux_ajout', ['id'=>$journeeCaisses->getId()]);*/
         }
 
         return $this->render('transfert_internationaux/ajout.html.twig', [
-            'transfert_internationaux' => $journeeCaisses,
+            //'transfert_internationaux' => $journeeCaisses,
             'form' => $form->createView(),
-            'operation'=>$operation,
+            'operation'=>'',
             'journeeCaisse'=>$journeeCaisses
         ]);
     }

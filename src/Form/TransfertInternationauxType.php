@@ -24,7 +24,7 @@ class TransfertInternationauxType extends AbstractType
             ->add('mFraisHt', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mfraisht'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
             ->add('mTva', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtva'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
             ->add('mAutresTaxes', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mautrestaxes']))
-            ->add('idJourneeCaisse')
+            //->add('idJourneeCaisse')
             ->add('idSystemTransfert')
             ->add('idPays')
         ;

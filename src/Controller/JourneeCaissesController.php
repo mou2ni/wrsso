@@ -261,6 +261,7 @@ class JourneeCaissesController extends Controller
     public function enCours(Request $request): Response
     {
         $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+        //dump($utilisateur); die();
         if(!$utilisateur->getEstcaissier()){
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
             return $this->render('main.html.twig'
@@ -273,12 +274,16 @@ class JourneeCaissesController extends Controller
         //dump($journeeCaisseActive); die();
         if ($journeeCaisseActive->getStatut() == JourneeCaisses::OUVERT) {
             $journeeCaisse = $journeeCaisseActive;
-            //dump($journeeCaisse);die();
             $form = $this->createForm(FermetureType::class, $journeeCaisse);
+            //dump($journeeCaisse);
             $form->handleRequest($request);
+            //dump($journeeCaisse);die();
             if ($form->isSubmitted() && $form->isValid()){
                 dump($journeeCaisse);die();
             }
+            /*return $this->render('journee_caisses/gerer.html.twig',[
+                'form' => $form->createView(),
+            ]);*/
             return $this->render('journee_caisses/gerer.html.twig', [
                 'form' => $form->createView(),
                 'journeeCaisse' => $journeeCaisse,

@@ -78,10 +78,11 @@ class BilletagesController extends Controller
      */
     public function ajouter(Request $request, int $id, int $devise): Response
     {
+
         $em=$this->getDoctrine()->getManager();
         $billetage=$em->getRepository(Billetages::class)->find($id);
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
-        $operation=$request->request->get('_operation');
+        //$operation=$request->request->get('_operation');
 
         if ($billetage->getBilletageLignes()->isEmpty()){
             foreach ($billets as $billet) {
@@ -130,10 +131,10 @@ class BilletagesController extends Controller
             //$billetage->getJourneeCaisse()->setMLiquiditeOuv($billetage->getValeurTotal());
             $em->flush();
 
-            if ($operation=="FERMER"){
+            /*if ($operation=="FERMER"){
                 $this->addFlash('success', 'Billetage Enregistré!');
                 return $this->redirectToRoute('journee_caisses_gerer',['id'=>$jc->getId()]);
-            }
+            }*/
             return $this->redirectToRoute('journee_caisses_ouvrir');
         }
 
@@ -143,7 +144,7 @@ class BilletagesController extends Controller
             'billetage' => $billetage,
             'form' => $form->createView(),
             'journeeCaisse'=>$jc,
-            'operation'=>$operation
+            'operation'=>''
         ]);
     }
 

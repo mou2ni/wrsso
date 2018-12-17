@@ -136,18 +136,20 @@ class SystemElectInventairesController extends Controller
                 $systemElectInventaire->addSystemElectLigneInventaires($systemElectLigneInventaire);
             }
         }
-        $jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventOuv'=>$systemElectInventaire]);
+        /*$jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventOuv'=>$systemElectInventaire]);
         $jc?:$jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventFerm'=>$systemElectInventaire]);
-        /*if ($request->request->get('_journeeCaisse')){
-            $jc = $em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse'));
+        */
+        //if ($request->request->get('_journeeCaisse')){
+            $jc = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
             //$systemElectInventaire->setJourneeCaisse($jc);
-        }*/
+        //}
         //dump($systemElectInventaire);die();
         $form = $this->createForm(SystemElectInventairesType::class, $systemElectInventaire);
         // only handles data on POST
         $form->handleRequest($request);
+        //dump($request);die();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && $jc) {
             //dump($form);die();
             $em->persist($systemElectInventaire);
             $jc->setMSoldeElectOuv($jc->getSystemElectInventOuv()->getSoldeTotal());

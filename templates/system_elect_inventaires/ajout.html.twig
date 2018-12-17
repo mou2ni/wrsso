@@ -2,10 +2,10 @@
 
 {% block body %}
     {{ form_start(form) }}
-    <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+    {% if journeeCaisse %}<input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">{% endif %}
     <table onchange="majElectronique()">
         <thead>
-        <tr><th>Date</th><th>{{ journeeCaisse.dateOuv.format('d-m-Y H:i:s') }}</th><th>Total</th><th>{{ form_widget(form.soldeTotal) }}</th></tr>
+        <tr><th>Date</th>{% if journeeCaisse %}<th>{{ journeeCaisse.dateOuv.format('d-m-Y H:i:s') }}</th>{% endif %}<th>Total</th><th>{{ form_widget(form.soldeTotal) }}</th></tr>
         <tr><th>Systemes electroniques</th><th>Solde</th></tr>
         </thead>
         <tbody>
@@ -14,18 +14,20 @@
         {% endfor %}
         </tbody>
     </table>
-    {% if journeeCaisse.statut!="F" %}
+    {% if journeeCaisse %}{% if journeeCaisse.statut!="F" %}
         <input type="submit" value="Enregistrer">
-    {% endif %}
+    {% endif %}{% endif %}
+    {{ include('_btn_close.html.twig') }}
     <div hidden>
         {{ form_rest(form) }}
         <input type="hidden" name="_operation" value="{{ operation }}">
         <input id="nombreElect" value="{{ elects|length}}">
     </div>
     {{ form_end(form) }}
-    <div class="form-inline">
+    {#<div class="form-inline">
         {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
-    </div>
+    </div>#}
+
 {#{% if journeeCaisse.statut=="O" %}
         <div class="form-inline">
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
