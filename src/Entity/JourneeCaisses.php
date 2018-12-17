@@ -409,15 +409,15 @@ class JourneeCaisses
     }
 
     public function getSoldeNetOuv(){
-        if ($this->journeePrecedente!=null){
+        /*if ($this->journeePrecedente!=null){
             $detteDivers=$this->journeePrecedente->getMDetteDiversFerm();
             $creditDivers=$this->journeePrecedente->getMCreditDiversFerm();
         }else{
             $detteDivers=0;
             $creditDivers=0;
-        }
+        }*/
 
-        return $this->getDisponibiliteOuv() +$detteDivers - $creditDivers;
+        return $this->getDisponibiliteOuv() + $this->getMDetteDiversOuv() - $this->getMCreditDiversOuv();
     }
 
 
@@ -431,6 +431,8 @@ class JourneeCaisses
             $this->updateM('mCvd', $deviseMouvement->getContreValeur());
         }
     }
+
+
     public function maintenirDetteCreditDiversFerm(){
         $this->mCreditDiversFerm=0;
         $this->mDetteDiversFerm=0;

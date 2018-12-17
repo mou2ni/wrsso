@@ -1,18 +1,20 @@
+{% if dette %}
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'credit_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Saisir Crédits'}) }}
+{% else %}
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'dette_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Saisir Dettes'}) }}
+ {% endif %}
 {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
 <table class="table" onload="reset()">
-    <tr>
-        <td>Operation</td><td>
-            {{ form_widget(form.operation) }}
-                {#<input id="chbxCredit" type="radio" name="operation" value="credit" checked="checked"> Credit
-                <input id="chbxDette" type="radio" name="operation" value="dette"> Dette#}
-        </td>
-    </tr>
-    <tr id="credit">
-        <td>Montant Credit</td><td>{{ form_widget(form.montant) }} {{ form_errors(form.montant) }}</td>
-    </tr>
-    {#<tr id="dette">
+
+    {% if dette %}
+        <tr id="dette">
         <td>Montant Dette</td><td>{{ form_widget(form.mDette) }}{{ form_errors(form.mDette) }}</td>
-    </tr>#}
+    </tr>
+    {% else %}
+    <tr id="credit">
+        <td>Montant Credit</td><td>{{ form_widget(form.mCredit) }} {{ form_errors(form.mCredit) }}</td>
+    </tr>
+    {% endif %}
     <tr>
         <td>Commentaire</td><td>{{ form_widget(form.libelle) }}</td><td></td>
     </tr>
@@ -21,21 +23,8 @@
 <button class="btn-primary btn" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
 <button class="btn-primary btn" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
 {% endif %}
-<input type="hidden" name="_operation" value="{{ operation }}">
+<input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
 {{ form_end(form) }}
 <div class="form-inline">
     {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
 </div>
-{#{% if journeeCaisse.statut=="O" %}
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
-    </div>
-{% elseif journeeCaisse.statut=="I" %}
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
-    </div>
-{% elseif journeeCaisse.statut=="F" %}
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
-    </div>
-{% endif %}#}

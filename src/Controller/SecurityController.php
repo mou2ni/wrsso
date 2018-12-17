@@ -20,13 +20,20 @@ class SecurityController extends Controller
      */
     public function accueil(): Response
     {
-        $session=$this->get('session');
-        $session->start();
+        //$session=$this->get('session');
+       // $session->start();
         $utilisateur=$this->get('security.token_storage')->getToken()->getUser();
         if (!$utilisateur) return $this->redirectToRoute('app_login');
-        $session->set('utilisateur',$utilisateur);
+        //$session->set('utilisateur',$utilisateur);
         //dump($session);die();
-        return $this->redirectToRoute('journee_caisses_gerer');
+        if($utilisateur->getEstcaissier()) {
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
+        //if(!$utilisateur->getEstcaissier()){
+            $this->addFlash('error', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
+            //return $this->render('main.html.twig';
+        //}
+        return $this->redirectToRoute('app_login');
 
     }
     

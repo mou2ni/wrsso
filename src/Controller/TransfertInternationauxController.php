@@ -56,7 +56,7 @@ class TransfertInternationauxController extends Controller
     }
 
     /**
-     * @Route("/ajout/{id}", name="transfert_internationaux_ajout", methods="GET|POST|UPDATE")
+     * @Route("/ajout", name="transfert_internationaux_ajout", methods="GET|POST|UPDATE")
      */
     public function ajout(Request $request, JourneeCaisses $journeeCaisses, ValidatorInterface $validator): Response
     {

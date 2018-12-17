@@ -1,4 +1,4 @@
-<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':journeeCaisse.id})}}" >
+<form class="form-inline" method="POST" action="{{ path('' ~ path)}}" >
     <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="_operation" value="{{ operation }}">
     <input type="hidden" name="_token" value="{{ csrf_token('action' ~ journeeCaisse.id)}}">

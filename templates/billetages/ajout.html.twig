@@ -27,6 +27,8 @@
     </table>
     {% if journeeCaisse.statut!="F" %}
     <input type="submit" value="Enregistrer" >
+        {{ include('_btn_close.html.twig') }}
+
     {% endif %}
     <div hidden>
         {{ form_rest(form) }}
@@ -35,10 +37,10 @@
         <input id="nombreLigne" value="{{ billets|length}}">
     </div>
     {{ form_end(form) }}
-    <div class="form-inline">
+    {#<div class="form-inline">
         {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
     </div>
-    {#{% if journeeCaisse.statut=="O" %}
+    {% if journeeCaisse.statut=="O" %}
     <div class="form-inline">
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
     </div>

@@ -43,7 +43,7 @@ class TransactionComptesController extends Controller
     }
 
     /**
-     * @Route("/depot/{id}", name="depot", methods="GET|POST|UPDATE")
+     * @Route("/depot", name="depot", methods="GET|POST|UPDATE")
      */
     public function depot(Request $request, JourneeCaisses $journeeCaisse): Response
     {
@@ -108,7 +108,7 @@ class TransactionComptesController extends Controller
     }
 
     /**
-     * @Route("/retrait/{id}", name="retrait", methods="GET|POST|UPDATE")
+     * @Route("/retrait", name="retrait", methods="GET|POST|UPDATE")
      */
     public function retrait(Request $request, JourneeCaisses $journeeCaisse): Response
     {

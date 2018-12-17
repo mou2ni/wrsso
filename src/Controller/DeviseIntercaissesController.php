@@ -30,7 +30,7 @@ class DeviseIntercaissesController extends Controller
     }
 */
     /**
-     * @Route("/{id}", name="devise_intercaisses_gestion", methods="GET|POST")
+     * @Route("/", name="devise_intercaisses_gestion", methods="GET|POST")
      */
     public function demander(Request $request, JourneeCaisses $journeeCaisse ): Response
     {

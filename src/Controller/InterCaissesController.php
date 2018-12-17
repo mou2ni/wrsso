@@ -35,7 +35,7 @@ public $totalR=0;
     }
 
     /**
-     * @Route("/ajout/{id}", name="inter_caisses_ajout", methods="GET|POST|UPDATE")
+     * @Route("/ajout", name="inter_caisses_ajout", methods="GET|POST|UPDATE")
      */
     public function ajout(Request $request, JourneeCaisses $journeeCaisses): Response
     {

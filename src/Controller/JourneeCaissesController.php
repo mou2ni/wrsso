@@ -83,12 +83,13 @@ class JourneeCaissesController extends Controller
      */
     public function gerer(Request $request): Response
     {
-        $utilisateur=$request->getSession()->get('utilisateur');
+        $utilisateur=$this->getUser();
         //dump($utilisateur);die();
         $journeeCaisse=$utilisateur->getJourneeCaisseActive();
         //dump($journeeCaisse);die();
         switch ($journeeCaisse->getStatut()){
-            case JourneeCaisses::OUVERT : return $this->redirectToRoute('journee_caisses_encours');
+            case JourneeCaisses::OUVERT : return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse,]);
+            //return $this->redirectToRoute('journee_caisses_encours');
             case JourneeCaisses::INITIAL : return $this->redirectToRoute('journee_caisses_ouvrir');
             case JourneeCaisses::FERME : return $this->redirectToRoute('journee_caisses_show',['id'=>$journeeCaisse->getId()]);
         }
@@ -192,7 +193,7 @@ class JourneeCaissesController extends Controller
 
         if($journeeCaisseActive->getStatut() == JourneeCaisses::OUVERT) { //si la journée active est deja ouverte on le renvoie à la la gestion fermeture
 
-            return $this->redirectToRoute('journee_caisses_encours');
+            return $this->redirectToRoute('journee_caisses_gerer');
         }
         /*elseif ($journeeCaisseActive->getStatut() == JourneeCaisses::FERME){ // si la journée active est fermée on le renvoie à initialiser
             return $this->redirectToRoute('journee_caisses_initialiser');
@@ -276,20 +277,21 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/encours", name="journee_caisses_encours", methods="GET|POST|UPDATE")
+     * Route("/encours", name="journee_caisses_encours", methods="GET|POST|UPDATE")
      */
-    public function enCours(Request $request): Response
+    public function enCours(JourneeCaisses $journeeCaisse): Response
     {
-        $utilisateur=$this->get('security.token_storage')->getToken()->getUser();
-        if(!$utilisateur->getEstcaissier()){
+        //$utilisateur=$this->get('security.token_storage')->getToken()->getUser();
+        /*if(!$utilisateur->getEstcaissier()){
             $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
             return $this->render('main.html.twig'
             );
-        }
-        $journeeCaisseActive = $this->getDoctrine()->getRepository(JourneeCaisses::class)->find($utilisateur->getJourneeCaisseActiveId());
-        //$journeeCaisseActive=$this->utilisateur->getJourneeCaisseActive();
+        }*/
+        //$journeeCaisseActive = $this->getDoctrine()->getRepository(JourneeCaisses::class)->find($utilisateur->getJourneeCaisseActiveId());
+        //$journeeCaisseActive=$utilisateur->getJourneeCaisseActive();
+        return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse,]);
         //dump($journeeCaisseActive); die();
-        if ($journeeCaisseActive->getStatut() == JourneeCaisses::OUVERT) {
+        /*if ($journeeCaisseActive->getStatut() == JourneeCaisses::OUVERT) {
             //dump($journeeCaisseActive);die();
             return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisseActive,]);
         }
@@ -297,7 +299,7 @@ class JourneeCaissesController extends Controller
         {
             $this->addFlash('success', "Vous n'avez pas de caisse ouverte. Veuillez l'ouvrir.");
             return $this->redirectToRoute('journee_caisses_ouvrir');
-        }
+        }*/
 
 
     }

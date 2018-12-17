@@ -17,37 +17,37 @@
                 <td class="text-bold">Liquidité : </td>
                 <td colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
                 <td colspan="2">{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'FERMER', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Electronique : </td>
                 <td colspan="2">{{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</td>
                 <td colspan="2">{{ journeeCaisse.mSoldeElectFerm|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventFerm.id, 'operation':'FERMER', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Dettes diverses : </td>
                 <td colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td colspan="2">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'dette_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Crédits divers : </td>
                 <td colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td colspan="2">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'credit_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Intercaisses : </td>
                 <td colspan="2">-</td>
                 <td colspan="2">{{ journeeCaisse.mIntercaisses|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'inter_caisses_ajout' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Intercaisse'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Transferts émis : </td>
                 <td colspan="2">-</td>
                 <td colspan="2">{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_ajout' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transferts'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Transferts payés : </td>
@@ -59,19 +59,20 @@
                 <td class="text-bold">Contre valeur devises : </td>
                 <td colspan="2">-</td>
                 <td colspan="2">{{ journeeCaisse.mCvd|number_format(0, '.', ' ')  }}</td>
-                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_recus_achat_vente' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }}</td>
+                <td class="form-inline">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_recus_achat_vente' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }}
+                    {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_intercaisses_gestion' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'intercaisse Devises'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Dépot : </td>
                 <td colspan="2">-</td>
                 <td colspan="2">{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Dépots'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Retrait : </td>
                 <td colspan="2">-</td>
                 <td colspan="2">{{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'retrait' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Retraits'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold" align="center" colspan="6" bgcolor="#a9a9a9"> </td>
