@@ -3,5 +3,5 @@
     {#<input type="hidden" name="_operation" value="{{ operation }}">#}
     <input type="hidden" name="_token" value="{{ csrf_token('billetage' ~ id)}}">
     <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
-    <button class="btn-primary btn" name={{ btn_name }}>{{ btn_label }}</button>
+    <button class="btn btn-info pull-right btn-xs" name={{ btn_name }}>{{ btn_label }}</button>
 </form>

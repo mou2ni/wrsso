@@ -105,6 +105,8 @@ class BilletagesController extends Controller
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($billetage);
+            $em->flush();
             switch ($operation){
                 case 'liquiditeOuv' : $this->journeeCaisse->setMLiquiditeOuv($billetage->getValeurTotal());
                     $em->persist($this->journeeCaisse);
@@ -119,10 +121,10 @@ class BilletagesController extends Controller
                     break;
                 case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['billetFerm'=>$billetage]);
                     $djFerm->setQteFerm($billetage->getValeurTotal());
+                                   // dump($billetage);die();
                     $em->persist($djFerm);
                     break;
             }
-            $em->persist($billetage);
             $em->flush();
             $this->addFlash('success', 'Billetage enregistré!');
             return $this->redirectToRoute('journee_caisses_gerer');
