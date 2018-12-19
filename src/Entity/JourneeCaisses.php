@@ -282,6 +282,8 @@ class JourneeCaisses
 
     private $mouvementFond;
 
+    private $sensTransfert;
+
     /*
     *
      * @ORM\Column(type="bigint")
@@ -484,10 +486,12 @@ class JourneeCaisses
             $NumberConstraint
         );
 */
-        if (!$transfertInternationaux->getE()) {
+        //if (!$transfertInternationaux->getE()) {
+        $transfertInternationaux->setSens($this->getSensTransfert());
             $this->transfertInternationaux->add($transfertInternationaux);
             $transfertInternationaux->setIdJourneeCaisse($this);
-        } /*else {
+        //}
+        /*else {
             // this is *not* a valid email address
             $errorMessage = $errors[0]->getMessage();
             dump($errorMessage);die();
@@ -1327,6 +1331,24 @@ class JourneeCaisses
     public function getCompense()
     {
         return $this->mEmissionTrans - $this->mReceptionTrans;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSensTransfert()
+    {
+        return $this->sensTransfert;
+    }
+
+    /**
+     * @param mixed $sensTransfert
+     * @return JourneeCaisses
+     */
+    public function setSensTransfert($sensTransfert)
+    {
+        $this->sensTransfert = $sensTransfert;
+        return $this;
     }
 
 }

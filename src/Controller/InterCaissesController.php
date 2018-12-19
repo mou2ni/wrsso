@@ -37,12 +37,14 @@ public $totalR=0;
     /**
      * @Route("/ajout", name="inter_caisses_ajout", methods="GET|POST|UPDATE")
      */
-    public function ajout(Request $request, JourneeCaisses $journeeCaisses): Response
+    public function ajout(Request $request): Response
     {
 
+        $em =$this->getDoctrine();
+        $journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
         $operation=$request->request->get('_operation');
         $interCaiss = new InterCaisses();
-        $interCaiss->setJourneeCaisseEntrant($journeeCaisses)->setStatut($interCaiss::INITIE);
+        $interCaiss->setJourneeCaisseEntrant($journeeCaisse)->setStatut($interCaiss::INITIE);
         $form = $this->createForm(InterCaissesType::class, $interCaiss);
         $form->handleRequest($request);
         //$this->totalInterCaisse($journeeCaisses);
@@ -50,15 +52,23 @@ public $totalR=0;
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //dump($interCaiss);die();
             $operation=$request->request->get('_operation');
             $em = $this->getDoctrine()->getManager();
             $em->persist($interCaiss);
             $em->flush();
 
             if($request->request->has('enregistreretfermer')){
-                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisses->getId()]);
+                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
             }
-            return $this->redirectToRoute('inter_caisses_ajout', ['id'=>$journeeCaisses->getId()]);
+            $interCaiss = new InterCaisses();
+            $request = new Request();
+            //dump($interCaiss);
+            $interCaiss->setJourneeCaisseEntrant($journeeCaisse)->setStatut($interCaiss::INITIE);
+            $form = $this->createForm(InterCaissesType::class, $interCaiss);
+            $form->handleRequest($request);
+            //dump($interCaiss);die();
+//return $this->redirectToRoute('inter_caisses_ajout', ['id'=>$journeeCaisse->getId()]);
 
         }
 
@@ -74,25 +84,32 @@ public $totalR=0;
                 else $interCaisse->setStatut(InterCaisses::ANNULE);
                 //$interCaisse->setStatut($statut);
                 $em->persist($interCaisse);
+                $em->flush();
+                dump($interCaiss);die();
                 //$journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
             }
             if ($request->request->get('valider')){
                 //$journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
-                foreach ($journeeCaisses->getIntercaisseSortants() as $intercaisseSortant ){
+                $journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
+                foreach ($journeeCaisse->getIntercaisseSortants() as $intercaisseSortant ){
                     if ($intercaisseSortant->getStatut()== InterCaisses::INITIE){
                         $intercaisseSortant->valider();
                     }
                 }
+                $em->persist($journeeCaisse);
+                $em->flush();
+                dump($journeeCaisse);die();
 
             }
 
-            $em->flush();
+
 
         }
 
 
+        //dump($journeeCaisse);die();
         return $this->render('inter_caisses/ajout.html.twig', [
-            'journeeCaisse' => $journeeCaisses,
+            'journeeCaisse' => $journeeCaisse,
             'totalR'=>$this->totalR,
             'totalE'=>$this->totalE,
             'form' => $form->createView(),

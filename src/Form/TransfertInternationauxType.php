@@ -15,10 +15,10 @@ class TransfertInternationauxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('sens', ChoiceType::class, array(
+            /*->add('sens' ChoiceType::class, array(
                 'choices'  => array(
                     'Envoi' => 1,
-                    'Reception' => 2)))
+                    'Reception' => 2)))*/
             ->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtransfert'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
             ->add('mTransfertTTC', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'transfertttc'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
             ->add('mFraisHt', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mfraisht'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))

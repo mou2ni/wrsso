@@ -10,12 +10,11 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TransfertType extends AbstractType
+class EmissionsType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('mReceptionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('mEmissionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('transfertInternationaux', CollectionType::class, array(
                 'entry_type' => EmissonType::class,
@@ -25,17 +24,6 @@ class TransfertType extends AbstractType
                 'by_reference' => false,
                 'attr' => ['class' => 'lignetransfert']
             ))
-            ->add('transfertInternationaux', CollectionType::class, array(
-                'entry_type' => ReceptionType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true,
-                'prototype' => true,
-                'by_reference' => false,
-                'attr' => ['class' => 'lignetransfert']
-            ))
-
-
-
         ;
     }
 
@@ -45,4 +33,16 @@ class TransfertType extends AbstractType
             'data_class' => JourneeCaisses::class,
         ]);
     }
+
+    /*public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->remove('mReceptionTrans')
+            ->remove('transfertRecus')
+        ;
+    }
+
+    public function getParent(){
+        return TransfertType::class;
+    }*/
 }

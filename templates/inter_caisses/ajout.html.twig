@@ -23,13 +23,13 @@
             </thead>
             <tbody>
             <tr>
-                <th>Inter caisses Recus</th>
+                <th>Inter caisses Entrants</th>
                 <th>{{ totalR|number_format(0, '.', ' ') }}</th>
             </tr>
             {% set i = 0 %}
             {% for intercaisse in journeeCaisse.intercaisseEntrants %}
                 {% if  intercaisse.statut!='X'  %}
-                    <tr>
+                    <tr id="{{ intercaisse.id }}E">
                         <td>{{ intercaisse }}</td>
                         <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
                         <td>{{ (intercaisse.statut=='I')
@@ -65,16 +65,19 @@
         <table class="table">
             <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th><th>Action</th></tr></thead>
             <tbody>
-            <tr><th>Inter caisses Emis</th><th>{{ totalE|number_format(0, '.', ' ') }}</th></tr>
+            <tr><th>Inter caisses Sortants</th><th>{{ totalE|number_format(0, '.', ' ') }}</th></tr>
             {% for intercaisse in journeeCaisse.intercaisseSortants  %}
                 {% if  intercaisse.statut!='X'  %}
-                    <tr>
+                    <tr id="{{ intercaisse.id }}S">
                         <td>{{ intercaisse }}</td>
                         <td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ') }}</td>
-                        <td>{{ (intercaisse.statut=='I')
+                        <td >
+
+                            <span id="statut{{intercaisse.id}}V">{{ (intercaisse.statut=='I')
                             ?'Initié':(intercaisse.statut=='V')
                             ?'Validé':(intercaisse.statut=='X')
                             ?'Annulé'}}
+                            </span>
                         </td>
                         {#<td>{% if intercaisse.statut=='av' %}Auto Validé{% elseif intercaisse.statut=='ae' %}Annulation en Cours{% else %}Annulation Acceptée{% endif %}</td>#}
                         <td>{{ intercaisse.observations }}</td>
@@ -107,7 +110,7 @@
             </tbody>
         </table>
         <div hidden>
-            <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+            <input type="hidden" id="jc" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
 
         </div>
     </form>

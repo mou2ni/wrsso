@@ -12,27 +12,33 @@ function majTransfert() {
     var tva = 0;
     var autresTaxes = 0;
     var mTTC = 0;
-    while (valeur("#transfert_transfertInternationaux_"+i+"_sens")) {
+    while ($("#transfert_transfertInternationaux_"+i+"_mTransfert")) {
         //alert(Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val()));
-        tva=Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val())*0.18;
-        tva=Math.round(tva)
+        if ($("#sens").val() == "1"){
+            tva=Echape($("#emissions_transfertInternationaux_"+i+"_mFraisHt").val())*0.18;
+            tva=Math.round(tva);
+            //alert(tva);
 
-        autresTaxes = Echape($("#transfert_transfertInternationaux_"+i+"_mTransfertTTC").val())
-            - Echape($("#transfert_transfertInternationaux_"+i+"_mTransfert").val())
-            - Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val())
-            - tva;
-        /*if (autresTaxes<0)
-        autresTaxes = 0;*/
-        $("#transfert_transfertInternationaux_"+i+"_mTva").val(tva);
-        $("#transfert_transfertInternationaux_"+i+"_mAutresTaxes").val(autresTaxes);
-        if (Echape($("#transfert_transfertInternationaux_" + i + "_sens").val()) == "1")
-            emission = emission + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
-        else reception = reception + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
+            autresTaxes = Echape($("#emissions_transfertInternationaux_"+i+"_mTransfertTTC").val())
+                - Echape($("#emissions_transfertInternationaux_"+i+"_mTransfert").val())
+                - Echape($("#emissions_transfertInternationaux_"+i+"_mFraisHt").val())
+                - tva;
+            /*if (autresTaxes<0)
+            autresTaxes = 0;*/
+            $("#emissions_transfertInternationaux_"+i+"_mTva").val(tva);
+            $("#emissions_transfertInternationaux_"+i+"_mAutresTaxes").val(autresTaxes);
+            emission = emission + +Echape($("#emissions_transfertInternationaux_" + i + "_mTransfertTTC").val())
+            $("#emissions_mEmissionTrans").val(emission);
+        }
+        else {
+            alert('ok');
+            reception = reception + +Echape($("#receptions_transfertInternationaux_" + i + "_mTransfert").val())
+            $("#receptions_mReceptionTrans").val(reception);
+        }
         i++;
-    }
+        //alert(emission);receptions_transfertInternationaux_0_mTransfert
 
-    $("#transfert_mEmissionTrans").val(emission);
-    $("#transfert_mReceptionTrans").val(reception);
+    }
 
 };
 
@@ -97,16 +103,23 @@ function majElectronique() {
 
 $(document).ready(function () {
     $('.boutonintercaisse').click(function (e) {
+        var bouton = $(this);
         var x = $(this).attr('id');
+        var ligne = x.substr(0,x.length-1);
         if (confirm('Voulez vous continuer ?')){
         var valeur = this.value;
-        var DATA = 'intercaisse=' + valeur;
+        var DATA = 'intercaisse=' + valeur ;
+        //alert(DATA);
         $.ajax({
             type: "POST",
             data: DATA,
             cache: false,
             success: function (data) {
-                document.location.reload(true);
+                if ($(this).attr('name')=="Annuler") {
+                $("#"+ligne+"E").hide();
+                $("#"+ligne+"S").hide();
+                }
+                if ($(this).attr('name')=="Valider") document.getElementById('statut'+x).innerHTML="<span id='valider{{intercaisse.id}}V'>Validé</span>";
                 $("#"+x).hide();
                 }
         })
@@ -118,14 +131,16 @@ $(document).ready(function () {
 
 
 function  valider() {
-    var DATA = 'valider=' + 1;
-    //alert(DATA);
+    var jc = $('#jc').val();
+    alert(jc);
+    var DATA = '_journeeCaisse=' + jc;
+    alert(DATA);
     $.ajax({
         type: "POST",
         data: DATA,
         cache: false,
         success: function (data) {
-            document.location.reload(true);
+            //document.location.reload(true);
             //document.getElementsByTagName('table').load(true);
         }
     })
@@ -188,7 +203,8 @@ jQuery(document).ready(function() {
     // count the current form inputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)
     $collectionHolder.data('index', $collectionHolder.find('tr.transfert').length);
-
+    while ($collectionHolder.data('index') < 5 )
+        addTagForm($collectionHolder, $newLinkLi);
     $addTagButton.on('click', function(e) {
         // add a new tag form (see next code block)
         addTagForm($collectionHolder, $newLinkLi);

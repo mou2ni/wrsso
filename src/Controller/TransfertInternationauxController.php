@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\JourneeCaisses;
 use App\Entity\TransfertInternationaux;
+use App\Form\EmissionsType;
+use App\Form\ReceptionsType;
 use App\Form\TransfertInternationauxType;
 use App\Form\TransfertType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -55,54 +57,43 @@ class TransfertInternationauxController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/ajout", name="transfert_internationaux_ajout", methods="GET|POST|UPDATE")
-     */
-    public function ajout(Request $request, JourneeCaisses $journeeCaisses, ValidatorInterface $validator): Response
+    private function ajout(Request $request, $envoi = true): Response
     {
-        //$journeeCaisse = $this->getDoctrine()->getRepository("App:JourneeCaisses")-> findOneBy(['statut' => 'O']);
-        //dump($journeeCaisse); die();
-        //$operation=$request->request->get('_operation');
-
-        $form = $this->createForm(TransfertType::class, $journeeCaisses);
+        $em =$this->getDoctrine();
+        $journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
+            //dump($journeeCaisse->getTransfertInternationaux());die();
+        ($envoi)?$journeeCaisse->setSensTransfert(TransfertInternationaux::ENVOI):
+            $journeeCaisse->setSensTransfert(TransfertInternationaux::RECEPTION);
+        $form = ($envoi)?$this->createForm(EmissionsType::class, $journeeCaisse):$this->createForm(ReceptionsType::class, $journeeCaisse);
         $form->handleRequest($request);
+        //dump($form);die();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            //$transfert=$form->getData();
-            /*foreach ($journeeCaisses->getTransfertInternationaux() as $transfertInternationaux)
-            //dump($journeeCaisses->getTransfertInternationaux()->getE());die();
-            //if ($transfertInternationaux->getE())
-                $constraint = new Assert\GreaterThan(0);
-            //$constraint->message = "Valeur négative.";
-            $errors = $validator->validate(
-                $transfertInternationaux,
-                $constraint
-            );
-            dump($errors);die();
-            //$validator->rule($transfertInternationaux->getMTransfert() > 0);
-            //$validator->rules;
-                dump($transfertInternationaux->getE());die();*/
-            //dump($journeeCaisses); die();
-            //$errors=null;
-            /*foreach ($journeeCaisses->getTransfertInternationaux() as $transfertInternationaux){
-                //$journeeCaisses->addTransfertInternationaux($transfertInternationaux);
-                !$transfertInternationaux->getE()?:$errors[]=$transfertInternationaux->getE();
-            }*/
-            //dump($transfert);die();
-            $em->persist($journeeCaisses);
+            $em->persist($journeeCaisse);
             $em->flush();
-            /*if ($errors)
-                $this->addFlash('error', 'Certaines lignes contiennent des valeurs négatives!');
-            else
-            return $this->redirectToRoute('transfert_internationaux_ajout', ['id'=>$journeeCaisses->getId()]);*/
         }
 
         return $this->render('transfert_internationaux/ajout.html.twig', [
-            //'transfert_internationaux' => $journeeCaisses,
             'form' => $form->createView(),
             'operation'=>'',
-            'journeeCaisse'=>$journeeCaisses
+            'envoi'=>$envoi,
+            'journeeCaisse'=>$journeeCaisse
         ]);
+    }
+
+    /**
+     * @Route("/envoi", name="transfert_internationaux_envoi", methods="GET|POST|UPDATE")
+     */
+    public function envoi(Request $request): Response
+    {
+        return $this->ajout($request, true);
+    }
+    /**
+     * @Route("/reception", name="transfert_internationaux_reception", methods="GET|POST|UPDATE")
+     */
+    public function reception(Request $request): Response
+    {
+        return $this->ajout($request, false);
     }
 
     /**

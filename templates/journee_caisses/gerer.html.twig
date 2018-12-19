@@ -47,13 +47,13 @@
                 <td class="text-bold">Transferts émis : </td>
                 <td colspan="2">-</td>
                 <td colspan="2">{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
-                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_ajout' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transferts'}) }}</td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_envoi' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Emis'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Transferts payés : </td>
                 <td colspan="2">-</td>
                 <td colspan="2">{{ journeeCaisse.mReceptionTrans|number_format(0, '.', ' ')  }}</td>
-                <td></td>
+                <td>{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Reçus'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold">Contre valeur devises : </td>

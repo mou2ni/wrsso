@@ -26,6 +26,7 @@ class TransfertInternationaux
     const ERR_NEGATIF=1, ERR_ZERO=0;
     private $e ;
     const TVA=0.18;
+    const ENVOI=1, RECEPTION=2;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
