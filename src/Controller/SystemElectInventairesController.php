@@ -7,6 +7,7 @@ use App\Entity\SystemElectInventaires;
 use App\Entity\SystemElectLigneInventaires;
 use App\Form\SystemElectInventairesType;
 use App\Form\SystemElectsType;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SystemElectInventairesController extends Controller
 {
+    private $journeeCaisse;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
+    }
     /**
      * @Route("/system/elect/inventaires", name="system_elect_inventaires_index", methods="GET")
      */
@@ -104,16 +114,17 @@ class SystemElectInventairesController extends Controller
     ///
 
     /**
-     * @Route("/electroniques/{id}", name="electroniques_ajout")
+     * @Route("/electroniques/{operation}", name="electroniques_ajout")
      */
-    public function ajoutAction(Request $request, int $id)
+    public function ajoutAction(Request $request, $operation)
     {
 
         $em = $this->getDoctrine()->getManager();
         $systemElects = $em->getRepository('App:SystemElects')->findAll();
-        $systemElectInventaire = $em->getRepository('App:SystemElectInventaires')->find($id);
+        $systemElectInventaire =($operation == 'OUV')? $this->journeeCaisse->getSystemElectInventOuv():
+            $this->journeeCaisse->getSystemElectInventFerm();
         //dump($operation=$request->request->get('_operation')); die();
-        $operation=$request->request->get('_operation');
+        //$operation=$request->request->get('_operation');
         //dump(!$systemElectInventaire->getSystemElectLigneInventaires());die();
 
                 //////////// creation du formulaire personnalise///////////////////////////////
@@ -140,7 +151,7 @@ class SystemElectInventairesController extends Controller
         $jc?:$jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventFerm'=>$systemElectInventaire]);
         */
         //if ($request->request->get('_journeeCaisse')){
-            $jc = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
+            //$jc = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
             //$systemElectInventaire->setJourneeCaisse($jc);
         //}
         //dump($systemElectInventaire);die();
@@ -149,23 +160,23 @@ class SystemElectInventairesController extends Controller
         $form->handleRequest($request);
         //dump($request);die();
 
-        if ($form->isSubmitted() && $form->isValid() && $jc) {
+        if ($form->isSubmitted() && $form->isValid() && $this->journeeCaisse) {
             //dump($form);die();
             $em->persist($systemElectInventaire);
-            $jc->setMSoldeElectOuv($jc->getSystemElectInventOuv()->getSoldeTotal());
-            $jc->setMSoldeElectFerm($jc->getSystemElectInventFerm()->getSoldeTotal());
-            $em->persist($jc);
+            $this->journeeCaisse->setMSoldeElectOuv($this->journeeCaisse->getSystemElectInventOuv()->getSoldeTotal());
+            $this->journeeCaisse->setMSoldeElectFerm($this->journeeCaisse->getSystemElectInventFerm()->getSoldeTotal());
+            $em->persist($this->journeeCaisse);
             $em->flush();
             $this->addFlash('success', 'Inventaire electronique Créé!');
             if ($operation=="FERMER")
-                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$jc->getId()]);
+                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$this->journeeCaisse->getId()]);
             return $this->redirectToRoute('journee_caisses_ouvrir');
             //return $this->render('system_elect_ligne_inventaires/index.html.twig', ['system_elect_ligne_inventaires' => $systemElectInventaire->getSystemElectLigneInventaires()]);
         }
         return $this->render('system_elect_inventaires/ajout.html.twig', [
             'form' => $form->createView()
             ,'elects'=>$systemElects,
-            'journeeCaisse'=>$jc,
+            'journeeCaisse'=>$this->journeeCaisse,
             'operation'=>$operation
         ]);
     }

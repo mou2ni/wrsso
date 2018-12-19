@@ -8,6 +8,7 @@ use App\Form\CreditType;
 use App\Form\DetteCreditDiversType;
 use App\Form\DetteType;
 use App\Repository\DetteCreditDiversRepository;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,15 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class DetteCreditDiversController extends Controller
 {
+    private $journeeCaisse;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
+    }
     /**
      * @Route("/", name="dette_credit_divers_index", methods="GET")
      */
@@ -34,24 +44,24 @@ class DetteCreditDiversController extends Controller
     {
 
         $em = $this->getDoctrine()->getManager();
-        $journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
-        $detteCredit = new DetteCreditDivers($journeeCaisse);
+        //$journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
+        $detteCredit = new DetteCreditDivers($this->journeeCaisse);
         $form = ($dette)?$this->createForm(DetteType::class, $detteCredit):$this->createForm(CreditType::class, $detteCredit);
         $form->handleRequest($request);
         //dump($form);die();
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $journeeCaisse->addDetteCredit($detteCredit);
-            ($dette)?$journeeCaisse->updateM('mDetteDiversFerm',$detteCredit->getMDette()):
-            $journeeCaisse->updateM('mCreditDiversFerm',$detteCredit->getMCredit());
+            $this->journeeCaisse->addDetteCredit($detteCredit);
+            ($dette)?$this->journeeCaisse->updateM('mDetteDiversFerm',$detteCredit->getMDette()):
+                $this->journeeCaisse->updateM('mCreditDiversFerm',$detteCredit->getMCredit());
             ($dette)?$detteCredit->setStatut(DetteCreditDivers::DETTE_EN_COUR):$detteCredit->setStatut(DetteCreditDivers::CREDIT_EN_COUR);
-            $em->persist($journeeCaisse);
+            $em->persist($this->journeeCaisse);
             $em->flush();
 
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
-            $detteCredit = new DetteCreditDivers($journeeCaisse);
+            $detteCredit = new DetteCreditDivers($this->journeeCaisse);
             $request = new Request();
             $form = ($dette)?$this->createForm(DetteType::class, $detteCredit):$this->createForm(CreditType::class, $detteCredit);
             $form->handleRequest($request);
@@ -59,7 +69,7 @@ class DetteCreditDiversController extends Controller
         }
 
         return $this->render('dette_credit_divers/ajout.html.twig', [
-            'journeeCaisse'=>$journeeCaisse,
+            'journeeCaisse'=>$this->journeeCaisse,
             'form' => $form->createView(),
             'dette'=>$dette
         ]);

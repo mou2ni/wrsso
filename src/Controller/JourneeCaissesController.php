@@ -148,7 +148,7 @@ class JourneeCaissesController extends Controller
         $em->persist($utilisateur);
         $em->flush();
 
-        return $this->redirectToRoute('journee_caisses_ouvrir');
+        return $this->redirectToRoute('journee_caisses_gerer');
 
         /*$journeeCaisse = new JourneeCaisses($em);
         $em->persist($journeeCaisse);

@@ -30,7 +30,6 @@ class SessionUtilisateur extends Controller
 
     private function checkSessionUtilisateur(){
         if (! $this->_utilisateur){
-            $this->addFlash('error','Session utilisateur expirée. Merci de vous reconnecter');
             return false;
         }else{
             $this->_journeeCaisse=$this->_utilisateur->getJourneeCaisseActive();

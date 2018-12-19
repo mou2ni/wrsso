@@ -15,6 +15,7 @@ use App\Form\DepotType;
 use App\Form\RetraitType;
 use App\Form\TransactionComptesType;
 use App\Utils\GenererCompta;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,15 @@ use Symfony\Component\Serializer\Serializer;
  */
 class TransactionComptesController extends Controller
 {
+    private $journeeCaisse;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
+    }
     /**
      * @Route("/", name="transaction_comptes_index", methods="GET")
      */
@@ -45,7 +55,7 @@ class TransactionComptesController extends Controller
     /**
      * @Route("/depot", name="depot", methods="GET|POST|UPDATE")
      */
-    public function depot(Request $request, JourneeCaisses $journeeCaisse): Response
+    public function depot(Request $request): Response
     {
         $operation=$request->request->get('_operation');
         //$transactionCompte = new TransactionComptes();
@@ -59,7 +69,7 @@ class TransactionComptesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depot->getNumCompte()]);
             //dump($journeeCaisses->getUtilisateur()->getLogin());die();
-            $transaction = $genererCompta->genComptaDepot($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit());
+            $transaction = $genererCompta->genComptaDepot($this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit());
             if(!$transaction) {
 
                 //dump($genererCompta->getE()===2);die();
@@ -72,16 +82,16 @@ class TransactionComptesController extends Controller
 
             }
             else{
-                $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
-                //dump($journeeCaisses->getTotalDepot());die();
-                $journeeCaisse->setMDepotClient($journeeCaisse->getTotalDepot());
-                //dump($journeeCaisses);die();
-                $em->persist($journeeCaisse);
+                $this->journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
+                //dump($this->journeeCaisses->getTotalDepot());die();
+                $this->journeeCaisse->setMDepotClient($this->journeeCaisse->getTotalDepot());
+                //dump($this->journeeCaisses);die();
+                $em->persist($this->journeeCaisse);
                 $em->flush();
                 if($request->request->has('enregistreretfermer')){
-                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
+                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$this->journeeCaisse->getId()]);
                 }
-                return $this->redirectToRoute('depot',['id'=>$journeeCaisse->getId()]);
+                return $this->redirectToRoute('depot',['id'=>$this->journeeCaisse->getId()]);
             }
 
         }
@@ -101,7 +111,7 @@ class TransactionComptesController extends Controller
         }
 
         return $this->render('transaction_comptes/depot.html.twig', [
-            'journeeCaisse' => $journeeCaisse,
+            'journeeCaisse' => $this->journeeCaisse,
             'form' => $form->createView(),
             'operation'=>$operation
         ]);
@@ -110,7 +120,7 @@ class TransactionComptesController extends Controller
     /**
      * @Route("/retrait", name="retrait", methods="GET|POST|UPDATE")
      */
-    public function retrait(Request $request, JourneeCaisses $journeeCaisse): Response
+    public function retrait(Request $request): Response
     {
         $operation=$request->request->get('_operation');
         //$transactionCompte = new TransactionComptes();
@@ -122,7 +132,7 @@ class TransactionComptesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             //dump($retrait);die();
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
-            if(!$genererCompta->genComptaRetrait($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit()))
+            if(!$genererCompta->genComptaRetrait($this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit()))
             {
                 //dump($genererCompta->getE()===2);die();
                 if($genererCompta->getE()==Transactions::ERR_ZERO)$message =  'Montant égale 0';
@@ -133,14 +143,14 @@ class TransactionComptesController extends Controller
                 //dump($genererCompta->getE());die();
             }
             else {
-                $journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
-                $journeeCaisse->setMRetraitClient($journeeCaisse->getTotalRetrait());
-                $em->persist($journeeCaisse);
+                $this->journeeCaisse->addTransaction($genererCompta->getTransactions()[0]);
+                $this->journeeCaisse->setMRetraitClient($this->journeeCaisse->getTotalRetrait());
+                $em->persist($this->journeeCaisse);
                 $em->flush();
                 if($request->request->has('enregistreretfermer')){
-                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
+                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$this->journeeCaisse->getId()]);
                 }
-                return $this->redirectToRoute('retrait',['id'=>$journeeCaisse->getId()]);
+                return $this->redirectToRoute('retrait',['id'=>$this->journeeCaisse->getId()]);
             }
         }
 
@@ -160,7 +170,7 @@ class TransactionComptesController extends Controller
 
         return $this->render('transaction_comptes/retrait.html.twig', [
             //'transaction_compte' => $transactionCompte,
-            'journeeCaisse' => $journeeCaisse,
+            'journeeCaisse' => $this->journeeCaisse,
             'form' => $form->createView(),
             'operation'=>$operation
         ]);

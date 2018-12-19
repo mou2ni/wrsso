@@ -9,6 +9,7 @@ use App\Form\InterCaissesJourneeType;
 use App\Form\InterCaissesType;
 use App\Form\JourneeCaissesType;
 use App\Utils\GenererCompta;
+use App\Utils\SessionUtilisateur;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,15 @@ class InterCaissesController extends Controller
 {
 public $totalE=0;
 public $totalR=0;
+    private $journeeCaisse;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
+    }
     /**
      * @Route("/", name="inter_caisses_index", methods="GET")
      */
@@ -41,14 +51,13 @@ public $totalR=0;
     {
 
         $em =$this->getDoctrine();
-        $journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
         $operation=$request->request->get('_operation');
         $interCaiss = new InterCaisses();
-        $interCaiss->setJourneeCaisseEntrant($journeeCaisse)->setStatut($interCaiss::INITIE);
+        $interCaiss->setJourneeCaisseEntrant($this->journeeCaisse)->setStatut($interCaiss::INITIE);
         $form = $this->createForm(InterCaissesType::class, $interCaiss);
         $form->handleRequest($request);
-        //$this->totalInterCaisse($journeeCaisses);
-        //$journeeCaisses->setMIntercaisses($this->totalE-$this->totalR);
+        //$this->totalInterCaisse($this->journeeCaisses);
+        //$this->journeeCaisses->setMIntercaisses($this->totalE-$this->totalR);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,16 +68,16 @@ public $totalR=0;
             $em->flush();
 
             if($request->request->has('enregistreretfermer')){
-                return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
+                return $this->redirectToRoute('journee_caisses_gerer');
             }
             $interCaiss = new InterCaisses();
             $request = new Request();
             //dump($interCaiss);
-            $interCaiss->setJourneeCaisseEntrant($journeeCaisse)->setStatut($interCaiss::INITIE);
+            $interCaiss->setJourneeCaisseEntrant($this->journeeCaisse)->setStatut($interCaiss::INITIE);
             $form = $this->createForm(InterCaissesType::class, $interCaiss);
             $form->handleRequest($request);
             //dump($interCaiss);die();
-//return $this->redirectToRoute('inter_caisses_ajout', ['id'=>$journeeCaisse->getId()]);
+//return $this->redirectToRoute('inter_caisses_ajout', ['id'=>$this->journeeCaisse->getId()]);
 
         }
 
@@ -86,19 +95,19 @@ public $totalR=0;
                 $em->persist($interCaisse);
                 $em->flush();
                 dump($interCaiss);die();
-                //$journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
+                //$this->journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
             }
             if ($request->request->get('valider')){
-                //$journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
-                $journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
-                foreach ($journeeCaisse->getIntercaisseSortants() as $intercaisseSortant ){
+                //$this->journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
+                $this->journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
+                foreach ($this->journeeCaisse->getIntercaisseSortants() as $intercaisseSortant ){
                     if ($intercaisseSortant->getStatut()== InterCaisses::INITIE){
                         $intercaisseSortant->valider();
                     }
                 }
-                $em->persist($journeeCaisse);
+                $em->persist($this->journeeCaisse);
                 $em->flush();
-                dump($journeeCaisse);die();
+                dump($this->journeeCaisse);die();
 
             }
 
@@ -107,9 +116,9 @@ public $totalR=0;
         }
 
 
-        //dump($journeeCaisse);die();
+        //dump($this->journeeCaisse);die();
         return $this->render('inter_caisses/ajout.html.twig', [
-            'journeeCaisse' => $journeeCaisse,
+            'journeeCaisse' => $this->journeeCaisse,
             'totalR'=>$this->totalR,
             'totalE'=>$this->totalE,
             'form' => $form->createView(),

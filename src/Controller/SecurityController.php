@@ -24,7 +24,10 @@ class SecurityController extends Controller
          //$utilisateur=$this->get('security.token_storage')->getToken()->getUser();
 
         $utilisateur=$sessionUtilisateur->getUtilisateur();
-        if (!$utilisateur) return $this->redirectToRoute('app_login');
+        if (!$utilisateur) {
+            $this->addFlash('error','Session utilisateur expirée. Merci de vous reconnecter');
+            return $this->redirectToRoute('app_login');
+        }
         //dump($session);die();
         if($utilisateur->getEstcaissier()) {
 

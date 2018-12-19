@@ -1,6 +1,6 @@
-<form class="form-inline" method="POST" action="{{ path('billetages_ajout', {'id': id, 'devise': devise})}}">
+<form class="form-inline" method="POST" action="{{ path('billetages_ajout', {'id': id, 'devise': devise, 'operation': operation})}}">
     <input type="hidden" name="_method" value="UPDATE">
-    <input type="hidden" name="_operation" value="{{ operation }}">
+    {#<input type="hidden" name="_operation" value="{{ operation }}">#}
     <input type="hidden" name="_token" value="{{ csrf_token('billetage' ~ id)}}">
     <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
     <button class="btn-primary btn" name={{ btn_name }}>{{ btn_label }}</button>

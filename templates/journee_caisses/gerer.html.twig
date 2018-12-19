@@ -17,7 +17,7 @@
                 <td class="text-bold" bgcolor="#a9a9a9" >LIQUIDITE : </td>
                 <td colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
                 <td colspan="2">{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
-                <td >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'FERMER', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
+                <td >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
             </tr>
             <tr>
                 <td class="text-bold" bgcolor="#a9a9a9" >ELECTRONIQUE : </td>
@@ -112,7 +112,7 @@
                 <th class="text-bold" bgcolor="#a9a9a9" >Inventaire</th>
                 <th class="text-bold text-bloody-500" bgcolor="#a9a9a9" >Ecart</th>
             </tr>
-            {#{% for deviseJournee in journeeCaisse.deviseJournees%}
+            {% for deviseJournee in journeeCaisse.deviseJournees%}
             <tr>
                 <td bgcolor="#a9a9a9" >{{ deviseJournee.devise }}</td>
                 <td>{{ deviseJournee.qteOuv }}</td>
@@ -121,7 +121,7 @@
                 <td>{{ deviseJournee.qteFerm }}</td>
                 <td class="text-bold text-bloody-500"> {{ deviseJournee.ecartFerm }} </td>
             </tr>
-            {% endfor %}#}
+            {% endfor %}
             </tbody>
         </table>
     </div>

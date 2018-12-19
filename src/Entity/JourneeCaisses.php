@@ -1165,6 +1165,7 @@ class JourneeCaisses
     public function setMLiquiditeFerm($mLiquiditeFerm)
     {
         $this->mLiquiditeFerm = $mLiquiditeFerm;
+        //dump($mLiquiditeFerm);
         return $this;
     }
 
