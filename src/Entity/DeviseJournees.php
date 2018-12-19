@@ -243,7 +243,7 @@ class DeviseJournees
      */
     public function getEcartFerm()
     {
-        return $this->getSolde()-$this->getQteFerm();
+        return $this->getQteFerm()-$this->getSolde();
     }
 
     /**

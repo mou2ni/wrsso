@@ -121,8 +121,9 @@ class BilletageLignes
      */
     public function setNbBillet($nbBillet)
     {
-        if ($nbBillet>0)$this->nbBillet = $nbBillet;
+        //if ($nbBillet>0)$this->nbBillet = $nbBillet;
         //($this->valeurBillet !=0)?$this->valeurLigne=$nbBillet*$this->valeurBillet:$this->valeurLigne=0;
+        $this->nbBillet = $nbBillet;
         return $this;
     }
 
