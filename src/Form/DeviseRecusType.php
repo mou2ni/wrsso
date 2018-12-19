@@ -22,7 +22,7 @@ class DeviseRecusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateRecu', DateTimeType::class, array('required' => true))
+            //->add('dateRecu', DateTimeType::class, array('required' => true))
             ->add('nom', TextType::class, array('required' => true))
             ->add('prenom', TextType::class, array('required' => true))
             ->add('adresse', TextType::class, array('required' => true))
