@@ -2,6 +2,7 @@
     <thead>
     <tr>
         <th>Document</th>
+        <th>Detail</th>
         <th>Date</th>
         <th>Prenom et nom</th>
         <th>Action</th>
@@ -12,11 +13,12 @@
     {% for deviseRecu in my_devise_recus %}
         <tr>
             <td>BORDERAU {{ (deviseRecu.sens=='A')?' D\'ACHAT ':' DE VENTE ' }} DE DEVISES N° {{ deviseRecu.id }}</td>
+            <td>{{ deviseRecu.comment }}</td>
             <td>{{ deviseRecu.dateRecu ? deviseRecu.dateRecu|date('d/m/Y H:i:s') : '' }}</td>
             <td>{{ deviseRecu.Prenom }} {{ deviseRecu.nom }}</td>
             <td><a href="{{ path('devise_recus_imprimer', {'id': deviseRecu.id}) }}">Imprimer</a></td>
         </tr>
-        <tr> <td colspan="4">
+        {#<tr> <td colspan="4">
                 <ul>
                     {% for deviseMouvement in  deviseRecu.deviseMouvements %}
                         <li>
@@ -27,7 +29,7 @@
                         </li>
                     {% endfor %}
                 </ul>
-            </td></tr>
+            </td></tr>#}
 
     {% endfor %}
 

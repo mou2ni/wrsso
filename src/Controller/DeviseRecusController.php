@@ -9,7 +9,7 @@ use App\Entity\DeviseRecus;
 use App\Entity\JourneeCaisses;
 use App\Form\DeviseRecusType;
 use App\Repository\DeviseRecusRepository;
-//use Proxies\__CG__\App\Entity\JourneeCaisses;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,28 +20,26 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeviseRecusController extends Controller
 {
-    const COPIE1=0, COPIE2=600;
-    /*
-     * @Route("/", name="devise_recus_index", methods="GET")
+    private $journeeCaisse;
 
-    public function index(DeviseRecusRepository $deviseRecusRepository): Response
+    const COPIE1=0, COPIE2=600;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
-        return $this->render('devise_recus/index.html.twig', ['devise_recuses' => $deviseRecusRepository->findAll()]);
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
     }
-*/
+
     /**
      * @Route("/", name="devise_recus_achat_vente", methods="GET|POST|UPDATE")
      */
-    public function achatVente(Request $request, JourneeCaisses $journeeCaisse): Response
+    public function achatVente(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
-        //$journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>'O']);
-
-        //die($journeeCaisse);
-
-
-        $deviseRecus = new DeviseRecus($journeeCaisse,$em);
+        $deviseRecus = new DeviseRecus($this->journeeCaisse,$em);
 
         ////////////////////////////////////////////////TESTS A SUPPRIMER//////////////////////////////////////////////
 
@@ -87,7 +85,7 @@ class DeviseRecusController extends Controller
                 if ($save_and_new) {
                    // echo '$save_and_new ..............';
 
-                    $deviseRecusNew = new DeviseRecus($journeeCaisse,$em);
+                    $deviseRecusNew = new DeviseRecus($this->journeeCaisse,$em);
                     $deviseRecusNew->setDateRecu(new \DateTime());
                     $deviseRecusNew->setMotif($deviseRecus->getMotif());
                     $deviseRecusNew->setAdresse($deviseRecus->getAdresse());
@@ -101,17 +99,17 @@ class DeviseRecusController extends Controller
 
                 if ($save_and_close) {
                     //dump($form->getClickedButton()->getName()); die();
-                    return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
+                    return $this->redirectToRoute('journee_caisses_gerer');
                 }
             }
-            return $this->redirectToRoute('devise_recus_achat_vente',['id'=>$journeeCaisse->getId()]);
+            return $this->redirectToRoute('devise_recus_achat_vente');
         }
 
-        $my_devise_recus=$this->getDoctrine()->getRepository(DeviseRecus::class)->findMyDeviseRecus($journeeCaisse);
+        $my_devise_recus=$this->getDoctrine()->getRepository(DeviseRecus::class)->findMyDeviseRecus($this->journeeCaisse);
 
         return $this->render('devise_recus/achat_vente.html.twig', [
             'devise_recus' => $deviseRecus, 'my_devise_recus'=>$my_devise_recus,
-            'form' => $form->createView(),'journeeCaisse'=>$journeeCaisse,
+            'form' => $form->createView(),'journeeCaisse'=>$this->journeeCaisse,
         ]);
     }
 

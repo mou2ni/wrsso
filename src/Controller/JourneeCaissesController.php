@@ -22,6 +22,7 @@ use App\Form\JourneeCaissesType;
 use App\Form\OuvertureFermetureType;
 use App\Form\OuvertureType;
 use App\Utils\GenererCompta;
+use App\Utils\SessionUtilisateur;
 use APY\DataGridBundle\Grid\GridBuilder;
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Source\Source;
@@ -43,11 +44,14 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class JourneeCaissesController extends Controller
 {
-    private $utilisateur;
+    private $journeeCaisse;
 
-    public function __construct()
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
-
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
     }
 
     /**
@@ -63,35 +67,21 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/negoceDevise", name="journee_caisses_negoce_devise", methods="POST")
-     */
-    public function achatVenteDevise(Request $request): Response
-    {
-        $deviseRecus=$this->utilisateur->getJourneeCaisseActive()->getDeviseRecus();
-        $form = $this->createForm(DeviseRecusType::class, $deviseRecus);
-        $form->handleRequest($request);
-
-        return $this->render('devise_recus/achat_vente.html.twig', [
-            'devise_recus' => $deviseRecus, 'my_devise_recus'=>$deviseRecus,
-            'form' => $form->createView(),'journeeCaisse'=>$this->utilisateur->getJourneeCaisseActive(),
-        ]);
-
-    }
-
-    /**
      * @Route("/gerer", name="journee_caisses_gerer", methods="GET|POST")
      */
     public function gerer(Request $request): Response
     {
-        $utilisateur=$this->getUser();
+        //$utilisateur=$this->getUser();
         //dump($utilisateur);die();
-        $journeeCaisse=$utilisateur->getJourneeCaisseActive();
+        //$journeeCaisse=$utilisateur->getJourneeCaisseActive();
         //dump($journeeCaisse);die();
-        switch ($journeeCaisse->getStatut()){
-            case JourneeCaisses::OUVERT : return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse,]);
+
+        //$journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        switch ($this->journeeCaisse->getStatut()){
+            case JourneeCaisses::OUVERT : return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $this->journeeCaisse,]);
             //return $this->redirectToRoute('journee_caisses_encours');
             case JourneeCaisses::INITIAL : return $this->redirectToRoute('journee_caisses_ouvrir');
-            case JourneeCaisses::FERME : return $this->redirectToRoute('journee_caisses_show',['id'=>$journeeCaisse->getId()]);
+            case JourneeCaisses::FERME : return $this->redirectToRoute('journee_caisses_show',['id'=>$this->journeeCaisse->getId()]);
         }
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,21 +19,21 @@ class SecurityController extends Controller
     /**
      * @Route("/", name="app_main", methods="POST|GET")
      */
-    public function accueil(): Response
+    public function accueil(SessionUtilisateur $sessionUtilisateur): Response
     {
-        //$session=$this->get('session');
-       // $session->start();
-        $utilisateur=$this->get('security.token_storage')->getToken()->getUser();
+         //$utilisateur=$this->get('security.token_storage')->getToken()->getUser();
+
+        $utilisateur=$sessionUtilisateur->getUtilisateur();
         if (!$utilisateur) return $this->redirectToRoute('app_login');
-        //$session->set('utilisateur',$utilisateur);
         //dump($session);die();
         if($utilisateur->getEstcaissier()) {
+
             return $this->redirectToRoute('journee_caisses_gerer');
         }
-        //if(!$utilisateur->getEstcaissier()){
-            $this->addFlash('error', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
-            //return $this->render('main.html.twig';
-        //}
+
+        $this->addFlash('error', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
+
+
         return $this->redirectToRoute('app_login');
 
     }

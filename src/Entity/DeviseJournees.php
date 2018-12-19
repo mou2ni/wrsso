@@ -132,6 +132,13 @@ class DeviseJournees
 
     }
 
+    public function getQteMouvement(){
+        return $this->getQteAchat()+$this->getQteVente()+$this->getQteIntercaisse();
+    }
+
+    public function getSolde(){
+        return $this->getQteOuv()+$this->getQteMouvement();
+    }
     public function updateQteAchatVente($nombre)
     {
         if ($nombre>0) {
@@ -139,6 +146,7 @@ class DeviseJournees
         }else{
             $this->qteVente += $nombre;
         }
+        //$this->qteFerm+=$nombre;
         return $this;
 
     }
@@ -235,7 +243,7 @@ class DeviseJournees
      */
     public function getEcartFerm()
     {
-        return $this->ecartFerm;
+        return $this->getSolde()-$this->getQteFerm();
     }
 
     /**

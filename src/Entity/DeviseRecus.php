@@ -81,6 +81,11 @@ class DeviseRecus
     private $motif;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $comment;
+
+    /**
      * @ORM\Column(type="string", length=1, nullable=false)
      */
     private $sens;
@@ -134,6 +139,8 @@ class DeviseRecus
         $deviseMouvement->setSens($this->getSens())
             ->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)
             ->setDeviseRecu($this);
+
+        $this->setComment($this->getComment().' | '.$deviseMouvement->getNombre().' '.$deviseMouvement->getDevise().' = '.$deviseMouvement->getContreValeur());
 
         $this->deviseMouvements->add($deviseMouvement);
         return $this;
@@ -363,6 +370,22 @@ class DeviseRecus
     {
         $this->adresse = $adresse;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     */
+    public function setComment($comment)
+    {
+        $this->comment = $comment;
     }
 
 }
