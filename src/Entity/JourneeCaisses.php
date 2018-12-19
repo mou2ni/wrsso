@@ -321,7 +321,7 @@ class JourneeCaisses
         $this->systemElectInventOuv=new SystemElectInventaires();
         $this->billetFerm=new Billetages();
         $this->systemElectInventFerm=new SystemElectInventaires();
-        //$devises = $this->em->getRepository(Devises::class)->findAll();
+        ///$devises = $this->em->getRepository(Devises::class)->findAll();
         /*foreach ($devises as $devise){
             $deviseJournee = new DeviseJournees($this,$devise);
             $this->addDeviseJournee($deviseJournee);
