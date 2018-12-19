@@ -1,19 +1,81 @@
 {{ form_start(form, {'attr': {'class': 'form-vertical','onsubmit':"return confirm('Confirmer la validation ?');"}}) }}
 <div class="form-group">
-        {{ form_row(form.dateRecu) }}
-    {{ form_row(form.nom) }}
-    {{ form_row(form.prenom) }}
-    {{ form_row(form.adresse) }}
-    {{ form_row(form.typePiece) }}
-    {{ form_row(form.numPiece) }}
-    {{ form_row(form.expireLe) }}
-    {{ form_row(form.paysPiece) }}
-    {{ form_row(form.motif) }}
-    {{ form_row(form.sens) }}
+    <div class="form-row">
+        <div class="col-2">
+            {{ form_label(form.nom) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.nom) }}
+        </div>
+        <div class="col-2">
+            {{ form_label(form.prenom) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.prenom) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-2">
+            {{ form_label(form.adresse) }}
+        </div>
+        <div class="col">
+            {{ form_widget(form.adresse) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-2">
+            {{ form_label(form.typePiece) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.typePiece) }}
+        </div>
+        <div class="col-2">
+            {{ form_label(form.paysPiece) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.paysPiece) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-2">
+            {{ form_label(form.numPiece) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.numPiece) }}
+        </div>
+        <div class="col-2">
+            {{ form_label(form.expireLe) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.expireLe) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-2">
+            {{ form_label(form.motif) }}
+        </div>
+        <div class="col-10">
+            {{ form_widget(form.motif) }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col-2">
+            {{ form_label(form.sens) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.sens) }}
+        </div>
+    </div>
+
 </div>
-<h3>Devises</h3>
 
     <div class="form-group">
+        <div class="table-responsive">
         <table>
             <thead>
             <tr class="form-inline">
@@ -38,6 +100,7 @@
             </tbody>
 
         </table>
+        </div>
     </div>
 
     <div class="form-group">
