@@ -27,7 +27,6 @@ class LoadBillet extends Fixture implements DependentFixtureInterface
             /////////////XOF////////////
             array('valeur'=>5,'devise'=>null),
             array('valeur'=>10,'devise'=>null),
-            array('valeur'=>20,'devise'=>null),
             array('valeur'=>25,'devise'=>null),
             array('valeur'=>50,'devise'=>null),
             array('valeur'=>100,'devise'=>null),
@@ -54,6 +53,7 @@ class LoadBillet extends Fixture implements DependentFixtureInterface
             array('valeur'=>50,'devise'=>$devise2),
             array('valeur'=>100,'devise'=>$devise2),
             array('valeur'=>200,'devise'=>$devise2),
+            array('valeur'=>500,'devise'=>$devise2),
         );
 
         foreach ($lists as $list) {
