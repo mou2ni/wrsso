@@ -36,9 +36,19 @@ class TransfertInternationaux
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="transfertInternationaux")
-     * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="journeeCaisse", referencedColumnName="id", nullable=false)
      */
-    private $idJourneeCaisse;
+    private $journeeCaisse;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="transfertEmis")
+     * @ORM\JoinColumn(name="journeeCaisseEmi", referencedColumnName="id", nullable=true)
+     */
+    private $journeeCaisseEmi;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="transfertRecus")
+     * @ORM\JoinColumn(name="journeeCaisseRecu", referencedColumnName="id", nullable=true)
+     */
+    private $journeeCaisseRecu;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SystemTransfert", inversedBy="transfertInternationaux")
@@ -316,6 +326,60 @@ class TransfertInternationaux
     public function setE($e, String $champ)
     {
         $this->e[$champ] = $e;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return TransfertInternationaux
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisseEmi()
+    {
+        return $this->journeeCaisseEmi;
+    }
+
+    /**
+     * @param mixed $journeeCaisseEmi
+     * @return TransfertInternationaux
+     */
+    public function setJourneeCaisseEmi($journeeCaisseEmi)
+    {
+        $this->journeeCaisseEmi = $journeeCaisseEmi;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisseRecu()
+    {
+        return $this->journeeCaisseRecu;
+    }
+
+    /**
+     * @param mixed $journeeCaisseRecu
+     * @return TransfertInternationaux
+     */
+    public function setJourneeCaisseRecu($journeeCaisseRecu)
+    {
+        $this->journeeCaisseRecu = $journeeCaisseRecu;
         return $this;
     }
 

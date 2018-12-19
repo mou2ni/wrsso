@@ -1,28 +1,40 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% if envoi %}
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Saisir les transfert payés'}) }}
+    {% else %}
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_envoi' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Saisir les transfert envoyés'}) }}
+    {% endif %}
     {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
     {# ... #}
 
     {# store the prototype on the data-prototype attribute #}
 
     <table id="transfert-fields-list"
-        data-prototype="{{ '<td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idSystemTransfert)|e }}
+           data-prototype="
+{% if envoi %}{{ '<td>'|e }}{{ form_widget(form.transfertEmis.vars.prototype.idSystemTransfert)|e }}
 {#{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.sens)|e }}#}
-{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idPays)|e }}
-{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTransfert)|e }}
-{% if envoi %}{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTransfertTTC)|e }}
-{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mFraisHt)|e }}
-{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTva)|e }}
-{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mAutresTaxes)|e }}{% endif %}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertEmis.vars.prototype.idPays)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTransfert)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTransfertTTC)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mFraisHt)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTva)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mAutresTaxes)|e }}
+{{ '</td>'|e }}{% else %}
+{{ '<td>'|e }}{{ form_widget(form.transfertRecus.vars.prototype.idSystemTransfert)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertRecus.vars.prototype.idPays)|e }}
+{{ '</td><td>'|e }}{{ form_widget(form.transfertRecus.vars.prototype.mTransfert)|e }}
+
+{% endif %}
 {{ '</td>'|e }}"
-        data-widget-tags="{{ '<tr classe=\"transfert\"></tr>'|e }}" class="transfert" data-list="#transfert-fields-list" onchange="majTransfert()">
+           data-widget-tags="{{ '<tr classe=\"transfert\"></tr>'|e }}" class="transfert" data-list="#transfert-fields-list" onchange="majTransfert()">
         <thead>
         <tr>
-            <h1> Saisie des transferts internationaux</h1>
+            {% if envoi %}<h1> Saisie des transferts envoyés</h1>{% else %}<h1> Saisie des transferts payés</h1>{% endif %}
         </tr>
         <tr> {% if envoi %}<td>Total Emission</td> <td> {{ form_widget(form.mEmissionTrans) }}</td>{% else %}
-            <td>Total Reception</td> <td> {{ form_widget(form.mReceptionTrans) }}</td> {% endif %}
+                <td>Total Reception</td> <td> {{ form_widget(form.mReceptionTrans) }}</td> {% endif %}
             <input hidden type="text" id="sens" value="{{ envoi }}">
         </tr>
         <tr>
@@ -30,29 +42,39 @@
             <th>Pays</th>
             <th>Montant</th>
             {% if envoi %}<th>Montant Total</th>
-            <th>Frais HT</th>
-            <th>TVA</th>
-            <th>Autres Taxes</th>{% endif %}
+                <th>Frais HT</th>
+                <th>TVA</th>
+                <th>Autres Taxes</th>{% endif %}
 
         </tr>
         </thead>
-        {% for trans in form.transfertInternationaux %}
-            <tr class="transfert">
-                <td>{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
-                {#<td ><input id="transfert_transfertInternationaux_{{ trans.id }}_sens" type="text" value=""></td>
-                <td>{{ form_errors(trans.sens) }} {{ form_widget(trans.sens) }}</td>#}
-                <td>{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
-                <td>{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
-                {% if envoi %}<td>{{ form_errors(trans.mTransfertTTC) }} {{ form_widget(trans.mTransfertTTC) }}</td>
-                <td>{{ form_errors(trans.mFraisHt) }} {{ form_widget(trans.mFraisHt) }}</td>
-                <td>{{ form_errors(trans.mTva) }} {{ form_widget(trans.mTva) }}</td>
-                <td>{{ form_errors(trans.mAutresTaxes) }} {{ form_widget(trans.mAutresTaxes) }}</td>{% endif %}
-            </tr>
-        {% endfor %}
+        {% if envoi %}
+            {% for trans in form.transfertEmis %}
+                <tr class="transfert">
+                    <td>{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
+                    <td>{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
+                    <td>{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
+                    <td>{{ form_errors(trans.mTransfertTTC) }} {{ form_widget(trans.mTransfertTTC) }}</td>
+                    <td>{{ form_errors(trans.mFraisHt) }} {{ form_widget(trans.mFraisHt) }}</td>
+                    <td>{{ form_errors(trans.mTva) }} {{ form_widget(trans.mTva) }}</td>
+                    <td>{{ form_errors(trans.mAutresTaxes) }} {{ form_widget(trans.mAutresTaxes) }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            {% for trans in form.transfertRecus %}
+                <tr class="transfert">
+                    <td>{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
+                    <td>{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
+                    <td>{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+
+
     </table>
     {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
     {% if journeeCaisse.statut!="F" %}
-    <input type="submit" value="Enregistrer">
+        <input type="submit" value="Enregistrer">
     {% endif %}
     <div hidden>
         {{ form_rest(form) }}
@@ -63,19 +85,19 @@
     <div class="form-inline">
         {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
     </div>
-{#{% if journeeCaisse.statut=="O" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% elseif journeeCaisse.statut=="I" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% elseif journeeCaisse.statut=="F" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% endif %}#}
+    {#{% if journeeCaisse.statut=="O" %}
+            <div class="form-inline">
+                {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
+            </div>
+        {% elseif journeeCaisse.statut=="I" %}
+            <div class="form-inline">
+                {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
+            </div>
+        {% elseif journeeCaisse.statut=="F" %}
+            <div class="form-inline">
+                {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
+            </div>
+        {% endif %}#}
 {% endblock %}
 
 {% block title %}

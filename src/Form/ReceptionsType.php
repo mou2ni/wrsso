@@ -16,7 +16,7 @@ class ReceptionsType extends AbstractType
     {
         $builder
             ->add('mReceptionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
-            ->add('transfertInternationaux', CollectionType::class, array(
+            ->add('transfertRecus', CollectionType::class, array(
                 'entry_type' => ReceptionType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,

@@ -8,6 +8,7 @@ use App\Form\EmissionsType;
 use App\Form\ReceptionsType;
 use App\Form\TransfertInternationauxType;
 use App\Form\TransfertType;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Builder\ValidationBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class TransfertInternationauxController extends Controller
 {
+    private $journeeCaisse;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
+    }
     /**
      * @Route("/", name="transfert_internationaux_index", methods="GET")
      */
@@ -60,16 +70,16 @@ class TransfertInternationauxController extends Controller
     private function ajout(Request $request, $envoi = true): Response
     {
         $em =$this->getDoctrine();
-        $journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
-            //dump($journeeCaisse->getTransfertInternationaux());die();
-        ($envoi)?$journeeCaisse->setSensTransfert(TransfertInternationaux::ENVOI):
-            $journeeCaisse->setSensTransfert(TransfertInternationaux::RECEPTION);
-        $form = ($envoi)?$this->createForm(EmissionsType::class, $journeeCaisse):$this->createForm(ReceptionsType::class, $journeeCaisse);
+        ($envoi)?$this->journeeCaisse->setSensTransfert(TransfertInternationaux::ENVOI):
+            $this->journeeCaisse->setSensTransfert(TransfertInternationaux::RECEPTION);
+        //dump($this->journeeCaisse->getSensTransfert()); die();
+        $form = ($envoi)?$this->createForm(EmissionsType::class, $this->journeeCaisse):$this->createForm(ReceptionsType::class, $this->journeeCaisse);
         $form->handleRequest($request);
         //dump($form);die();
         if ($form->isSubmitted() && $form->isValid()) {
+            //dump($this->journeeCaisse);die();
             $em = $this->getDoctrine()->getManager();
-            $em->persist($journeeCaisse);
+            $em->persist($this->journeeCaisse);
             $em->flush();
         }
 
@@ -77,7 +87,7 @@ class TransfertInternationauxController extends Controller
             'form' => $form->createView(),
             'operation'=>'',
             'envoi'=>$envoi,
-            'journeeCaisse'=>$journeeCaisse
+            'journeeCaisse'=>$this->journeeCaisse
         ]);
     }
 

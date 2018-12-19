@@ -187,31 +187,18 @@ class JourneeCaisses
     private $mIntercaisseEntrants=0;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idJourneeCaisse", cascade={"persist"})
-     */
-    /* @Assert\Collection(
-     *     fields={
-     *      "" = {@Assert\GreaterThan(0)}
-     *     }
-     * )
-     *
-    *
-      @Assert\Collection(
-     *     fields = {
-     *         "personal_email" = @Assert\Email,
-     *         "short_bio" = {
-     *             @Assert\NotBlank(),
-     *             @Assert\Length(
-     *                 max = 100,
-     *                 maxMessage = "Your short bio is too long!"
-     *             )
-     *         }
-     *     },
-     *     allowMissingFields = true
-     * )
+    /*
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisse", cascade={"persist"})
      */
     private $transfertInternationaux;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisseEmi", cascade={"persist"})
+     */
+    private $transfertEmis;
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisseRecu", cascade={"persist"})
+     */
+    private $transfertRecus;
 
     /**
      * @ORM\Column(type="bigint")
@@ -310,6 +297,8 @@ class JourneeCaisses
     {
         $this->em=$em;
         $this->transfertInternationaux=new ArrayCollection();
+        $this->transfertEmis=new ArrayCollection();
+        $this->transfertRecus=new ArrayCollection();
         $this->intercaisseEntrants=new ArrayCollection();
         $this->intercaisseSortants=new ArrayCollection();
         $this->deviseRecus=new ArrayCollection();
@@ -475,35 +464,45 @@ class JourneeCaisses
 
     public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
-        /*$validator = new Assert\GreaterThan();
-        $NumberConstraint = new Assert\GreaterThan(0);
-        // all constraint "options" can be set this way
-        $NumberConstraint->message = 'Valeur negative ou nulle';
-        //dump($NumberConstraint);die();
-        // use the validator to validate the value
-        $errors = $validator->validate(
-            $transfertInternationaux->getMTransfert(),
-            $NumberConstraint
-        );
-*/
-        //if (!$transfertInternationaux->getE()) {
-        $transfertInternationaux->setSens($this->getSensTransfert());
-            $this->transfertInternationaux->add($transfertInternationaux);
-            $transfertInternationaux->setIdJourneeCaisse($this);
-        //}
-        /*else {
-            // this is *not* a valid email address
-            $errorMessage = $errors[0]->getMessage();
-            dump($errorMessage);die();
 
-            // ... do something with the error
-        }*/
+        $transfertInternationaux->setSens($this->getSensTransfert());
+        $this->transfertInternationaux->add($transfertInternationaux);
+        $transfertInternationaux->setIdJourneeCaisse($this);
 
     }
 
     public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
         $this->transfertInternationaux->removeElement($transfertInternationaux);
+    }
+    public function addTransfertEmi(TransfertInternationaux $transfertInternationaux)
+    {
+
+        $transfertInternationaux->setSens($this->getSensTransfert());
+        $this->transfertEmis->add($transfertInternationaux);
+        $transfertInternationaux->setJourneeCaisseEmi($this);
+        $transfertInternationaux->setJourneeCaisse($this);
+
+    }
+
+    public function removeTransfertEmi(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertEmis->removeElement($transfertInternationaux);
+    }
+    public function addTransfertRecu(TransfertInternationaux $transfertInternationaux)
+    {
+        $transfertInternationaux->setSens($this->getSensTransfert());
+        $transfertInternationaux->setMTransfertTTC($transfertInternationaux->getMTransfert());
+        $this->transfertRecus->add($transfertInternationaux);
+        $transfertInternationaux->setJourneeCaisseRecu($this);
+        $transfertInternationaux->setJourneeCaisse($this);
+        //dump($transfertInternationaux); die();
+
+    }
+
+    public function removeTransfertRecu(TransfertInternationaux $transfertInternationaux)
+    {
+        $this->transfertRecus->removeElement($transfertInternationaux);
     }
 
     public function addInterCaisseSortant(InterCaisses $interCaisses)
@@ -894,6 +893,44 @@ class JourneeCaisses
     {
         return $this->transfertInternationaux;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTransfertEmis()
+    {
+        return $this->transfertEmis;
+    }
+
+    /**
+     * @param mixed $transfertEmis
+     * @return JourneeCaisses
+     */
+    public function setTransfertEmis($transfertEmis)
+    {
+        $this->transfertEmis = $transfertEmis;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTransfertRecus()
+    {
+        return $this->transfertRecus;
+    }
+
+    /**
+     * @param mixed $transfertRecus
+     * @return JourneeCaisses
+     */
+    public function setTransfertRecus($transfertRecus)
+    {
+        $this->transfertRecus = $transfertRecus;
+        return $this;
+    }
+
+
 
     /**
      * @return mixed

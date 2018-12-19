@@ -16,7 +16,7 @@ class EmissionsType extends AbstractType
     {
         $builder
             ->add('mEmissionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
-            ->add('transfertInternationaux', CollectionType::class, array(
+            ->add('transfertEmis', CollectionType::class, array(
                 'entry_type' => EmissonType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,

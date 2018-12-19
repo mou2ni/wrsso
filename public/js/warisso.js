@@ -12,27 +12,27 @@ function majTransfert() {
     var tva = 0;
     var autresTaxes = 0;
     var mTTC = 0;
-    while ($("#transfert_transfertInternationaux_"+i+"_mTransfert")) {
+    while ($("#emissions_transfertEmis_"+i+"_mTransfert")) {
         //alert(Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val()));
         if ($("#sens").val() == "1"){
-            tva=Echape($("#emissions_transfertInternationaux_"+i+"_mFraisHt").val())*0.18;
+            tva=Echape($("#emissions_transfertEmis_"+i+"_mFraisHt").val())*0.18;
             tva=Math.round(tva);
             //alert(tva);
 
-            autresTaxes = Echape($("#emissions_transfertInternationaux_"+i+"_mTransfertTTC").val())
-                - Echape($("#emissions_transfertInternationaux_"+i+"_mTransfert").val())
-                - Echape($("#emissions_transfertInternationaux_"+i+"_mFraisHt").val())
+            autresTaxes = Echape($("#emissions_transfertEmis_"+i+"_mTransfertTTC").val())
+                - Echape($("#emissions_transfertEmis_"+i+"_mTransfert").val())
+                - Echape($("#emissions_transfertEmis_"+i+"_mFraisHt").val())
                 - tva;
             /*if (autresTaxes<0)
             autresTaxes = 0;*/
-            $("#emissions_transfertInternationaux_"+i+"_mTva").val(tva);
-            $("#emissions_transfertInternationaux_"+i+"_mAutresTaxes").val(autresTaxes);
-            emission = emission + +Echape($("#emissions_transfertInternationaux_" + i + "_mTransfertTTC").val())
+            $("#emissions_transfertEmis_"+i+"_mTva").val(tva);
+            $("#emissions_transfertEmis_"+i+"_mAutresTaxes").val(autresTaxes);
+            emission = emission + +Echape($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val())
             $("#emissions_mEmissionTrans").val(emission);
         }
         else {
-            alert('ok');
-            reception = reception + +Echape($("#receptions_transfertInternationaux_" + i + "_mTransfert").val())
+            //alert('ok');
+            reception = reception + +Echape($("#receptions_transfertRecus_" + i + "_mTransfert").val())
             $("#receptions_mReceptionTrans").val(reception);
         }
         i++;

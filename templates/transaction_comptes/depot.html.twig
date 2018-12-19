@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="form-row">
+        <div >
+            {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+        </div>
+        <div >
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'retrait' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Retraits'}) }}
+        </div>
+    </div>
     <h1> Depot dans un compte</h1>
     {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
-    <table>
+    <table class="table">
         <tr>
             <td>Compte</td><td>{{ form_widget(form.numCompte) }}</td><td><p id="nom"></p></td>
         </tr>

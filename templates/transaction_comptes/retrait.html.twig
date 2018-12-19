@@ -1,9 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <div class="form-row">
+        <div >
+            {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+        </div>
+        <div >
+                {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Dépots'}) }}
+        </div>
+    </div>
     <h1> Retrait d'un compte</h1>
     {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
-    <table>
+    <table class="table">
         <tr>
             <td>Compte</td><td>{{ form_widget(form.numCompte) }}</td><td><label id="nom"></label></td>
         </tr>
@@ -25,22 +33,7 @@
         <input type="hidden" name="_operation" value="{{ operation }}">
     </div>
 {{ form_end(form) }}
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
-    </div>
-{#{% if journeeCaisse.statut=="O" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% elseif journeeCaisse.statut=="I" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% elseif journeeCaisse.statut=="F" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% endif %}#}
+
     {{ include('transaction_comptes/_liste_retraits.html.twig') }}
 {% endblock %}
 

@@ -3,7 +3,7 @@
 {% block title %}New DetteCreditDivers{% endblock %}
 
 {% block body %}
-    <h1>Create new DetteCreditDivers</h1>
+    {% if dette %}<h1>Saisie des dettes</h1>{% else %}<h1>Saisie des crédits</h1>{% endif %}
 
     {{ include('dette_credit_divers/_form.html.twig') }}
     {{ include('dette_credit_divers/_liste.html.twig') }}
