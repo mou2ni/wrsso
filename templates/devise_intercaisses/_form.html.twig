@@ -1,7 +1,7 @@
 {{ form_start(form, {'attr': {'class': 'form-vertical','onsubmit':"return confirm('Confirmer intercaisse ?');"}}) }}
 <div class="form-group">
-    <div class="form-inline">
-        {{ form_row(form.journeeCaisseSource) }}
+    <div class="form-row form-inline">
+        Journée Caisse Source : {{ form_widget(form.journeeCaisseSource) }}
     </div>
 </div>
 

@@ -7,6 +7,7 @@ use App\Entity\DeviseMouvements;
 use App\Entity\DeviseTmpMouvements;
 use App\Entity\JourneeCaisses;
 use App\Form\DeviseIntercaissesType;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,22 +18,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeviseIntercaissesController extends Controller
 {
-    /*
-     * @Route("/", name="devise_intercaisses_index", methods="GET")
+    private $journeeCaisse;
 
-    public function index(): Response
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
-        $deviseIntercaisses = $this->getDoctrine()
-            ->getRepository(DeviseIntercaisses::class)
-            ->findAll();
-
-        return $this->render('devise_intercaisses/index.html.twig', ['devise_intercaiss' => $deviseIntercaisses]);
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        if(!$this->journeeCaisse){
+            return $this->redirectToRoute('app_login');
+        }
     }
-*/
+
     /**
      * @Route("/", name="devise_intercaisses_gestion", methods="GET|POST")
      */
-    public function demander(Request $request, JourneeCaisses $journeeCaisse ): Response
+    public function demander(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -40,7 +39,7 @@ class DeviseIntercaissesController extends Controller
 
         //$journeeCaisse = $em->getRepository(JourneeCaisses::class)->findOneBy(['statut' => 'O']);
 
-        $deviseIntercaiss = new DeviseIntercaisses($journeeCaisse, $em);
+        $deviseIntercaiss = new DeviseIntercaisses($this->journeeCaisse, $em);
 
         $deviseIntercaiss->setStatut($deviseIntercaiss::INIT);
         $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
@@ -56,19 +55,19 @@ class DeviseIntercaissesController extends Controller
             if ($save_and_new or $save_and_close) {
                 $em->persist($deviseIntercaiss);
                 $em->flush();
-                if ($save_and_close) return $this->redirectToRoute('journee_caisses_gerer',['id'=>$journeeCaisse->getId()]);
-                if ($save_and_new) return $this->redirectToRoute('devise_intercaisses_gestion', ['id'=>$journeeCaisse->getId(),]);
+                if ($save_and_close) return $this->redirectToRoute('journee_caisses_gerer');
+                if ($save_and_new) return $this->redirectToRoute('devise_intercaisses_gestion');
 
             }
         }
-        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
-        $devise_tmp_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findTmpMvtIntercaisses($journeeCaisse);
+        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($this->journeeCaisse);
+        $devise_tmp_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findTmpMvtIntercaisses($this->journeeCaisse);
 
         //dump($deviseIntercaiss); die();
 
         return $this->render('devise_intercaisses/gestion.html.twig', [
             'devise_intercaiss' => $deviseIntercaiss, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses
-            , 'journeeCaisse'=>$journeeCaisse, 'devise_tmp_mvt_intercaisses'=>$devise_tmp_mvt_intercaisses,
+            , 'journeeCaisse'=>$this->journeeCaisse, 'devise_tmp_mvt_intercaisses'=>$devise_tmp_mvt_intercaisses,
             'form' => $form->createView(),
         ]);
     }
@@ -112,7 +111,7 @@ class DeviseIntercaissesController extends Controller
                 $em->flush();
             }
         }
-        return $this->redirectToRoute('devise_intercaisses_gestion', ['id'=>$jc]);
+        return $this->redirectToRoute('devise_intercaisses_gestion');
     }
 
 }
