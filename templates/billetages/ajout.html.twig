@@ -26,7 +26,7 @@
         </tbody>
     </table>
     {% if journeeCaisse.statut!="F" %}
-    <input type="submit" value="Enregistrer" >
+    <input type="submit" class="btn-info" value="Enregistrer" >
         {{ include('_btn_close.html.twig') }}
 
     {% endif %}
@@ -37,22 +37,6 @@
         <input id="nombreLigne" value="{{ billets|length}}">
     </div>
     {{ form_end(form) }}
-    {#<div class="form-inline">
-        {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
-    </div>
-    {% if journeeCaisse.statut=="O" %}
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_gerer','btn_name':'femer', 'btn_label':'FERMER'}) }}
-    </div>
-        {% elseif journeeCaisse.statut=="I" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_ouvrir','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% elseif journeeCaisse.statut=="F" %}
-        <div class="form-inline">
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_show','btn_name':'femer', 'btn_label':'FERMER'}) }}
-        </div>
-    {% endif %}#}
 
 {% endblock %}
 
@@ -68,7 +52,7 @@
         var nbrBillet = valeur("#nombreLigne");
         var totalBillet = 0;
         for (b = 0; b <= nbrBillet; b++) {
-            var nbr = valeur("#billetages_billetageLignes_" + b + "_nbBillet");
+            var nbr = Echape($("#billetages_billetageLignes_" + b + "_nbBillet").val());
             var valeurBillet=Echape($("#billetages_billetageLignes_" + b + "_valeurBillet").val());
             $("#billetages_billetageLignes_" + b + "_valeurLigne").val(valeurBillet * nbr);
 

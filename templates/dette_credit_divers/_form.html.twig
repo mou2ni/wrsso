@@ -1,9 +1,12 @@
+<div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
 
 {% if dette %}
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'credit_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Saisir Crédits'}) }}
 {% else %}
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'dette_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Saisir Dettes'}) }}
  {% endif %}
+</div>
 {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
 <table class="table" onload="reset()">
 
@@ -17,15 +20,19 @@
     </tr>
     {% endif %}
     <tr>
-        <td>Commentaire</td><td>{{ form_widget(form.libelle) }}</td><td></td>
+        <td>Commentaire</td><td>{{ form_widget(form.libelle) }}</td>
+    </tr>
+    <tr>
+        <td>
+            <button class="btn-info" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
+        </td>
+        <td>
+            <button class="btn-info" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
+        </td>
     </tr>
 </table>
 {% if journeeCaisse.statut!="F" %}
-<button class="btn-primary btn" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
-<button class="btn-primary btn" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
 {% endif %}
 <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
 {{ form_end(form) }}
-<div class="form-inline">
-    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
-</div>
+

@@ -87,13 +87,13 @@ class Utilisateurs implements UserInterface, \Serializable
     private $lastCaisse;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\DetteCreditDivers" ,cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\DetteCreditDivers" , mappedBy="utilisateurCreation",cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $detteCreditCrees;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\DetteCreditDivers" ,cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\DetteCreditDivers",mappedBy="utilisateurRemboursement" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $detteCreditRembourses;

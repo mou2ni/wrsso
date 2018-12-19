@@ -1,6 +1,6 @@
 {#{{ form_start(form , 'attr': {'onsubmit' : 'return confirm();'}) }}#}
 {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
-<table>
+<table class="table">
     <tr>
         <td>Caisse Partenaire</td><td>{{ form_widget(form.journeeCaisseSortant) }}</td>
     </tr><tr>
@@ -12,8 +12,8 @@
     </tr>
 </table>
 {% if journeeCaisse.statut!="F" %}
-<button  class="btn-primary btn" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
-<button  class="btn-primary btn" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
+<button  class="btn-info" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
+<button  class="btn-info" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
 {% endif %}
 <input type="hidden" name="_operation" value="{{ operation }}">
 <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">

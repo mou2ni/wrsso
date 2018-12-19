@@ -78,7 +78,7 @@ class JourneeCaisses
     private $mLiquiditeOuv=0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\SystemElectInventaires", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\SystemElectInventaires", inversedBy="journeeCaisse", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $systemElectInventOuv;

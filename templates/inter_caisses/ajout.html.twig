@@ -9,7 +9,7 @@
 
     <form method="post" action="{{ path('inter_caisses_ajout', {'id':journeeCaisse.id}) }}">
         {% if journeeCaisse.statut!="F" %}
-        <button type="button" id="validerIntercaisses" value="btest"> VALIDER TOUT</button>
+        <button type="button" id="validerIntercaisses" class="btn-info" value="btest"> VALIDER TOUT</button>
         {% endif %}
         <table class="table">
             <thead>
