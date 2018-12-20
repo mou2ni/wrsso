@@ -45,9 +45,11 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class JourneeCaissesController extends Controller
 {
     private $journeeCaisse;
+    private $utilisateur;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
@@ -228,33 +230,34 @@ class JourneeCaissesController extends Controller
      */
     public function enregistrer(Request $request){
         $genererCompta=new GenererCompta($this->getDoctrine()->getManager());
-        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+        //$utilisateur = $this->get('security.token_storage')->getToken()->getUser();
         $em=$this->getDoctrine()->getManager();
         $operation=$request->request->get('_operation');
-        $journeeCaisse=$em->getRepository('App:JourneeCaisses')->find($request->request->get('_journeeCaisse'));
+        //$journeeCaisse=$em->getRepository('App:JourneeCaisses')->find($request->request->get('_journeeCaisse'));
         if ($operation=="OUVRIR"){
             $em = $this->getDoctrine()->getManager();
-            $genererCompta->genComptaEcart($utilisateur, $journeeCaisse->getCaisse(), 'Ecart ouverture' . $journeeCaisse, $journeeCaisse->getMEcartOuv());
-            $journeeCaisse->setStatut(JourneeCaisses::OUVERT);
-            $journeeCaisse->getCaisse()->setJourneeOuverteId($journeeCaisse->getId());
-            $journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
-            $em->persist($journeeCaisse);
+            $genererCompta->genComptaEcart($this->utilisateur, $this->journeeCaisse->getCaisse(), 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv());
+            $this->journeeCaisse->setStatut(JourneeCaisses::OUVERT);
+            $this->journeeCaisse->getCaisse()->setJourneeOuverteId($this->journeeCaisse->getId());
+            $this->journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
+            $em->persist($this->journeeCaisse);
 
             $em->flush();
 
             return $this->redirectToRoute('journee_caisses_encours');
         }
         else{
-            $journeeCaisse->setDateFerm(new \DateTime());
-            $journeeCaisse->setStatut(JourneeCaisses::FERME);
-            $journeeCaisse->getCaisse()->setStatut(Caisses::FERME);
-            $this->comptabiliserFermeture($journeeCaisse);
-            $jc = $this->initJournee($journeeCaisse, $journeeCaisse->getCaisse());
-            $jc->setJourneePrecedente($journeeCaisse);
-            $utilisateur->setJourneeCaisseActiveId($jc->getId());
+            $this->journeeCaisse->setDateFerm(new \DateTime());
+            $this->journeeCaisse->setStatut(JourneeCaisses::FERME);
+            $this->journeeCaisse->getCaisse()->setStatut(Caisses::FERME);
+            $this->comptabiliserFermeture($this->journeeCaisse);
+            $jc = $this->initJournee($this->journeeCaisse, $this->journeeCaisse->getCaisse());
+            $jc->setJourneePrecedente($this->journeeCaisse);
+            $this->utilisateur->setJourneeCaisseActive($jc);
+            //$this->utilisateur->setJourneeCaisseActiveId($jc->getId());
             $em->persist($jc);
 
-            $em->persist($utilisateur);
+            $em->persist($this->utilisateur);
             $em->flush();
 
             //$genererCompta->genComptaIntercaisse($intercaisseSortant->getJourneeCaisseEntrant(),$intercaisseSortant->getJourneeCaisseEntrant()->getCaisse(),$paramComptable,$intercaisseSortant);
