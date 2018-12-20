@@ -2,240 +2,130 @@
     {{ include('journee_caisses/_btn_action_url_initialiser.html.twig',{'path':'journee_caisses_initialiser' , 'operation':'initialiser','btn_name':'initialise', 'btn_label':'Initialiser'}) }}
 </div>
 
-<div class="">
-    <div class="col-lg-4" hidden>
-        <h3>O</h3>
-
-        <div class="">
-            <div class="form-control">Liquidité</div>
-
-        </div>
-        <div class="form-inline">
-            <div class="form-control">Solde electronique
-            </div>
-        </div>
-        <div class="form-inline">
-            <div class="form-control">Dettes Divers
-            </div>
-        </div>
-        <div class="form-inline">
-            <div class="form-control">Credits divers
-            </div>
-        </div>
-        ===================
-        <div class="form-inline">
-            <div class="form-control">Disponibilité
-            </div>
-        </div>
-        <div class="form-inline">
-            <div class="form-control">Solde Net
-            </div>
-        </div>
-        <div class="form-inline">
-            <div class="form-control">Ecart
-            </div>
-        </div>
-
-        ===================
-        <div class="row">
-            <div class="col">
-                {% for deviseJournee in form.deviseJournees %}
-                    <div class="form-inline">
-                        <div class="">{{ form_widget(deviseJournee.devise) }}
-                        </div>
-                    </div>
-
-                {% else %}
-                    Aucune devise
-                {% endfor %}
-            </div>
-
-        </div>
-
-
-    </div>
-    <div class="">
-        <table>
-            <thead><tr><th colspan="2" > <h3>Fermeture précédente</h3> </th><th colspan="2"> <h3>Ouverture</h3> </th></tr></thead>
-            <tbody>
-            <tr >
-                <td>Liquidité : </td>
-                <td > {{ journeePrecedente ? journeePrecedente.mLiquiditeFerm : 0}}</td>
-                <td > {{ form_widget(form.mLiquiditeOuv) }}</td>
-                <td>{{ journeeCaisse.billetOuv.id ? include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetOuv.id, 'operation':'OUVER', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
-
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RUBRIQUE</th>
+                <th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE PRECEDENT</th>
+                <th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE OUVERTURE</th>
+                <th bgcolor="#a9a9a9" >ACTIONS</th>
             </tr>
-            <tr >
-                <td>Electronique : </td>
-                <td > {{ journeePrecedente ? journeePrecedente.mSoldeElectFerm : 0}}</td>
-                <td > {{ form_widget(form.mSoldeElectOuv) }}</td>
-                <td>{{ journeeCaisse.systemElectInventOuv.id ? include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventOuv.id, 'operation':'OUVRIR', 'btn_name':'Solde', 'btn_label':'Solde'}) }}</td>
-            </tr>
-            <tr >
-                <td>Dettes Divers : </td>
-                <td > {{ journeePrecedente ? journeePrecedente.mDetteDiversFerm : "0"}}</td>
-                <td > {{ form_widget(form.mDetteDiversOuv) }}</td>
-            </tr>
-            <tr >
-                <td>Credits Divers : </td>
-                <td > {{ journeePrecedente ? journeePrecedente.mCreditDiversFerm : 0}}</td>
-                <td>{{ form_widget(form.mCreditDiversOuv) }}</td>
-            </tr>
-            <tr >
-                <td colspan="2">=================== </td>
-                <td colspan="2">=================== </td>
-            </tr>
-            <tr >
-                <td>Disponibilité : </td>
-                <td > {{ journeePrecedente ? journeePrecedente.disponibiliteFerm : 0}}</td>
-                <td > {{ journeeCaisse.disponibiliteOuv }}</td>
-            </tr>
-            <tr >
-                <td>Solde Net : </td>
-                <td > {{ journeePrecedente ? journeePrecedente.soldeNetFerm : 0}}</td>
-                <td > {{ journeeCaisse.soldeNetOuv }}</td>
-            </tr>
-            <tr >
-                <td>Ecart : </td><td></td><td>{{ form_widget(form.mEcartOuv) }}</td>
-            </tr>
-            <tr >
-                <td colspan="2">=================== </td>
-                <td colspan="2">=================== </td>
-            </tr>
-            <tr >
-                <th>Devise </th>
-                <th>Ecart </th>
-                <th>Devise </th>
-                <th>Ecart </th>
-            </tr>
-
-            {% set devises = 0 %}
-            {% for deviseJournee in form.deviseJournees %}
-                {% set index2=loop.index %}
-                {% for deviseJournee1 in journeeCaisse.deviseJournees %}
-                    {% set index1=loop.index %}
-                    {% set devise=deviseJournee1.billetOuv.id  %}
-                    {% set deviseid=deviseJournee1.devise.id  %}
-                    {% if index1==index2 %}
-                        <tr >
-                            <td>{{ deviseJournee1.devise.code }} </td>
-                            <td >{{ deviseJournee1.qteFerm }} </td>
-                            <td>{{ form_widget(deviseJournee.billetOuv) }}</td>
-                            <td >{{ form_widget(deviseJournee.ecartOuv) }}</td>
-                            <td>{{ journeeCaisse.id ? include('journee_caisses/_btn_action_billetage.html.twig',{'id':devise,'operation':'OUVRIR', 'devise':deviseid,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
-
-                        </tr>
-                    {% endif %}
-                {% endfor %}
-
-            {% else %}
-                <tr >
-                    <td colspan="2">Aucune devise </td>
-                    <td colspan="2">Aucune devise </td>
-                </tr>
-            {% endfor %}
-
-            {#{% else %}
-                <tr >
-                    <td colspan="2">Pas de journée précedente </td>
-                </tr>
-            {% endif %}
-
-
-            {% if journeePrecedente %}
-                {% for deviseJournee in journeePrecedente.deviseJournees %}
-                    <tr >
-                        <td>{{ deviseJournee.devise.code }} </td>
-                        <td >{{ deviseJournee.qteFerm }} </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                {% else %}
-                    <tr >
-                        <td colspan="2">Aucune devise </td>
-                        <td colspan="2">Aucune devise </td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <tr >
-                    <td colspan="2">Pas de journée précedente </td>
-                </tr>
-            {% endif %}#}
-            </tbody>
-        </table>
-    </div>
-    <div class="col-lg-4" hidden>
-        <table>
-            <thead><tr><th colspan="3"> <h3>Ouverture Caisse</h3> </th></tr></thead>
-            <tbody>
-            <tr >
-                <td>Liquidité : </td>
-                <td > {{ form_widget(form.mLiquiditeOuv) }}</td>
-                <td>{{ journeeCaisse.billetOuv.id ? include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetOuv.id, 'operation':'OUVER', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
-            </tr>
-            <tr >
-                <td>Electronique : </td>
-                <td > {{ form_widget(form.mSoldeElectOuv) }}</td>
-                <td>{{ journeeCaisse.systemElectInventOuv.id ? include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventOuv.id, 'operation':'OUVRIR', 'btn_name':'Solde', 'btn_label':'Solde'}) }}</td>
-
-            </tr>
-            <tr >
-                <td>Dettes Divers : </td>
-                <td > {{ form_widget(form.mDetteDiversOuv) }}</td>
-
+            </thead>
+            <tbody class="text-thin">
+            <tr>
+                <td class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >LIQUIDITE : </td>
+                <td class="padding-5 text-right" colspan="2">{{ journeePrecedente ? journeePrecedente.mLiquiditeFerm|number_format(0, '.', ' ') : 0}}</td>
+                <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetOuv.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
             </tr>
             <tr>
-                <td>Credits Divers : </td><td>{{ form_widget(form.mCreditDiversOuv) }}</td>
+                <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >ELECTRONIQUE : </td>
+                <td class="padding-5 text-right" colspan="2">{{ journeePrecedente ? journeePrecedente.mSoldeElectFerm|number_format(0, '.', ' ') : 0}}</td>
+                <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventOuv.id, 'operation':'FERMER', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}</td>
             </tr>
-            <tr >
-                <td colspan="2">=================== </td>
+            <tr>
+                <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
+                <td class="padding-5 text-right" colspan="2">{{ journeePrecedente ? journeePrecedente.mDetteDiversFerm|number_format(0, '.', ' ') : "0"}}</td>
+                <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
+                <td class="padding-0" ></td>
             </tr>
-            <tr >
-                <td>Disponibilité : </td><td > {{ journeeCaisse.disponibiliteOuv }}</td>
+            <tr>
+                <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
+                <td class="padding-5 text-right" colspan="2">{{ journeePrecedente ? journeePrecedente.mCreditDiversFerm|number_format(0, '.', ' ') : 0}}</td>
+                <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'credit_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
             </tr>
-            <tr >
-                <td>Solde Net : </td><td > {{ journeeCaisse.soldeNetOuv }}</td>
+            <tr>
+                <td  class="text-bold padding-5 text-right" align="center" colspan="6" bgcolor="#a9a9a9"> </td>
             </tr>
-            <tr >
-                <td>Ecart : </td><td>{{ form_widget(form.mEcartOuv) }}</td>
+            <tr>
+                <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DISPONIBILITE : </td>
+                <td colspan="2"  class="text-bold padding-5 text-right"> {{ journeePrecedente ? journeePrecedente.disponibiliteFerm|number_format(0, '.', ' ') : 0}}</td>
+                <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.disponibiliteOuv|number_format(0, '.', ' ')  }}</td>
+                <td  class="text-bold padding-5 text-right"></td>
             </tr>
-            <tr >
-                <td colspan="2">=================== </td>
+            <tr>
+                <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >SOLDE NET : </td>
+                <td colspan="2"  class="text-bold padding-5 text-right">{{ journeePrecedente ? journeePrecedente.soldeNetFerm|number_format(0, '.', ' ') : 0}}</td>
+                <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ')  }}</td>
+                <td  class="text-bold padding-5 text-right"></td>
             </tr>
-            <tr >
-                <th>Devise </th>
-                <th>Ecart </th>
+            <tr>
+                <td class="text-bold text-bloody-500 padding-5 text-right" bgcolor="#a9a9a9" >ECARTS : </td>
+                <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right">{{journeePrecedente ? journeePrecedente.mEcartFerm|number_format(0, '.', ' '):0  }}</td>
+                <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
+                <td  class="text-bold padding-5 text-right"></td>
             </tr>
+            <tr>
+                <th  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >Devises </th>
+                <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Ouverture</th>
+                <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Mouvements</th>
+                <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Solde</th>
+                <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Inventaire</th>
+                <th class="text-bold text-bloody-500 text-center" bgcolor="#a9a9a9" >Ecart</th>
+            </tr>
+            {#{% for deviseJournee in journeeCaisse.deviseJournees%}
+                <tr>
+                    <td class="padding-5 text-right text-bold" bgcolor="#a9a9a9" >{{ deviseJournee.devise }}</td>
+                    <td class="padding-5 text-right">{{ deviseJournee.qteOuv|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-5 text-right">{{ deviseJournee.qteMouvement|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-5 text-right">{{ deviseJournee.solde|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-5 text-right">{{ deviseJournee.qteOuv|number_format(0, '.', ' ') }}</td>
+                    <td class="text-bold text-bloody-500 padding-0 text-right"><div class="form-inline">
+                            {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.billetOuv.id, 'operation':'deviseOuv', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
+                            {{ deviseJournee.ecartOuv|number_format(0, '.', ' ') }}
+                        </div></td>
+                </tr>
+            {% endfor %}#}
+            {% for deviseJournee in journeeCaisse.deviseJournees %}
+                {% if journeePrecedente%}
+                    {% for deviseJournee1 in journeePrecedente.deviseJournees %}
+                        {% if deviseJournee.billet.id==deviseJournee1.billet.id %}
+                            <tr >
+                                <td class="padding-5 text-right text-bold" bgcolor="#a9a9a9">{{ deviseJournee.devise }} </td>
+                                <td class="padding-5 text-right">{{journeePrecedente ?  deviseJournee1.qteFerm :0}} </td>
+                                <td class="padding-5 text-right">{{journeePrecedente ?  deviseJournee1.mouvement :0}} </td>
+                                <td class="padding-5 text-right">{{ deviseJournee.solde }}</td>
+                                <td class="padding-5 text-right">{{ deviseJournee.qteOuv }} </td>
+                                <td class="text-bold text-bloody-500 padding-0 text-right"><div class="form-inline">
+                                        {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.billetOuv.id, 'operation':'deviseOuv', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
+                                        {{ deviseJournee.ecartOuv|number_format(0, '.', ' ') }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <tr >
+                        <td class="padding-5 text-right text-bold" bgcolor="#a9a9a9">{{ deviseJournee.devise }} </td>
+                        <td class="padding-5 text-right">0 </td>
+                        <td class="padding-5 text-right">0 </td>
+                        <td class="padding-5 text-right">{{ deviseJournee.solde }}</td>
+                        <td class="padding-5 text-right">{{ deviseJournee.qteOuv }} </td>
+                        <td class="text-bold text-bloody-500 padding-0 text-right"><div class="form-inline">
+                                {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.billetOuv.id, 'operation':'deviseOuv', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
+                                {{ deviseJournee.ecartOuv|number_format(0, '.', ' ') }}
+                            </div>
+                        </td>
 
-            {% set devises = 0 %}
-            {% for deviseJournee in form.deviseJournees %}
-                {% set index2=loop.index %}
-                {% for deviseJournee1 in journeeCaisse.deviseJournees %}
-                    {% set index1=loop.index %}
-                    {% set devise=deviseJournee1.billetOuv.id  %}
-                    {% set deviseid=deviseJournee1.devise.id  %}
-                    {% if index1==index2 %}
-                        <tr >
-                            <td>{{ form_widget(deviseJournee.billetOuv) }}</td>
-                            <td >{{ form_widget(deviseJournee.ecartOuv) }}</td>
-
-                            <td>{{ journeeCaisse.id ? include('journee_caisses/_btn_action_billetage.html.twig',{'id':devise,'operation':'OUVRIR', 'devise':deviseid,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
-
-                        </tr>
+                    </tr>
                     {% endif %}
 
-
-                {% endfor %}
-
             {% else %}
-                Aucune devise
+                <tr >
+                    <td colspan="2">Aucune devise </td>
+                    <td colspan="2">Aucune devise </td>
+                </tr>
             {% endfor %}
-
             </tbody>
         </table>
     </div>
-    <div class="form-inline">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_enregistrer' , 'operation':'OUVRIR','btn_name':'submit', 'btn_label':'Ouvrir la caisse'}) }}
+    <div class="form-group">
+        <button type="submit" class="btn btn-success btn-block" >FERMER LA CAISSE</button>
     </div>
 </div>
+
+

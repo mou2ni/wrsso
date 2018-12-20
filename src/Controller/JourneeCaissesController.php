@@ -242,7 +242,7 @@ class JourneeCaissesController extends Controller
 
             $em->flush();
 
-            return $this->redirectToRoute('journee_caisses_encours');
+            return $this->redirectToRoute('journee_caisses_gerer');
         }
         else{
             $journeeCaisse->setDateFerm(new \DateTime());
