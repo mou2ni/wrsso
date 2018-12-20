@@ -479,7 +479,7 @@ class Utilisateurs implements UserInterface, \Serializable
             $this->prenom,
             $this->mdp,
             $this->estCaissier,
-            $this->journeeCaisseActive,
+            //$this->journeeCaisseActive,
         ));
     }
 
@@ -491,7 +491,7 @@ class Utilisateurs implements UserInterface, \Serializable
             $this->prenom,
             $this->mdp,
             $this->estCaissier,
-            $this->journeeCaisseActive,
+            //$this->journeeCaisseActive,
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);
