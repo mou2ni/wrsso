@@ -117,7 +117,7 @@ class BilletagesController extends Controller
                     break;
                 case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['billetOuv'=>$billetage]);
                     $djOuv->setQteOuv($billetage->getValeurTotal());
-                    dump($djOuv);die();
+                    //dump($djOuv);die();
                     $em->persist($djOuv);
                     break;
                 case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['billetFerm'=>$billetage]);
