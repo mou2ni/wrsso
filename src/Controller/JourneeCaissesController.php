@@ -46,6 +46,7 @@ class JourneeCaissesController extends Controller
 {
     private $journeeCaisse;
     private $utilisateur;
+    private $paramComptable;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
@@ -54,6 +55,7 @@ class JourneeCaissesController extends Controller
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
         }
+        //$this->paramComptable=$sessionUtilisateur->getParamComptable();
     }
 
     /**
@@ -410,43 +412,7 @@ class JourneeCaissesController extends Controller
 
     }
 
-    /*public function myGridAction()
-     {
-         // Creates a simple grid based on your entity (ORM)
-         $source = new Entity('App\Entity\JourneeCaisses');
 
-         // Get a Grid instance
-         $grid = $this->get('grid');
-
-         // Attach the source to the grid
-         $grid->setSource($source);
-
-         // Return the response of the grid to the template
-         return $grid->getGridResponse('journee_caisses\liste.html.twig',['grid' => $grid]);
-   }
-
-      /*public function listAction(Request $request)
-     {
-         // Creates the builder
-         $em = $this->getDoctrine()->getManager();
-         // Creates a simple grid based on your entity (ORM)
-         $source = new Entity('App\Entity\JourneeCaisses');
-         $grid = $this->createGridBuilder($source)
-         //->add('id', 'number', ['primary' => 'true'])
-         //->add('name', 'text')
-         //->add('date_ouv', 'datetime', ['field' => 'dateOuv'])
-         //->add('status', 'text')
-         ;
-         $grid->getRoute();
-         //dump($grid); die();
-         //->getGrid();
-
-         // Handles filters, sort, exports, action
-         //$grid->handleRequest($request);
-
-         // Renders the grid
-         return $this->render('journee_caisses/liste.html.twig', ['grid' => $grid]);
-     }*/
 
     /**
      * @param Source|null $source

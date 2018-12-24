@@ -21,11 +21,13 @@ class SessionUtilisateur extends Controller
 {
     private $_journeeCaisse;
     private $_utilisateur;
+    private $paramComptable;
 
     public function __construct(TokenStorage $secrutityStokenStorage)
     {
         $this->_utilisateur=$secrutityStokenStorage->getToken()->getUser();
         $this->checkSessionUtilisateur();
+        //$this->paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
     }
 
     private function checkSessionUtilisateur(){
@@ -44,5 +46,9 @@ class SessionUtilisateur extends Controller
     public function getUtilisateur(){
         return $this->_utilisateur;
     }
+
+    //public function getParamComptable(){
+        //return $this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
+    //}
 
 }
