@@ -75,10 +75,13 @@ class Utilisateurs implements UserInterface, \Serializable
      */
     private $journeeCaisseActive;
 
-    /**
+    /*
+    *
+     *
      * @ORM\Column(type="integer", nullable=true)
-     */
+
     private $journeeCaisseActiveId;
+    */
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", inversedBy="utilisateurs", cascade={"persist"})

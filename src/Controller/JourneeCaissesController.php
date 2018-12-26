@@ -16,6 +16,7 @@ use App\Entity\SystemElectLigneInventaires;
 use App\Entity\SystemElects;
 use App\Entity\Utilisateurs;
 use App\Form\BilletagesType;
+use App\Form\ChoisirCaisseType;
 use App\Form\DeviseJourneesType;
 use App\Form\FermetureType;
 use App\Form\JourneeCaissesType;
@@ -120,20 +121,23 @@ class JourneeCaissesController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         /* recuperation de l'utisateur de la session*/
-        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+        $utilisateur = $this->utilisateur;
         //si l'utilisateur a choisi une caisse et cliquer sur 'initialiser' retrouver ou attribuer une nouvelle journee caisse
-        $caisse = $request->get('ouverture')['caisse'];
+        $caisse = $request->get('choisir_caisse')['caisse'];
+        //dump($caisse);die();
         if ($caisse) { //si la caisse recuperée est valide on charge de la BD cette caisse
             $caisse = $this->getDoctrine()->getRepository(Caisses::class)->find($caisse);
             $journeecaisse=$em->getRepository(JourneeCaisses::class)->findOneBy(['caisse'=>$caisse], ['id'=>'DESC'] );
             //dump($journeecaisse);die();
-            if ($journeecaisse->getStatut()==JourneeCaisses::INITIAL){
+            if ($journeecaisse && $journeecaisse->getStatut()==JourneeCaisses::INITIAL){
                 $jc=$journeecaisse;
+                //dump($jc);die();
             }
             else{
                 //la nouvelle journée aurra journée precedente celle qui correspond à la derniere journée ouverte sur la caisse chargée
                 $journeeCaissePrec=$em->getRepository(JourneeCaisses::class)->findOneBy(['id'=>$caisse->getJourneeOuverteId()]);
                 //si il n'existe pas de derniere journée ouverte sur cette caisse alors on charge une journée vide comme journée predcedente
+                //dump($journeeCaissePrec);die();
                 $journeeCaissePrec?:$journeeCaissePrec = new JourneeCaisses($em);
                 //on initialise la nouvelle journée par la precedente
                 $jc = $this->initJournee($journeeCaissePrec,$caisse);
@@ -143,12 +147,11 @@ class JourneeCaissesController extends Controller
             $this->addFlash('warning','veuillez choisir une caisse');
             return $this->redirectToRoute('journee_caisses_ouvrir');
         }
-        /*else{ //sinon on charge la derniere caisse de l'utilisateur
-            $caisse=$utilisateur->getLastCaisse();
-        }*/
-        //dump($jc);die();
+
         //la nouvelle journée devient la journée active de l'utilisateur
         $utilisateur->setJourneeCaisseActiveId($jc->getId());
+        $utilisateur->setJourneeCaisseActive($jc);
+        //dump($utilisateur);die();
         $em->persist($utilisateur);
         $em->flush();
 
@@ -172,56 +175,32 @@ class JourneeCaissesController extends Controller
     public function ouvrir(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        /* recuperation de l'utisateur de la session*/
-        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
-        //recuperation de la journée active de l'utilisateur
-        $journeeCaisseActive=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['id'=>$utilisateur->getJourneeCaisseActiveId()]);
-
-        if(!$utilisateur->getEstcaissier()){ //si l'utilsateur n'est pas un caissier il est renvoyé vers une autre page
-            $this->addFlash('success', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
-            return $this->render('main.html.twig'
-            );
-        }
-
-        elseif ($journeeCaisseActive) { // si il est caisseir mais n'a pas de journée active on le revoie chercher une caisse à initialiser
-
-        if($journeeCaisseActive->getStatut() == JourneeCaisses::OUVERT) { //si la journée active est deja ouverte on le renvoie à la la gestion fermeture
+        if($this->journeeCaisse->getStatut() == JourneeCaisses::OUVERT) { //si la journée active est deja ouverte on le renvoie à la la gestion fermeture
 
             return $this->redirectToRoute('journee_caisses_gerer');
         }
-        /*elseif ($journeeCaisseActive->getStatut() == JourneeCaisses::FERME){ // si la journée active est fermée on le renvoie à initialiser
-            return $this->redirectToRoute('journee_caisses_initialiser');
-        }*/
-        else { //if ($journeeCaisseActive->getStatut() == JourneeCaisses::INITIAL) { //si la journée active est à initial on l'affiche la journée pour ouverture
-            $journeeCaisse=$journeeCaisseActive;
 
-        }
-        /*if ($journeeCaisse->getCaisse()->getStatut()== Caisses::OUVERT) {
-            $this->addFlash('success', "Veuillez choisir une autre caisse");
-        }*/
-}
-            //creation du formulaire
-        $form = $this->createForm(OuvertureType::class, $journeeCaisse);
+         //creation du formulaire
+        $form = $this->createForm(ChoisirCaisseType::class, $this->journeeCaisse);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $genererCompta = new GenererCompta($this->getDoctrine()->getManager());
-            $journeeCaisse->setStatut(JourneeCaisses::OUVERT);
-            //dump($journeeCaisse->getId()); die();
-            $journeeCaisse->getCaisse()->setJourneeOuverteId($journeeCaisse->getId());
-            $journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
-            $em->persist($journeeCaisse);
-            if (!$genererCompta->genComptaEcart($utilisateur, $journeeCaisse->getCaisse(), 'Ecart ouverture' . $journeeCaisse, $journeeCaisse->getMEcartOuv())) return $this->render('comptMainTest.html.twig', ['transactions' => [$genererCompta->getTransactions()]]);
+            $this->journeeCaisse->setStatut(JourneeCaisses::OUVERT);
+            $this->journeeCaisse->getCaisse()->setJourneeOuverteId($this->journeeCaisse->getId());
+            $this->journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
+            $em->persist($this->journeeCaisse);
+            $genererCompta->genComptaEcart($this->journeeCaisse->getUtilisateur(), $this->journeeCaisse->getCaisse(), 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv());
             $em->flush();
 
             return $this->redirectToRoute('journee_caisses_index');
         }
 
         return $this->render('journee_caisses/ouvrir.html.twig', [
-            'journeePrecedente' => $journeeCaisse->getJourneePrecedente(),
+            'journeePrecedente' => $this->journeeCaisse->getJourneePrecedente(),
             'form' => $form->createView(),
-            'journeeCaisse' => $journeeCaisse,
+            'journeeCaisse' => $this->journeeCaisse,
         ]);
 
 

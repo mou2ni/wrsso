@@ -112,12 +112,13 @@ class BilletagesController extends Controller
                     $em->persist($this->journeeCaisse);
                     break;
                 case 'liquiditeFerm' : $this->journeeCaisse->setMLiquiditeFerm($billetage->getValeurTotal());
-                //dump($billetage); die();
                     $em->persist($this->journeeCaisse);
                     break;
                 case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['billetOuv'=>$billetage]);
-                    $djOuv->setQteOuv($billetage->getValeurTotal());
-                    //dump($djOuv);die();
+                $djPrec = $em->getRepository(DeviseJournees::class)->getDeviseJourneePrec($djOuv);
+                $djOuv->setQteOuv($billetage->getValeurTotal());
+                $djOuv->setEcartOuv(($djPrec)?$billetage->getValeurTotal() - $djPrec->getQteFerm():$billetage->getValeurTotal());
+                    //dump($em->getRepository(DeviseJournees::class)->getDeviseJourneePrec($djOuv)); die();
                     $em->persist($djOuv);
                     break;
                 case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['billetFerm'=>$billetage]);

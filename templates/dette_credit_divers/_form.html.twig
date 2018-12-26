@@ -34,5 +34,6 @@
 {% if journeeCaisse.statut!="F" %}
 {% endif %}
 <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+<input type="hidden" name="_operation" value="{{ operation }}">
 {{ form_end(form) }}
 

@@ -6,6 +6,7 @@ use App\Entity\DeviseJournees;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -60,7 +61,23 @@ ORDER BY CAST(date_ouv as date) ASC";
     }
 
 
-
+    public function getDeviseJourneePrec(DeviseJournees $deviseJournee)
+    {
+        $qb = $this->createQueryBuilder('d');
+        //dump($deviseJournee->getJourneeCaisse()->getJourneePrecedente());die();
+        try {
+            return $qb
+                ->innerJoin('d.devise', 'devise')
+                ->innerJoin('d.journeeCaisse', 'jc')
+                ->innerJoin('d.journeeCaisse', 'jcp')
+                ->andWhere($qb->expr()->eq('jc', ':djjc'))
+                ->andWhere($qb->expr()->eq('d.devise', ':dev'))
+                ->setParameters(['djjc' => ($deviseJournee->getJourneeCaisse()->getJourneePrecedente()) ? $deviseJournee->getJourneeCaisse()->getJourneePrecedente()->getId() : 0, 'dev' => $deviseJournee->getDevise()->getId()])
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
+    }
 
 
     //    /**
@@ -91,4 +108,5 @@ ORDER BY CAST(date_ouv as date) ASC";
         ;
     }
     */
+
 }
