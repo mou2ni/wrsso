@@ -54,21 +54,22 @@ class Caisses
     private $journeeCaisses;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Utilisateurs", mappedBy="lastCaisse", cascade={"persist"})
-     */
-    private $utilisateurs;
-
-    /*
-    **
-      @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
      * @ORM\JoinColumn(nullable=true)
      */
-    //private $journeeOuverte;
+    private $lastJournee;
+
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
      */
-    private $journeeOuverteId;
+    private $lastUtilisateur;
+
+    
+    /*
+     * @ORM\Column(type="integer", nullable=true)
+
+    private $journeeOuverteId;*/
 
     private $em;
 
@@ -308,6 +309,9 @@ class Caisses
      */
     public function setStatut($statut)
     {
+        /*if($statut==Caisses::OUVERT){
+            $this->lastUtilisateur->setLastCaisse($this);
+        }*/
         $this->statut = $statut;
         return $this;
     }
@@ -315,18 +319,36 @@ class Caisses
     /**
      * @return mixed
      */
-    public function getJourneeOuverteId()
+    public function getLastJournee()
     {
-        return $this->journeeOuverteId;
+        return $this->lastJournee;
     }
 
     /**
-     * @param mixed $journeeOuverteId
+     * @param mixed $lastJournee
      * @return Caisses
      */
-    public function setJourneeOuverteId($journeeOuverteId)
+    public function setLastJournee($lastJournee)
     {
-        $this->journeeOuverteId = $journeeOuverteId;
+        $this->lastJournee = $lastJournee;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastUtilisateur()
+    {
+        return $this->lastUtilisateur;
+    }
+
+    /**
+     * @param mixed $lastUtilisateur
+     * @return Caisses
+     */
+    public function setLastUtilisateur($lastUtilisateur)
+    {
+        $this->lastUtilisateur = $lastUtilisateur;
         return $this;
     }
 

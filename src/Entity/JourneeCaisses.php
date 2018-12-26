@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class JourneeCaisses
 {
-    const OUVERT='O', FERME='F', INITIAL='I';
+    const ENCOURS='E', CLOSE='X', INITIAL='I';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -678,11 +678,13 @@ class JourneeCaisses
      */
     public function setStatut($statut)
     {
-        if ($statut==$this::OUVERT ) {
-            $this->caisse->setJourneeOuverteId($this->getId());
-        }/*else{
-            $this->caisse->setJourneeOuverteId($this->getId());
-        }*/
+        if ($statut==$this::ENCOURS ) {
+            $this->caisse->setLastJournee($this);
+            $this->caisse->setStatut(Caisses::OUVERT);
+        }else{
+            $this->caisse->setStatut(Caisses::FERME);
+        }
+        
         $this->statut = $statut;
         return $this;
     }
@@ -1070,8 +1072,9 @@ class JourneeCaisses
      * @param mixed $caisse
      * @return JourneeCaisses
      */
-    public function setCaisse($caisse)
+    public function setCaisse(Caisses $caisse)
     {
+        $caisse->setLastJournee($this);
         $this->caisse = $caisse;
         return $this;
     }

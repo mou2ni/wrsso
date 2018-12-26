@@ -75,13 +75,13 @@ class Utilisateurs implements UserInterface, \Serializable
      */
     private $journeeCaisseActive;
 
-    /**
+    /*
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $journeeCaisseActiveId;
+   // private $journeeCaisseActiveId;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", inversedBy="utilisateurs", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
      * @ORM\JoinColumn(nullable=true)
      */
     private $lastCaisse;
@@ -341,24 +341,6 @@ class Utilisateurs implements UserInterface, \Serializable
     public function setJourneeCaisseActive(JourneeCaisses $journeeCaisseActive)
     {
         $this->journeeCaisseActive = $journeeCaisseActive;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getJourneeCaisseActiveId()
-    {
-        return $this->journeeCaisseActiveId;
-    }
-
-    /**
-     * @param mixed $journeeCaisseActiveId
-     * @return Utilisateurs
-     */
-    public function setJourneeCaisseActiveId($journeeCaisseActiveId)
-    {
-        $this->journeeCaisseActiveId = $journeeCaisseActiveId;
         return $this;
     }
 
