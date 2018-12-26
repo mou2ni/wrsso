@@ -70,7 +70,7 @@ class JourneeCaissesController extends Controller
      */
     public function gerer(Request $request): Response
     {
-        $em=$this->getDoctrine()->getManager();
+        //$em=$this->getDoctrine()->getManager();
 
         //dernière caisse ouverte par l'utilisateur
         $this->caisse=$this->utilisateur->getLastCaisse();
