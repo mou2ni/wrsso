@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
-    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="optimisation jour 2">
-      <change afterPath="$PROJECT_DIR$/src/Form/ChoisirCaisseType.php" afterDir="false" />
+    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="corrections de l'ouverture">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BilletagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BilletagesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Utilisateurs.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Utilisateurs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/DeviseJourneesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/DeviseJourneesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/dette_credit_divers/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dette_credit_divers/_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/dette_credit_divers/_liste.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dette_credit_divers/_liste.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/_form_ouverture.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/_form_ouverture.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/JourneeCaissesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/JourneeCaissesType.php" afterDir="false" />
     </list>
+    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -67,8 +60,8 @@
       <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="129" column="24" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="24" />
+            <state relative-caret-position="-12264">
+              <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
               <folding>
                 <element signature="e#114#162#0#PHP" expanded="true" />
               </folding>
@@ -97,8 +90,28 @@
       <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
-              <caret line="123" column="42" selection-start-line="123" selection-start-column="42" selection-end-line="123" selection-end-column="42" />
+            <state relative-caret-position="-1467">
+              <caret line="664" column="21" selection-start-line="664" selection-start-column="21" selection-end-line="664" selection-end-column="21" />
+              <folding>
+                <element signature="e#3202#3236#0#PHP" expanded="true" />
+                <element signature="e#3424#3458#0#PHP" expanded="true" />
+                <element signature="e#4178#4211#0#PHP" expanded="true" />
+                <element signature="e#4339#4373#0#PHP" expanded="true" />
+                <element signature="e#6085#6117#0#PHP" expanded="true" />
+                <element signature="e#7254#7285#0#PHP" expanded="true" />
+                <element signature="e#11441#11475#0#PHP" expanded="true" />
+                <element signature="e#12154#12174#1#PHP" expanded="true" />
+                <element signature="e#14704#14737#0#PHP" expanded="true" />
+                <element signature="e#16775#16817#0#PHP" expanded="true" />
+                <element signature="e#19669#19710#0#PHP" expanded="true" />
+                <element signature="e#21266#21279#1#PHP" expanded="true" />
+                <element signature="e#21700#21728#0#PHP" expanded="true" />
+                <element signature="e#22363#22391#0#PHP" expanded="true" />
+                <element signature="e#22839#22876#0#PHP" expanded="true" />
+                <element signature="e#23466#23499#0#PHP" expanded="true" />
+                <element signature="e#24269#24301#0#PHP" expanded="true" />
+                <element signature="e#25501#25521#1#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,8 +119,8 @@
       <file leaf-file-name="SessionUtilisateur.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utils/SessionUtilisateur.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+            <state relative-caret-position="697">
+              <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -142,8 +155,8 @@
       <file leaf-file-name="Utilisateurs.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/Utilisateurs.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="169">
-              <caret line="80" column="7" selection-start-line="80" selection-start-column="7" selection-end-line="80" selection-end-column="7" />
+            <state relative-caret-position="84">
+              <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -180,8 +193,8 @@
       <find>ecart</find>
       <find>ecartOuv</find>
       <find>journeeCaisses</find>
-      <find>detteCredit</find>
       <find>journeeCaisseA</find>
+      <find>detteCredit</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;div class=&quot;form-row&quot;&gt;</replace>
@@ -245,7 +258,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Controller/DeviseIntercaissesController.php" />
         <option value="$PROJECT_DIR$/src/Form/CreditType.php" />
         <option value="$PROJECT_DIR$/src/Form/DetteType.php" />
         <option value="$PROJECT_DIR$/src/Form/DetteCreditDiversType.php" />
@@ -296,6 +308,7 @@
         <option value="$PROJECT_DIR$/templates/journee_caisses/_form_ouverture.html.twig" />
         <option value="$PROJECT_DIR$/src/Entity/Utilisateurs.php" />
         <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
+        <option value="$PROJECT_DIR$/src/Form/JourneeCaissesType.php" />
       </list>
     </option>
   </component>
@@ -687,14 +700,7 @@
       <workItem from="1543426549340" duration="13817000" />
       <workItem from="1543853533905" duration="231375000" />
       <workItem from="1545652143164" duration="18000" />
-      <workItem from="1545652522311" duration="38125000" />
-    </task>
-    <task id="LOCAL-00012" summary="projet apres crud">
-      <created>1530557427457</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1530557427457</updated>
+      <workItem from="1545652522311" duration="41776000" />
     </task>
     <task id="LOCAL-00013" summary="projet apres crud">
       <created>1530608674645</created>
@@ -1032,11 +1038,18 @@
       <option name="project" value="LOCAL" />
       <updated>1545653434653</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="corrections de l'ouverture">
+      <created>1545843395901</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1545843395901</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1592570000" />
+    <option name="totallyTimeSpent" value="1596221000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1059,9 +1072,9 @@
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" visible="true" weight="0.2908497" />
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.31164902" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.31164902" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
-      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.1505295" />
+      <window_info anchor="right" id="Database" order="3" weight="0.1505295" />
       <window_info id="Structure" order="1" sideWeight="0.50111854" side_tool="true" weight="0.21028744" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -1174,7 +1187,8 @@
     <MESSAGE value="optimisation jour 1 : modif transfert" />
     <MESSAGE value="optimisation jour 1 : reinit migration" />
     <MESSAGE value="optimisation jour 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="optimisation jour 2" />
+    <MESSAGE value="corrections de l'ouverture" />
+    <option name="LAST_COMMIT_MESSAGE" value="corrections de l'ouverture" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1485,34 +1499,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Form/JourneeCaissesType.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="67" column="77" selection-start-line="35" selection-start-column="12" selection-end-line="67" selection-end-column="77" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="129" column="24" selection-start-line="129" selection-start-column="13" selection-end-line="129" selection-end-column="24" />
-          <folding>
-            <element signature="e#114#162#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Utilisateurs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="80" column="7" selection-start-line="80" selection-start-column="7" selection-end-line="80" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Utils/SessionUtilisateur.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
+        <state relative-caret-position="697">
+          <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1537,10 +1527,54 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Form/JourneeCaissesType.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-136">
+          <caret line="31" column="69" selection-start-line="31" selection-start-column="69" selection-end-line="31" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Utilisateurs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="78" column="7" selection-start-line="78" selection-start-column="7" selection-end-line="78" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12264">
+          <caret line="27" column="6" selection-start-line="27" selection-start-column="6" selection-end-line="27" selection-end-column="6" />
+          <folding>
+            <element signature="e#114#162#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="123" column="42" selection-start-line="123" selection-start-column="42" selection-end-line="123" selection-end-column="42" />
+        <state relative-caret-position="-1467">
+          <caret line="664" column="21" selection-start-line="664" selection-start-column="21" selection-end-line="664" selection-end-column="21" />
+          <folding>
+            <element signature="e#3202#3236#0#PHP" expanded="true" />
+            <element signature="e#3424#3458#0#PHP" expanded="true" />
+            <element signature="e#4178#4211#0#PHP" expanded="true" />
+            <element signature="e#4339#4373#0#PHP" expanded="true" />
+            <element signature="e#6085#6117#0#PHP" expanded="true" />
+            <element signature="e#7254#7285#0#PHP" expanded="true" />
+            <element signature="e#11441#11475#0#PHP" expanded="true" />
+            <element signature="e#12154#12174#1#PHP" expanded="true" />
+            <element signature="e#14704#14737#0#PHP" expanded="true" />
+            <element signature="e#16775#16817#0#PHP" expanded="true" />
+            <element signature="e#19669#19710#0#PHP" expanded="true" />
+            <element signature="e#21266#21279#1#PHP" expanded="true" />
+            <element signature="e#21700#21728#0#PHP" expanded="true" />
+            <element signature="e#22363#22391#0#PHP" expanded="true" />
+            <element signature="e#22839#22876#0#PHP" expanded="true" />
+            <element signature="e#23466#23499#0#PHP" expanded="true" />
+            <element signature="e#24269#24301#0#PHP" expanded="true" />
+            <element signature="e#25501#25521#1#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

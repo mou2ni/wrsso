@@ -29,7 +29,7 @@ class JourneeCaissesType extends AbstractType
                     return $er->createQueryBuilder('c')
                         ->where('c.statut=:statut')
                         ->orderBy('c.code', 'ASC')
-                        ->setParameter('statut',JourneeCaisses::FERME);
+                        ->setParameter('statut',JourneeCaisses::CLOSE);
                 },
                 'choice_label' => 'code',
             ))

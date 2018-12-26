@@ -55,6 +55,7 @@ class JourneeCaissesController extends Controller
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
         $this->utilisateur=$sessionUtilisateur->getUtilisateur();
+        $this->journeeCaisse = $this->utilisateur->getJourneeCaisseActive();
 
     }
 
@@ -250,8 +251,9 @@ class JourneeCaissesController extends Controller
      */
     public function ouvrir(Request $request): Response
     {
+        //dump($this->utilisateur);die();
         $em = $this->getDoctrine()->getManager();
-        if($this->journeeCaisse->getStatut() == JourneeCaisses::OUVERT) { //si la journée active est deja ouverte on le renvoie à la la gestion fermeture
+        if($this->journeeCaisse->getStatut() == JourneeCaisses::ENCOURS) { //si la journée active est deja ouverte on le renvoie à la la gestion fermeture
 
             return $this->redirectToRoute('journee_caisses_gerer');
         }
@@ -263,7 +265,7 @@ class JourneeCaissesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $genererCompta = new GenererCompta($this->getDoctrine()->getManager());
-            $this->journeeCaisse->setStatut(JourneeCaisses::OUVERT);
+            $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
             $this->journeeCaisse->getCaisse()->setJourneeOuverteId($this->journeeCaisse->getId());
             $this->journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
             $em->persist($this->journeeCaisse);
@@ -295,7 +297,7 @@ class JourneeCaissesController extends Controller
         if ($operation=="OUVRIR"){
             $em = $this->getDoctrine()->getManager();
             $genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv());
-            $this->journeeCaisse->setStatut(JourneeCaisses::OUVERT);
+            $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
             $this->journeeCaisse->setDateOuv(new \DateTime());
             //$this->journeeCaisse->getCaisse()->setJourneeOuverteId($this->journeeCaisse->getId());
             //$this->journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
