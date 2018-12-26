@@ -7,7 +7,8 @@
             <thead>
             <tr>
                 <th class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RUBRIQUE</th>
-                <th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE OUVERTURE</th>
+                {#<th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >FERMETURE PRECEDENTE</th>
+                #}<th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE OUVERTURE</th>
                 <th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE FERMETURE</th>
                 <th bgcolor="#a9a9a9" >ACTIONS</th>
             </tr>
@@ -15,7 +16,8 @@
             <tbody class="text-thin">
             <tr>
                 <td class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >LIQUIDITE : </td>
-                <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
+                {#<td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
+                #}<td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
                 <td class="padding-0" >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
             </tr>

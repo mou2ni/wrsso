@@ -28,9 +28,10 @@ class DeviseRecusControllerTest extends Controller
         return $this->render('devise_recus/index.html.twig', ['devise_recuses' => $deviseRecusRepository->findAll()]);
     }
 
-    /**
+    /*
      * @Route("/achat_vente", name="devise_recus_achat_vente_test", methods="GET|POST")
      */
+    /*
     public function achatVente(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -99,7 +100,7 @@ class DeviseRecusControllerTest extends Controller
             'devise_recus' => $deviseRecus, 'journeeCaisse'=>$journeeCaisse,
             'form' => $form->createView(),
         ]);
-    }
+    }*/
 
     /**
      * @Route("/{id}", name="devise_recus_show", methods="GET")

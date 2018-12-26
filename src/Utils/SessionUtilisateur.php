@@ -9,42 +9,65 @@
 namespace App\Utils;
 
 
+use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
-use Doctrine\ORM\EntityManager;
-use Proxies\__CG__\App\Entity\Utilisateurs;
+use App\Entity\Utilisateurs;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class SessionUtilisateur extends Controller
 {
-    private $_journeeCaisse;
-    private $_utilisateur;
-    private $paramComptable;
+    private $journeeCaisse=null;
+    private $utilisateur;
+    private $lastCaisse;
+    //private $paramComptable;
 
     public function __construct(TokenStorage $secrutityStokenStorage)
     {
-        $this->_utilisateur=$secrutityStokenStorage->getToken()->getUser();
-        $this->checkSessionUtilisateur();
+        $this->utilisateur=$secrutityStokenStorage->getToken()->getUser();
+        //$this->checkSessionUtilisateur();
         //$this->paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
     }
 
     private function checkSessionUtilisateur(){
-        if (! $this->_utilisateur){
+        if (! $this->utilisateur){
+            return false;
+        }else{
+            $this->lastCaisse=$this->utilisateur->getLastCaisse();
+            if ($this->lastCaisse) $this->journeeCaisse=$this->lastCaisse->getLastJournee();
+        }
+        /*if (! $this->_utilisateur){
             return false;
         }else{
             $this->_journeeCaisse=$this->_utilisateur->getJourneeCaisseActive();
         }
-        return true;
+        return true;*/
     }
 
-    public function getJourneeCaisse(){
-        return $this->_journeeCaisse;
+    public function getLastCaisse(){
+        return $this->lastCaisse;
     }
     
     public function getUtilisateur(){
-        return $this->_utilisateur;
+        return $this->utilisateur;
+    }
+
+    public function getJourneeCaisse(){
+        return $this->journeeCaisse;
+    }
+
+    public function setUtilisateur(Utilisateurs $utilisateur){
+        $this->utilisateur=$utilisateur;
+        return $this;
+    }
+
+    public function setLastCaisse(Caisses $caisse){
+        $this->lastCaisse=$caisse;
+        return $this;
+    }
+
+    public function setJourneeCaisse(JourneeCaisses $journeeCaisse){
+        $this->journeeCaisse=$journeeCaisse;
     }
 
     //public function getParamComptable(){

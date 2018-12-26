@@ -30,7 +30,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
         $compteCvDevise3=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 3']);
 
         $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::INITIAL]);
-        $idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::OUVERT]);
+        $idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::ENCOURS]);
 
 
         $lists = array(['libelle' => 'DAPOYA KD01','code' => 'KD01', 'compteOperation' => $compteOperationCaisse1, 'compteCvDevise' => $compteCvDevise1, 'journeeCaisse' => $idJourneeCaisse]
@@ -41,7 +41,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
 
         foreach ($lists as $list) {
             $enr = new Caisses($manager);
-            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise'])->setJourneeOuverteId($list['journeeCaisse']);
+            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise']);
             $manager->persist($enr);
         }
 

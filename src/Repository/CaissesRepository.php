@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Caisses;
-use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -20,7 +19,15 @@ class CaissesRepository extends ServiceEntityRepository
         parent::__construct($registry, Caisses::class);
     }
 
-    
+    public function getClosedCaisseQb()
+
+    {
+        return $this
+            ->createQueryBuilder('c')
+            ->where('c.statut=:statut')
+            ->setParameter('statut',Caisses::FERME);
+
+    }
 
 
 }

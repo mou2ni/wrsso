@@ -30,7 +30,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         //$utilisateur1->setJourneeCaisseActive($caisseO->)
 
         $lists = array(['utilisateur' => $utilisateur1, 'caisse' => $caisse, 'statut'=>'T', 'dateOuv'=>new \DateTime()]
-        ,['utilisateur' => $utilisateur, 'caisse' => $caisseO, 'statut'=>JourneeCaisses::FERME, 'dateOuv'=>new \DateTime()]
+        ,['utilisateur' => $utilisateur, 'caisse' => $caisseO, 'statut'=>JourneeCaisses::CLOSE, 'dateOuv'=>new \DateTime()]
         ,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::INITIAL, 'dateOuv'=>new \DateTime()]);
 
         foreach ($lists as $list) {
@@ -39,7 +39,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
                 ->setCaisse($list['caisse'])
                 ->setStatut($list['statut'])
                 ->setDateOuv($list['dateOuv']);
-            if ($enr->getStatut()==JourneeCaisses::FERME) {
+            if ($enr->getStatut()==JourneeCaisses::CLOSE) {
                 $enr->setMLiquiditeFerm(1000000)->setMSoldeElectFerm(500000)->setMDetteDiversFerm(2000)->setMCreditDiversFerm(1000);
                 $journeePrecedente=$enr;
             }
@@ -57,31 +57,33 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
             ->setMSoldeElectOuv($journeePrecedente->getMSoldeElectFerm())
             ->setMDetteDiversOuv($journeePrecedente->getMDetteDiversFerm())
             ->setMCreditDiversOuv($journeePrecedente->getMCreditDiversFerm())
-            ->setStatut(JourneeCaisses::OUVERT)
+            ->setStatut(JourneeCaisses::ENCOURS)
             ->setJourneePrecedente($journeePrecedente)
             ->setDateOuv(new \DateTime());
 
-        $utilisateur->setJourneeCaisseActive($journeeOuverte);
-        $utilisateur1->setJourneeCaisseActive($journeeInitial);
+        $utilisateur->setLastCaisse($journeeOuverte->getCaisse());
+        $utilisateur1->setLastCaisse($journeeInitial->getCaisse());
 
-
+/*
         $utilisateur->setLastCaisse($journeeOuverte->getCaisse());
         $utilisateur1->setLastCaisse($journeeInitial->getCaisse());
 
         $journeeOuverte->getCaisse()->setStatut(Caisses::OUVERT);
         $journeeInitial->getCaisse()->setStatut(Caisses::OUVERT);
+        */
 
 
-        $manager->persist($journeeOuverte);
-        $manager->persist($utilisateur);
-        $manager->flush();
-        $journeeOuverte->getCaisse()->setJourneeOuverteId($journeeOuverte->getId());
-        $utilisateur->setJourneeCaisseActiveId($journeeOuverte->getId());
-        $utilisateur1->setJourneeCaisseActiveId($journeeInitial->getId());
         $manager->persist($journeeOuverte);
         $manager->persist($utilisateur);
         $manager->persist($utilisateur1);
         $manager->flush();
+        //$journeeOuverte->getCaisse()->setJourneeOuverteId($journeeOuverte->getId());
+        //$utilisateur->setJourneeCaisseActiveId($journeeOuverte->getId());
+        //$utilisateur1->setJourneeCaisseActiveId($journeeInitial->getId());
+        //$manager->persist($journeeOuverte);
+        //$manager->persist($utilisateur);
+        //$manager->persist($utilisateur1);
+       // $manager->flush();
     }
 
     public function getDependencies()
