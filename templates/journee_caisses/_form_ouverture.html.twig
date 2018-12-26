@@ -1,6 +1,6 @@
 <div class="form-inline">
-    {{ include('journee_caisses/_btn_action_url_initialiser.html.twig',{'path':'journee_caisses_initialiser' , 'operation':'initialiser','btn_name':'initialise', 'btn_label':'Initialiser'}) }}
-</div>
+    {#{{ include('journee_caisses/_btn_action_url_initialiser.html.twig',{'path':'journee_caisses_initialiser' , 'operation':'initialiser','btn_name':'initialise', 'btn_label':'Initialiser'}) }}
+    #}</div>
 
 <div class="row">
     <div class="table-responsive">
@@ -16,7 +16,7 @@
             <tbody class="text-thin">
             <tr>
                 <td class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >LIQUIDITE : </td>
-                <td class="padding-5 text-right" colspan="2">{{ journeePrecedente ? journeePrecedente.mLiquiditeFerm|number_format(0, '.', ' ') : 0}}</td>
+                <td class="padding-5 text-right" colspan="2">{{ (journeePrecedente) ? journeePrecedente.mLiquiditeFerm|number_format(0, '.', ' ') : 0}}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ') }}</td>
                 <td class="padding-0" >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetOuv.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
             </tr>
