@@ -125,7 +125,7 @@ class JourneeCaisses
     private $mSoldeElectFerm=0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaisse", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaisseActive", cascade={"persist"})
      */
     private $detteCredits;
 
@@ -187,10 +187,11 @@ class JourneeCaisses
     private $mIntercaisseEntrants=0;
 
 
-    /*
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisse", cascade={"persist"})
      */
     private $transfertInternationaux;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisseEmi", cascade={"persist"})
      */
@@ -575,7 +576,9 @@ class JourneeCaisses
     public function addDetteCredit(DetteCreditDivers $detteCreditDiver)
     {
         $this->detteCredits->add($detteCreditDiver);
-        $detteCreditDiver->setJourneeCaisse($this);
+        $detteCreditDiver->setJourneeCaisseActive($this);
+        $detteCreditDiver->setJourneeCaisseCreation($this);
+
     }
 
     /**
@@ -583,7 +586,7 @@ class JourneeCaisses
      */
     public function removeDetteCredit(DetteCreditDivers $detteCreditDiver)
     {
-        $this->transactions->removeElement($detteCreditDiver);
+        $this->detteCredits->removeElement($detteCreditDiver);
     }
 
 

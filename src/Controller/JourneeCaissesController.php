@@ -7,6 +7,7 @@ use App\Entity\Billetages;
 use App\Entity\Billets;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Entity\DetteCreditDivers;
 use App\Entity\DeviseJournees;
 use App\Entity\Devises;
 use App\Entity\JourneeCaisses;
@@ -23,6 +24,7 @@ use App\Form\JourneeCaissesType;
 use App\Form\OuvertureFermetureType;
 use App\Form\OuvertureType;
 use App\Form\UtilisateursLastCaisseType;
+use App\Repository\DetteCreditDiversRepository;
 use App\Utils\GenererCompta;
 use App\Utils\SessionUtilisateur;
 use APY\DataGridBundle\Grid\GridBuilder;
@@ -696,8 +698,21 @@ class JourneeCaissesController extends Controller
             //->getUtilisateur()->setJourneeCaisseActive($newJournee)
         ;
 
-        foreach ($journeeCaissePrecedent->getDetteCredits() as $detteCredit){
-            $newJournee->addDetteCredit($detteCredit);
+        /*$detteCreditEncours = $em->getRepository(DetteCreditDivers::class)->getDettesCreditsEncours($journeeCaissePrecedent);
+
+        foreach ($detteCreditEncours as $detteCreditEncour){
+            $detteCreditEncour->setJourneeCaisseActive($newJournee);
+            $em->persist($detteCreditEncour);
+        }*/
+
+        foreach ( $journeeCaissePrecedent->getDetteCredits() as $detteCredit) {
+            if ($detteCredit->getStatut()== DetteCreditDivers::CREDIT_EN_COUR or $detteCredit->getStatut()== DetteCreditDivers::DETTE_EN_COUR){
+                //$newJournee->addDetteCredit($detteCredit);
+                //$journeeCaissePrecedent->removeDetteCredit($detteCredit);
+                $detteCredit->setJourneeCaisseActive($newJournee);
+                $em->persist($detteCredit);
+            }
+
         }
 
 

@@ -6,6 +6,7 @@ use App\Entity\Caisses;
 use App\Entity\DetteCreditDivers;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use App\Entity\JourneeCaisses;
 
 /**
  * DetteCreditDiversRepository
@@ -28,6 +29,30 @@ class DetteCreditDiversRepository extends EntityRepository
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
         }
+    }
+
+    public function getDettesCreditsEncours(JourneeCaisses $journeeCaisseActive){
+        $qb = $this->createQueryBuilder('dc');
+        
+        return $qb
+            ->where($qb->expr()->eq('dc.journeeCaisseActive', ':journeeCaisseActive'))
+            ->andWhere($qb->expr()->orX($qb->expr()->eq('dc.statut', ':credit'), $qb->expr()->eq('dc.statut', ':dette')))
+            ->setParameters(['journeeCaisseActive' => $journeeCaisseActive, 'credit' => DetteCreditDivers::CREDIT_EN_COUR, 'dette' => DetteCreditDivers::DETTE_EN_COUR])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function reaffecterDetteCredit(JourneeCaisses $journeeCaisseOrigine, JourneeCaisses $journeeCaisseDestination){
+
+        $qb = $this->createQueryBuilder('dc');
+        return $qb->update(DetteCreditDivers::class, 'dc')
+            ->set('dc.journeeCaisse', ':journeeCaisseDestination')
+            ->where($qb->expr()->eq('dc.journeeCaisse', ':journeeCaisseOrigine'))
+            ->andWhere($qb->expr()->orX($qb->expr()->eq('dc.statut', ':credit'), $qb->expr()->eq('dc.statut', ':dette')))
+            ->setParameters(['journeeCaisseDestination' => $journeeCaisseDestination->getId(),'journeeCaisseOrigine'=> $journeeCaisseOrigine->getId()
+                ,'credit' => DetteCreditDivers::CREDIT_EN_COUR, 'dette' => DetteCreditDivers::DETTE_EN_COUR])
+            ->getQuery()
+            ->execute();
     }
 
 

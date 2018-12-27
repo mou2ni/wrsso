@@ -29,17 +29,29 @@ class DetteCreditDivers
      */
     private $id;
 
-    /**
+    /*
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
      * @ORM\JoinColumn(nullable=false)
+
+    private $caisse;*/
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $caisse;
+    private $journeeCaisseCreation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $journeeCaisseRemb;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="detteCredits")
-     * @ORM\JoinColumn(name="journeeCaissesCreation", referencedColumnName="id",nullable=false)
+     * @ORM\JoinColumn(name="journeeCaisseActive", referencedColumnName="id",nullable=false)
      */
-    private $journeeCaisse;
+    private $journeeCaisseActive;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs", inversedBy="detteCreditCrees", cascade={"persist"})
@@ -104,7 +116,7 @@ class DetteCreditDivers
         $this->mCredit = 0;
         $this->mDette = 0;
     }
-
+    
 
     /**
      * @return mixed
@@ -219,25 +231,6 @@ class DetteCreditDivers
         $this->caisse = $caisse;
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getJourneeCaisse()
-    {
-        return $this->journeeCaisse;
-    }
-
-    /**
-     * @param mixed $journeeCaisse
-     * @return DetteCreditDivers
-     */
-    public function setJourneeCaisse($journeeCaisse)
-    {
-        $this->journeeCaisse = $journeeCaisse;
-        return $this;
-    }
-
     /**
      * @return mixed
      */
@@ -307,6 +300,60 @@ class DetteCreditDivers
     public function setDateRemboursement($dateRemboursement)
     {
         $this->dateRemboursement = $dateRemboursement;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisseCreation()
+    {
+        return $this->journeeCaisseCreation;
+    }
+
+    /**
+     * @param mixed $journeeCaisseCreation
+     * @return DetteCreditDivers
+     */
+    public function setJourneeCaisseCreation($journeeCaisseCreation)
+    {
+        $this->journeeCaisseCreation = $journeeCaisseCreation;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisseRemb()
+    {
+        return $this->journeeCaisseRemb;
+    }
+
+    /**
+     * @param mixed $journeeCaisseRemb
+     * @return DetteCreditDivers
+     */
+    public function setJourneeCaisseRemb($journeeCaisseRemb)
+    {
+        $this->journeeCaisseRemb = $journeeCaisseRemb;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisseActive()
+    {
+        return $this->journeeCaisseActive;
+    }
+
+    /**
+     * @param mixed $journeeCaisseActive
+     * @return DetteCreditDivers
+     */
+    public function setJourneeCaisseActive($journeeCaisseActive)
+    {
+        $this->journeeCaisseActive = $journeeCaisseActive;
         return $this;
     }
 
