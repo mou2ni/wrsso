@@ -3,14 +3,19 @@
 {% block title %}New Billetages{% endblock %}
 
 {% block body %}
-    <h1>Create new Billetages</h1>
+    <h1>Effectuer billetage</h1>
 
     {{ form_start(form)  }}
 
     <table onchange="majBilletage()">
         <thead>
-        <tr><th> Date</th> <th> {{ billetage.dateBillettage.format('d-m-Y H:i:s') }}</th><th> Total</th> <td>{{ form_widget(form.valeurTotal) }}{#<input  id="billetages_valeurTotal"  name="billetages_valeurTotal" required="required" class="form-control" value="" >#} </td></tr>
-        <tr><th>VALEUR</th><th>NOMBRE</th><th>TOTAL</th></tr>
+        <tr><th class="text-bold padding-0 text-left" bgcolor="#f69f00"> Date</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"> {{ billetage.dateBillettage.format('d-m-Y H:i:s') }}</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"> TOTAL</th> {#<td><input  id="billetages_valeurTotal"  name="billetages_valeurTotal" required="required" class="form-control" value="" > </td>#}</tr>
+        <tr>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">VALEUR</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">NOMBRE</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#ffb2a8">{{ form_widget(form.valeurTotal) }}</th></tr>
         </thead>
         <tbody>
         {% set i=0 %}

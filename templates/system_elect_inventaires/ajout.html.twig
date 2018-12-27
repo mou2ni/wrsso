@@ -1,16 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <h1>Inventaire des soldes electroniques</h1>
     {{ form_start(form) }}
     {% if journeeCaisse %}<input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">{% endif %}
     <table onchange="majElectronique()">
         <thead>
-        <tr><th>Date</th>{% if journeeCaisse %}<th>{{ journeeCaisse.dateOuv.format('d-m-Y H:i:s') }}</th>{% endif %}<th>Total</th><th>{{ form_widget(form.soldeTotal) }}</th></tr>
-        <tr><th>Systemes electroniques</th><th>Solde</th></tr>
+        <tr>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">Date</th>
+            {% if journeeCaisse %}<th class="text-bold padding-0 text-left" bgcolor="#f69f00">{{ journeeCaisse.dateOuv.format('d-m-Y H:i:s') }}</th>{% endif %}
+            </tr>
+        <tr><th class="text-bold padding-0 text-left" bgcolor="#f69f00">Systemes electroniques</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"><div class="form-inline"> Solde{{ form_widget(form.soldeTotal) }}</div></th></tr>
         </thead>
         <tbody>
         {% for seil in form.systemElectLigneInventaires %}
-        <tr><td>{{ form_widget(seil.idSystemElect) }}</td><td>{{ form_widget(seil.solde) }}{{ form_errors(seil.solde) }}</td></tr>
+        <tr><td bgcolor="#a9a9a9">{{ form_widget(seil.idSystemElect) }}</td>
+            <td>{{ form_widget(seil.solde) }}{{ form_errors(seil.solde) }}</td></tr>
         {% endfor %}
         </tbody>
     </table>

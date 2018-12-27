@@ -27,7 +27,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('jc')
             ->where('jc.statut=:statut')
-            ->setParameter('statut',JourneeCaisses::OUVERT)
+            ->setParameter('statut',JourneeCaisses::ENCOURS)
             ;
 
     }

@@ -183,7 +183,7 @@ jQuery(document).ready(function() {
 var $collectionHolder;
 
 // setup an "add a tag" link
-var $addTagButton = $('<button type="button" class="add_tag_link">Ajouter Trans</button>');
+var $addTagButton = $('<td><button type="button" class="add_tag_link">Ajouter Trans</button></td>');
 var $newLinkLi = $('<tr></tr>').append($addTagButton);
 
 jQuery(document).ready(function() {
@@ -247,7 +247,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button">Supprimer</button>');
+    var $removeFormButton = $('<td><button type="button">Supprimer</button></td>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {
