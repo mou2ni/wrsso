@@ -18,6 +18,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comptes
 {
+    const INTERNE='I', ORDINAIRE='O', SALAIRE='S';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

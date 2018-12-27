@@ -7,19 +7,29 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UtilisateursType extends AbstractType
+class ProfileType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('login')
-            ->add('mdp')
+            //->add('mdp')
             ->add('nom')
             ->add('prenom')
             ->add('estCaissier')
             //->add('status')
             ->add('compte')
+            //->add('compteEcartCaisse')
+            ->add('role')
+            /*->add('')
+            ->add('')
+            ->add('')
+            ->add('')
+            ->add('')
+            ->add('')
+            ->add('')
+            ->add('')*/
         ;
     }
 
