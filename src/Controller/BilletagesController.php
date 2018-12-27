@@ -23,9 +23,13 @@ class BilletagesController extends Controller
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
+        //dump($sessionUtilisateur);die();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
+            //dump($this->journeeCaisse);die();
+
         }
     }
     /**
@@ -88,10 +92,10 @@ class BilletagesController extends Controller
      */
     public function ajouter(Request $request, int $id, int $devise, $operation): Response
     {
-       $em=$this->getDoctrine()->getManager();
+        $em=$this->getDoctrine()->getManager();
+
         $billetage=$em->getRepository(Billetages::class)->find($id);
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
-
         if ($billetage->getBilletageLignes()->isEmpty()){
             foreach ($billets as $billet) {
                 $billetageLigne=new BilletageLignes();
