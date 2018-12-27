@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Clients;
 use App\Entity\Comptes;
 use App\Entity\Utilisateurs;
+use App\Form\ProfileType;
 use App\Form\UtilisateursType;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +19,14 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  */
 class UtilisateursController extends Controller
 {
+    private $utilisateur;
+    //private $paramComptable;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
+    }
+
     /**
      * @Route("/", name="utilisateurs_index", methods="GET")
      */
@@ -40,7 +51,13 @@ class UtilisateursController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
-            $utilisateur->setCompteEcartCaisse($em->getRepository(Comptes::class)->findOneBy(['numCompte'=>499003]));
+            $compte = new Comptes();
+            $compte->setNumCompte($utilisateur->getCompte())
+                ->setClient($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
+                //->setIntitule($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
+                ->setTypeCompte(Comptes::INTERNE)
+                ->setIntitule('Ecart Caissier'.$utilisateur->getId());
+            $utilisateur->setCompteEcartCaisse($compte);
             //dump($utilisateur);die();
             //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
 
@@ -57,12 +74,48 @@ class UtilisateursController extends Controller
     }
 
     /**
+     * @Route("/profile", name="utilisateurs_profile", methods="GET|POST")
+     */
+    public function profile(Request $request): Response
+    {
+        //$utilisateur = new Utilisateurs();
+        $form = $this->createForm(ProfileType::class, $this->utilisateur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            /*$utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
+            $compte = new Comptes();
+            $compte->setNumCompte($utilisateur->getCompte())
+                ->setClient($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
+                //->setIntitule($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
+                ->setTypeCompte(Comptes::INTERNE)
+                ->setIntitule('Ecart Caissier'.$utilisateur->getId());
+            $utilisateur->setCompteEcartCaisse($compte);
+            //dump($utilisateur);die();
+            //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
+            */
+            $em->persist($this->utilisateur);
+            $em->flush();
+
+            return $this->redirectToRoute('utilisateurs_index');
+        }
+
+        return $this->render('utilisateurs/new.html.twig', [
+            'utilisateur' => $this->utilisateur,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
      * @Route("/{id}", name="utilisateurs_show", methods="GET")
      */
     public function show(Utilisateurs $utilisateur): Response
     {
         return $this->render('utilisateurs/show.html.twig', ['utilisateur' => $utilisateur]);
     }
+
 
     /**
      * @Route("/{id}/edit", name="utilisateurs_edit", methods="GET|POST")

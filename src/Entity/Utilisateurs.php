@@ -55,7 +55,7 @@ class Utilisateurs implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string")
      */
-    private $status;
+    private $status = 'a';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
@@ -104,6 +104,8 @@ class Utilisateurs implements UserInterface, \Serializable
     private $role;
 
     private $isAuthaticate;
+
+    private $compte;
 
 
 
@@ -478,4 +480,24 @@ class Utilisateurs implements UserInterface, \Serializable
             // $this->salt
             ) = unserialize($serialized);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompte()
+    {
+        return $this->compte;
+    }
+
+    /**
+     * @param mixed $compte
+     * @return Utilisateurs
+     */
+    public function setCompte($compte)
+    {
+        $this->compte = $compte;
+        return $this;
+    }
+
+
 }
