@@ -14,9 +14,10 @@
         <button class="btn-primary btn" name="modifier" > Changer</button>
 
         </form>
+        {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
         {#{{ form_end(form) }}<div >{{ form_rest(form) }}</div>
-        {{ include('journee_caisses/_btn_action_url_etat.html.twig',{'path':'journee_caisses_etat_de_caisse' , 'operation':'ETAT','btn_name':'midifier', 'btn_label':'Chancer'}) }}
-                #}
+                        {{ include('journee_caisses/_btn_action_url_etat.html.twig',{'path':'journee_caisses_etat_de_caisse' , 'operation':'ETAT','btn_name':'midifier', 'btn_label':'Chancer'}) }}
+                                #}
     </div>
 
     <table class="table">

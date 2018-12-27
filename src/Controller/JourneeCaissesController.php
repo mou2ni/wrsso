@@ -55,7 +55,8 @@ class JourneeCaissesController extends Controller
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
         $this->utilisateur=$sessionUtilisateur->getUtilisateur();
-        $this->journeeCaisse = $this->utilisateur->getJourneeCaisseActive();
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        $this->caisse=$sessionUtilisateur->getLastCaisse();
 
     }
 
@@ -100,6 +101,7 @@ class JourneeCaissesController extends Controller
                 return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeePrecedente'=>$journeePrecedent]);
                 break;
             case JourneeCaisses::INITIAL :
+                //dump($this->journeeCaisse->getBilletOuv());die();
                 return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
                 break;
             case JourneeCaisses::ENCOURS :
@@ -373,9 +375,9 @@ class JourneeCaissesController extends Controller
             ->getForm();
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
-        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
-        $jc = $em->getRepository(JourneeCaisses::class)->findOneById($utilisateur->getJourneeCaisseActiveId());
-        $caisse = $jc->getCaisse();
+        //$utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+        //$jc = $em->getRepository(JourneeCaisses::class)->findOneById($this->utilisateur->getJourneeCaisseActive());
+        $caisse = $this->caisse;
         //dump($caisse);die();
         $dateDeb = new \DateTime("01-11-2018");
         $dateFin = new \DateTime('now');
@@ -397,6 +399,7 @@ class JourneeCaissesController extends Controller
 
         return $this->render('journee_caisses/etat_de_caisse.html.twig', [
             'journee_caisses' => $journeeCaisses,
+            'journeeCaisse' => $this->journeeCaisse,
             'form' => $form->createView()]);
 
     }
