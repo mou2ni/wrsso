@@ -70,7 +70,7 @@ class JourneeCaissesController extends Controller
      */
     public function index(): Response
     {
-        return $this->redirectToRoute('journee_caisses_gerer');
+        return $this->redirectToRoute('journee_caisses_etat_de_caisse');
     }
 
     /**
@@ -169,10 +169,10 @@ class JourneeCaissesController extends Controller
             $this->journeeCaisse->setDateFerm(new \DateTime());
             $this->journeeCaisse->setStatut(JourneeCaisses::CLOSE);
             $this->comptabiliserFermeture($this->journeeCaisse);
-            $jc = $this->initJournee($this->caisse,$this->journeeCaisse);
-
             $em->persist($this->journeeCaisse);
-            $em->persist($jc);
+
+            $this->initJournee($this->caisse,$this->journeeCaisse);
+            //$em->persist($jc);
             $em->flush();
 
             return $this->redirectToRoute('journee_caisses_index');

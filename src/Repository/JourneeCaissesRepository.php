@@ -125,10 +125,12 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->where('(j.dateOuv) >= :dateDeb')
             ->andWhere('(j.dateOuv) <= :dateFin')
             ->andWhere('(j.caisse) = :caisse')
-            ->orderBy('j.dateOuv','DESC')
+            ->andWhere('j.statut<> :statut')
+            ->orderBy('j.id','DESC')
             ->setParameter('dateDeb', $dateDeb)
             ->setParameter('dateFin', $dateFin)
             ->setParameter('caisse', $caisse)
+            ->setParameter('statut', JourneeCaisses::INITIAL)
             ->getQuery()
             ->getResult();
     }

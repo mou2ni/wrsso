@@ -19,55 +19,43 @@
                         {{ include('journee_caisses/_btn_action_url_etat.html.twig',{'path':'journee_caisses_etat_de_caisse' , 'operation':'ETAT','btn_name':'midifier', 'btn_label':'Chancer'}) }}
                                 #}
     </div>
-
-    <table class="table">
+    <div class="table-responsive">
+    <table class="table table-bordered">
         <thead>
         {% if journee_caisses %}
         <tr>
-            <th colspan="14">FICHE ARRET CAISSE : {{ journee_caisses[0].caisse }}</th>
+            <th colspan="9">FICHE ARRET CAISSE : {{ journee_caisses[0].caisse }}</th>
         </tr>
         {% else %}
         <tr>
-            <th colspan="14">REVOIR LES CRITERES DE SELECTION</th>
+            <th colspan="9">REVOIR LES CRITERES DE SELECTION</th>
         </tr>
         {% endif %}
             <tr>
-                <th>Ouverture</th>
-                <th>Net Ouverture</th>
-                <th>MCvd</th>
-                <th>Crédits</th>
-                <th>Dettes</th>
-                <th>Intercaisse</th>
-                <th>Compense</th>
-                <th>Retraits</th>
-                <th>Dépots</th>
-                <th>Fermeture</th>
-                <th>Disponibilité</th>
-                <th>Net Fermeture</th>
-                <th>Ecart</th>
-                <th>actions</th>
+                <th>DATES</th>
+                <th>NET OUVERTURE</th>
+                <th>COMPENSES</th>
+                <th>CREDITS | DETTES</th>
+                <th>MOUVEMENTS</th>
+                <th>DEPENSES | RECETTES</th>
+                <th>DISPONIBILITE</th>
+                <th>NET FERMETURE</th>
+                <th>ECARTS Ouv|Ferm</th>
             </tr>
         </thead>
         <tbody>
         {% for journee_caiss in journee_caisses %}
             <tr>
-                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
-                <th>{{ journee_caiss.soldeNetOuv|number_format(0, '.', ' ') }}</th>
-                <td>{{ journee_caiss.mCvd|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mCreditDiversFerm|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mDetteDiversFerm|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mIntercaisses|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
-                <td>{{ journee_caiss.mRetraitClient|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mDepotClient }}</td>
-                <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }} | {{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caiss.soldeNetOuv|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.compense|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mCreditDiversFerm|number_format(0, '.', ' ') }} |
+                    {{ journee_caiss.mDetteDiversFerm|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mouvementFond|number_format(0, '.', ' ') }}</td>
+                <td>0</td>
                 <td>{{ journee_caiss.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
-                <th>{{ journee_caiss.soldeNetFerm|number_format(0, '.', ' ') }}</th>
-                <td>{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
-                <td>
-                    <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>
-                    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}" hidden>edit</a>
-                </td>
+                <td>{{ journee_caiss.soldeNetFerm|number_format(0, '.', ' ') }}</td>
+                <td>{{ journee_caiss.mEcartOuv|number_format(0, '.', ' ') }}|{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
             </tr>
         {% else %}
             <tr>
@@ -76,5 +64,6 @@
         {% endfor %}
         </tbody>
     </table>
+    </div>
     <div hidden>{{ form_rest(form) }}</div>
 {% endblock %}

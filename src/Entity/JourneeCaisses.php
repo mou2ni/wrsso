@@ -349,7 +349,7 @@ class JourneeCaisses
 
     public function setMEcartFerm()
     {
-        $this->mEcartFerm = $this->getSoldeNetFerm() - $this->getSoldeNetOuv() - $this->getMouvementFond();
+        $this->mEcartFerm = $this->getSoldeNetFerm() - $this->getSoldeNetOuv() - $this->getMouvementFond()+$this->getCompense();
         //dump($this->mEcartFerm);die();
         return $this;
     }
@@ -383,9 +383,7 @@ class JourneeCaisses
 
 
     public function getMouvementFond(){
-        return $this->mouvementFond =
-            + $this->getMEmissionTrans()
-            - $this->getMReceptionTrans()
+        return
             + $this->getMCvd()
             + $this->getMIntercaisseEntrants()
             - $this->getMIntercaisseSortants()
@@ -1374,7 +1372,7 @@ class JourneeCaisses
 
     public function getCompense()
     {
-        return $this->mEmissionTrans - $this->mReceptionTrans;
+        return $this->getMEmissionTrans() - $this->getMReceptionTrans();
     }
 
     /**
