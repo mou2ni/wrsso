@@ -418,7 +418,7 @@ class JourneeCaissesController extends Controller
             $newSeli=new SystemElectLigneInventaires();
             $newSeli->setSolde($seli->getSolde())
                 ->setIdSystemElect($seli->getIdSystemElect())
-                ->setIdSystemElectInventaire($seli->getIdSystemElectInventaire());
+                ->setIdSystemElectInventaire($this->journeeCaisse->getSystemElectInventFerm());
             $this->getDoctrine()->getManager()->persist($newSeli);
         }
         $this->journeeCaisse->setMSoldeElectFerm($this->journeeCaisse->getMSoldeElectOuv());
