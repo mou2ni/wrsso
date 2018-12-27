@@ -63,6 +63,7 @@ class DetteCreditDiversController extends Controller
                     $this->journeeCaisse->updateM('mCreditDiversFerm',$detteCredit->getMCredit());
             }
             ($dette)?$detteCredit->setStatut(DetteCreditDivers::DETTE_EN_COUR):$detteCredit->setStatut(DetteCreditDivers::CREDIT_EN_COUR);
+            $this->journeeCaisse->addDetteCredit($detteCredit);
             $em->persist($this->journeeCaisse);
             $em->flush();
 

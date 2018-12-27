@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Gestion de Journee{% endblock %}
 {% block body %}
-    <div class="row text-bold text-center "><h1>CAISSE : {{ journeeCaisse.caisse }}</h1>
+    <div class="row text-bold text-center "><h1>OPERTATION COURANTE CAISSE : {{ journeeCaisse.caisse }}</h1>
     </div>
 <div class="row">
     <div class="table-responsive">
@@ -133,7 +133,7 @@
         </table>
     </div>
     <div class="form-group">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_enregistrer' , 'operation':'FERMER','btn_name':'submit', 'btn_label':'Arreter la Caisse', 'btn_class':'btn btn-success btn-block'}) }}
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_enregistrer' , 'operation':'FERMER','btn_name':'submit', 'btn_label':'Arreter la Caisse', 'btn_class':'btn btn-info btn-block'}) }}
     </div>
 </div>
 
