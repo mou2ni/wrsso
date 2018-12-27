@@ -25,7 +25,7 @@ class SessionUtilisateur extends Controller
     public function __construct(TokenStorage $secrutityStokenStorage)
     {
         $this->utilisateur=$secrutityStokenStorage->getToken()->getUser();
-        //$this->checkSessionUtilisateur();
+        $this->checkSessionUtilisateur();
         //$this->paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
     }
 
