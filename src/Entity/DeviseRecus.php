@@ -98,6 +98,8 @@ class DeviseRecus
 
     private $em;
 
+    private $cvdRecu=0;
+
 
     /**
      * DeviseRecus constructor.
@@ -142,6 +144,7 @@ class DeviseRecus
 
         $this->setComment($this->getComment().' | '.$deviseMouvement->getNombre().' '.$deviseMouvement->getDevise().' = '.$deviseMouvement->getContreValeur());
 
+        $this->updateCvd($deviseMouvement->getContreValeur());
         $this->deviseMouvements->add($deviseMouvement);
         return $this;
     }
@@ -388,4 +391,25 @@ class DeviseRecus
         $this->comment = $comment;
     }
 
+    /**
+     * @return int
+     */
+    public function getCvdRecu()
+    {
+        return $this->cvdRecu;
+    }
+
+    /**
+     * @param int $cvdRecu
+     * @return DeviseRecus
+     */
+    public function setCvdRecu($cvdRecu)
+    {
+        $this->cvdRecu = $cvdRecu;
+        return $this;
+    }
+
+    private function updateCvd($montant){
+        $this->cvdRecu+=$montant;
+    }
 }

@@ -9,6 +9,7 @@ use App\Entity\DeviseRecus;
 use App\Entity\JourneeCaisses;
 use App\Form\DeviseRecusType;
 use App\Repository\DeviseRecusRepository;
+use App\Utils\GenererCompta;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,11 +22,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeviseRecusController extends Controller
 {
     private $journeeCaisse;
+    private $utilisateur;
+    private $caisse;
 
     const COPIE1=0, COPIE2=600;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
+        $this->caisse=$sessionUtilisateur->getLastCaisse();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
@@ -45,8 +50,8 @@ class DeviseRecusController extends Controller
 
        //$usd=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
        // $euro=$this->getDoctrine()->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
-        $deviseRecus->setNom('OUEDRAOGO')->setPrenom('Hamado')->setAdresse('837, Avenue DIMDOLOBSON, DAPOYA')->setNumPiece('B3520333')
-            ->setMotif('Voyage affaire chine');
+        $deviseRecus->setNom('CLIENT')->setPrenom('OCCASIONNEL')->setAdresse('837, Avenue DIMDOLOBSON, DAPOYA')->setNumPiece('B')
+            ->setMotif('NEANT');
 
         /* $deviseMvt=new DeviseMouvements();
         $deviseMvt->setDevise($usd)->setNombre(100)->setTaux(500);
@@ -68,23 +73,16 @@ class DeviseRecusController extends Controller
             $save_and_close=$form->getClickedButton()->getName()== 'save_and_close';
 
             if ( $save_and_new  or $save_and_print or $save_and_close){
-                //echo '$save_and_new  $save_and_print..............';
-
-                //dump($form->getClickedButton()->getName()); die();
-
                 $em->persist($deviseRecus);
                 $em->flush();
+                $genCompta=new GenererCompta($em);
+                $genCompta->genComptaCvDevise($this->utilisateur,$this->caisse,$deviseRecus->getCvdRecu());
 
                 if ($save_and_print) {
-
-                    //return $this->redirectToRoute('devise_recus_imprimer', ['devise_recus' => $deviseRecus]);
-
                     return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(),'journeeCaisse'=>$journeeCaisse, 'copies'=>[$this::COPIE1,$this::COPIE2]]);
                 }
 
                 if ($save_and_new) {
-                   // echo '$save_and_new ..............';
-
                     $deviseRecusNew = new DeviseRecus($this->journeeCaisse,$em);
                     $deviseRecusNew->setDateRecu(new \DateTime());
                     $deviseRecusNew->setMotif($deviseRecus->getMotif());

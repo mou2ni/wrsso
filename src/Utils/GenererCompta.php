@@ -323,7 +323,7 @@ class GenererCompta
      */
     public function genComptaCvDevise(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteCvDevise(), $caisse->getCompteOperation(),$utilisateur.' - Solde Contre valeur devises',$montant));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteCvDevise(), $caisse->getCompteOperation(),$utilisateur.' - Contre valeur devises',$montant));
         return !$this->getE();
 
     }
@@ -336,9 +336,10 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
+    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisse, Caisses $caissePartenaire, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteOperation(),$paramComptable->getCompteIntercaisse(),'Solde intercaissse - '.$utilisateur,$montant));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteOperation(),$caissePartenaire->getCompteIntercaisse(),'Intercaissse - '.$utilisateur,$montant));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteIntercaisse(),$caissePartenaire->getCompteOperation(),'Intercaissse - '.$utilisateur,$montant));
         return !$this->getE();
     }
 

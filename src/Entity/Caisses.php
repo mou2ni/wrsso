@@ -49,6 +49,12 @@ class Caisses
     private $CompteCvDevise;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="intercaisses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $compteIntercaisse;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="caisse", cascade={"persist"})
      */
     private $journeeCaisses;
@@ -349,6 +355,24 @@ class Caisses
     public function setLastUtilisateur($lastUtilisateur)
     {
         $this->lastUtilisateur = $lastUtilisateur;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteIntercaisse()
+    {
+        return $this->compteIntercaisse;
+    }
+
+    /**
+     * @param mixed $compteIntercaisse
+     * @return Caisses
+     */
+    public function setCompteIntercaisse($compteIntercaisse)
+    {
+        $this->compteIntercaisse = $compteIntercaisse;
         return $this;
     }
 

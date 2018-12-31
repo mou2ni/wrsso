@@ -24,10 +24,15 @@ class InterCaissesController extends Controller
 {
 public $totalE=0;
 public $totalR=0;
+
     private $journeeCaisse;
+    private $utilisateur;
+    private $caisse;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
+        $this->caisse=$sessionUtilisateur->getLastCaisse();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
@@ -63,14 +68,21 @@ public $totalR=0;
 
         if ($form->isSubmitted() && $form->isValid()) {
             //dump($interCaiss);die();
+
+            $caissePartenaire=$interCaiss->getJourneeCaisseSortant()->getCaisse();
             if($interCaiss->isSortant()){
                 $interCaiss->setJourneeCaisseEntrant($interCaiss->getJourneeCaisseSortant());
                 $interCaiss->setJourneeCaisseSortant($this->journeeCaisse);
+                $interCaiss->setMIntercaisse(-$interCaiss->getMIntercaisse());
+                $caissePartenaire=$interCaiss->getJourneeCaisseEntrant()->getCaisse();
             }
             $operation=$request->request->get('_operation');
             $em = $this->getDoctrine()->getManager();
             $em->persist($interCaiss);
             $em->flush();
+            
+            $genCompta=new GenererCompta($em);
+            $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaiss->getMIntercaisse());
 
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');

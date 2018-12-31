@@ -72,6 +72,11 @@ class Comptes
      * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="CompteCvDevise", cascade={"persist"})
      */
     private $devises;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="compteIntercaisse", cascade={"persist"})
+     */
+    private $intercaisses;
 
     /**
      * Comptes constructor.
@@ -275,6 +280,24 @@ class Comptes
     public function setDevises($devises)
     {
         $this->devises = $devises;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIntercaisses()
+    {
+        return $this->intercaisses;
+    }
+
+    /**
+     * @param mixed $intercaisses
+     * @return Comptes
+     */
+    public function setIntercaisses($intercaisses)
+    {
+        $this->intercaisses = $intercaisses;
         return $this;
     }
 
