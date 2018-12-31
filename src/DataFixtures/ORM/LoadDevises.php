@@ -20,8 +20,9 @@ class LoadDevises extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $lists=array (array('code'=>'USD','libelle'=>'Dollar Americain', 'date'=>new \DateTime(), 'txachat'=>540, 'txvente'=>540),
-                            array('code'=>'EURO','libelle'=>'EURO', 'date'=>new \DateTime(), 'txachat'=>655, 'txvente'=>656)
+        $lists=array ( array('code'=>'EURO','libelle'=>'EURO', 'date'=>new \DateTime(), 'txachat'=>655, 'txvente'=>656),
+            array('code'=>'USD','libelle'=>'Dollar Americain', 'date'=>new \DateTime(), 'txachat'=>540, 'txvente'=>540),
+
         );
 
         foreach ($lists as $list) {

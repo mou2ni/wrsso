@@ -344,25 +344,26 @@ class JourneeCaisses
     }
 
     public function getMEcartFerm(){
-        return $this->mEcartFerm;
+        return $this->getSoldeNetFerm() - ($this->getSoldeNetOuv() + $this->getMouvementFond()+$this->getCompense());
     }
 
     public function setMEcartFerm()
     {
-        $this->mEcartFerm = $this->getSoldeNetFerm() - $this->getSoldeNetOuv() - $this->getMouvementFond()+$this->getCompense();
+        $this->mEcartFerm = $this->getMEcartFerm();
         //dump($this->mEcartFerm);die();
         return $this;
     }
 
     public function getMEcartOuv()
     {
-        return $this->mEcartOuv;
+        ($this->journeePrecedente!=null)?$soldeNetFerm=$this->journeePrecedente->getSoldeNetFerm():$soldeNetFerm=0;
+        return $this->getSoldeNetOuv() - $soldeNetFerm ;
+        //return $this->mEcartOuv;
     }
 
     public function setMEcartOuv()
     {
-        ($this->journeePrecedente!=null)?$soldeNetFerm=$this->journeePrecedente->getSoldeNetFerm():$soldeNetFerm=0;
-        $this->mEcartOuv = $this->getSoldeNetOuv() - $soldeNetFerm ;
+        $this->mEcartOuv = $this->getMEcartOuv();
         return $this;
     }
 
@@ -375,8 +376,8 @@ class JourneeCaisses
     public function getSoldeNetFerm(){
         return
             ($this->getDisponibiliteFerm()
-                + $this->getMDetteDiversFerm()
-                - $this->getMCreditDiversFerm()
+                - $this->getMDetteDiversFerm()
+                + $this->getMCreditDiversFerm()
             );
 
     }
@@ -407,7 +408,7 @@ class JourneeCaisses
             $creditDivers=0;
         }*/
 
-        return $this->getDisponibiliteOuv() + $this->getMDetteDiversOuv() - $this->getMCreditDiversOuv();
+        return $this->getDisponibiliteOuv() - $this->getMDetteDiversOuv() + $this->getMCreditDiversOuv();
     }
 
 

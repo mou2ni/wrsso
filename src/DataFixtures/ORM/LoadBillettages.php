@@ -29,18 +29,18 @@ class LoadBillettages extends Fixture implements DependentFixtureInterface
         $billet100=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>100]);
         $billet20=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>20]);
         $listss=array([
-            array('billet'=>$billet1,'valeurBillet'=>10000, 'nbBillet'=>3)
-            ,array('billet'=>$billet2,'valeurBillet'=>5000, 'nbBillet'=>4)
-            ,array('billet'=>$billet3,'valeurBillet'=>2000, 'nbBillet'=>5)
+            array('billet'=>$billet1,'valeurBillet'=>10000, 'nbBillet'=>0)
+            ,array('billet'=>$billet2,'valeurBillet'=>5000, 'nbBillet'=>0)
+            ,array('billet'=>$billet3,'valeurBillet'=>2000, 'nbBillet'=>0)
         ],
             [
-                array('billet'=>$billet50,'valeurBillet'=>$billet50->getValeur(), 'nbBillet'=>3)
-                ,array('billet'=>$billet100,'valeurBillet'=>$billet100->getValeur(), 'nbBillet'=>4)
-                ,array('billet'=>$billet20,'valeurBillet'=>$billet20->getValeur(), 'nbBillet'=>5)
+                array('billet'=>$billet50,'valeurBillet'=>$billet50->getValeur(), 'nbBillet'=>0)
+                ,array('billet'=>$billet100,'valeurBillet'=>$billet100->getValeur(), 'nbBillet'=>0)
+                ,array('billet'=>$billet20,'valeurBillet'=>$billet20->getValeur(), 'nbBillet'=>0)
             ],
             [
-            array('billet'=>$billet50,'valeurBillet'=>$billet50->getValeur(), 'nbBillet'=>20)
-                ,array('billet'=>$billet100,'valeurBillet'=>$billet100->getValeur(), 'nbBillet'=>20)
+            array('billet'=>$billet50,'valeurBillet'=>$billet50->getValeur(), 'nbBillet'=>0)
+                ,array('billet'=>$billet100,'valeurBillet'=>$billet100->getValeur(), 'nbBillet'=>0)
             ]
             );
 

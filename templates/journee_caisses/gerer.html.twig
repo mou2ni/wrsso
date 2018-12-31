@@ -100,6 +100,12 @@
                 <td  class="text-bold padding-5 text-right"></td>
             </tr>
             <tr>
+                <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >COMPENSES : </td>
+                <td colspan="2"  class="text-bold padding-5 text-right">-</td>
+                <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.compense|number_format(0, '.', ' ')  }}</td>
+                <td  class="text-bold padding-5 text-right"></td>
+            </tr>
+            <tr>
                 <td class="text-bold text-bloody-500 padding-5 text-right" bgcolor="#a9a9a9" >ECARTS : </td>
                 <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
                 <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ')  }}</td>

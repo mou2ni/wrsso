@@ -201,8 +201,32 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/enregistrer", name="journee_caisses_enregistrer", methods="GET|POST|UPDATE")
+     * @Route("/ouverture", name="journee_caisses_ouvrir", methods="GET|POST|UPDATE")
      */
+    public function ouvrir(Request $request):Response
+    {
+        if (!$this->journeeCaisse){
+            $this->addFlash('error', 'ERREUR D\'OUVERTURE RENCONTREE. RECOMMENCEZ !!!');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
+
+        if (!$this->journeeCaisse->getStatut()==JourneeCaisses::ENCOURS){
+            $this->addFlash('error', 'JOURNEE DEJA OUVERTE !!!');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
+        $em=$this->getDoctrine()->getManager();
+        $genererCompta=new GenererCompta($em);
+        $genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv());
+        $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
+        $this->journeeCaisse->setDateOuv(new \DateTime());
+        $this->setSoldeFerm();
+        $em->persist($this->journeeCaisse);
+
+        $em->flush();
+
+        return $this->redirectToRoute('journee_caisses_gerer');
+    }
+ /*
     public function enregistrer(Request $request){
         if (!$this->journeeCaisse){
             $this->addFlash('error', 'ERREUR D\'ENREGISTREMENT RENCONTREE. RECOMMENCEZ !!!');
@@ -240,7 +264,7 @@ class JourneeCaissesController extends Controller
             return $this->redirectToRoute('journee_caisses_index');
         }
     }
-
+*/
     /**
      * @Route("/etat/caisse", name="journee_caisses_etat_de_caisse", methods="GET|POST|UPDATE")
      */
