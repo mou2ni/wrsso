@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use App\Utils\SessionUtilisateur;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 class DeviseIntercaisses
 {
     const INIT='I', ANNULE='X', VALIDE='V', VALIDATION_AUTO='VA';
+    const ENTREE=1, SORTIE=0;
 
     /**
      * @ORM\Id
@@ -39,6 +41,9 @@ class DeviseIntercaisses
      * @ORM\JoinColumn(nullable=false)
      */
     private $journeeCaisseDestination;
+
+    private $journeeCaissePartenaire;
+    private $journeeCaisse;
 
 
     /**
@@ -71,9 +76,9 @@ class DeviseIntercaisses
      */
     private $observations;
 
-    private $sortant = false;
-
     private $em;
+
+    private $sens;
 
     /**
      * DeviseRecus constructor.
@@ -82,7 +87,11 @@ class DeviseIntercaisses
      */
     public function __construct(JourneeCaisses $journeeCaisse, ObjectManager $manager)
     {
-        $this->journeeCaisseDestination=$journeeCaisse;
+        //$this->utilisateur=$sessionUtilisateur->getUtilisateur();
+        //dernière caisse ouverte par l'utilisateur ou null si inexistant
+        //$this->caisse=$sessionUtilisateur->getLastCaisse();
+        //dernière journée de la caisse ou null si inexistant
+        $this->journeeCaisse=$journeeCaisse;
         $this->em=$manager;
         $this->deviseMouvements = new ArrayCollection();
         $this->deviseTmpMouvements = new ArrayCollection();
@@ -225,7 +234,7 @@ class DeviseIntercaisses
     {
 
         $deviseMouvement->setSens($deviseMouvement::INTERCAISSE)
-            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseDestination, $this->em)
+            ->setDeviseJourneeByJourneeCaisse($this->getJourneeCaisseDestination(), $this->em)
             ->setDeviseIntercaisse($this)        ;
         $this->deviseMouvements->add($deviseMouvement);
         $this->expendObservations($deviseMouvement->getDevise().' = '.$deviseMouvement->getNombre());
@@ -235,7 +244,7 @@ class DeviseIntercaisses
         $deviseMouvementPartenaire->setSens($deviseMouvementPartenaire::INTERCAISSE)
             ->setDevise($deviseMouvement->getDevise())
             ->setNombre(-$deviseMouvement->getNombre())
-            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseSource, $this->em)
+            ->setDeviseJourneeByJourneeCaisse($this->getJourneeCaisseSource(), $this->em)
             ->setDeviseIntercaisse($this);
         $this->deviseMouvements->add($deviseMouvementPartenaire);
 
@@ -259,27 +268,21 @@ class DeviseIntercaisses
      */
     public function addDeviseTmpMouvement(DeviseTmpMouvements $deviseTmpMouvement)
     {
-        //dump($deviseTmpMouvement); die();
-
-        /*$deviseMouvement->setSens($deviseMouvement::INTERCAISSE)
-            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseDestination, $this->em)*/
-        //$deviseTmpMouvement->setJourneeCaisse($this->journeeCaisseDestination);
+        //si la caisse initiatrice est la meme que la receptrice, valider automatique
+        if ($this->getSens()==$this::ENTREE){
+            $deviseMouvement=new DeviseMouvements();
+            $deviseMouvement->setDevise($deviseTmpMouvement->getDevise())
+                ->setNombre($deviseTmpMouvement->getNombre())
+                ->setTaux($deviseTmpMouvement->getTaux())
+            ;
+            $this->setJourneeCaisseDestination($this->journeeCaisse)
+            ->setJourneeCaisseSource($this->getJourneeCaissePartenaire());
+            $this->addDeviseMouvement($deviseMouvement);
+            return $this;
+        }
+        
         $deviseTmpMouvement->setDeviseIntercaisse($this)        ;
         $this->deviseTmpMouvements->add($deviseTmpMouvement);
-        //$this->expendObservations($deviseMouvement->getDevise().' = '.$deviseMouvement->getNombre());
-
-        //ajout du mouvement partenaire correspondant avec signe contraire
-        //$deviseTmpMouvementPartenaire=new DeviseTmpMouvements();
-        /*$deviseMouvementPartenaire->setSens($deviseMouvementPartenaire::INTERCAISSE)
-
-            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisseSource, $this->em)*/
-        //$deviseTmpMouvementPartenaire->setJourneeCaisse($this->journeeCaisseSource);
-        //$deviseTmpMouvementPartenaire->setDevise($deviseTmpMouvement->getDevise())
-        //    ->setNombre(-$deviseTmpMouvement->getNombre())
-         //   ->setDeviseIntercaisse($this);
-        //$this->deviseTmpMouvements->add($deviseTmpMouvementPartenaire);
-
-
         return $this;
     }
 
@@ -330,20 +333,56 @@ class DeviseIntercaisses
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function isSortant(): bool
+    public function getJourneeCaissePartenaire()
     {
-        return $this->sortant;
+        return $this->journeeCaissePartenaire;
     }
 
     /**
-     * @param bool $sortant
+     * @param mixed $journeeCaissePartenaire
      * @return DeviseIntercaisses
      */
-    public function setSortant(bool $sortant): DeviseIntercaisses
+    public function setJourneeCaissePartenaire($journeeCaissePartenaire)
     {
-        $this->sortant = $sortant;
+        $this->journeeCaissePartenaire = $journeeCaissePartenaire;
+        return $this;
+    }
+
+    /**
+     * @return JourneeCaisses
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param JourneeCaisses $journeeCaisse
+     * @return DeviseIntercaisses
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSens()
+    {
+        return $this->sens;
+    }
+
+    /**
+     * @param mixed $sens
+     * @return DeviseIntercaisses
+     */
+    public function setSens($sens)
+    {
+        $this->sens = $sens;
         return $this;
     }
 

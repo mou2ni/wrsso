@@ -135,6 +135,14 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+   /* public function findMyIntercaisseEntrant(JourneeCaisses $journeeCaisse){
+        $qb = $this->createQueryBuilder('jc');
+        return $qb->select('c.code, ie.journeeCaisseSortant, ie.montant')
+            ->from('JourneeCaisse',(''))
+            ->innerJoin('jc.intercaisseEntrants', 'ie')
+            ->innerJoin()
+    }*/
+
 
 
 //    /**

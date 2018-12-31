@@ -41,7 +41,7 @@ class DeviseIntercaissesController extends Controller
 
         $deviseIntercaiss = new DeviseIntercaisses($this->journeeCaisse, $em);
 
-        $deviseIntercaiss->setStatut($deviseIntercaiss::INIT);
+
         $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
         $form->handleRequest($request);
 
@@ -53,9 +53,17 @@ class DeviseIntercaissesController extends Controller
 
 
             if ($save_and_new or $save_and_close) {
-                if($deviseIntercaiss->isSortant()){
-                    $deviseIntercaiss->setJourneeCaisseSource($deviseIntercaiss->getJourneeCaisseSource());
+                //dump($request->request->get('devise_intercaisses')['journeeCaissePartenaire']);die();
+                //dump($request->request->get('devise_intercaisses'));die();
+                if($deviseIntercaiss->getSens()==DeviseIntercaisses::ENTREE) {
+                    $deviseIntercaiss->setJourneeCaisseSource($deviseIntercaiss->getJourneeCaissePartenaire());
                     $deviseIntercaiss->setJourneeCaisseDestination($this->journeeCaisse);
+                    $deviseIntercaiss->setStatut($deviseIntercaiss::VALIDATION_AUTO);
+                }else{
+                    $deviseIntercaiss->setJourneeCaisseSource($this->journeeCaisse);
+                    $deviseIntercaiss->setJourneeCaisseDestination($deviseIntercaiss->getJourneeCaissePartenaire());
+                    $deviseIntercaiss->setStatut($deviseIntercaiss::INIT);
+
                 }
                 $em->persist($deviseIntercaiss);
                 $em->flush();
@@ -82,6 +90,11 @@ class DeviseIntercaissesController extends Controller
      */
     public function autoriser(Request $request, DeviseIntercaisses $deviseIntercaiss, $jc ): Response
     {
+        $deviseIntercaiss->setJourneeCaisse($this->journeeCaisse);
+        if ($deviseIntercaiss->getStatut()<>DeviseIntercaisses::INIT){
+            $this->addFlash('error', 'INTERCAISSE NON MODIFIABLE ! ! !');
+            return $this->redirectToRoute('devise_intercaisses_gestion');
+        }
         $em = $this->getDoctrine()->getManager();
 
         //dump($request);die();

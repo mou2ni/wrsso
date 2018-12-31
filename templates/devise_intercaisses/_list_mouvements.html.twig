@@ -16,15 +16,15 @@
                         <td>{{ devise_tmp_mvt_intercaisse.journeeCaisseSource }}=>{{ devise_tmp_mvt_intercaisse.journeeCaisseDestination }}</td>
                         <td>{{ devise_tmp_mvt_intercaisse.observations }} </td>
                         <td>{{ (devise_tmp_mvt_intercaisse.statut=='I')
-                            ?'Initié':(devise_tmp_mvt_intercaisse.statut=='V')
-                            ?'Validé':(devise_tmp_mvt_intercaisse.statut=='VA')
-                            ?'Auto validé':'Non defini'}}
+                            ?'initial':(devise_tmp_mvt_intercaisse.statut=='X')
+                            ?'Annulé':'Non defini'}}
                         </td>
                         <td><div class="form-row">
                             {% if  devise_tmp_mvt_intercaisse.statut=='I' %}
                                 {% if  journeeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseDestination %}
                                    {{ include('devise_intercaisses/_btn_action.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'}) }}
-                                {% endif %}
+                                     {#| {{ include('devise_intercaisses/_btn_action.html.twig',{'btn_name':'valider', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'}) }}
+                                    #}{% endif %}
                                 {% if  journeeCaisse==devise_tmp_mvt_intercaisse.journeeCaisseSource %}
                                     {{ include('devise_intercaisses/_btn_action.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'}) }}
                                 {% endif %}
@@ -38,7 +38,7 @@
                     <ul>
                     {% for deviseTmpMouvement in  devise_tmp_mvt_intercaisse.deviseTmpMouvements %}
                         <li>
-                            {{ (deviseTmpMouvement.nombre < 0)?'SORTIE':'ENTREE'}} {{ deviseTmpMouvement.nombre }} {{ deviseTmpMouvement.devise }}
+                            {{ (journeeCaisse== devise_tmp_mvt_intercaisse.journeeCaisseSource)?'SORTIE':'ENTREE'}} {{ deviseTmpMouvement.nombre }} {{ deviseTmpMouvement.devise }}
                         </li>
 
                     {% endfor %}
