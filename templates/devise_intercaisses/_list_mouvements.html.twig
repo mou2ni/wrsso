@@ -38,7 +38,7 @@
                     <ul>
                     {% for deviseTmpMouvement in  devise_tmp_mvt_intercaisse.deviseTmpMouvements %}
                         <li>
-                            {{ (deviseTmpMouvement.nombre < 0)?'SORTIE':'ENTREE'}} {{ deviseTmpMouvement.nombre }} {{ deviseTmpMouvement.devise }}
+                            {{ (journeeCaisse== devise_tmp_mvt_intercaisse.journeeCaisseSource)?'SORTIE':'ENTREE'}} {{ deviseTmpMouvement.nombre }} {{ deviseTmpMouvement.devise }}
                         </li>
 
                     {% endfor %}
