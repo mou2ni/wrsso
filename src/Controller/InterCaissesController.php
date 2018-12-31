@@ -12,6 +12,7 @@ use App\Utils\GenererCompta;
 use App\Utils\SessionUtilisateur;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -62,6 +63,10 @@ public $totalR=0;
 
         if ($form->isSubmitted() && $form->isValid()) {
             //dump($interCaiss);die();
+            if($interCaiss->isSortant()){
+                $interCaiss->setJourneeCaisseEntrant($interCaiss->getJourneeCaisseSortant());
+                $interCaiss->setJourneeCaisseSortant($this->journeeCaisse);
+            }
             $operation=$request->request->get('_operation');
             $em = $this->getDoctrine()->getManager();
             $em->persist($interCaiss);
@@ -94,12 +99,17 @@ public $totalR=0;
                 //$interCaisse->setStatut($statut);
                 $em->persist($interCaisse);
                 $em->flush();
-                dump($interCaiss);die();
+                $interCaiss=[
+                    ['id'=>$interCaisse]
+                ];
+
+                $data = ["intercaisse"=>$interCaisse->getId()];
+
+                return new JsonResponse($data);
+                //dump($interCaiss);die();
                 //$this->journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
             }
             if ($request->request->get('valider')){
-                //$this->journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
-                $this->journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
                 foreach ($this->journeeCaisse->getIntercaisseSortants() as $intercaisseSortant ){
                     if ($intercaisseSortant->getStatut()== InterCaisses::INITIE){
                         $intercaisseSortant->valider();

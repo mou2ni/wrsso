@@ -55,6 +55,8 @@ class InterCaisses
      */
     private $observations;
 
+    private $sortant = false;
+
     public function __toString()
     {
         // TODO: Implement __toString() method.
@@ -163,30 +165,31 @@ class InterCaisses
         $this->observations = $observations;
     }
 
+    /**
+     * @return bool
+     */
+    public function isSortant(): bool
+    {
+        return $this->sortant;
+    }
+
+    /**
+     * @param bool $sortant
+     * @return InterCaisses
+     */
+    public function setSortant(bool $sortant): InterCaisses
+    {
+        $this->sortant = $sortant;
+        return $this;
+    }
+
+
     public function valider(){
         $this->statut = $this::VALIDE;
-        $this->journeeCaisseSortant->setMIntercaisseSortants($this->journeeCaisseSortant->getMIntercaisseSortants()+ $this->mIntercaisse);
-        $this->journeeCaisseEntrant->setMIntercaisseEntrants($this->journeeCaisseEntrant->getMIntercaisseEntrants()+ $this->mIntercaisse);
-        //$this->journeeCaisseSortant->addInterCaisseEntrant($this);
-        //$this->journeeCaisseEntrant->addInterCaisseSortant($this);
+        $this->journeeCaisseSortant->updateM('mIntercaisseSortants', $this->mIntercaisse);
+        $this->journeeCaisseEntrant->updateM('mIntercaisseEntrants', $this->mIntercaisse);
+        //$this->journeeCaisseSortant->setMIntercaisseSortants($this->journeeCaisseSortant->getMIntercaisseSortants()+ $this->mIntercaisse);
+        //$this->journeeCaisseEntrant->setMIntercaisseEntrants($this->journeeCaisseEntrant->getMIntercaisseEntrants()+ $this->mIntercaisse);
     }
-    /*public function valider(){
-        foreach ($this->getIntercaisseEntrants() as $intercaisseEntrant){
-            if($intercaisseEntrant->getStatut() == InterCaisses::ANNULATION_EN_COURS){
-                $this->addFlash('success', "vous avez une intercaisse en cours d'annulation");
-                return $this->redirectToRoute('inter_caisses_index');
-            }
-            elseif($intercaisseEntrant->getStatut() == InterCaisses::VALIDATION_AUTO)
-                $intercaisseEntrant->setStatut(InterCaisses::VALIDE);
-        }
-        foreach ($this->getIntercaisseSortants() as $intercaisseSortant){
-            if($intercaisseSortant->getStatut() == InterCaisses::ANNULATION_EN_COURS){
-                $this->addFlash('success', "vous avez une intercaisse en cours d'annulation");
-                return $this->redirectToRoute('inter_caisses_demande');
-            }
-            elseif($intercaisseSortant->getStatut() == InterCaisses::VALIDATION_AUTO)
-                $intercaisseSortant->setStatut(InterCaisses::VALIDE);
-        }
-    }*/
 
    }

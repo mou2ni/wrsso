@@ -7,6 +7,7 @@ use App\Entity\JourneeCaisses;
 use App\Repository\JourneeCaissesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -21,6 +22,7 @@ class DeviseIntercaissesType extends AbstractType
         //$statut='T';
 
         $builder
+            ->add('sortant', CheckboxType::class, ['label'=>' ', 'required'=>false])
             ->add('journeeCaisseSource', EntityType::class, array (
                 'class' => 'App\Entity\JourneeCaisses',
                 'choice_label' => 'journeeCaisse',

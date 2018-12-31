@@ -71,6 +71,8 @@ class DeviseIntercaisses
      */
     private $observations;
 
+    private $sortant = false;
+
     private $em;
 
     /**
@@ -324,6 +326,24 @@ class DeviseIntercaisses
     public function setEm($em)
     {
         $this->em = $em;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSortant(): bool
+    {
+        return $this->sortant;
+    }
+
+    /**
+     * @param bool $sortant
+     * @return DeviseIntercaisses
+     */
+    public function setSortant(bool $sortant): DeviseIntercaisses
+    {
+        $this->sortant = $sortant;
         return $this;
     }
 

@@ -6,6 +6,7 @@ use App\Entity\InterCaisses;
 use App\Repository\JourneeCaissesRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -17,10 +18,20 @@ class InterCaissesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('sortant', CheckboxType::class, ['label'=>' ', 'required'=>false])
             ->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
-            //->add('statut')
+            /*->add('journeeCaisseEntrant', EntityType::class, array (
+                'class' => 'App\Entity\JourneeCaisses',
+                'choice_label' => 'journeeCaisse',
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function(JourneeCaissesRepository $repository) {
+                    return $repository->getOpenJourneeCaisseQb();
+                }
+            ))*/
             ->add('observations', TextareaType::class)
             ->add('journeeCaisseSortant', EntityType::class, array (
+                //'mapped'=>false,
                 'class' => 'App\Entity\JourneeCaisses',
                 'choice_label' => 'journeeCaisse',
                 'multiple' => false,

@@ -115,9 +115,14 @@ $(document).ready(function () {
             data: DATA,
             cache: false,
             success: function (data) {
+                alert(data.intercaisse);
+                console.log(data.intercaisse);
                 if ($(this).attr('name')=="Annuler") {
-                $("#"+ligne+"E").hide();
-                $("#"+ligne+"S").hide();
+                    //$('<tr id="'+data.intercaisse+"S"+'"></tr>').remove();
+                    //$("#32S").remove();
+                    remove($('<tr id="'+data.intercaisse+"S"+'"></tr>'));
+                $("#"+data.intercaisse+"E").remove();
+                $("#"+data.intercaisse+"S").remove();
                 }
                 if ($(this).attr('name')=="Valider") document.getElementById('statut'+x).innerHTML="<span id='valider{{intercaisse.id}}V'>Validé</span>";
                 $("#"+x).hide();

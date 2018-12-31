@@ -53,6 +53,10 @@ class DeviseIntercaissesController extends Controller
 
 
             if ($save_and_new or $save_and_close) {
+                if($deviseIntercaiss->isSortant()){
+                    $deviseIntercaiss->setJourneeCaisseSource($deviseIntercaiss->getJourneeCaisseSource());
+                    $deviseIntercaiss->setJourneeCaisseDestination($this->journeeCaisse);
+                }
                 $em->persist($deviseIntercaiss);
                 $em->flush();
                 if ($save_and_close) return $this->redirectToRoute('journee_caisses_gerer');

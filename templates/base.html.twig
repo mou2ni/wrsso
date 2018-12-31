@@ -26,6 +26,7 @@
             <div class="app-content">
                 <!-- START PAGE CONTAINER -->
                 <div class="container">
+                    <div><span class="glyphicon glyphicon-off" aria-hidden="true"></span><a href="{{ path('logout') }}" class="close" > Deconnecter </a><span class="float-right">{{ app.user }}</span> </div>
                     {% for msg in app.session.flashBag.get('success') %}
                         <div class="alert alert-success">
                             {{ msg }}
@@ -36,7 +37,6 @@
                             {{ msg }}
                         </div>
                     {% endfor %}
-                    <div><span class="glyphicon glyphicon-off" aria-hidden="true"></span><a href="{{ path('logout') }}" class="close" > Deconnecter </a><span class="float-right">{{ app.user }}</span> </div>
                     <div class="app-content-separate-content">
                         <!-- CONTENT CONTAINER -->
                         <div class="container">
