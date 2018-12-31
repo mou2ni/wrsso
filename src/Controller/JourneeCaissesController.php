@@ -484,6 +484,20 @@ class JourneeCaissesController extends Controller
             $this->getDoctrine()->getManager()->persist($newSeli);
         }
         $this->journeeCaisse->setMSoldeElectFerm($this->journeeCaisse->getMSoldeElectOuv());
+
+        //soldes fermeture devises
+        foreach ($this->journeeCaisse->getDeviseJournees() as $dvj){
+            $dvj->setQteFerm($dvj->getQteOuv());
+            foreach ($dvj->getBilletOuv()->getBilletageLignes() as $bl){
+                $newBl = new BilletageLignes();
+                $newBl->setNbBillet($bl->getNbBillet())
+                    ->setValeurBillet($bl->getValeurBillet())
+                    ->setBillet($bl->getBillet())
+                    ->setBilletages($dvj->getBilletFerm());
+                $this->getDoctrine()->getManager()->persist($newBl);
+            }
+        }
+
     }
 
     private function verifierIntercaisses($intercaisses){

@@ -40,7 +40,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
                 ->setStatut($list['statut'])
                 ->setDateOuv($list['dateOuv']);
             if ($enr->getStatut()==JourneeCaisses::CLOSE) {
-                $enr->setMLiquiditeFerm(1000000)->setMSoldeElectFerm(500000)->setMDetteDiversFerm(2000)->setMCreditDiversFerm(1000);
+                //$enr->setMLiquiditeFerm(1000000)->setMSoldeElectFerm(500000)->setMDetteDiversFerm(2000)->setMCreditDiversFerm(1000);
                 $journeePrecedente=$enr;
             }
             if ($enr->getStatut()==JourneeCaisses::INITIAL) {
