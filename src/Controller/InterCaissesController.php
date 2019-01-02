@@ -22,8 +22,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class InterCaissesController extends Controller
 {
-public $totalE=0;
-public $totalR=0;
+    public $totalE=0;
+    public $totalR=0;
 
     private $journeeCaisse;
     private $utilisateur;
@@ -80,7 +80,7 @@ public $totalR=0;
             $em = $this->getDoctrine()->getManager();
             $em->persist($interCaiss);
             $em->flush();
-            
+
             //$genCompta=new GenererCompta($em);
             //$genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaiss->getMIntercaisse());
 
@@ -108,24 +108,24 @@ public $totalR=0;
                 $interCaisse = $em->getRepository("App:InterCaisses")->find($idIntercaisse);
                 if ($interCaisse->getStatut() == InterCaisses::INITIE)
                 {
-                if ($statut=='V')$interCaisse->valider();
-                elseif($statut=='X') $interCaisse->setStatut(InterCaisses::ANNULE);
-                //$interCaisse->setStatut($statut);
-                //dump($interCaiss); die();
-                $caissePartenaire = ($this->caisse == $interCaisse->getJourneeCaisseEntrant())?$interCaisse->getJourneeCaisseEntrant()->getCaisse():
-                    $interCaisse->getJourneeCaisseSortant()->getCaisse();
-                $genCompta=new GenererCompta($em);
-                $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaisse->getMIntercaisse());
+                    if ($statut=='V'){
+                        $interCaisse->valider();
+                        $caissePartenaire = ($this->caisse == $interCaisse->getJourneeCaisseEntrant())?$interCaisse->getJourneeCaisseEntrant()->getCaisse():
+                            $interCaisse->getJourneeCaisseSortant()->getCaisse();
+                        $genCompta=new GenererCompta($em);
+                        $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaisse->getMIntercaisse());
+                    }
+                    elseif($statut=='X') $interCaisse->setStatut(InterCaisses::ANNULE);
 
-                $em->persist($interCaisse);
-                $em->flush();
-                $interCaiss=[
-                    ['id'=>$interCaisse]
-                ];
+                    $em->persist($interCaisse);
+                    $em->flush();
+                    $interCaiss=[
+                        ['id'=>$interCaisse]
+                    ];
 
-                $data = ["intercaisse"=>$interCaisse->getId()];
-            }
-            else $data = ["intercaisse"=>0];
+                    $data = ["intercaisse"=>$interCaisse->getId()];
+                }
+                else $data = ["intercaisse"=>0];
                 return new JsonResponse($data);
                 //dump($interCaiss);die();
                 //$this->journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
