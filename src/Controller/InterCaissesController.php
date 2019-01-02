@@ -81,8 +81,8 @@ public $totalR=0;
             $em->persist($interCaiss);
             $em->flush();
             
-            $genCompta=new GenererCompta($em);
-            $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaiss->getMIntercaisse());
+            //$genCompta=new GenererCompta($em);
+            //$genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaiss->getMIntercaisse());
 
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
@@ -106,9 +106,17 @@ public $totalR=0;
                 $statut = substr($interCaiss,-1);
                 $idIntercaisse = substr($interCaiss,0,-1);
                 $interCaisse = $em->getRepository("App:InterCaisses")->find($idIntercaisse);
+                if ($interCaisse->getStatut() == InterCaisses::INITIE)
+                {
                 if ($statut=='V')$interCaisse->valider();
-                else $interCaisse->setStatut(InterCaisses::ANNULE);
+                elseif($statut=='X') $interCaisse->setStatut(InterCaisses::ANNULE);
                 //$interCaisse->setStatut($statut);
+                //dump($interCaiss); die();
+                $caissePartenaire = ($this->caisse == $interCaisse->getJourneeCaisseEntrant())?$interCaisse->getJourneeCaisseEntrant()->getCaisse():
+                    $interCaisse->getJourneeCaisseSortant()->getCaisse();
+                $genCompta=new GenererCompta($em);
+                $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaisse->getMIntercaisse());
+
                 $em->persist($interCaisse);
                 $em->flush();
                 $interCaiss=[
@@ -116,7 +124,8 @@ public $totalR=0;
                 ];
 
                 $data = ["intercaisse"=>$interCaisse->getId()];
-
+            }
+            else $data = ["intercaisse"=>0];
                 return new JsonResponse($data);
                 //dump($interCaiss);die();
                 //$this->journeeCaisses->setMIntercaisses($this->totalR-$this->totalE);
