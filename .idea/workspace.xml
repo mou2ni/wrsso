@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
-    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="27/12/2018 retouche sur les fixtures">
+    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="04/01/2019 correction d'un bug sur JC">
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20190104182805.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
     </list>
@@ -59,8 +61,32 @@
       <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="409" lean-forward="true" selection-start-line="409" selection-end-line="409" />
+            <state relative-caret-position="194">
+              <caret line="103" column="55" lean-forward="true" selection-start-line="103" selection-start-column="55" selection-end-line="103" selection-end-column="55" />
+              <folding>
+                <element signature="e#3550#3584#0#PHP" expanded="true" />
+                <element signature="e#3840#3874#0#PHP" expanded="true" />
+                <element signature="e#13380#13422#0#PHP" expanded="true" />
+                <element signature="e#16331#16372#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="devisejournees" pinned="false" current-in-tab="false">
+        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/devisejournees">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoadDeviseJournees.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="34" column="98" selection-start-line="34" selection-start-column="98" selection-end-line="34" selection-end-column="98" />
             </state>
           </provider>
         </entry>
@@ -126,7 +152,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>2journ</find>
       <find>dette</find>
       <find>caisse</find>
       <find>bouton</find>
@@ -156,6 +181,7 @@
       <find>update</find>
       <find>$journeeCaisseEntrant</find>
       <find>ch</find>
+      <find>ouvrir</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;div class=&quot;form-row&quot;&gt;</replace>
@@ -436,13 +462,12 @@
             <path>
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Controller" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
@@ -462,23 +487,6 @@
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Migrations" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="caisses" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="journee_caisses" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -503,11 +511,16 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="153" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="155" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="829" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="database.console.LAST_STATE" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/DoctrineExtensions/Query/MySql" />
+    <property name="last_opened_file_path" value="C:/xampp/htdocs/hwrsso" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
@@ -541,20 +554,12 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/warisso.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/DeviseRecusController.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/InterCaissesController.php</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/JourneeCaissesController.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillettages.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/DataFixtures/ORM/LoadBillet.php</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/DataFixtures/ORM/LoadCaisses.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/Caisses.php</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/Comptes.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/DeviseRecus.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/JourneeCaisses.php</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Utils/GenererCompta.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/journee_caisses/_form_ouverture.html.twig</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -562,7 +567,6 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Migrations/Version20181231160202.php</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Deleted" />
@@ -746,14 +750,7 @@
       <workItem from="1543853533905" duration="231375000" />
       <workItem from="1545652143164" duration="18000" />
       <workItem from="1545652522311" duration="88255000" />
-      <workItem from="1546157172294" duration="33022000" />
-    </task>
-    <task id="LOCAL-00022" summary="ouverture journeeCaisse">
-      <created>1531956688404</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1531956688451</updated>
+      <workItem from="1546157172294" duration="38915000" />
     </task>
     <task id="LOCAL-00023" summary="intercaisses">
       <created>1532349554196</created>
@@ -1091,11 +1088,18 @@
       <option name="project" value="LOCAL" />
       <updated>1546621636853</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="04/01/2019 correction d'un bug sur JC">
+      <created>1546622639717</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1546622639717</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1675722000" />
+    <option name="totallyTimeSpent" value="1681615000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1118,6 +1122,7 @@
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.2908497" />
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
+      <window_info anchor="right" id="Remote Host" weight="0.32980332" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.24130106" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.1505295" />
@@ -1211,7 +1216,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="depot-retrait" />
     <MESSAGE value="correction d'ouverture" />
     <MESSAGE value="electronique" />
     <MESSAGE value="correction des fixtures" />
@@ -1236,7 +1240,8 @@
     <MESSAGE value="27/12/2018 retouche sur intercaisse" />
     <MESSAGE value="27/12/2018 retouche en cours sur les fixtures" />
     <MESSAGE value="27/12/2018 retouche sur les fixtures" />
-    <option name="LAST_COMMIT_MESSAGE" value="27/12/2018 retouche sur les fixtures" />
+    <MESSAGE value="04/01/2019 correction d'un bug sur JC" />
+    <option name="LAST_COMMIT_MESSAGE" value="04/01/2019 correction d'un bug sur JC" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1253,9 +1258,6 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Entity/TransactionComptes.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1db14c84-a27e-4117-bd5f-6c225e712501/console_1.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1423,16 +1425,6 @@
     <entry file="file://$PROJECT_DIR$/src/Migrations/Version20181231160202.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="92">
-          <caret line="408" column="11" lean-forward="true" selection-start-line="408" selection-start-column="11" selection-end-line="408" selection-end-column="11" />
-          <folding>
-            <element signature="e#114#162#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/InterCaissesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
@@ -1496,13 +1488,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
           <caret line="65" column="40" selection-start-line="65" selection-start-column="40" selection-end-line="65" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="34" column="98" selection-start-line="34" selection-start-column="98" selection-end-line="34" selection-end-column="98" />
         </state>
       </provider>
     </entry>
@@ -1588,10 +1573,40 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="41">
+          <caret line="296" column="20" selection-start-line="296" selection-start-column="20" selection-end-line="296" selection-end-column="20" />
+          <folding>
+            <element signature="e#114#162#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDeviseJournees.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="34" column="98" selection-start-line="34" selection-start-column="98" selection-end-line="34" selection-end-column="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/devisejournees">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="409" lean-forward="true" selection-start-line="409" selection-end-line="409" />
+        <state relative-caret-position="194">
+          <caret line="103" column="55" lean-forward="true" selection-start-line="103" selection-start-column="55" selection-end-line="103" selection-end-column="55" />
+          <folding>
+            <element signature="e#3550#3584#0#PHP" expanded="true" />
+            <element signature="e#3840#3874#0#PHP" expanded="true" />
+            <element signature="e#13380#13422#0#PHP" expanded="true" />
+            <element signature="e#16331#16372#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
