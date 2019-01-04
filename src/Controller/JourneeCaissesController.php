@@ -412,6 +412,9 @@ class JourneeCaissesController extends Controller
             ->setStatut(JourneeCaisses::INITIAL);
 
         if (!$journeeCaissePrecedent) { //initialiser à partenir de néant !!!
+            //$billetOuv=new Billetages();
+            //$billetFerm=new Billetages();
+            //$newJournee->setBilletOuv($billetOuv)->setBilletFerm($billetFerm);
             $em->persist($newJournee);
             $em->flush();
             //dump($newJournee);die();

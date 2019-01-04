@@ -21,8 +21,8 @@ class LoadBillet extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $devise1=$manager->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
-        $devise2=$manager->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
+        $devise1=$manager->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
+        $devise2=$manager->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $lists=array (
             /////////////XOF////////////
             array('valeur'=>5,'devise'=>null),
