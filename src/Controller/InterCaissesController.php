@@ -80,10 +80,10 @@ public $totalR=0;
             $em = $this->getDoctrine()->getManager();
             $em->persist($interCaiss);
             $em->flush();
-            
-            $genCompta=new GenererCompta($em);
-            $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaiss->getMIntercaisse());
-
+            if ($interCaiss->getStatut()==InterCaisses::VALIDE){
+                $genCompta=new GenererCompta($em);
+                $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaiss->getMIntercaisse());
+            }
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
