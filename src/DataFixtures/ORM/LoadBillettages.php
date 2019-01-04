@@ -19,8 +19,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 class LoadBillettages extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
-    {
-
+    {/*
         $billet1=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>10000]);
         $billet2=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>5000]);
         $billet3=$manager->getRepository('App:Billets')->findOneBy(['valeur'=>2000]);
@@ -64,6 +63,7 @@ class LoadBillettages extends Fixture implements DependentFixtureInterface
 
 
         $manager->flush();
+*/
     }
 
     public function getDependencies()

@@ -21,7 +21,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $utilisateur=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
+        /*$utilisateur=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
         $utilisateur1=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login1']);
 
         $caisse=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD01']);
@@ -61,8 +61,8 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
             ->setJourneePrecedente($journeePrecedente)
             ->setDateOuv(new \DateTime());
 
-        $utilisateur->setLastCaisse($journeeOuverte->getCaisse());
-        $utilisateur1->setLastCaisse($journeeInitial->getCaisse());
+        //$utilisateur->setLastCaisse($journeeOuverte->getCaisse());
+        //$utilisateur1->setLastCaisse($journeeInitial->getCaisse());
 
 /*
         $utilisateur->setLastCaisse($journeeOuverte->getCaisse());
@@ -70,7 +70,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
 
         $journeeOuverte->getCaisse()->setStatut(Caisses::OUVERT);
         $journeeInitial->getCaisse()->setStatut(Caisses::OUVERT);
-        */
+
 
 
         $manager->persist($journeeOuverte);
@@ -84,6 +84,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         //$manager->persist($utilisateur);
         //$manager->persist($utilisateur1);
        // $manager->flush();
+        */
     }
 
     public function getDependencies()

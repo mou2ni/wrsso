@@ -23,7 +23,7 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::INITIAL]);
+        /*$idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::INITIAL]);
         $idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::ENCOURS]);
         $usd=$manager->getRepository(Devises::class)->findOneBy(['code'=>'USD']);
         $euro=$manager->getRepository(Devises::class)->findOneBy(['code'=>'EURO']);
@@ -32,7 +32,7 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
         $billet100=$manager->getRepository(Billets::class)->findOneBy(['valeurBillet'=>100]);
 
         $idBilletOuv1=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>250]);
-        $idBilletOuv2=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>110]);*/
+        $idBilletOuv2=$manager->getRepository(Billetages::class)->findOneBy(['valeurTotal'=>110]);
 
         $billetage=$manager->getRepository(Billetages::class)->findAll();
 
@@ -81,8 +81,9 @@ class LoadDeviseJournees extends Fixture implements DependentFixtureInterface
             ;
             $manager->persist($enr);
         }
-*/
+
         $manager->flush();
+        */
     }
 
     public function getDependencies()
