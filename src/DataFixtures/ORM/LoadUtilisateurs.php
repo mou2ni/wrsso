@@ -70,7 +70,7 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
             $enr = new Utilisateurs();
             $enr->setLogin($list['login'])->setMdp($list['mdp'])->setNom($list['nom'])->setPrenom($list['prenom'])->setEstCaissier($list['estCaissier'])->setStatus($list['statut'])->setCompteEcartCaisse($list['compteEcartCaisse'])->setRole($list['role'])
             ;
-            $this->encoder->encodePassword($enr,$list['mdp']);
+            $enr->setMdp($this->encoder->encodePassword($enr,$list['mdp']));
             $manager->persist($enr);
         }
 
