@@ -191,7 +191,7 @@ class JourneeCaissesController extends Controller
             //$this->messages[]=['code'=>$this::SUCCES, 'message'=>'INITIALISATION JOURNEE SUIVANTE ==> OK'];
             $this->addFlash('success', 'INITIALISATION JOURNEE SUIVANTE ==> OK');
         }else $this->addFlash('error', 'INITIALISATION JOURNEE SUIVANTE ==> ECHEC');
-            //$this->messages[]=['code'=>$this::ECHEC, 'message'=>'INITIALISATION JOURNEE SUIVANTE ==> ECHEC'];
+        //$this->messages[]=['code'=>$this::ECHEC, 'message'=>'INITIALISATION JOURNEE SUIVANTE ==> ECHEC'];
         //$em->persist($jc);
         $em->flush();
 
@@ -226,45 +226,45 @@ class JourneeCaissesController extends Controller
 
         return $this->redirectToRoute('journee_caisses_gerer');
     }
- /*
-    public function enregistrer(Request $request){
-        if (!$this->journeeCaisse){
-            $this->addFlash('error', 'ERREUR D\'ENREGISTREMENT RENCONTREE. RECOMMENCEZ !!!');
-            return $this->redirectToRoute('journee_caisses_gerer');
-        }
-        $em=$this->getDoctrine()->getManager();
-        $genererCompta=new GenererCompta($em);
-        //$utilisateur = $this->get('security.token_storage')->getToken()->getUser();
-        $operation=$request->request->get('_operation');
-        //$this->journeeCaisse=$em->getRepository('App:JourneeCaisses')->find($request->request->get('_journeeCaisse'));
-        //$this->journeeCaisse=$this->caisse->getLastJournee();
-        if ($operation=="OUVRIR"){
-            $genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv());
-            $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
-            $this->journeeCaisse->setDateOuv(new \DateTime());
-            $this->setSoldeFerm();
-            //$this->journeeCaisse->getCaisse()->setJourneeOuverteId($this->journeeCaisse->getId());
-            //$this->journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
-            $em->persist($this->journeeCaisse);
+    /*
+       public function enregistrer(Request $request){
+           if (!$this->journeeCaisse){
+               $this->addFlash('error', 'ERREUR D\'ENREGISTREMENT RENCONTREE. RECOMMENCEZ !!!');
+               return $this->redirectToRoute('journee_caisses_gerer');
+           }
+           $em=$this->getDoctrine()->getManager();
+           $genererCompta=new GenererCompta($em);
+           //$utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+           $operation=$request->request->get('_operation');
+           //$this->journeeCaisse=$em->getRepository('App:JourneeCaisses')->find($request->request->get('_journeeCaisse'));
+           //$this->journeeCaisse=$this->caisse->getLastJournee();
+           if ($operation=="OUVRIR"){
+               $genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv());
+               $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
+               $this->journeeCaisse->setDateOuv(new \DateTime());
+               $this->setSoldeFerm();
+               //$this->journeeCaisse->getCaisse()->setJourneeOuverteId($this->journeeCaisse->getId());
+               //$this->journeeCaisse->getCaisse()->setStatut(Caisses::OUVERT);
+               $em->persist($this->journeeCaisse);
 
-            $em->flush();
+               $em->flush();
 
-            return $this->redirectToRoute('journee_caisses_gerer');
-        }
-        else{
-            $this->journeeCaisse->setDateFerm(new \DateTime());
-            $this->journeeCaisse->setStatut(JourneeCaisses::CLOSE);
-            $this->comptabiliserFermeture($this->journeeCaisse);
-            $em->persist($this->journeeCaisse);
+               return $this->redirectToRoute('journee_caisses_gerer');
+           }
+           else{
+               $this->journeeCaisse->setDateFerm(new \DateTime());
+               $this->journeeCaisse->setStatut(JourneeCaisses::CLOSE);
+               $this->comptabiliserFermeture($this->journeeCaisse);
+               $em->persist($this->journeeCaisse);
 
-            $this->initJournee($this->caisse,$this->journeeCaisse);
-            //$em->persist($jc);
-            $em->flush();
+               $this->initJournee($this->caisse,$this->journeeCaisse);
+               //$em->persist($jc);
+               $em->flush();
 
-            return $this->redirectToRoute('journee_caisses_index');
-        }
-    }
-*/
+               return $this->redirectToRoute('journee_caisses_index');
+           }
+       }
+   */
     /**
      * @Route("/etat/caisse", name="journee_caisses_etat_de_caisse", methods="GET|POST|UPDATE")
      */
@@ -290,7 +290,7 @@ class JourneeCaissesController extends Controller
             $dateDeb = new \DateTime($request->get('dateDeb'));
         if ($request->get('dateFin'))
             $dateFin = new \DateTime($request->get('dateFin'));
-            if ( $form->isSubmitted())$caisse = $form['caisse']->getData();
+        if ( $form->isSubmitted())$caisse = $form['caisse']->getData();
         //dump($request->get('form_caisse'));die();
         $journeeCaisses = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
@@ -319,7 +319,7 @@ class JourneeCaissesController extends Controller
         $date->setDate(2018, 11, 6);
         $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
         if ($request->get('date'))
-        $date = new \DateTime($request->get('date'));
+            $date = new \DateTime($request->get('date'));
         $journeeCaisses = $em->getRepository(JourneeCaisses::class)->getJourneeCaissesDuJour($date);
 
         $ecart=0;
@@ -375,7 +375,7 @@ class JourneeCaissesController extends Controller
         return $this->render('journee_caisses/etat_compense.html.twig'
             , ['journee_caisses' => $journeeCaisses,
                 'journee_caisses_recap' => $journeeCaisseRecap]
-            );
+        );
 
     }
 
@@ -413,9 +413,11 @@ class JourneeCaissesController extends Controller
 
         if (!$journeeCaissePrecedent) { //initialiser à partenir de néant !!!
             $em->persist($newJournee);
+            $em->flush();
+            //dump($newJournee);die();
             return $newJournee;
         }
-         $newJournee->setJourneePrecedente($journeeCaissePrecedent)
+        $newJournee->setJourneePrecedente($journeeCaissePrecedent)
             ->setMCreditDiversOuv($journeeCaissePrecedent->getMCreditDiversFerm())
             ->setMDetteDiversOuv($journeeCaissePrecedent->getMDetteDiversFerm())
             ->setMCreditDiversFerm($journeeCaissePrecedent->getMCreditDiversFerm())
@@ -482,7 +484,7 @@ class JourneeCaissesController extends Controller
         }
         $em->persist($newJournee);
         //$em->persist($caisse);
-        //$em->flush();
+        $em->flush();
         return $newJournee;
     }
 
@@ -492,9 +494,9 @@ class JourneeCaissesController extends Controller
         foreach ($this->journeeCaisse->getBilletOuv()->getBilletageLignes() as $billetageLigneOuv){
             $newLigne=new BilletageLignes();
             $newLigne->setBillet($billetageLigneOuv->getBillet())
-            ->setNbBillet($billetageLigneOuv->getNbBillet())
-            ->setValeurBillet($billetageLigneOuv->getValeurBillet())
-            ->setBilletages($this->journeeCaisse->getBilletFerm());
+                ->setNbBillet($billetageLigneOuv->getNbBillet())
+                ->setValeurBillet($billetageLigneOuv->getValeurBillet())
+                ->setBilletages($this->journeeCaisse->getBilletFerm());
             $this->getDoctrine()->getManager()->persist($newLigne);
         }
         $this->journeeCaisse->setMLiquiditeFerm($this->journeeCaisse->getMLiquiditeOuv());
