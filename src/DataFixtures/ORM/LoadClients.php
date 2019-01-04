@@ -18,9 +18,25 @@ class LoadClients extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $listClients=array (array('nom'=>'OUEDRAOGO','prenom'=>'Hamado', 'adresse'=>'02 BP 6206 Ouaga 02'),
-                            array('nom'=>'OUEDRAOGO','prenom'=>'Moumouni', 'adresse'=>'TANGUIN/OUAGA'),
-                            array('nom'=>'Comptes','prenom'=>'Interne', 'adresse'=>'YESBO')
+        $listClients=array (
+            array('nom'=>'Comptes','prenom'=>'Interne', 'adresse'=>'YESBO'),
+            array('nom'=>'OUEDRAOGO','prenom'=>'Hamado', 'adresse'=>'02 BP 6206 Ouaga 02'),
+            array('nom'=>'OUEDRAOGO','prenom'=>'Moumouni', 'adresse'=>'TANGUIN/OUAGA'),
+            array('nom'=>'GANOU','prenom'=>'Celine', 'adresse'=>'GOUNGHIN/OUAGA'),
+            array('nom'=>'OUEDRAOGO','prenom'=>'Lassina', 'adresse'=>'TANGUIN/OUAGA'),
+            array('nom'=>'OUEDRAOGO','prenom'=>'Bassirou', 'adresse'=>'TANGUIN/OUAGA'),
+            array('nom'=>'OUEDRAOGO','prenom'=>'Hamidou', 'adresse'=>'TANGUIN/OUAGA'),
+            array('nom'=>'OUEDRAOGO','prenom'=>'Sidiki', 'adresse'=>'DORI'),
+            array('nom'=>'TOUBRI','prenom'=>'Ghislaine', 'adresse'=>'DASSASGO/OUAGA'),
+            array('nom'=>'SAKANDE','prenom'=>'Aina', 'adresse'=>'DASSASGO/OUAGA'),
+            array('nom'=>'BAYOULOU','prenom'=>'Ami', 'adresse'=>'DASSASGO/OUAGA'),
+            array('nom'=>'SORE','prenom'=>'Fatim', 'adresse'=>'TANGUIN/OUAGA'),
+            array('nom'=>'TAMBOURA','prenom'=>'Djanna', 'adresse'=>'DASSASGO/OUAGA'),
+            array('nom'=>'COULIBALY','prenom'=>'Djeneba', 'adresse'=>'SANKARYARE/OUAGA'),
+            array('nom'=>'ZONOU','prenom'=>'Amidou', 'adresse'=>'DASSASGO/OUAGA'),
+            array('nom'=>'YESBO','prenom'=>'Tontine', 'adresse'=>'DAPOYA/OUAGA'),
+            array('nom'=>'BANK','prenom'=>'Coris', 'adresse'=>'OUAGA'),
+            array('nom'=>'OUEDRAOGO / KANYALA','prenom'=>'Lucie', 'adresse'=>'PISSY/OUAGA'),
         );
 
         foreach ($listClients as $listClient) {

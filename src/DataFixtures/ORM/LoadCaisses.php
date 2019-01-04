@@ -21,6 +21,9 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $reqCompte = $manager->getRepository(Comptes::class);
+        $compteIntercaisse=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Intercaisse']);
+        /*
         $compteOperationCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 1']);
         $compteOperationCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 2']);
         $compteOperationCaisse3=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 3']);
@@ -29,16 +32,51 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
         $compteCvDevise2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 2']);
         $compteCvDevise3=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'CV devise Caisse 3']);
 
-        $compteIntercaisse=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Intercaisse']);
 
         $idJourneeCaisse=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::INITIAL]);
         $idJourneeCaisseO=$manager->getRepository(JourneeCaisses::class)->findOneBy(['statut'=>JourneeCaisses::ENCOURS]);
+        */
 
-
-        $lists = array(['libelle' => 'DAPOYA KD01','code' => 'KD01', 'compteOperation' => $compteOperationCaisse1, 'compteCvDevise' => $compteCvDevise1, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => $idJourneeCaisse]
-        ,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => $idJourneeCaisseO]
-        ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'compteOperation' => $compteOperationCaisseCMD, 'compteCvDevise' => null, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => null]
-        ,['libelle' => 'DAPOYA KD02', 'code' => 'KD02', 'compteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => null]
+        $lists = array(
+            ['libelle' => 'DAPOYA KD00',
+                'code' => 'KD00',
+                'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 0']),
+                'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 0']),
+                'compteIntercaisse' => $compteIntercaisse,
+                'journeeCaisse' => null
+            ]
+        ,['libelle' => 'DAPOYA KD01',
+                'code' => 'KD01',
+                'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 1']),
+                'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 1']),
+                'compteIntercaisse' => $compteIntercaisse,
+                'journeeCaisse' => null
+            ]
+        ,['libelle' => 'PISSY KD02',
+                'code' => 'KD02',
+                'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 2']),
+                'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 2']),
+                'compteIntercaisse' => $compteIntercaisse,
+                'journeeCaisse' => null
+            ]
+        ,['libelle' => 'PISSY KD03',
+                'code' => 'KD03',
+                'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 3']),
+                'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 3']),
+                'compteIntercaisse' => $compteIntercaisse,
+                'journeeCaisse' => null
+            ]
+        ,['libelle' => 'Caisse menu depense',
+                'code' => 'CMD',
+                'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Caisse menu depenses']),
+                'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>null]),
+                'compteIntercaisse' => $compteIntercaisse,
+                'journeeCaisse' => null
+            ]
+            /*,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => $idJourneeCaisseO]
+            ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'compteOperation' => $compteOperationCaisseCMD, 'compteCvDevise' => null, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => null]
+            ,['libelle' => 'DAPOYA KD02', 'code' => 'KD02', 'compteOperation' => $compteOperationCaisse2, 'compteCvDevise' => $compteCvDevise2, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => null]
+            */
         );
 
         foreach ($lists as $list) {

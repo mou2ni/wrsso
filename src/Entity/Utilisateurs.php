@@ -59,7 +59,7 @@ class Utilisateurs implements UserInterface, \Serializable
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
-     * @ORM\JoinColumn(name="id_cpt_ecart", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="id_cpt_ecart", referencedColumnName="id", nullable=true)
      */
     private $compteEcartCaisse;
 
