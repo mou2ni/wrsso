@@ -126,21 +126,17 @@ class JourneeCaissesController extends Controller
      */
     public function changerCaisse(Request $request): Response
     {
-        //$em=$this->getDoctrine()->getManager();
-        //$journeeCaiss = new JourneeCaisses($em);
         $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            //$this->utilisateur->getLastCaisse()->setStatut()
             $em->persist($this->utilisateur);
             $em->flush();
             return $this->redirectToRoute('journee_caisses_gerer');
         }
 
         return $this->render('journee_caisses/init.html.twig', [
-            //'utilisateur' => $this->utilisateur,
             'form' => $form->createView(),
         ]);
     }

@@ -48,7 +48,7 @@ function Echape(data)
 }
 
 function majOuverture() {
-alert('top');
+    alert('top');
     $("#dispo").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv"));
     $("#soldeNet").val(valeur("#ouverture_valeurBillet")+valeur("#ouverture_soldeElectOuv")+valeur("#ouverture_mCreditDivers")-valeur("#ouverture_mDetteDivers"));
     $("#ouverture_mCvd").val(valeurDevises());
@@ -107,27 +107,29 @@ $(document).ready(function () {
         var x = $(this).attr('id');
         var ligne = x.substr(0,x.length-1);
         if (confirm('Voulez vous continuer ?')){
-        var valeur = this.value;
-        var DATA = 'intercaisse=' + valeur ;
-        //alert(DATA);
-        $.ajax({
-            type: "POST",
-            data: DATA,
-            cache: false,
-            success: function (data) {
-                alert(data.intercaisse);
-                console.log(data.intercaisse);
-                if ($(this).attr('name')=="Annuler") {
-                    //$('<tr id="'+data.intercaisse+"S"+'"></tr>').remove();
-                    //$("#32S").remove();
-                    remove($('<tr id="'+data.intercaisse+"S"+'"></tr>'));
-                $("#"+data.intercaisse+"E").remove();
-                $("#"+data.intercaisse+"S").remove();
+            var valeur = this.value;
+            var DATA = 'intercaisse=' + valeur ;
+            //alert(DATA);
+            $.ajax({
+                type: "POST",
+                data: DATA,
+                cache: false,
+                success: function (data) {
+                    console.log(data.intercaisse);
+                    if(data.intercaisse)alert("veuillez rafraichir la page et réessayer");
+                    else {
+                        if ($(this).attr('name')=="Annuler") {
+                            //$('<tr id="'+data.intercaisse+"S"+'"></tr>').remove();
+                            //$("#32S").remove();
+                            remove($('<tr id="'+data.intercaisse+"S"+'"></tr>'));
+                            $("#"+data.intercaisse+"E").remove();
+                            $("#"+data.intercaisse+"S").remove();
+                        }
+                        if ($(this).attr('name')=="Valider") document.getElementById('statut'+x).innerHTML="<span id='valider{{intercaisse.id}}V'>Validé</span>";
+                        $("#"+x).hide();
+                    }
                 }
-                if ($(this).attr('name')=="Valider") document.getElementById('statut'+x).innerHTML="<span id='valider{{intercaisse.id}}V'>Validé</span>";
-                $("#"+x).hide();
-                }
-        })
+            })
         }
         else return false;
     });
@@ -209,8 +211,8 @@ jQuery(document).ready(function() {
     // index when inserting a new item (e.g. 2)
     $collectionHolder.data('index', $collectionHolder.find('tr.transfert').length);
     if ($collectionHolder.data('index') ==0)
-    while ($collectionHolder.data('index') < 5 )
-        addTagForm($collectionHolder, $newLinkLi);
+        while ($collectionHolder.data('index') < 5 )
+            addTagForm($collectionHolder, $newLinkLi);
     $addTagButton.on('click', function(e) {
         // add a new tag form (see next code block)
         addTagForm($collectionHolder, $newLinkLi);
