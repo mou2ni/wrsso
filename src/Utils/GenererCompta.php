@@ -308,7 +308,7 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $montant)
+    public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$paramComptable->getCompteCompense(), $caisse->getCompteOperation(),'Compense attendue -'.$utilisateur,$montant));
         return !$this->getE();

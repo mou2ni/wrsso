@@ -79,6 +79,11 @@ class Comptes
     private $intercaisses;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="compteAttenteCompense", cascade={"persist"})
+     */
+    private $attenteCompenses;
+
+    /**
      * Comptes constructor.
      */
     public function __construct()
@@ -298,6 +303,24 @@ class Comptes
     public function setIntercaisses($intercaisses)
     {
         $this->intercaisses = $intercaisses;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAttenteCompenses()
+    {
+        return $this->attenteCompenses;
+    }
+
+    /**
+     * @param mixed $attenteCompenses
+     * @return Comptes
+     */
+    public function setAttenteCompenses($attenteCompenses)
+    {
+        $this->attenteCompenses = $attenteCompenses;
         return $this;
     }
 

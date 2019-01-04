@@ -55,6 +55,12 @@ class Caisses
     private $compteIntercaisse;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="attenteCompenses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $compteAttenteCompense;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="caisse", cascade={"persist"})
      */
     private $journeeCaisses;
@@ -373,6 +379,24 @@ class Caisses
     public function setCompteIntercaisse($compteIntercaisse)
     {
         $this->compteIntercaisse = $compteIntercaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteAttenteCompense()
+    {
+        return $this->compteAttenteCompense;
+    }
+
+    /**
+     * @param mixed $compteAttenteCompense
+     * @return Caisses
+     */
+    public function setCompteAttenteCompense($compteAttenteCompense)
+    {
+        $this->compteAttenteCompense = $compteAttenteCompense;
         return $this;
     }
 

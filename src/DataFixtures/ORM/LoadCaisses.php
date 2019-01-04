@@ -23,6 +23,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
     {
         $reqCompte = $manager->getRepository(Comptes::class);
         $compteIntercaisse=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Intercaisse']);
+        $compteCompense=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense']);
         /*
         $compteOperationCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 1']);
         $compteOperationCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 2']);
@@ -43,6 +44,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 0']),
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 0']),
                 'compteIntercaisse' => $compteIntercaisse,
+                'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null
             ]
         ,['libelle' => 'DAPOYA KD01',
@@ -50,6 +52,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 1']),
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 1']),
                 'compteIntercaisse' => $compteIntercaisse,
+                'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null
             ]
         ,['libelle' => 'PISSY KD02',
@@ -57,6 +60,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 2']),
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 2']),
                 'compteIntercaisse' => $compteIntercaisse,
+                'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null
             ]
         ,['libelle' => 'PISSY KD03',
@@ -64,6 +68,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Opérations Caisse 3']),
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 3']),
                 'compteIntercaisse' => $compteIntercaisse,
+                'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null
             ]
         ,['libelle' => 'Caisse menu depense',
@@ -71,6 +76,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Caisse menu depenses']),
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>null]),
                 'compteIntercaisse' => $compteIntercaisse,
+                'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null
             ]
             /*,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => $idJourneeCaisseO]
@@ -81,7 +87,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
 
         foreach ($lists as $list) {
             $enr = new Caisses($manager);
-            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise'])->setCompteIntercaisse($list['compteIntercaisse']);
+            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise'])->setCompteIntercaisse($list['compteIntercaisse'])->setCompteAttenteCompense($list['compteAttenteCompense']);
             $manager->persist($enr);
         }
 

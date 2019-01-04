@@ -172,9 +172,13 @@ class JourneeCaissesController extends Controller
         $em=$this->getDoctrine()->getManager();
         //comptabiliser l'écart de caisse
         $genererCompta=new GenererCompta($em);
+        if ($this->journeeCaisse->getCompense()!=0){
+            if ($genererCompta->genComptaCompense($this->utilisateur,$this->caisse,$this->journeeCaisse->getCompense())){
+                $this->addFlash('success', 'COMPTABILISATION COMPENSES ==> OK');
+            }else $this->addFlash('error', 'COMPTABILISATION COMPENSES ==> ECHEC');
+        }
         if ($this->journeeCaisse->getMEcartFerm()!=0){
             if ($genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'ECART DE CAISSE ', $this->journeeCaisse->getMEcartFerm())){
-                //$this->messages[]=['code'=>$this::SUCCES, 'message'=>'COMPTABILISATION ECART DE CAISSE ==> OK'];
                 $this->addFlash('success', 'COMPTABILISATION ECART DE CAISSE ==> OK');
             }else $this->addFlash('error', 'COMPTABILISATION ECART DE CAISSE ==> ECHEC');
         }
