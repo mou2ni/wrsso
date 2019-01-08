@@ -412,10 +412,12 @@ class JourneeCaissesController extends Controller
             ->setStatut(JourneeCaisses::INITIAL);
 
         if (!$journeeCaissePrecedent) { //initialiser à partenir de néant !!!
-            //$billetOuv=new Billetages();
-            //$billetFerm=new Billetages();
-            //$newJournee->setBilletOuv($billetOuv)->setBilletFerm($billetFerm);
+
             $em->persist($newJournee);
+            foreach ($em->getRepository(Devises::class)->findAll() as $devise){
+                $newdvj = new DeviseJournees($newJournee, $devise);
+                $em->persist($newdvj);
+            }
             $em->flush();
             //dump($newJournee);die();
             return $newJournee;
