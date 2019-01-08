@@ -8,7 +8,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190104182805 extends AbstractMigration
+final class Version20190104170557 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
@@ -18,6 +18,7 @@ final class Version20190104182805 extends AbstractMigration
         $this->addSql('ALTER TABLE caisses ADD compte_attente_compense_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE caisses ADD CONSTRAINT FK_41BE1F46E8526BE8 FOREIGN KEY (compte_attente_compense_id) REFERENCES Comptes (id)');
         $this->addSql('CREATE INDEX IDX_41BE1F46E8526BE8 ON caisses (compte_attente_compense_id)');
+        $this->addSql('ALTER TABLE utilisateurs CHANGE id_cpt_ecart id_cpt_ecart INT DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -28,5 +29,6 @@ final class Version20190104182805 extends AbstractMigration
         $this->addSql('ALTER TABLE Caisses DROP FOREIGN KEY FK_41BE1F46E8526BE8');
         $this->addSql('DROP INDEX IDX_41BE1F46E8526BE8 ON Caisses');
         $this->addSql('ALTER TABLE Caisses DROP compte_attente_compense_id');
+        $this->addSql('ALTER TABLE Utilisateurs CHANGE id_cpt_ecart id_cpt_ecart INT NOT NULL');
     }
 }
