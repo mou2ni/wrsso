@@ -416,6 +416,7 @@ class JourneeCaissesController extends Controller
             $em->persist($newJournee);
             foreach ($em->getRepository(Devises::class)->findAll() as $devise){
                 $newdvj = new DeviseJournees($newJournee, $devise);
+                $newJournee->addDeviseJournee($newdvj);
                 $em->persist($newdvj);
             }
             $em->flush();
