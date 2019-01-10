@@ -202,7 +202,7 @@ class GenererCompta
      */
     public function genComptaEcart(Utilisateurs $utilisateur, Caisses $caisse, $libelle, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $utilisateur->getCompteEcartCaisse(), $caisse->getCompteOperation(), $libelle.' - '.$utilisateur, $montant ));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(), $utilisateur->getCompteEcartCaisse(), $libelle.' - '.$utilisateur, $montant ));
         return !$this->getE();
     }
 
@@ -310,7 +310,7 @@ class GenererCompta
      */
     public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
-       $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteAttenteCompense(), $caisse->getCompteOperation(),'Compense attendue -'.$utilisateur,$montant));
+       $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(),$caisse->getCompteAttenteCompense(),'Compense attendue -'.$utilisateur,$montant));
         return !$this->getE();
     }
 
@@ -323,7 +323,7 @@ class GenererCompta
      */
     public function genComptaCvDevise(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteCvDevise(), $caisse->getCompteOperation(),$utilisateur.' - Contre valeur devises',$montant));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(),$caisse->getCompteCvDevise(),$utilisateur.' - Contre valeur devises',$montant));
         return !$this->getE();
 
     }
@@ -353,7 +353,7 @@ class GenererCompta
      * @param $mEcart
      * @return bool
      */
-    public function genComptaFermeture(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $mIntercaisse, $mCompense, $mDevise, $mEcart)
+    /*public function genComptaFermeture(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $mIntercaisse, $mCompense, $mDevise, $mEcart)
     {
 
         if (!$this->genComptaIntercaisse($utilisateur,$caisse,$paramComptable,$mIntercaisse)) return false;
@@ -362,7 +362,7 @@ class GenererCompta
         if (!$this->genComptaEcart($utilisateur,$caisse,'Ecart fermeture',$mEcart)) return false;
         return !$this->getE();
 
-    }
+    }*/
 
     /**
      * @param Utilisateurs $utilisateur
