@@ -60,11 +60,12 @@ class Caisses
      */
     private $compteAttenteCompense;
 
-    /**
+    /*
+    *
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="caisse", cascade={"persist"})
-     */
-    private $journeeCaisses;
 
+    private $journeeCaisses;
+*/
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\JourneeCaisses")
      * @ORM\JoinColumn(nullable=true)
@@ -74,6 +75,7 @@ class Caisses
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $lastUtilisateur;
 

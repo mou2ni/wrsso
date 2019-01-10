@@ -41,6 +41,7 @@ class Clients
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comptes", mappedBy="client", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $comptes;
 

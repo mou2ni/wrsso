@@ -63,12 +63,13 @@ class Utilisateurs implements UserInterface, \Serializable
      */
     private $compteEcartCaisse;
 
-    /**
+    /*
+    *
      * @ORM\OneToMany(targetEntity="App\Entity\JourneeCaisses", mappedBy="utilisateur", cascade={"persist"})
-     * @ORM\JoinColumn()
-     */
-    private $journeeCaisses;
+     * @ORM\JoinColumn(nullable=true)
 
+    private $journeeCaisses;
+*/
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" ,cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
