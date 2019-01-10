@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Caisses
 {
-    const OUVERT='O', FERME='F';
+    const OUVERT='O', FERME='F', INTERNE='I',GUICHET='G';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -91,6 +91,11 @@ class Caisses
      * @ORM\Column(type="string")
      */
     private $statut=self::FERME;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $typeCaisse=self::INTERNE;
 
     /**
      * Caisses constructor.
@@ -399,6 +404,24 @@ class Caisses
     public function setCompteAttenteCompense($compteAttenteCompense)
     {
         $this->compteAttenteCompense = $compteAttenteCompense;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeCaisse()
+    {
+        return $this->typeCaisse;
+    }
+
+    /**
+     * @param mixed $typeCaisse
+     * @return Caisses
+     */
+    public function setTypeCaisse($typeCaisse)
+    {
+        $this->typeCaisse = $typeCaisse;
         return $this;
     }
 

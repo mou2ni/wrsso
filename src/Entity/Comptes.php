@@ -34,7 +34,7 @@ class Comptes
     private $client;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $numCompte;
 

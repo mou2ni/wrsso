@@ -45,7 +45,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 0']),
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
-                'journeeCaisse' => null
+                'journeeCaisse' => null,
+                'typeCaisse'=>Caisses::GUICHET
             ]
         ,['libelle' => 'DAPOYA KD01',
                 'code' => 'KD01',
@@ -53,7 +54,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 1']),
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
-                'journeeCaisse' => null
+                'journeeCaisse' => null,
+                'typeCaisse'=>Caisses::GUICHET
             ]
         ,['libelle' => 'PISSY KD02',
                 'code' => 'KD02',
@@ -61,7 +63,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 2']),
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
-                'journeeCaisse' => null
+                'journeeCaisse' => null,
+                'typeCaisse'=>Caisses::GUICHET
             ]
         ,['libelle' => 'PISSY KD03',
                 'code' => 'KD03',
@@ -69,7 +72,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>'CV devise Caisse 3']),
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
-                'journeeCaisse' => null
+                'journeeCaisse' => null,
+                'typeCaisse'=>Caisses::GUICHET
             ]
         ,['libelle' => 'Caisse menu depense',
                 'code' => 'CMD',
@@ -77,7 +81,17 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>null]),
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
-                'journeeCaisse' => null
+                'journeeCaisse' => null,
+                'typeCaisse'=>Caisses::INTERNE
+            ]
+        ,['libelle' => 'Caisse Appro',
+                'code' => 'APPRO',
+                'compteOperation' => $reqCompte->findOneBy(['intitule'=>'Coris Bank Compense']),
+                'compteCvDevise' => $reqCompte->findOneBy(['intitule'=>null]),
+                'compteIntercaisse' => $compteIntercaisse,
+                'compteAttenteCompense' => $compteCompense,
+                'journeeCaisse' => null,
+                'typeCaisse'=>Caisses::INTERNE
             ]
             /*,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => $idJourneeCaisseO]
             ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'compteOperation' => $compteOperationCaisseCMD, 'compteCvDevise' => null, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => null]
@@ -87,7 +101,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
 
         foreach ($lists as $list) {
             $enr = new Caisses($manager);
-            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise'])->setCompteIntercaisse($list['compteIntercaisse'])->setCompteAttenteCompense($list['compteAttenteCompense']);
+            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise'])->setCompteIntercaisse($list['compteIntercaisse'])->setCompteAttenteCompense($list['compteAttenteCompense'])->setTypeCaisse($list['typeCaisse']);
             $manager->persist($enr);
         }
 

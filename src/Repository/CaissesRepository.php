@@ -22,10 +22,12 @@ class CaissesRepository extends ServiceEntityRepository
     public function getClosedCaisseQb()
 
     {
-        return $this
-            ->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
             ->where('c.statut=:statut')
-            ->setParameter('statut',Caisses::FERME);
+            ->andWhere('c.typeCaisse=:type')
+            ->orderBy('c.code', 'ASC')
+            ->setParameter('statut',Caisses::FERME)
+            ->setParameter('type',Caisses::GUICHET);
 
     }
 

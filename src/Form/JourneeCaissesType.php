@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
+use App\Repository\CaissesRepository;
 use Doctrine\ORM\EntityRepository;
 use function PHPSTORM_META\type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,11 +26,8 @@ class JourneeCaissesType extends AbstractType
             //->add('caisse', ChoiceType::class, array())
             ->add('caisse', EntityType::class, array(
                 'class' => Caisses::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('c')
-                        ->where('c.statut=:statut')
-                        ->orderBy('c.code', 'ASC')
-                        ->setParameter('statut',JourneeCaisses::CLOSE);
+                'query_builder' => function (CaissesRepository $repository) {
+                    return $repository->getClosedCaisseQb();
                 },
                 'choice_label' => 'code',
             ))

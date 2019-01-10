@@ -21,17 +21,17 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        /*$utilisateur=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login']);
-        $utilisateur1=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'login1']);
+        $utilisateur=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'ganou']);
+        $utilisateur1=$manager->getRepository(Utilisateurs::class)->findOneBy(['login'=>'admin']);
 
-        $caisse=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD01']);
-        $caisseO=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD03']);
-        $caisse1=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD02']);
+        $caisse=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'CMD']);
+        $caisse1=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'APPRO']);
+        //$caisse1=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD02']);
         //$utilisateur1->setJourneeCaisseActive($caisseO->)
 
-        $lists = array(['utilisateur' => $utilisateur1, 'caisse' => $caisse, 'statut'=>'T', 'dateOuv'=>new \DateTime()]
-        ,['utilisateur' => $utilisateur, 'caisse' => $caisseO, 'statut'=>JourneeCaisses::CLOSE, 'dateOuv'=>new \DateTime()]
-        ,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::INITIAL, 'dateOuv'=>new \DateTime()]);
+        $lists = array(['utilisateur' => $utilisateur, 'caisse' => $caisse, 'statut'=>JourneeCaisses::ENCOURS, 'dateOuv'=>null]
+        ,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::ENCOURS, 'dateOuv'=>null]);
+        //,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::INITIAL, 'dateOuv'=>new \DateTime()]);
 
         foreach ($lists as $list) {
             $enr = new JourneeCaisses($manager);
@@ -39,17 +39,15 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
                 ->setCaisse($list['caisse'])
                 ->setStatut($list['statut'])
                 ->setDateOuv($list['dateOuv']);
-            if ($enr->getStatut()==JourneeCaisses::CLOSE) {
-                //$enr->setMLiquiditeFerm(1000000)->setMSoldeElectFerm(500000)->setMDetteDiversFerm(2000)->setMCreditDiversFerm(1000);
-                $journeePrecedente=$enr;
-            }
-            if ($enr->getStatut()==JourneeCaisses::INITIAL) {
-                 $journeeInitial=$enr;
-            }
 
             $manager->persist($enr);
         }
-        
+        $caisse->setStatut(Caisses::OUVERT);
+        $caisse1->setStatut(Caisses::OUVERT);
+        $manager->persist($caisse);
+        $manager->persist($caisse1);
+        $manager->flush();
+/*
         $journeeOuverte=new JourneeCaisses($manager);
         $journeeOuverte->setCaisse($journeePrecedente->getCaisse())
             ->setUtilisateur($journeePrecedente->getUtilisateur())
