@@ -219,6 +219,7 @@ class JourneeCaissesController extends Controller
         $genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv());
         $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
         $this->journeeCaisse->setDateOuv(new \DateTime());
+        $this->journeeCaisse->setUtilisateur($this->utilisateur);
         $this->setSoldeFerm();
         $em->persist($this->journeeCaisse);
 
