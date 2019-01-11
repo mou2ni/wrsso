@@ -34,6 +34,12 @@ security:
                     target:  login
 
 
+    role_hierarchy:
+
+        #ROLE_GUICHETIER:  ROLE_USER
+        ROLE_COMPTABLE: ROLE_GUICHETIER
+        ROLE_ADMIN: [ROLE_GUICHETIER, ROLE_COMPTABLE]
+
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: 9bffcbfad2a9e744c85236db89d88773 }
+        - { path: ^/, roles: ROLE_GUICHETIER }

@@ -9,8 +9,10 @@
 namespace App\Entity;
 
 
+use App\Form\UtilisateursLastCaisseType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Monolog\Handler\Curl\Util;
 use Serializable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -21,7 +23,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Utilisateurs implements UserInterface, \Serializable
 {
     //'Caissier ='.md5('GUICHETIER').' COMPTABLE ='.md5('COMPTABLE').' ADMIN='.md5('ADMIN');
-    const ROLE_GUICHETIER= '9bffcbfad2a9e744c85236db89d88773', ROLE_COMPTABLE='26927809602fed9d09fe8cf2f9daa402', ROLE_ADMIN='73acd9a5972130b75066c82595a1fae3';
+    //const ROLE_GUICHETIER= 'ROLE_9bffcbfad2a9e744c85236db89d88773', ROLE_COMPTABLE='ROLE_26927809602fed9d09fe8cf2f9daa402', ROLE_ADMIN='ROLE_73acd9a5972130b75066c82595a1fae3';
+    const ROLE_GUICHETIER= 'ROLE_GUICHETIER', ROLE_COMPTABLE='ROLE_COMPTABLE', ROLE_ADMIN='ROLE_ADMIN';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -102,9 +105,10 @@ class Utilisateurs implements UserInterface, \Serializable
     private $detteCreditRembourses;
 
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(name="roles", type="array")
      */
-    private $role;
+
+    private $roles = array();
 
     private $isAuthaticate;
 
@@ -121,28 +125,33 @@ class Utilisateurs implements UserInterface, \Serializable
         $this->journeeCaisses = new ArrayCollection();
         //$this->compteEcartCaisse=new Comptes();
         //$this->role='ROLE_USER';
+        //$this->role=Utilisateurs::ROLE_GUICHETIER;
     }
 
-    /*
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes" , inversedBy="utilisateurCompteEcarts", cascade={"persist"})
-     * @ORM\JoinColumn(name="id_cpt_compense", referencedColumnName="id", nullable=false)
-
-    private $compteCompense;*/
-
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    public function setRole($role = null)
-    {
-        $this->role = $role;
-    }
-
+    /**
+     * @return mixed
+     */
     public function getRoles()
     {
-        return [$this->getRole()];
+        return $this->roles;
     }
+
+    /**
+     * @param mixed $roles
+     * @return Utilisateurs
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+
+
+    /*public function getRoles()
+    {
+        return [$this->getRole()];
+    }*/
     /**
      * @return mixed
      */
@@ -316,7 +325,7 @@ class Utilisateurs implements UserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getisAuthaticate()
+    public function getIsAuthaticate()
     {
         return $this->isAuthaticate;
     }
@@ -501,6 +510,4 @@ class Utilisateurs implements UserInterface, \Serializable
         $this->compte = $compte;
         return $this;
     }
-
-
 }
