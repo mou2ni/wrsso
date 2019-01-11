@@ -73,7 +73,7 @@ class InterCaissesController extends Controller
             if($interCaiss->isSortant()){
                 $interCaiss->setJourneeCaisseEntrant($interCaiss->getJourneeCaisseSortant());
                 $interCaiss->setJourneeCaisseSortant($this->journeeCaisse);
-                $interCaiss->setMIntercaisse(-$interCaiss->getMIntercaisse());
+                //$interCaiss->setMIntercaisse(-$interCaiss->getMIntercaisse());
                 $caissePartenaire=$interCaiss->getJourneeCaisseEntrant()->getCaisse();
             }
             $operation=$request->request->get('_operation');
@@ -110,10 +110,10 @@ class InterCaissesController extends Controller
                 {
                     if ($statut=='V'){
                         $interCaisse->valider();
-                        $caissePartenaire = ($this->caisse == $interCaisse->getJourneeCaisseEntrant())?$interCaisse->getJourneeCaisseEntrant()->getCaisse():
-                            $interCaisse->getJourneeCaisseSortant()->getCaisse();
+                        //$caissePartenaire = ($this->caisse == $interCaisse->getJourneeCaisseEntrant())?$interCaisse->getJourneeCaisseEntrant()->getCaisse():
+                        //    $interCaisse->getJourneeCaisseSortant()->getCaisse();
                         $genCompta=new GenererCompta($em);
-                        $genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaisse->getMIntercaisse());
+                        $genCompta->genComptaIntercaisse($this->utilisateur,$interCaisse->getJourneeCaisseEntrant()->getCaisse(), $interCaisse->getJourneeCaisseSortant()->getCaisse(),$interCaisse->getMIntercaisse());
                     }
                     elseif($statut=='X') $interCaisse->setStatut(InterCaisses::ANNULE);
 

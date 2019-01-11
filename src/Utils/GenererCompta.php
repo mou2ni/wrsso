@@ -215,7 +215,7 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaDepot( Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
+    public function genComptaDepot( JourneeCaisses $journeeCaisse, Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
     {
         $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
 
@@ -226,6 +226,7 @@ class GenererCompta
         else { ///modifie par Moumouni
             $depotRetrait = $this->debiterCrediter($transaction, $caisse->getCompteOperation(), $compteClient, $montant);
             $this->transactions->add($depotRetrait);
+            $journeeCaisse->updateM('mDepotClient',$montant);
             return !$this->getE();
         }
 
@@ -240,7 +241,7 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaRetrait(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
+    public function genComptaRetrait(JourneeCaisses $journeeCaisse, Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
     {
 
         if($compteClient->getTypeCompte()==Comptes::INTERNE){
@@ -262,6 +263,7 @@ class GenererCompta
             $depotRetrait = $this->debiterCrediter($transaction, $compteClient, $caisse->getCompteOperation(), $montant);
             //ajout des lignes d'écritures debit et crédit
             $this->transactions->add($depotRetrait);
+            $journeeCaisse->updateM('mRetraitClient',$montant);
             return !$this->getE();
         }
 
