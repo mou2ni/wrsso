@@ -14,8 +14,10 @@ class EmissonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //$builder
-            //->remove('sens')
+        $builder
+            ->remove('mFraisHt')
+            ->remove('mTva')
+            ->remove('mAutresTaxes')
         ;
     }
 

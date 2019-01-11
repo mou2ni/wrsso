@@ -43,7 +43,11 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
             $manager->persist($enr);
         }
         $caisse->setStatut(Caisses::OUVERT);
+        $utilisateur->setLastCaisse($caisse);
+        $utilisateur1->setLastCaisse($caisse1);
         $caisse1->setStatut(Caisses::OUVERT);
+        $manager->persist($utilisateur);
+        $manager->persist($utilisateur1);
         $manager->persist($caisse);
         $manager->persist($caisse1);
         $manager->flush();
