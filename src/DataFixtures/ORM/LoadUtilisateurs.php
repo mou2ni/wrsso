@@ -43,27 +43,27 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
         $lists = array(
             ['login' => 'lassina', 'mdp' => 'lassina', 'nom' => 'OUEDRAOGO', 'prenom' => 'Lassina',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Lassina']), 'role'=>'ROLE_USER']
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Lassina']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
         , ['login' => 'ghislaine', 'mdp' => 'ghislaine', 'nom' => 'TOUBRI', 'prenom' => 'Ghislaine',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ghislaine']), 'role'=>'ROLE_USER']
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ghislaine']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
         , ['login' => 'fatim', 'mdp' => 'fatim', 'nom' => 'SORE', 'prenom' => 'Fatim',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Fatim']), 'role'=>'ROLE_USER']
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Fatim']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
         , ['login' => 'aina', 'mdp' => 'aina', 'nom' => 'SAKANDE', 'prenom' => 'Aina',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Aina']), 'role'=>'ROLE_USER']
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Aina']), 'role'=>Utilisateurs::ROLE_COMPTABLE]
         , ['login' => 'ganou', 'mdp' => 'ganou', 'nom' => 'GANOU', 'prenom' => 'Celine',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Celine']), 'role'=>'ROLE_USER']
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Celine']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
         , ['login' => 'bayoulou', 'mdp' => 'bayoulou', 'nom' => 'BAYOULOU', 'prenom' => 'Ami',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ami']), 'role'=>'ROLE_USER']
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ami']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
         , ['login' => 'tamboura', 'mdp' => 'tamboura', 'nom' => 'TAMBOURA', 'prenom' => 'Djanna',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Djanna']), 'role'=>'ROLE_USER']
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Djanna']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
         , ['login' => 'admin', 'mdp' => 'admin', 'nom' => 'YESBO', 'prenom' => 'Admin',
-                'estCaissier' => false, 'statut' => 'a', 'compteEcartCaisse'=>null, 'role'=>'ROLE_USER']
+                'estCaissier' => false, 'statut' => 'a', 'compteEcartCaisse'=>null, 'role'=>Utilisateurs::ROLE_ADMIN]
         );
 
         foreach ($lists as $list) {

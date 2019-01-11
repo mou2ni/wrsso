@@ -243,7 +243,12 @@ class GenererCompta
     public function genComptaRetrait(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
     {
 
-        $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
+        if($compteClient->getTypeCompte()==Comptes::INTERNE){
+            $this->setE(Transactions::ERR_RETRAIT_COMPTE_INTERNE);
+            return false;
+        }else{
+            $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
+        }
 
         if (!$transaction) {
             //if ($transaction->getE()) {

@@ -20,6 +20,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class Utilisateurs implements UserInterface, \Serializable
 {
+    //'Caissier ='.md5('GUICHETIER').' COMPTABLE ='.md5('COMPTABLE').' ADMIN='.md5('ADMIN');
+    const ROLE_GUICHETIER= '9bffcbfad2a9e744c85236db89d88773', ROLE_COMPTABLE='26927809602fed9d09fe8cf2f9daa402', ROLE_ADMIN='73acd9a5972130b75066c82595a1fae3';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -118,7 +120,7 @@ class Utilisateurs implements UserInterface, \Serializable
     {
         $this->journeeCaisses = new ArrayCollection();
         //$this->compteEcartCaisse=new Comptes();
-        $this->role='ROLE_USER';
+        //$this->role='ROLE_USER';
     }
 
     /*
