@@ -27,7 +27,7 @@ class TransfertInternationaux
 {
     const ERR_NEGATIF=1, ERR_ZERO=0;
     private $e ;
-    const TVA=0.18;
+    const TVA=0.18, TTZ=0.006;
     const ENVOI=1, RECEPTION=2;
     /**
      * @ORM\Id
@@ -99,8 +99,8 @@ class TransfertInternationaux
      */
     private $mTransfertTTC=0;
 
-    private $tva;
-    private $ttz;
+    //private $tva;
+    //private $ttz;
 
     /**
      * TransfertInternationaux constructor.
@@ -110,10 +110,10 @@ class TransfertInternationaux
      * @param int $mAutresTaxes
      * @param int $mTransfertTTC
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct()
     {
-        $this->ttz = $container->getParameter('ttz');
-        $this->tva = $container->getParameter('tva');
+        //$this->ttz = $container->getParameter('ttz');
+        //$this->tva = $container->getParameter('tva');
         $this->mFraisHt = 0;
         $this->mTva = 0;
         $this->mAutresTaxes = 0;
@@ -139,18 +139,7 @@ class TransfertInternationaux
      * @ORM\PrePersist
      */
     public function valider(){
-        $fraisTTC = $this->getMTransfertTTC() - $this->getMTransfert();
-        $this->mAutresTaxes = $this->ttz*$this->getMTransfert();
-        $this->mFraisHt = ($fraisTTC - $this->mAutresTaxes) / (1 + $this->tva);
-        $this->mTva =  $fraisTTC - $this->mAutresTaxes - $this->mFraisHt;
-
-        //dump($this);die();
-        if ($this->getE()){
-            //dump($this->getE());die();
-            //throw new Exception("valeur negative");
-            return false;
-
-        }
+        $this->setMAutresTaxes()->setMFraisHt()->setMTva();
         return true;
     }
 
@@ -257,17 +246,24 @@ class TransfertInternationaux
      */
     public function getMFraisHt()
     {
-        return $this->mFraisHt;
+        return ($this->getMFraisTTC() - $this->mAutresTaxes) / (1 + $this::TVA);
+    }
+    /**
+     * @return mixed
+     */
+    public function getMFraisTTC()
+    {
+        return $this->getMTransfertTTC() - $this->getMTransfert();
     }
 
     /**
      * @param mixed $mFraisHt
      */
-    public function setMFraisHt($mFraisHt)
+    public function setMFraisHt()
     {
-        if ($mFraisHt>=0)
-        $this->mFraisHt = $mFraisHt;
-        else $this->setE($this::ERR_NEGATIF, 'mFraisHt');
+
+        $this->mFraisHt = $this->getMFraisHt();
+       return $this;
     }
 
     /**
@@ -275,15 +271,18 @@ class TransfertInternationaux
      */
     public function getMTva()
     {
-        return $this->mTva;
+        $this->mTva =  $this->getMFraisTTC() - $this->mAutresTaxes - $this->mFraisHt;
+
+        return $this->getMFraisTTC() - $this->getMAutresTaxes() - $this->getMFraisHt();
     }
 
     /**
      * @param mixed $mTva
      */
-    public function setMTva($mTva)
+    public function setMTva()
     {
-        $this->mTva = $this->mFraisHt*$this::TVA;
+        $this->mTva = $this->getMTva();
+        return $this;
     }
 
     /**
@@ -291,16 +290,21 @@ class TransfertInternationaux
      */
     public function getMAutresTaxes()
     {
-        return $this->mAutresTaxes;
+        if ($this->getIdPays()->getDansRegion())
+        return $this::TTZ*$this->getMTransfert();
+        else
+            return 0;
     }
 
     /**
      * @param mixed $mAutresTaxes
      */
-    public function setMAutresTaxes($mAutresTaxes)
+    public function setMAutresTaxes()
     {
-        $autresTaxes = $this->mTransfertTTC-$this->mTransfert-$this->mFraisHt-$this->mTva;
-        $this->mAutresTaxes = $autresTaxes>0?$autresTaxes:0;
+        /*$autresTaxes = $this->mTransfertTTC-$this->mTransfert-$this->mFraisHt-$this->mTva;
+        $this->mAutresTaxes = $autresTaxes>0?$autresTaxes:0;*/
+        $this->mAutresTaxes = $this->getMAutresTaxes();
+        return $this;
     }
 
     /**

@@ -27,7 +27,7 @@ function majTransfert() {
             autresTaxes = 0;*/
             //$("#emissions_transfertEmis_"+i+"_mTva").val(tva);
             //$("#emissions_transfertEmis_"+i+"_mAutresTaxes").val(autresTaxes);
-            alert($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val());
+            //alert($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val());
             emission = emission + +Echape($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val());
             $("#emissions_mEmissionTrans").val(emission);
         }

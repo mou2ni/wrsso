@@ -29,7 +29,7 @@
     <schema id="8" parent="1" name="wrsso">
       <Current>1</Current>
       <Visible>1</Visible>
-      <Collation>utf8mb4_unicode_ci</Collation>
+      <Collation>latin1_swedish_ci</Collation>
     </schema>
     <collation id="9" parent="1" name="armscii8_bin">
       <Charset>armscii8</Charset>
@@ -967,37 +967,93 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="243" parent="8" name="billetagelignes"/>
-    <table id="244" parent="8" name="billetages"/>
-    <table id="245" parent="8" name="billets"/>
-    <table id="246" parent="8" name="caisses"/>
-    <table id="247" parent="8" name="clients"/>
-    <table id="248" parent="8" name="comptes"/>
-    <table id="249" parent="8" name="dettecreditdivers"/>
-    <table id="250" parent="8" name="devise_recus"/>
-    <table id="251" parent="8" name="devise_tmp_mouvements"/>
-    <table id="252" parent="8" name="deviseintercaisses"/>
-    <table id="253" parent="8" name="devisejournees"/>
-    <table id="254" parent="8" name="devisemouvements"/>
-    <table id="255" parent="8" name="devises"/>
-    <table id="256" parent="8" name="intercaisses"/>
-    <table id="257" parent="8" name="journeecaisses"/>
+    <table id="243" parent="8" name="billetagelignes">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="244" parent="8" name="billetages">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="245" parent="8" name="billets">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="246" parent="8" name="caisses">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="247" parent="8" name="clients">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="248" parent="8" name="comptes">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="249" parent="8" name="dettecreditdivers">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="250" parent="8" name="devise_recus">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="251" parent="8" name="devise_tmp_mouvements">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="252" parent="8" name="deviseintercaisses">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="253" parent="8" name="devisejournees">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="254" parent="8" name="devisemouvements">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="255" parent="8" name="devises">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="256" parent="8" name="intercaisses">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="257" parent="8" name="journeecaisses">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
     <table id="258" parent="8" name="migration_versions">
       <Collation>utf8_unicode_ci</Collation>
     </table>
-    <table id="259" parent="8" name="paramcomptables"/>
-    <table id="260" parent="8" name="pays"/>
-    <table id="261" parent="8" name="recettedepenses"/>
-    <table id="262" parent="8" name="salaires"/>
-    <table id="263" parent="8" name="systemelectinventaires"/>
-    <table id="264" parent="8" name="systemelectligneinventaires"/>
-    <table id="265" parent="8" name="systemelects"/>
-    <table id="266" parent="8" name="systemtransfert"/>
-    <table id="267" parent="8" name="transactioncomptes"/>
-    <table id="268" parent="8" name="transactions"/>
-    <table id="269" parent="8" name="transfertinternationaux"/>
-    <table id="270" parent="8" name="user"/>
-    <table id="271" parent="8" name="utilisateurs"/>
+    <table id="259" parent="8" name="paramcomptables">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="260" parent="8" name="pays">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="261" parent="8" name="recettedepenses">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="262" parent="8" name="salaires">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="263" parent="8" name="systemelectinventaires">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="264" parent="8" name="systemelectligneinventaires">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="265" parent="8" name="systemelects">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="266" parent="8" name="systemtransfert">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="267" parent="8" name="transactioncomptes">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="268" parent="8" name="transactions">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="269" parent="8" name="transfertinternationaux">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="270" parent="8" name="user">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
+    <table id="271" parent="8" name="utilisateurs">
+      <Collation>utf8mb4_unicode_ci</Collation>
+    </table>
     <column id="272" parent="243" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
@@ -3024,9 +3080,10 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="640" parent="271" name="role">
+    <column id="640" parent="271" name="roles">
       <Position>11</Position>
-      <DataType>varchar(200)|0s</DataType>
+      <Comment>(DC2Type:array)</Comment>
+      <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>

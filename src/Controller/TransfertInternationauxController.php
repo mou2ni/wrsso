@@ -24,13 +24,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class TransfertInternationauxController extends Controller
 {
     private $journeeCaisse;
-    private $tva;
-    private $ttz;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
-        $this->ttz = $this->container->getParameter('ttz');
-        $this->tva = $this->container->getParameter('tva');
 
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
         if(!$this->journeeCaisse){

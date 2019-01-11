@@ -34,6 +34,11 @@ class Pays
      */
     private $zone;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $dansRegion = false;
+
     public function __toString()
     {
         return ''.$this->getLibelle();
@@ -86,6 +91,24 @@ class Pays
     public function setZone($zone)
     {
         $this->zone = $zone;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDansRegion()
+    {
+        return $this->dansRegion;
+    }
+
+    /**
+     * @param mixed $dansRegion
+     * @return Pays
+     */
+    public function setDansRegion($dansRegion)
+    {
+        $this->dansRegion = $dansRegion;
         return $this;
     }
 
