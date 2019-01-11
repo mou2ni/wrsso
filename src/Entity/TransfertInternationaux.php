@@ -11,6 +11,8 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
@@ -97,6 +99,9 @@ class TransfertInternationaux
      */
     private $mTransfertTTC=0;
 
+    private $tva;
+    private $ttz;
+
     /**
      * TransfertInternationaux constructor.
      * @param int $mTransfert
@@ -105,13 +110,15 @@ class TransfertInternationaux
      * @param int $mAutresTaxes
      * @param int $mTransfertTTC
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
-        $this->mTransfert = 0;
+        $this->ttz = $container->getParameter('ttz');
+        $this->tva = $container->getParameter('tva');
         $this->mFraisHt = 0;
         $this->mTva = 0;
         $this->mAutresTaxes = 0;
         $this->mTransfertTTC = 0;
+        //$this->container=$container;
     }
 
 
@@ -132,6 +139,11 @@ class TransfertInternationaux
      * @ORM\PrePersist
      */
     public function valider(){
+        $fraisTTC = $this->getMTransfertTTC() - $this->getMTransfert();
+        $this->mAutresTaxes = $this->ttz*$this->getMTransfert();
+        $this->mFraisHt = ($fraisTTC - $this->mAutresTaxes) / (1 + $this->tva);
+        $this->mTva =  $fraisTTC - $this->mAutresTaxes - $this->mFraisHt;
+
         //dump($this);die();
         if ($this->getE()){
             //dump($this->getE());die();
