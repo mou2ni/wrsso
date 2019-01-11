@@ -69,7 +69,7 @@ class LoadPays extends Fixture
 
         foreach ($lists as $list) {
             $objet=new Pays();
-            $objet->setLibelle($list['libelle'])->setZone($list['zone']);
+            $objet->setLibelle($list['libelle'])->setZone($list['zone'])->setDansRegion($list['dansRegion']);
             $manager->persist($objet);
         }
 

@@ -291,9 +291,9 @@ class TransfertInternationaux
     public function getMAutresTaxes()
     {
         if ($this->getIdPays()->getDansRegion())
-        return $this::TTZ*$this->getMTransfert();
-        else
             return 0;
+        else
+            return $this::TTZ*$this->getMTransfert();
     }
 
     /**
