@@ -135,10 +135,19 @@ class TransactionComptesController extends Controller
             if(!$genererCompta->genComptaRetrait($this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit()))
             {
                 //dump($genererCompta->getE()===2);die();
+                switch ($genererCompta->getE()){
+                    case Transactions::ERR_ZERO:$message =  'Opération de montant 0 impossible !!!';break;
+                    case Transactions::ERR_NEGATIF:$message =  'Opération de montant négatif non autorisée !!!';break;
+                    case Transactions::ERR_SOLDE_INSUFISANT:$message =  'Solde du compte insuffisant pour cette opération !!!';break;
+                    case Transactions::ERR_RETRAIT_COMPTE_INTERNE:$message =  'Retrait interdit sur ce compte !!!';break;
+                    default : $message='Code erreur N° '.$genererCompta->getE().' Non connu ! ! !';
+                }
+                /*
                 if($genererCompta->getE()==Transactions::ERR_ZERO)$message =  'Montant égale 0';
                 elseif ($genererCompta->getE()==Transactions::ERR_NEGATIF)$message = 'Montant négatif';
                 elseif ($genererCompta->getE()===Transactions::ERR_SOLDE_INSUFISANT)$message = ' Solde Insuffisant';
                 else $message = 'Deséquilibre';
+                */
                 $this->addFlash('error', 'erreur : '.$message);
                 //dump($genererCompta->getE());die();
             }

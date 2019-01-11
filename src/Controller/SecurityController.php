@@ -29,14 +29,21 @@ class SecurityController extends Controller
             return $this->redirectToRoute('app_login');
         }
         //dump($session);die();
-        if($utilisateur->getEstcaissier()) {
+        /*if($utilisateur->getRole()=='9bffcbfad2a9e744c85236db89d88773') { //
 
             return $this->redirectToRoute('journee_caisses_gerer');
+        }*/
+        switch ($utilisateur->getRole()){
+            //guichetier
+            case '9bffcbfad2a9e744c85236db89d88773' : return $this->redirectToRoute('journee_caisses_gerer');
+            //comptable
+            case '26927809602fed9d09fe8cf2f9daa402' : return $this->render('security/login.html.twig', ['last_username' => '', 'error' => 'COMPTABLE NON ENCORE IMPLEMENTE']);break;
+            case '73acd9a5972130b75066c82595a1fae3' : return $this->render('security/login.html.twig', ['last_username' => '', 'error' => 'ADMINISTRATEUR NON ENCORE IMPLEMENTE']);break;
+            default : return $this->render('security/login.html.twig', ['last_username' => '', 'error' => 'ROLE INCONNU']);
         }
 
-        $this->addFlash('error', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
-
-
+        //$this->addFlash('error', "vous n'etes pas Caissier? munissez vous des droits necessaires puis reessayez");
+        
         return $this->redirectToRoute('app_login');
 
     }

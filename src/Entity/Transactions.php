@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Transactions
 {
-    const ERR_SOLDE_INSUFISANT=1, ERR_NEGATIF=2, ERR_ZERO=3, ERR_DESEQUILIBRE=4;
+    const ERR_SOLDE_INSUFISANT=1, ERR_NEGATIF=2, ERR_ZERO=3, ERR_DESEQUILIBRE=4, ERR_RETRAIT_COMPTE_INTERNE=5;
 
     private $e;
     /**
