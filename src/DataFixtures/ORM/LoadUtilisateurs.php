@@ -43,32 +43,32 @@ class LoadUtilisateurs extends Fixture implements DependentFixtureInterface
         $lists = array(
             ['login' => 'lassina', 'mdp' => 'lassina', 'nom' => 'OUEDRAOGO', 'prenom' => 'Lassina',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Lassina']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Lassina']), 'roles'=>[Utilisateurs::ROLE_GUICHETIER]]
         , ['login' => 'ghislaine', 'mdp' => 'ghislaine', 'nom' => 'TOUBRI', 'prenom' => 'Ghislaine',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ghislaine']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ghislaine']), 'roles'=>[Utilisateurs::ROLE_GUICHETIER]]
         , ['login' => 'fatim', 'mdp' => 'fatim', 'nom' => 'SORE', 'prenom' => 'Fatim',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Fatim']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Fatim']), 'roles'=>[Utilisateurs::ROLE_GUICHETIER]]
         , ['login' => 'aina', 'mdp' => 'aina', 'nom' => 'SAKANDE', 'prenom' => 'Aina',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Aina']), 'role'=>Utilisateurs::ROLE_COMPTABLE]
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Aina']), 'roles'=>[Utilisateurs::ROLE_GUICHETIER]]
         , ['login' => 'ganou', 'mdp' => 'ganou', 'nom' => 'GANOU', 'prenom' => 'Celine',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Celine']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Celine']), 'roles'=>[Utilisateurs::ROLE_COMPTABLE]]
         , ['login' => 'bayoulou', 'mdp' => 'bayoulou', 'nom' => 'BAYOULOU', 'prenom' => 'Ami',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ami']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Ami']), 'roles'=>[Utilisateurs::ROLE_GUICHETIER]]
         , ['login' => 'tamboura', 'mdp' => 'tamboura', 'nom' => 'TAMBOURA', 'prenom' => 'Djanna',
                 'estCaissier' => true, 'statut' => 'a',
-                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Djanna']), 'role'=>Utilisateurs::ROLE_GUICHETIER]
+                'compteEcartCaisse'=>$reqCompte->findOneBy(['intitule'=>'Ecarts caissier Djanna']), 'roles'=>[Utilisateurs::ROLE_GUICHETIER]]
         , ['login' => 'admin', 'mdp' => 'admin', 'nom' => 'YESBO', 'prenom' => 'Admin',
-                'estCaissier' => false, 'statut' => 'a', 'compteEcartCaisse'=>null, 'role'=>Utilisateurs::ROLE_ADMIN]
+                'estCaissier' => false, 'statut' => 'a', 'compteEcartCaisse'=>null, 'roles'=>[Utilisateurs::ROLE_ADMIN]]
         );
 
         foreach ($lists as $list) {
             $enr = new Utilisateurs();
-            $enr->setLogin($list['login'])->setMdp($list['mdp'])->setNom($list['nom'])->setPrenom($list['prenom'])->setEstCaissier($list['estCaissier'])->setStatus($list['statut'])->setCompteEcartCaisse($list['compteEcartCaisse'])->setRole($list['role'])
+            $enr->setLogin($list['login'])->setMdp($list['mdp'])->setNom($list['nom'])->setPrenom($list['prenom'])->setEstCaissier($list['estCaissier'])->setStatus($list['statut'])->setCompteEcartCaisse($list['compteEcartCaisse'])->setRoles($list['roles'])
             ;
             $enr->setMdp($this->encoder->encodePassword($enr,$list['mdp']));
             $manager->persist($enr);
