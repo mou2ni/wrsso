@@ -4,7 +4,7 @@ parameters:
     locale: 'fr'
     env(DATABASE_HOST): localhost
     tva: 0.18
-    ttz: 0.06
+    ttz: 0.006
 
 services:
     # default configuration for services in *this* file
