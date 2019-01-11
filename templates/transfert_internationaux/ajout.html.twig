@@ -28,9 +28,9 @@
 {{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.idPays)|e }}
 {{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTransfert)|e }}
 {{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTransfertTTC)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mFraisHt)|e }}
+{#{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mFraisHt)|e }}
 {{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTva)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mAutresTaxes)|e }}
+{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mAutresTaxes)|e }}#}
 {{ '</td>'|e }}{% else %}
 {{ '<td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertRecus.vars.prototype.idSystemTransfert)|e }}
 {{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertRecus.vars.prototype.idPays)|e }}
@@ -52,9 +52,9 @@
                     <th class="text-bold padding-5 text-center">Pays</th>
                     <th class="text-bold padding-5 text-center">Montant</th>
                     {% if envoi %}<th class="text-bold padding-5 text-center">Montant Total</th>
-                        <th class="text-bold padding-5 text-center">Frais HT</th>
+                        {#<th class="text-bold padding-5 text-center">Frais HT</th>
                         <th class="text-bold padding-5 text-center">TVA</th>
-                        <th class="text-bold padding-5 text-center">Autres Taxes</th>{% endif %}
+                        <th class="text-bold padding-5 text-center">Autres Taxes</th>#}{% endif %}
                     <th class="text-bold padding-5 text-center"></th>
 
                 </tr>
@@ -66,9 +66,9 @@
                             <td class="text-bold padding-0 text-center">{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
                             <td class="text-bold padding-0 text-center">{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
                             <td class="text-bold padding-0 text-center">{{ form_errors(trans.mTransfertTTC) }} {{ form_widget(trans.mTransfertTTC) }}</td>
-                            <td class="text-bold padding-0 text-center">{{ form_errors(trans.mFraisHt) }} {{ form_widget(trans.mFraisHt) }}</td>
+                            {#<td class="text-bold padding-0 text-center">{{ form_errors(trans.mFraisHt) }} {{ form_widget(trans.mFraisHt) }}</td>
                             <td class="text-bold padding-0 text-center">{{ form_errors(trans.mTva) }} {{ form_widget(trans.mTva) }}</td>
-                            <td class="text-bold padding-0 text-center">{{ form_errors(trans.mAutresTaxes) }} {{ form_widget(trans.mAutresTaxes) }}</td>
+                            <td class="text-bold padding-0 text-center">{{ form_errors(trans.mAutresTaxes) }} {{ form_widget(trans.mAutresTaxes) }}</td>#}
                         </tr>
                     {% endfor %}
                 {% else %}

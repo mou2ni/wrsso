@@ -15,19 +15,20 @@ function majTransfert() {
     while ($("#emissions_transfertEmis_"+i+"_mTransfert")) {
         //alert(Echape($("#transfert_transfertInternationaux_"+i+"_mFraisHt").val()));
         if ($("#sens").val() == "1"){
-            tva=Echape($("#emissions_transfertEmis_"+i+"_mFraisHt").val())*0.18;
-            tva=Math.round(tva);
+            //tva=Echape($("#emissions_transfertEmis_"+i+"_mFraisHt").val())*0.18;
+            //tva=Math.round(tva);
             //alert(tva);
 
-            autresTaxes = Echape($("#emissions_transfertEmis_"+i+"_mTransfertTTC").val())
+            /*autresTaxes = Echape($("#emissions_transfertEmis_"+i+"_mTransfertTTC").val())
                 - Echape($("#emissions_transfertEmis_"+i+"_mTransfert").val())
                 - Echape($("#emissions_transfertEmis_"+i+"_mFraisHt").val())
-                - tva;
+                - tva;*/
             /*if (autresTaxes<0)
             autresTaxes = 0;*/
-            $("#emissions_transfertEmis_"+i+"_mTva").val(tva);
-            $("#emissions_transfertEmis_"+i+"_mAutresTaxes").val(autresTaxes);
-            emission = emission + +Echape($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val())
+            //$("#emissions_transfertEmis_"+i+"_mTva").val(tva);
+            //$("#emissions_transfertEmis_"+i+"_mAutresTaxes").val(autresTaxes);
+            alert($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val());
+            emission = emission + +Echape($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val());
             $("#emissions_mEmissionTrans").val(emission);
         }
         else {
