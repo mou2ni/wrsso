@@ -18,7 +18,7 @@
 <button  class="btn-info" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
 <button  class="btn-info" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
 {% endif %}
-<input type="hidden" name="_operation" value="{{ operation }}">
+{# <input type="hidden" name="_operation" value="{{ operation }}">#}
 <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
 {{ form_end(form) }}
 <div class="form-inline">
