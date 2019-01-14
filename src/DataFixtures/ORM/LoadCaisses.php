@@ -82,7 +82,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::INTERNE
+                'typeCaisse'=>Caisses::MENUDEPENSE
             ]
         ,['libelle' => 'Caisse Appro',
                 'code' => 'APPRO',
@@ -91,7 +91,7 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::INTERNE
+                'typeCaisse'=>Caisses::COMPENSE
             ]
             /*,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => $idJourneeCaisseO]
             ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'compteOperation' => $compteOperationCaisseCMD, 'compteCvDevise' => null, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => null]

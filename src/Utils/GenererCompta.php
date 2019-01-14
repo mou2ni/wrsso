@@ -183,12 +183,17 @@ class GenererCompta
 
     private function debiterCrediterSigne(Utilisateurs $utilisateur, Comptes $cptDebitSiPositif, Comptes $cptCreditSiPositif, $libelle, $montant)
     {
-        $estPositif=($montant>0);
         $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
 
         if (!$transaction) return false ;
-        //if ($transaction->getE()) return $transaction ;
 
+        //ajouter debit credit
+        return $this->addDebitCreditSign($transaction, $cptDebitSiPositif, $cptCreditSiPositif, $montant);
+
+    }
+
+    private function addDebitCreditSign($transaction, $cptDebitSiPositif, $cptCreditSiPositif, $montant){
+        $estPositif=($montant>0);
         if ($estPositif) return $this->debiterCrediter($transaction, $cptDebitSiPositif, $cptCreditSiPositif, $montant);
         else return $this->debiterCrediter($transaction, $cptCreditSiPositif, $cptDebitSiPositif, $montant); //inverser l'ordre des comptes si negatif
     }
@@ -343,10 +348,13 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisse, Caisses $caissePartenaire, $montant)
+    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteOperation(),$caissePartenaire->getCompteIntercaisse(),'Intercaissse - '.$utilisateur,$montant));
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur,$caisse->getCompteIntercaisse(),$caissePartenaire->getCompteOperation(),'Intercaissse - '.$utilisateur,$montant));
+        $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $montant);
+
+        if (!$transaction) return false ;
+        $this->transactions->add($this->addDebitCreditSign($transaction, $caisseDebit->getCompteOperation(), $caisseCredit->getCompteIntercaisse(), $montant));
+        $this->transactions->add($this->addDebitCreditSign($transaction, $caisseDebit->getCompteIntercaisse(), $caisseCredit->getCompteOperation(), $montant));
         return !$this->getE();
     }
 

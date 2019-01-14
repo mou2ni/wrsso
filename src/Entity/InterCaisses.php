@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity (repositoryClass="App\Repository\IntercaissesRepository")
  * @ORM\Table(name="InterCaisses")
  */
 class InterCaisses
@@ -40,9 +40,10 @@ class InterCaisses
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\GreaterThan(value="0", message="la valeur doit positive")
      */
     private $mIntercaisse;
+
+    //@Assert\GreaterThan(value="0", message="la valeur doit positive")
 
     /**
      * @ORM\Column(type="string")
@@ -55,7 +56,9 @@ class InterCaisses
      */
     private $observations;
 
-    private $sortant = false;
+    //private $sortant = false;
+    
+    private $journeeCaissePartenaire;
 
     public function __toString()
     {
@@ -180,6 +183,24 @@ class InterCaisses
     public function setSortant(bool $sortant): InterCaisses
     {
         $this->sortant = $sortant;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaissePartenaire()
+    {
+        return $this->journeeCaissePartenaire;
+    }
+
+    /**
+     * @param mixed $journeeCaissePartenaire
+     * @return InterCaisses
+     */
+    public function setJourneeCaissePartenaire($journeeCaissePartenaire)
+    {
+        $this->journeeCaissePartenaire = $journeeCaissePartenaire;
         return $this;
     }
 

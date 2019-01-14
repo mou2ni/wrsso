@@ -22,10 +22,10 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     }
 
     public function getOpenJourneeCaisseQb()
-
     {
-        return $this
-            ->createQueryBuilder('jc')
+        $qb=$this->createQueryBuilder('jc');
+        return $qb->addSelect('c')
+            ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
             ->where('jc.statut=:statut')
             ->setParameter('statut',JourneeCaisses::ENCOURS)
             ;

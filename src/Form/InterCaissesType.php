@@ -18,8 +18,9 @@ class InterCaissesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('sortant', CheckboxType::class, ['label'=>' ', 'required'=>false])
-            ->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
+            //->add('sortant', CheckboxType::class, ['label'=>' ', 'required'=>false])
+            //->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
+            ->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0))
             /*->add('journeeCaisseEntrant', EntityType::class, array (
                 'class' => 'App\Entity\JourneeCaisses',
                 'choice_label' => 'journeeCaisse',
