@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class InterCaisses
 {
-    const INITIE='I', ANNULE='X', VALIDE='V';
+    const INITIE='I', ANNULE='X', VALIDE='V', VALIDATION_AUTO='VA';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -183,13 +183,13 @@ class InterCaisses
         return $this;
     }
 
-
-    public function valider(){
-        $this->statut = $this::VALIDE;
+/*
+    public function valider($statut=InterCaisses::VALIDE){
+        $this->setStatut($statut);
         $this->journeeCaisseSortant->updateM('mIntercaisseSortants', $this->mIntercaisse);
         $this->journeeCaisseEntrant->updateM('mIntercaisseEntrants', $this->mIntercaisse);
         //$this->journeeCaisseSortant->setMIntercaisseSortants($this->journeeCaisseSortant->getMIntercaisseSortants()+ $this->mIntercaisse);
         //$this->journeeCaisseEntrant->setMIntercaisseEntrants($this->journeeCaisseEntrant->getMIntercaisseEntrants()+ $this->mIntercaisse);
-    }
+    }*/
 
    }

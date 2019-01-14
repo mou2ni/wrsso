@@ -45,6 +45,12 @@ class Clients
      */
     private $comptes;
 
+
+    public function __toString()
+    {
+        return $this->getPrenom().' '.$this->getNom();
+    }
+
     /**
      * @return mixed
      */
@@ -134,6 +140,8 @@ class Clients
         $this->id = $id;
         return $this;
     }
+
+
 
    
 

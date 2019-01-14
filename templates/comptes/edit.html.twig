@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Comptes{% endblock %}
+{% block title %}Modification des Comptes{% endblock %}
 
 {% block body %}
-    <h1>Edit Comptes</h1>
+    <h1>Modification de Compte</h1>
 
-    {{ include('comptes/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('comptes/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('comptes_index') }}">back to list</a>
+    <a href="{{ path('comptes_index') }}">Liste des comptes</a>
 
     {{ include('comptes/_delete_form.html.twig') }}
 {% endblock %}

@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 /**
  * @Route("/comptes")
  */
@@ -27,7 +29,8 @@ class ComptesController extends Controller
     }
 
     /**
-     * @Route("/new", name="comptes_new", methods="GET|POST")
+     * @Route("/ajout", name="comptes_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
@@ -50,7 +53,7 @@ class ComptesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="comptes_show", methods="GET")
+     * @Route("/{id}/detail", name="comptes_show", methods="GET")
      */
     public function show(Comptes $compte): Response
     {
@@ -58,7 +61,8 @@ class ComptesController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="comptes_edit", methods="GET|POST")
+     * @Route("/{id}/modifier", name="comptes_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, Comptes $compte): Response
     {
@@ -79,6 +83,7 @@ class ComptesController extends Controller
 
     /**
      * @Route("/{id}", name="comptes_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Comptes $compte): Response
     {

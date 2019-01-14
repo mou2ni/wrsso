@@ -51,7 +51,7 @@ class InterCaissesController extends Controller
     }
 
     /**
-     * @Route("/ajout", name="inter_caisses_ajout", methods="GET|POST|UPDATE")
+     * @Route("/ajout", name="intercaisses_ajout", methods="GET|POST|UPDATE")
      */
     public function ajout(Request $request): Response
     {
@@ -74,15 +74,13 @@ class InterCaissesController extends Controller
                 $interCaiss->setJourneeCaisseEntrant($interCaiss->getJourneeCaisseSortant());
                 $interCaiss->setJourneeCaisseSortant($this->journeeCaisse);
                 //$interCaiss->setMIntercaisse(-$interCaiss->getMIntercaisse());
-                $caissePartenaire=$interCaiss->getJourneeCaisseEntrant()->getCaisse();
+                //$caissePartenaire=$interCaiss->getJourneeCaisseEntrant()->getCaisse();
+            }else{ //entrant : autovalider
+                $interCaiss=$this->valider($interCaiss, InterCaisses::VALIDATION_AUTO);
             }
-            $operation=$request->request->get('_operation');
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($interCaiss);
-            $em->flush();
-
-            //$genCompta=new GenererCompta($em);
-            //$genCompta->genComptaIntercaisse($this->utilisateur,$this->caisse, $caissePartenaire,$interCaiss->getMIntercaisse());
+            //$operation=$request->request->get('_operation');
+            $this->getDoctrine()->getManager()->persist($interCaiss);
+            $this->getDoctrine()->getManager()->flush();
 
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
@@ -93,11 +91,9 @@ class InterCaissesController extends Controller
             $interCaiss->setJourneeCaisseEntrant($this->journeeCaisse)->setStatut($interCaiss::INITIE);
             $form = $this->createForm(InterCaissesType::class, $interCaiss);
             $form->handleRequest($request);
-            //dump($interCaiss);die();
-//return $this->redirectToRoute('inter_caisses_ajout', ['id'=>$this->journeeCaisse->getId()]);
 
         }
-
+/*
         if($request->isXmlHttpRequest()){
             $em=$this->getDoctrine()->getManager();
             if($interCaiss = $request->request->get('intercaisse')) {
@@ -146,17 +142,46 @@ class InterCaissesController extends Controller
 
         }
 
-
+*/
         //dump($this->journeeCaisse);die();
-        return $this->render('inter_caisses/ajout.html.twig', [
+        return $this->render('intercaisses/ajout.html.twig', [
             'journeeCaisse' => $this->journeeCaisse,
             'totalR'=>$this->totalR,
             'totalE'=>$this->totalE,
             'form' => $form->createView(),
-            'operation'=>$operation
+            'intercaisse'=>$interCaiss
         ]);
     }
 
+    /**
+     * @Route("/autorise/{id}", name="intercaisses_autoriser", methods="GET|POST|UPDATE")
+     */
+    public function autoriser(Request $request, InterCaisses $interCaisse): Response
+    {
+        if ($interCaisse->getStatut() != InterCaisses::INITIE)
+        {
+            $this->addFlash('error', 'Statut intercaisse non modifiable.');
+            return $this->redirectToRoute('intercaisses_ajout');
+        }
+        //dump($request->request); die();
+
+        if ($request->getMethod()=='UPDATE'){ //Actions sur les intercaisses
+            //sécuriser l'opération avec un token
+            if ($this->isCsrfTokenValid('update'.$interCaisse->getId(), $request->request->get('_token'))) {
+                //bouton "annuler" cliqué
+                if ( $request->request->has('annuler')){
+                    $interCaisse->setStatut(InterCaisses::ANNULE);
+                }
+                //bouton "valider" cliqué
+                if ( $request->request->has('valider')){
+                    $interCaisse=$this->valider($interCaisse);
+                }
+                $this->getDoctrine()->getManager()->persist($interCaisse);
+                $this->getDoctrine()->getManager()->flush();
+            }
+            return $this->redirectToRoute('intercaisses_ajout');
+        }
+    }
 
     /**
      * @Route("/new/{id}", name="inter_caisses_demande", methods="GET|POST")
@@ -294,5 +319,15 @@ class InterCaissesController extends Controller
         foreach ($intercaissesE as $intercaiss) if ($intercaiss->getStatut()==InterCaisses::VALIDE)$this->totalE=$this->totalE+$intercaiss->getMIntercaisse();
         //$journeeCaisses->setIntercaisseEntrant($intercaissesR)->setIntercaisseSortant($intercaissesE);
         //return $journeeCaisses;
+    }
+
+    private function valider(InterCaisses $interCaisse, $statut=InterCaisses::VALIDE){
+        $interCaisse->setStatut($statut);
+        $interCaisse->getJourneeCaisseSortant()->updateM('mIntercaisseSortants', $interCaisse->getMIntercaisse());
+        $interCaisse->getJourneeCaisseEntrant()->updateM('mIntercaisseEntrants', $interCaisse->getMIntercaisse());
+        $genCompta=new GenererCompta($this->getDoctrine()->getManager());
+        $genCompta->genComptaIntercaisse($this->utilisateur,$interCaisse->getJourneeCaisseEntrant()->getCaisse(), $interCaisse->getJourneeCaisseSortant()->getCaisse(),$interCaisse->getMIntercaisse());
+
+        return $interCaisse;
     }
 }

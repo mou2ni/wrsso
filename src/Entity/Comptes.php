@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comptes
 {
-    const INTERNE='I', ORDINAIRE='O', SALAIRE='S';
+    const INTERNE='I', ORDINAIRE='O', SALAIRE='S', EPARGNE='E';
 
     /**
      * @ORM\Id
@@ -69,7 +69,7 @@ class Comptes
     private $caisses;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="CompteCvDevise", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Caisses", mappedBy="compteCvDevise", cascade={"persist"})
      */
     private $devises;
     

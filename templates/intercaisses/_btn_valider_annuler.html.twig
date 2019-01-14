@@ -1,0 +1,5 @@
+<form class="form-inline" method="POST" action="{{ path('intercaisses_autoriser',{'id': intercaisse.id})}}" onsubmit="return confirm('{{ confirm_message }} ');">
+    <input type="hidden" name="_method" value="UPDATE">
+    <input type="hidden" name="_token" value="{{ csrf_token('update'~intercaisse.id)}}">
+    <button class="{{ btn_class|default("btn-info") }}" name={{ btn_name }}>{{ btn_label }}</button>
+</form>

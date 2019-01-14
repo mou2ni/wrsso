@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Caisses{% endblock %}
+{% block title %}Modification de  Caisses{% endblock %}
 
 {% block body %}
-    <h1>Edit Caisses</h1>
+    <h1>Modification de Caisses</h1>
 
-    {{ include('caisses/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('caisses/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('caisses_index') }}">back to list</a>
+    <a href="{{ path('caisses_index') }}">Liste des caisses</a>
 
     {{ include('caisses/_delete_form.html.twig') }}
 {% endblock %}

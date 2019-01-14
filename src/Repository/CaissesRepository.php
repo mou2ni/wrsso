@@ -20,7 +20,6 @@ class CaissesRepository extends ServiceEntityRepository
     }
 
     public function getClosedCaisseQb()
-
     {
         return $this->createQueryBuilder('c')
             ->where('c.statut=:statut')
@@ -31,5 +30,14 @@ class CaissesRepository extends ServiceEntityRepository
 
     }
 
+    public function findAllJoinCompteOperation(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb->select('c.id, c.libelle, c.code, co.numCompte')
+            ->innerJoin('c.compteOperation','co', 'WITH', 'c.compteOperation= co.id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
+//$qb->innerJoin('u.Group', 'g', 'WITH', 'u.status = ?1', 'g.id')
 }
