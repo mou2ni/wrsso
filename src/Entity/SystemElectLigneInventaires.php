@@ -117,7 +117,7 @@ class SystemElectLigneInventaires
      */
     public function setSolde($solde)
     {
-        if ($solde>0)$this->solde = $solde;
+        $this->solde = $solde;
         return $this;
     }
 
