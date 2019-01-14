@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="retouches sur transfert">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1db14c84-a27e-4117-bd5f-6c225e712501.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1db14c84-a27e-4117-bd5f-6c225e712501.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/warisso.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/warisso.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Pays.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Pays.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/TransfertInternationaux.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/TransfertInternationaux.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111110203.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111143137.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111144147.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111172345.php" beforeDir="false" />
     </list>
+    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -61,20 +61,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="TransfertInternationauxController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php">
+      <file leaf-file-name="warisso.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/js/warisso.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-884">
-              <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
+            <state relative-caret-position="187">
+              <caret line="95" column="47" selection-start-line="94" selection-start-column="8" selection-end-line="95" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="warisso.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/warisso.js">
+        <entry file="file://C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/warisso.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="29" column="14" selection-start-line="29" selection-start-column="14" selection-end-line="29" selection-end-column="14" />
+            <state relative-caret-position="268">
+              <caret line="189" selection-start-line="189" selection-end-line="189" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SystemElectLigneInventaires.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="262">
+              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="billets" pinned="false" current-in-tab="false">
+        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billets">
+          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+            <state>
+              <filtering enabled="true" />
             </state>
           </provider>
         </entry>
@@ -82,26 +100,8 @@
       <file leaf-file-name="TransfertInternationaux.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/TransfertInternationaux.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="294" column="12" selection-start-line="294" selection-start-column="12" selection-end-line="294" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoadPays.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-93">
-              <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Pays.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Pays.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="113" selection-start-line="113" selection-end-line="113" />
+            <state relative-caret-position="147">
+              <caret line="293" column="12" selection-start-line="293" selection-start-column="12" selection-end-line="293" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -115,47 +115,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="services.yaml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/services.yaml">
+      <file leaf-file-name="TransactionComptesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/TransactionComptesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-            </state>
+            <state relative-caret-position="-867" />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+      <file leaf-file-name="GenererCompta.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Utils/GenererCompta.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="50" column="7" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="7" />
-              <folding>
-                <element signature="e#114#162#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="408" column="44" selection-start-line="408" selection-start-column="44" selection-end-line="408" selection-end-column="44" />
-              <folding>
-                <element signature="e#3550#3584#0#PHP" expanded="true" />
-                <element signature="e#3840#3874#0#PHP" expanded="true" />
-                <element signature="e#13380#13422#0#PHP" expanded="true" />
-                <element signature="e#16331#16372#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".env" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.env">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+            <state relative-caret-position="221">
+              <caret line="243" column="32" selection-start-line="243" selection-start-column="32" selection-end-line="243" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -261,9 +232,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/journee_caisses/_btn_action_url.html.twig" />
-        <option value="$PROJECT_DIR$/templates/journee_caisses/_btn_return_gerer.html.twig" />
-        <option value="$PROJECT_DIR$/templates/billetages/ajout.html.twig" />
         <option value="$PROJECT_DIR$/templates/system_elect_inventaires/ajout.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/UtilisateursType.php" />
         <option value="$PROJECT_DIR$/src/Controller/UtilisateursController.php" />
@@ -308,10 +276,13 @@
         <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
         <option value="$PROJECT_DIR$/config/services.yaml" />
         <option value="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" />
-        <option value="$PROJECT_DIR$/public/js/warisso.js" />
         <option value="$PROJECT_DIR$/src/Entity/Pays.php" />
-        <option value="$PROJECT_DIR$/src/Entity/TransfertInternationaux.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" />
+        <option value="$PROJECT_DIR$/src/Entity/TransfertInternationaux.php" />
+        <option value="$PROJECT_DIR$/public/js/warisso.js" />
+        <option value="C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/warisso.js" />
+        <option value="$PROJECT_DIR$/src/Controller/BilletagesController.php" />
+        <option value="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" />
       </list>
     </option>
   </component>
@@ -526,13 +497,13 @@
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Migrations" type="462c0819:PsiDirectoryNode" />
+              <item name="Security" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="Security" type="462c0819:PsiDirectoryNode" />
+              <item name="Utils" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
@@ -617,7 +588,9 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/DataFixtures/ORM/LoadComptes.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/InterCaissesController.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/JourneeCaissesController.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/TransactionComptesController.php</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Utils/GenererCompta.php</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
@@ -809,28 +782,7 @@
       <workItem from="1543853533905" duration="231375000" />
       <workItem from="1545652143164" duration="18000" />
       <workItem from="1545652522311" duration="88255000" />
-      <workItem from="1546157172294" duration="87483000" />
-    </task>
-    <task id="LOCAL-00033" summary="correction des fixtures">
-      <created>1534420397307</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1534420397307</updated>
-    </task>
-    <task id="LOCAL-00034" summary="load billet">
-      <created>1534420816905</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1534420816905</updated>
-    </task>
-    <task id="LOCAL-00035" summary="travaux en cours sur billetage et electronique">
-      <created>1534446039844</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1534446039844</updated>
+      <workItem from="1546157172294" duration="96441000" />
     </task>
     <task id="LOCAL-00036" summary="billetage et electronique">
       <created>1535361290362</created>
@@ -1154,11 +1106,32 @@
       <option name="project" value="LOCAL" />
       <updated>1547224774370</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="retouches sur transfert">
+      <created>1547227469022</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1547227469022</updated>
+    </task>
+    <task id="LOCAL-00083" summary="retouches sur transfert">
+      <created>1547227626700</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1547227626700</updated>
+    </task>
+    <task id="LOCAL-00084" summary="retouches sur transfert">
+      <created>1547228469110</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1547228469110</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1730183000" />
+    <option name="totallyTimeSpent" value="1739141000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1171,59 +1144,34 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50680786" side_tool="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Database Changes" order="13" weight="0.32843137" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" weight="0.5522876" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" visible="true" weight="0.27124184" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" visible="true" weight="0.2908497" />
-      <window_info anchor="right" id="Remote Host" weight="0.32980332" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.2908497" />
+      <window_info anchor="right" id="Remote Host" order="0" weight="0.32980332" />
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.24130106" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.24130106" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="3" visible="true" weight="0.1505295" />
+      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.1505295" />
       <window_info id="Structure" order="1" sideWeight="0.50111854" side_tool="true" weight="0.21028744" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.24962178" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info active="true" anchor="bottom" id="SQL Generator" order="14" visible="true" weight="0.32843137" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Commander" order="1" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="14" weight="0.4379085" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.61601305" />
     </layout>
-    <layout-to-restore>
-      <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
-      <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
-      <window_info id="npm" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="Structure" order="1" sideWeight="0.50111854" side_tool="true" weight="0.21028744" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24962178" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
-      <window_info anchor="bottom" id="Database Changes" order="13" weight="0.32843137" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" weight="0.5555556" />
-      <window_info active="true" anchor="bottom" id="SQL Generator" order="14" visible="true" weight="0.32843137" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32843137" />
-      <window_info anchor="bottom" id="Command Line Tools Console" order="15" weight="0.4379085" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.61601305" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.2908497" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50680786" side_tool="true" weight="0.32843137" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.1505295" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.23903178" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -1316,48 +1264,6 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190110185613.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-73" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190110153837.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190110190237.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-340" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadComptes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="699">
-          <caret line="92" column="31" selection-start-line="92" selection-start-column="31" selection-end-line="92" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190110192351.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3272" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190110192329.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190110190417.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3286" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190110192245.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3286" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.env.dist">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1463,13 +1369,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/pays">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -1615,13 +1514,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/warisso.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="29" column="14" selection-start-line="29" selection-start-column="14" selection-end-line="29" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-884">
@@ -1629,7 +1521,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/transfertinternationaux">
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/pays">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
@@ -1643,17 +1535,79 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/TransfertInternationaux.php">
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="294" column="12" selection-start-line="294" selection-start-column="12" selection-end-line="294" selection-end-column="12" />
+        <state relative-caret-position="213">
+          <caret line="70" column="30" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php">
+    <entry file="file://$PROJECT_DIR$/src/Entity/TransfertInternationaux.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-93">
-          <caret line="37" column="12" selection-start-line="37" selection-start-column="12" selection-end-line="37" selection-end-column="12" />
+        <state relative-caret-position="147">
+          <caret line="293" column="12" selection-start-line="293" selection-start-column="12" selection-end-line="293" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/transfertinternationaux">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/TransactionComptesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-867" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Utils/GenererCompta.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="243" column="32" selection-start-line="243" selection-start-column="32" selection-end-line="243" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billets">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/warisso.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="95" column="47" selection-start-line="94" selection-start-column="8" selection-end-line="95" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Billetages.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/BilletageLignes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2448" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="110" column="55" lean-forward="true" selection-start-line="110" selection-start-column="55" selection-end-line="110" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/warisso.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="189" selection-start-line="189" selection-end-line="189" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
         </state>
       </provider>
     </entry>

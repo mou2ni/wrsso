@@ -92,8 +92,8 @@ function majElectronique() {
     var totalElect=0;
 
     for ( a=0;a<nbrSystemElect;a++){
-        solde=valeur("#system_elect_inventaires_systemElectLigneInventaires_" + a + "_solde");
-        totalElect=totalElect+solde;
+        solde=$("#system_elect_inventaires_systemElectLigneInventaires_" + a + "_solde").val();
+        totalElect=totalElect + +Echape(solde);
         $("#system_elect_inventaires_soldeTotal").val(totalElect);
     }
 
