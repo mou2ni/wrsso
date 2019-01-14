@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Caisses;
+use App\Entity\JourneeCaisses;
 use App\Form\CaissesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/caisses")
@@ -22,7 +25,7 @@ class CaissesController extends Controller
     {
         $caisses = $this->getDoctrine()
             ->getRepository(Caisses::class)
-            ->findAll();
+            ->findAllJoinCompteOperation();
 
         return $this->render('caisses/index.html.twig', ['caisses' => $caisses]);
     }
@@ -51,32 +54,36 @@ class CaissesController extends Controller
     }
 
     /**
-     * @Route("/ouvrir", name="caisse_ouvrir", methods="GET|POST")
+     * @Route("/{id}/nouvellejournee", name="caisses_nouvelle_journee", methods="GET|POST")
      */
-    public function ouvrirCaisse(Request $request): Response
+    public function ouvrirNouvelleJourneeCaisse(Request $request, Caisses $caisse): Response
     {
-        $caisses = $this->getDoctrine()
-            ->getRepository(Caisses::class)
-            ->findBy(['journeeOuverte'=>null]);
-        $form = $this->get('form.factory')->createNamedBuilder('form')->getForm();
-        $form->add('caisse',EntityType::class,['class'=>Caisses::class, 'choices'=>$caisses]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $caiss=$form['caisse']->getData();
-            $this->get('session')->get('journeeCaisse')->setIdCaisse($caiss);
-
-            return $this->redirectToRoute('caisses_index');
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedException('Attribution de nouvelle journee interdite pour votre profil.');
         }
+        $journeeCaisse=$caisse->getLastJournee();
+        //si journée caisse déjà disponible pour la caisse
+        if ($journeeCaisse!=null){
+            $journeeCaisse->setStatut(JourneeCaisses::CLOSE);
+            $this->getDoctrine()->getManager()->persist($journeeCaisse);
+        }
+        $journeeCaisse=new JourneeCaisses($this->getDoctrine()->getManager());
+        $journeeCaisse->setCaisse($caisse);
+        $journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
+        $this->getDoctrine()->getManager()->persist($journeeCaisse);
+        //$this->getDoctrine()->getManager()->persist($caisse);
+        $this->getDoctrine()->getManager()->flush();
 
-        return $this->render('caisses/choisirCaisse.html.twig',
-            ['form' => $form->createView(),
-                'caisses' => $caisses]);
+        return $this->render('caisses/show.html.twig', ['caiss' => $caisse]);
     }
     /**
-     * @Route("/new", name="caisses_new", methods="GET|POST")
+     * @Route("/ajout", name="caisses_new", methods="GET|POST")
      */
     public function new(Request $request): Response
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
+            throw new AccessDeniedException('Ajout de caisse interdit pour votre profil.');
+        }
         $caiss = new Caisses();
         $form = $this->createForm(CaissesType::class, $caiss);
         $form->handleRequest($request);
@@ -96,7 +103,7 @@ class CaissesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="caisses_show", methods="GET")
+     * @Route("/{id}/detail", name="caisses_show", methods="GET")
      */
     public function show(Caisses $caiss): Response
     {
@@ -104,10 +111,13 @@ class CaissesController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="caisses_edit", methods="GET|POST")
+     * @Route("/{id}/modifier", name="caisses_edit", methods="GET|POST")
      */
     public function edit(Request $request, Caisses $caiss): Response
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
+            throw new AccessDeniedException('Modification de caisse interdit pour votre profil');
+        }
         $form = $this->createForm(CaissesType::class, $caiss);
         $form->handleRequest($request);
 
@@ -128,6 +138,9 @@ class CaissesController extends Controller
      */
     public function delete(Request $request, Caisses $caiss): Response
     {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
+            throw new AccessDeniedException('Suppression de caisse interdit pour votre profil.');
+        }
         if ($this->isCsrfTokenValid('delete'.$caiss->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($caiss);

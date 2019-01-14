@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Caisses{% endblock %}
+{% block title %}Ajout de Caisses{% endblock %}
 
 {% block body %}
-    <h1>Create new Caisses</h1>
+    <h1>Créer une nouvelle caisse</h1>
 
     {{ include('caisses/_form.html.twig') }}
 
-    <a href="{{ path('caisses_index') }}">back to list</a>
+    <a href="{{ path('caisses_index') }}">Afficher toutes les caisses</a>
 {% endblock %}

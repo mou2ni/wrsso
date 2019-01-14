@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Comptes index{% endblock %}
+{% block title %}Liste des comptes{% endblock %}
 
 {% block body %}
-    <h1>Comptes index</h1>
+    <h1>Liste des comptes</h1>
 
     <table class="table">
         <thead>
@@ -25,17 +25,17 @@
                 <td>{{ compte.soldeCourant }}</td>
                 <td>{{ compte.typeCompte }}</td>
                 <td>
-                    <a href="{{ path('comptes_show', {'id': compte.id}) }}">show</a>
-                    <a href="{{ path('comptes_edit', {'id': compte.id}) }}">edit</a>
+                    <a href="{{ path('comptes_show', {'id': compte.id}) }}">Détails</a>
+                    <a href="{{ path('comptes_edit', {'id': compte.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucun compte trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('comptes_new') }}">Create new</a>
+    <a href="{{ path('comptes_new') }}">Ajouter un compte</a>
 {% endblock %}

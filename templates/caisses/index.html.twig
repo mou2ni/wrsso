@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Caisses index{% endblock %}
+{% block title %}Liste Caisses{% endblock %}
 
 {% block body %}
-    <h1>Caisses index</h1>
+    <h1>Liste des Caisses</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Libelle</th>
+                <th>Code</th>
+                <th>Compte opération</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,18 +20,20 @@
             <tr>
                 <td>{{ caiss.id }}</td>
                 <td>{{ caiss.libelle }}</td>
+                <td>{{ caiss.code }}</td>
+                <td>{{ caiss.numCompte }}</td>
                 <td>
-                    <a href="{{ path('caisses_show', {'id': caiss.id}) }}">show</a>
-                    <a href="{{ path('caisses_edit', {'id': caiss.id}) }}">edit</a>
+                    <a href="{{ path('caisses_show', {'id': caiss.id}) }}">Détails</a>
+                    <a href="{{ path('caisses_edit', {'id': caiss.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">aucun enregistrement </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('caisses_new') }}">Create new</a>
+    <a href="{{ path('caisses_new') }}">Ajouter une caisse</a>
 {% endblock %}

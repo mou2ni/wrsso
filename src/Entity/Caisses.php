@@ -12,6 +12,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
+use Proxies\__CG__\App\Entity\Comptes;
 
 /**
  * @ORM\Entity (repositoryClass="App\Repository\CaissesRepository")
@@ -19,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Caisses
 {
-    const OUVERT='O', FERME='F', INTERNE='I',GUICHET='G';
+    const OUVERT='O', FERME='F', COMPENSE='C', GUICHET='G', TONTINE='T', MENUDEPENSE='M';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -46,7 +47,7 @@ class Caisses
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="devises", cascade={"persist"})
      * @ORM\JoinColumn(name= "id_cpt_cv_devise",nullable=true)
      */
-    private $CompteCvDevise;
+    private $compteCvDevise;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="intercaisses", cascade={"persist"})
@@ -95,12 +96,12 @@ class Caisses
     /**
      * @ORM\Column(type="string")
      */
-    private $typeCaisse=self::INTERNE;
+    private $typeCaisse=self::GUICHET;
 
     /**
      * Caisses constructor.
      */
-    public function __construct(ObjectManager $em)
+    public function __construct(ObjectManager $em=null)
     {
         $this->em=$em;
         $this->journeeCaisses=new ArrayCollection();
@@ -152,16 +153,16 @@ class Caisses
      */
     public function getCompteCvDevise()
     {
-        return $this->CompteCvDevise;
+        return $this->compteCvDevise;
     }
 
     /**
-     * @param mixed $CompteCvDevise
+     * @param mixed $compteCvDevise
      * @return Caisses
      */
-    public function setCompteCvDevise($CompteCvDevise)
+    public function setCompteCvDevise($compteCvDevise)
     {
-        $this->CompteCvDevise = $CompteCvDevise;
+        $this->compteCvDevise = $compteCvDevise;
         return $this;
     }
 
@@ -215,12 +216,12 @@ class Caisses
      */
     public function ouvrir()
     {
-        $this->status = $this::OUVERT;
+        $this->setStatut($this::OUVERT);
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return Comptes
      */
     public function getCompteOperation()
     {
@@ -228,7 +229,7 @@ class Caisses
     }
 
     /**
-     * @param mixed $compteOperation
+     * @param Comptes $compteOperation
      * @return Caisses
      */
     public function setCompteOperation($compteOperation)
@@ -421,6 +422,7 @@ class Caisses
      */
     public function setTypeCaisse($typeCaisse)
     {
+        //if ($typeCaisse!=Caisses::GUICHET) $this->setStatut(Caisses::OUVERT);
         $this->typeCaisse = $typeCaisse;
         return $this;
     }

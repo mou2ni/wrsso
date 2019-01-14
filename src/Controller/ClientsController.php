@@ -27,9 +27,9 @@ class ClientsController extends Controller
     }
 
     /**
-     * @Route("/new", name="clients_new", methods="GET|POST")
+     * @Route("/ajout", name="clients_ajouter", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function ajouter(Request $request): Response
     {
         $client = new Clients();
         $form = $this->createForm(ClientsType::class, $client);
@@ -43,7 +43,7 @@ class ClientsController extends Controller
             return $this->redirectToRoute('clients_index');
         }
 
-        return $this->render('clients/new.html.twig', [
+        return $this->render('clients/ajout.html.twig', [
             'client' => $client,
             'form' => $form->createView(),
         ]);

@@ -71,9 +71,9 @@
                         <td >
 
                             <span id="statut{{intercaisse.id}}V">{{ (intercaisse.statut=='I')
-                            ?'Initié':(intercaisse.statut=='V')
-                            ?'Validé':(intercaisse.statut=='X')
-                            ?'Annulé'}}
+                                ?'Initié':(intercaisse.statut=='V')
+                                ?'Validé':(intercaisse.statut=='VA')
+                                ?'Auto validé': 'Non defini'}}
                             </span>
                         </td>
                         <td>{{ intercaisse.observations }}</td>
