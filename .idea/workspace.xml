@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="retouches sur transfert">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/warisso.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/warisso.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111110203.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111143137.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111144147.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190111172345.php" beforeDir="false" />
-    </list>
     <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
+    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="corrections de petits bugs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" afterDir="false" />
+    </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -70,44 +66,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="warisso.js" pinned="false" current-in-tab="false">
-        <entry file="file://C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/warisso.js">
+      <file leaf-file-name="dm.js" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/dm.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="SystemElectLigneInventaires.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="189" selection-start-line="189" selection-end-line="189" />
+            <state relative-caret-position="224">
+              <caret line="111" column="5" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SystemElectLigneInventaires.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
+      <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="262">
-              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+            <state relative-caret-position="6256">
+              <caret line="408" selection-start-line="408" selection-end-line="408" />
+              <folding>
+                <element signature="e#3550#3584#0#PHP" expanded="true" />
+                <element signature="e#3840#3874#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="billets" pinned="false" current-in-tab="false">
         <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/billets">
-          <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-            <state>
-              <filtering enabled="true" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TransfertInternationaux.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/TransfertInternationaux.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="293" column="12" selection-start-line="293" selection-start-column="12" selection-end-line="293" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="transfertinternationaux" pinned="false" current-in-tab="false">
-        <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/transfertinternationaux">
           <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
             <state>
               <filtering enabled="true" />
@@ -125,8 +112,38 @@
       <file leaf-file-name="GenererCompta.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Utils/GenererCompta.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="243" column="32" selection-start-line="243" selection-start-column="32" selection-end-line="243" selection-end-column="32" />
+            <state relative-caret-position="306">
+              <caret line="248" column="32" selection-start-line="248" selection-start-column="32" selection-end-line="248" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoadComptes.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadComptes.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="46">
+              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransfertInternationauxController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="80" column="14" selection-start-line="80" selection-start-column="14" selection-end-line="80" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="183">
+              <caret line="184" column="36" lean-forward="true" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
+              <folding>
+                <element signature="e#114#162#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -135,8 +152,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>addT</find>
-      <find>sens</find>
       <find>transfert</find>
       <find>getMliquid</find>
       <find>getmLiqui</find>
@@ -165,6 +180,8 @@
       <find>sTT</find>
       <find>getmF</find>
       <find>ttz</find>
+      <find>intercaiss</find>
+      <find>getmIntercaisseEntrants</find>
     </findStrings>
     <replaceStrings>
       <replace>&lt;div class=&quot;form-row&quot;&gt;</replace>
@@ -273,9 +290,7 @@
         <option value="$PROJECT_DIR$/../wrssolh/public/index.php" />
         <option value="$PROJECT_DIR$/../wrssolh/src/Controller/JourneeCaissesController.php" />
         <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
-        <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
         <option value="$PROJECT_DIR$/config/services.yaml" />
-        <option value="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" />
         <option value="$PROJECT_DIR$/src/Entity/Pays.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" />
         <option value="$PROJECT_DIR$/src/Entity/TransfertInternationaux.php" />
@@ -283,6 +298,8 @@
         <option value="C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/warisso.js" />
         <option value="$PROJECT_DIR$/src/Controller/BilletagesController.php" />
         <option value="$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php" />
+        <option value="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" />
+        <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
       </list>
     </option>
   </component>
@@ -589,9 +606,16 @@
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UPDATED" />
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/InterCaissesController.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/JourneeCaissesController.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Controller/TransactionComptesController.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/DataFixtures/ORM/LoadCaisses.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Entity/InterCaisses.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Form/InterCaissesType.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Repository/IntercaissesRepository.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/src/Utils/GenererCompta.php</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/intercaisses/_form.html.twig</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/intercaisses/ajout.html.twig</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/transaction_comptes/_liste_depots.html.twig</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/templates/transaction_comptes/_liste_retraits.html.twig</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -782,14 +806,7 @@
       <workItem from="1543853533905" duration="231375000" />
       <workItem from="1545652143164" duration="18000" />
       <workItem from="1545652522311" duration="88255000" />
-      <workItem from="1546157172294" duration="96441000" />
-    </task>
-    <task id="LOCAL-00036" summary="billetage et electronique">
-      <created>1535361290362</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1535361290362</updated>
+      <workItem from="1546157172294" duration="102711000" />
     </task>
     <task id="LOCAL-00037" summary="billetage et electronique">
       <created>1535393890549</created>
@@ -1127,11 +1144,18 @@
       <option name="project" value="LOCAL" />
       <updated>1547228469110</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="corrections de petits bugs">
+      <created>1547463178193</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1547463178193</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1739141000" />
+    <option name="totallyTimeSpent" value="1745411000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1149,7 +1173,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50680786" side_tool="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Database Changes" order="13" weight="0.32843137" />
-      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" visible="true" weight="0.27124184" />
+      <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49319214" visible="true" weight="0.4232026" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.2908497" />
@@ -1157,7 +1181,7 @@
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.24130106" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.1505295" />
+      <window_info anchor="right" id="Database" order="4" weight="0.1505295" />
       <window_info id="Structure" order="1" sideWeight="0.50111854" side_tool="true" weight="0.21028744" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -1222,7 +1246,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="intercaisse" />
     <MESSAGE value="correction ouverture fermeture" />
     <MESSAGE value="etat bceao" />
     <MESSAGE value="MAJ bouton fermer" />
@@ -1247,7 +1270,8 @@
     <MESSAGE value="Retouche sur transferts envoyés" />
     <MESSAGE value="migration" />
     <MESSAGE value="retouches sur transfert" />
-    <option name="LAST_COMMIT_MESSAGE" value="retouches sur transfert" />
+    <MESSAGE value="corrections de petits bugs" />
+    <option name="LAST_COMMIT_MESSAGE" value="corrections de petits bugs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1264,20 +1288,6 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.env.dist">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="11" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Comptes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="36" column="44" selection-start-line="36" selection-start-column="44" selection-end-line="36" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1738" />
@@ -1477,29 +1487,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="50" column="7" selection-start-line="50" selection-start-column="7" selection-end-line="50" selection-end-column="7" />
-          <folding>
-            <element signature="e#114#162#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="408" column="44" selection-start-line="408" selection-start-column="44" selection-end-line="408" selection-end-column="44" />
-          <folding>
-            <element signature="e#3550#3584#0#PHP" expanded="true" />
-            <element signature="e#3840#3874#0#PHP" expanded="true" />
-            <element signature="e#13380#13422#0#PHP" expanded="true" />
-            <element signature="e#16331#16372#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -1511,13 +1498,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-884">
-          <caret line="25" column="27" selection-start-line="25" selection-start-column="27" selection-end-line="25" selection-end-column="27" />
         </state>
       </provider>
     </entry>
@@ -1563,8 +1543,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Utils/GenererCompta.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="243" column="32" selection-start-line="243" selection-start-column="32" selection-end-line="243" selection-end-column="32" />
+        <state relative-caret-position="306">
+          <caret line="248" column="32" selection-start-line="248" selection-start-column="32" selection-end-line="248" selection-end-column="32" />
         </state>
       </provider>
     </entry>
@@ -1572,13 +1552,6 @@
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/warisso.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="95" column="47" selection-start-line="94" selection-start-column="8" selection-end-line="95" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -1597,17 +1570,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/warisso.js">
+    <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="189" selection-start-line="189" selection-end-line="189" />
+        <state relative-caret-position="224">
+          <caret line="111" column="5" selection-start-line="111" selection-start-column="5" selection-end-line="111" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/SystemElectLigneInventaires.php">
+    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
+        <state relative-caret-position="6256">
+          <caret line="408" selection-start-line="408" selection-end-line="408" />
+          <folding>
+            <element signature="e#3550#3584#0#PHP" expanded="true" />
+            <element signature="e#3840#3874#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/warisso.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2210">
+          <caret column="15785" selection-start-column="15785" selection-end-column="15785" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/warisso.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="95" column="47" selection-start-line="94" selection-start-column="8" selection-end-line="95" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Users/Public/Documents/iSkysoft/CreatorTemp/fz3temp-2/dm.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadComptes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="46">
+          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="80" column="14" selection-start-line="80" selection-start-column="14" selection-end-line="80" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="184" column="36" lean-forward="true" selection-start-line="184" selection-start-column="36" selection-end-line="184" selection-end-column="36" />
+          <folding>
+            <element signature="e#114#162#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

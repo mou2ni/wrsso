@@ -176,13 +176,11 @@ class JourneeCaisses
 
     /**
      * @ORM\Column(type="bigint")
-     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mIntercaisseSortants=0;
 
     /**
      * @ORM\Column(type="bigint")
-     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mIntercaisseEntrants=0;
 

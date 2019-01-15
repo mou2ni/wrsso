@@ -77,7 +77,7 @@ class TransfertInternationauxController extends Controller
         $form = ($envoi)?$this->createForm(EmissionsType::class, $this->journeeCaisse):$this->createForm(ReceptionsType::class, $this->journeeCaisse);
         $form->handleRequest($request);
         //dump($form);die();
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() ) {
             //dump($this->journeeCaisse);die();
             $em = $this->getDoctrine()->getManager();
             $em->persist($this->journeeCaisse);
