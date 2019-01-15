@@ -575,6 +575,11 @@ class JourneeCaisses
     public function addDetteCredit(DetteCreditDivers $detteCreditDiver)
     {
         $this->detteCredits->add($detteCreditDiver);
+        if($this->getStatut()==$this::ENCOURS){
+            ($detteCreditDiver->getMDette())
+                ?$this->updateM('mDetteDiversFerm',$detteCreditDiver->getMDette())
+                :$this->updateM('mCreditDiversFerm',$detteCreditDiver->getMCredit());
+        }
         $detteCreditDiver->setJourneeCaisseActive($this);
         $detteCreditDiver->setJourneeCaisseCreation($this);
 

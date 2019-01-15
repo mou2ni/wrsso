@@ -12,10 +12,14 @@
     <tr>
     <td></td>
     <th>Totaux </th>
-        {% if operation == 'OUVRIR' %}<th>{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ') }}</th>
+        {#{% if operation == 'OUVRIR' %}<th>{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ') }}</th>
             <th>{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ') }}</th>{% else %}
             <th>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ') }}</th>
-            <th>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</th>{% endif %}
+            <th>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</th>{% endif %}#}
+
+
+            <th>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ') }}</th>
+            <th>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</th>
     </tr>
     {% for dette_credit_diver in journeeCaisse.detteCredits %}
         {% if dette_credit_diver.statut in ['C','D'] %}
@@ -26,7 +30,7 @@
             <td>{{ dette_credit_diver.mCredit|number_format(0, '.', ' ') }}</td>
             <td>{{ dette_credit_diver.mDette|number_format(0, '.', ' ') }}</td>
             <td>
-                {{ include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser'}) }}
+                {{ include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'}) }}
             </td>
         </tr>
         {% endif %}

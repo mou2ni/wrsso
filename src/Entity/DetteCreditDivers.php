@@ -93,9 +93,10 @@ class DetteCreditDivers
 
     /**
      * @ORM\Column(type="float")
-     */ //     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
-
+     */
     private $mDette;
+
+    private $mSaisie;
 
     /**
      * DetteCreditDivers constructor.
@@ -190,13 +191,13 @@ class DetteCreditDivers
         return $this->mCredit;
     }
 
-    /**
+    /*
      * @param mixed $mCredit
-     */
+
     public function setMCredit($mCredit)
     {
         $this->mCredit = $mCredit;
-    }
+    }*/
 
     /**
      * @return mixed
@@ -206,13 +207,13 @@ class DetteCreditDivers
         return $this->mDette;
     }
 
-    /**
+    /*
      * @param mixed $mDette
-     */
+
     public function setMDette($mDette)
     {
         $this->mDette = $mDette;
-    }
+    }*/
 
     /**
      * @return mixed
@@ -354,6 +355,25 @@ class DetteCreditDivers
     public function setJourneeCaisseActive($journeeCaisseActive)
     {
         $this->journeeCaisseActive = $journeeCaisseActive;
+        return $this;
+    }
+
+    /*
+     * @return mixed
+
+    public function getMSaisie()
+    {
+        return $this->mSaisie;
+    }*/
+
+    /**
+     * @param mixed $mSaisie
+     * @return DetteCreditDivers
+     */
+    public function setMSaisie($mSaisie)
+    {
+        ($mSaisie>0)?$this->mDette=$mSaisie:$this->mCredit=$mSaisie;
+        $this->mSaisie = $mSaisie;
         return $this;
     }
 
