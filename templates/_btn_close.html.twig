@@ -1,1 +1,1 @@
-<button type="button" id="close" name="close" class="btn-cancel" onclick="window.history.back()" >QUITTER </button>
+<button type="button" id="close" name="close" class="{{ btn_class|default("btn-cancel") }}" onclick="window.history.back()" >{{ btn_label|default("QUITTER") }} </button>

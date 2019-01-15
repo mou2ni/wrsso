@@ -33,13 +33,13 @@
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'dette_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes'}) }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'credit_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >INTERCAISSE : </td>
@@ -139,7 +139,7 @@
         </table>
     </div>
     <div class="form-group">
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_fermer' , 'operation':'FERMER','btn_name':'submit', 'btn_label':'Arreter la Caisse', 'btn_class':'btn btn-info btn-block'}) }}
+        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_veriferFerm' , 'operation':'FERMER','btn_name':'submit', 'btn_label':'Arreter la Caisse', 'btn_class':'btn btn-info btn-block'}) }}
     </div>
 </div>
 

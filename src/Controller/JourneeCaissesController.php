@@ -142,9 +142,9 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/fermeture", name="journee_caisses_fermer", methods="POST")
+     * @Route("/verifFerm", name="journee_caisses_veriferFerm", methods="POST")
      */
-    public function fermer(Request $request)
+    public function verifierFermeture(Request $request)
     {
         if (!$this->journeeCaisse){
             $this->addFlash('error', 'ERREUR D\'ENREGISTREMENT RENCONTREE. RECOMMENCEZ !!!');
@@ -168,36 +168,48 @@ class JourneeCaissesController extends Controller
         $this->addFlash('success', 'VERIFICATION DES INTERCAISSES DEVISES SORTANTS');
         if (!$this->verifierDeviseIntercaisses($this->journeeCaisse->getDeviseIntercaisseSortants())) return $this->redirectToRoute('devise_intercaisses_gestion');
 
+        return $this->render('journee_caisses/verifierFermeture.html.twig', ['journeeCaisse'=>$this->journeeCaisse]);
+    }
 
-        $em=$this->getDoctrine()->getManager();
-        //comptabiliser l'écart de caisse
-        $genererCompta=new GenererCompta($em);
-        if ($this->journeeCaisse->getCompense()!=0){
-            if ($genererCompta->genComptaCompense($this->utilisateur,$this->caisse,$this->journeeCaisse->getCompense())){
-                $this->addFlash('success', 'COMPTABILISATION COMPENSES ==> OK');
-            }else $this->addFlash('error', 'COMPTABILISATION COMPENSES ==> ECHEC');
+    /**
+     * @Route("/fermeture", name="journee_caisses_fermer", methods="FERMERCAISSE")
+     */
+    public function fermer(Request $request)
+    {
+        if ($request->getMethod()=='FERMERCAISSE'){ //Action sur la confirmation de la fermeture de caisse
+
+            $em=$this->getDoctrine()->getManager();
+
+            //sécuriser l'opération avec un token
+            if ($this->isCsrfTokenValid('fermer'.$this->journeeCaisse->getId(), $request->request->get('_token'))) {
+                //comptabiliser l'écart de caisse
+                $genererCompta=new GenererCompta($em);
+                if ($this->journeeCaisse->getCompense()!=0){
+                    if ($genererCompta->genComptaCompense($this->utilisateur,$this->caisse,$this->journeeCaisse->getCompense())){
+                        $this->addFlash('success', 'COMPTABILISATION COMPENSES ==> OK');
+                    }else $this->addFlash('error', 'COMPTABILISATION COMPENSES ==> ECHEC');
+                }
+                if ($this->journeeCaisse->getMEcartFerm()!=0){
+                    if ($genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'ECART DE CAISSE ', $this->journeeCaisse->getMEcartFerm())){
+                        $this->addFlash('success', 'COMPTABILISATION ECART DE CAISSE ==> OK');
+                    }else $this->addFlash('error', 'COMPTABILISATION ECART DE CAISSE ==> ECHEC');
+                }
+                //fermer la caisse
+                $this->journeeCaisse->setDateFerm(new \DateTime());
+                $this->journeeCaisse->setStatut(JourneeCaisses::CLOSE);
+                $em->persist($this->journeeCaisse);
+
+                //initialiser une nouvelle journee
+                if ($this->initJournee($this->caisse,$this->journeeCaisse)){
+                    $this->addFlash('success', 'INITIALISATION JOURNEE SUIVANTE ==> OK');
+                }else $this->addFlash('error', 'INITIALISATION JOURNEE SUIVANTE ==> ECHEC');
+                $em->flush();
+
+                return $this->redirectToRoute('journee_caisses_etat_de_caisse');
+            }
+            $this->addFlash('error', 'APPEL DE FERMETURE INCORRECT. Veuillez reprendre SVP');
         }
-        if ($this->journeeCaisse->getMEcartFerm()!=0){
-            if ($genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'ECART DE CAISSE ', $this->journeeCaisse->getMEcartFerm())){
-                $this->addFlash('success', 'COMPTABILISATION ECART DE CAISSE ==> OK');
-            }else $this->addFlash('error', 'COMPTABILISATION ECART DE CAISSE ==> ECHEC');
-        }
-        //fermer la caisse
-        $this->journeeCaisse->setDateFerm(new \DateTime());
-        $this->journeeCaisse->setStatut(JourneeCaisses::CLOSE);
-        $em->persist($this->journeeCaisse);
-
-        if ($this->initJournee($this->caisse,$this->journeeCaisse)){
-            //$this->messages[]=['code'=>$this::SUCCES, 'message'=>'INITIALISATION JOURNEE SUIVANTE ==> OK'];
-            $this->addFlash('success', 'INITIALISATION JOURNEE SUIVANTE ==> OK');
-        }else $this->addFlash('error', 'INITIALISATION JOURNEE SUIVANTE ==> ECHEC');
-        //$this->messages[]=['code'=>$this::ECHEC, 'message'=>'INITIALISATION JOURNEE SUIVANTE ==> ECHEC'];
-        //$em->persist($jc);
-        $em->flush();
-
-        return $this->redirectToRoute('journee_caisses_etat_de_caisse');
-        //$this->render('journee_caisses/fermeture.html.twig',['messages'=>$this->messages]);
-
+        return $this->redirectToRoute('journee_caisses_gerer');
     }
 
     /**

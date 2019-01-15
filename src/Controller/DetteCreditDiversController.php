@@ -45,8 +45,7 @@ class DetteCreditDiversController extends Controller
     /**
      * @Route("/dettecredits", name="detteCredits_divers", methods="GET|POST|UPDATE")
      */
-    //private function detteCredit(Request $request, $dette = true)
-    private function detteCredit(Request $request)
+    public function detteCredit(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         //$journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
@@ -99,19 +98,19 @@ class DetteCreditDiversController extends Controller
         return $this->render('dette_credit_divers/ajout.html.twig', [
             'journeeCaisse'=>$this->journeeCaisse,
             'form' => $form->createView(),
-            'dette'=>$dette,
-            'operation'=>$operation
+            //'dette'=>$dette,
+            //'operation'=>$operation
         ]);
     }
 
-    /**
+    /*
      * @Route("/ad", name="dette_divers", methods="GET|POST|UPDATE")
      */
     public function dette(Request $request): Response
     {
         return $this->detteCredit($request, true);
     }
-    /**
+    /*
      * @Route("/ac", name="credit_divers", methods="GET|POST|UPDATE")
      */
     public function credit(Request $request): Response
@@ -153,7 +152,8 @@ class DetteCreditDiversController extends Controller
         $em->flush();
         //dump($detteCreditDiver);die();
         //return $this->detteCredit($request, $dette);
-        return ($dette)?$this->redirectToRoute('dette_divers'):$this->redirectToRoute('credit_divers');
+        //return ($dette)?$this->redirectToRoute('dette_divers'):$this->redirectToRoute('credit_divers');
+        return $this->redirectToRoute('detteCredits_divers');
     }
 
     /**

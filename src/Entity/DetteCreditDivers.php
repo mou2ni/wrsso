@@ -191,13 +191,15 @@ class DetteCreditDivers
         return $this->mCredit;
     }
 
-    /*
+    /**
      * @param mixed $mCredit
-
+     * @return DetteCreditDivers
+     */
     public function setMCredit($mCredit)
     {
         $this->mCredit = $mCredit;
-    }*/
+        return $this;
+    }
 
     /**
      * @return mixed
@@ -207,13 +209,14 @@ class DetteCreditDivers
         return $this->mDette;
     }
 
-    /*
+    /**
      * @param mixed $mDette
-
+     * @return DetteCreditDivers
+     */
     public function setMDette($mDette)
     {
         $this->mDette = $mDette;
-    }*/
+    }
 
     /**
      * @return mixed
@@ -358,13 +361,13 @@ class DetteCreditDivers
         return $this;
     }
 
-    /*
+    /**
      * @return mixed
-
+     */
     public function getMSaisie()
     {
         return $this->mSaisie;
-    }*/
+    }
 
     /**
      * @param mixed $mSaisie
@@ -372,7 +375,7 @@ class DetteCreditDivers
      */
     public function setMSaisie($mSaisie)
     {
-        ($mSaisie>0)?$this->mDette=$mSaisie:$this->mCredit=$mSaisie;
+        ($mSaisie>0)?$this->mDette=$mSaisie:$this->mCredit=abs($mSaisie);
         $this->mSaisie = $mSaisie;
         return $this;
     }

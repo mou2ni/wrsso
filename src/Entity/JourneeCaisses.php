@@ -574,9 +574,13 @@ class JourneeCaisses
     {
         $this->detteCredits->add($detteCreditDiver);
         if($this->getStatut()==$this::ENCOURS){
-            ($detteCreditDiver->getMDette())
-                ?$this->updateM('mDetteDiversFerm',$detteCreditDiver->getMDette())
-                :$this->updateM('mCreditDiversFerm',$detteCreditDiver->getMCredit());
+            if($detteCreditDiver->getMSaisie()>0){
+                $this->updateM('mDetteDiversFerm',$detteCreditDiver->getMDette());
+                $detteCreditDiver->setStatut(DetteCreditDivers::DETTE_EN_COUR);
+            }else{
+                $this->updateM('mCreditDiversFerm',$detteCreditDiver->getMCredit());
+                $detteCreditDiver->setStatut(DetteCreditDivers::CREDIT_EN_COUR);
+            }
         }
         $detteCreditDiver->setJourneeCaisseActive($this);
         $detteCreditDiver->setJourneeCaisseCreation($this);
