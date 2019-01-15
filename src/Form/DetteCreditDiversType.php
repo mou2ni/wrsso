@@ -18,8 +18,9 @@ class DetteCreditDiversType extends AbstractType
     {
         $builder
             ->add('libelle')
-            ->add('mDette',NumberType::class,array('grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
-            ->add('mCredit',NumberType::class,array('grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            //->add('mDette',NumberType::class,array('grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            //->add('mCredit',NumberType::class,array('grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            ->add('mSaisie',NumberType::class,array('grouping'=>3,'scale'=>0))
         ;
     }
 

@@ -45,8 +45,7 @@
                 <tr> <td colspan="5">Aucun Enregistrement trouve.</td></tr>
             {% endfor %}
 
-            <tr><th>Total Validé</th><th>{{ totalV|number_format(0, '.', ' ') }}</th></tr>
-            <tr><th>Total encours</th><th>{{ totalE|number_format(0, '.', ' ') }}</th></tr>
+            <tr><th>Total Validé</th><th>{{ (journeeCaisse.mIntercaisses)|number_format(0, '.', ' ') }}</th></tr>
             </tbody>
         </table>
   {#  </form>#}

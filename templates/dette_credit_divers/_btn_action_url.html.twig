@@ -1,4 +1,4 @@
-<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':dette_credit_diver.id})}}" >
+<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':dette_credit_diver.id})}}" onsubmit="return confirm('{{ confirm_message }} ');">
     <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="_operation" value="{{ operation }}">
     <input type="hidden" name="_token" value="{{ csrf_token('action' ~ dette_credit_diver.id)}}">
