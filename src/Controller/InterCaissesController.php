@@ -332,8 +332,8 @@ class InterCaissesController extends Controller
 
     private function valider(InterCaisses $interCaisse, $statut=InterCaisses::VALIDE){
         $interCaisse->setStatut($statut);
-        $interCaisse->getJourneeCaisseSortant()->updateM('mIntercaisseSortants', $interCaisse->getMIntercaisse());
-        $interCaisse->getJourneeCaisseEntrant()->updateM('mIntercaisseEntrants', $interCaisse->getMIntercaisse());
+        $interCaisse->getJourneeCaisseEntrant()->updateM('mIntercaisses', $interCaisse->getMIntercaisse());
+        $interCaisse->getJourneeCaisseSortant()->updateM('mIntercaisses', -$interCaisse->getMIntercaisse());
         $genCompta=new GenererCompta($this->getDoctrine()->getManager());
         $genCompta->genComptaIntercaisse($this->utilisateur,$interCaisse->getJourneeCaisseEntrant()->getCaisse(), $interCaisse->getJourneeCaisseSortant()->getCaisse(),$interCaisse->getMIntercaisse());
 

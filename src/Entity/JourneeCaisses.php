@@ -174,16 +174,16 @@ class JourneeCaisses
      */
     private $mIntercaisses=0;
 
-    /**
+    /*
      * @ORM\Column(type="bigint")
-     */
+
     private $mIntercaisseSortants=0;
-
-    /**
+*/
+    /*
      * @ORM\Column(type="bigint")
-     */
-    private $mIntercaisseEntrants=0;
 
+    private $mIntercaisseEntrants=0;
+*/
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisse", cascade={"persist"})
@@ -328,7 +328,7 @@ class JourneeCaisses
     public function updateMEcarts(){
         $this->setMEcarts();
         $this->setMLiquiditeOuv($this->billetOuv->getValeurTotal());
-        $this->setMIntercaisses($this->getmIntercaisseEntrants()-$this->getmIntercaisseSortants());
+        //$this->setMIntercaisses($this->getmIntercaisseEntrants()-$this->getmIntercaisseSortants());
     }
 
     /**
@@ -384,8 +384,8 @@ class JourneeCaisses
     public function getMouvementFond(){
         return
             + $this->getMCvd()
-            + $this->getMIntercaisseEntrants()
-            - $this->getMIntercaisseSortants()
+            + $this->getMIntercaisses()
+            //- $this->getMIntercaisseSortants()
             + $this->getMDepotClient()
             - $this->getMRetraitClient()
             ;
@@ -1305,42 +1305,42 @@ class JourneeCaisses
         return $this;
     }
 
-    /**
+    /*
      * @return mixed
-     */
+
     public function getMIntercaisseSortants()
     {
         return $this->mIntercaisseSortants;
-    }
+    }*/
 
-    /**
+    /*
      * @param mixed $mIntercaisseSortants
      * @return JourneeCaisses
-     */
+
     public function setMIntercaisseSortants($mIntercaisseSortants)
     {
         $this->mIntercaisseSortants = $mIntercaisseSortants;
         return $this;
     }
-
-    /**
+*/
+    /*
      * @return mixed
-     */
+
     public function getMIntercaisseEntrants()
     {
         return $this->mIntercaisseEntrants;
     }
-
-    /**
+*/
+    /*
      * @param mixed $mIntercaisseEntrants
      * @return JourneeCaisses
-     */
+
     public function setMIntercaisseEntrants($mIntercaisseEntrants)
     {
         $this->mIntercaisseEntrants = $mIntercaisseEntrants;
         return $this;
     }
-
+*/
 
 
     public function getTotalDepot(){
