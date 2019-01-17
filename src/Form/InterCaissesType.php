@@ -17,6 +17,8 @@ class InterCaissesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $dateComptable=$options['dateComptable'];
+        $myJournee=$options['myJournee'];
         $builder
             //->add('sortant', CheckboxType::class, ['label'=>' ', 'required'=>false])
             //->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
@@ -37,8 +39,8 @@ class InterCaissesType extends AbstractType
                 'choice_label' => 'journeeCaisse',
                 'multiple' => false,
                 'expanded'=>false,
-                'query_builder' => function(JourneeCaissesRepository $repository) {
-                    return $repository->getOpenJourneeCaisseQb();
+                'query_builder' => function(JourneeCaissesRepository $repository) use ($dateComptable,$myJournee) {
+                    return $repository->getOpenJourneeCaisseQb($dateComptable,$myJournee);
                 }
             ))
             //->add('journeeCaisseEntrant'/*, ChoiceType::class, array('placeholder' => 'Choisir la caisse')*/)
@@ -50,5 +52,7 @@ class InterCaissesType extends AbstractType
         $resolver->setDefaults([
             'data_class' => InterCaisses::class,
         ]);
+        $resolver->setRequired(['dateComptable']);
+        $resolver->setRequired(['myJournee']);
     }
 }

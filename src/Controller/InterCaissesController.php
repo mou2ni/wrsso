@@ -63,7 +63,7 @@ class InterCaissesController extends Controller
         $interCaiss = new InterCaisses();
         //$interCaiss->setJourneeCaisseEntrant($this->journeeCaisse)->setStatut($interCaiss::INITIE);
         $interCaiss->setStatut($interCaiss::INITIE);
-        $form = $this->createForm(InterCaissesType::class, $interCaiss);
+        $form = $this->createForm(InterCaissesType::class, $interCaiss,['dateComptable'=>$this->journeeCaisse->getDateComptable(),'myJournee'=>$this->journeeCaisse]);
         $form->handleRequest($request);
         //$this->totalInterCaisse($this->journeeCaisses);
         //$this->journeeCaisses->setMIntercaisses($this->totalE-$this->totalR);

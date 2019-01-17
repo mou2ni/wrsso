@@ -22,15 +22,17 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         parent::__construct($registry, JourneeCaisses::class);
     }
 
-    public function getOpenJourneeCaisseQb()
+    public function getOpenJourneeCaisseQb($dateComptable, $myJournee)
     {
         $qb=$this->createQueryBuilder('jc');
         return $qb->addSelect('c')
             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
             ->where('jc.statut=:statut')
             ->andWhere('jc.dateComptable=:dateComptable')
+            ->andWhere('jc!=:myJournee')
             ->setParameter('statut',JourneeCaisses::ENCOURS)
-            ->setParameter('dateComptable',GenererCompta::getDateComptable()->format('Y-m-d'))
+            ->setParameter('dateComptable',$dateComptable)
+            ->setParameter('myJournee',$myJournee)
             ;
 
     }
