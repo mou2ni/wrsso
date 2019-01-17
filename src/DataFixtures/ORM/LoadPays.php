@@ -29,11 +29,20 @@ class LoadPays extends Fixture
             array('libelle'=>'Benin', 'zone'=>'UEMOA', 'dansRegion'=>true),
             array('libelle'=>'Togo', 'zone'=>'UEMOA', 'dansRegion'=>true),
             array('libelle'=>'Sénégal', 'zone'=>'UEMOA', 'dansRegion'=>true),
+            //autres CEDEAO
+            array('libelle'=>'Ghana', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
+            array('libelle'=>'Guinée Conakry', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
+            array('libelle'=>'Nigeria', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
+            array('libelle'=>'Liberia', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
+            array('libelle'=>'Gambie', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
+            array('libelle'=>'Serra Leone', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
+            array('libelle'=>'Cap Vert', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
             ////////CEMAC/////
             array('libelle'=>'Cameroun', 'zone'=>'CEMAC', 'dansRegion'=>false),
             array('libelle'=>'République Centrafricaine', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'République du Congo', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'Congo', 'zone'=>'CEMAC', 'dansRegion'=>false),
+            array('libelle'=>'Congo - RDC', 'zone'=>'CEMAC', 'dansRegion'=>false),
+            array('libelle'=>'Congo Brazza', 'zone'=>'CEMAC', 'dansRegion'=>false),
+            array('libelle'=>'Gabon', 'zone'=>'CEMAC', 'dansRegion'=>false),
             array('libelle'=>'Tchad', 'zone'=>'CEMAC', 'dansRegion'=>false),
             array('libelle'=>'Guinée Equatoriale', 'zone'=>'CEMAC', 'dansRegion'=>false),
             /////////////MAGHREB/////////////
@@ -41,7 +50,7 @@ class LoadPays extends Fixture
             array('libelle'=>'Algerie', 'zone'=>'MAGHREB', 'dansRegion'=>false),
             array('libelle'=>'Maroc', 'zone'=>'MAGHREB', 'dansRegion'=>false),
             ////////////Afrique du Sud//////////
-            array('libelle'=>'Afrique du Sud', 'zone'=>'Afrique du Sud', 'dansRegion'=>false),
+            array('libelle'=>'Afrique du Sud', 'zone'=>'AFRIQUE DU SUD', 'dansRegion'=>false),
             ////////USA///////////////
             array('libelle'=>'USA', 'zone'=>'USA', 'dansRegion'=>false),
             ///////////EUROPE/////////////
@@ -56,13 +65,13 @@ class LoadPays extends Fixture
             array('libelle'=>'Allemagne', 'zone'=>'EUROPE', 'dansRegion'=>false),
             array('libelle'=>'Danemark', 'zone'=>'EUROPE', 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'INDE', 'zone'=>'INDE', 'dansRegion'=>false),
+            array('libelle'=>'Inde', 'zone'=>'INDE', 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'CHINE', 'zone'=>'CHINE', 'dansRegion'=>false),
+            array('libelle'=>'Chine', 'zone'=>'CHINE', 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'BRESIL', 'zone'=>'BRESIL', 'dansRegion'=>false),
+            array('libelle'=>'Bresil', 'zone'=>'BRESIL', 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'AUTRES', 'zone'=>'AUTRES', 'dansRegion'=>false),
+            array('libelle'=>'XAutres', 'zone'=>'AUTRES', 'dansRegion'=>false),
 
 
         );

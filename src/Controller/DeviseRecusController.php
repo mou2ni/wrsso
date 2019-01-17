@@ -76,7 +76,7 @@ class DeviseRecusController extends Controller
                 $em->persist($deviseRecus);
                 $em->flush();
                 $genCompta=new GenererCompta($em);
-                $genCompta->genComptaCvDevise($this->utilisateur,$this->caisse,$deviseRecus->getCvdRecu());
+                $genCompta->genComptaCvDevise($this->utilisateur,$this->caisse,$deviseRecus->getCvdRecu(),$this->journeeCaisse);
 
                 if ($save_and_print) {
                     return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(),'journeeCaisse'=>$journeeCaisse, 'copies'=>[$this::COPIE1,$this::COPIE2]]);

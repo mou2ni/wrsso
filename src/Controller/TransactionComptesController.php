@@ -69,7 +69,7 @@ class TransactionComptesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depot->getNumCompte()]);
             //dump($journeeCaisses->getUtilisateur()->getLogin());die();
-            $transaction = $genererCompta->genComptaDepot($this->journeeCaisse,$this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit());
+            $transaction = $genererCompta->genComptaDepot($this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $depot->getLibele(), $depot->getMCredit(), $this->journeeCaisse);
             if(!$transaction) {
 
                 //dump($genererCompta->getE()===2);die();
@@ -132,7 +132,7 @@ class TransactionComptesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             //dump($retrait);die();
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
-            if(!$genererCompta->genComptaRetrait($this->journeeCaisse, $this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit()))
+            if(!$genererCompta->genComptaRetrait($this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit(),$this->journeeCaisse))
             {
                 //dump($genererCompta->getE()===2);die();
                 switch ($genererCompta->getE()){

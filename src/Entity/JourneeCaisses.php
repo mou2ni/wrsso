@@ -10,6 +10,7 @@ namespace App\Entity;
 
 
 
+use App\Utils\GenererCompta;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
@@ -63,6 +64,11 @@ class JourneeCaisses
      * @ORM\Column(type="datetime")
      */
     private $dateOuv;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateComptable;
 
 
     /**
@@ -690,6 +696,7 @@ class JourneeCaisses
         if ($statut==$this::ENCOURS ) {
             $this->caisse->setLastJournee($this);
             $this->caisse->setStatut(Caisses::OUVERT);
+            $this->setDateComptable(GenererCompta::getDateComptable());
         }else{
             $this->caisse->setStatut(Caisses::FERME);
         }
@@ -1400,5 +1407,25 @@ class JourneeCaisses
         $this->sensTransfert = $sensTransfert;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDateComptable()
+    {
+        return $this->dateComptable;
+    }
+
+    /**
+     * @param mixed $dateComptable
+     * @return JourneeCaisses
+     */
+    public function setDateComptable($dateComptable)
+    {
+        $this->dateComptable = $dateComptable;
+        return $this;
+    }
+
+
 
 }

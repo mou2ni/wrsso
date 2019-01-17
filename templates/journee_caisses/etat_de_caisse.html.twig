@@ -7,12 +7,12 @@
         <form method="post" action="{{ path('journee_caisses_etat_de_caisse') }}">
         {#{{ form(form) }}
         {{ form_start(form) }}
-#}
-        Caisse : {{ form_widget(form.caisse) }}
+
+        Caisse : {{ form_widget(form.caisse) }}#}
         Du : <input type="date" id="form_dateDeb" name="dateDeb"  class="form-control" value="">
         Au : <input type="date" id="form_dateFin" name="dateFin"  class="form-control" value="">
-        <button class="btn-primary btn" name="modifier" > Changer</button>
-
+        {#<button class="btn-primary btn" name="modifier" > Changer</button>
+            #}
         </form>
         {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
         {#{{ form_end(form) }}<div >{{ form_rest(form) }}</div>

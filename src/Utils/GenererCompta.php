@@ -18,6 +18,7 @@ use App\Entity\Utilisateurs;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
 class GenererCompta
@@ -100,16 +101,20 @@ class GenererCompta
         return $mouvement;
     }
 
-    private function initTransaction(Utilisateurs $utilisateur, $libelle, $montant)
+    private function initTransaction(Utilisateurs $utilisateur, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
     {
         $transaction=new Transactions();
+
+        //prend la date comptable de la journée caisse ou la date comptable du jour le cas échéant
+        $dateComptable=($journeeCaisse)?($journeeCaisse->getDateComptable())?$journeeCaisse->getDateComptable():$this::getDateComptable():$this::getDateComptable();
+
         //montant=0 alors ressortir avec ERR_ZERO
         if($montant==0 )
         {
             $this->setE($transaction::ERR_ZERO);
             return false;
         }else{
-            $transaction->setUtilisateur($utilisateur)->setLibelle($libelle)->setDateTransaction( new \DateTime());
+            $transaction->setUtilisateur($utilisateur)->setLibelle($libelle)->setDateTransaction($dateComptable)->setJourneeCaisse($journeeCaisse);
             return $transaction;
         }
 
@@ -161,10 +166,10 @@ class GenererCompta
         return $transaction;
     }
 
-    private function initDepotRetrait(Utilisateurs $utilisateur, $libelle, $montant)
+    private function initDepotRetrait(Utilisateurs $utilisateur, $libelle, $montant, JourneeCaisses $journeeCaisse)
     {
         //initiation et controle des conditions de validité de l'appel
-        $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
 
         if (!$transaction) return false;
 
@@ -181,9 +186,9 @@ class GenererCompta
 
     }
 
-    private function debiterCrediterSigne(Utilisateurs $utilisateur, Comptes $cptDebitSiPositif, Comptes $cptCreditSiPositif, $libelle, $montant)
+    private function debiterCrediterSigne(Utilisateurs $utilisateur, Comptes $cptDebitSiPositif, Comptes $cptCreditSiPositif, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
     {
-        $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
 
         if (!$transaction) return false ;
 
@@ -205,9 +210,9 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaEcart(Utilisateurs $utilisateur, Caisses $caisse, $libelle, $montant)
+    public function genComptaEcart(Utilisateurs $utilisateur, Caisses $caisse, $libelle, $montant, JourneeCaisses $journeeCaisse)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(), $utilisateur->getCompteEcartCaisse(), $libelle.' - '.$utilisateur, $montant ));
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(), $utilisateur->getCompteEcartCaisse(), $libelle.' - '.$utilisateur, $montant,$journeeCaisse ));
         return !$this->getE();
     }
 
@@ -220,9 +225,9 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaDepot( JourneeCaisses $journeeCaisse, Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
+    public function genComptaDepot( Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant,JourneeCaisses $journeeCaisse)
     {
-        $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
+        $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant,$journeeCaisse);
 
         if (!$transaction) {
             //if ($transaction->getE()) {
@@ -246,14 +251,14 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaRetrait(JourneeCaisses $journeeCaisse, Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant)
+    public function genComptaRetrait(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant,JourneeCaisses $journeeCaisse)
     {
 
         if($compteClient->getTypeCompte()==Comptes::INTERNE){
             $this->setE(Transactions::ERR_RETRAIT_COMPTE_INTERNE);
             return false;
         }else{
-            $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant);
+            $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant, $journeeCaisse);
         }
 
         if (!$transaction) {
@@ -283,9 +288,9 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaDepenses(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteCharge, $libelle, $montant)
+    public function genComptaDepenses(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteCharge, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
     {
-        $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
 
         if (!$transaction) return false ;
 
@@ -302,9 +307,9 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaRecettes(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteProduit, $libelle, $montant)
+    public function genComptaRecettes(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteProduit, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
     {
-        $transaction=$this->initTransaction($utilisateur,$libelle,$montant);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
 
         if (!$transaction) return false ;
 
@@ -320,9 +325,9 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, $montant)
+    public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, $montant, JourneeCaisses $journeeCaisse)
     {
-       $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(),$caisse->getCompteAttenteCompense(),'Compense attendue -'.$utilisateur,$montant));
+       $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(),$caisse->getCompteAttenteCompense(),'Compense attendue -'.$utilisateur,$montant,$journeeCaisse));
         return !$this->getE();
     }
 
@@ -387,9 +392,9 @@ class GenererCompta
      * @param $montantTotal
      * @return bool
      */
-    public function genComptaSalaireNet(Utilisateurs $utilisateur, ParamComptables $paramComptable, ArrayCollection $listSalaires, $libelle, $montantTotal)
+    public function genComptaSalaireNet(Utilisateurs $utilisateur, ParamComptables $paramComptable, ArrayCollection $listSalaires, $libelle, $montantTotal, JourneeCaisses $journeeCaisse)
     {
-        $transaction=$this->initTransaction($utilisateur,$libelle,$montantTotal);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montantTotal, $journeeCaisse);
         if ($this->getE()) return false;
 
         if( $montantTotal<0){
@@ -402,5 +407,25 @@ class GenererCompta
 
         $this->transactions->add($this->debiterCrediterMultiple($transaction,$compteMontantDebits, $listSalaires));
         return !$this->getE();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public static function getDateComptable(){
+        $dateComptable=new \DateTime();
+        $jourSemaine=$dateComptable->format('N');
+
+        //retourne la date du jour ou la date de vendredi si Samedi ou dimanche
+        if ($jourSemaine == 6)  {
+            $unjour=new \DateInterval('P1D');
+            $dateComptable=$dateComptable->sub($unjour);
+        }
+        if ($jourSemaine == 7)  {
+            $deuxjours=new \DateInterval('P2D');
+            $dateComptable=$dateComptable->sub($deuxjours);
+        }
+
+        return $dateComptable;
     }
 }

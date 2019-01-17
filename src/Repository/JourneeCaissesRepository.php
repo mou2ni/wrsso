@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
 use App\Entity\Utilisateurs;
+use App\Utils\GenererCompta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -27,7 +28,9 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         return $qb->addSelect('c')
             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
             ->where('jc.statut=:statut')
+            ->andWhere('jc.dateComptable=:dateComptable')
             ->setParameter('statut',JourneeCaisses::ENCOURS)
+            ->setParameter('dateComptable',GenererCompta::getDateComptable()->format('Y-m-d'))
             ;
 
     }
