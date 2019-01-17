@@ -51,8 +51,10 @@ class InterCaissesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => InterCaisses::class,
+            'dateComptable'=>null,
+            'myJournee'=>null,
         ]);
-        $resolver->setRequired(['dateComptable']);
-        $resolver->setRequired(['myJournee']);
+        $resolver->setRequired(['dateComptable','myJournee']);
+        //$resolver->setRequired([]);
     }
 }
