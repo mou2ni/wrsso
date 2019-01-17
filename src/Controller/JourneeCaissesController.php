@@ -127,7 +127,7 @@ class JourneeCaissesController extends Controller
     public function changerCaisse(Request $request): Response
     {
         if($this->journeeCaisse)
-        if($this->journeeCaisse->getStatut()==JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()==JourneeCaisses::ENCOURS && $this->utilisateur->getId()==$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error', 'Caisse toujours ouverte. Fermez la avant de changer de caisse');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
