@@ -68,6 +68,33 @@ class TransfertInternationauxController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/saisieTransfert", name="transfert_internationaux_saisie", methods="GET|POST")
+     */
+    public function saisieTransfert(Request $request, $envoi = true): Response
+    {
+        $em =$this->getDoctrine();
+        ($envoi)?$this->journeeCaisse->setSensTransfert(TransfertInternationaux::ENVOI):
+            $this->journeeCaisse->setSensTransfert(TransfertInternationaux::RECEPTION);
+        //dump($this->journeeCaisse->getSensTransfert()); die();
+        $form = ($envoi)?$this->createForm(EmissionsType::class, $this->journeeCaisse):$this->createForm(ReceptionsType::class, $this->journeeCaisse);
+        $form->handleRequest($request);
+        //dump($form);die();
+        if ($form->isSubmitted() && $form->isValid() ) {
+            //dump($this->journeeCaisse);die();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($this->journeeCaisse);
+            $em->flush();
+        }
+
+        return $this->render('transfert_internationaux/ajout.html.twig', [
+            'form' => $form->createView(),
+            'operation'=>'',
+            'envoi'=>$envoi,
+            'journeeCaisse'=>$this->journeeCaisse
+        ]);
+    }
+
     private function ajout(Request $request, $envoi = true): Response
     {
         $em =$this->getDoctrine();

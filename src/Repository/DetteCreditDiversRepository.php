@@ -31,13 +31,24 @@ class DetteCreditDiversRepository extends EntityRepository
         }
     }
 
-    public function getDettesCreditsEncours(JourneeCaisses $journeeCaisseActive){
+    public function getDettesEncours(JourneeCaisses $journeeCaisseActive){
         $qb = $this->createQueryBuilder('dc');
         
         return $qb
             ->where($qb->expr()->eq('dc.journeeCaisseActive', ':journeeCaisseActive'))
-            ->andWhere($qb->expr()->orX($qb->expr()->eq('dc.statut', ':credit'), $qb->expr()->eq('dc.statut', ':dette')))
-            ->setParameters(['journeeCaisseActive' => $journeeCaisseActive, 'credit' => DetteCreditDivers::CREDIT_EN_COUR, 'dette' => DetteCreditDivers::DETTE_EN_COUR])
+            ->andWhere($qb->expr()->eq('dc.statut', ':dette'))
+            ->setParameters(['journeeCaisseActive' => $journeeCaisseActive, 'dette' => DetteCreditDivers::DETTE_EN_COUR])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getCreditsEncours(JourneeCaisses $journeeCaisseActive){
+        $qb = $this->createQueryBuilder('dc');
+
+        return $qb
+            ->where($qb->expr()->eq('dc.journeeCaisseActive', ':journeeCaisseActive'))
+            ->andWhere($qb->expr()->eq('dc.statut', ':credit'))
+            ->setParameters(['journeeCaisseActive' => $journeeCaisseActive, 'credit' => DetteCreditDivers::CREDIT_EN_COUR])
             ->getQuery()
             ->getResult();
     }

@@ -48,36 +48,12 @@ class DetteCreditDiversController extends Controller
     public function detteCredit(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        //$journeeCaisse = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
         $detteCredit = new DetteCreditDivers($this->journeeCaisse);
-        //$form = ($dette)?$this->createForm(DetteType::class, $detteCredit):$this->createForm(CreditType::class, $detteCredit);
         $form = $this->createForm(DetteCreditDiversType::class, $detteCredit);
         $form->handleRequest($request);
 
         //dump($form);die();
-        //$operation = $request->request->get('_operation');
         if ($form->isSubmitted() && $form->isValid()) {
-            /*$operation = $request->request->get('_operation');
-            $this->journeeCaisse->addDetteCredit($detteCredit);
-            if($operation=="OUVRIR"){
-                ($dette)?$this->journeeCaisse->updateM('mDetteDiversOuv',$detteCredit->getMDette()):
-                    $this->journeeCaisse->updateM('mCreditDiversOuv',$detteCredit->getMCredit());
-            }
-            else{
-                ($dette)?$this->journeeCaisse->updateM('mDetteDiversFerm',$detteCredit->getMDette()):
-                    $this->journeeCaisse->updateM('mCreditDiversFerm',$detteCredit->getMCredit());
-            }
-            ($dette)?$detteCredit->setStatut(DetteCreditDivers::DETTE_EN_COUR):$detteCredit->setStatut(DetteCreditDivers::CREDIT_EN_COUR);
-            $this->journeeCaisse->addDetteCredit($detteCredit);*/
-
-            /*
-            if($detteCredit->getMSaisie()>0){
-                $detteCredit->setMDette($detteCredit->getMSaisie());
-                $this->journeeCaisse->updateM('mDetteDiversFerm',$detteCredit->getMDette());
-            }else{
-                $detteCredit->setMCredit($detteCredit->getMSaisie());
-                $this->journeeCaisse->updateM('mCreditDiversFerm',$detteCredit->getMCredit());
-            }*/
             
             $this->journeeCaisse->addDetteCredit($detteCredit);
 
@@ -95,11 +71,15 @@ class DetteCreditDiversController extends Controller
 
         }
 
+        $myDettes=$this->getDoctrine()->getRepository(DetteCreditDivers::class)->getDettesEncours($this->journeeCaisse);
+        $myCredits=$this->getDoctrine()->getRepository(DetteCreditDivers::class)->getCreditsEncours($this->journeeCaisse);
+
+
         return $this->render('dette_credit_divers/ajout.html.twig', [
             'journeeCaisse'=>$this->journeeCaisse,
             'form' => $form->createView(),
-            //'dette'=>$dette,
-            //'operation'=>$operation
+            'myDettes'=>$myDettes,
+            'myCredits'=>$myCredits,
         ]);
     }
 
@@ -119,13 +99,13 @@ class DetteCreditDiversController extends Controller
     }
 
     /**
-     * @Route("/rembourser/{id}", name="dette_credit_divers_rembourser", methods="GET|POST")
+     * @Route("/{id}/rembourser", name="dette_credit_divers_rembourser", methods="GET|POST")
      */
     public function rembourser(Request $request, DetteCreditDivers $detteCreditDiver): Response
     {
 
         $em = $this->getDoctrine()->getManager();
-        $dette = true;
+        //$dette = true;
         if ($detteCreditDiver->getStatut()==DetteCreditDivers::DETTE_EN_COUR){
             $detteCreditDiver->setMCredit($detteCreditDiver->getMDette());
             //$detteCreditDiver->getJourneeCaisse()->setMDetteDiversFerm($detteCreditDiver->getJourneeCaisse()->getMDetteDiversFerm()-$detteCreditDiver->getMDette());
