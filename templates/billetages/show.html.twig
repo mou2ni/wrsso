@@ -4,8 +4,31 @@
 
 {% block body %}
     <h1>Billetages</h1>
+    <table onchange="majBilletage()">
+        <thead>
+        <tr><th class="text-bold padding-0 text-left" bgcolor="#f69f00"> Date</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"> {{ billetage.dateBillettage.format('d-m-Y H:i:s') }}</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"> TOTAL</th> {#<td><input  id="billetages_valeurTotal"  name="billetages_valeurTotal" required="required" class="form-control" value="" > </td>#}</tr>
+        <tr>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">VALEUR</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">NOMBRE</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#ffb2a8">{{ billetage.valeurTotal }}</th></tr>
+        </thead>
+        <tbody>
+        {% set i=0 %}
+        {% for bl in billetage.billetageLignes %}
+            <tr class="">
+                <td>{{ bl.valeurBillet }}</td>
+                <td>{{ bl.nbBillet }}</td>
+                <td>{{ bl.valeurLigne }}</td>
+                {#<td><input  id="billetages_billetageLignes_{{i}}_valeurLigne"  name="[valeurLigne][{{ i }}]" required="required" class="form-control" value="" type="text"></td>
+                #}</tr>
+            {% set i=i+1 %}
+        {% endfor %}
+        </tbody>
+    </table>
 
-    <table class="table">
+    {#<table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -52,7 +75,7 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+    </table>#}
 
     {{ include('billetages/_delete_form.html.twig') }}
 {% endblock %}

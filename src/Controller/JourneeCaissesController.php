@@ -361,6 +361,15 @@ class JourneeCaissesController extends Controller
     }
 
     /**
+     * @Route("/{id}", name="journee_caisse_show", methods="GET")
+     */
+    public function show(JourneeCaisses $journeeCaisse): Response
+    {
+        return $this->render('journee_caisses/show.html.twig', ['journeeCaisse' => $journeeCaisse]);
+    }
+
+
+    /**
      * @param Source|null $source
      * @param array $options
      * @return GridBuilder

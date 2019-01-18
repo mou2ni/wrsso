@@ -35,18 +35,7 @@ class DeviseJourneesRepository extends ServiceEntityRepository
         $dateFin = $dateFin->format('Y/m/d');
         //dump($dateFin);die();
         $em = $this->getEntityManager();
-        $req="SELECT CAST(jc.date_ferm as date) as dt,
-dev.code as devise,
-SUM(d.qte_ouv) as ouverture,
-SUM(d.qte_ferm) as fermeture,
-dev.tx_vente as taux,
-d.qte_vente * tx_vente - d.qte_achat * tx_achat as VA,
-  SUM(d.qte_vente * tx_vente - d.qte_achat * tx_achat) as cummul,
-  d.qte_ferm * dev.tx_vente + SUM(d.qte_vente - d.qte_achat) as marge
-FROM devisejournees d, journeecaisses jc, devises dev
-WHERE d.idJourneeCaisse=jc.id AND d.devise_id=dev.id AND date_ferm >= '$dateDeb' AND date_ferm <= '$dateFin'
-GROUP BY cast(date_ouv as date),devise
-ORDER BY CAST(date_ouv as date) ASC";
+        $req="SELECT CAST(jc.date_ferm as date) as dt, dev.code as devise, SUM(d.qte_ouv) as ouverture, SUM(d.qte_ferm) as fermeture, dev.tx_vente as taux, d.qte_vente * tx_vente - d.qte_achat * tx_achat as VA, SUM(d.qte_vente * tx_vente - d.qte_achat * tx_achat) as cummul, d.qte_ferm * dev.tx_vente + SUM(d.qte_vente - d.qte_achat) as marge FROM devisejournees d, journeecaisses jc, devises dev WHERE d.idJourneeCaisse=jc.id AND d.devise_id=dev.id AND date_ferm >= '$dateDeb' AND date_ferm <= '$dateFin' GROUP BY cast(date_ouv as date),devise ORDER BY CAST(date_ouv as date) ASC";
         try {
 
             $stmt = $em->getConnection()->prepare($req);

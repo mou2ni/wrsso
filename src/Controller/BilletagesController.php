@@ -172,12 +172,14 @@ class BilletagesController extends Controller
      */
     public function show(Billetages $billetage): Response
     {
-        $billetageLignes = $this->getDoctrine()
+        /*$billetageLignes = $this->getDoctrine()
             ->getRepository(BilletageLignes::class)
-            ->findBy(['idBilletage' => $billetage]);
+            ->findBy(['idBilletage' => $billetage]);*/
+        $billetageLignes = $billetage->getBilletageLignes();
         return $this->render('billetages/show.html.twig', [
-            'billetage' => $billetage,
-            'billetage_lignes' => $billetageLignes]);
+            'billetage' => $billetage
+            ,'billetage_lignes' => $billetageLignes
+        ]);
     }
     /**
      * @Route("/{id}", name="billetages_delete", methods="DELETE")

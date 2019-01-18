@@ -3,88 +3,252 @@
 {% block title %}JourneeCaisses{% endblock %}
 
 {% block body %}
-    <h1>JourneeCaisses</h1>
+    <div class="row text-bold text-center "><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }}</h1>
+
+    </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RUBRIQUE</th>
+                    {#<th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >FERMETURE PRECEDENTE</th>
+                    #}<th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE OUVERTURE</th>
+                    <th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE FERMETURE</th>
+                    <th bgcolor="#a9a9a9" >ACTIONS</th>
+                </tr>
+                </thead>
+                <tbody class="text-thin">
+                <tr>
+                    <td class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >LIQUIDITE : </td>
+                    {#<td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
+                    #}<td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >ELECTRONIQUE : </td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mSoldeElectFerm|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventFerm.id, 'operation':'FERMER', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >INTERCAISSE : </td>
+                    <td class="padding-5 text-right" colspan="2">-</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mIntercaisses|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'intercaisses_ajout' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Intercaisse'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT EMIS : </td>
+                    <td class="padding-5 text-right" colspan="2">-</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_envoi' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Emis'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT PAYE : </td>
+                    <td class="padding-5 text-right" colspan="2">-</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mReceptionTrans|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Reçus'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CONTRE VALEUR DEVISE : </td>
+                    <td class="padding-5 text-right" colspan="2">-</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCvd|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="form-inline padding-0">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_recus_achat_vente' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }} |
+                        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_intercaisses_gestion' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'intercaisse Devises'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DEPOT : </td>
+                    <td class="padding-5 text-right" colspan="2">-</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Dépots'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RETRAIT : </td>
+                    <td class="padding-5 text-right" colspan="2">-</td>
+                    <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</td>
+                    {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'retrait' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Retraits'}) }}</td>
+                    #}</tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" align="center" colspan="6" bgcolor="#a9a9a9"> </td>
+                </tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DISPONIBILITE : </td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.disponibiliteOuv|number_format(0, '.', ' ')  }}</td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right"></td>
+                </tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >SOLDE NET : </td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ')  }}</td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right"></td>
+                </tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >MOUVEMENTS DE FONDS : </td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">-</td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.mouvementFond|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right"></td>
+                </tr>
+                <tr>
+                    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >COMPENSES : </td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">-</td>
+                    <td colspan="2"  class="text-bold padding-5 text-right">{{ journeeCaisse.compense|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right"></td>
+                </tr>
+                <tr>
+                    <td class="text-bold text-bloody-500 padding-5 text-right" bgcolor="#a9a9a9" >ECARTS : </td>
+                    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
+                    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right"></td>
+                </tr>
+                {#<tr>
+                    <td  class="text-bold padding-5 text-right" align="center" colspan="6" bgcolor="#a9a9a9">===================== DEVISES ===================== </td>
+                </tr>#}
+                <tr>
+                    <th  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >Devises </th>
+                    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Ouverture</th>
+                    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Mouvements</th>
+                    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Solde</th>
+                    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Inventaire</th>
+                    <th class="text-bold text-bloody-500 text-center" bgcolor="#a9a9a9" >Ecart</th>
+                </tr>
+                {% for deviseJournee in journeeCaisse.deviseJournees%}
+                    <tr>
+                        <td class="padding-5 text-right text-bold" bgcolor="#a9a9a9" >{{ deviseJournee.devise }}</td>
+                        <td class="padding-5 text-right">{{ deviseJournee.qteOuv|number_format(0, '.', ' ') }}</td>
+                        <td class="padding-5 text-right">{{ deviseJournee.qteMouvement|number_format(0, '.', ' ') }}</td>
+                        <td class="padding-5 text-right">{{ deviseJournee.solde|number_format(0, '.', ' ') }}</td>
+                        <td class="padding-5 text-right">{{ deviseJournee.qteFerm|number_format(0, '.', ' ') }}</td>
+                        {#<td class="text-bold text-bloody-500 padding-0 text-right"><div class="form-inline">
+                                {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.billetFerm.id, 'operation':'deviseFerm', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
+                                {{ deviseJournee.ecartFerm|number_format(0, '.', ' ') }}
+                            </div></td>
+                        #}</tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {#<div class="form-group">
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_veriferFerm' , 'operation':'FERMER','btn_name':'submit', 'btn_label':'Arreter la Caisse', 'btn_class':'btn btn-info btn-block'}) }}
+        </div>#}
+    </div>
+
+    {#/////////////////////////////////////// MODALS ///////////////////////////////////////#}
+
+    <div class="modal fade" id="achat-vente-devise" tabindex="-1" role="dialog" aria-labelledby="modal-default-header" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="icon-cross"></span></button>
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-large-header">Achat Vente Devise</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Vestibulum eget risus id ante semper sodales vel sed nibh. Nullam tortor tellus, vestibulum a laoreet laoreet, lacinia in lorem. Fusce tempor lorem tellus, sed egestas velit ornare et.</p>
+                    <p>Vivamus viverra sem non imperdiet porta. Suspendisse quis dolor varius, gravida felis nec, vulputate sem. Nunc at rhoncus dui. Aenean quis quam diam. Nam fringilla arcu ipsum, vel venenatis tellus aliquam eu. Nam vehicula quis diam vel placerat. Vivamus a congue erat. Ut venenatis libero massa, sed tincidunt nunc ultricies eget. Vestibulum in ultricies sem. Duis ac risus et leo egestas aliquet ac nec ante. Donec varius pharetra tristique.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#<h1>JourneeCaisses</h1>
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ journee_caiss.id }}</td>
+                <td>{{ journee_caisse.id }}</td>
             </tr>
             <tr>
                 <th>DateOuv</th>
-                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caisse.dateOuv ? journee_caisse.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Statut</th>
-                <td>{{ journee_caiss.statut }}</td>
+                <td>{{ journee_caisse.statut }}</td>
             </tr>
             <tr>
                 <th>ValeurBillet</th>
-                <td>{{ journee_caiss.mLiquiditeOuv }}</td>
+                <td>{{ journee_caisse.mLiquiditeOuv }}</td>
             </tr>
             <tr>
                 <th>SoldeElectOuv</th>
-                <td>{{ journee_caiss.mSoldeElectOuv }}</td>
+                <td>{{ journee_caisse.mSoldeElectOuv }}</td>
             </tr>
             <tr>
                 <th>EcartOuv</th>
-                <td>{{ journee_caiss.mEcartOuv }}</td>
+                <td>{{ journee_caisse.mEcartOuv }}</td>
             </tr>
             <tr>
                 <th>MCvd</th>
-                <td>{{ journee_caiss.mCvd }}</td>
+                <td>{{ journee_caisse.mCvd }}</td>
             </tr>
             <tr>
                 <th>MEmissionTrans</th>
-                <td>{{ journee_caiss.mEmissionTrans }}</td>
+                <td>{{ journee_caisse.mEmissionTrans }}</td>
             </tr>
             <tr>
                 <th>MReceptionTrans</th>
-                <td>{{ journee_caiss.mReceptionTrans }}</td>
+                <td>{{ journee_caisse.mReceptionTrans }}</td>
             </tr>
             <tr>
                 <th>MIntercaisse</th>
-                <td>{{ journee_caiss.mIntercaisses }}</td>
+                <td>{{ journee_caisse.mIntercaisses }}</td>
             </tr>
             <tr>
                 <th>MRetraitClient</th>
-                <td>{{ journee_caiss.mRetraitClient }}</td>
+                <td>{{ journee_caisse.mRetraitClient }}</td>
             </tr>
             <tr>
                 <th>MDepotClient</th>
-                <td>{{ journee_caiss.mDepotClient }}</td>
+                <td>{{ journee_caisse.mDepotClient }}</td>
             </tr>
             <tr>
                 <th>MCreditDivers</th>
-                <td>{{ journee_caiss.mCreditDiversOuv }}</td>
+                <td>{{ journee_caisse.mCreditDiversOuv }}</td>
             </tr>
             <tr>
                 <th>MDetteDivers</th>
-                <td>{{ journee_caiss.mDetteDiversOuv }}</td>
+                <td>{{ journee_caisse.mDetteDiversOuv }}</td>
             </tr>
             <tr>
                 <th>DateFerm</th>
-                <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ journee_caisse.dateFerm ? journee_caisse.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>ValeurBilletFerm</th>
-                <td>{{ journee_caiss.mLiquiditeFerm }}</td>
+                <td>{{ journee_caisse.mLiquiditeFerm }}</td>
             </tr>
             <tr>
                 <th>SoldeElectFerm</th>
-                <td>{{ journee_caiss.mSoldeElectFerm }}</td>
+                <td>{{ journee_caisse.mSoldeElectFerm }}</td>
             </tr>
             <tr>
                 <th>MEcartFerm</th>
-                <td>{{ journee_caiss.mEcartFerm }}</td>
+                <td>{{ journee_caisse.mEcartFerm }}</td>
             </tr>
         </tbody>
     </table>
 
     <a href="{{ path('journee_caisses_index') }}">back to list</a>
 
-    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
+    <a href="{{ path('journee_caisses_edit', {'id': journee_caisse.id}) }}">edit</a>
 
-    {{ include('journee_caisses/_delete_form.html.twig') }}
+    {{ include('journee_caisses/_delete_form.html.twig') }}#}
 {% endblock %}
