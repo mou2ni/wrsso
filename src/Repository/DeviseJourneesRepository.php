@@ -40,8 +40,6 @@ class DeviseJourneesRepository extends ServiceEntityRepository
 
             $stmt = $em->getConnection()->prepare($req);
             $stmt->bindParam(1,$val, \PDO::PARAM_INT);
-            //dump($stmt);die();
-            //$stmt->bindParam(2,$dateFin);
         } catch (DBALException $e) {
         }
         $stmt->execute([]);

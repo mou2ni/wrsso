@@ -365,7 +365,7 @@ class JourneeCaissesController extends Controller
      */
     public function show(JourneeCaisses $journeeCaisse): Response
     {
-        return $this->render('journee_caisses/show.html.twig', ['journeeCaisse' => $journeeCaisse]);
+        return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse]);
     }
 
 

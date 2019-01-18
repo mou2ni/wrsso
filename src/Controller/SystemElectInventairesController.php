@@ -63,7 +63,7 @@ class SystemElectInventairesController extends Controller
     }
 
     /**
-     * @Route("/system/elect/inventaires/{id}", name="system_elect_inventaires_show", methods="GET")
+     * @Route("/system/elect/inventaires/{id}", name="system_elect_inventaires_show", methods="GET|UPDATE")
      */
     public function show(SystemElectInventaires $systemElectInventaire): Response
     {

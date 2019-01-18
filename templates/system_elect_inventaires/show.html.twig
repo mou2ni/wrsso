@@ -4,8 +4,25 @@
 
 {% block body %}
     <h1>SystemElectInventaires</h1>
+    <table class="table-bordered">
+        <thead>
+        <tr>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">Date</th>
+            {#{% if journeeCaisse %}<th class="text-bold padding-0 text-left" bgcolor="#f69f00">{{ journeeCaisse.dateOuv.format('d-m-Y H:i:s') }}</th>{% endif %}
+            #}</tr>
+        <tr><th class="text-bold padding-0 text-left" bgcolor="#f69f00">Systemes electroniques</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"><div class="form-inline"> Solde{{ system_elect_inventaire.soldeTotal }}</div></th></tr>
+        </thead>
+        <tbody>
+        {% for seil in system_elect_inventaire.systemElectLigneInventaires %}
+            <tr><td bgcolor="#a9a9a9">{{ seil.idSystemElect }}</td>
+                <td>{{ seil.solde }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {{ include('_btn_close.html.twig') }}
 
-    <table class="table">
+    {#<table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -53,6 +70,6 @@
     </table>
 
 
-    {{ include('system_elect_inventaires/_delete_form.html.twig') }}
+    {{ include('system_elect_inventaires/_delete_form.html.twig') }}#}
 
 {% endblock %}

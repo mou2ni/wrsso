@@ -51,16 +51,10 @@ class EtatsController extends Controller
     public function devises()
     {
         $date = new \DateTime();
-        $date->setDate('2018','12','1');
         $em = $this->getDoctrine();
         $etatDevise = $em->getRepository(DeviseJournees::class)->trouverDevise($date);
-        $etatTransfertTypeZone = $em->getRepository(TransfertInternationaux::class)->trouverTransfertTypeZone($date);
-        $etatTransfertType = $em->getRepository(TransfertInternationaux::class)->trouverTransfertType($date);
-        dump($etatDevise);die();
         return $this->render('etats/devises.html.twig', [
             'etat' => $etatDevise,
-            //'etatTypeZone' => $etatTransfertTypeZone,
-            //'etatType' => $etatTransfertType,
         ]);
     }
 }

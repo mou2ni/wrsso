@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Billetages</h1>
-    <table onchange="majBilletage()">
+    <table onchange="majBilletage()" class="table-bordered">
         <thead>
         <tr><th class="text-bold padding-0 text-left" bgcolor="#f69f00"> Date</th>
             <th class="text-bold padding-0 text-left" bgcolor="#f69f00"> {{ billetage.dateBillettage.format('d-m-Y H:i:s') }}</th>
@@ -76,6 +76,5 @@
         {% endfor %}
         </tbody>
     </table>#}
-
-    {{ include('billetages/_delete_form.html.twig') }}
+    {{ include('_btn_close.html.twig') }}
 {% endblock %}

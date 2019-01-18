@@ -168,7 +168,7 @@ class BilletagesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="billetages_show", methods="GET")
+     * @Route("/{id}", name="billetages_show", methods="GET|UPDATE")
      */
     public function show(Billetages $billetage): Response
     {
