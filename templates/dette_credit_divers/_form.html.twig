@@ -1,24 +1,9 @@
 <div class="form-inline">
     {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
 
-    {#{% if dette %}
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'credit_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Saisir Crédits'}) }}
-{% else %}
-        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'dette_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Saisir Dettes'}) }}
- {% endif %}#}
 </div>
 {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
 <table class="table" onload="reset()">
-
-   {# {% if dette %}
-        <tr id="dette">
-        <td>Montant Dette</td><td>{{ form_widget(form.mDette) }}{{ form_errors(form.mDette) }}</td>
-    </tr>
-    {% else %}
-    <tr id="credit">
-        <td>Montant Credit</td><td>{{ form_widget(form.mCredit) }} {{ form_errors(form.mCredit) }}</td>
-    </tr>
-    {% endif %}#}
     <tr id="montant">
         <td>Montant </td><td>{{ form_widget(form.mSaisie) }}{{ form_errors(form.mSaisie) }}</td>
     </tr>
@@ -34,9 +19,5 @@
         </td>
     </tr>
 </table>
-{% if journeeCaisse.statut!="F" %}
-{% endif %}
-{#<input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
-<input type="hidden" name="_operation" value="{{ operation }}">
-#}{{ form_end(form) }}
+{{ form_end(form) }}
 

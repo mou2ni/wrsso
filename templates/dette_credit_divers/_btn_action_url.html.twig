@@ -1,7 +1,5 @@
-<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':dette_credit_diver.id})}}" onsubmit="return confirm('{{ confirm_message }} ');">
+<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':id})}}" onsubmit="return confirm('{{ confirm_message }} ');">
     <input type="hidden" name="_method" value="POST">
-    <input type="hidden" name="_operation" value="{{ operation }}">
-    <input type="hidden" name="_token" value="{{ csrf_token('action' ~ dette_credit_diver.id)}}">
-    <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('action' ~ id)}}">
     <button class="btn-info" name={{ btn_name }}>{{ btn_label }}</button>
 </form>
