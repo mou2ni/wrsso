@@ -25,7 +25,7 @@ class DeviseRecusController extends Controller
     private $utilisateur;
     private $caisse;
 
-    const COPIE1=0, COPIE2=600;
+    const COPIE1=0, COPIE2=550;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
@@ -79,7 +79,7 @@ class DeviseRecusController extends Controller
                 $genCompta->genComptaCvDevise($this->utilisateur,$this->caisse,$deviseRecus->getCvdRecu(),$this->journeeCaisse);
 
                 if ($save_and_print) {
-                    return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(),'journeeCaisse'=>$journeeCaisse, 'copies'=>[$this::COPIE1,$this::COPIE2]]);
+                    return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(),'journeeCaisse'=>$this->journeeCaisse, 'copies'=>[$this::COPIE1,$this::COPIE2]]);
                 }
 
                 if ($save_and_new) {

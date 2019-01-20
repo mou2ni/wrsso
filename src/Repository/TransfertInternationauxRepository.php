@@ -43,8 +43,8 @@ class TransfertInternationauxRepository extends EntityRepository
      */
     public function trouverTransfert(\DateTime $date)
     {
-        $dateDeb=new \DateTime('2018-12-01 00:00:00');
-        $dateFin=new \DateTime('2018-12-01 00:00:00');
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
         $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
         $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
         $date = $date -> format('m/Y');
@@ -52,7 +52,7 @@ class TransfertInternationauxRepository extends EntityRepository
         return $this->createQueryBuilder('Transfert')
             ->Join('Transfert.idPays','pays')
             ->Join('Transfert.idSystemTransfert','type')
-            ->Join('Transfert.idJourneeCaisse','jc')
+            ->Join('Transfert.journeeCaisse','jc')
             ->addSelect(
             //'type.societe as Societe',
                 'type.libelle as typeTransfert',
@@ -83,7 +83,7 @@ class TransfertInternationauxRepository extends EntityRepository
         return $this->createQueryBuilder('Transfert')
             ->Join('Transfert.idPays','pays')
             ->Join('Transfert.idSystemTransfert','type')
-            ->Join('Transfert.idJourneeCaisse','jc')
+            ->Join('Transfert.journeeCaisse','jc')
             ->addSelect(
             //'type.societe as Societe',
                 'type.libelle as typeTransfert',
@@ -114,7 +114,7 @@ class TransfertInternationauxRepository extends EntityRepository
         return $this->createQueryBuilder('Transfert')
             ->Join('Transfert.idPays','pays')
             ->Join('Transfert.idSystemTransfert','type')
-            ->Join('Transfert.idJourneeCaisse','jc')
+            ->Join('Transfert.journeeCaisse','jc')
             ->addSelect(
             //'type.societe as Societe',
                 'type.libelle as typeTransfert',
@@ -149,7 +149,7 @@ class TransfertInternationauxRepository extends EntityRepository
         return $this->createQueryBuilder('Transfert')
             ->Join('Transfert.idPays','pays')
             ->Join('Transfert.idSystemTransfert','type')
-            ->Join('Transfert.idJourneeCaisse','jc')
+            ->Join('Transfert.journeeCaisse','jc')
             ->addSelect(
             //'type.societe as Societe',
                 'type.libelle as typeTransfert',

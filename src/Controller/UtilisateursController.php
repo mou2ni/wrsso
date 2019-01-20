@@ -51,12 +51,14 @@ class UtilisateursController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
+            //dump($form['role']->getData()); die();
+            $utilisateur->setRoles([$form['role']->getData()]);
             $compte = new Comptes();
             $compte->setNumCompte($utilisateur->getCompte())
                 ->setClient($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
                 //->setIntitule($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
                 ->setTypeCompte(Comptes::INTERNE)
-                ->setIntitule('Ecart Caissier'.$utilisateur->getId());
+                ->setIntitule('Ecart Caissier'.$utilisateur->getNom());
             $utilisateur->setCompteEcartCaisse($compte);
             //dump($utilisateur);die();
             //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
@@ -126,7 +128,8 @@ class UtilisateursController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
+            $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
+//$utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('utilisateurs_edit', ['id' => $utilisateur->getId()]);

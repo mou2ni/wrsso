@@ -26,16 +26,22 @@ class EtatsController extends Controller
     public function transfert()
     {
         $date = new \DateTime();
-        $date->setDate('2018','12','1');
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
+        $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
         $em = $this->getDoctrine();
         $etatTransfert = $em->getRepository(TransfertInternationaux::class)->trouverTransfert($date);
         $etatTransfertTypeZone = $em->getRepository(TransfertInternationaux::class)->trouverTransfertTypeZone($date);
         $etatTransfertType = $em->getRepository(TransfertInternationaux::class)->trouverTransfertType($date);
         //dump($etatTransfertType);die();
+        //dump($etatTransfert);die();
         return $this->render('etats/transfert.html.twig', [
             'etat' => $etatTransfert,
             'etatTypeZone' => $etatTransfertTypeZone,
             'etatType' => $etatTransfertType,
+            'dateDeb' => $dateDeb,
+            'dateFin' => $dateFin,
         ]);
     }
 
@@ -45,16 +51,10 @@ class EtatsController extends Controller
     public function devises()
     {
         $date = new \DateTime();
-        $date->setDate('2018','12','1');
         $em = $this->getDoctrine();
         $etatDevise = $em->getRepository(DeviseJournees::class)->trouverDevise($date);
-        $etatTransfertTypeZone = $em->getRepository(TransfertInternationaux::class)->trouverTransfertTypeZone($date);
-        $etatTransfertType = $em->getRepository(TransfertInternationaux::class)->trouverTransfertType($date);
-        //dump($etatDevise);die();
         return $this->render('etats/devises.html.twig', [
             'etat' => $etatDevise,
-            //'etatTypeZone' => $etatTransfertTypeZone,
-            //'etatType' => $etatTransfertType,
         ]);
     }
 }
