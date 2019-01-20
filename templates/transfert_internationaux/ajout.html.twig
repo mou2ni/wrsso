@@ -1,103 +1,72 @@
 {% extends 'base.html.twig' %}
+{% block title %}Saisie des transferts internationaux{% endblock %}
 
 {% block body %}
     <div>
         <div class="form-row">
-            <div class="col">
+            <div class="col-4">
                 {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
             </div>
-            {% if envoi %}
-                <span class="col text-uppercase font-weight-bold"> Saisie des transferts envoyés</span>
-                <div class="">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Saisir les transfert payés'}) }}
-                </div>
-            {% else %}
-                <span class="col text-uppercase font-weight-bold "> Saisie des transferts payés</span>
-                <div class="">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_envoi' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Saisir les transfert envoyés'}) }}
-                </div>
-            {% endif %}
+            <div class="col-8">
+                <h1>Transferts internationaux</h1>
+            </div>
         </div>
-        {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
+        {{ form_start(form, {'attr': {'onsubmit':'return confirm("Confirmer l\'enregistrement ?");'} } ) }}
         {# ... #}
 
         {# store the prototype on the data-prototype attribute #}
         <div class="table-responsive">
             <table id="transfert-fields-list"
                    data-prototype="
-{% if envoi %}{{ '<td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.idSystemTransfert)|e }}
-{#{{ '</td><td>'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.sens)|e }}#}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.idPays)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTransfert)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTransfertTTC)|e }}
-{#{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mFraisHt)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mTva)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertEmis.vars.prototype.mAutresTaxes)|e }}#}
-{{ '</td>'|e }}{% else %}
-{{ '<td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertRecus.vars.prototype.idSystemTransfert)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertRecus.vars.prototype.idPays)|e }}
-{{ '</td><td class=\"text-bold padding-0 text-center\">'|e }}{{ form_widget(form.transfertRecus.vars.prototype.mTransfert)|e }}
-
-{% endif %}
+{{ '<td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idSystemTransfert)|e }}
+{##}{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.sens)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idPays)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTransfert)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTransfertTTC)|e }}
 {{ '</td>'|e }}"
                    data-widget-tags="{{ '<tr classe=\"transfert\"></tr>'|e }}" class="transfert table table-bordered"  data-list="#transfert-fields-list" onchange="majTransfert()">
                 <thead>
                 {#<tr>
                     {% if envoi %}<h1> Saisie des transferts envoyés</h1>{% else %}<h1> Saisie des transferts payés</h1>{% endif %}
                 </tr>#}
-                <tr> {% if envoi %}<td>Total Emission</td> <td> {{ form_widget(form.mEmissionTrans) }}</td>{% else %}
-                        <td>Total Reception</td> <td> {{ form_widget(form.mReceptionTrans) }}</td> {% endif %}
-                    <input hidden type="text" id="sens" value="{{ envoi }}">
+                <tr> <th colspan="2">Total des envois : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mEmissionTrans) }}</td>
+                    <th>Total des paiements :</th> <td colspan="2" class="text-bold padding-5 text-center" > {{ form_widget(form.mReceptionTrans) }}</td>
+
                 </tr>
                 <tr>
                     <th class="text-bold padding-5 text-center" >Type</th>
+                    <th class="text-bold padding-5 text-center" >Sens</th>
                     <th class="text-bold padding-5 text-center">Pays</th>
                     <th class="text-bold padding-5 text-center">Montant</th>
-                    {% if envoi %}<th class="text-bold padding-5 text-center">Montant Total</th>
-                        {#<th class="text-bold padding-5 text-center">Frais HT</th>
-                        <th class="text-bold padding-5 text-center">TVA</th>
-                        <th class="text-bold padding-5 text-center">Autres Taxes</th>#}{% endif %}
+                    <th class="text-bold padding-5 text-center">Montant Total</th>
                     <th class="text-bold padding-5 text-center"></th>
 
                 </tr>
                 </thead>
-                {% if envoi %}
-                    {% for trans in form.transfertEmis %}
+                    {% for trans in form.transfertInternationaux %}
                         <tr class="transfert ">
-                            <td class="text-bold padding-0 text-center">{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
-                            <td class="text-bold padding-0 text-center">{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
-                            <td class="text-bold padding-0 text-center">{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
-                            <td class="text-bold padding-0 text-center">{{ form_errors(trans.mTransfertTTC) }} {{ form_widget(trans.mTransfertTTC) }}</td>
+                            <td class="padding-0">{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
+                            <td class="padding-0">{{ form_errors(trans.sens) }} {{ form_widget(trans.sens) }}</td>
+                             <td class="padding-0">{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
+                            <td class="padding-0">{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
+                            <td class="padding-0">{{ form_errors(trans.mTransfertTTC) }} {{ form_widget(trans.mTransfertTTC) }}</td>
                             {#<td class="text-bold padding-0 text-center">{{ form_errors(trans.mFraisHt) }} {{ form_widget(trans.mFraisHt) }}</td>
                             <td class="text-bold padding-0 text-center">{{ form_errors(trans.mTva) }} {{ form_widget(trans.mTva) }}</td>
                             <td class="text-bold padding-0 text-center">{{ form_errors(trans.mAutresTaxes) }} {{ form_widget(trans.mAutresTaxes) }}</td>#}
                         </tr>
                     {% endfor %}
-                {% else %}
-                    {% for trans in form.transfertRecus %}
-                        <tr class="transfert">
-                            <td class="text-bold padding-5 text-center">{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
-                            <td class="text-bold padding-5 text-center">{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
-                            <td class="text-bold padding-5 text-center">{{ form_errors(trans.mTransfert) }} {{ form_widget(trans.mTransfert) }}</td>
-                        </tr>
-                    {% endfor %}
-                {% endif %}
-
 
             </table>
             {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
             {% if journeeCaisse.statut!="F" %}
-                <div class="form-group"><button class="btn btn-success btn-block" type="submit" value="Enregistrer">Enregistrer</button></div>
+                <div class="form-group">
+                    <button class="btn btn-info" type="submit" name="enregistreretfermer" id="enregistreretfermer" >Enregistrer et Fermer</button>
+                    <button class="btn btn-info" type="submit" name="enregistrer" id="enregistrer" >Enregistrer</button>
+                </div>
             {% endif %}
-            <div hidden>
-                {{ form_rest(form) }}
-                <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
-                <input type="hidden" name="_operation" value="{{ operation }}">
-            </div>
             {{ form_end(form) }}
 
         </div>
     </div>
 {% endblock %}
 
-{% block title %}
-
-{% endblock %}

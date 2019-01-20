@@ -159,22 +159,22 @@ class TransfertInternationaux
         $this->id = $id;
     }
 
-    /**
+    /*
      * @return mixed
-     */
+    
     public function getIdJourneeCaisse()
     {
         return $this->idJourneeCaisse;
-    }
+    } */
 
-    /**
+    /*
      * @param mixed $idJourneeCaisse
-     */
+     
     public function setIdJourneeCaisse($idJourneeCaisse)
     {
         $this->idJourneeCaisse = $idJourneeCaisse;
     }
-
+*/
     /**
      * @return mixed
      */

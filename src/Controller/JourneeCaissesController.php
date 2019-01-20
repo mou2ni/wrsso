@@ -193,12 +193,18 @@ class JourneeCaissesController extends Controller
                 if ($this->journeeCaisse->getCompense()!=0){
                     if ($genererCompta->genComptaCompense($this->utilisateur,$this->caisse,$this->journeeCaisse->getCompense(), $this->journeeCaisse)){
                         $this->addFlash('success', 'COMPTABILISATION COMPENSES ==> OK');
-                    }else $this->addFlash('error', 'COMPTABILISATION COMPENSES ==> ECHEC');
+                    }else {
+                        $this->addFlash('error', 'COMPTABILISATION COMPENSES ==> ECHEC : '.$genererCompta->getErrMessage());
+                        return $this->redirectToRoute('journee_caisses_gerer');
+                    }
                 }
                 if ($this->journeeCaisse->getMEcartFerm()!=0){
                     if ($genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'ECART DE CAISSE ', $this->journeeCaisse->getMEcartFerm(), $this->journeeCaisse)){
                         $this->addFlash('success', 'COMPTABILISATION ECART DE CAISSE ==> OK');
-                    }else $this->addFlash('error', 'COMPTABILISATION ECART DE CAISSE ==> ECHEC');
+                    }else {
+                        $this->addFlash('error', 'COMPTABILISATION ECART DE CAISSE ==> ECHEC : '.$genererCompta->getErrMessage());
+                        return $this->redirectToRoute('journee_caisses_gerer');
+                    }
                 }
                 //fermer la caisse
                 $this->journeeCaisse->setDateFerm(new \DateTime());

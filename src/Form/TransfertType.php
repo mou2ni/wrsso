@@ -18,21 +18,21 @@ class TransfertType extends AbstractType
             ->add('mReceptionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('mEmissionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('transfertInternationaux', CollectionType::class, array(
-                'entry_type' => EmissonType::class,
+                'entry_type' => TransfertInternationauxType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,
                 'prototype' => true,
                 'by_reference' => false,
                 'attr' => ['class' => 'lignetransfert']
             ))
-            ->add('transfertInternationaux', CollectionType::class, array(
+            /*->add('transfertInternationaux', CollectionType::class, array(
                 'entry_type' => ReceptionType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,
                 'prototype' => true,
                 'by_reference' => false,
                 'attr' => ['class' => 'lignetransfert']
-            ))
+            ))*/
 
 
 

@@ -272,9 +272,9 @@ class JourneeCaisses
 
     private $em;
 
-    private $mouvementFond;
+   // private $mouvementFond;
 
-    private $sensTransfert;
+    //private $sensTransfert;
 
     /*
     *
@@ -427,6 +427,17 @@ class JourneeCaisses
         }
     }
 
+    public function maintenirTransfertsInternationaux(){
+        $this->mEmissionTrans=0;
+        $this->mReceptionTrans=0;
+        foreach ($this->getTransfertInternationaux() as $transfert){
+            if ($transfert->getSens()==TransfertInternationaux::ENVOI)
+                $this->updateM('mEmissionTrans', $transfert->getMTransfertTTC());
+            else
+                $this->updateM('mReceptionTrans', $transfert->getMTransfertTTC());
+        }
+    }
+
 
     public function maintenirDetteCreditDiversFerm(){
         $this->mCreditDiversFerm=0;
@@ -469,9 +480,12 @@ class JourneeCaisses
     public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
 
-        $transfertInternationaux->setSens($this->getSensTransfert());
+        //$transfertInternationaux->setSens($this->getSensTransfert());
         $this->transfertInternationaux->add($transfertInternationaux);
-        $transfertInternationaux->setIdJourneeCaisse($this);
+        $transfertInternationaux->setJourneeCaisse($this);
+        /*($transfertInternationaux->getSens()==TransfertInternationaux::ENVOI)
+        ?$transfertInternationaux->setJourneeCaisseEmi($this)
+        :$transfertInternationaux->setJourneeCaisseRecu($this);*/
 
     }
 
@@ -482,7 +496,7 @@ class JourneeCaisses
     public function addTransfertEmi(TransfertInternationaux $transfertInternationaux)
     {
 
-        $transfertInternationaux->setSens($this->getSensTransfert());
+        $transfertInternationaux->setSens(TransfertInternationaux::ENVOI);
         $this->transfertEmis->add($transfertInternationaux);
         $transfertInternationaux->setJourneeCaisseEmi($this);
         $transfertInternationaux->setJourneeCaisse($this);
@@ -495,7 +509,7 @@ class JourneeCaisses
     }
     public function addTransfertRecu(TransfertInternationaux $transfertInternationaux)
     {
-        $transfertInternationaux->setSens($this->getSensTransfert());
+        $transfertInternationaux->setSens(TransfertInternationaux::RECEPTION);
         $transfertInternationaux->setMTransfertTTC($transfertInternationaux->getMTransfert());
         $this->transfertRecus->add($transfertInternationaux);
         $transfertInternationaux->setJourneeCaisseRecu($this);
@@ -1390,24 +1404,24 @@ class JourneeCaisses
         return $this->getMEmissionTrans() - $this->getMReceptionTrans();
     }
 
-    /**
+    /*
      * @return mixed
-     */
+
     public function getSensTransfert()
     {
         return $this->sensTransfert;
     }
-
-    /**
+*/
+    /*
      * @param mixed $sensTransfert
      * @return JourneeCaisses
-     */
+
     public function setSensTransfert($sensTransfert)
     {
         $this->sensTransfert = $sensTransfert;
         return $this;
     }
-
+*/
     /**
      * @return mixed
      */

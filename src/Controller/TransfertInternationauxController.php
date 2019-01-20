@@ -74,23 +74,32 @@ class TransfertInternationauxController extends Controller
     public function saisieTransfert(Request $request, $envoi = true): Response
     {
         $em =$this->getDoctrine();
-        ($envoi)?$this->journeeCaisse->setSensTransfert(TransfertInternationaux::ENVOI):
-            $this->journeeCaisse->setSensTransfert(TransfertInternationaux::RECEPTION);
+        //($envoi)?$this->journeeCaisse->setSensTransfert(TransfertInternationaux::ENVOI):
+        //    $this->journeeCaisse->setSensTransfert(TransfertInternationaux::RECEPTION);
         //dump($this->journeeCaisse->getSensTransfert()); die();
-        $form = ($envoi)?$this->createForm(EmissionsType::class, $this->journeeCaisse):$this->createForm(ReceptionsType::class, $this->journeeCaisse);
+        
+        $form= $this->createForm(TransfertType::class, $this->journeeCaisse);
+        //$formReception=$this->createForm(ReceptionsType::class, $this->journeeCaisse);
         $form->handleRequest($request);
+        //$formReception->handleRequest($request);
         //dump($form);die();
         if ($form->isSubmitted() && $form->isValid() ) {
             //dump($this->journeeCaisse);die();
+            $this->journeeCaisse->maintenirTransfertsInternationaux();
             $em = $this->getDoctrine()->getManager();
             $em->persist($this->journeeCaisse);
             $em->flush();
+
+            //dump($request->request);die();
+            if ($request->request->has('enregistreretfermer')){
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
         }
 
         return $this->render('transfert_internationaux/ajout.html.twig', [
             'form' => $form->createView(),
             'operation'=>'',
-            'envoi'=>$envoi,
+            //'envoi'=>$envoi,
             'journeeCaisse'=>$this->journeeCaisse
         ]);
     }
@@ -119,14 +128,14 @@ class TransfertInternationauxController extends Controller
         ]);
     }
 
-    /**
+    /*
      * @Route("/envoi", name="transfert_internationaux_envoi", methods="GET|POST|UPDATE")
      */
     public function envoi(Request $request): Response
     {
         return $this->ajout($request, true);
     }
-    /**
+    /*
      * @Route("/reception", name="transfert_internationaux_reception", methods="GET|POST|UPDATE")
      */
     public function reception(Request $request): Response
@@ -141,7 +150,6 @@ class TransfertInternationauxController extends Controller
     {
         return $this->render('transfert_internationaux/show.html.twig', ['transfert_internationaux' => $transfertInternationaux]);
     }
-
     /**
      * @Route("/{id}/edit", name="transfert_internationaux_edit", methods="GET|POST")
      */

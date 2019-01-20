@@ -18,6 +18,7 @@ use App\Entity\Utilisateurs;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
@@ -28,6 +29,8 @@ class GenererCompta
      *
      */
     private $e;
+
+    private $err_message;
 
     private $em;
     //private $om;
@@ -112,6 +115,7 @@ class GenererCompta
         if($montant==0 )
         {
             $this->setE($transaction::ERR_ZERO);
+            $this->setErrMessage('Ecriture de montant ZERO interdit ! ! !');
             return false;
         }else{
             $transaction->setUtilisateur($utilisateur)->setLibelle($libelle)->setDateTransaction($dateComptable)->setJourneeCaisse($journeeCaisse);
@@ -157,6 +161,7 @@ class GenererCompta
 
         if ($sommeDebit!=$sommeCredit){
             $this->setE($transaction::ERR_DESEQUILIBRE);
+            $this->setErrMessage('Ecriture comptable déséquilibrée ! ! !');
             return false;
         }
 
@@ -179,6 +184,7 @@ class GenererCompta
         if($montant<0)
         {
             $this->setE($transaction::ERR_NEGATIF);
+            $this->setErrMessage('Retrait negatif interdit ! ! !');
             return false;
         }else {
             return $transaction;
@@ -212,7 +218,15 @@ class GenererCompta
      */
     public function genComptaEcart(Utilisateurs $utilisateur, Caisses $caisse, $libelle, $montant, JourneeCaisses $journeeCaisse)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(), $utilisateur->getCompteEcartCaisse(), $libelle.' - '.$utilisateur, $montant,$journeeCaisse ));
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
+        $compteEcartCaisse=$utilisateur->getCompteEcartCaisse();
+        if(!$compteEcartCaisse){
+            $this->setErrMessage('Compte Ecart caisse utilisateur '.$utilisateur.' NON PARAMETRE.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $compteOperation, $compteEcartCaisse, $libelle.' - '.$utilisateur, $montant,$journeeCaisse ));
         return !$this->getE();
     }
 
@@ -227,6 +241,8 @@ class GenererCompta
      */
     public function genComptaDepot( Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant,JourneeCaisses $journeeCaisse)
     {
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
         $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant,$journeeCaisse);
 
         if (!$transaction) {
@@ -234,7 +250,7 @@ class GenererCompta
                 return false;
         }
         else { ///modifie par Moumouni
-            $depotRetrait = $this->debiterCrediter($transaction, $caisse->getCompteOperation(), $compteClient, $montant);
+            $depotRetrait = $this->debiterCrediter($transaction, $compteOperation, $compteClient, $montant);
             $this->transactions->add($depotRetrait);
             $journeeCaisse->updateM('mDepotClient',$montant);
             return !$this->getE();
@@ -253,9 +269,12 @@ class GenererCompta
      */
     public function genComptaRetrait(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteClient, $libelle, $montant,JourneeCaisses $journeeCaisse)
     {
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
 
         if($compteClient->getTypeCompte()==Comptes::INTERNE){
             $this->setE(Transactions::ERR_RETRAIT_COMPTE_INTERNE);
+            $this->setErrMessage('Retrait interdit sur ce type de compte ! ! !');
             return false;
         }else{
             $transaction=$this->initDepotRetrait($utilisateur, $libelle, $montant, $journeeCaisse);
@@ -267,10 +286,11 @@ class GenererCompta
         }
         elseif($compteClient->getSoldeCourant()< $montant) {
             $this->setE($transaction::ERR_SOLDE_INSUFISANT);
+            $this->setErrMessage('Solde insuffisant pour ce retrait ! ! !');
             return false;
         }else {
             ///modifie par Moumouni
-            $depotRetrait = $this->debiterCrediter($transaction, $compteClient, $caisse->getCompteOperation(), $montant);
+            $depotRetrait = $this->debiterCrediter($transaction, $compteClient, $compteOperation, $montant);
             //ajout des lignes d'écritures debit et crédit
             $this->transactions->add($depotRetrait);
             $journeeCaisse->updateM('mRetraitClient',$montant);
@@ -290,11 +310,14 @@ class GenererCompta
      */
     public function genComptaDepenses(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteCharge, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
     {
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
+
         $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
 
         if (!$transaction) return false ;
 
-        $this->transactions->add($this->debiterCrediter($transaction, $compteCharge, $caisse->getCompteOperation(), $montant));
+        $this->transactions->add($this->debiterCrediter($transaction, $compteCharge, $compteOperation, $montant));
         return !$this->getE();
     }
 
@@ -309,11 +332,14 @@ class GenererCompta
      */
     public function genComptaRecettes(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteProduit, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
     {
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
+
         $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
 
         if (!$transaction) return false ;
 
-        $this->transactions->add($this->debiterCrediter($transaction, $caisse->getCompteOperation(), $compteProduit, $montant));
+        $this->transactions->add($this->debiterCrediter($transaction, $compteOperation, $compteProduit, $montant));
         return !$this->getE();
     }
 
@@ -327,7 +353,13 @@ class GenererCompta
      */
     public function genComptaCompense(Utilisateurs $utilisateur, Caisses $caisse, $montant, JourneeCaisses $journeeCaisse)
     {
-       $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(),$caisse->getCompteAttenteCompense(),'Compense attendue -'.$utilisateur,$montant,$journeeCaisse));
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
+
+        $compteCompense=$this->checkCompteAttenteCompense($caisse);
+        if (!$compteCompense) return false;
+
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $compteOperation, $compteCompense,'Compense attendue -'.$utilisateur,$montant,$journeeCaisse));
         return !$this->getE();
     }
 
@@ -340,7 +372,13 @@ class GenererCompta
      */
     public function genComptaCvDevise(Utilisateurs $utilisateur, Caisses $caisse, $montant)
     {
-        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $caisse->getCompteOperation(),$caisse->getCompteCvDevise(),$utilisateur.' - Contre valeur devises',$montant));
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
+
+        $compteCvdDevise=$this->checkCompteCvd($caisse);
+        if (!$compteCvdDevise) return false;
+
+        $this->transactions->add($this->debiterCrediterSigne($utilisateur, $compteOperation,$compteCvdDevise,$utilisateur.' - Contre valeur devises',$montant));
         return !$this->getE();
 
     }
@@ -355,11 +393,21 @@ class GenererCompta
      */
     public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant)
     {
+        $compteOperationDebit=$this->checkCompteOperation($caisseDebit);
+        if (!$compteOperationDebit) return false;
+        $compteOperationCredit=$this->checkCompteOperation($caisseCredit);
+        if (!$compteOperationCredit) return false;
+
+        $compteIntercaisseDebit=$this->checkCompteIntercaisse($caisseDebit);
+        if (!$compteIntercaisseDebit) return false;
+        $compteIntercaisseCredit=$this->checkCompteIntercaisse($caisseCredit);
+        if (!$compteIntercaisseCredit) return false;
+
         $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $montant);
 
         if (!$transaction) return false ;
-        $this->transactions->add($this->addDebitCreditSign($transaction, $caisseDebit->getCompteOperation(), $caisseCredit->getCompteIntercaisse(), $montant));
-        $this->transactions->add($this->addDebitCreditSign($transaction, $caisseDebit->getCompteIntercaisse(), $caisseCredit->getCompteOperation(), $montant));
+        $this->transactions->add($this->addDebitCreditSign($transaction, $compteOperationDebit, $compteIntercaisseCredit, $montant));
+        $this->transactions->add($this->addDebitCreditSign($transaction, $compteIntercaisseDebit, $compteOperationCredit, $montant));
         return !$this->getE();
     }
 
@@ -427,5 +475,63 @@ class GenererCompta
         }
 
         return $dateComptable;
+    }
+
+    private function checkCompteOperation(Caisses $caisse){
+        $compteOperation=$caisse->getCompteOperation();
+        if(!$compteOperation){
+            $this->setErrMessage('Compte Opération de caisse '.$caisse->getCode().' NON PARAMETRE.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $compteOperation;
+    }
+
+    private function checkCompteAttenteCompense(Caisses $caisse){
+        $compte=$caisse->getCompteAttenteCompense();
+        if(!$compte){
+            $this->$this->setErrMessage('Compte Attente compense de caisse '.$caisse->getCode().' NON PARAMETRE.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $compte;
+    }
+
+    private function checkCompteCvd(Caisses $caisse){
+        $compte=$caisse->getCompteCvDevise();
+        if(!$compte){
+            $this->setErrMessage('Compte Devise de caisse '.$caisse->getCode().' NON PARAMETRE.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $compte;
+    }
+
+    private function checkCompteIntercaisse(Caisses $caisse){
+        $compte=$caisse->getCompteIntercaisse();
+        if(!$compte){
+            $this->setErrMessage('Compte Intercaisse de caisse '.$caisse->getCode().' NON PARAMETRE.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $compte;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getErrMessage()
+    {
+        return $this->err_message;
+    }
+
+    /**
+     * @param mixed $err_message
+     * @return GenererCompta
+     */
+    public function setErrMessage($err_message)
+    {
+        $this->err_message = $err_message;
+        return $this;
     }
 }

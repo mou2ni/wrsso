@@ -2,8 +2,33 @@
  * Created by Mouni on 07/03/2017.
  */
 
-
 function majTransfert() {
+
+    // les variables des totaux
+    var reception = 0;
+    var emission = 0;
+    var i=0;
+    while ($("#transfert_transfertInternationaux_"+i+"_mTransfert")) {
+
+        if ($("#transfert_transfertInternationaux_"+i+"_sens").val() == "1"){
+            emission = emission + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val());
+            $("#transfert_mEmissionTrans").val(emission);
+            //alert($("#transfert_mEmissionTrans").val());
+        }
+        else {
+            if ($("#transfert_transfertInternationaux_"+i+"_mTransfertTTC").val()==0){
+                $("#transfert_transfertInternationaux_"+i+"_mTransfertTTC").val($("#transfert_transfertInternationaux_"+i+"_mTransfert").val());
+            }
+            reception = reception + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
+            $("#transfert_mReceptionTrans").val(reception);
+        }
+        i++;
+    }
+
+};
+
+
+/*function majTransfert() {
 
     // les variables des totaux
     var reception = 0;
@@ -19,12 +44,7 @@ function majTransfert() {
             //tva=Math.round(tva);
             //alert(tva);
 
-            /*autresTaxes = Echape($("#emissions_transfertEmis_"+i+"_mTransfertTTC").val())
-                - Echape($("#emissions_transfertEmis_"+i+"_mTransfert").val())
-                - Echape($("#emissions_transfertEmis_"+i+"_mFraisHt").val())
-                - tva;*/
-            /*if (autresTaxes<0)
-            autresTaxes = 0;*/
+
             //$("#emissions_transfertEmis_"+i+"_mTva").val(tva);
             //$("#emissions_transfertEmis_"+i+"_mAutresTaxes").val(autresTaxes);
             //alert($("#emissions_transfertEmis_" + i + "_mTransfertTTC").val());
@@ -42,6 +62,7 @@ function majTransfert() {
     }
 
 };
+*/
 
 function Echape(data)
 {
@@ -86,6 +107,7 @@ function  valeurDevises() {
     }
 
 }*/
+
 
 function majElectronique() {
     var nbrSystemElect=valeur("#nombreElect");
@@ -191,7 +213,7 @@ jQuery(document).ready(function() {
 var $collectionHolder;
 
 // setup an "add a tag" link
-var $addTagButton = $('<td><button type="button" class="add_tag_link">Ajouter Trans</button></td>');
+var $addTagButton = $('<td><button type="button" class="add_tag_link"> +5 lignes</button></td>');
 var $newLinkLi = $('<tr></tr>').append($addTagButton);
 
 jQuery(document).ready(function() {
@@ -216,7 +238,10 @@ jQuery(document).ready(function() {
             addTagForm($collectionHolder, $newLinkLi);
     $addTagButton.on('click', function(e) {
         // add a new tag form (see next code block)
-        addTagForm($collectionHolder, $newLinkLi);
+        //i=0;
+        for (i=0;i<5;i++){
+            addTagForm($collectionHolder, $newLinkLi);
+        }
         // get the new index
         /*var i = $collectionHolder.data('index');
         alert(i);
@@ -262,6 +287,9 @@ function addTagFormDeleteLink($tagFormLi) {
     $removeFormButton.on('click', function(e) {
         // remove the li for the tag form
         $tagFormLi.remove();
+        //majTransfert();
+
+
     });
 }
 /*

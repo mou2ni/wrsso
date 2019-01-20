@@ -34,14 +34,15 @@
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes'}) }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes et Credits'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
-            </tr>
+                <td></td>
+                {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
+                #} </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >INTERCAISSE : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
@@ -52,14 +53,15 @@
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT EMIS : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_envoi' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Emis'}) }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_saisie' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transferts Internationaux'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT PAYE : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mReceptionTrans|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Reçus'}) }}</td>
-            </tr>
+                <td></td>
+                {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Reçus'}) }}</td>
+                #}</tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CONTRE VALEUR DEVISE : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>

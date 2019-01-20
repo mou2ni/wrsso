@@ -19,7 +19,7 @@ class TransfertInternationauxType extends AbstractType
                 'choices'  => array(
                     'Envoi' => 1,
                     'Reception' => 2)))*/
-            ->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtransfert'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            /*->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtransfert'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
             ->add('mTransfertTTC', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'transfertttc'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
             ->add('mFraisHt', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mfraisht'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
             ->add('mTva', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtva'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
@@ -27,7 +27,15 @@ class TransfertInternationauxType extends AbstractType
             //->add('idJourneeCaisse')
             ->add('idSystemTransfert')
             ->add('idPays')
-        ;
+        ;*/
+            ->add('sens', ChoiceType::class, array(
+                'choices'  => array('Reception' => TransfertInternationaux::RECEPTION,'Envoi' => TransfertInternationaux::ENVOI)
+                ,'mapped'=>true))
+            ->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtransfert'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            ->add('mTransfertTTC', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'transfertttc'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
+            ->add('idSystemTransfert')
+            ->add('idPays')
+    ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
