@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ComptesRepository")
  * @ORM\Table(name="Comptes")
  */
 class Comptes

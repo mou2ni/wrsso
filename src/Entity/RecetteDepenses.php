@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mouni
- * Date: 22/11/2016
- * Time: 10:39
+ * Created by Hamado.
+ * Date: 21/01/2019
+ * Time: 06:39
  */
 
 namespace App\Entity;
@@ -12,11 +11,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="RecetteDepenses")
+ * @ORM\Entity(repositoryClass="App\Repository\RecetteDepensesRepository")
  */
 class RecetteDepenses
 {
+    const STAT_COMPTA='C', STAT_INITIAL='I', STAT_ANNULER='X';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,13 +27,25 @@ class RecetteDepenses
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idUtilisateur;
+    private $utilisateur;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\TypeOperationComptables")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idTrans;
+    private $typeOperationComptable;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $transaction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="recetteDepenses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $journeeCaisse;
 
     /**
      * @ORM\Column(type="datetime")
@@ -42,24 +53,37 @@ class RecetteDepenses
     private $dateOperation;
 
     /**
-     * @ORM\Column(type="float")
-     */
-    private $mRecette;
-
-    /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255)
      */
     private $libelle;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $mDepense;
+    private $mRecette=0;
+
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mDepense=0;
 
     /**
      * @ORM\Column(type="string")
      */
     private $statut;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $estComptant=true;
+
+    private $mSaisie;
+
+    public function __construct()
+    {
+        $this->dateOperation = new \DateTime();
+    }
 
     /**
      * @return mixed
@@ -71,42 +95,66 @@ class RecetteDepenses
 
     /**
      * @param mixed $id
+     * @return RecetteDepenses
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getIdUtilisateur()
+    public function getUtilisateur()
     {
-        return $this->idUtilisateur;
+        return $this->utilisateur;
     }
 
     /**
-     * @param mixed $idUtilisateur
+     * @param mixed $utilisateur
+     * @return RecetteDepenses
      */
-    public function setIdUtilisateur($idUtilisateur)
+    public function setUtilisateur($utilisateur)
     {
-        $this->idUtilisateur = $idUtilisateur;
+        $this->utilisateur = $utilisateur;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getIdTrans()
+    public function getTransaction()
     {
-        return $this->idTrans;
+        return $this->transaction;
     }
 
     /**
-     * @param mixed $idTrans
+     * @param mixed $transaction
+     * @return RecetteDepenses
      */
-    public function setIdTrans($idTrans)
+    public function setTransaction($transaction)
     {
-        $this->idTrans = $idTrans;
+        $this->transaction = $transaction;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return RecetteDepenses
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
     }
 
     /**
@@ -119,26 +167,12 @@ class RecetteDepenses
 
     /**
      * @param mixed $dateOperation
+     * @return RecetteDepenses
      */
     public function setDateOperation($dateOperation)
     {
         $this->dateOperation = $dateOperation;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMRecette()
-    {
-        return $this->mRecette;
-    }
-
-    /**
-     * @param mixed $mRecette
-     */
-    public function setMRecette($mRecette)
-    {
-        $this->mRecette = $mRecette;
+        return $this;
     }
 
     /**
@@ -151,10 +185,30 @@ class RecetteDepenses
 
     /**
      * @param mixed $libelle
+     * @return RecetteDepenses
      */
     public function setLibelle($libelle)
     {
         $this->libelle = $libelle;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMRecette()
+    {
+        return $this->mRecette;
+    }
+
+    /**
+     * @param mixed $mRecette
+     * @return RecetteDepenses
+     */
+    public function setMRecette($mRecette)
+    {
+        $this->mRecette = $mRecette;
+        return $this;
     }
 
     /**
@@ -167,10 +221,12 @@ class RecetteDepenses
 
     /**
      * @param mixed $mDepense
+     * @return RecetteDepenses
      */
     public function setMDepense($mDepense)
     {
         $this->mDepense = $mDepense;
+        return $this;
     }
 
     /**
@@ -183,11 +239,70 @@ class RecetteDepenses
 
     /**
      * @param mixed $statut
+     * @return RecetteDepenses
      */
     public function setStatut($statut)
     {
         $this->statut = $statut;
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getMSaisie()
+    {
+        return $this->mSaisie;
+    }
+
+    /**
+     * @param mixed $mSaisie
+     * @return RecetteDepenses
+     */
+    public function setMSaisie($mSaisie)
+    {
+        if($mSaisie<0) $mSaisie=abs($mSaisie);
+        ($this->getTypeOperationComptable()->getEstCharge())?$this->setMDepense($mSaisie):$this->setMRecette($mSaisie);
+        $this->mSaisie = $mSaisie;
+        return $this;
+    }
+
+    /**
+     * @return TypeOperationComptables
+     */
+    public function getTypeOperationComptable()
+    {
+        return $this->typeOperationComptable;
+    }
+
+    /**
+     * @param mixed $typeOperationComptable
+     * @return RecetteDepenses
+     */
+    public function setTypeOperationComptable($typeOperationComptable)
+    {
+        $this->typeOperationComptable = $typeOperationComptable;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstComptant()
+    {
+        return $this->estComptant;
+    }
+
+    /**
+     * @param mixed $estComptant
+     * @return RecetteDepenses
+     */
+    public function setEstComptant($estComptant)
+    {
+        $this->estComptant = $estComptant;
+        return $this;
+    }
+
+    
 
 }

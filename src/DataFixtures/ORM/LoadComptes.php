@@ -84,9 +84,31 @@ class LoadComptes extends Fixture
         ,array('numCompte'=>'5712004','intitule'=>'CV devise Caisse 4', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
         ,array('numCompte'=>'5712005','intitule'=>'CV devise Caisse 0', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
 
-        ,array('numCompte'=>'661000','intitule'=>'Charges Salaires', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
-        ,array('numCompte'=>'605000','intitule'=>'Charges diverses', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
-        ,array('numCompte'=>'706000','intitule'=>'Produits divers', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'661000','intitule'=>'Charges du personnel', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'601000','intitule'=>'Achats de marchandises', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'605000','intitule'=>'Achats divers', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'610000','intitule'=>'Transport', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'622000','intitule'=>'Loyer', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'624000','intitule'=>'Entretiens et réparation', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'627000','intitule'=>'Publicité et relation publique', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'628000','intitule'=>'Frais de télécommunication', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'631000','intitule'=>'Frais bancaires', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'640000','intitule'=>'Impots et taxes', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'670000','intitule'=>'Frais financiers', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+
+        ,array('numCompte'=>'701000','intitule'=>'Vente de marchandises', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'705000','intitule'=>'Travaux facturés', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706000','intitule'=>'COMMISSIONS', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+       /* ,array('numCompte'=>'706001','intitule'=>'COMMISSIONS OM Dealer', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706002','intitule'=>'COMMISSIONS OM KD01', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706003','intitule'=>'COMMISSIONS OM KD02', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706004','intitule'=>'COMMISSIONS OM KD03', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706005','intitule'=>'COMMISSIONS WU', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706006','intitule'=>'COMMISSIONS MGR', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706007','intitule'=>'COMMISSIONS RIA', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706008','intitule'=>'COMMISSIONS SW', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'706009','intitule'=>'COMMISSIONS Autres Transferts', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        */
         );
 
         foreach ($list as $listElement) {

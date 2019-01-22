@@ -42,7 +42,7 @@ class DeviseIntercaissesController extends Controller
         $deviseIntercaiss = new DeviseIntercaisses($this->journeeCaisse, $em);
 
 
-        $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss);
+        $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss,['dateComptable'=>$this->journeeCaisse->getDateComptable(),'myJournee'=>$this->journeeCaisse]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

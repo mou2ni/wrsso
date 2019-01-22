@@ -1,9 +1,8 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Mouni
- * Date: 22/11/2016
- * Time: 10:39
+ * Created by Hamado.
+ * Date: 21/01/2019
+ * Time: 07:14
  */
 
 namespace App\Entity;
@@ -12,7 +11,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SalairesRepository")
  * @ORM\Table(name="Salaires")
  */
 class Salaires
@@ -28,17 +27,22 @@ class Salaires
      * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $idTrans;
+    private $transaction;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="date")
      */
     private $periodeSalaire;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $mSalaire;
+    private $mSalaireNetTotal;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\LigneSalaires", mappedBy="salaire", cascade={"persist"})
+     */
+    private $ligneSalaires;
 
     /**
      * @return mixed
@@ -50,26 +54,30 @@ class Salaires
 
     /**
      * @param mixed $id
+     * @return Salaires
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getIdTrans()
+    public function getTransaction()
     {
-        return $this->idTrans;
+        return $this->transaction;
     }
 
     /**
-     * @param mixed $idTrans
+     * @param mixed $transaction
+     * @return Salaires
      */
-    public function setIdTrans($idTrans)
+    public function setTransaction($transaction)
     {
-        $this->idTrans = $idTrans;
+        $this->transaction = $transaction;
+        return $this;
     }
 
     /**
@@ -82,27 +90,49 @@ class Salaires
 
     /**
      * @param mixed $periodeSalaire
+     * @return Salaires
      */
     public function setPeriodeSalaire($periodeSalaire)
     {
         $this->periodeSalaire = $periodeSalaire;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getMSalaire()
+    public function getMSalaireNetTotal()
     {
-        return $this->mSalaire;
+        return $this->mSalaireNetTotal;
     }
 
     /**
-     * @param mixed $mSalaire
+     * @param mixed $mSalaireNetTotal
+     * @return Salaires
      */
-    public function setMSalaire($mSalaire)
+    public function setMSalaireNetTotal($mSalaireNetTotal)
     {
-        $this->mSalaire = $mSalaire;
+        $this->mSalaireNetTotal = $mSalaireNetTotal;
+        return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getLigneSalaires()
+    {
+        return $this->ligneSalaires;
+    }
 
+    /**
+     * @param mixed $ligneSalaires
+     * @return Salaires
+     */
+    public function setLigneSalaires($ligneSalaires)
+    {
+        $this->ligneSalaires = $ligneSalaires;
+        return $this;
+    }
+
+    
 }

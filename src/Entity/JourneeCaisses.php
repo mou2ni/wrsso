@@ -244,6 +244,20 @@ class JourneeCaisses
      */
     private $mEcartFerm=0;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecetteDepenses", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $recetteDepenses;
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mRecette=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mDepense=0;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseSource", cascade={"persist"})
@@ -914,7 +928,10 @@ class JourneeCaisses
 
     public function __toString()
     {
-        return ''.$this->getCaisse().' du '.$this->getDateOuv()->format('d-m-y');
+        if ($this->getCaisse()->getTypeCaisse()==Caisses::GUICHET)
+            return ''.$this->getCaisse().' du '.$this->getDateOuv()->format('d-m-y');
+        else
+            return ''.$this->getCaisse();
     }
 
 
@@ -1437,6 +1454,42 @@ class JourneeCaisses
     public function setDateComptable($dateComptable)
     {
         $this->dateComptable = $dateComptable;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMRecette()
+    {
+        return $this->mRecette;
+    }
+
+    /**
+     * @param mixed $mRecette
+     * @return JourneeCaisses
+     */
+    public function setMRecette($mRecette)
+    {
+        $this->mRecette = $mRecette;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMDepense()
+    {
+        return $this->mDepense;
+    }
+
+    /**
+     * @param mixed $mDepense
+     * @return JourneeCaisses
+     */
+    public function setMDepense($mDepense)
+    {
+        $this->mDepense = $mDepense;
         return $this;
     }
 

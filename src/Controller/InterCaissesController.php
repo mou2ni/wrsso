@@ -91,12 +91,13 @@ class InterCaissesController extends Controller
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
-            $interCaiss = new InterCaisses();
+            return $this->redirectToRoute('intercaisses_ajout');
+            /*$interCaiss = new InterCaisses();
             $request = new Request();
             //dump($interCaiss);
             $interCaiss->setStatut($interCaiss::INITIE);
-            $form = $this->createForm(InterCaissesType::class, $interCaiss);
-            $form->handleRequest($request);
+            $form = $this->createForm(InterCaissesType::class, $interCaiss,['dateComptable'=>$this->journeeCaisse->getDateComptable(),'myJournee'=>$this->journeeCaisse]);
+            $form->handleRequest($request);*/
 
         }
 /*
