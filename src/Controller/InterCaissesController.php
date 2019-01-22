@@ -91,12 +91,14 @@ class InterCaissesController extends Controller
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
-            $interCaiss = new InterCaisses();
-            $request = new Request();
+            //$interCaiss = new InterCaisses();
+            return $this->redirectToRoute('intercaisses_ajout');
+
+            //$request = new Request();
             //dump($interCaiss);
-            $interCaiss->setStatut($interCaiss::INITIE);
-            $form = $this->createForm(InterCaissesType::class, $interCaiss);
-            $form->handleRequest($request);
+            //$interCaiss->setStatut($interCaiss::INITIE);
+            //$form = $this->createForm(InterCaissesType::class, $interCaiss);
+            //$form->handleRequest($request);
 
         }
 /*
@@ -279,11 +281,13 @@ class InterCaissesController extends Controller
         ]);
     }
     /**
-     * @Route("/{id}", name="inter_caisses_show", methods="GET")
+     * @Route("/{id}", name="inter_caisses_show", methods="GET|POST")
      */
-    public function show(InterCaisses $interCaiss): Response
+    public function show(JourneeCaisses $journeeCaisse): Response
     {
-        return $this->render('inter_caisses/show.html.twig', ['inter_caiss' => $interCaiss]);
+        $myIntercaisses=$this->getDoctrine()->getRepository(Intercaisses::class)->findMyIntercaisses($journeeCaisse);
+        return $this->render('intercaisses/show.html.twig', ['journeeCaisse' => $journeeCaisse,
+            'myIntercaisses'=>$myIntercaisses ]);
     }
 
     /**

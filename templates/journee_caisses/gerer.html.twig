@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block title %}Gestion de Journee{% endblock %}
 {% block body %}
-    <div class="row text-bold text-center "><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }}</h1>
+    <div class="row text-bold text-center "><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}</h1>
 
     </div>
 <div class="row">
@@ -34,52 +34,61 @@
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes et Credits'}) }}</td>
+                <td class="padding-0" rowspan="2" >{{ (journeeCaisse.statut == 'E')?include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes et Credits'})
+                    :include('journee_caisses/_btn_action_url.html.twig',{'path':'dette_credit_divers_show', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes et Credits'})
+                    }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td></td>
-                {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
+                {#<td></td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Crédits'}) }}</td>
                 #} </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >INTERCAISSE : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mIntercaisses|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'intercaisses_ajout' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Intercaisse'}) }}</td>
+                <td class="padding-0" >{{ (journeeCaisse.statut == 'E')?include('journee_caisses/_btn_action_url.html.twig',{'path':'intercaisses_ajout' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Intercaisse'})
+                    :include('journee_caisses/_btn_action_url.html.twig',{'path':'inter_caisses_show' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Intercaisse'})
+                    }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT EMIS : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_saisie' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transferts Internationaux'}) }}</td>
+                <td class="padding-0" rowspan="2">{{ (journeeCaisse.statut=='E')?include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_saisie' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transferts Internationaux'})
+                    : include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_show','id':journeeCaisse.id , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transferts Internationaux'})
+                    }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT PAYE : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mReceptionTrans|number_format(0, '.', ' ')  }}</td>
-                <td></td>
-                {#<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Reçus'}) }}</td>
+                {#<td></td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_reception' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Transfert Reçus'}) }}</td>
                 #}</tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CONTRE VALEUR DEVISE : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCvd|number_format(0, '.', ' ')  }}</td>
-                <td class="form-inline padding-0">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_recus_achat_vente' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }} |
+                <td class="form-inline padding-0">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':(journeeCaisse.statut == 'E')?'devise_recus_achat_vente':'devise_recus_show' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }} |
                     {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_intercaisses_gestion' , 'operation':'FERMER','btn_name':'modifier', 'btn_label':'intercaisse Devises'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DEPOT : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Dépots'}) }}</td>
+                {% if journeeCaisse.statut == 'E' %}<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Dépots'}) }}</td>
+                {% else %}<td class="padding-0" rowspan="2" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transaction_comptes_show' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Depots et retraits'}) }}</td>
+                {% endif %}
+
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RETRAIT : </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'retrait' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Retraits'}) }}</td>
+                {% if journeeCaisse.statut == 'E' %}<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'retrait' , 'operation':'FERMER','btn_name':'midifier', 'btn_label':'Retraits'}) }}</td>{% endif %}
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" align="center" colspan="6" bgcolor="#a9a9a9"> </td>

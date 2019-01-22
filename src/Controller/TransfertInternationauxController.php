@@ -144,11 +144,18 @@ class TransfertInternationauxController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="transfert_internationaux_show", methods="GET")
+     * @Route("/{id}/detail", name="transfert_internationaux_detail", methods="GET")
      */
     public function show(TransfertInternationaux $transfertInternationaux): Response
     {
         return $this->render('transfert_internationaux/show.html.twig', ['transfert_internationaux' => $transfertInternationaux]);
+    }
+    /**
+     * @Route("/{id}", name="transfert_internationaux_show", methods="GET|POST")
+     */
+    public function liste(JourneeCaisses $journeeCaisse): Response
+    {
+        return $this->render('transfert_internationaux/liste.html.twig', ['journeeCaisse' => $journeeCaisse]);
     }
     /**
      * @Route("/{id}/edit", name="transfert_internationaux_edit", methods="GET|POST")

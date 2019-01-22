@@ -431,8 +431,19 @@ class JourneeCaissesController extends Controller
 
         foreach ( $journeeCaissePrecedent->getDetteCredits() as $detteCredit) {
             if ($detteCredit->getStatut()== DetteCreditDivers::CREDIT_EN_COUR or $detteCredit->getStatut()== DetteCreditDivers::DETTE_EN_COUR){
-                $detteCredit->setJourneeCaisseActive($newJournee);
-                $em->persist($detteCredit);
+                //$detteCredit->setJourneeCaisseActive($newJournee);
+                $newDetteCredit = new DetteCreditDivers($newJournee);
+                $newDetteCredit->setJourneeCaisseActive($newJournee);
+                $newDetteCredit->setStatut($detteCredit->getStatut());
+                $newDetteCredit->setMDette($detteCredit->getMDette());
+                $newDetteCredit->setMCredit($detteCredit->getMCredit());
+                $newDetteCredit->setLibelle($detteCredit->getLibelle());
+                $newDetteCredit->setDateCreation($detteCredit->getDateCreation());
+                $newDetteCredit->setUtilisateurCreation($detteCredit->getUtilisateurCreation());
+                $newDetteCredit->setJourneeCaisseCreation($detteCredit->getJourneeCaisseCreation());
+                dump($newDetteCredit->getMCredit());
+
+                $em->persist($newDetteCredit);
             }
         }
 

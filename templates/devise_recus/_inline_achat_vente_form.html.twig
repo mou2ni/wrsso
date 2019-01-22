@@ -35,3 +35,4 @@
 
     </tbody>
 </Table>
+{% if journeeCaisse.statut != 'E' %}{{ include('_btn_close.html.twig') }}{% endif %}

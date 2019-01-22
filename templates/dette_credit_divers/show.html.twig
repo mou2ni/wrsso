@@ -3,17 +3,29 @@
 {% block title %}DetteCreditDivers{% endblock %}
 
 {% block body %}
-    <h1>DetteCreditDivers</h1>
+    <h1>DETAILS</h1>
 
     <table class="table">
         <tbody>
-            <tr>
+            {#<tr>
                 <th>Id</th>
                 <td>{{ dette_credit_diver.id }}</td>
+            </tr>#}
+            <tr>
+                <th>Date Création</th>
+                <td>{{ dette_credit_diver.dateCreation ? dette_credit_diver.dateCreation|date('d-m-Y H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>DateDC</th>
-                <td>{{ dette_credit_diver.dateDC ? dette_credit_diver.dateDC|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Utilisateur Création</th>
+                <td>{{ dette_credit_diver.utilisateurCreation }}</td>
+            </tr>
+            <tr>
+                <th>Date Remboursement</th>
+                <td>{{ dette_credit_diver.dateRemboursement ? dette_credit_diver.dateRemboursement|date('d-m-Y H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Utilisateur Remboursement</th>
+                <td>{{ dette_credit_diver.utilisateurRemboursement }}</td>
             </tr>
             <tr>
                 <th>Libelle</th>
@@ -21,7 +33,7 @@
             </tr>
             <tr>
                 <th>Statut</th>
-                <td>{{ dette_credit_diver.statut }}</td>
+                <td>{{ (dette_credit_diver.statut == 'X')? 'REMBOURSE' : 'EN COURS' }}</td>
             </tr>
             <tr>
                 <th>MCredit</th>
@@ -33,10 +45,6 @@
             </tr>
         </tbody>
     </table>
+    {{ include('_btn_close.html.twig') }}
 
-    <a href="{{ path('dette_credit_divers_index') }}">back to list</a>
-
-    <a href="{{ path('dette_credit_divers_edit', {'id': dette_credit_diver.id}) }}">edit</a>
-
-    {{ include('dette_credit_divers/_delete_form.html.twig') }}
 {% endblock %}

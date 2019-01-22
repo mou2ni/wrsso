@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\DetteCreditDivers;
 use App\Entity\DeviseJournees;
+use App\Entity\InterCaisses;
 use App\Entity\JourneeCaisses;
 use App\Form\CreditType;
 use App\Form\DetteCreditDiversType;
@@ -160,11 +161,27 @@ class DetteCreditDiversController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="dette_credit_divers_show", methods="GET")
+     * @Route("/{id}", name="dette_credit_divers_show", methods="GET|POST")
      */
-    public function show(DetteCreditDivers $detteCreditDiver): Response
+    public function show(JourneeCaisses $journeeCaisse): Response
     {
-        return $this->render('dette_credit_divers/show.html.twig', ['dette_credit_diver' => $detteCreditDiver]);
+        //dump($journeeCaisse);die();
+        $myDettes=$this->getDoctrine()->getRepository(DetteCreditDivers::class)->getDettesEncours($journeeCaisse);
+        $myCredits=$this->getDoctrine()->getRepository(DetteCreditDivers::class)->getCreditsEncours($journeeCaisse);
+        return $this->render('dette_credit_divers/liste.html.twig', [
+            'journeeCaisse'=>$journeeCaisse,
+            'myDettes'=>$myDettes,
+            'myCredits'=>$myCredits,
+        ]);
+    }
+    /**
+     * @Route("/{id}/detail", name="dette_credit_divers_detail", methods="GET|POST")
+     */
+    public function detail(DetteCreditDivers $detteCreditDiver): Response
+    {
+        return $this->render('dette_credit_divers/show.html.twig', [
+            'dette_credit_diver'=>$detteCreditDiver,
+        ]);
     }
 
     /**
