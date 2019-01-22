@@ -202,8 +202,8 @@ class DeviseMouvements
 
         //Créer un nouveau au cas où çc n'existe pas
         if ($deviseJournee==null) {
-            $deviseJournee=new DeviseJournees();
-            $deviseJournee->setDevise($this->getDevise())->setJourneeCaisse($journeeCaisse);
+            $deviseJournee=new DeviseJournees($journeeCaisse,$this->getDevise());
+            //$deviseJournee->setDevise($this->getDevise())->setJourneeCaisse($journeeCaisse);
         }
 
         $this->setJourneeCaisse($journeeCaisse);

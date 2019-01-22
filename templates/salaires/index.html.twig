@@ -10,7 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>PeriodeSalaire</th>
-                <th>MSalaire</th>
+                <th>MSalaireNetTotal</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,8 +18,8 @@
         {% for salaire in salaires %}
             <tr>
                 <td>{{ salaire.id }}</td>
-                <td>{{ salaire.periodeSalaire }}</td>
-                <td>{{ salaire.mSalaire }}</td>
+                <td>{{ salaire.periodeSalaire ? salaire.periodeSalaire|date('Y-m-d') : '' }}</td>
+                <td>{{ salaire.mSalaireNetTotal }}</td>
                 <td>
                     <a href="{{ path('salaires_show', {'id': salaire.id}) }}">show</a>
                     <a href="{{ path('salaires_edit', {'id': salaire.id}) }}">edit</a>

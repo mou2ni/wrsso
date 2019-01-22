@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block title %}Saisie des recettes et depenses au comptant{% endblock %}
+
+{% block body %}
+    <div>
+        <div class="form-row">
+            <div class="col-4">
+                {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+            </div>
+            <div class="col-8">
+                <h1>Recettes et dépenses au comptant</h1>
+            </div>
+        </div>
+        {{ form_start(form, {'attr': {'onsubmit':'return confirm("Confirmer l\'enregistrement ?");'} } ) }}
+        {# ... #}
+
+        {# store the prototype on the data-prototype attribute #}
+        <div class="table-responsive">
+            <table
+                   data-prototype="
+{{ '<td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.dateOperation)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.typeOperationComptable)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.libelle)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.mSaisie)|e }}
+{{ '</td>'|e }}"
+                   data-widget-tags="{{ '<tr classe=\"row\"></tr>'|e }}"  data-list="#collection-contener" onchange="majTransfert()">
+
+                <thead>
+                <tr> <th>TOTAL DE RECETTES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.recetteDepenseJournees.mRecette) }}</td>
+                    <th>TOTAL DE DEPENSES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.recetteDepenseJournees.mDepense) }}</td>
+
+                </tr>
+                <tr>
+                    <th class="text-bold padding-5 text-center" >Date </th>
+                    <th class="text-bold padding-5 text-center" >Type</th>
+                    <th class="text-bold padding-5 text-center">Libelle</th>
+                    <th class="text-bold padding-5 text-center">Montant</th>
+
+                </tr>
+
+                </thead>
+
+            </table>
+            {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
+            {% if journeeCaisse.statut!="F" %}
+                <div class="form-group">
+                    <button class="btn btn-info" type="submit" name="enregistreretfermer" id="enregistreretfermer" >Enregistrer et Fermer</button>
+                    <button class="btn btn-info" type="submit" name="enregistrer" id="enregistrer" >Enregistrer</button>
+                </div>
+            {% endif %}
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    {{ parent() }}
+
+    <script src="{{   asset('js/collections.js') }}"></script>
+
+{% endblock %}
+

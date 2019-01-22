@@ -28,10 +28,11 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         return $qb->addSelect('c')
             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
             ->where('jc.statut=:statut')
-            ->andWhere('jc.dateComptable=:dateComptable')
+            ->andWhere('jc.dateComptable=:dateComptable or c.typeCaisse!=:typeCaisse')
             ->andWhere('jc!=:myJournee')
             ->setParameter('statut',JourneeCaisses::ENCOURS)
             ->setParameter('dateComptable',$dateComptable)
+            ->setParameter('typeCaisse',Caisses::GUICHET)
             ->setParameter('myJournee',$myJournee)
             ;
 

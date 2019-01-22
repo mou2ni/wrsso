@@ -13,11 +13,11 @@
             </tr>
             <tr>
                 <th>PeriodeSalaire</th>
-                <td>{{ salaire.periodeSalaire }}</td>
+                <td>{{ salaire.periodeSalaire ? salaire.periodeSalaire|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>MSalaire</th>
-                <td>{{ salaire.mSalaire }}</td>
+                <th>MSalaireNetTotal</th>
+                <td>{{ salaire.mSalaireNetTotal }}</td>
             </tr>
         </tbody>
     </table>

@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Salaires;
-use App\Form\SalairesType;
+use App\Form\Salaires1Type;
+use App\Repository\SalairesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,13 +18,9 @@ class SalairesController extends Controller
     /**
      * @Route("/", name="salaires_index", methods="GET")
      */
-    public function index(): Response
+    public function index(SalairesRepository $salairesRepository): Response
     {
-        $salaires = $this->getDoctrine()
-            ->getRepository(Salaires::class)
-            ->findAll();
-
-        return $this->render('salaires/index.html.twig', ['salaires' => $salaires]);
+        return $this->render('salaires/index.html.twig', ['salaires' => $salairesRepository->findAll()]);
     }
 
     /**
@@ -32,7 +29,7 @@ class SalairesController extends Controller
     public function new(Request $request): Response
     {
         $salaire = new Salaires();
-        $form = $this->createForm(SalairesType::class, $salaire);
+        $form = $this->createForm(Salaires1Type::class, $salaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -62,13 +59,13 @@ class SalairesController extends Controller
      */
     public function edit(Request $request, Salaires $salaire): Response
     {
-        $form = $this->createForm(SalairesType::class, $salaire);
+        $form = $this->createForm(Salaires1Type::class, $salaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('salaires_edit', ['id' => $salaire->getId()]);
+            return $this->redirectToRoute('salaires_index', ['id' => $salaire->getId()]);
         }
 
         return $this->render('salaires/edit.html.twig', [

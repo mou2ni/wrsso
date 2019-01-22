@@ -1,11 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New RecetteDepenses{% endblock %}
+{% block title %}Saisie des dépenses et recettes{% endblock %}
 
 {% block body %}
-    <h1>Create new RecetteDepenses</h1>
+    <h1>Saisie des dépenses et recettes au comptant</h1>
 
     {{ include('recette_depenses/_form.html.twig') }}
 
-    <a href="{{ path('recette_depenses_index') }}">back to list</a>
+    <a href="{{ path('recette_depenses_index') }}">Liste</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            // you may need to change this code if you are not using Bootstrap Datepicker
+            $('.js-datepicker').datepicker({
+                format: 'dd-mm-yyyy'
+            });
+        });
+    </script>
+
 {% endblock %}

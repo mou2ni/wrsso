@@ -312,6 +312,10 @@ class GenererCompta
     {
         $compteOperation=$this->checkCompteOperation($caisse);
         if (!$compteOperation) return false;
+        if (!$compteCharge){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte de charge non trouvé ! ! !');
+        }
 
         $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
 
@@ -386,10 +390,12 @@ class GenererCompta
 
     /**
      * @param Utilisateurs $utilisateur
-     * @param Caisses $caisse
-     * @param ParamComptables $paramComptable
+     * @param Caisses $caisseDebit
+     * @param Caisses $caisseCredit
      * @param $montant
      * @return bool
+     * @internal param Caisses $caisse
+     * @internal param ParamComptables $paramComptable
      */
     public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant)
     {

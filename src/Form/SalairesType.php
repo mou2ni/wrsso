@@ -13,8 +13,8 @@ class SalairesType extends AbstractType
     {
         $builder
             ->add('periodeSalaire')
-            ->add('mSalaire')
-            ->add('idTrans')
+            ->add('mSalaireNetTotal')
+            ->add('transaction')
         ;
     }
 

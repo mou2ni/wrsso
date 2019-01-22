@@ -18,8 +18,8 @@ class DeviseIntercaissesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //$statut=JourneeCaisses::OUVERT;
-        //$statut='T';
+        $dateComptable=$options['dateComptable'];
+        $myJournee=$options['myJournee'];
 
         $builder
             ->add('sens', ChoiceType::class,array(
@@ -38,8 +38,8 @@ class DeviseIntercaissesType extends AbstractType
                 'label' => 'Journée partenaire',
                 'multiple' => false,
                 'expanded'=>false,
-                'query_builder' => function(JourneeCaissesRepository $repository) {
-                    return $repository->getOpenJourneeCaisseQb();
+                'query_builder' => function(JourneeCaissesRepository $repository) use ($dateComptable,$myJournee) {
+                    return $repository->getOpenJourneeCaisseQb($dateComptable,$myJournee);
                 }
             ))->add ('deviseTmpMouvements', CollectionType::class, array (
                 'entry_type' => DeviseMvtIntercaisseType::class,
@@ -58,6 +58,10 @@ class DeviseIntercaissesType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DeviseIntercaisses::class,
+            'dateComptable'=>null,
+            'myJournee'=>null,
         ]);
+
+        $resolver->setRequired(['dateComptable','myJournee']);
     }
 }
