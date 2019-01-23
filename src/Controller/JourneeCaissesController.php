@@ -76,8 +76,19 @@ class JourneeCaissesController extends Controller
      */
     public function index(): Response
     {
-        return $this->redirectToRoute('journee_caisses_gerer');
-        //$this->redirectToRoute('journee_caisses_etat_de_caisse');
+        $dateDeb = new \DateTime("01-11-2018");
+        $dateFin = new \DateTime('now');
+        //if ($this->isGranted('ROLE_GUICHETIER'))
+        $journeeCaisses = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
+        if ($this->isGranted('ROLE_ADMIN'))
+            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll();
+        return $this->render('journee_caisses/etat_de_caisse.html.twig', [
+                'journee_caisses' => $journeeCaisses,
+                'journeeCaisse' => null,
+                //'form' => $form->createView()
+            ]);
     }
 
     /**

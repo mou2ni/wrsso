@@ -1,4 +1,4 @@
-<form class="form-inline" method="POST" action="{{ (journeeCaisse.statut == 'E')?path('billetages_ajout', {'id': id, 'devise': devise, 'operation': operation}):path('billetages_show', {'id': id, 'devise': devise, 'operation': operation})}}">
+<form class="form-inline" method="POST" action="{{ (journeeCaisse.statut != 'X')?path('billetages_ajout', {'id': id, 'devise': devise, 'operation': operation}):path('billetages_show', {'id': id, 'devise': devise, 'operation': operation})}}">
     <input type="hidden" name="_method" value="UPDATE">
     {#<input type="hidden" name="_operation" value="{{ operation }}">#}
     <input type="hidden" name="_token" value="{{ csrf_token('billetage' ~ id)}}">

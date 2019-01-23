@@ -1,4 +1,4 @@
-<form class="form-inline" method="POST" action="{{ (journeeCaisse.statut == 'E')?path('' ~ path):path('' ~ path,{'id':id|default(journeeCaisse.id)})}}" >
+<form class="form-inline" method="POST" action="{{ (journeeCaisse.statut != 'X')?path('' ~ path):path('' ~ path,{'id':id|default(journeeCaisse.id)})}}" >
     <input type="hidden" name="_method" value="POST">
     <input type="hidden" name="_operation" value="{{ operation }}">
     <input type="hidden" name="_token" value="{{ csrf_token('action' ~ journeeCaisse.id)}}">
