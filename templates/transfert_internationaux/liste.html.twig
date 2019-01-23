@@ -29,8 +29,8 @@
                 <td class="padding-0">{{ trans.idSystemTransfert }}</td>
                 <td class="padding-0">{{ (trans.sens == 1)?'RECEPTION':'ENVOI' }}</td>
                 <td class="padding-0">{{ trans.idPays }}</td>
-                <td class="padding-0">{{ trans.mTransfert }}</td>
-                <td class="padding-0">{{ trans.mTransfertTTC }}</td>
+                <td class="padding-0">{{ trans.mTransfert|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0">{{ trans.mTransfertTTC|number_format(0, '.', ' ') }}</td>
                 <td class="padding-0">{{ trans.mFraisHt|number_format(0,'.',',') }}</td>
                 <td class="padding-0">{{ trans.mTva|number_format(0,'.',',') }}</td>
                 <td class="padding-0">{{ trans.mAutresTaxes|number_format(0,'.',',') }}</td>

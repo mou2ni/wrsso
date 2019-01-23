@@ -29,7 +29,8 @@ class RecetteDepenses
      */
     private $utilisateur;
 
-    /**
+    /*
+    *
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeOperationComptables")
      * @ORM\JoinColumn(nullable=false)
      */

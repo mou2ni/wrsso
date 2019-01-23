@@ -11,12 +11,12 @@
             {#{% if journeeCaisse %}<th class="text-bold padding-0 text-left" bgcolor="#f69f00">{{ journeeCaisse.dateOuv.format('d-m-Y H:i:s') }}</th>{% endif %}
             #}</tr>
         <tr><th class="text-bold padding-0 text-left" bgcolor="#f69f00">Systemes electroniques</th>
-            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"><div class="form-inline"> Solde{{ system_elect_inventaire.soldeTotal }}</div></th></tr>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"><div class="form-inline"> Solde{{ system_elect_inventaire.soldeTotal|number_format(0, '.', ' ') }}</div></th></tr>
         </thead>
         <tbody>
         {% for seil in system_elect_inventaire.systemElectLigneInventaires %}
             <tr><td bgcolor="#a9a9a9">{{ seil.idSystemElect }}</td>
-                <td>{{ seil.solde }}</td></tr>
+                <td>{{ seil.solde|number_format(0, '.', ' ') }}</td></tr>
         {% endfor %}
         </tbody>
     </table>

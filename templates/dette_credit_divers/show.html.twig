@@ -37,11 +37,11 @@
             </tr>
             <tr>
                 <th>MCredit</th>
-                <td>{{ dette_credit_diver.mCredit }}</td>
+                <td>{{ dette_credit_diver.mCredit|number_format(0, '.', ' ') }}</td>
             </tr>
             <tr>
                 <th>MDette</th>
-                <td>{{ dette_credit_diver.mDette }}</td>
+                <td>{{ dette_credit_diver.mDette|number_format(0, '.', ' ') }}</td>
             </tr>
         </tbody>
     </table>

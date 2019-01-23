@@ -32,7 +32,8 @@ class TypeOperationComptables
      */
     private $estCharge=true;
 
-    /**
+    /*
+    *
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
      */
     private $compte;
