@@ -1,4 +1,4 @@
-<form class="form-inline" method="POST" action="{{ (journeeCaisse.statut == 'E')?path('electroniques_ajout', {'operation': operation}):path('system_elect_inventaires_show', {'id':journeeCaisse.systemElectInventFerm.id, 'operation': operation})}}" >
+<form class="form-inline" method="POST" action="{{ (journeeCaisse.statut != 'X')?path('electroniques_ajout', {'operation': operation}):path('system_elect_inventaires_show', {'id':journeeCaisse.systemElectInventFerm.id, 'operation': operation})}}" >
     <input type="hidden" name="_method" value="UPDATE">
     {#<input type="hidden" name="_operation" value="{{ operation }}">#}
     <input type="hidden" name="_token" value="{{ csrf_token('elect' ~ id)}}">

@@ -258,11 +258,11 @@ class TransactionComptesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="transaction_comptes_show", methods="GET")
+     * @Route("/{id}", name="transaction_comptes_show", methods="GET|POST")
      */
-    public function show(TransactionComptes $transactionCompte): Response
+    public function show(JourneeCaisses $journeeCaisse): Response
     {
-        return $this->render('transaction_comptes/show.html.twig', ['transaction_compte' => $transactionCompte]);
+        return $this->render('transaction_comptes/show.html.twig', ['journeeCaisse' => $journeeCaisse]);
     }
 
     /**

@@ -3,9 +3,11 @@
 {% block title %}TransactionComptes{% endblock %}
 
 {% block body %}
-    <h1>TransactionComptes</h1>
+    <h1>LISTE DES DEPOTS ET DES RETRAITS</h1>
+    {{ include('transaction_comptes/_liste.html.twig') }}
+    {{ include('_btn_close.html.twig') }}
 
-    <table class="table">
+   {# <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -30,5 +32,5 @@
 
     <a href="{{ path('transaction_comptes_edit', {'id': transaction_compte.id}) }}">edit</a>
 
-    {{ include('transaction_comptes/_delete_form.html.twig') }}
+    {{ include('transaction_comptes/_delete_form.html.twig') }}#}
 {% endblock %}

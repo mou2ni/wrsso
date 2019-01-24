@@ -246,7 +246,10 @@ class TransfertInternationaux
      */
     public function getMFraisHt()
     {
-        return ($this->getMFraisTTC() - $this->mAutresTaxes) / (1 + $this::TVA);
+        if ($this->getSens()==$this::ENVOI)
+            return ($this->getMFraisTTC() - $this->mAutresTaxes) / (1 + $this::TVA);
+        else
+            return 0;
     }
     /**
      * @return mixed
@@ -272,8 +275,10 @@ class TransfertInternationaux
     public function getMTva()
     {
         $this->mTva =  $this->getMFraisTTC() - $this->mAutresTaxes - $this->mFraisHt;
-
-        return $this->getMFraisTTC() - $this->getMAutresTaxes() - $this->getMFraisHt();
+        if ($this->getSens()==$this::ENVOI)
+            return $this->getMFraisTTC() - $this->getMAutresTaxes() - $this->getMFraisHt();
+        else
+            return 0;
     }
 
     /**

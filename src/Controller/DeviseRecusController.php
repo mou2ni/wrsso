@@ -37,6 +37,7 @@ class DeviseRecusController extends Controller
         }
     }
 
+
     /**
      * @Route("/", name="devise_recus_achat_vente", methods="GET|POST|UPDATE")
      */
@@ -112,6 +113,21 @@ class DeviseRecusController extends Controller
     }
 
     /**
+     * @Route("/{id}", name="devise_recus_show", methods="GET|POST")
+     */
+    public function show(JourneeCaisses $journeeCaisse): Response
+    {
+        $my_devise_recus=$this->getDoctrine()->getRepository(DeviseRecus::class)->findMyDeviseRecus($journeeCaisse);
+
+        return $this->render('devise_recus/achat_vente.html.twig', [
+            'my_devise_recus'=>$my_devise_recus,
+            'journeeCaisse'=>$journeeCaisse,
+        ]);
+    }
+
+
+
+    /**
      * @Route("/imprimer/{id}", name="devise_recus_imprimer", methods="GET|POST")
      */
     public function imprimer(Request $request, DeviseRecus $deviseRecus): Response
@@ -125,13 +141,6 @@ class DeviseRecusController extends Controller
         return $this->render('devise_recus/recu_impression.html.twig', ['devise_recus' => $deviseRecus,'devise_mouvements'=>$deviseRecus->getDeviseMouvements(),'journeeCaisse'=>$deviseRecus->getJourneeCaisse(), 'copies'=>[$this::COPIE1,$this::COPIE2]]);
     }
 
-    /**
-     * @Route("/{id}", name="devise_recus_show", methods="GET")
-     */
-    public function show(DeviseRecus $deviseRecus): Response
-    {
-        return $this->render('devise_recus/show.html.twig', ['devise_recus' => $deviseRecus]);
-    }
 
     /**
      * @Route("/{id}/edit", name="devise_recus_edit", methods="GET|POST")
@@ -153,8 +162,9 @@ class DeviseRecusController extends Controller
         ]);
     }
 
+
     /**
-     * @Route("/{id}", name="devise_recus_delete", methods="DELETE")
+     * @Route("/{id}/delete", name="devise_recus_delete", methods="DELETE")
      */
     public function delete(Request $request, DeviseRecus $deviseRecus): Response
     {

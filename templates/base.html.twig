@@ -9,6 +9,7 @@
             -->
 
             <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
             <link rel="stylesheet" href="{{ asset('css/select2/select2.min.css') }}">
 
@@ -26,7 +27,7 @@
             <div class="app-content">
                 <!-- START PAGE CONTAINER -->
                 <div class="container">
-                    <div><span class="glyphicon glyphicon-off" aria-hidden="true"></span><a href="{{ path('logout') }}" class="close" > Deconnecter </a><span class="float-right">{{ app.user }}</span> </div>
+                    <div><span class="float-sm-right glyphicon glyphicon-user">{{ app.user }}</span><a href="{{ path('logout') }}" class="close" > <span class="glyphicon glyphicon-off" aria-hidden="true"></span>Deconnecter </a> </div>
                     {% for msg in app.session.flashBag.get('success') %}
                         <div class="alert alert-success">
                             {{ msg }}

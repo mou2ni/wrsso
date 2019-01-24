@@ -1,75 +1,78 @@
+{% if journeeCaisse.statut == 'E' %}<div class="form-inline"><h1>{{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }} </h1></div>{% endif %}
 <div class="row">
-<div class="col-6"><h1>CREDITS ENCOURS</h1>
+    <div class="col-6"><h1>CREDITS ENCOURS</h1>
 
-<table class="table table-responsive">
-    <thead>
-    <tr>
-        <th>Date Création</th>
-        <th>Libellé</th>
-        <th>Montant Crédit</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td></td>
-    <th>Totaux </th>
-         <th>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ') }}</th>
-    </tr>
-    {% for myCredit in myCredits %}
-        {% set id= myCredit.id%}
-        <tr>
-
-            <td>{{ myCredit.dateCreation ? myCredit.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{ myCredit.libelle }}</td>
-            <td>{{ myCredit.mCredit|number_format(0, '.', ' ') }}</td>
-            <td>
-                {{ include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'}) }}
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="4">Aucun crédit non remboursé</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-</div>
-
-<div class="col-6"><h1>DETTES ENCOURS</h1>
-
-    <table class="table table-responsive">
-        <thead>
-        <tr>
-            <th>Date Création</th>
-            <th>Libellé</th>
-            <th>Montant Dette</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td></td>
-            <th>Totaux </th>
-            <th>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</th>
-        </tr>
-        {% for myDette in myDettes %}
-            {% set id= myDette.id%}
+        <table class="table table-responsive">
+            <thead>
             <tr>
-
-                <td>{{ myDette.dateCreation ? myDette.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ myDette.libelle }}</td>
-                <td>{{ myDette.mDette|number_format(0, '.', ' ') }}</td>
-                <td>
-                    {{ include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'}) }}
-                </td>
+                <th>Date Création</th>
+                <th>Libellé</th>
+                <th>Montant Crédit</th>
+                <th>Actions</th>
             </tr>
-        {% else %}
+            </thead>
+            <tbody>
             <tr>
-                <td colspan="4">Aucune dette non remboursée</td>
+                <td></td>
+                <th>Totaux </th>
+                <th>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ') }}</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+            {% for myCredit in myCredits %}
+                {% set id= myCredit.id%}
+                <tr>
+
+                    <td>{{ myCredit.dateCreation ? myCredit.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ myCredit.libelle }}</td>
+                    <td>{{ myCredit.mCredit|number_format(0, '.', ' ') }}</td>
+                    <td>
+                        {{ (journeeCaisse.statut == 'E')?include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'})
+                        : include('journee_caisses/_btn_action_url.html.twig',{'id':myCredit.id,'path':'dette_credit_divers_detail', 'operation':'FERMER' ,'btn_name':'detail', 'btn_label':'Detail'})}}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun crédit non remboursé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-6"><h1>DETTES ENCOURS</h1>
+
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>Date Création</th>
+                <th>Libellé</th>
+                <th>Montant Dette</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <th>Totaux </th>
+                <th>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ') }}</th>
+            </tr>
+            {% for myDette in myDettes %}
+                {% set id= myDette.id%}
+                <tr>
+
+                    <td>{{ myDette.dateCreation ? myDette.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ myDette.libelle }}</td>
+                    <td>{{ myDette.mDette|number_format(0, '.', ' ') }}</td>
+                    <td>
+                        {{ (journeeCaisse.statut == 'E')?include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'})
+                        : include('journee_caisses/_btn_action_url.html.twig',{'id':myDette.id,'path':'dette_credit_divers_detail', 'operation':'FERMER' ,'btn_name':'detail', 'btn_label':'Detail'})}}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucune dette non remboursée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>

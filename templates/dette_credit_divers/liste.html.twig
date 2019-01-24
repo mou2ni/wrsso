@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dette Credit Divers{% endblock %}
+
+{% block body %}
+    {#{% if dette %}<h1>Saisie des dettes</h1>{% else %}<h1>Saisie des crédits</h1>{% endif %}
+
+    <h1>DETTES ET CREDIT DE {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }} </h1>
+    #}{{ include('dette_credit_divers/_liste.html.twig') }}
+    {{ include('_btn_close.html.twig') }}
+
+{% endblock %}
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+    </script>
+
+{% endblock %}

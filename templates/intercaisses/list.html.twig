@@ -1,0 +1,41 @@
+<table class="table">
+    <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th>{% if journeeCaisse.statut=='E' %}<th>Action</th>{% endif %}</tr></thead>
+    <tbody>
+    {% set totalV = 0 %}
+    {% set totalE = 0 %}
+    {% for intercaisse in myIntercaisses  %}
+        {% if  intercaisse.statut!='X'  %}
+            <tr id="{{ intercaisse.id }}S">
+                <td>{{ (intercaisse.journeeCaisseEntrant.id==journeeCaisse.id)?intercaisse.journeeCaisseSortant:intercaisse.journeeCaisseEntrant }}</td>
+                <td>{{ (intercaisse.journeeCaisseEntrant.id==journeeCaisse.id)?intercaisse.mIntercaisse|number_format(0, '.', ' ') :(-intercaisse.mIntercaisse)|number_format(0, '.', ' ')}}</td>
+                {#<td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ')}}</td>#}
+                <td >
+
+                            <span id="statut{{intercaisse.id}}V">{{ (intercaisse.statut=='I')
+                                ?'Initié':(intercaisse.statut=='V')
+                                ?'Validé':(intercaisse.statut=='VA')
+                                ?'Auto validé': 'Non defini'}}
+                            </span>
+                </td>
+                <td>{{ intercaisse.observations }}</td>
+        {% if journeeCaisse.statut=='E' %}<td><div class="form-row">
+                        {% if  intercaisse.statut=='I' %}
+                            {{ (intercaisse.journeeCaisseEntrant.id==journeeCaisse.id)
+                            ?include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'})
+                            :include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'})
+                            }}
+                        {% endif %}
+
+                    </div>
+                </td>
+            {% endif %}
+            </tr>
+
+        {% endif %}
+    {% else %}
+        <tr> <td colspan="5">Aucun Enregistrement trouve.</td></tr>
+    {% endfor %}
+
+    <tr><th>Total Validé</th><th>{{ (journeeCaisse.mIntercaisses)|number_format(0, '.', ' ') }}</th></tr>
+    </tbody>
+</table>

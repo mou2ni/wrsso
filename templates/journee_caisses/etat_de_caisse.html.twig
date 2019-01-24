@@ -24,14 +24,18 @@
         <thead>
         {% if journee_caisses %}
         <tr>
-            <th colspan="9">FICHE ARRET CAISSE : {{ journee_caisses[0].caisse }}</th>
+            <th colspan="12">FICHE ARRET CAISSE : {{ journee_caisses[0].caisse }}</th>
         </tr>
         {% else %}
         <tr>
-            <th colspan="9">REVOIR LES CRITERES DE SELECTION</th>
+            <th colspan="12">REVOIR LES CRITERES DE SELECTION</th>
         </tr>
         {% endif %}
             <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th>CAISSE</th>
+                    <th>GUICHETIER</th>
+                {% endif %}
                 <th>DATES</th>
                 <th>NET OUVERTURE</th>
                 <th>COMPENSES</th>
@@ -41,11 +45,16 @@
                 <th>DISPONIBILITE</th>
                 <th>NET FERMETURE</th>
                 <th>ECARTS Ouv|Ferm</th>
+                <th>ACTION</th>
             </tr>
         </thead>
         <tbody>
         {% for journee_caiss in journee_caisses %}
             <tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                <td>{{ journee_caiss.caisse }}</td>
+                <td>{{ journee_caiss.utilisateur }}</td>
+                {% endif %}
                 <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }} | {{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ journee_caiss.soldeNetOuv|number_format(0, '.', ' ') }}</td>
                 <td>{{ journee_caiss.compense|number_format(0, '.', ' ') }}</td>
@@ -56,6 +65,7 @@
                 <td>{{ journee_caiss.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
                 <td>{{ journee_caiss.soldeNetFerm|number_format(0, '.', ' ') }}</td>
                 <td>{{ journee_caiss.mEcartOuv|number_format(0, '.', ' ') }}|{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
+                <td><a href="{{ path('journee_caisse_show', {'id': journee_caiss.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir</a></td>
             </tr>
         {% else %}
             <tr>
@@ -65,5 +75,5 @@
         </tbody>
     </table>
     </div>
-    <div hidden>{{ form_rest(form) }}</div>
+    {#<div hidden>{{ form_rest(form) }}</div>#}
 {% endblock %}

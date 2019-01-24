@@ -12,15 +12,15 @@
         <tr>
             <th class="text-bold padding-0 text-left" bgcolor="#f69f00">VALEUR</th>
             <th class="text-bold padding-0 text-left" bgcolor="#f69f00">NOMBRE</th>
-            <th class="text-bold padding-0 text-left" bgcolor="#ffb2a8">{{ billetage.valeurTotal }}</th></tr>
+            <th class="text-bold padding-0 text-left" bgcolor="#ffb2a8">{{ billetage.valeurTotal|number_format(0, '.', ' ') }}</th></tr>
         </thead>
         <tbody>
         {% set i=0 %}
         {% for bl in billetage.billetageLignes %}
             <tr class="">
-                <td>{{ bl.valeurBillet }}</td>
+                <td>{{ bl.valeurBillet|number_format(0, '.', ' ') }}</td>
                 <td>{{ bl.nbBillet }}</td>
-                <td>{{ bl.valeurLigne }}</td>
+                <td>{{ bl.valeurLigne|number_format(0, '.', ' ') }}</td>
                 {#<td><input  id="billetages_billetageLignes_{{i}}_valeurLigne"  name="[valeurLigne][{{ i }}]" required="required" class="form-control" value="" type="text"></td>
                 #}</tr>
             {% set i=i+1 %}
