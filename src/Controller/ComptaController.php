@@ -13,9 +13,11 @@ use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/compta")
