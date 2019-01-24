@@ -138,7 +138,7 @@ class GenererCompta
 
         //$this->em=$this->getDoctrine()->getManager();
         $this->em->persist($transaction);
-        $this->em->flush();
+        //$this->em->flush();
         return $transaction;
     }
 
@@ -167,7 +167,7 @@ class GenererCompta
 
         //$em=$this->getDoctrine()->getManager();
         $this->em->persist($transaction);
-        $this->em->flush();
+        //$this->em->flush();
         return $transaction;
     }
 
