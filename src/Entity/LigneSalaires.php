@@ -30,7 +30,47 @@ class LigneSalaires
     /**
      * @ORM\Column(type="float")
      */
-    private $mSalaireNet;
+    private $mSalaireBase;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mIndemLogement;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mIndemTransport;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mIndemFonction;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mIndemAutres;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mSocialeSalarie;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mSocialePatronale;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mImpotSalarie;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mTaxePatronale;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})

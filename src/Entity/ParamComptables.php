@@ -49,9 +49,63 @@ class ParamComptables
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
-     * @ORM\JoinColumn(name="id_cpt_chrg_salaire")
      */
-    private $compteChargeSalaireNet;
+    private $compteChargeBaseSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteChargeLogeSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteChargeTranspSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteChargeFonctSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteChargeIndemSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteChargeCotiPatronale;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteTaxeSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteOrgaSocial;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteOrgaImpotSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteOrgaTaxeSalaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteOrgaTaxeFactClt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteOrgaTaxeFactFseur;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
@@ -140,24 +194,6 @@ class ParamComptables
     public function setCompteCompense($compteCompense)
     {
         $this->compteCompense = $compteCompense;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCompteChargeSalaireNet()
-    {
-        return $this->compteChargeSalaireNet;
-    }
-
-    /**
-     * @param mixed $compteChargeSalaireNet
-     * @return ParamComptables
-     */
-    public function setCompteChargeSalaireNet($compteChargeSalaireNet)
-    {
-        $this->compteChargeSalaireNet = $compteChargeSalaireNet;
         return $this;
     }
 

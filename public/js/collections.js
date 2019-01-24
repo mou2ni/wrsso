@@ -6,13 +6,14 @@ var $addLink = $('<a href="#" class="add-collection"> + </a>');
 var $newLinkLi = $('<div></div>').append($addLink);
 
 jQuery(document).ready(function() {
-    // Get the ul that holds the collection of tags
-    var $collectionHolder = $('.collections-tag');
+    var $collectionHolder = $('table.collection-tags');
 
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    $collectionHolder.append($newLinkLi);
+
+    $collectionHolder.data('index', $collectionHolder.find('tr.collection-tag').length);
 
     if ($collectionHolder.data('index') == 0)
-        while ($collectionHolder.data('index') < 5 )
+        while ($collectionHolder.data('index') < 4 )
             addTagForm($collectionHolder, $newLinkLi);
 
     $addLink.on('click', function(e) {
@@ -31,15 +32,12 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
     $collectionHolder.data('index', index + 1);
 
-    // Display the form in the page in an li, before the "Add a tag" link li
-    var $newFormLi = $('<tr class="form-inline"></tr>').append(newForm);
+    var $newFormLi = $('<tr class="collection-tag"></tr>').append(newForm);
 
-    // also add a remove button, just for this example
     $newFormLi.append('<a href="#" class="remove-collection"> X </a>');
 
     $newLinkLi.before($newFormLi);
 
-    // handle the removal, just for this example
     $('.remove-collection').click(function(e) {
         e.preventDefault();
         $(this).parent().remove();
@@ -47,3 +45,15 @@ function addTagForm($collectionHolder, $newLinkLi) {
     });
 }
 
+/*<input type="text" id="recette_depense_journees_recetteDepenses_0_mSaisie" name="recette_depense_journees[recetteDepenses][0][mSaisie]" class="form-control" value="25000">
+
+function setCollectionsTotal($racineChamp, $nomChamp) {
+    var total = 0;
+    var i=0;
+    while ($("#"+$racineChamp+"_"+i+"_"+$nomChamp)) {
+        total+=$("#"+$racineChamp+"_"+i+"_"+$nomChamp).val();
+        i++;
+    }
+
+    $("div#total").html("TOTAL= "+total);
+}*/

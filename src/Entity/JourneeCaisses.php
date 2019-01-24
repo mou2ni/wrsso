@@ -463,8 +463,24 @@ class JourneeCaisses
             }
             elseif ($detteCredit->getStatut()==DetteCreditDivers::CREDIT_EN_COUR)
                 $this->updateM('mCreditDiversFerm', $detteCredit->getMCredit());
+        }
+            //die();
+    }
+
+    public function maintenirRecetteDepenses(){
+        $this->mRecette=0;
+        $this->mDepense=0;
+        foreach ($this->getRecetteDepenses() as $recetteDepense){
+            //$this
+            if ($recetteDepense->getMRecette()!=0) {
+                //dump($detteCredit->getMCredit());
+                $this->updateM('mRecette', $recetteDepense->getMRecette());
             }
-            die();
+            else{
+                $this->updateM('mDepense', $recetteDepense->getMDepense());
+            }
+        }
+        return $this;
     }
 
 
@@ -1493,6 +1509,42 @@ class JourneeCaisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRecetteDepenses()
+    {
+        return $this->recetteDepenses;
+    }
 
+    /**
+     * @param mixed $recetteDepenses
+     * @return JourneeCaisses
+     */
+    public function setRecetteDepenses($recetteDepenses)
+    {
+        $this->recetteDepenses = $recetteDepenses;
+        return $this;
+    }
+
+    /**
+     * @param RecetteDepenses $recetteDepense
+     * @return $this
+     */
+    public function addRecetteDepense(RecetteDepenses $recetteDepense)
+    {
+        $recetteDepense->setUtilisateur($this->getUtilisateur());
+        $recetteDepense->setJourneeCaisse($this);
+        $this->recetteDepenses->add($recetteDepense);
+        return $this;
+    }
+
+    /**
+     * @param Transactions $transaction
+     */
+    public function removeRecetteDepense(RecetteDepenses $recetteDepense)
+    {
+        $this->recetteDepenses->removeElement($recetteDepense);
+    }
 
 }

@@ -71,14 +71,14 @@ class RecetteDepenses
     /**
      * @ORM\Column(type="string")
      */
-    private $statut;
+    private $statut=RecetteDepenses::STAT_INITIAL;
 
     /**
      * @ORM\Column(type="boolean")
      */
     private $estComptant=true;
 
-    private $mSaisie;
+    private $mSaisie=0;
 
     public function __construct()
     {
@@ -252,6 +252,10 @@ class RecetteDepenses
      */
     public function getMSaisie()
     {
+        //retourne la valeur saisi oubien mdepense ou mrecette le cas échéant
+        if ($this->mSaisie!=0) return $this->mSaisie;
+        if ($this->getMDepense()) return $this->getMDepense();
+        if ($this->getMRecette()) return $this->getMRecette();
         return $this->mSaisie;
     }
 

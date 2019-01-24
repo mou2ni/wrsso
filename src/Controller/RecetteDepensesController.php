@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\RecetteDepenses;
+use App\Form\RecetteDepenseJourneesType;
 use App\Form\RecetteDepensesType;
 use App\Repository\RecetteDepensesRepository;
 use App\Utils\GenererCompta;
@@ -79,24 +80,39 @@ class RecetteDepensesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            foreach ($this->journeeCaisse->getRecetteDepenses() as $recetteDepense)
-                if (!$this->comptabiliser($em,$recetteDepense,$recetteDepense->getTypeOperationComptable()->getEstCharge())){
-                    return $this->redirectToRoute('recette_depenses_saisie_groupee');
+            //dump($this->journeeCaisse);die();
+            foreach ($this->journeeCaisse->getRecetteDepenses() as $recetteDepense) {
+
+                if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null){
+                    $recetteDepense->setEstComptant(true);
+                    $genCompta=$this->comptabiliser($em, $recetteDepense, $recetteDepense->getTypeOperationComptable()->getEstCharge());
+                    if (!$genCompta) {
+                        return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse,'form' => $form->createView(), ]);
+                    }
+                    $recetteDepense->setTransaction($genCompta->getTransactions()[0]);
+                    $recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
+                    //$em->persist($recetteDepense);
                 }
+            }
+            $this->journeeCaisse->maintenirRecetteDepenses();
             $em->persist($this->journeeCaisse);
             $em->flush();
+            $this->addFlash('success','Depenses et recettes bien enregistré');
 
-            if($request->request->has('save_and_close')){
+            return $this->redirectToRoute('recette_depenses_saisie_groupee');
+
+            /*if($request->request->has('save_and_close')){
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
             if($request->request->has('save_and_close')){
                 return $this->redirectToRoute('recette_depenses_saisie_groupee');
-            }
+            }*/
 
         }
 
         return $this->render('recette_depenses/recette_depense_journee.html.twig', [
-            'recette_depense' => $recetteDepense,
+            //'recette_depense' => $recetteDepense,
+            'journeeCaisse' => $this->journeeCaisse,
             'form' => $form->createView(),
         ]);
     }
@@ -151,21 +167,23 @@ class RecetteDepensesController extends Controller
             $this->addFlash('error', 'Compte non paramétré pour l\'opération comptable '.$recetteDepense->getTypeOperationComptable()->getLibelle());
             return false;
         }
+        //dump($recetteDepense);die();
         if($estCharge){
-            $this->journeeCaisse->updateM('mDepense',$recetteDepense->getMSaisie());
+            //$this->journeeCaisse->updateM('mDepense',$recetteDepense->getMSaisie());
             if (!$genCompta->genComptaDepenses($this->utilisateur,$this->caisse,$compte,$recetteDepense->getLibelle(),$recetteDepense->getMSaisie(),$this->journeeCaisse)){
                 $this->addFlash('error',$genCompta->getErrMessage());
+                //dump($recetteDepense->getMSaisie());die();
                 return false;
             };
 
         }else{
-            $this->journeeCaisse->updateM('mRecette',$recetteDepense->getMSaisie());
+            //$this->journeeCaisse->updateM('mRecette',$recetteDepense->getMSaisie());
             if (!$genCompta->genComptaRecettes($this->utilisateur,$this->caisse,$compte,$recetteDepense->getLibelle(),$recetteDepense->getMSaisie(),$this->journeeCaisse)){
                 $this->addFlash('error',$genCompta->getErrMessage());
+                //dump($recetteDepense);die();
                 return false;
             };
         }
-        $recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
-        return true;
+        return $genCompta;
     }
 }

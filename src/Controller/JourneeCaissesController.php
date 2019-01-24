@@ -46,8 +46,6 @@ use Symfony\Component\VarDumper\Tests\Fixture\DumbFoo;
 
 /**
  * @Route("/journee/caisses")
- * @ORM\Entity
- * @ORM\Table(name="journee_caisses_controller")
  */
 class JourneeCaissesController extends Controller
 {

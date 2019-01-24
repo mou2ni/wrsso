@@ -16,18 +16,18 @@
 
         {# store the prototype on the data-prototype attribute #}
         <div class="table-responsive">
-            <table
+            <table id="collections-contener" class="collection-tags table"
                    data-prototype="
-{{ '<td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.dateOperation)|e }}
-{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.typeOperationComptable)|e }}
-{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.libelle)|e }}
-{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenseJournees.recetteDepenses.vars.prototype.mSaisie)|e }}
+{{ '<td class="padding-0">'|e }}{{ form_widget(form.recetteDepenses.vars.prototype.dateOperation)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenses.vars.prototype.typeOperationComptable)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenses.vars.prototype.libelle)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.recetteDepenses.vars.prototype.mSaisie)|e }}
 {{ '</td>'|e }}"
-                   data-widget-tags="{{ '<tr classe=\"row\"></tr>'|e }}"  data-list="#collection-contener" onchange="majTransfert()">
+                   data-widget-tags="{{ '<tr class="collection-tag"></tr>'|e }}"  data-list="#collections-contener" onchange="">
 
                 <thead>
-                <tr> <th>TOTAL DE RECETTES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.recetteDepenseJournees.mRecette) }}</td>
-                    <th>TOTAL DE DEPENSES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.recetteDepenseJournees.mDepense) }}</td>
+                <tr> <th>TOTAL DE RECETTES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mRecette) }}</td>
+                    <th>TOTAL DE DEPENSES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mDepense) }}</td>
 
                 </tr>
                 <tr>
@@ -37,8 +37,17 @@
                     <th class="text-bold padding-5 text-center">Montant</th>
 
                 </tr>
-
                 </thead>
+
+                {% for recetteDepense in form.recetteDepenses %}
+                    <tr class="collection-tag ">
+                        <td class="padding-0">{{ form_errors(recetteDepense.dateOperation) }} {{ form_widget(recetteDepense.dateOperation) }}</td>
+                        <td class="padding-0">{{ form_errors(recetteDepense.typeOperationComptable) }} {{ form_widget(recetteDepense.typeOperationComptable) }}</td>
+                        <td class="padding-0">{{ form_errors(recetteDepense.libelle) }} {{ form_widget(recetteDepense.libelle) }}</td>
+                        <td class="padding-0">{{ form_errors(recetteDepense.mSaisie) }} {{ form_widget(recetteDepense.mSaisie) }}</td>
+                    </tr>
+                {% endfor %}
+
 
             </table>
             {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
@@ -48,15 +57,27 @@
                     <button class="btn btn-info" type="submit" name="enregistrer" id="enregistrer" >Enregistrer</button>
                 </div>
             {% endif %}
-            {{ form_end(form) }}
+            {{ form_end(form) }} {#, {'render_rest': false}#}
 
         </div>
     </div>
 {% endblock %}
-{% block javascript %}
+{% block javascripts %}
     {{ parent() }}
 
     <script src="{{   asset('js/collections.js') }}"></script>
+    <script>
+        function setCollectionsTotal() {
+            var total = 0;
+            var i=0;
+            while ($("#recette_depense_journees_recetteDepenses_"+i+"_mSaisie")) {
+                total+=$("#recette_depense_journees_recetteDepenses_"+i+"_mSaisie").val();
+                i++;
+            }
+
+            $("div#total").text(total);
+        }
+    </script>
 
 {% endblock %}
 

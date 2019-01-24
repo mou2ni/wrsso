@@ -18,11 +18,11 @@ class RecetteDepenseJourneesType extends AbstractType
             ->add('mDepense', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('recetteDepenses', CollectionType::class, array(
                 'entry_type' => RecetteDepensesType::class,
+                'entry_options' => array('label' => false),
                 'allow_add'=>true,
                 'allow_delete'=>true,
-                'prototype' => true,
                 'by_reference' => false,
-                'attr' => ['class' => 'collections-tag', 'id'=>'collections-contener']
+                'attr' => ['class' => 'collections-tag']
             ))
             /*->add('transfertInternationaux', CollectionType::class, array(
                 'entry_type' => ReceptionType::class,

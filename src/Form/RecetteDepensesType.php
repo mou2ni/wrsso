@@ -16,7 +16,7 @@ class RecetteDepensesType extends AbstractType
     {
         $builder
             ->add('dateOperation', DateType::class, [
-                'widget' => 'single_text',
+                'widget' => 'single_text'
             ])
             ->add('libelle')
             ->add('typeOperationComptable', EntityType::class, array (

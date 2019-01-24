@@ -37,7 +37,13 @@ class Salaires
     /**
      * @ORM\Column(type="float")
      */
-    private $mSalaireNetTotal;
+    private $mChargeTotale;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mRemunerationTotale;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\LigneSalaires", mappedBy="salaire", cascade={"persist"})
