@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LigneSalaires index{% endblock %}
+
+{% block body %}
+    <h1>LigneSalaires index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>MSalaireNet</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ligne_salaire in ligne_salaires %}
+            <tr>
+                <td>{{ ligne_salaire.id }}</td>
+                <td>{{ ligne_salaire.mSalaireNet }}</td>
+                <td>
+                    <a href="{{ path('ligne_salaires_show', {'id': ligne_salaire.id}) }}">show</a>
+                    <a href="{{ path('ligne_salaires_edit', {'id': ligne_salaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('ligne_salaires_new') }}">Create new</a>
+{% endblock %}

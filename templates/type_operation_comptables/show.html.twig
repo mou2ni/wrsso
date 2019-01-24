@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TypeOperationComptables{% endblock %}
+
+{% block body %}
+    <h1>TypeOperationComptables</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ type_operation_comptable.id }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ type_operation_comptable.libelle }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ type_operation_comptable.code }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('type_operation_comptables_index') }}">back to list</a>
+
+    <a href="{{ path('type_operation_comptables_edit', {'id': type_operation_comptable.id}) }}">edit</a>
+
+    {{ include('type_operation_comptables/_delete_form.html.twig') }}
+{% endblock %}

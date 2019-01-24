@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TypeOperationComptables{% endblock %}
+
+{% block body %}
+    <h1>Create new TypeOperationComptables</h1>
+
+    {{ include('type_operation_comptables/_form.html.twig') }}
+
+    <a href="{{ path('type_operation_comptables_index') }}">back to list</a>
+{% endblock %}

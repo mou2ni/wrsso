@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TypeOperationComptables{% endblock %}
+
+{% block body %}
+    <h1>Edit TypeOperationComptables</h1>
+
+    {{ include('type_operation_comptables/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('type_operation_comptables_index') }}">back to list</a>
+
+    {{ include('type_operation_comptables/_delete_form.html.twig') }}
+{% endblock %}

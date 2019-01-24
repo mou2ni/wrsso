@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LigneSalaires{% endblock %}
+
+{% block body %}
+    <h1>LigneSalaires</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ligne_salaire.id }}</td>
+            </tr>
+            <tr>
+                <th>MSalaireNet</th>
+                <td>{{ ligne_salaire.mSalaireNet }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('ligne_salaires_index') }}">back to list</a>
+
+    <a href="{{ path('ligne_salaires_edit', {'id': ligne_salaire.id}) }}">edit</a>
+
+    {{ include('ligne_salaires/_delete_form.html.twig') }}
+{% endblock %}
