@@ -99,6 +99,10 @@ class RecetteDepensesController extends Controller
             $em->flush();
             $this->addFlash('success','Depenses et recettes bien enregistré');
 
+            if($request->request->has('save_and_close')){
+                return $this->redirectToRoute('compta_saisie_cmd');
+            }
+
             return $this->redirectToRoute('recette_depenses_saisie_groupee');
 
             /*if($request->request->has('save_and_close')){

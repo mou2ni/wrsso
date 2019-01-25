@@ -18,7 +18,6 @@ class RecetteDepenseJourneesType extends AbstractType
             ->add('mDepense', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('recetteDepenses', CollectionType::class, array(
                 'entry_type' => RecetteDepensesType::class,
-                'entry_options' => array('label' => false),
                 'allow_add'=>true,
                 'allow_delete'=>true,
                 'by_reference' => false,

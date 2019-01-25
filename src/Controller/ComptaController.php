@@ -54,8 +54,7 @@ class ComptaController extends Controller
      */
     public function saisieCmd(Request $request) : Response
     {
-
-        return $this->render('journee_caisses/gerer_cmd.html.twig', ['journeeCaisse' => $this->journeeCaisse]);
+        return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $this->journeeCaisse]);
 
     }
     

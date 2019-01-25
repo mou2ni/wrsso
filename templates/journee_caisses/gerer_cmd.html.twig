@@ -32,13 +32,12 @@
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes et Credits'}) }}</td>
+                <td class="padding-0" rowspan="2">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers', 'operation':'FERMER' ,'btn_name':'midifier', 'btn_label':'Dettes et Credits'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
-                <td></td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >INTERCAISSE : </td>
@@ -50,13 +49,12 @@
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RECETTES AU COMPTANT</td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mRecette|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_saisie_groupee' ,'btn_name':'saisieRecetteDepense', 'btn_label':'Recettes et Depenses au comptant'}) }}</td>
+                <td class="padding-0" rowspan="2">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_saisie_groupee' ,'btn_name':'saisieRecetteDepense', 'btn_label':'Recettes et Depenses au comptant'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DEPENSES AU COMPTANT </td>
                 <td class="padding-5 text-right" colspan="2">-</td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mDepense|number_format(0, '.', ' ')  }}</td>
-                <td></td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RECETTES A TERME</td>

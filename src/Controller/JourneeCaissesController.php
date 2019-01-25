@@ -94,8 +94,10 @@ class JourneeCaissesController extends Controller
      */
     public function gerer(Request $request): Response
     {
-        //$this->caisse=$this->utilisateur->getLastCaisse();
-
+        //si un comptable ouvrir saisie caisse menu depense
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
+            return $this->redirectToRoute('compta_saisie_cmd');
+        }
         if (!$this->caisse){ // utilisateur n'ayant jamais ouvert de caisse
             return $this->redirectToRoute('journee_caisses_init');
         }

@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class InterCaisses
 {
-    const INITIE='I', ANNULE='X', VALIDE='V', VALIDATION_AUTO='VA';
+    const INITIE='I', ANNULE='X', VALIDE='V', VALIDATION_AUTO='VA', COMPTA_CHARGE='CC', COMPTA_PRODUIT='CP';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -37,6 +37,12 @@ class InterCaisses
      * @ORM\JoinColumn(name="journeeCaisseEntrant", referencedColumnName="id", nullable=false)
      */
     private $journeeCaisseEntrant;
+
+    /*
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
+     * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
+     */
+    private $transaction;
 
     /**
      * @ORM\Column(type="float")
@@ -84,7 +90,7 @@ class InterCaisses
     }
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaisseSortant()
     {
@@ -92,7 +98,7 @@ class InterCaisses
     }
 
     /**
-     * @param mixed $journeeCaisseSortant
+     * @param JourneeCaisses $journeeCaisseSortant
      * @return InterCaisses
      */
     public function setJourneeCaisseSortant($journeeCaisseSortant)
@@ -102,7 +108,7 @@ class InterCaisses
     }
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaisseEntrant()
     {
@@ -110,7 +116,7 @@ class InterCaisses
     }
 
     /**
-     * @param mixed $journeeCaisseEntrant
+     * @param JourneeCaisses $journeeCaisseEntrant
      * @return InterCaisses
      */
     public function setJourneeCaisseEntrant($journeeCaisseEntrant)
@@ -187,7 +193,7 @@ class InterCaisses
     }
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaissePartenaire()
     {
@@ -195,7 +201,7 @@ class InterCaisses
     }
 
     /**
-     * @param mixed $journeeCaissePartenaire
+     * @param JourneeCaisses $journeeCaissePartenaire
      * @return InterCaisses
      */
     public function setJourneeCaissePartenaire($journeeCaissePartenaire)
@@ -204,13 +210,23 @@ class InterCaisses
         return $this;
     }
 
-/*
-    public function valider($statut=InterCaisses::VALIDE){
-        $this->setStatut($statut);
-        $this->journeeCaisseSortant->updateM('mIntercaisseSortants', $this->mIntercaisse);
-        $this->journeeCaisseEntrant->updateM('mIntercaisseEntrants', $this->mIntercaisse);
-        //$this->journeeCaisseSortant->setMIntercaisseSortants($this->journeeCaisseSortant->getMIntercaisseSortants()+ $this->mIntercaisse);
-        //$this->journeeCaisseEntrant->setMIntercaisseEntrants($this->journeeCaisseEntrant->getMIntercaisseEntrants()+ $this->mIntercaisse);
-    }*/
+    /**
+     * @return Transactions
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param Transactions $transaction
+     * @return InterCaisses
+     */
+    public function setTransaction($transaction)
+    {
+        $this->transaction = $transaction;
+        return $this;
+    }
+
 
    }

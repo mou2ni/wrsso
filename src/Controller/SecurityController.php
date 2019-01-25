@@ -36,7 +36,7 @@ class SecurityController extends Controller
         }
         if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
             //page d'accueil admin
-            //return $this->redirectToRoute('compta_main');
+            return $this->redirectToRoute('compta_main');
         }
         if ($this->get('security.authorization_checker')->isGranted('ROLE_GUICHETIER')) {
             return $this->redirectToRoute('journee_caisses_gerer');
