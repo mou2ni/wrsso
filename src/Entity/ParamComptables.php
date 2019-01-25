@@ -269,5 +269,221 @@ class ParamComptables
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCompteChargeBaseSalaire()
+    {
+        return $this->compteChargeBaseSalaire;
+    }
+
+    /**
+     * @param mixed $compteChargeBaseSalaire
+     * @return ParamComptables
+     */
+    public function setCompteChargeBaseSalaire($compteChargeBaseSalaire)
+    {
+        $this->compteChargeBaseSalaire = $compteChargeBaseSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteChargeLogeSalaire()
+    {
+        return $this->compteChargeLogeSalaire;
+    }
+
+    /**
+     * @param mixed $compteChargeLogeSalaire
+     * @return ParamComptables
+     */
+    public function setCompteChargeLogeSalaire($compteChargeLogeSalaire)
+    {
+        $this->compteChargeLogeSalaire = $compteChargeLogeSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteChargeTranspSalaire()
+    {
+        return $this->compteChargeTranspSalaire;
+    }
+
+    /**
+     * @param mixed $compteChargeTranspSalaire
+     * @return ParamComptables
+     */
+    public function setCompteChargeTranspSalaire($compteChargeTranspSalaire)
+    {
+        $this->compteChargeTranspSalaire = $compteChargeTranspSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteChargeFonctSalaire()
+    {
+        return $this->compteChargeFonctSalaire;
+    }
+
+    /**
+     * @param mixed $compteChargeFonctSalaire
+     * @return ParamComptables
+     */
+    public function setCompteChargeFonctSalaire($compteChargeFonctSalaire)
+    {
+        $this->compteChargeFonctSalaire = $compteChargeFonctSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteChargeIndemSalaire()
+    {
+        return $this->compteChargeIndemSalaire;
+    }
+
+    /**
+     * @param mixed $compteChargeIndemSalaire
+     * @return ParamComptables
+     */
+    public function setCompteChargeIndemSalaire($compteChargeIndemSalaire)
+    {
+        $this->compteChargeIndemSalaire = $compteChargeIndemSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteChargeCotiPatronale()
+    {
+        return $this->compteChargeCotiPatronale;
+    }
+
+    /**
+     * @param mixed $compteChargeCotiPatronale
+     * @return ParamComptables
+     */
+    public function setCompteChargeCotiPatronale($compteChargeCotiPatronale)
+    {
+        $this->compteChargeCotiPatronale = $compteChargeCotiPatronale;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteTaxeSalaire()
+    {
+        return $this->compteTaxeSalaire;
+    }
+
+    /**
+     * @param mixed $compteTaxeSalaire
+     * @return ParamComptables
+     */
+    public function setCompteTaxeSalaire($compteTaxeSalaire)
+    {
+        $this->compteTaxeSalaire = $compteTaxeSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteOrgaSocial()
+    {
+        return $this->compteOrgaSocial;
+    }
+
+    /**
+     * @param mixed $compteOrgaSocial
+     * @return ParamComptables
+     */
+    public function setCompteOrgaSocial($compteOrgaSocial)
+    {
+        $this->compteOrgaSocial = $compteOrgaSocial;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteOrgaImpotSalaire()
+    {
+        return $this->compteOrgaImpotSalaire;
+    }
+
+    /**
+     * @param mixed $compteOrgaImpotSalaire
+     * @return ParamComptables
+     */
+    public function setCompteOrgaImpotSalaire($compteOrgaImpotSalaire)
+    {
+        $this->compteOrgaImpotSalaire = $compteOrgaImpotSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteOrgaTaxeSalaire()
+    {
+        return $this->compteOrgaTaxeSalaire;
+    }
+
+    /**
+     * @param mixed $compteOrgaTaxeSalaire
+     * @return ParamComptables
+     */
+    public function setCompteOrgaTaxeSalaire($compteOrgaTaxeSalaire)
+    {
+        $this->compteOrgaTaxeSalaire = $compteOrgaTaxeSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteOrgaTaxeFactClt()
+    {
+        return $this->compteOrgaTaxeFactClt;
+    }
+
+    /**
+     * @param mixed $compteOrgaTaxeFactClt
+     * @return ParamComptables
+     */
+    public function setCompteOrgaTaxeFactClt($compteOrgaTaxeFactClt)
+    {
+        $this->compteOrgaTaxeFactClt = $compteOrgaTaxeFactClt;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteOrgaTaxeFactFseur()
+    {
+        return $this->compteOrgaTaxeFactFseur;
+    }
+
+    /**
+     * @param mixed $compteOrgaTaxeFactFseur
+     * @return ParamComptables
+     */
+    public function setCompteOrgaTaxeFactFseur($compteOrgaTaxeFactFseur)
+    {
+        $this->compteOrgaTaxeFactFseur = $compteOrgaTaxeFactFseur;
+        return $this;
+    }
+
     
 }

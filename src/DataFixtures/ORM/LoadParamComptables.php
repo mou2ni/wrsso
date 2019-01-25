@@ -29,7 +29,7 @@ class LoadParamComptables extends Fixture implements DependentFixtureInterface
         $compteDiversProduit=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Produits divers']);
 
         $enr=new ParamComptables();
-        $enr->setCodeStructure('YESBO')->setCompteChargeSalaireNet($compteChargeSalaireNet)->setCompteCompense($compteCompense)
+        $enr->setCodeStructure('YESBO')->setCompteChargeBaseSalaire($compteChargeSalaireNet)->setCompteCompense($compteCompense)
             ->setCompteContreValeurDevise($compteContreValeurDevise)->setCompteIntercaisse($compteIntercaisse)->setCompteEcartCaisse($compteEcartCaisse)
         ->setCompteDiversCharge($compteDiversCharge)->setCompteDiversProduits($compteDiversProduit);
 
