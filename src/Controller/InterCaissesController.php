@@ -6,9 +6,11 @@ use App\Entity\Caisses;
 use App\Entity\InterCaisses;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
+use App\Entity\RecetteDepenses;
 use App\Form\InterCaissesJourneeType;
 use App\Form\InterCaissesType;
 use App\Form\JourneeCaissesType;
+use App\Form\RecetteDepensesIntercaissesType;
 use App\Repository\IntercaissesRepository;
 use App\Utils\GenererCompta;
 use App\Utils\SessionUtilisateur;
@@ -72,33 +74,17 @@ class InterCaissesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             //dump($interCaiss);die();
 
-            /*if($interCaiss->isSortant()){
-                $interCaiss->setJourneeCaisseEntrant($interCaiss->getJourneeCaissePartenaire());
-                $interCaiss->setJourneeCaisseSortant($this->journeeCaisse);
-            }else{ //entrant : autovalider
-                $interCaiss->setJourneeCaisseEntrant($this->journeeCaisse);
-                $interCaiss->setJourneeCaisseSortant($interCaiss->getJourneeCaissePartenaire());
-                $interCaiss=$this->valider($interCaiss, InterCaisses::VALIDATION_AUTO);
-            }*/
             $interCaiss->setJourneeCaisseEntrant($this->journeeCaisse);
-            //$interCaiss->setJourneeCaisseSortant($interCaiss->getJourneeCaissePartenaire());
-            
+           
             if ($interCaiss->getMIntercaisse()>0) $interCaiss=$this->valider($interCaiss, InterCaisses::VALIDATION_AUTO);
-            //$operation=$request->request->get('_operation');
             $this->getDoctrine()->getManager()->persist($interCaiss);
             $this->getDoctrine()->getManager()->flush();
 
             if($request->request->has('enregistreretfermer')){
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
-            //$interCaiss = new InterCaisses();
             return $this->redirectToRoute('intercaisses_ajout');
 
-            //$request = new Request();
-            //dump($interCaiss);
-            //$interCaiss->setStatut($interCaiss::INITIE);
-            //$form = $this->createForm(InterCaissesType::class, $interCaiss);
-            //$form->handleRequest($request);
 
         }
 /*
@@ -195,65 +181,63 @@ class InterCaissesController extends Controller
     }
 
     /**
-     * @Route("/new/{id}", name="inter_caisses_demande", methods="GET|POST")
+     * @Route("/{id}/compta", name="inter_caisses_comptabiliser", methods="GET|POST|COMPTABILISE")
      */
-    public function demander(Request $request, JourneeCaisses $journeeCaisses): Response
+    public function comptaIntercaisse(Request $request, InterCaisses $interCaisse): Response
     {
+        $recetteDepense=new RecetteDepenses();
+        //sécuriser l'opération avec un token
+        if ($this->isCsrfTokenValid('comptabilise'.$interCaisse->getId(), $request->request->get('_token'))) {
+            $recetteDepense->setMSaisie($interCaisse->getMIntercaisse())
+                ->setEstComptant(true)
+                ->setLibelle($interCaisse->getObservations())
+                ->setUtilisateur($this->utilisateur)
+                ->setJourneeCaisse($this->journeeCaisse)
+                ->setStatut(RecetteDepenses::STAT_INITIAL);
 
-        $interCaiss = new InterCaisses();
-        $interCaiss->setJourneeCaisseEntrant($journeeCaisses)->setStatut($interCaiss::VALIDATION_AUTO);
-        $form = $this->createForm(InterCaissesType::class, $interCaiss);
+        }
+
+        $form = $this->createForm(RecetteDepensesIntercaissesType::class, $recetteDepense);
         $form->handleRequest($request);
-        $this->totalInterCaisse($journeeCaisses);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($interCaiss);
-            $em->flush();
+            
+            $genCompta=$recetteDepense->comptabiliser($em, $this, $this->journeeCaisse);
 
-            return $this->redirectToRoute('inter_caisses_demande',['id'=>$journeeCaisses->getId()]);
-        }
-
-        if($request->isXmlHttpRequest()){
-            $em=$this->getDoctrine()->getManager();
-            if($interCaiss = $request->request->get('intercaisse')) {
-                $statut = substr($interCaiss,-2);
-                $idIntercaisse = substr($interCaiss,0,-2);
-                $interCaisse = $em->getRepository("App:InterCaisses")->find($idIntercaisse);
-                $interCaisse->setStatut($statut);
-                $em->persist($interCaisse);
-            }
-            if ($request->request->get('valider')){
-                foreach ($journeeCaisses->getIntercaisseEntrants() as $intercaisseEntrant){
-                    if($intercaisseEntrant->getStatut() == InterCaisses::ANNULATION_EN_COURS){
-                        $this->addFlash('success', "vous avez une intercaisse en cours d'annulation");
-                        return $this->redirectToRoute('inter_caisses_index');
-                    }
-                    elseif($intercaisseEntrant->getStatut() == InterCaisses::VALIDATION_AUTO)
-                        $intercaisseEntrant->setStatut(InterCaisses::VALIDE);
-                }
-                foreach ($journeeCaisses->getIntercaisseSortants() as $intercaisseSortant){
-                    if($intercaisseSortant->getStatut() == InterCaisses::ANNULATION_EN_COURS){
-                        $this->addFlash('success', "vous avez une intercaisse en cours d'annulation");
-                        return $this->redirectToRoute('inter_caisses_demande');
-                    }
-                    elseif($intercaisseSortant->getStatut() == InterCaisses::VALIDATION_AUTO)
-                        $intercaisseSortant->setStatut(InterCaisses::VALIDE);
-                }
-                $em->persist($journeeCaisses);
-
-                //$journeeCaisses->setMIntercaisse($this->totalR-$this->totalE);
+            if (!$genCompta) {
+                return $this->redirectToRoute('recette_depenses_saisie');
             }
 
+            /*
+            //vérifier la cohérence entre l'ecriture comptable et l'intercaisse
+            if ($recetteDepense->isEstCharge() && $interCaisse->getJourneeCaisseSortant()->getId()==$this->journeeCaisse->getId()){
+                $this->addFlash('error', 'Intercaisse Sortant ne peut être pour une depense. Vérifier le type d\'operation comptable');
+                return $this->render('recette_depenses/new.html.twig', [
+                    'recette_depense' => $recetteDepense,
+                    'form' => $form->createView(),
+                ]);
+            }
+            if ($recetteDepense->isEstProduit() && $interCaisse->getJourneeCaisseEntrant()->getId()==$this->journeeCaisse->getId()){
+                $this->addFlash('error', 'Intercaisse Entrant ne peut être pour une recette. Vérifier le type d\'operation comptable');
+                return $this->render('recette_depenses/new.html.twig', [
+                    'recette_depense' => $recetteDepense,
+                    'form' => $form->createView(),
+                ]);
+            }*/
+
+            $interCaisse->setTransaction($genCompta->getTransactions()[0]);
+            ($recetteDepense->isEstCharge())?$interCaisse->setStatut(InterCaisses::COMPTA_CHARGE)
+            :$interCaisse->setStatut(InterCaisses::COMPTA_PRODUIT);
+            
+            //$em->persist($recetteDepense);
+            $em->persist($this->journeeCaisse);
             $em->flush();
-
+            
+            return $this->redirectToRoute('intercaisses_ajout');
         }
-
-
-        return $this->render('inter_caisses/ajout.html.twig', [
-            'journeeCaisse' => $journeeCaisses,
-            //'totalR'=>$this->totalR,
-            //'totalE'=>$this->totalE,
+        return $this->render('recette_depenses/new.html.twig', [
+            'recette_depense' => $recetteDepense,
             'form' => $form->createView(),
         ]);
     }

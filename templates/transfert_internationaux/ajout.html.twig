@@ -2,15 +2,10 @@
 {% block title %}Saisie des transferts internationaux{% endblock %}
 
 {% block body %}
-    <div>
-        <div class="form-row">
-            <div class="col-4">
-                {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
-            </div>
-            <div class="col-8">
-                <h1>Transferts internationaux</h1>
-            </div>
-        </div>
+    <h1>Transferts internationaux</h1> <div class="form-inline">
+                    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+                </div>
+
         {{ form_start(form, {'attr': {'onsubmit':'return confirm("Confirmer l\'enregistrement ?");'} } ) }}
         {# ... #}
 

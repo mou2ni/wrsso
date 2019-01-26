@@ -1,4 +1,6 @@
-<h1>Bordereau de négociation des devises</h1>
+<h1>Bordereau de négociation des devises</h1><div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+</div>
 
 {{ (journeeCaisse.statut == 'E')?include('devise_recus/_form.html.twig'):'' }}
 {{ include('devise_recus/_inline_achat_vente_form.html.twig') }}

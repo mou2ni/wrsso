@@ -8,7 +8,10 @@
 namespace App\Entity;
 
 
+use App\Utils\GenererCompta;
 use Doctrine\ORM\Mapping as ORM;
+use Proxies\__CG__\App\Entity\Caisses;
+use Proxies\__CG__\App\Entity\Utilisateurs;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecetteDepensesRepository")
@@ -81,10 +84,54 @@ class RecetteDepenses
 
     private $mSaisie=0;
 
+    private $estCharge=false;
+    private $estProduit=false;
+
     public function __construct()
     {
         $this->dateOperation = new \DateTime();
     }
+
+
+    public function comptabiliser($em,$controller, JourneeCaisses $journeeCaisse){
+        $genCompta=new GenererCompta($em);
+        $compte=$this->getTypeOperationComptable()->getCompte();
+
+        $this->typageCompte($compte);
+
+        if (!$compte){
+            $controller->addFlash('error', 'Compte non paramétré pour l\'opération comptable '.$this->getTypeOperationComptable()->getLibelle());
+            return false;
+        }
+        //dump($recetteDepense);die();
+        if($this->estCharge){
+            //$this->journeeCaisse->updateM('mDepense',$recetteDepense->getMSaisie());
+            if (!$genCompta->genComptaDepenses($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse)){
+                $controller->addFlash('error',$genCompta->getErrMessage());
+                //dump($recetteDepense->getMSaisie());die();
+                return false;
+            };
+            $this->setMDepense($this->getMSaisie());
+
+
+        }elseif($this->estProduit){
+            //$this->journeeCaisse->updateM('mRecette',$recetteDepense->getMSaisie());
+            if (!$genCompta->genComptaRecettes($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse)){
+                $controller->addFlash('error',$genCompta->getErrMessage());
+                //dump($recetteDepense);die();
+                return false;
+            };
+            $this->setMRecette($this->getMSaisie());
+        }else{
+            $controller->addFlash('error','Le compte numero ['.$compte.'] parametré dans l\'operation comptable ['.$this->getTypeOperationComptable().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
+            return false;
+        }
+
+        $this->setTransaction($genCompta->getTransactions()[0]);
+        $this->setStatut(RecetteDepenses::STAT_COMPTA);
+        return $genCompta;
+    }
+
 
     /**
      * @return mixed
@@ -208,6 +255,7 @@ class RecetteDepenses
      */
     public function setMRecette($mRecette)
     {
+        if($mRecette<0) $mRecette=abs($mRecette);
         $this->mRecette = $mRecette;
         return $this;
     }
@@ -226,6 +274,7 @@ class RecetteDepenses
      */
     public function setMDepense($mDepense)
     {
+        //if($mDepense<0) $mDepense=abs($mDepense);
         $this->mDepense = $mDepense;
         return $this;
     }
@@ -266,8 +315,7 @@ class RecetteDepenses
      */
     public function setMSaisie($mSaisie)
     {
-        if($mSaisie<0) $mSaisie=abs($mSaisie);
-        ($this->getTypeOperationComptable()->getEstCharge())?$this->setMDepense($mSaisie):$this->setMRecette($mSaisie);
+        //if($mSaisie<0) $mSaisie=abs($mSaisie);
         $this->mSaisie = $mSaisie;
         return $this;
     }
@@ -308,6 +356,51 @@ class RecetteDepenses
         return $this;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isEstCharge()
+    {
+        return $this->estCharge;
+    }
+
+    /**
+     * @param boolean $estCharge
+     * @return RecetteDepenses
+     */
+    public function setEstCharge($estCharge)
+    {
+        $this->estCharge = $estCharge;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isEstProduit()
+    {
+        return $this->estProduit;
+    }
+
+    /**
+     * @param boolean $estProduit
+     * @return RecetteDepenses
+     */
+    public function setEstProduit($estProduit)
+    {
+        $this->estProduit = $estProduit;
+        return $this;
+    }
+
     
+
+
+
+    private function typageCompte($compte){
+        $classCompte=substr($compte,0,1);
+        $this->estCharge=($classCompte=='6');
+        $this->estProduit=($classCompte=='7');
+        return true;
+    }
 
 }

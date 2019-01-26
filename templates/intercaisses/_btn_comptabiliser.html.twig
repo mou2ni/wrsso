@@ -1,0 +1,5 @@
+<form class="form-inline" method="POST" action="{{ path('inter_caisses_comptabiliser',{'id': intercaisse.id})}}" >
+    <input type="hidden" name="_method" value="COMPTABILISE">
+    <input type="hidden" name="_token" value="{{ csrf_token('comptabilise'~intercaisse.id)}}">
+    <button class="{{ btn_class|default("btn-info") }}" name={{ btn_name|default("compta")}}>{{ btn_label|default("Comptabiliser") }}</button>
+</form>

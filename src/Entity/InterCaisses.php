@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 
+use App\Utils\GenererCompta;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -38,8 +39,8 @@ class InterCaisses
      */
     private $journeeCaisseEntrant;
 
-    /*
-     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
      */
     private $transaction;
@@ -48,8 +49,6 @@ class InterCaisses
      * @ORM\Column(type="float")
      */
     private $mIntercaisse;
-
-    //@Assert\GreaterThan(value="0", message="la valeur doit positive")
 
     /**
      * @ORM\Column(type="string")

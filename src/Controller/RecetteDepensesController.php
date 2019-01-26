@@ -47,10 +47,10 @@ class RecetteDepensesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if (!$this->comptabiliser($em,$recetteDepense,$recetteDepense->getTypeOperationComptable()->getEstCharge())){
+            if (!$recetteDepense->comptabiliser($em,$this,$this->journeeCaisse)){
                 return $this->redirectToRoute('recette_depenses_saisie');
             }
-            $em->persist($recetteDepense);
+            //$em->persist($recetteDepense);
             $em->persist($this->journeeCaisse);
             $em->flush();
 
@@ -85,12 +85,12 @@ class RecetteDepensesController extends Controller
 
                 if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null){
                     $recetteDepense->setEstComptant(true);
-                    $genCompta=$this->comptabiliser($em, $recetteDepense, $recetteDepense->getTypeOperationComptable()->getEstCharge());
+                    $genCompta=$recetteDepense->comptabiliser($em,$this,$this->journeeCaisse);
                     if (!$genCompta) {
                         return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse,'form' => $form->createView(), ]);
                     }
-                    $recetteDepense->setTransaction($genCompta->getTransactions()[0]);
-                    $recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
+                    //$recetteDepense->setTransaction($genCompta->getTransactions()[0]);
+                    //$recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
                     //$em->persist($recetteDepense);
                 }
             }
@@ -163,6 +163,7 @@ class RecetteDepensesController extends Controller
         return $this->redirectToRoute('recette_depenses_index');
     }
 
+    /*
     private function comptabiliser($em, RecetteDepenses $recetteDepense, $estCharge){
         $genCompta=new GenererCompta($em);
         $compte=$recetteDepense->getTypeOperationComptable()->getCompte();
@@ -190,4 +191,5 @@ class RecetteDepensesController extends Controller
         }
         return $genCompta;
     }
+    */
 }

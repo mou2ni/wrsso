@@ -397,7 +397,7 @@ class GenererCompta
      * @internal param Caisses $caisse
      * @internal param ParamComptables $paramComptable
      */
-    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant)
+    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant, $journeeCaisse)
     {
         $compteOperationDebit=$this->checkCompteOperation($caisseDebit);
         if (!$compteOperationDebit) return false;
@@ -409,7 +409,7 @@ class GenererCompta
         $compteIntercaisseCredit=$this->checkCompteIntercaisse($caisseCredit);
         if (!$compteIntercaisseCredit) return false;
 
-        $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $montant);
+        $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $montant, $journeeCaisse);
 
         if (!$transaction) return false ;
         $this->transactions->add($this->addDebitCreditSign($transaction, $compteOperationDebit, $compteIntercaisseCredit, $montant));

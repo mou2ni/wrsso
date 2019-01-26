@@ -3,7 +3,9 @@
 {% block title %}Gestion des interCaisses{% endblock %}
 
 {% block body %}
-    <h1>InterCaisse {{ journeeCaisse }}</h1>
+    <h1>InterCaisse {{ journeeCaisse }}</h1> <div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+</div>
 
     {{ include('intercaisses/_form.html.twig') }}
     {{ include('intercaisses/list.html.twig') }}

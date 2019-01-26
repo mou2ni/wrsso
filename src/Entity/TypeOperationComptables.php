@@ -26,12 +26,7 @@ class TypeOperationComptables
      * @ORM\Column(type="string")
      */
     private $libelle;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $estCharge=true;
-
+    
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
      */

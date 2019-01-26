@@ -1510,7 +1510,7 @@ class JourneeCaisses
     }
 
     /**
-     * @return mixed
+     * @return array(RecetteDepenses)
      */
     public function getRecetteDepenses()
     {

@@ -14,7 +14,9 @@
                             <span id="statut{{intercaisse.id}}V">{{ (intercaisse.statut=='I')
                                 ?'Initié':(intercaisse.statut=='V')
                                 ?'Validé':(intercaisse.statut=='VA')
-                                ?'Auto validé': 'Non defini'}}
+                                ?'Auto validé': (intercaisse.statut=='CC')
+                                ?'Charge comptabilisée':(intercaisse.statut=='CP')
+                                ?'Produit comptabilisé':'Non defini'}}
                             </span>
                 </td>
                 <td>{{ intercaisse.observations }}</td>
@@ -24,6 +26,12 @@
                             ?include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'})
                             :include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'})
                             }}
+                        {% endif %}
+                        {% if is_granted('ROLE_COMPTABLE') %}
+                            {% if  intercaisse.statut=='V' or intercaisse.statut=='VA'%}
+                                {{ include('intercaisses/_btn_comptabiliser.html.twig')
+                                }}
+                            {% endif %}
                         {% endif %}
 
                     </div>

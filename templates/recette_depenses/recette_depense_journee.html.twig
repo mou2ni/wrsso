@@ -52,10 +52,7 @@
             </table>
             {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
             {% if journeeCaisse.statut!="F" %}
-                <div class="form-group">
-                    <button class="btn btn-info" type="submit" name="save_and_close" id="save_and_close" >Enregistrer et Fermer</button>
-                    <button class="btn btn-info" type="submit" name="save_and_new" id="save_and_new" >Enregistrer</button>
-                </div>
+                {{ include('_btn_enregistrer.html.twig') }}
             {% endif %}
             {{ form_end(form) }} {#, {'render_rest': false}#}
 

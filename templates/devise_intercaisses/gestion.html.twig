@@ -3,7 +3,9 @@
 {% block title %}Devise - Intercaisses{% endblock %}
 
 {% block body %}
-    <h1>Demande d'intercaisse</h1>
+    <h1>Demande d'intercaisse</h1><div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+</div>
 
     {{ include('devise_intercaisses/_form.html.twig') }}
 
