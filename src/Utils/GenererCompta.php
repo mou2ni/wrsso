@@ -24,6 +24,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class GenererCompta
 {
+    const COMPTE_CAPITAL='1', COMPTE_IMMOBILISATION='2',COMPTE_STOCK='3', COMPTE_TIERS='4', COMPTE_TRESORERIE='5',COMPTE_CHARGE='6',COMPTE_PRODUIT='7';
+
     /**
      * @var e
      *
@@ -393,9 +395,8 @@ class GenererCompta
      * @param Caisses $caisseDebit
      * @param Caisses $caisseCredit
      * @param $montant
+     * @param $journeeCaisse
      * @return bool
-     * @internal param Caisses $caisse
-     * @internal param ParamComptables $paramComptable
      */
     public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant, $journeeCaisse)
     {

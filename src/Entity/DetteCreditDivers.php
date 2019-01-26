@@ -89,12 +89,12 @@ class DetteCreditDivers
      * @ORM\Column(type="float")
      */ //     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
 
-    private $mCredit;
+    private $mCredit=0;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $mDette;
+    private $mDette=0;
 
     private $mSaisie;
 
@@ -107,15 +107,16 @@ class DetteCreditDivers
      * @param $mCredit
      * @param $mDette
      */
-    public function __construct(JourneeCaisses $journeeCaisse)
+    //public function __construct(JourneeCaisses $journeeCaisse)
+    public function __construct()
     {
-        $this->journeeCaisse = $journeeCaisse;
+        /*$this->journeeCaisse = $journeeCaisse;
         $this->caisse = $journeeCaisse->getCaisse();
-        $this->utilisateurCreation = $journeeCaisse->getUtilisateur();
+        $this->utilisateurCreation = $journeeCaisse->getUtilisateur();*/
         $this->dateCreation = new \DateTime('now');
         //$this->statut = $this::INIT;
-        $this->mCredit = 0;
-        $this->mDette = 0;
+        //$this->mCredit = 0;
+        //$this->mDette = 0;
     }
     
 

@@ -9,9 +9,8 @@ namespace App\Entity;
 
 
 use App\Utils\GenererCompta;
+//use App\Entity\Transactions;
 use Doctrine\ORM\Mapping as ORM;
-use Proxies\__CG__\App\Entity\Caisses;
-use Proxies\__CG__\App\Entity\Utilisateurs;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecetteDepensesRepository")
@@ -19,6 +18,7 @@ use Proxies\__CG__\App\Entity\Utilisateurs;
 class RecetteDepenses
 {
     const STAT_COMPTA='C', STAT_INITIAL='I', STAT_ANNULER='X';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -93,38 +93,34 @@ class RecetteDepenses
     }
 
 
-    public function comptabiliser($em,$controller, JourneeCaisses $journeeCaisse){
+    public function comptabiliser($em, JourneeCaisses $journeeCaisse){
         $genCompta=new GenererCompta($em);
         $compte=$this->getTypeOperationComptable()->getCompte();
 
         $this->typageCompte($compte);
 
         if (!$compte){
-            $controller->addFlash('error', 'Compte non paramétré pour l\'opération comptable '.$this->getTypeOperationComptable()->getLibelle());
-            return false;
+            $genCompta->setErrMessage('Compte non paramétré pour l\'opération comptable '.$this->getTypeOperationComptable()->getLibelle());
+            $genCompta->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return $genCompta;
         }
         //dump($recetteDepense);die();
         if($this->estCharge){
-            //$this->journeeCaisse->updateM('mDepense',$recetteDepense->getMSaisie());
             if (!$genCompta->genComptaDepenses($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse)){
-                $controller->addFlash('error',$genCompta->getErrMessage());
-                //dump($recetteDepense->getMSaisie());die();
-                return false;
+                return $genCompta;
             };
             $this->setMDepense($this->getMSaisie());
 
 
         }elseif($this->estProduit){
-            //$this->journeeCaisse->updateM('mRecette',$recetteDepense->getMSaisie());
             if (!$genCompta->genComptaRecettes($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse)){
-                $controller->addFlash('error',$genCompta->getErrMessage());
-                //dump($recetteDepense);die();
-                return false;
+                return $genCompta;
             };
             $this->setMRecette($this->getMSaisie());
         }else{
-            $controller->addFlash('error','Le compte numero ['.$compte.'] parametré dans l\'operation comptable ['.$this->getTypeOperationComptable().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
-            return false;
+            $genCompta->setErrMessage('Le compte numero ['.$compte.'] parametré dans l\'operation comptable ['.$this->getTypeOperationComptable().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
+            $genCompta->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return $genCompta;
         }
 
         $this->setTransaction($genCompta->getTransactions()[0]);
@@ -392,14 +388,10 @@ class RecetteDepenses
         return $this;
     }
 
-    
-
-
-
     private function typageCompte($compte){
         $classCompte=substr($compte,0,1);
-        $this->estCharge=($classCompte=='6');
-        $this->estProduit=($classCompte=='7');
+        $this->estCharge=($classCompte==GenererCompta::COMPTE_CHARGE);
+        $this->estProduit=($classCompte==GenererCompta::COMPTE_PRODUIT);
         return true;
     }
 

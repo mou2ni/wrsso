@@ -1,7 +1,7 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Compte</th><th>Client</th><th>Montant</th><th>libelle</th>
+        <th>Client</th><th>Montant</th><th>libelle</th>
     </tr>
     </thead>
     <tbody>
@@ -9,7 +9,7 @@
     {% for retrait in journeeCaisse.transactions %}
         {% for trcpte in retrait.transactionComptes %}
             {% if (trcpte.compte.typeCompte!='I') and (trcpte.mDebit) %}
-                <tr><td>{{ trcpte.numCompte }}</td><td>{{ trcpte.compte.client.nom }}  {{ trcpte.compte.client.prenom }}</td><td>{{ trcpte.mDebit|number_format(0, '.', ' ') }}</td><td>{{ retrait.libelle }}</td></tr>
+                <tr><td>{{ trcpte.compte.intitule }} </td><td>{{ trcpte.mDebit|number_format(0, '.', ' ') }}</td><td>{{ retrait.libelle }}</td></tr>
             {% endif %}
         {% endfor %}
     {% endfor %}

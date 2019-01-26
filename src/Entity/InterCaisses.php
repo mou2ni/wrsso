@@ -9,7 +9,8 @@
 namespace App\Entity;
 
 
-use App\Utils\GenererCompta;
+//use App\Utils\GenererCompta;
+//use App\Entity\RecetteDepenses;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,6 +29,11 @@ class InterCaisses
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" ,  cascade={"persist"})
+     */
+    private $journeeCaisseInitiateur;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="intercaisseSortants")
      * @ORM\JoinColumn(name="journeeCaisseSortant", referencedColumnName="id", nullable=false)
      */
@@ -44,6 +50,12 @@ class InterCaisses
      * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
      */
     private $transaction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\RecetteDepenses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true,onDelete="SET NULL")
+     */
+    private $recetteDepense;
 
     /**
      * @ORM\Column(type="float")
@@ -138,7 +150,14 @@ class InterCaisses
      */
     public function setMIntercaisse($mIntercaisse)
     {
-        $this->mIntercaisse = $mIntercaisse;
+        if($mIntercaisse>0){
+            $this->setJourneeCaisseEntrant($this->getJourneeCaisseInitiateur());
+            $this->setJourneeCaisseSortant($this->getJourneeCaissePartenaire());
+        }else{
+            $this->setJourneeCaisseSortant($this->getJourneeCaisseInitiateur());
+            $this->setJourneeCaisseEntrant($this->getJourneeCaissePartenaire());
+        }
+        $this->mIntercaisse = abs($mIntercaisse);
     }
 
     /**
@@ -227,5 +246,40 @@ class InterCaisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisseInitiateur()
+    {
+        return $this->journeeCaisseInitiateur;
+    }
 
+    /**
+     * @param mixed $journeeCaisseInitiateur
+     * @return InterCaisses
+     */
+    public function setJourneeCaisseInitiateur($journeeCaisseInitiateur)
+    {
+        $this->journeeCaisseInitiateur = $journeeCaisseInitiateur;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRecetteDepense()
+    {
+        return $this->recetteDepense;
+    }
+
+    /**
+     * @param mixed $transRecetteDepense
+     * @return InterCaisses
+     */
+    public function setRecetteDepense($recetteDepense)
+    {
+        $this->recetteDepense = $recetteDepense;
+        return $this;
+    }
+    
    }

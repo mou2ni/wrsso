@@ -25,7 +25,7 @@ class RecetteDepensesIntercaissesType extends AbstractType
                 'choice_label' => 'libelle',
                 'multiple' => false,
                 'expanded'=>false,))
-            ->add('mSaisie', NumberType::class, ['attr' => array('read_only' => true)])
+            //->add('mSaisie', NumberType::class, ['readonly' => true,'grouping'=>3,'scale'=>0])
         ;
     }
 

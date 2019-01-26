@@ -20,20 +20,7 @@ class InterCaissesType extends AbstractType
         $dateComptable=$options['dateComptable'];
         $myJournee=$options['myJournee'];
         $builder
-            //->add('sortant', CheckboxType::class, ['label'=>' ', 'required'=>false])
-            //->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
-            ->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0))
-            /*->add('journeeCaisseEntrant', EntityType::class, array (
-                'class' => 'App\Entity\JourneeCaisses',
-                'choice_label' => 'journeeCaisse',
-                'multiple' => false,
-                'expanded'=>false,
-                'query_builder' => function(JourneeCaissesRepository $repository) {
-                    return $repository->getOpenJourneeCaisseQb();
-                }
-            ))*/
-            ->add('observations', TextareaType::class)
-            ->add('journeeCaisseSortant', EntityType::class, array (
+             ->add('journeeCaissePartenaire', EntityType::class, array (
                 //'mapped'=>false,
                 'class' => 'App\Entity\JourneeCaisses',
                 'choice_label' => 'journeeCaisse',
@@ -43,8 +30,9 @@ class InterCaissesType extends AbstractType
                     return $repository->getOpenJourneeCaisseQb($dateComptable,$myJournee);
                 }
             ))
-            //->add('journeeCaisseEntrant'/*, ChoiceType::class, array('placeholder' => 'Choisir la caisse')*/)
-        ;
+            ->add('mIntercaisse',NumberType::class, array('required'=>true, 'grouping'=>3,'scale'=>0))
+            ->add('observations', TextareaType::class)
+      ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

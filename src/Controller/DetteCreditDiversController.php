@@ -49,7 +49,7 @@ class DetteCreditDiversController extends Controller
     public function detteCredit(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $detteCredit = new DetteCreditDivers($this->journeeCaisse);
+        $detteCredit = new DetteCreditDivers();
         $form = $this->createForm(DetteCreditDiversType::class, $detteCredit);
         $form->handleRequest($request);
 
@@ -128,7 +128,7 @@ class DetteCreditDiversController extends Controller
         //$detteCreditDiver->getJourneeCaisse()->maintenirDetteCreditDiversFerm();
         //$this->journeeCaisse->setMCreditDiversFerm($this->getTotalCredits($detteCreditDiver->getJourneeCaisse()));
         //$this->journeeCaisse->setMDetteDiversFerm($this->getTotalDettes($detteCreditDiver->getJourneeCaisse()));
-        $em->persist($detteCreditDiver);
+        //$em->persist($detteCreditDiver);
         $em->persist($this->journeeCaisse);
         $em->flush();
         //dump($detteCreditDiver);die();

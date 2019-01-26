@@ -1,15 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Saisie des dépenses et recettes{% endblock %}
+
+{% block body %}
+
+    <h1>Saisie des dépenses et recettes au comptant {{ include('_btn_close.html.twig') }} </h1> <div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+</div>
+
+
 <div class="form-group">
     {{ form_start(form, {'attr': {'onsubmit':'return confirm("Enregistrer Recettes et depenses ?");'}} ) }}
     <div class="row">
         <div> Date de l'opération : {{ form_widget(form.dateOperation) }}</div>
         <div> Type de l'opération : {{ form_widget(form.typeOperationComptable) }}</div>
         <div> Libelle : {{ form_widget(form.libelle) }}</div>
-        <div> Montant : {{ form_widget(form.mSaisie) }}</div>
+        <div> Montant : <input type="text" readonly="true" class="form-control" value="{{ recetteDepense.mSaisie|number_format(0, '.', ' ')}}"></div>
     </div>
     <div class="form-group">
     </div>
 
     {{ include('_btn_enregistrer.html.twig') }}
-{#{{ form_widget(form) }}#}
 {{ form_end(form) }}
 </div>
+{% endblock %}

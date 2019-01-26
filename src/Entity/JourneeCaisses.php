@@ -362,7 +362,16 @@ class JourneeCaisses
     }
 
     public function getMEcartFerm(){
-        return $this->getSoldeNetFerm() - ($this->getSoldeNetOuv() + $this->getMouvementFond()+$this->getCompense());
+        return $this->getSoldeNetFerm()
+            - $this->getSoldeNetFermTheorique();
+    }
+
+    public function getSoldeNetFermTheorique(){
+        return $this->getSoldeNetOuv()
+            + $this->getMouvementFond()
+            + $this->getCompense()
+            + $this->getMRecette()
+            - $this->getMDepense();
     }
 
     public function setMEcartFerm()
@@ -428,6 +437,8 @@ class JourneeCaisses
 
         return $this->getDisponibiliteOuv() - $this->getMDetteDiversOuv() + $this->getMCreditDiversOuv();
     }
+
+
 
 
     public function updateM($champ,$montant){
@@ -618,11 +629,10 @@ class JourneeCaisses
     }
 
     /**
-     * @param Transactions $transaction
+     * @param DetteCreditDivers $detteCreditDiver
      */
     public function addDetteCredit(DetteCreditDivers $detteCreditDiver)
     {
-        $this->detteCredits->add($detteCreditDiver);
         if($this->getStatut()==$this::ENCOURS){
             if($detteCreditDiver->getMSaisie()>0){
                 $this->updateM('mDetteDiversFerm',$detteCreditDiver->getMDette());
@@ -634,7 +644,7 @@ class JourneeCaisses
         }
         $detteCreditDiver->setJourneeCaisseActive($this);
         $detteCreditDiver->setJourneeCaisseCreation($this);
-
+        $this->detteCredits->add($detteCreditDiver);
     }
 
     /**
@@ -1536,6 +1546,8 @@ class JourneeCaisses
         $recetteDepense->setUtilisateur($this->getUtilisateur());
         $recetteDepense->setJourneeCaisse($this);
         $this->recetteDepenses->add($recetteDepense);
+        $this->updateM('mRecette',$recetteDepense->getMRecette());
+        $this->updateM('mDepense',$recetteDepense->getMDepense());
         return $this;
     }
 

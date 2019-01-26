@@ -22,7 +22,7 @@
                 <td>{{ intercaisse.observations }}</td>
         {% if journeeCaisse.statut=='E' %}<td><div class="form-row">
                         {% if  intercaisse.statut=='I' %}
-                            {{ (intercaisse.journeeCaisseEntrant.id==journeeCaisse.id)
+                            {{ (intercaisse.journeeCaisseSortant.id==journeeCaisse.id)
                             ?include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'})
                             :include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'})
                             }}
