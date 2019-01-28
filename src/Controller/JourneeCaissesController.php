@@ -85,8 +85,10 @@ class JourneeCaissesController extends Controller
         $journeeCaisses = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
             ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
+        $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
+
         if ($this->isGranted('ROLE_ADMIN'))
-            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll();
+            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
         return $this->render('journee_caisses/etat_de_caisse.html.twig', [
                 'journee_caisses' => $journeeCaisses,
                 'journeeCaisse' => null,
@@ -333,11 +335,12 @@ class JourneeCaissesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $date = new \DateTime('now');
-        $date->setDate(2018, 11, 6);
-        $utilisateur = $this->get('security.token_storage')->getToken()->getUser();
+        $date->setDate(2019, 1, 25);
         if ($request->get('date'))
             $date = new \DateTime($request->get('date'));
         $journeeCaisses = $em->getRepository(JourneeCaisses::class)->getJourneeCaissesDuJour($date);
+        $recapJourneeCaisses = $em->getRepository(JourneeCaisses::class)->getRecapJourneeCaisses($date);
+        dump($recapJourneeCaisses);die();
 
         $ecart=0;
         $cvd=0;
