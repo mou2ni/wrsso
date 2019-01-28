@@ -138,8 +138,7 @@
                             <th>{{ journee_caiss.soldeNetFerm|number_format(0, '.', ' ') }}</th>
                             <td>{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
                             <td>
-                                <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>
-                                <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}" hidden>edit</a>
+                                <a href="{{ path('journee_caisse_show', {'id': journee_caiss.id}) }}">show</a>
                             </td>
                         </tr>
                     {% else %}
