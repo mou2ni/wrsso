@@ -12,6 +12,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 use Proxies\__CG__\App\Entity\Comptes;
 
 /**
@@ -20,7 +21,7 @@ use Proxies\__CG__\App\Entity\Comptes;
  */
 class Caisses
 {
-    const OUVERT='O', FERME='F', COMPENSE='C', GUICHET='G', TONTINE='T', MENUDEPENSE='M';
+    const OUVERT='O', FERME='F', COMPENSE='C', GUICHET='G', TONTINE='T', MENUDEPENSE='M', BANQUE='B';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -97,6 +98,11 @@ class Caisses
      * @ORM\Column(type="string")
      */
     private $typeCaisse=self::GUICHET;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $dispoGuichet=false;
 
     /**
      * Caisses constructor.
@@ -424,6 +430,24 @@ class Caisses
     {
         //if ($typeCaisse!=Caisses::GUICHET) $this->setStatut(Caisses::OUVERT);
         $this->typeCaisse = $typeCaisse;
+        return $this;
+    }
+
+    /**
+     * @return Boolean
+     */
+    public function isDispoGuichet()
+    {
+        return $this->dispoGuichet;
+    }
+
+    /**
+     * @param Boolean $dispoGuichet
+     * @return Caisses
+     */
+    public function setDispoGuichet($dispoGuichet)
+    {
+        $this->dispoGuichet = $dispoGuichet;
         return $this;
     }
 

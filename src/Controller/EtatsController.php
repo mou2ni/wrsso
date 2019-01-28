@@ -21,7 +21,7 @@ class EtatsController extends Controller
         ]);
     }
     /**
-     * @Route("/etats/transfert", name="etats_transfert")
+     * @Route("/etats/transfert", name="etats_rapport_transfert")
      */
     public function transfert()
     {
@@ -46,7 +46,7 @@ class EtatsController extends Controller
     }
 
     /**
-     * @Route("/etats/devises", name="etats_devises")
+     * @Route("/etats/devises", name="etats_rapport_devises")
      */
     public function devises()
     {

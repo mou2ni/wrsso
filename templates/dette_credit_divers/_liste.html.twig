@@ -1,6 +1,6 @@
 {% if journeeCaisse.statut == 'E' %}<div class="form-inline"><h1>{{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }} </h1></div>{% endif %}
 <div class="row">
-    <div class="col-6"><h1>CREDITS ENCOURS</h1>
+    <div class="col"><h1>CREDITS ENCOURS</h1>
 
         <table class="table table-responsive">
             <thead>
@@ -38,7 +38,7 @@
         </table>
     </div>
 
-    <div class="col-6"><h1>DETTES ENCOURS</h1>
+    <div class="col"><h1>DETTES ENCOURS</h1>
 
         <table class="table table-responsive">
             <thead>

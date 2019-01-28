@@ -23,6 +23,9 @@
 
     <div class="app">
         <div class="app-container">
+            {{ render(controller(
+            'App\\Controller\\Menu::getSideBarMenu'
+            )) }}
 
             <div class="app-content">
                 <!-- START PAGE CONTAINER -->

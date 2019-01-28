@@ -74,14 +74,9 @@ class TransfertInternationauxController extends Controller
     public function saisieTransfert(Request $request, $envoi = true): Response
     {
         $em =$this->getDoctrine();
-        //($envoi)?$this->journeeCaisse->setSensTransfert(TransfertInternationaux::ENVOI):
-        //    $this->journeeCaisse->setSensTransfert(TransfertInternationaux::RECEPTION);
-        //dump($this->journeeCaisse->getSensTransfert()); die();
-        
+         
         $form= $this->createForm(TransfertType::class, $this->journeeCaisse);
-        //$formReception=$this->createForm(ReceptionsType::class, $this->journeeCaisse);
         $form->handleRequest($request);
-        //$formReception->handleRequest($request);
         //dump($form);die();
         if ($form->isSubmitted() && $form->isValid() ) {
             //dump($this->journeeCaisse);die();

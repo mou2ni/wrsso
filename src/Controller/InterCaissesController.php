@@ -62,25 +62,13 @@ class InterCaissesController extends Controller
         $interCaiss->setJourneeCaisseInitiateur($this->journeeCaisse)->setStatut($interCaiss::INITIE);
         $form = $this->createForm(InterCaissesType::class, $interCaiss,['dateComptable'=>$this->journeeCaisse->getDateComptable(),'myJournee'=>$this->journeeCaisse]);
         $form->handleRequest($request);
-        //$this->totalInterCaisse($this->journeeCaisses);
-        //$this->journeeCaisses->setMIntercaisses($this->totalE-$this->totalR);
-
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             //dump($interCaiss);die();
 
             if ($interCaiss->getJourneeCaisseEntrant()->getId()==$this->journeeCaisse->getId())
                 $interCaiss=$this->valider($interCaiss, InterCaisses::VALIDATION_AUTO);
 
-            /*if ($interCaiss->getMIntercaisse()<0){
-                $interCaiss->setJourneeCaisseSortant($this->journeeCaisse);
-                $interCaiss->setJourneeCaisseEntrant($interCaiss->getJourneeCaissePartenaire());
-            }else{
-                $interCaiss->setJourneeCaisseSortant($interCaiss->getJourneeCaissePartenaire());
-                $interCaiss->setJourneeCaisseEntrant($this->journeeCaisse);
-                $interCaiss=$this->valider($interCaiss, InterCaisses::VALIDATION_AUTO);
-            }*/
-            
             $this->getDoctrine()->getManager()->persist($interCaiss);
             $this->getDoctrine()->getManager()->flush();
 
