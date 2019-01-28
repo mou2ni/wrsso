@@ -97,23 +97,43 @@ class JourneeCaissesRepository extends ServiceEntityRepository
 
     public function getJourneeCaissesDuJour(\DateTime $date)
     {
-        $dateDeb=new \DateTime();
-        $dateFin=new \DateTime();
-        $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
-        $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
-        $dateDeb->setTime($date->format('00'),$date->format('00'),$date->format('00'),$date->format('00'));
-        $dateFin->setTime($date->format('23'),$date->format('59'),$date->format('59'),$date->format('999999'));
-        $qb = $this->createQueryBuilder('j');
+        $qb=$this->createQueryBuilder('jc');
         return $qb
-            //->select('j')
-            //->from('MyAppNameBundle:Entity','entities')
-            ->where('(j.dateOuv) >= :dateDeb')
-            ->andWhere('(j.dateOuv) <= :dateFin')
-            ->orderBy('j.dateOuv','DESC')
-            ->setParameter('dateDeb', $dateDeb)
-            ->setParameter('dateFin', $dateFin)
+            //->addSelect('c')
+            ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
+            //->where('jc.statut=:statut')
+            ->andWhere('jc.dateComptable=:dateComptable' /*or c.typeCaisse!=:typeCaisse*/)
+            //->andWhere('jc!=:myJournee')
+            //->setParameter('statut',JourneeCaisses::ENCOURS)
+            ->setParameter('dateComptable',$date)
+            //->setParameter('typeCaisse',Caisses::GUICHET)
+            //->setParameter('myJournee',$myJournee)
             ->getQuery()
             ->getResult();
+        ;
+
+    }
+    public function getRecapJourneeCaisses(\DateTime $date)
+    {
+        $qb=$this->createQueryBuilder('jc');
+        return $qb
+            ->select('jc.dateComptable')
+            //->addSelect('jc.dateComptable, SUM(jc.mCvd) ')
+            ->addSelect('SUM(jc.mEcartFerm)')
+            //->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
+            //->where('jc.statut=:statut')
+            //->andWhere('jc.dateComptable=:dateComptable' /*or c.typeCaisse!=:typeCaisse*/)
+            //->andWhere('jc!=:myJournee')
+            //->setParameter('statut',JourneeCaisses::ENCOURS)
+            //->setParameter('dateComptable',$date)
+            //->setParameter('typeCaisse',Caisses::GUICHET)
+            //->setParameter('myJournee',$myJournee)
+            ->addGroupBy('jc.dateComptable')
+            ->addOrderBy('jc.dateComptable')
+            ->getQuery()
+            ->getResult();
+        ;
+
     }
 
     public function getJourneesDeCaisse(Caisses $caisse, \DateTime $dateDeb0, \DateTime $dateFin0)
