@@ -3,7 +3,7 @@
 {% block title %}Clients index{% endblock %}
 
 {% block body %}
-    <h1>Clients index</h1>
+    <h1>Liste Clients</h1>
 
     <table class="table">
         <thead>
@@ -23,17 +23,17 @@
                 <td>{{ client.prenom }}</td>
                 <td>{{ client.adresse }}</td>
                 <td>
-                    <a href="{{ path('clients_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('clients_edit', {'id': client.id}) }}">edit</a>
+                    <a href="{{ path('clients_show', {'id': client.id}) }}">Voir</a>
+                    <a href="{{ path('clients_edit', {'id': client.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucun Client trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('clients_new') }}">Create new</a>
+    <a href="{{ path('clients_new') }}">Ajouter</a>
 {% endblock %}

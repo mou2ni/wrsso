@@ -9,25 +9,63 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>actions</th>
+                <th>Structure</th>
+                <th>Cpte Base Sal</th>
+                {#<th>Cpte Cot Pat</th>
+                <th>Cpte Fonct Sal</th>
+                <th>Cpte Indem Sal</th>
+                <th>Cpte Log Sal</th>
+                <th>Cpte Transp Sal</th>
+                #}<th>Cpte Compense</th>
+                <th>Cpte CVD</th>
+                <th>Cpte charges Div</th>
+                <th>Cpte Prod Div</th>
+                <th>Cpte Ecart Caisse</th>
+                <th>Cpte Intercaisse</th>
+                {#<th>Cpte Org Imp Sal</th>
+                <th>Cpte Org Soc</th>
+                <th>Cpte Org Tax Fact Clt</th>
+                <th>Cpte Org Tax Fact Fsr</th>
+                <th>Cpte Org tax Sal</th>
+                <th>Cpte tax Sal</th>
+                #}<th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for param_comptable in param_comptables %}
             <tr>
                 <td>{{ param_comptable.id }}</td>
-                <td>
-                    <a href="{{ path('param_comptables_show', {'id': param_comptable.id}) }}">show</a>
-                    <a href="{{ path('param_comptables_edit', {'id': param_comptable.id}) }}">edit</a>
+                <td>{{ param_comptable.codeStructure }}</td>
+                <td>{{ param_comptable.compteChargeBaseSalaire }}</td>
+                {#<td>{{ param_comptable.compteChargeCotiPatronale }}</td>
+                <td>{{ param_comptable.compteChargeFonctSalaire }}</td>
+                <td>{{ param_comptable.compteChargeIndemSalaire }}</td>
+                <td>{{ param_comptable.compteChargeLogeSalaire }}</td>
+                <td>{{ param_comptable.compteChargeTranspSalaire }}</td>
+                #}<td>{{ param_comptable.compteCompense }}</td>
+                <td>{{ param_comptable.compteContreValeurDevise }}</td>
+                <td>{{ param_comptable.compteDiversCharge }}</td>
+                <td>{{ param_comptable.compteDiversProduits }}</td>
+                <td>{{ param_comptable.compteEcartCaisse }}</td>
+                <td>{{ param_comptable.compteIntercaisse }}</td>
+                {#<td>{{ param_comptable.compteOrgaImpotSalaire }}</td>
+                <td>{{ param_comptable.compteOrgaSocial }}</td>
+                <td>{{ param_comptable.compteOrgaTaxeFactClt }}</td>
+                <td>{{ param_comptable.compteOrgaTaxeFactFseur }}</td>
+                <td>{{ param_comptable.compteOrgaTaxeSalaire }}</td>
+                <td>{{ param_comptable.compteTaxeSalaire }}</td>
+                #}<td>
+                    <a href="{{ path('param_comptables_show', {'id': param_comptable.id}) }}">Details</a>
+                    <a href="{{ path('param_comptables_edit', {'id': param_comptable.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="2">no records found</td>
+                <td colspan="3">Aucune structure trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('param_comptables_new') }}">Create new</a>
+    <a href="{{ path('param_comptables_new') }}">Ajouter</a>
 {% endblock %}

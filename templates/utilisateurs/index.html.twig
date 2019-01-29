@@ -3,17 +3,18 @@
 {% block title %}Utilisateurs index{% endblock %}
 
 {% block body %}
-    <h1>Utilisateurs index</h1>
-
+    <h1>Liste des utilisateurs</h1>
+    {% if is_granted('ROLE_ADMIN') %}
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Login</th>
-                <th>Mdp</th>
+                {#<th>Id</th>#}
                 <th>Nom</th>
                 <th>Prenom</th>
+                <th>Login</th>
+                <th>Mdp</th>
                 <th>EstCaissier</th>
+                <th>Role</th>
                 <th>Status</th>
                 <th>actions</th>
             </tr>
@@ -21,25 +22,29 @@
         <tbody>
         {% for utilisateur in utilisateurs %}
             <tr>
-                <td>{{ utilisateur.id }}</td>
-                <td>{{ utilisateur.login }}</td>
-                <td>{{ utilisateur.mdp }}</td>
+                {#<td>{{ utilisateur.id }}</td>#}
                 <td>{{ utilisateur.nom }}</td>
                 <td>{{ utilisateur.prenom }}</td>
-                <td>{{ utilisateur.estCaissier ? 'Yes' : 'No' }}</td>
+                <td>{{ utilisateur.login }}</td>
+                <td>''</td>
+                <td>{{ utilisateur.estCaissier ? 'Oui' : 'Non' }}</td>
+                <td>{% for role in utilisateur.roles %} {{ role }},{% endfor %} </td>
                 <td>{{ utilisateur.status }}</td>
                 <td>
-                    <a href="{{ path('utilisateurs_show', {'id': utilisateur.id}) }}">show</a>
-                    <a href="{{ path('utilisateurs_edit', {'id': utilisateur.id}) }}">edit</a>
+                    <a href="{{ path('utilisateurs_show', {'id': utilisateur.id}) }}">Voir</a>
+                    <a href="{{ path('utilisateurs_edit', {'id': utilisateur.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Aucun utilsateur trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('utilisateurs_new') }}">Create new</a>
+    <a href="{{ path('utilisateurs_new') }}">Ajouter</a>
+        {% else %}
+        <h1>Vous n'etes pas autorisés à voir ce contenu</h1>
+    {% endif %}
 {% endblock %}

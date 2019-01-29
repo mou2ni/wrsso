@@ -3,7 +3,7 @@
 {% block title %}SystemElects index{% endblock %}
 
 {% block body %}
-    <h1>SystemElects index</h1>
+    <h1> Liste des Systemes de transfert Mobile</h1>
 
     <table class="table">
         <thead>
@@ -19,17 +19,17 @@
                 <td>{{ system_elect.id }}</td>
                 <td>{{ system_elect.Libelle }}</td>
                 <td>
-                    <a href="{{ path('system_elects_show', {'id': system_elect.id}) }}">show</a>
-                    <a href="{{ path('system_elects_edit', {'id': system_elect.id}) }}">edit</a>
+                    <a href="{{ path('system_elects_show', {'id': system_elect.id}) }}">Details</a>
+                    <a href="{{ path('system_elects_edit', {'id': system_elect.id}) }}">Mdifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun systeme Electronique trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('system_elects_new') }}">Create new</a>
+    <a href="{{ path('system_elects_new') }}">Ajouter</a>
 {% endblock %}

@@ -19,11 +19,10 @@ class UtilisateursType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('estCaissier')
-            //->add('status')
             ->add('role', ChoiceType::class
-                ,array('choices'  => ['GUICHETIER'=>Utilisateurs::ROLE_GUICHETIER,'COMPTABLE'=>Utilisateurs::ROLE_COMPTABLE, 'ADMIN'=>Utilisateurs::ROLE_ADMIN], 'required' => true, 'mapped' =>false
+                ,array('multiple'=>true, 'expanded'=>true, 'choices'  => ['--- GUICHETIER'=>Utilisateurs::ROLE_GUICHETIER,'--- COMPTABLE'=>Utilisateurs::ROLE_COMPTABLE, '--- ADMIN'=>Utilisateurs::ROLE_ADMIN], 'required' => true, 'mapped' =>false
                 ))
-            ->add('compte')
+            ->add('compteEcartCaisse')
         ;
     }
 

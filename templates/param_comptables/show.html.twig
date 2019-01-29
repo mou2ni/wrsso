@@ -3,20 +3,96 @@
 {% block title %}ParamComptables{% endblock %}
 
 {% block body %}
-    <h1>ParamComptables</h1>
+    <h1>Param Comptables</h1>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ param_comptable.id }}</td>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ param_comptable.id }}</td>
+        </tr>
+        <tr>
+            <th>Structure</th>
+            <td>{{ param_comptable.codeStructure }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Base Sal</th>
+            <td>{{ param_comptable.compteChargeBaseSalaire }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Cot Pat</th>
+            <td>{{ param_comptable.compteChargeCotiPatronale }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Fonct Sal</th>
+            <td>{{ param_comptable.compteChargeFonctSalaire }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Indem Sal</th>
+            <td>{{ param_comptable.compteChargeIndemSalaire }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Log Sal</th>
+            <td>{{ param_comptable.compteChargeLogeSalaire }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Transp Sal</th>
+            <td>{{ param_comptable.compteChargeTranspSalaire }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Compense</th>
+            <td>{{ param_comptable.compteCompense }}</td>
+        </tr>
+        <tr>
+            <th>Cpte CVD</th>
+            <td>{{ param_comptable.compteContreValeurDevise }}</td>
+        </tr>
+        <tr>
+            <th>Cpte charges Div</th>
+            <td>{{ param_comptable.compteDiversCharge }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Prod Div</th>
+            <td>{{ param_comptable.compteDiversProduits }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Ecart Caisse</th>
+            <td>{{ param_comptable.compteEcartCaisse }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Intercaisse</th>
+            <td>{{ param_comptable.compteIntercaisse }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Org Imp Sal</th>
+            <td>{{ param_comptable.compteOrgaImpotSalaire }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Org Soc</th>
+            <td>{{ param_comptable.compteOrgaSocial }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Org Tax Fact Clt</th>
+            <td>{{ param_comptable.compteOrgaTaxeFactClt }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Org Tax Fact Fsr</th>
+            <td>{{ param_comptable.compteOrgaTaxeFactFseur }}</td>
+        </tr>
+        <tr>
+            <th>Cpte Org tax Sal</th>
+            <td>{{ param_comptable.compteOrgaTaxeSalaire }}</td>
+        </tr>
+        <tr>
+            <th>Cpte tax Sal</th>
+            <td>{{ param_comptable.compteTaxeSalaire }}</td>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('param_comptables_index') }}">back to list</a>
+    <a href="{{ path('param_comptables_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('param_comptables_edit', {'id': param_comptable.id}) }}">edit</a>
+    <a href="{{ path('param_comptables_edit', {'id': param_comptable.id}) }}">Modifier</a>
 
     {{ include('param_comptables/_delete_form.html.twig') }}
 {% endblock %}

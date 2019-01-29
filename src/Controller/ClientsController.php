@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Clients;
 use App\Form\ClientsType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,13 +22,14 @@ class ClientsController extends Controller
     {
         $clients = $this->getDoctrine()
             ->getRepository(Clients::class)
-            ->findAll();
+            ->liste(30);
 
         return $this->render('clients/index.html.twig', ['clients' => $clients]);
     }
 
     /**
-     * @Route("/ajout", name="clients_ajouter", methods="GET|POST")
+     * @Route("/ajout", name="clients_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function ajouter(Request $request): Response
     {
@@ -59,6 +61,7 @@ class ClientsController extends Controller
 
     /**
      * @Route("/{id}/edit", name="clients_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, Clients $client): Response
     {
@@ -79,6 +82,7 @@ class ClientsController extends Controller
 
     /**
      * @Route("/{id}", name="clients_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Clients $client): Response
     {

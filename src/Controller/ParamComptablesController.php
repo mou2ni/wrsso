@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ParamComptables;
 use App\Form\ParamComptablesType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class ParamComptablesController extends Controller
 
     /**
      * @Route("/new", name="param_comptables_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
@@ -59,6 +61,7 @@ class ParamComptablesController extends Controller
 
     /**
      * @Route("/{id}/edit", name="param_comptables_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, ParamComptables $paramComptable): Response
     {
@@ -79,6 +82,7 @@ class ParamComptablesController extends Controller
 
     /**
      * @Route("/{id}", name="param_comptables_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, ParamComptables $paramComptable): Response
     {

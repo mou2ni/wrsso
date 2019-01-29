@@ -3,13 +3,15 @@
 {% block title %}Billets index{% endblock %}
 
 {% block body %}
-    <h1>Billets index</h1>
+    <h1>Liste Billets</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Valeur</th>
+                <th>Devise</th>
+                <th>status</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,18 +20,20 @@
             <tr>
                 <td>{{ billet.id }}</td>
                 <td>{{ billet.valeur }}</td>
+                <td>{{ (billet.devise)?billet.devise:'XOF' }}</td>
+                <td>{{ (billet.isActive)?'Actif':'Desactivé' }}</td>
                 <td>
-                    <a href="{{ path('billets_show', {'id': billet.id}) }}">show</a>
-                    <a href="{{ path('billets_edit', {'id': billet.id}) }}">edit</a>
+                    <a href="{{ path('billets_show', {'id': billet.id}) }}">Voir</a>
+                    <a href="{{ path('billets_edit', {'id': billet.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun billet trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('billets_new') }}">Create new</a>
+    <a href="{{ path('billets_new') }}">Ajout</a>
 {% endblock %}

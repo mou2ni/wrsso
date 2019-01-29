@@ -17,7 +17,7 @@ use Serializable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\UtilisateursRepository")
  * @ORM\Table(name="Utilisateurs")
  */
 class Utilisateurs implements UserInterface, \Serializable
@@ -498,7 +498,7 @@ class Utilisateurs implements UserInterface, \Serializable
      */
     public function getCompte()
     {
-        return $this->compte;
+        return $this->getCompteEcartCaisse();
     }
 
     /**

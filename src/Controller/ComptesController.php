@@ -23,7 +23,7 @@ class ComptesController extends Controller
     {
         $comptes = $this->getDoctrine()
             ->getRepository(Comptes::class)
-            ->findAll();
+            ->liste();
 
         return $this->render('comptes/index.html.twig', ['comptes' => $comptes]);
     }

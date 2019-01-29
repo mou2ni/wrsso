@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Billets;
 use App\Form\BilletsType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,13 +22,14 @@ class BilletsController extends Controller
     {
         $billets = $this->getDoctrine()
             ->getRepository(Billets::class)
-            ->findAll();
+            ->liste();
 
         return $this->render('billets/index.html.twig', ['billets' => $billets]);
     }
 
     /**
      * @Route("/new", name="billets_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
@@ -59,6 +61,7 @@ class BilletsController extends Controller
 
     /**
      * @Route("/{id}/edit", name="billets_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, Billets $billet): Response
     {
@@ -79,6 +82,7 @@ class BilletsController extends Controller
 
     /**
      * @Route("/{id}", name="billets_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Billets $billet): Response
     {

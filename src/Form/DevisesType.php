@@ -14,7 +14,7 @@ class DevisesType extends AbstractType
         $builder
             ->add('code')
             ->add('libelle')
-            ->add('dateModification')
+            ->add('txReference')
             ->add('txAchat')
             ->add('txVente')
         ;

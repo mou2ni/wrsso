@@ -13,6 +13,8 @@ class BilletsType extends AbstractType
     {
         $builder
             ->add('valeur')
+            ->add('devise')
+            ->add('isActive')
         ;
     }
 
