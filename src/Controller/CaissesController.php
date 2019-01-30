@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Caisses;
 use App\Entity\JourneeCaisses;
 use App\Form\CaissesType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class CaissesController extends Controller
     {
         $caisses = $this->getDoctrine()
             ->getRepository(Caisses::class)
-            ->findAllJoinCompteOperation();
+            ->liste();
 
         return $this->render('caisses/index.html.twig', ['caisses' => $caisses]);
     }
@@ -55,6 +56,7 @@ class CaissesController extends Controller
 
     /**
      * @Route("/{id}/nouvellejournee", name="caisses_nouvelle_journee", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function ouvrirNouvelleJourneeCaisse(Request $request, Caisses $caisse): Response
     {
@@ -78,6 +80,7 @@ class CaissesController extends Controller
     }
     /**
      * @Route("/ajout", name="caisses_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
@@ -112,6 +115,7 @@ class CaissesController extends Controller
 
     /**
      * @Route("/{id}/modifier", name="caisses_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, Caisses $caiss): Response
     {
@@ -135,6 +139,7 @@ class CaissesController extends Controller
 
     /**
      * @Route("/{id}", name="caisses_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Caisses $caiss): Response
     {

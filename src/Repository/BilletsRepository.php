@@ -45,4 +45,14 @@ class BilletsRepository extends ServiceEntityRepository
             ;
          return $query;
     }
+
+    public function liste($limit = 10)
+    {
+        return $this->createQueryBuilder('b')
+            ->orderBy('b.id', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

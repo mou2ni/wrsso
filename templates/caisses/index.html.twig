@@ -3,7 +3,7 @@
 {% block title %}Liste Caisses{% endblock %}
 
 {% block body %}
-    <h1>Liste des Caisses</h1>
+    <h1>Liste des Caisses - Banques</h1>
 
     <table class="table">
         <thead>
@@ -12,6 +12,9 @@
                 <th>Libelle</th>
                 <th>Code</th>
                 <th>Compte opération</th>
+                <th>Compte CVD</th>
+                <th>Compte Intercaisse</th>
+                <th>Compte Attente Compense</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,7 +24,10 @@
                 <td>{{ caiss.id }}</td>
                 <td>{{ caiss.libelle }}</td>
                 <td>{{ caiss.code }}</td>
-                <td>{{ caiss.numCompte }}</td>
+                <td>{{ caiss.compteOperation.numCompte }}</td>
+                <td>{{ (caiss.compteCvDevise)?caiss.compteCvDevise.numCompte:'' }}</td>
+                <td>{{ (caiss.compteIntercaisse)?caiss.compteIntercaisse.numCompte:'' }}</td>
+                <td>{{ (caiss.compteAttenteCompense)?caiss.compteAttenteCompense.numCompte:'' }}</td>
                 <td>
                     <a href="{{ path('caisses_show', {'id': caiss.id}) }}">Détails</a>
                     <a href="{{ path('caisses_edit', {'id': caiss.id}) }}">Modifier</a>

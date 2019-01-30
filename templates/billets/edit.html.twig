@@ -3,11 +3,11 @@
 {% block title %}Edit Billets{% endblock %}
 
 {% block body %}
-    <h1>Edit Billets</h1>
+    <h1>Modifier Billets</h1>
 
-    {{ include('billets/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('billets/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('billets_index') }}">back to list</a>
+    <a href="{{ path('billets_index') }}">Retour à la liste</a>
 
     {{ include('billets/_delete_form.html.twig') }}
 {% endblock %}

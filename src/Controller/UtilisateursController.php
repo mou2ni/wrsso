@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Clients;
 use App\Entity\Comptes;
 use App\Entity\Utilisateurs;
+use App\Form\PassType;
 use App\Form\ProfileType;
 use App\Form\UtilisateursType;
 use App\Utils\SessionUtilisateur;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,13 +36,15 @@ class UtilisateursController extends Controller
     {
         $utilisateurs = $this->getDoctrine()
             ->getRepository(Utilisateurs::class)
-            ->findAll();
+            ->liste(10);
+        //dump($utilisateurs);die();
 
         return $this->render('utilisateurs/index.html.twig', ['utilisateurs' => $utilisateurs]);
     }
 
     /**
      * @Route("/new", name="utilisateurs_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
@@ -52,14 +56,14 @@ class UtilisateursController extends Controller
             $em = $this->getDoctrine()->getManager();
             $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
             //dump($form['role']->getData()); die();
-            $utilisateur->setRoles([$form['role']->getData()]);
-            $compte = new Comptes();
+            $utilisateur->setRoles($form['role']->getData());
+            /*$compte = new Comptes();
             $compte->setNumCompte($utilisateur->getCompte())
                 ->setClient($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
                 //->setIntitule($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
                 ->setTypeCompte(Comptes::INTERNE)
-                ->setIntitule('Ecart Caissier'.$utilisateur->getNom());
-            $utilisateur->setCompteEcartCaisse($compte);
+                ->setIntitule('Ecart Caissier '.$utilisateur->getNom());
+            $utilisateur->setCompteEcartCaisse($compte);*/
             //dump($utilisateur);die();
             //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
 
@@ -80,27 +84,44 @@ class UtilisateursController extends Controller
      */
     public function profile(Request $request): Response
     {
-        //$utilisateur = new Utilisateurs();
         $form = $this->createForm(ProfileType::class, $this->utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            /*$utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
-            $compte = new Comptes();
-            $compte->setNumCompte($utilisateur->getCompte())
-                ->setClient($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
-                //->setIntitule($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
-                ->setTypeCompte(Comptes::INTERNE)
-                ->setIntitule('Ecart Caissier'.$utilisateur->getId());
-            $utilisateur->setCompteEcartCaisse($compte);
-            //dump($utilisateur);die();
-            //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
-            */
             $em->persist($this->utilisateur);
             $em->flush();
 
             return $this->redirectToRoute('utilisateurs_index');
+        }
+
+        return $this->render('utilisateurs/new.html.twig', [
+            'utilisateur' => $this->utilisateur,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/passchg", name="pass_change", methods="GET|POST")
+     */
+    public function changer(Request $request): Response
+    {
+        $form = $this->createForm(PassType::class, $this->utilisateur);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+             //if ($form['actmdp']->getData()
+            //== $em->getRepository(Utilisateurs::class)->find($this->utilisateur)->getPassword())
+             //{
+                $this->utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($this->utilisateur,$this->utilisateur->getMdp()));
+                $em->persist($this->utilisateur);
+                $em->flush();
+                $this->addFlash('success', 'Mot de passe modifié avec succes!');
+                return $this->redirectToRoute('logout');
+            //}
+            //else
+              //  $this->addFlash('error', 'Echec : Mot de passe actuel erroné!');
         }
 
         return $this->render('utilisateurs/new.html.twig', [
@@ -119,18 +140,22 @@ class UtilisateursController extends Controller
     }
 
 
+
     /**
      * @Route("/{id}/edit", name="utilisateurs_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, Utilisateurs $utilisateur): Response
     {
         $form = $this->createForm(UtilisateursType::class, $utilisateur);
         $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
-//$utilisateur->setMdp(hash('SHA1',''.$utilisateur->getMdp()));
-            $this->getDoctrine()->getManager()->flush();
+            $utilisateur->setRoles($form['role']->getData());
+            $em->persist($utilisateur);
+            $em->flush();
 
             return $this->redirectToRoute('utilisateurs_edit', ['id' => $utilisateur->getId()]);
         }
@@ -143,6 +168,7 @@ class UtilisateursController extends Controller
 
     /**
      * @Route("/{id}", name="utilisateurs_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Utilisateurs $utilisateur): Response
     {

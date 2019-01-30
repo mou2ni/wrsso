@@ -44,6 +44,11 @@ class Devises
     private $txAchat;
 
     /**
+     * @ORM\Column(type="float",nullable=true)
+     */
+    private $txReference;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $txVente;
@@ -185,6 +190,25 @@ class Devises
         $this->billets = $billets;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getTxReference()
+    {
+        return $this->txReference;
+    }
+
+    /**
+     * @param mixed $txReference
+     * @return Devises
+     */
+    public function setTxReference($txReference)
+    {
+        $this->txReference = $txReference;
+        return $this;
+    }
+
 
     
 }

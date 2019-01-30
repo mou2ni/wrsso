@@ -3,11 +3,11 @@
 {% block title %}Edit ParamComptables{% endblock %}
 
 {% block body %}
-    <h1>Edit ParamComptables</h1>
+    <h1>Modifier ParamComptables</h1>
 
-    {{ include('param_comptables/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('param_comptables/_form.html.twig', {'button_label': 'Mettre à Jour'}) }}
 
-    <a href="{{ path('param_comptables_index') }}">back to list</a>
+    <a href="{{ path('param_comptables_index') }}">Retour à la liste</a>
 
     {{ include('param_comptables/_delete_form.html.twig') }}
 {% endblock %}

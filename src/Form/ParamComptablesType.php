@@ -12,10 +12,25 @@ class ParamComptablesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('idCompteIntercaisse')
-            ->add('idCompteContreValeurDevise')
-            ->add('idCompteCompense')
-            ->add('idCompteChargeSalaireNet')
+            ->add('codeStructure')
+            ->add('compteIntercaisse')
+            ->add('compteContreValeurDevise')
+            ->add('compteCompense')
+            ->add('compteChargeBaseSalaire')
+            ->add('compteChargeLogeSalaire')
+            ->add('compteChargeTranspSalaire')
+            ->add('compteChargeFonctSalaire')
+            ->add('compteChargeIndemSalaire')
+            ->add('compteChargeCotiPatronale')
+            ->add('compteTaxeSalaire')
+            ->add('compteOrgaSocial')
+            ->add('compteOrgaImpotSalaire')
+            ->add('compteOrgaTaxeSalaire')
+            ->add('compteOrgaTaxeFactClt')
+            ->add('compteOrgaTaxeFactFseur')
+            ->add('compteEcartCaisse')
+            ->add('compteDiversCharge')
+            ->add('compteDiversProduits')
         ;
     }
 

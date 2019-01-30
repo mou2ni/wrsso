@@ -30,13 +30,25 @@ class CaissesRepository extends ServiceEntityRepository
 
     }
 
-    public function findAllJoinCompteOperation(){
+    public function findAllJoinCompteOperation($limit = 10){
         $qb=$this->createQueryBuilder('c');
         return $qb->select('c.id, c.libelle, c.code, co.numCompte')
             ->innerJoin('c.compteOperation','co', 'WITH', 'c.compteOperation= co.id')
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult()
         ;
+    }
+    public function liste($limit = 10){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            //->select('c.id, c.libelle, c.code, co.numCompte')
+            //->innerJoin('c.compteOperation','co', 'WITH', 'c.compteOperation= co.id')
+            ->orderBy('c.code', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //$qb->innerJoin('u.Group', 'g', 'WITH', 'u.status = ?1', 'g.id')

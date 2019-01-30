@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\SystemElects;
 use App\Form\SystemElectsType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,7 @@ class SystemElectsController extends Controller
 
     /**
      * @Route("/new", name="system_elects_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
@@ -59,6 +61,7 @@ class SystemElectsController extends Controller
 
     /**
      * @Route("/{id}/edit", name="system_elects_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, SystemElects $systemElect): Response
     {
@@ -79,6 +82,7 @@ class SystemElectsController extends Controller
 
     /**
      * @Route("/{id}", name="system_elects_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, SystemElects $systemElect): Response
     {

@@ -19,6 +19,16 @@ class ComptesRepository extends ServiceEntityRepository
         parent::__construct($registry, Comptes::class);
     }
 
+    public function liste($limit = 10)
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.numCompte', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function findCompteGestions(){
         $qb=$this->createQueryBuilder('c');
         return $qb

@@ -3,7 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Clients;
+use App\Entity\Comptes;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,6 +19,8 @@ class ClientsType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('adresse')
+            //->add('adresse')
+            //->add('comptes',CollectionType::class)
         ;
     }
 
