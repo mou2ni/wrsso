@@ -10,7 +10,6 @@
             <tr>
                 <th>Id</th>
                 <th>Libelle</th>
-                <th>Code</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,7 +18,6 @@
             <tr>
                 <td>{{ type_operation_comptable.id }}</td>
                 <td>{{ type_operation_comptable.libelle }}</td>
-                <td>{{ type_operation_comptable.code }}</td>
                 <td>
                     <a href="{{ path('type_operation_comptables_show', {'id': type_operation_comptable.id}) }}">show</a>
                     <a href="{{ path('type_operation_comptables_edit', {'id': type_operation_comptable.id}) }}">edit</a>
