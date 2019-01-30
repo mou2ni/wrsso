@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block title %}Gestion de Journee{% endblock %}
 {% block body %}
-    {% set color=(journeeCaisse.statut=='X')?"#eee9e6":"#FFF" %}
+    {% if  journeeCaisse.statut== 'E'%}
+        {% set bgcolor="#FFF" %}
+    {% else %}
+        {% set bgcolor="#eee9e6" %}
+        {% set btn_liquidite="" %}
+    {% endif %}
+    {#{% set color=(journeeCaisse.statut=='X')?"#eee9e6":"#FFF" %}#}
     <div class="form-inline text-bold text-center"><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}<a href="{{ path('journee_caisses_etat_de_caisse') }}" class="glyphicon glyphicon-list-alt float-right">Journées Caisses</a></h1>
     </div>
     <div class="row">
@@ -20,105 +26,153 @@
                 <tr>
                     <td class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >LIQUIDITE : </td>
                     {#<td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
-                    #}<td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
-                    <td class="padding-0" >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
+                    #}<td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-0"  bgcolor="{{ bgcolor }}">
+                        {% if  journeeCaisse.statut== 'E'%}
+                            {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}
+                        {% else %}
+                            <a href="{{ path('billetages_show', {'id': journeeCaisse.billetFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >ELECTRONIQUE : </td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mSoldeElectFerm|number_format(0, '.', ' ')  }}</td>
-                    <td class="padding-0" >{{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventFerm.id, 'operation':'FERMER', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mSoldeElectFerm|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-0"  bgcolor="{{ bgcolor }}">
+                     {% if  journeeCaisse.statut== 'E'%}
+                        {{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventFerm.id, 'operation':'FERMER', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}
+                    {% else %}
+                        <a href="{{ path('system_elect_inventaires_show', {'id': journeeCaisse.systemElectInventFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+                    {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
-                    <td class="padding-0" rowspan="2" >{{ (journeeCaisse.statut != 'X')?include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers','btn_name':'midifier', 'btn_label':'Dettes et Credits'})
-                        :include('journee_caisses/_btn_action_url.html.twig',{'path':'dette_credit_divers_show','btn_name':'midifier', 'btn_label':'Dettes et Credits'})
-                        }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-0" rowspan="2"  bgcolor="{{ bgcolor }}">
+                        {% if  journeeCaisse.statut== 'E'%}
+                        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'detteCredits_divers','btn_name':'midifier', 'btn_label':'Dettes et Credits'})}}
+                        {% else %}
+                            <a href="{{ path('dette_credit_divers_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
                 </tr>
                 <tr>
                     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >INTERCAISSE : </td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                    <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mIntercaisses|number_format(0, '.', ' ')  }}</td>
-                    <td class="padding-0" >{{ (journeeCaisse.statut != 'X')?include('journee_caisses/_btn_action_url.html.twig',{'path':'intercaisses_ajout' , 'btn_name':'midifier', 'btn_label':'Intercaisse'})
-                        :include('journee_caisses/_btn_action_url.html.twig',{'path':'inter_caisses_show' , 'btn_name':'midifier', 'btn_label':'Intercaisse'})
-                        }}</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mIntercaisses|number_format(0, '.', ' ')  }}</td>
+                    <td class="padding-0"  bgcolor="{{ bgcolor }}">
+                        {% if  journeeCaisse.statut== 'E'%}
+                        {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'intercaisses_ajout' , 'btn_name':'midifier', 'btn_label':'Intercaisse'})}}
+                        {% else %}
+                        <a href="{{ path('inter_caisses_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr>
                     {% if is_granted('ROLE_COMPTABLE') %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RECETTES AU COMPTANT</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mRecette|number_format(0, '.', ' ')  }}</td>
-                        <td class="padding-0" rowspan="2">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_saisie_groupee' ,'btn_name':'saisieRecetteDepense', 'btn_label':'Recettes et Depenses au comptant'}) }}</td>
-                    {% else %}
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mRecette|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-0" rowspan="2" bgcolor="{{ bgcolor }}">
+                            {% if  journeeCaisse.statut== 'E'%}
+                            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_saisie_groupee' ,'btn_name':'saisieRecetteDepense', 'btn_label':'Recettes et Depenses au comptant'}) }}</td>
+                            {% else %}
+                                <a href="{{ path('recette_depenses_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+                            {% endif %}
+                {% else %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT EMIS : </td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
-                        <td class="padding-0" rowspan="2">{{ (journeeCaisse.statut !='X')?include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_saisie' ,'btn_name':'midifier', 'btn_label':'Transferts Internationaux'})
-                            : include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_show','id':journeeCaisse.id,'btn_name':'midifier', 'btn_label':'Transferts Internationaux'})
-                            }}</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mEmissionTrans|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-0" rowspan="2" bgcolor="{{ bgcolor }}">
+                            {% if  journeeCaisse.statut== 'E'%}
+                            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_saisie' ,'btn_name':'midifier', 'btn_label':'Transferts Internationaux'})}}
+                            {% else %}
+                            <a href="{{ path('transfert_internationaux_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+                            {% endif %}
+                        </td>
                     {% endif %}
 
                 </tr>
                 <tr>
                     {% if is_granted('ROLE_COMPTABLE') %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DEPENSES AU COMPTANT </td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mDepense|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mDepense|number_format(0, '.', ' ')  }}</td>
                     {% else %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >TRANSFERT PAYE : </td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mReceptionTrans|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mReceptionTrans|number_format(0, '.', ' ')  }}</td>
                     {% endif %}
                 </tr>
                 <tr>
                     {% if is_granted('ROLE_COMPTABLE') %}
                         {#<td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >SALAIRES</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mSalaire|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mSalaire|number_format(0, '.', ' ')  }}</td>
                         <td class="padding-0" rowspan="2">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_saisie_groupee' ,'btn_name':'saisieRecetteDepense', 'btn_label':'Recettes et Depenses au comptant'}) }}</td>
                         #}
                     {% else %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CONTRE VALEUR DEVISE : </td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mCvd|number_format(0, '.', ' ')  }}</td>
-                        <td class="form-inline padding-0">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':(journeeCaisse.statut != 'X')?'devise_recus_achat_vente':'devise_recus_show' , 'btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }} |
-                            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_intercaisses_gestion','btn_name':'modifier', 'btn_label':'intercaisse Devises'}) }}</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mCvd|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-0 form-inline" bgcolor="{{ bgcolor }}">
+                            {% if  journeeCaisse.statut== 'E'%}
+                            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':(journeeCaisse.statut != 'X')?'devise_recus_achat_vente':'devise_recus_show' , 'btn_name':'modifier', 'btn_label':'Achat / Vente Devises'}) }}
+                            | {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'devise_intercaisses_gestion','btn_name':'modifier', 'btn_label':'intercaisse Devises'}) }}
+                            {% else %}
+                                <a href="{{ path('devise_recus_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir Achat vente devises</a>
+                                |  <a href="{{ path('devise_intercaisses_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir Intercaisse devises</a>
+                            {% endif %}
+                        </td>
                     {% endif %}
                 </tr>
                 <tr>
                     {% if is_granted('ROLE_COMPTABLE') %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RECETTES A TERME</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-0" rowspan="2">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-0" rowspan="2" bgcolor="{{ bgcolor }}">-</td>
                     {% else %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DEPOT : </td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</td>
-                        {% if journeeCaisse.statut != 'X' %}<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot','btn_name':'midifier', 'btn_label':'Dépots'}) }}</td>
-                        {% else %}<td class="padding-0" rowspan="2" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transaction_comptes_show','id':journeeCaisse.id,'btn_name':'midifier', 'btn_label':'Depots et retraits'}) }}</td>
-                        {% endif %}
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-0"  bgcolor="{{ bgcolor }}">
+                            {% if journeeCaisse.statut == 'E' %}
+                            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot','btn_name':'midifier', 'btn_label':'Dépots'}) }}
+                            {% else %}
+                                {#<a href="{{ path('depot_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir</a>
+                                #}
+                            {% endif %}
+                        </td>
                     {% endif %}
 
                 </tr>
                 <tr>
                     {% if is_granted('ROLE_COMPTABLE') %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DEPENSES A TERME</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
                     {% else %}
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RETRAIT : </td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>-</td>
-                        <td class="padding-5 text-right" colspan="2" bgcolor={{ color }}>{{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</td>
-                        {% if journeeCaisse.statut != 'X' %}<td class="padding-0" >{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'retrait','btn_name':'midifier', 'btn_label':'Retraits'}) }}</td>{% endif %}
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+                        <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</td>
+                        <td class="padding-0"  bgcolor="{{ bgcolor }}">
+                            {% if journeeCaisse.statut == 'E' %}
+                            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'retrait','btn_name':'midifier', 'btn_label':'Retraits'}) }}
+                            {% else %}
+                                {#<a href="{{ path('retrait_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir</a>
+                            #}
+                            {% endif %}
+                        </td>
                     {% endif %}
                 </tr>
                 <tr>
@@ -126,36 +180,36 @@
                 </tr>
                 <tr>
                     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DISPONIBILITE : </td>
-                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.disponibiliteOuv|number_format(0, '.', ' ')  }}</td>
-                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ')  }}</td>
-                    <td  class="text-bold padding-5 text-right" bgcolor={{ color }}></td>
+                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.disponibiliteOuv|number_format(0, '.', ' ')  }}</td>
+                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
                 </tr>
                 <tr>
                     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >SOLDE NET : </td>
-                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ')  }}</td>
-                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ')  }}</td>
-                    <td  class="text-bold padding-5 text-right" bgcolor={{ color }}></td>
+                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ')  }}</td>
+                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
                 </tr>
                 <tr>
                     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >MOUVEMENTS DE FONDS : </td>
-                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>-</td>
-                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.mouvementFond|number_format(0, '.', ' ')  }}</td>
-                    <td  class="text-bold padding-5 text-right" bgcolor={{ color }}></td>
+                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">-</td>
+                    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mouvementFond|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
                 </tr>
                 {% if is_granted('ROLE_COMPTABLE') %}
                 {% else %}
                     <tr>
                         <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >COMPENSES : </td>
-                        <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>-</td>
-                        <td colspan="2"  class="text-bold padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.compense|number_format(0, '.', ' ')  }}</td>
-                        <td  class="text-bold padding-5 text-right" bgcolor={{ color }}></td>
+                        <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">-</td>
+                        <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.compense|number_format(0, '.', ' ')  }}</td>
+                        <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
                     </tr>
                 {% endif %}
                 <tr>
                     <td class="text-bold text-bloody-500 padding-5 text-right" bgcolor="#a9a9a9" >ECARTS : </td>
-                    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
-                    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor={{ color }}>{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ')  }}</td>
-                    <td  class="text-bold padding-5 text-right" bgcolor={{ color }}></td>
+                    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
+                    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ')  }}</td>
+                    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
                 </tr>
                 {% if is_granted('ROLE_COMPTABLE') %}
                 {% else %}
@@ -170,13 +224,17 @@
                     {% for deviseJournee in journeeCaisse.deviseJournees%}
                         <tr>
                             <td class="padding-5 text-right text-bold" bgcolor="#a9a9a9" >{{ deviseJournee.devise }}</td>
-                            <td class="padding-5 text-right" bgcolor={{ color }}>{{ deviseJournee.qteOuv|number_format(0, '.', ' ') }}</td>
-                            <td class="padding-5 text-right" bgcolor={{ color }}>{{ deviseJournee.qteMouvement|number_format(0, '.', ' ') }}</td>
-                            <td class="padding-5 text-right" bgcolor={{ color }}>{{ deviseJournee.solde|number_format(0, '.', ' ') }}</td>
-                            <td class="padding-5 text-right" bgcolor={{ color }}>{{ deviseJournee.qteFerm|number_format(0, '.', ' ') }}</td>
-                            <td class="text-bold text-bloody-500 padding-0 text-right"><div class="form-inline">
+                            <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.qteOuv|number_format(0, '.', ' ') }}</td>
+                            <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.qteMouvement|number_format(0, '.', ' ') }}</td>
+                            <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.solde|number_format(0, '.', ' ') }}</td>
+                            <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.qteFerm|number_format(0, '.', ' ') }}</td>
+                            <td class="text-bold text-bloody-500 padding-0 text-right"  bgcolor="{{ bgcolor }}"><div class="form-inline">
+                                    {% if journeeCaisse.statut == 'E' %}
                                     {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.billetFerm.id, 'operation':'deviseFerm', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
                                     {{ deviseJournee.ecartFerm|number_format(0, '.', ' ') }}
+                                    {% else %}
+                                        <a href="{{ path('billetages_show', {'id': deviseJournee.billetFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a>
+                                    {% endif %}
                                 </div></td>
                         </tr>
                     {% endfor %}

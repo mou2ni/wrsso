@@ -54,6 +54,10 @@ class InterCaissesController extends Controller
      */
     public function ajout(Request $request): Response
     {
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
 
         $em =$this->getDoctrine();
         $operation=$request->request->get('_operation');
@@ -95,6 +99,10 @@ class InterCaissesController extends Controller
      */
     public function autoriser(Request $request, InterCaisses $interCaisse): Response
     {
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
         if ($interCaisse->getStatut() != InterCaisses::INITIE)
         {
             $this->addFlash('error', 'Statut intercaisse non modifiable.');

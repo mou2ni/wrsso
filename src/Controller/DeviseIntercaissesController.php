@@ -33,6 +33,11 @@ class DeviseIntercaissesController extends Controller
      */
     public function demander(Request $request): Response
     {
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
+        
         $em = $this->getDoctrine()->getManager();
 
         //dump($request);die();
@@ -90,6 +95,10 @@ class DeviseIntercaissesController extends Controller
      */
     public function autoriser(Request $request, DeviseIntercaisses $deviseIntercaiss, $jc ): Response
     {
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
         $deviseIntercaiss->setJourneeCaisse($this->journeeCaisse);
         if ($deviseIntercaiss->getStatut()<>DeviseIntercaisses::INIT){
             $this->addFlash('error', 'INTERCAISSE NON MODIFIABLE ! ! !');
@@ -131,4 +140,11 @@ class DeviseIntercaissesController extends Controller
         return $this->redirectToRoute('devise_intercaisses_gestion');
     }
 
+    /**
+    * @Route("/voir/{id}", name="devise_intercaisses_show", methods="GET")
+    */
+    public function show(Request $request, JourneeCaisses $journeeCaisses  ): Response
+    {
+        return $this->render(null);
+    }
 }

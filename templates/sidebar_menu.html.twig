@@ -1,4 +1,33 @@
-<div class="app-sidebar app-navigation app-navigation-style-default dir-right" data-type="close-other">
-    <a href="index.php" class="app-navigation-logo"></a>
-    {{ menu_html }}
+<div class="app-sidebar app-navigation app-navigation-style-default dir-left" data-type="close-other" >
+
+    <nav>
+        <ul>
+			{% for  item in menu %}
+				{#{% set open='' %}
+				{% if app.request.attributes.get('_route') ==  item.lien%} {% set open='open' %}
+				{% endif %}#}
+			<li class="openable {{ item.open }}">
+				{% if item.lien != "#"%}
+					<a href="{{path( item.lien ) }}">{{ item.text }}</a>
+				{%else %}
+					<a href="#">{{ item.text }}</a>
+				{%endif%}
+                <ul>
+                    {% for child in item.child %}
+						{% if child.lien != "#"%}
+							<li>
+								<a href="{{ path(child.lien) }}">{{ child.text}}</a>
+							</li>
+						{%else %}
+							<li class="divider" >
+								<a href="#">{{ child.text}}</a>
+							</li>
+						{%endif%}
+                    {% endfor %}
+
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
 </div>

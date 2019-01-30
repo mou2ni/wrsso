@@ -77,6 +77,7 @@ class RecetteDepensesController extends Controller
         $form = $this->createForm(RecetteDepenseJourneesType::class, $this->journeeCaisse);
         $form->handleRequest($request);
 
+        //dump($request);die();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 

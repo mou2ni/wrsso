@@ -48,6 +48,10 @@ class DetteCreditDiversController extends Controller
      */
     public function detteCredit(Request $request)
     {
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
         $em = $this->getDoctrine()->getManager();
         $detteCredit = new DetteCreditDivers();
         $form = $this->createForm(DetteCreditDiversType::class, $detteCredit);

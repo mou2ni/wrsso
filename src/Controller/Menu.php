@@ -9,26 +9,29 @@
 namespace App\Controller;
 
 
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\HttpFoundation\Response;
 
-class Menu  extends Controller 
+class Menu  extends Controller
 {
     private $menuTop = array();
+    private $menu_parametre=array();
+    private $menu_caissier=array();
+    private $menu_comptable=array();
+    private $menu_suivi=array();
+    private $menu_rapport=array();
+    private $menu_superAdmin=array();
 
-    public function __construct()
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
-        $profil=[['text'=>'Modifier','lien'=>'#']
-            ,['text'=>'Deconnecter', 'lien'=>'logout']
-            ,
-        ];
-
-        $parametre=[
-            ['text'=>'Utilisateurs','lien'=>'utilisateurs_index']
-            ,['text'=>'Clients', 'lien'=>'clients_index']
+        $this->menu_superAdmin=[['text'=>'Utilisateurs','lien'=>'utilisateurs_index']
+            ,];
+        $this->menu_parametre=[
+            ['text'=>'Clients', 'lien'=>'clients_index']
             ,['text'=>'Plan comptable', 'lien'=>'comptes_index']
             ,['text'=>'Caisses et banques', 'lien'=>'caisses_index']
-            ,['text'=>'Parametres comptables', 'lien'=>'parametre_comptables_index']
+            ,['text'=>'Parametres comptables', 'lien'=>'#']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
             ,['text'=>'Taux de Devise', 'lien'=>'#']
             ,['text'=>'sep', 'lien'=>'#']
@@ -40,7 +43,7 @@ class Menu  extends Controller
             ,
         ];
         
-        $caisse=[
+        $this->menu_caissier=[
             ['text'=>'Gerer Caisse','lien'=>'journee_caisses_gerer']
             ,['text'=>'Changer de caisse', 'lien'=>'journee_caisses_init']
             ,['text'=>'Transfert internationaux', 'lien'=>'transfert_internationaux_saisie']
@@ -51,10 +54,10 @@ class Menu  extends Controller
             ,['text'=>'Achat vente divers', 'lien'=>'#']
             ,['text'=>'Depôts', 'lien'=>'#']
             ,['text'=>'Retraits', 'lien'=>'#']
-            ,
+            ,['text'=>'Historiques caisses','lien'=>'journee_caisses_etat_de_caisse']
         ];
 
-        $compta=[
+        $this->menu_comptable=[
             ['text'=>'Caisses menu depenses','lien'=>'compta_saisie_cmd']
             ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_saisie_groupee']
             ,['text'=>'Recettes Depenses à terme', 'lien'=>'#']
@@ -67,9 +70,8 @@ class Menu  extends Controller
             ,
         ];
 
-        $suivi=[
+        $this->menu_suivi=[
             ['text'=>'Tableau de bord', 'lien'=>'#']
-            ,['text'=>'Historiques caisses','lien'=>'journee_caisses_etat_de_caisse']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'#']
             ,['text'=>'Mouvements de Devises', 'lien'=>'#']
             ,['text'=>'Grand livre', 'lien'=>'#']
@@ -80,43 +82,42 @@ class Menu  extends Controller
             ,
         ];
 
-        $rapport=[
+        $this->menu_rapport=[
             ['text'=>'Transferts BCEAO MINEFID', 'lien'=>'etats_rapport_transfert']
             ,['text'=>'Devises BCEAO MINEFID','lien'=>'etats_rapport_devises']
             ,
         ];
-        $this->menuTop=[
-            ['text'=>'Mon profil','child'=>$profil,'lien'=>'#']
-            ,['text'=>'Paramétrages','child'=>$parametre, 'lien'=>'#']
-            ,['text'=>'Gestion Caisse','child'=>$caisse, 'lien'=>'#']
-            ,['text'=>'Comptabilité','child'=>$compta, 'lien'=>'compta_main']
-            ,['text'=>'Etats de suivi','child'=>$suivi, 'lien'=>'#']
-            ,['text'=>'Rapports','child'=>$rapport, 'lien'=>'#']
-        ];
     }
 
-    public function getSideBarMenu() : Response
+    public function getSideBarMenu($active_route ) : Response
     {
-        $html="<nav><ul>";
-        foreach ($this->menuTop as $item){
-            $html.="<li>
-                <a href=\"".$item['lien']."\">".$item['text']."</a>
-                <ul>";
-            foreach ($item['child'] as $child){
-                $html.="<li>
-                    <a href=\"{{ path('".$child['lien']."') }}\">".$child['text']."</a>
-                    </li>";
-            }
-            $html.="</ul></li>";
-        }
-        $html.="</ul></nav>";
+        $menu=array();
 
-        return $this->render( 'sidbar_menu.html.twig',
-            ['menu_html' => $html]
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_GUICHETIER')) {
+            $menu[]=['text'=>'Gestion Caisse','child'=>$this->menu_caissier, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_caissier,$active_route)];
+        }
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
+            $menu[]=['text'=>'Comptabilité','child'=>$this->menu_comptable, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_comptable,$active_route)];
+            $menu[]=['text'=>'Suivi','child'=>$this->menu_suivi, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_suivi,$active_route)];
+            $menu[]=['text'=>'Rapports','child'=>$this->menu_rapport, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_rapport,$active_route)];
+        }
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $menu[]=['text'=>'Administration','child'=>$this->menu_superAdmin, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_superAdmin,$active_route)];
+        }
+
+        return $this->render( 'sidebar_menu.html.twig',
+            ['menu' => $menu]
         );
     }
     
-    
+   private function getOpenMenu($childrens, $active_route){
+       foreach ($childrens as $child){
+           if($child['lien']== $active_route){
+               return 'open';
+           }
+       }
+       return '';
+   }
     ///////////////////////////////////////////////////////
 
 }

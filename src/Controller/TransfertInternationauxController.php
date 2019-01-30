@@ -73,6 +73,10 @@ class TransfertInternationauxController extends Controller
      */
     public function saisieTransfert(Request $request, $envoi = true): Response
     {
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
         $em =$this->getDoctrine();
          
         $form= $this->createForm(TransfertType::class, $this->journeeCaisse);
