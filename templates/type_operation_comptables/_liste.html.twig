@@ -1,0 +1,27 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Libelle</th>
+        <th>Compte</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for type_operation_comptable in type_operation_comptables %}
+        <tr>
+            <td>{{ type_operation_comptable.id }}</td>
+            <td>{{ type_operation_comptable.libelle }}</td>
+            <td>{{ type_operation_comptable.compte }}</td>
+            <td>
+                <a href="{{ path('type_operation_comptables_show', {'id': type_operation_comptable.id}) }}">Details</a>
+                <a href="{{ path('type_operation_comptables_edit', {'id': type_operation_comptable.id}) }}">Modifier</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">Aucune operation trouvée</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

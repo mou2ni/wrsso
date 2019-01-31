@@ -7,7 +7,11 @@
 
     {{ include('comptes/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('comptes_index') }}">Liste des comptes</a>
+    <div class="form-inline"><a href="{{ path('comptes_index') }}">Liste des comptes</a> ||
+
+    <a href="{{ path('comptes_edit', {'id': compte.id}) }}">Modifier</a> ||
 
     {{ include('comptes/_delete_form.html.twig') }}
+    </div>
+    {{ include('comptes/_liste.html.twig') }}
 {% endblock %}

@@ -3,9 +3,11 @@
 {% block title %}New Devises{% endblock %}
 
 {% block body %}
-    <h1>Create new Devises</h1>
+    <h1>Ajouter une devise</h1>
 
     {{ include('devises/_form.html.twig') }}
 
-    <a href="{{ path('devises_index') }}">back to list</a>
+    <a href="{{ path('devises_index') }}">Retour à la liste</a>
+    {{ include('devises/_liste.html.twig') }}
+
 {% endblock %}

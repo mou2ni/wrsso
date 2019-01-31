@@ -36,7 +36,9 @@ class BilletsController extends Controller
         $billet = new Billets();
         $form = $this->createForm(BilletsType::class, $billet);
         $form->handleRequest($request);
-
+        $billets = $this->getDoctrine()
+            ->getRepository(Billets::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($billet);
@@ -47,6 +49,7 @@ class BilletsController extends Controller
 
         return $this->render('billets/new.html.twig', [
             'billet' => $billet,
+            'billets' => $billets,
             'form' => $form->createView(),
         ]);
     }
@@ -56,7 +59,12 @@ class BilletsController extends Controller
      */
     public function show(Billets $billet): Response
     {
-        return $this->render('billets/show.html.twig', ['billet' => $billet]);
+        $billets = $this->getDoctrine()
+            ->getRepository(Billets::class)
+            ->liste();
+        return $this->render('billets/show.html.twig', [
+            'billets' => $billets,
+            'billet' => $billet]);
     }
 
     /**
@@ -67,7 +75,9 @@ class BilletsController extends Controller
     {
         $form = $this->createForm(BilletsType::class, $billet);
         $form->handleRequest($request);
-
+        $billets = $this->getDoctrine()
+            ->getRepository(Billets::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -75,6 +85,7 @@ class BilletsController extends Controller
         }
 
         return $this->render('billets/edit.html.twig', [
+            'billets' => $billets,
             'billet' => $billet,
             'form' => $form->createView(),
         ]);

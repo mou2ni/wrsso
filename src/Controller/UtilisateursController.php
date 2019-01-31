@@ -51,22 +51,14 @@ class UtilisateursController extends Controller
         $utilisateur = new Utilisateurs();
         $form = $this->createForm(UtilisateursType::class, $utilisateur);
         $form->handleRequest($request);
-
+        $utilisateurs = $this->getDoctrine()
+            ->getRepository(Utilisateurs::class)
+            ->liste(10);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
             //dump($form['role']->getData()); die();
             $utilisateur->setRoles($form['role']->getData());
-            /*$compte = new Comptes();
-            $compte->setNumCompte($utilisateur->getCompte())
-                ->setClient($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
-                //->setIntitule($em->getRepository(Clients::class)->findOneBy(['nom'=>'Comptes']))
-                ->setTypeCompte(Comptes::INTERNE)
-                ->setIntitule('Ecart Caissier '.$utilisateur->getNom());
-            $utilisateur->setCompteEcartCaisse($compte);*/
-            //dump($utilisateur);die();
-            //$encoded = $encoder->encodePassword($utilisateur, $utilisateur->getPassword());
-
             $em->persist($utilisateur);
             $em->flush();
 
@@ -76,6 +68,7 @@ class UtilisateursController extends Controller
         return $this->render('utilisateurs/new.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form->createView(),
+            'utilisateurs' => $utilisateurs
         ]);
     }
 
@@ -86,7 +79,9 @@ class UtilisateursController extends Controller
     {
         $form = $this->createForm(ProfileType::class, $this->utilisateur);
         $form->handleRequest($request);
-
+        $utilisateurs = $this->getDoctrine()
+            ->getRepository(Utilisateurs::class)
+            ->liste(10);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($this->utilisateur);
@@ -136,7 +131,10 @@ class UtilisateursController extends Controller
      */
     public function show(Utilisateurs $utilisateur): Response
     {
-        return $this->render('utilisateurs/show.html.twig', ['utilisateur' => $utilisateur]);
+        $utilisateurs = $this->getDoctrine()
+            ->getRepository(Utilisateurs::class)
+            ->liste(10);
+        return $this->render('utilisateurs/show.html.twig', ['utilisateur' => $utilisateur, 'utilisateurs' => $utilisateurs]);
     }
 
 
@@ -150,7 +148,9 @@ class UtilisateursController extends Controller
         $form = $this->createForm(UtilisateursType::class, $utilisateur);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
-
+        $utilisateurs = $this->getDoctrine()
+            ->getRepository(Utilisateurs::class)
+            ->liste(10);
         if ($form->isSubmitted() && $form->isValid()) {
             $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
             $utilisateur->setRoles($form['role']->getData());
@@ -163,6 +163,7 @@ class UtilisateursController extends Controller
         return $this->render('utilisateurs/edit.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form->createView(),
+            'utilisateurs' => $utilisateurs
         ]);
     }
 

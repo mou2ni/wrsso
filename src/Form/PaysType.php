@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Pays;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +14,7 @@ class PaysType extends AbstractType
     {
         $builder
             ->add('libelle')
-            ->add('zone')
+            ->add('zone', ChoiceType::class, ['choices'=>['UEMOA'=>'UEMOA','AUTRES CEDEAO'=>'AUTRES CEDEAO','CEMAC'=>'CEMAC','MAGHREB'=>'MAGHREB','AFRIQUE DU SUD'=>'AFRIQUE DU SUD','USA'=>'USA','EUROPE'=>'EUROPE','INDE'=>'INDE','CHINE'=>'CHINE','BRESIL'=>'BRESIL','AUTRES'=>'AUTRES']])
         ;
     }
 

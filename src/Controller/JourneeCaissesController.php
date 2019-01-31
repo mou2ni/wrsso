@@ -33,6 +33,7 @@ use APY\DataGridBundle\Grid\GridBuilder;
 use APY\DataGridBundle\Grid\Source\Entity;
 use APY\DataGridBundle\Grid\Source\Source;
 use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
 //use APY\DataGridBundle\Grid\Source\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -70,29 +71,35 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/", name="journee_caisses_index", methods="GET")
+     * @Route("/", name="journee_caisses_index", methods="GET|POST")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $date = new \DateTime();
         $dateDeb=new \DateTime('2019-01-01 00:00:00');
-        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-30 00:00:00');
+        //dump($dateFin > $dateDeb);die();
+        $caisse = null;
+        $caisses = $this->getDoctrine()->getRepository(Caisses::class)->findAll();
+        $data = array();
+        $form = $this->createFormBuilder($data)->getForm();
+        $form->add('caisse',EntityType::class,['class'=>Caisses::class, 'placeholder'=>'CHOISIR', 'choices'=>$caisses, 'required'=>false])
+            ->add('dateDeb')
+            ->add('dateFin' );
+        $form->handleRequest($request);
 
-        $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
-        $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
+        $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->liste($dateDeb,$dateFin,$caisse,10);
+        //dump($journeeCaisses);die();
+        if ($form->isSubmitted()) {
+            //dump($form->getData());die();
+            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->liste($form['dateDeb']->getData(),$form['dateFin']->getData(),$form['caisse']->getData(),10);
 
-        //if ($this->isGranted('ROLE_GUICHETIER'))
-        $journeeCaisses = $this->getDoctrine()
-            ->getRepository(JourneeCaisses::class)
-            ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
-        $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
-
-        if ($this->isGranted('ROLE_ADMIN'))
-            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
-        return $this->render('journee_caisses/etat_de_caisse.html.twig', [
+        }
+        //dump($journeeCaisses);die();
+            return $this->render('journee_caisses/etat_de_caisse.html.twig', [
                 'journee_caisses' => $journeeCaisses,
                 'journeeCaisse' => null,
-                //'form' => $form->createView()
+                'form' => $form->createView()
             ]);
     }
 
@@ -275,18 +282,19 @@ class JourneeCaissesController extends Controller
      */
     public function etatDeCaisse(Request $request): Response
     {
-        $dateDeb = new \DateTime("01-11-2018");
-        $dateFin = new \DateTime('now');
+        $date = new \DateTime('now');
+        $dateDeb = new \DateTime();
+        $dateFin = new \DateTime();
+        $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
+        $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
         //if ($this->isGranted('ROLE_GUICHETIER'))
-        $journeeCaisses = $this->getDoctrine()
-            ->getRepository(JourneeCaisses::class)
-            ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
+        $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->liste($dateDeb,$dateFin,$this->caisse,10);
         if ($this->isGranted('ROLE_ADMIN'))
-            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll();
+            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->liste($dateDeb,$dateFin,null,10);
         return $this->render('journee_caisses/etat_de_caisse.html.twig', [
             'journee_caisses' => $journeeCaisses,
             'journeeCaisse' => null,
-            //'form' => $form->createView()
+            'form' => null
         ]);
         /*
         $data = array();

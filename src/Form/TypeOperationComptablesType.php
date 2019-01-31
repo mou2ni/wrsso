@@ -13,7 +13,7 @@ class TypeOperationComptablesType extends AbstractType
     {
         $builder
             ->add('libelle')
-            ->add('code')
+            //->add('estCharge')
             ->add('compte')
         ;
     }

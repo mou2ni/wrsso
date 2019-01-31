@@ -4,42 +4,6 @@
 
 {% block body %}
     <h1>Listes des devises</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Code</th>
-                <th>Libelle</th>
-                <th>Date Modification</th>
-                <th>Taux de réference</th>
-                <th>Taux Achat</th>
-                <th>Taux Vente</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for devise in devises %}
-            <tr>
-                <td>{{ devise.id }}</td>
-                <td>{{ devise.code }}</td>
-                <td>{{ devise.libelle }}</td>
-                <td>{{ devise.dateModification ? devise.dateModification|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ devise.txReference }}</td>
-                <td>{{ devise.txAchat }}</td>
-                <td>{{ devise.txVente }}</td>
-                <td>
-                    <a href="{{ path('devises_show', {'id': devise.id}) }}">Detail</a>
-                    <a href="{{ path('devises_edit', {'id': devise.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">Aucune devise trouvée</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    {{ include('devises/_liste.html.twig') }}
     <a href="{{ path('devises_new') }}">Ajouter</a>
 {% endblock %}

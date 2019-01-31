@@ -22,6 +22,36 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         parent::__construct($registry, JourneeCaisses::class);
     }
 
+    public function liste($dateDeb,$dateFin,$caisse = null,$limit = 10)
+    {
+         $req = $this->createQueryBuilder('jc');
+
+        if ($dateDeb){
+            $req->where('(jc.dateOuv) >=:dateDeb')
+                ->setParameter('dateDeb',$dateDeb);
+            //dump($req);
+        }
+        if ($dateFin){
+            $req->andWhere('(jc.dateFerm) <= :dateFin')
+                ->setParameter('dateFin',$dateFin);
+            //dump($req);
+        }
+        //->andWhere('(jc.dateFerm) <=:dateFin')
+
+         if ($caisse){
+             $req->andWhere('jc.caisse=:caisse')
+                 ->setParameter('caisse',$caisse);
+             //dump($req);
+         }
+         //die();
+        $req->orderBy('jc.dateComptable', 'DESC')
+        ->setMaxResults($limit);
+
+        //dump($req->getQuery()->getSQL());die();
+        return $req->getQuery()
+            ->getResult();
+    }
+
     public function getOpenJourneeCaisseQb($dateComptable, $myJournee)
     {
         $qb=$this->createQueryBuilder('jc');

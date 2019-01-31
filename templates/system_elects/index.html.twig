@@ -4,32 +4,6 @@
 
 {% block body %}
     <h1> Liste des Systemes de transfert Mobile</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Libelle</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for system_elect in system_elects %}
-            <tr>
-                <td>{{ system_elect.id }}</td>
-                <td>{{ system_elect.Libelle }}</td>
-                <td>
-                    <a href="{{ path('system_elects_show', {'id': system_elect.id}) }}">Details</a>
-                    <a href="{{ path('system_elects_edit', {'id': system_elect.id}) }}">Mdifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun systeme Electronique trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    {{ include('system_elects/_liste.html.twig') }}
     <a href="{{ path('system_elects_new') }}">Ajouter</a>
 {% endblock %}

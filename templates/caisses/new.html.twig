@@ -6,6 +6,8 @@
     <h1>Créer une nouvelle Caisse - Banque</h1>
 
     {{ include('caisses/_form.html.twig') }}
-
-    <a href="{{ path('caisses_index') }}">Afficher toutes les caisses - Banques</a>
+    <div class="form-inline">
+        <a href="{{ path('caisses_index') }}">Liste des caisses - Banques</a>
+    </div>
+    {{ include('caisses/_liste.html.twig') }}
 {% endblock %}

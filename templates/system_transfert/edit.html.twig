@@ -3,11 +3,15 @@
 {% block title %}Edit SystemTransfert{% endblock %}
 
 {% block body %}
-    <h1>Edit SystemTransfert</h1>
+    <h1>Modification du système de transfert</h1>
 
-    {{ include('system_transfert/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('system_transfert/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('system_transfert_index') }}">back to list</a>
+    <div class="form-inline"><a href="{{ path('system_transfert_index') }}">Retour à la liste</a> ||
 
-    {{ include('system_transfert/_delete_form.html.twig') }}
+        <a href="{{ path('system_transfert_edit', {'id': system_transfert.id}) }}">Modifier</a> ||
+
+        {{ include('system_transfert/_delete_form.html.twig') }}
+    </div>
+    {{ include('system_transfert/_liste.html.twig') }}
 {% endblock %}

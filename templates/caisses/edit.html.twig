@@ -7,7 +7,10 @@
 
     {{ include('caisses/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('caisses_index') }}">Liste des caisses</a>
-
-    {{ include('caisses/_delete_form.html.twig') }}
+    <div class="form-inline">
+        <a href="{{ path('caisses_index') }}">Liste des caisses - Banques</a> ||
+        <a href="{{ path('caisses_edit', {'id': caiss.id}) }}">Modifier</a> ||
+        {{ include('caisses/_delete_form.html.twig') }}
+    </div>
+    {{ include('caisses/_liste.html.twig') }}
 {% endblock %}

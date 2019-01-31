@@ -6,6 +6,7 @@
     <h1>Gestion Utilisateurs</h1>
 
     {{ include('utilisateurs/_form.html.twig') }}
+    <a href="{{ path('utilisateurs_index') }}">Retour à la liste</a> ||
+    {{ include('utilisateurs/_liste.html.twig') }}
 
-    <a href="{{ path('journee_caisses_gerer') }}">Retour à l'accueil</a>
 {% endblock %}

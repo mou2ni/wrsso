@@ -2,7 +2,7 @@
 
 {% block body %}
     <h1> LISTE DES TRANSFERT DE {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}</h1>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
     <thead>
     {#<tr>
         {% if envoi %}<h1> Saisie des transferts envoyés</h1>{% else %}<h1> Saisie des transferts payés</h1>{% endif %}

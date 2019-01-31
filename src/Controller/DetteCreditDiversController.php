@@ -38,7 +38,7 @@ class DetteCreditDiversController extends Controller
     {
         $detteCreditDivers = $this->getDoctrine()
             ->getRepository(DetteCreditDivers::class)
-            ->findAll();
+            ->liste();
 
         return $this->render('dette_credit_divers/index.html.twig', ['dette_credit_divers' => $detteCreditDivers]);
     }

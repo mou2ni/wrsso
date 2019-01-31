@@ -4,38 +4,6 @@
 
 {% block body %}
     <h1>Liste des comptes</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                {#<th>Id</th>#}
-                <th>NumCompte</th>
-                <th>Intitule</th>
-                <th>SoldeCourant</th>
-                <th>TypeCompte</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for compte in comptes %}
-            <tr>
-                {#<td>{{ compte.id }}</td>#}
-                <td>{{ compte.numCompte }}</td>
-                <td>{{ compte.intitule }}</td>
-                <td>{{ compte.soldeCourant }}</td>
-                <td>{{ compte.typeCompte }}</td>
-                <td>
-                    <a href="{{ path('comptes_show', {'id': compte.id}) }}">Détails</a>
-                    <a href="{{ path('comptes_edit', {'id': compte.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">Aucun compte trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    {{ include('comptes/_liste.html.twig') }}
     <a href="{{ path('comptes_new') }}">Ajouter un compte</a>
 {% endblock %}

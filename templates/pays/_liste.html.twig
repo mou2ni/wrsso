@@ -1,0 +1,29 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Libelle</th>
+        <th>Zone</th>
+        <th>Est dans région</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for pay in pays %}
+        <tr>
+            <td>{{ pay.id }}</td>
+            <td>{{ pay.libelle }}</td>
+            <td>{{ pay.zone }}</td>
+            <td>{{ (pay.dansRegion)?'OUI':'NON' }}</td>
+            <td>
+                <a href="{{ path('pays_show', {'id': pay.id}) }}">Detail</a>
+                <a href="{{ path('pays_edit', {'id': pay.id}) }}">Modifier</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">Aucun pays trouvé</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

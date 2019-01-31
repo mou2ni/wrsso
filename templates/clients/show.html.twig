@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Clients{% endblock %}
+{% block title %}Details Clients{% endblock %}
 
 {% block body %}
     <h1>Clients</h1>
@@ -26,9 +26,12 @@
         </tbody>
     </table>
 
-    <a href="{{ path('clients_index') }}">back to list</a>
+    <div class="form-inline"><a href="{{ path('clients_index') }}">Retour à la liste</a>||
 
-    <a href="{{ path('clients_edit', {'id': client.id}) }}">edit</a>
+    <a href="{{ path('clients_edit', {'id': client.id}) }}">Modifier</a>||
 
     {{ include('clients/_delete_form.html.twig') }}
+    </div>
+    {{ include('clients/_liste.html.twig') }}
+
 {% endblock %}
