@@ -76,6 +76,7 @@ class JourneeCaissesController extends Controller
     public function index(Request $request): Response
     {
         $date = new \DateTime();
+        $offset = ($request)?$request->request->get('_page')*10:0;
         $dateDeb=new \DateTime('2019-01-01 00:00:00');
         $dateFin=new \DateTime('2019-01-30 00:00:00');
         //dump($dateFin > $dateDeb);die();
@@ -95,11 +96,14 @@ class JourneeCaissesController extends Controller
             $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->liste($form['dateDeb']->getData(),$form['dateFin']->getData(),$form['caisse']->getData(),10);
 
         }
+        $pages = round(count($journeeCaisses)/10);
         //dump($journeeCaisses);die();
             return $this->render('journee_caisses/etat_de_caisse.html.twig', [
                 'journee_caisses' => $journeeCaisses,
                 'journeeCaisse' => null,
-                'form' => $form->createView()
+                'caisse' => $this->caisse,
+
+                'form' => $form->createView(), 'pages'=>$pages
             ]);
     }
 

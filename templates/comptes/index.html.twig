@@ -5,5 +5,6 @@
 {% block body %}
     <h1>Liste des comptes</h1>
     {{ include('comptes/_liste.html.twig') }}
-    <a href="{{ path('comptes_new') }}">Ajouter un compte</a>
+    {{ include('_pagination.html.twig',{'path':'comptes_index'}) }}
+    <a class="form-inline" href="{{ path('comptes_new') }}">Ajouter un compte</a>
 {% endblock %}

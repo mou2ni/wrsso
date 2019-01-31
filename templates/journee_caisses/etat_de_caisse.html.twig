@@ -21,7 +21,7 @@
             <thead>
             {% if journee_caisses %}
                 <tr>
-                    <th colspan="12">FICHE ARRET CAISSE : {{ journee_caisses[0].caisse }}</th>
+                    <th colspan="12">FICHE ARRET CAISSE : {{ caisse }}</th>
                 </tr>
             {% else %}
                 <tr>
@@ -71,6 +71,7 @@
             {% endfor %}
             </tbody>
         </table>
+        {{ include('_pagination.html.twig',{'path':'journee_caisses_index'}) }}
     </div>
     {#<div hidden>{{ form_rest(form) }}</div>#}
 {% endblock %}

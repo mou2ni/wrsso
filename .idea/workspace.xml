@@ -3,114 +3,19 @@
   <component name="ChangeListManager">
     <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="gestions des crud : historique des journées caisses, pays, systemElects, systemTransfert">
-      <change afterPath="$PROJECT_DIR$/src/Entity/DevisesCollection.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/TauxDevisesType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/DevisesRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/PaysRepository.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/billetages/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/billets/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/caisses/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/clients/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/comptes/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/devises/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/devises/tauxDevises.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/param_comptables/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/pays/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/system_elects/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/system_transfert/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/type_operation_comptables/_liste.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/utilisateurs/_liste.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/_btn_page.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/_pagination.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wrsso.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wrsso.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BilletsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BilletsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CaissesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ClientsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ClientsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/ComptesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ComptesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/DevisesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DevisesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ParamComptablesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ParamComptablesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PaysController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PaysController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SystemElectsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SystemElectsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SystemTransfertController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SystemTransfertController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TypeOperationComptablesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TypeOperationComptablesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UtilisateursController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UtilisateursController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Devises.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Devises.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Pays.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Pays.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/PaysType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PaysType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TypeOperationComptablesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TypeOperationComptablesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/DetteCreditDiversRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/DetteCreditDiversRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/ClientsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ClientsRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/ComptesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/ComptesRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/billetages/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/billetages/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/billets/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/billets/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/billets/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/billets/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/billets/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/billets/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/billets/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/billets/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/caisses/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/caisses/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/caisses/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/caisses/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/caisses/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/caisses/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/caisses/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/caisses/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/clients/ajout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/clients/ajout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/clients/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/clients/edit.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/clients/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/clients/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/clients/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/clients/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/comptes/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comptes/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/comptes/_liste.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comptes/_liste.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/comptes/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comptes/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/comptes/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comptes/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/comptes/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/comptes/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/dette_credit_divers/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dette_credit_divers/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devise_intercaisses/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devise_intercaisses/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devise_journees/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devise_journees/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devise_mouvements/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devise_mouvements/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devise_recus/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devise_recus/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devises/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devises/_delete_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devises/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devises/_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devises/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devises/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devises/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devises/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devises/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devises/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devises/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devises/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/intercaisses/list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/intercaisses/list.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/journee_caisses/etat_de_caisse.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/etat_de_caisse.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/param_comptables/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/param_comptables/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/param_comptables/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/param_comptables/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/param_comptables/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/param_comptables/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/param_comptables/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/param_comptables/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pays/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pays/_delete_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pays/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pays/_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pays/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pays/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pays/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pays/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pays/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pays/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/pays/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/pays/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/recette_depenses/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recette_depenses/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/salaires/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/salaires/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_elect_inventaires/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_elect_inventaires/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_elects/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_elects/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_elects/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_elects/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_elects/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_elects/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_elects/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_elects/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_transfert/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_transfert/_delete_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_transfert/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_transfert/_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_transfert/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_transfert/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_transfert/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_transfert/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_transfert/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_transfert/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/system_transfert/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/system_transfert/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transaction_comptes/_liste.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transaction_comptes/_liste.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transaction_comptes/_liste_depots.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transaction_comptes/_liste_depots.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transaction_comptes/_liste_retraits.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transaction_comptes/_liste_retraits.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transaction_comptes/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transaction_comptes/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transfert_internationaux/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transfert_internationaux/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transfert_internationaux/liste.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transfert_internationaux/liste.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/type_operation_comptables/_delete_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/type_operation_comptables/_delete_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/type_operation_comptables/_form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/type_operation_comptables/_form.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/type_operation_comptables/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/type_operation_comptables/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/type_operation_comptables/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/type_operation_comptables/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/type_operation_comptables/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/type_operation_comptables/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/type_operation_comptables/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/type_operation_comptables/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/utilisateurs/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/utilisateurs/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/utilisateurs/new.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/utilisateurs/new.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/utilisateurs/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/utilisateurs/show.html.twig" afterDir="false" />
     </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -161,7 +66,118 @@
     <favorites_list name="wrsso" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ComptesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/ComptesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="29" column="95" selection-start-line="29" selection-start-column="78" selection-end-line="29" selection-end-column="95" />
+              <folding>
+                <element signature="e#676#701#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ComptesRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Repository/ComptesRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="33" column="20" selection-start-line="31" selection-start-column="8" selection-end-line="33" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/comptes/index.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" selection-start-line="7" selection-end-line="8" />
+              <folding>
+                <element signature="e#12#26#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientsController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/ClientsController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="28" column="95" selection-start-line="28" selection-start-column="78" selection-end-line="28" selection-end-column="95" />
+              <folding>
+                <element signature="e#675#700#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/clients/index.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="67" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="67" />
+              <folding>
+                <element signature="e#12#26#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientsRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Repository/ClientsRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="482">
+              <caret line="36" column="20" selection-start-line="34" selection-start-column="8" selection-end-line="36" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JourneeCaissesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="73" column="46" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="46" />
+              <folding>
+                <element signature="e#3561#3603#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="etat_de_caisse.html.twig" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/journee_caisses/etat_de_caisse.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="73" column="73" selection-start-line="73" selection-start-column="73" selection-end-line="73" selection-end-column="73" />
+              <folding>
+                <element signature="e#12#26#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JourneeCaissesRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gerer.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-153">
+              <folding>
+                <element signature="e#12#26#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -265,19 +281,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/comptes/index.html.twig" />
-        <option value="$PROJECT_DIR$/templates/comptes/show.html.twig" />
-        <option value="$PROJECT_DIR$/templates/comptes/edit.html.twig" />
-        <option value="$PROJECT_DIR$/templates/comptes/new.html.twig" />
-        <option value="$PROJECT_DIR$/src/Repository/DetteCreditDiversRepository.php" />
-        <option value="$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php" />
-        <option value="$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/DevisesController.php" />
-        <option value="$PROJECT_DIR$/templates/devises/_liste.html.twig" />
-        <option value="$PROJECT_DIR$/templates/devises/index.html.twig" />
-        <option value="$PROJECT_DIR$/templates/devises/new.html.twig" />
-        <option value="$PROJECT_DIR$/templates/devises/show.html.twig" />
-        <option value="$PROJECT_DIR$/templates/devises/edit.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/ParamComptablesController.php" />
         <option value="$PROJECT_DIR$/templates/param_comptables/_liste.html.twig" />
         <option value="$PROJECT_DIR$/templates/param_comptables/index.html.twig" />
@@ -316,6 +319,19 @@
         <option value="$PROJECT_DIR$/templates/type_operation_comptables/_form.html.twig" />
         <option value="$PROJECT_DIR$/src/Form/TypeOperationComptablesType.php" />
         <option value="$PROJECT_DIR$/templates/type_operation_comptables/edit.html.twig" />
+        <option value="$PROJECT_DIR$/src/Repository/ComptesRepository.php" />
+        <option value="$PROJECT_DIR$/templates/comptes/_btn_page.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/ComptesController.php" />
+        <option value="$PROJECT_DIR$/templates/comptes/_liste.html.twig" />
+        <option value="$PROJECT_DIR$/templates/_btn_page.html.twig" />
+        <option value="$PROJECT_DIR$/templates/comptes/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/Repository/ClientsRepository.php" />
+        <option value="$PROJECT_DIR$/src/Controller/ClientsController.php" />
+        <option value="$PROJECT_DIR$/templates/clients/index.html.twig" />
+        <option value="$PROJECT_DIR$/templates/_pagination.html.twig" />
+        <option value="$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php" />
+        <option value="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" />
+        <option value="$PROJECT_DIR$/templates/journee_caisses/etat_de_caisse.html.twig" />
       </list>
     </option>
   </component>
@@ -558,6 +574,24 @@
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="clients" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="comptes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="journee_caisses" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="type_operation_comptables" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -605,18 +639,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp1\htdocs\wrsso\templates" />
+      <recent name="C:\xampp1\htdocs\wrsso\templates\comptes" />
       <recent name="C:\xampp1\htdocs\wrsso\templates\type_operation_comptables" />
       <recent name="C:\xampp1\htdocs\wrsso\templates\utilisateurs" />
       <recent name="C:\xampp1\htdocs\wrsso\templates\system_transfert" />
-      <recent name="C:\xampp1\htdocs\wrsso\templates\system_elects" />
-      <recent name="C:\xampp1\htdocs\wrsso\templates\pays" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp1\htdocs\wrsso\templates" />
       <recent name="C:\xampp1\htdocs\wrsso\src\Repository" />
       <recent name="C:\xampp1\htdocs\wrsso\public\js" />
       <recent name="C:\xampp1\htdocs\wrsso\src\DataFixtures\ORM" />
       <recent name="C:\xampp1\htdocs\wrsso\src\Migrations - Copie" />
-      <recent name="C:\xampp1\htdocs\wrsso\public" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -716,14 +750,7 @@
       <workItem from="1545652522311" duration="88255000" />
       <workItem from="1546157172294" duration="149624000" />
       <workItem from="1548064807327" duration="144656000" />
-      <workItem from="1548862587994" duration="37012000" />
-    </task>
-    <task id="LOCAL-00050" summary="pettites retouches">
-      <created>1545054971787</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1545054971787</updated>
+      <workItem from="1548862587994" duration="48070000" />
     </task>
     <task id="LOCAL-00051" summary="optimisation jour 1">
       <created>1545072684004</created>
@@ -1061,11 +1088,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548787725910</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="gestions des crud : historique des journées caisses, pays, systemElects, systemTransfert">
+      <created>1548936959476</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1548936959477</updated>
+    </task>
+    <option name="localTasksCounter" value="100" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1973992000" />
+    <option name="totallyTimeSpent" value="1985050000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1078,6 +1112,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32843137" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.5075643" side_tool="true" weight="0.4232026" />
@@ -1224,144 +1259,6 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Repository/DetteCreditDiversRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="24" column="65" selection-start-line="24" selection-start-column="65" selection-end-line="24" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="88" column="74" selection-start-line="88" selection-start-column="74" selection-end-line="88" selection-end-column="74" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/RecetteDepensesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1751">
-          <caret line="130" column="5" lean-forward="true" selection-start-line="130" selection-start-column="5" selection-end-line="130" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/DetteCreditDiversController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-136">
-          <caret line="20" column="31" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="31" />
-          <folding>
-            <element signature="e#1248#1285#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devises/_liste.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="n#table#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devises/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" selection-start-line="6" selection-end-line="7" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devises/new.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devises/show.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="42" column="45" selection-start-line="36" selection-start-column="4" selection-end-line="42" selection-end-column="45" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/devises/edit.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/DevisesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="31" column="40" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/param_comptables/index.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" selection-start-line="6" selection-end-line="7" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/ParamComptablesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="49" column="48" lean-forward="true" selection-start-line="49" selection-start-column="48" selection-end-line="49" selection-end-column="48" />
-          <folding>
-            <element signature="e#735#769#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/param_comptables/_liste.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="686">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/param_comptables/new.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" selection-start-line="10" selection-end-line="11" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/param_comptables/show.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="98" column="54" lean-forward="true" selection-start-line="92" selection-start-column="4" selection-end-line="98" selection-end-column="54" />
-          <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/pays/_liste.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1427,16 +1324,6 @@
         <state relative-caret-position="459">
           <caret line="87" column="27" selection-start-line="87" selection-start-column="27" selection-end-line="87" selection-end-column="27" />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-102" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-867" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/system_elects/index.html.twig">
@@ -1678,6 +1565,137 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="91" selection-start-line="7" selection-start-column="91" selection-end-line="7" selection-end-column="91" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseRecusController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="175" column="100" selection-start-line="175" selection-start-column="68" selection-end-line="175" selection-end-column="100" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/comptes/_delete_form.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="7" lean-forward="true" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/_btn_action_billetag.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/comptes/_liste.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_btn_page.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="52" selection-start-line="1" selection-start-column="52" selection-end-line="1" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/gerer.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/Clients.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/ComptesRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="33" column="20" selection-start-line="31" selection-start-column="8" selection-end-line="33" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/ComptesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="29" column="95" selection-start-line="29" selection-start-column="78" selection-end-line="29" selection-end-column="95" />
+          <folding>
+            <element signature="e#676#701#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/comptes/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" selection-start-line="7" selection-end-line="8" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_pagination.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="6" lean-forward="true" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/ClientsRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="36" column="20" selection-start-line="34" selection-start-column="8" selection-end-line="36" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/ClientsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="28" column="95" selection-start-line="28" selection-start-column="78" selection-end-line="28" selection-end-column="95" />
+          <folding>
+            <element signature="e#675#700#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/clients/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="67" lean-forward="true" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="67" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="73" column="46" selection-start-line="73" selection-start-column="25" selection-end-line="73" selection-end-column="46" />
+          <folding>
+            <element signature="e#3561#3603#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/etat_de_caisse.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="73" column="73" selection-start-line="73" selection-start-column="73" selection-end-line="73" selection-end-column="73" />
           <folding>
             <element signature="e#12#26#0#Twig" expanded="true" />
           </folding>

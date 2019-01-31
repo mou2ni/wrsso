@@ -19,13 +19,15 @@ class ComptesController extends Controller
     /**
      * @Route("/", name="comptes_index", methods="GET")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $offset = ($request)?$request->request->get('_page')*10:0;
         $comptes = $this->getDoctrine()
             ->getRepository(Comptes::class)
-            ->liste();
-
-        return $this->render('comptes/index.html.twig', ['comptes' => $comptes]);
+            ->liste($offset);
+        $pages = round(count($comptes)/10);
+        //dump($page);die();
+        return $this->render('comptes/index.html.twig', ['comptes' => $comptes, 'pages'=>$pages]);
     }
 
     /**
@@ -39,7 +41,7 @@ class ComptesController extends Controller
         $form->handleRequest($request);
         $comptes = $this->getDoctrine()
             ->getRepository(Comptes::class)
-            ->liste();
+            ->liste(0);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($compte);
@@ -62,7 +64,7 @@ class ComptesController extends Controller
     {
         $comptes = $this->getDoctrine()
         ->getRepository(Comptes::class)
-        ->liste();
+        ->liste(0);
         return $this->render('comptes/show.html.twig', ['compte' => $compte,
             'comptes' => $comptes]);
     }
@@ -77,7 +79,7 @@ class ComptesController extends Controller
         $form->handleRequest($request);
         $comptes = $this->getDoctrine()
             ->getRepository(Comptes::class)
-            ->liste();
+            ->liste(0);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 

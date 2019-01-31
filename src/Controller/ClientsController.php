@@ -18,13 +18,15 @@ class ClientsController extends Controller
     /**
      * @Route("/", name="clients_index", methods="GET")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $offset = ($request)?$request->request->get('_page')*10:0;
         $clients = $this->getDoctrine()
             ->getRepository(Clients::class)
-            ->liste();
+            ->liste($offset);
+        $pages = round(count($clients)/10);
 
-        return $this->render('clients/index.html.twig', ['clients' => $clients]);
+        return $this->render('clients/index.html.twig', ['clients' => $clients, 'pages'=>$pages]);
     }
 
     /**
