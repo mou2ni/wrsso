@@ -3,9 +3,11 @@
 {% block title %}New ParamComptables{% endblock %}
 
 {% block body %}
-    <h1>Nouvelle entité comptable</h1>
+    <h1>Ajouter parametres comptables d'une autre structure</h1>
 
     {{ include('param_comptables/_form.html.twig') }}
 
-    <a href="{{ path('param_comptables_index') }}">back to list</a>
+    <a href="{{ path('param_comptables_index') }}">Retour à la liste</a>
+    {{ include('param_comptables/_liste.html.twig') }}
+
 {% endblock %}

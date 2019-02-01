@@ -3,7 +3,7 @@
 {% block title %}Billets{% endblock %}
 
 {% block body %}
-    <h1>Billets</h1>
+    <h1>Details Billet</h1>
 
     <table class="table">
         <tbody>
@@ -26,9 +26,11 @@
         </tbody>
     </table>
 
-    <a href="{{ path('billets_index') }}">Retour à la liste</a>
+    <div class="form-inline"><a href="{{ path('billets_index') }}">Retour à la liste</a> ||
 
-    <a href="{{ path('billets_edit', {'id': billet.id}) }}">Modifier</a>
+    <a href="{{ path('billets_edit', {'id': billet.id}) }}">Modifier</a>||
 
-    {{ include('billets/_delete_form.html.twig') }}
+    {{ include('billets/_delete_form.html.twig') }}</div>
+    {{ include('billets/_liste.html.twig') }}
+
 {% endblock %}

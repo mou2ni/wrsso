@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Pays;
 use App\Form\PaysType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,20 +22,23 @@ class PaysController extends Controller
     {
         $pays = $this->getDoctrine()
             ->getRepository(Pays::class)
-            ->findAll();
+            ->liste();
 
         return $this->render('pays/index.html.twig', ['pays' => $pays]);
     }
 
     /**
      * @Route("/new", name="pays_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
         $pay = new Pays();
         $form = $this->createForm(PaysType::class, $pay);
         $form->handleRequest($request);
-
+        $pays = $this->getDoctrine()
+            ->getRepository(Pays::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($pay);
@@ -46,6 +50,7 @@ class PaysController extends Controller
         return $this->render('pays/new.html.twig', [
             'pay' => $pay,
             'form' => $form->createView(),
+            'pays' => $pays
         ]);
     }
 
@@ -54,17 +59,23 @@ class PaysController extends Controller
      */
     public function show(Pays $pay): Response
     {
-        return $this->render('pays/show.html.twig', ['pay' => $pay]);
+        $pays = $this->getDoctrine()
+            ->getRepository(Pays::class)
+            ->liste();
+        return $this->render('pays/show.html.twig', ['pay' => $pay, 'pays' => $pays]);
     }
 
     /**
      * @Route("/{id}/edit", name="pays_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, Pays $pay): Response
     {
         $form = $this->createForm(PaysType::class, $pay);
         $form->handleRequest($request);
-
+        $pays = $this->getDoctrine()
+            ->getRepository(Pays::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -74,11 +85,13 @@ class PaysController extends Controller
         return $this->render('pays/edit.html.twig', [
             'pay' => $pay,
             'form' => $form->createView(),
+            'pays' => $pays
         ]);
     }
 
     /**
      * @Route("/{id}", name="pays_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Pays $pay): Response
     {

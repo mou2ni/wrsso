@@ -7,6 +7,7 @@ use App\Entity\JourneeCaisses;
 use App\Entity\Utilisateurs;
 use App\Utils\GenererCompta;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -20,6 +21,37 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, JourneeCaisses::class);
+    }
+
+    public function liste($dateDeb,$dateFin,$caisse = null,$offset,$limit = 10)
+    {
+         $req = $this->createQueryBuilder('jc');
+
+        if ($dateDeb){
+            $req->where('(jc.dateOuv) >=:dateDeb')
+                ->setParameter('dateDeb',$dateDeb);
+            //dump($req);
+        }
+        if ($dateFin){
+            $req->andWhere('(jc.dateFerm) <= :dateFin')
+                ->setParameter('dateFin',$dateFin);
+            //dump($req);
+        }
+        //->andWhere('(jc.dateFerm) <=:dateFin')
+
+         if ($caisse){
+             $req->andWhere('jc.caisse=:caisse')
+                 ->setParameter('caisse',$caisse);
+             //dump($req);
+         }
+         //die();
+        $req->orderBy('jc.dateComptable', 'DESC')
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $pag = new Paginator($req);
+
+        return $pag;
     }
 
     public function getOpenJourneeCaisseQb($dateComptable, $myJournee)

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <table class="table table-responsive">
+        <thead>
+        <tr><td>Devises</td><td>Taux de reference</td><td>Achat</td><td>Vente</td></tr>
+        </thead>
+    </table>
+{{ form(form.devise) }}
+{#{% for devis in form %}
+
+        <tr>
+
+            <td> 1 {{ form_row(devis) }}</td><td>{{ form_row(devise.txAchat) }}</td><td>{{ form_row(devise.txVente) }}</td>
+        </tr>
+    {% endfor %}
+    #}{{ form_rest(form) }}
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

@@ -6,6 +6,8 @@
     <h1>Ajouter un Billet</h1>
 
     {{ include('billets/_form.html.twig') }}
+    <div class="form-inline"><a href="{{ path('billets_index') }}">Retour à la liste</a> ||
 
-    <a href="{{ path('billets_index') }}">Retour à la liste</a>
+    </div>
+    {{ include('billets/_liste.html.twig') }}
 {% endblock %}

@@ -1,0 +1,29 @@
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ValeurTotal</th>
+                <th>DateBillettage</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for billetage in billetages %}
+            <tr>
+                <td>{{ billetage.id }}</td>
+                <td>{{ billetage.valeurTotal }}</td>
+                <td>{{ billetage.dateBillettage ? billetage.dateBillettage|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('billetages_show', {'id': billetage.id}) }}">show</a>
+                    <a href="{{ path('billetages_edit', {'id': billetage.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Clients;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -22,14 +23,18 @@ class ClientsRepository extends ServiceEntityRepository
     }
 
 
-    public function liste($limit = 10)
+    public function liste($offset,$limit = 10)
     {
-        return $this->createQueryBuilder('c')
+        $qb = $this->createQueryBuilder('c')
             ->orderBy('c.id', 'ASC')
+            ->setFirstResult($offset)
             ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
+            //->getQuery()
+            //->getResult()
             ;
+        $pag = new Paginator($qb);
+
+        return $pag;
     }
 
 }

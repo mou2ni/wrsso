@@ -90,7 +90,9 @@ class CaissesController extends Controller
         $caiss = new Caisses();
         $form = $this->createForm(CaissesType::class, $caiss);
         $form->handleRequest($request);
-
+        $caisses = $this->getDoctrine()
+            ->getRepository(Caisses::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($caiss);
@@ -101,6 +103,7 @@ class CaissesController extends Controller
 
         return $this->render('caisses/new.html.twig', [
             'caiss' => $caiss,
+            'caisses' => $caisses,
             'form' => $form->createView(),
         ]);
     }
@@ -110,7 +113,10 @@ class CaissesController extends Controller
      */
     public function show(Caisses $caiss): Response
     {
-        return $this->render('caisses/show.html.twig', ['caiss' => $caiss]);
+        $caisses = $this->getDoctrine()
+            ->getRepository(Caisses::class)
+            ->liste();
+        return $this->render('caisses/show.html.twig', ['caiss' => $caiss,'caisses' => $caisses]);
     }
 
     /**
@@ -124,7 +130,9 @@ class CaissesController extends Controller
         }
         $form = $this->createForm(CaissesType::class, $caiss);
         $form->handleRequest($request);
-
+        $caisses = $this->getDoctrine()
+            ->getRepository(Caisses::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -132,6 +140,7 @@ class CaissesController extends Controller
         }
 
         return $this->render('caisses/edit.html.twig', [
+            'caisses' => $caisses,
             'caiss' => $caiss,
             'form' => $form->createView(),
         ]);

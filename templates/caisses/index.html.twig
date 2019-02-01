@@ -5,41 +5,7 @@
 {% block body %}
     <h1>Liste des Caisses - Banques</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Libelle</th>
-                <th>Code</th>
-                <th>Compte opération</th>
-                <th>Compte CVD</th>
-                <th>Compte Intercaisse</th>
-                <th>Compte Attente Compense</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for caiss in caisses %}
-            <tr>
-                <td>{{ caiss.id }}</td>
-                <td>{{ caiss.libelle }}</td>
-                <td>{{ caiss.code }}</td>
-                <td>{{ caiss.compteOperation.numCompte }}</td>
-                <td>{{ (caiss.compteCvDevise)?caiss.compteCvDevise.numCompte:'' }}</td>
-                <td>{{ (caiss.compteIntercaisse)?caiss.compteIntercaisse.numCompte:'' }}</td>
-                <td>{{ (caiss.compteAttenteCompense)?caiss.compteAttenteCompense.numCompte:'' }}</td>
-                <td>
-                    <a href="{{ path('caisses_show', {'id': caiss.id}) }}">Détails</a>
-                    <a href="{{ path('caisses_edit', {'id': caiss.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">aucun enregistrement </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{{ include('caisses/_liste.html.twig') }}
 
     <a href="{{ path('caisses_new') }}">Ajouter une caisse</a>
 {% endblock %}

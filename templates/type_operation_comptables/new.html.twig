@@ -3,9 +3,11 @@
 {% block title %}New TypeOperationComptables{% endblock %}
 
 {% block body %}
-    <h1>Create new TypeOperationComptables</h1>
+    <h1>Ajout de type d'operations comptables</h1>
 
     {{ include('type_operation_comptables/_form.html.twig') }}
 
-    <a href="{{ path('type_operation_comptables_index') }}">back to list</a>
+    <a href="{{ path('type_operation_comptables_index') }}">Retour à la liste</a>
+    {{ include('type_operation_comptables/_liste.html.twig') }}
+
 {% endblock %}

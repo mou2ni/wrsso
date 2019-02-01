@@ -3,7 +3,7 @@
 {% block title %}Pays{% endblock %}
 
 {% block body %}
-    <h1>Pays</h1>
+    <h1>Detail Pays</h1>
 
     <table class="table">
         <tbody>
@@ -19,12 +19,19 @@
                 <th>Zone</th>
                 <td>{{ pay.zone }}</td>
             </tr>
+            <tr>
+                <th>Est dans la zone</th>
+                <td>{{ (pay.dansRegion)?'OUI':'NON' }}</td>
+            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('pays_index') }}">back to list</a>
+    <div class="form-inline"><a href="{{ path('pays_index') }}">Retour à la liste</a> ||
 
-    <a href="{{ path('pays_edit', {'id': pay.id}) }}">edit</a>
+    <a href="{{ path('pays_edit', {'id': pay.id}) }}">Modifier</a> ||
 
     {{ include('pays/_delete_form.html.twig') }}
+    </div>
+    {{ include('pays/_liste.html.twig') }}
+
 {% endblock %}

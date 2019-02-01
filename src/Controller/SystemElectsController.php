@@ -36,7 +36,9 @@ class SystemElectsController extends Controller
         $systemElect = new SystemElects();
         $form = $this->createForm(SystemElectsType::class, $systemElect);
         $form->handleRequest($request);
-
+        $systemElects = $this->getDoctrine()
+            ->getRepository(SystemElects::class)
+            ->findAll();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($systemElect);
@@ -48,6 +50,7 @@ class SystemElectsController extends Controller
         return $this->render('system_elects/new.html.twig', [
             'system_elect' => $systemElect,
             'form' => $form->createView(),
+            'system_elects' => $systemElects
         ]);
     }
 
@@ -56,7 +59,10 @@ class SystemElectsController extends Controller
      */
     public function show(SystemElects $systemElect): Response
     {
-        return $this->render('system_elects/show.html.twig', ['system_elect' => $systemElect]);
+        $systemElects = $this->getDoctrine()
+            ->getRepository(SystemElects::class)
+            ->findAll();
+        return $this->render('system_elects/show.html.twig', ['system_elect' => $systemElect,'system_elects' => $systemElects]);
     }
 
     /**
@@ -67,16 +73,19 @@ class SystemElectsController extends Controller
     {
         $form = $this->createForm(SystemElectsType::class, $systemElect);
         $form->handleRequest($request);
-
+        $systemElects = $this->getDoctrine()
+            ->getRepository(SystemElects::class)
+            ->findAll();
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('system_elects_edit', ['id' => $systemElect->getId()]);
+            return $this->redirectToRoute('system_elects_edit', ['id' => $systemElect->getId(),'system_elects' => $systemElects]);
         }
 
         return $this->render('system_elects/edit.html.twig', [
             'system_elect' => $systemElect,
             'form' => $form->createView(),
+            'system_elects' => $systemElects
         ]);
     }
 

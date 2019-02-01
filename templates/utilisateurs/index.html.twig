@@ -4,47 +4,6 @@
 
 {% block body %}
     <h1>Liste des utilisateurs</h1>
-    {% if is_granted('ROLE_ADMIN') %}
-    <table class="table">
-        <thead>
-            <tr>
-                {#<th>Id</th>#}
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Login</th>
-                <th>Mdp</th>
-                <th>EstCaissier</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for utilisateur in utilisateurs %}
-            <tr>
-                {#<td>{{ utilisateur.id }}</td>#}
-                <td>{{ utilisateur.nom }}</td>
-                <td>{{ utilisateur.prenom }}</td>
-                <td>{{ utilisateur.login }}</td>
-                <td>''</td>
-                <td>{{ utilisateur.estCaissier ? 'Oui' : 'Non' }}</td>
-                <td>{% for role in utilisateur.roles %} {{ role }},{% endfor %} </td>
-                <td>{{ utilisateur.status }}</td>
-                <td>
-                    <a href="{{ path('utilisateurs_show', {'id': utilisateur.id}) }}">Voir</a>
-                    <a href="{{ path('utilisateurs_edit', {'id': utilisateur.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun utilsateur trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    {{ include('utilisateurs/_liste.html.twig') }}
     <a href="{{ path('utilisateurs_new') }}">Ajouter</a>
-        {% else %}
-        <h1>Vous n'etes pas autorisés à voir ce contenu</h1>
-    {% endif %}
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\SystemTransfert;
 use App\Form\SystemTransfertType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,13 +29,16 @@ class SystemTransfertController extends Controller
 
     /**
      * @Route("/new", name="system_transfert_new", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function new(Request $request): Response
     {
         $systemTransfert = new SystemTransfert();
         $form = $this->createForm(SystemTransfertType::class, $systemTransfert);
         $form->handleRequest($request);
-
+        $systemTransferts = $this->getDoctrine()
+            ->getRepository(SystemTransfert::class)
+            ->findAll();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($systemTransfert);
@@ -46,6 +50,7 @@ class SystemTransfertController extends Controller
         return $this->render('system_transfert/new.html.twig', [
             'system_transfert' => $systemTransfert,
             'form' => $form->createView(),
+            'system_transferts' => $systemTransferts
         ]);
     }
 
@@ -54,17 +59,23 @@ class SystemTransfertController extends Controller
      */
     public function show(SystemTransfert $systemTransfert): Response
     {
-        return $this->render('system_transfert/show.html.twig', ['system_transfert' => $systemTransfert]);
+        $systemTransferts = $this->getDoctrine()
+            ->getRepository(SystemTransfert::class)
+            ->findAll();
+        return $this->render('system_transfert/show.html.twig', ['system_transfert' => $systemTransfert, 'system_transferts' => $systemTransferts]);
     }
 
     /**
      * @Route("/{id}/edit", name="system_transfert_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, SystemTransfert $systemTransfert): Response
     {
         $form = $this->createForm(SystemTransfertType::class, $systemTransfert);
         $form->handleRequest($request);
-
+        $systemTransferts = $this->getDoctrine()
+            ->getRepository(SystemTransfert::class)
+            ->findAll();
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -74,11 +85,13 @@ class SystemTransfertController extends Controller
         return $this->render('system_transfert/edit.html.twig', [
             'system_transfert' => $systemTransfert,
             'form' => $form->createView(),
+            'system_transferts' => $systemTransferts
         ]);
     }
 
     /**
      * @Route("/{id}", name="system_transfert_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, SystemTransfert $systemTransfert): Response
     {

@@ -7,7 +7,12 @@
 
     {{ include('system_elects/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('system_elects_index') }}">Retour à la liste</a>
+    <div class="form-inline"><a href="{{ path('system_elects_index') }}">Retour à la liste</a> ||
 
-    {{ include('system_elects/_delete_form.html.twig') }}
+        <a href="{{ path('system_elects_edit', {'id': system_elect.id}) }}">Modifier</a> ||
+
+        {{ include('system_elects/_delete_form.html.twig') }}
+    </div>
+    {{ include('system_elects/_liste.html.twig') }}
+
 {% endblock %}

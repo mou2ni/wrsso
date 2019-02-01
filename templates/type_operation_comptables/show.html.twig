@@ -3,7 +3,7 @@
 {% block title %}TypeOperationComptables{% endblock %}
 
 {% block body %}
-    <h1>TypeOperationComptables</h1>
+    <h1>Detail de type d'operations</h1>
 
     <table class="table">
         <tbody>
@@ -16,13 +16,18 @@
                 <td>{{ type_operation_comptable.libelle }}</td>
             </tr>
             <tr>
+                <th>Compte</th>
+                <td>{{ type_operation_comptable.compte }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('type_operation_comptables_index') }}">back to list</a>
+    <div class="form-inline"><a href="{{ path('type_operation_comptables_index') }}">Retour à la liste</a> ||
 
-    <a href="{{ path('type_operation_comptables_edit', {'id': type_operation_comptable.id}) }}">edit</a>
+    <a href="{{ path('type_operation_comptables_edit', {'id': type_operation_comptable.id}) }}">Modifier</a> ||
 
     {{ include('type_operation_comptables/_delete_form.html.twig') }}
+    </div>
+    {{ include('type_operation_comptables/_liste.html.twig') }}
+
 {% endblock %}

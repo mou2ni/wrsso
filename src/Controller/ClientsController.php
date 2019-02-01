@@ -18,13 +18,15 @@ class ClientsController extends Controller
     /**
      * @Route("/", name="clients_index", methods="GET")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $offset = ($request)?$request->request->get('_page')*10:0;
         $clients = $this->getDoctrine()
             ->getRepository(Clients::class)
-            ->liste(30);
+            ->liste($offset);
+        $pages = round(count($clients)/10);
 
-        return $this->render('clients/index.html.twig', ['clients' => $clients]);
+        return $this->render('clients/index.html.twig', ['clients' => $clients, 'pages'=>$pages]);
     }
 
     /**
@@ -36,7 +38,9 @@ class ClientsController extends Controller
         $client = new Clients();
         $form = $this->createForm(ClientsType::class, $client);
         $form->handleRequest($request);
-
+        $clients = $this->getDoctrine()
+            ->getRepository(Clients::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($client);
@@ -48,6 +52,7 @@ class ClientsController extends Controller
         return $this->render('clients/ajout.html.twig', [
             'client' => $client,
             'form' => $form->createView(),
+            'clients' => $clients
         ]);
     }
 
@@ -55,8 +60,11 @@ class ClientsController extends Controller
      * @Route("/{id}", name="clients_show", methods="GET")
      */
     public function show(Clients $client): Response
-    {
-        return $this->render('clients/show.html.twig', ['client' => $client]);
+    {$clients = $this->getDoctrine()
+        ->getRepository(Clients::class)
+        ->liste();
+        return $this->render('clients/show.html.twig', ['client' => $client,
+            'clients' => $clients]);
     }
 
     /**
@@ -67,7 +75,9 @@ class ClientsController extends Controller
     {
         $form = $this->createForm(ClientsType::class, $client);
         $form->handleRequest($request);
-
+        $clients = $this->getDoctrine()
+            ->getRepository(Clients::class)
+            ->liste();
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -77,6 +87,7 @@ class ClientsController extends Controller
         return $this->render('clients/edit.html.twig', [
             'client' => $client,
             'form' => $form->createView(),
+            'clients' => $clients
         ]);
     }
 

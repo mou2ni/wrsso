@@ -36,7 +36,9 @@ class ParamComptablesController extends Controller
         $paramComptable = new ParamComptables();
         $form = $this->createForm(ParamComptablesType::class, $paramComptable);
         $form->handleRequest($request);
-
+        $paramComptables = $this->getDoctrine()
+            ->getRepository(ParamComptables::class)
+            ->findAll();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($paramComptable);
@@ -48,6 +50,7 @@ class ParamComptablesController extends Controller
         return $this->render('param_comptables/new.html.twig', [
             'param_comptable' => $paramComptable,
             'form' => $form->createView(),
+            'param_comptables' => $paramComptables
         ]);
     }
 
@@ -56,7 +59,10 @@ class ParamComptablesController extends Controller
      */
     public function show(ParamComptables $paramComptable): Response
     {
-        return $this->render('param_comptables/show.html.twig', ['param_comptable' => $paramComptable]);
+        $paramComptables = $this->getDoctrine()
+        ->getRepository(ParamComptables::class)
+        ->findAll();
+        return $this->render('param_comptables/show.html.twig', ['param_comptable' => $paramComptable,'param_comptables' => $paramComptables]);
     }
 
     /**
@@ -65,6 +71,9 @@ class ParamComptablesController extends Controller
      */
     public function edit(Request $request, ParamComptables $paramComptable): Response
     {
+        $paramComptables = $this->getDoctrine()
+            ->getRepository(ParamComptables::class)
+            ->findAll();
         $form = $this->createForm(ParamComptablesType::class, $paramComptable);
         $form->handleRequest($request);
 
@@ -77,6 +86,7 @@ class ParamComptablesController extends Controller
         return $this->render('param_comptables/edit.html.twig', [
             'param_comptable' => $paramComptable,
             'form' => $form->createView(),
+            'param_comptables' => $paramComptables
         ]);
     }
 

@@ -5,9 +5,13 @@
 {% block body %}
     <h1>Edit TypeOperationComptables</h1>
 
-    {{ include('type_operation_comptables/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('type_operation_comptables/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('type_operation_comptables_index') }}">back to list</a>
+    <div class="form-inline"><a href="{{ path('type_operation_comptables_index') }}">Retour à la liste</a> ||
 
-    {{ include('type_operation_comptables/_delete_form.html.twig') }}
+        <a href="{{ path('type_operation_comptables_edit', {'id': type_operation_comptable.id}) }}">Modifier</a> ||
+
+        {{ include('type_operation_comptables/_delete_form.html.twig') }}
+    </div>
+    {{ include('type_operation_comptables/_liste.html.twig') }}
 {% endblock %}

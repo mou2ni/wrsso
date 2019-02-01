@@ -20,7 +20,8 @@ class TypeOperationComptablesController extends Controller
      */
     public function index(TypeOperationComptablesRepository $typeOperationComptable): Response
     {
-        return $this->render('type_operation_comptables/index.html.twig', ['type_operation_comptables' => $typeOperationComptable->findAll()]);
+        $typeOperationComptables = $this->getDoctrine()->getRepository(TypeOperationComptables::class)->findAll();
+        return $this->render('type_operation_comptables/index.html.twig', ['type_operation_comptables' => $typeOperationComptables]);
     }
 
     /**
@@ -31,6 +32,7 @@ class TypeOperationComptablesController extends Controller
         $typeOperationComptable = new TypeOperationComptables();
         $form = $this->createForm(TypeOperationComptablesType::class, $typeOperationComptable);
         $form->handleRequest($request);
+        $typeOperationComptables = $this->getDoctrine()->getRepository(TypeOperationComptables::class)->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -43,6 +45,7 @@ class TypeOperationComptablesController extends Controller
         return $this->render('type_operation_comptables/new.html.twig', [
             'type_operation_comptable' => $typeOperationComptable,
             'form' => $form->createView(),
+            'type_operation_comptables' => $typeOperationComptables
         ]);
     }
 
@@ -51,7 +54,8 @@ class TypeOperationComptablesController extends Controller
      */
     public function show(TypeOperationComptables $typeOperationComptable): Response
     {
-        return $this->render('type_operation_comptables/show.html.twig', ['type_operation_comptable' => $typeOperationComptable]);
+        $typeOperationComptables = $this->getDoctrine()->getRepository(TypeOperationComptables::class)->findAll();
+        return $this->render('type_operation_comptables/show.html.twig', ['type_operation_comptable' => $typeOperationComptable, 'type_operation_comptables' => $typeOperationComptables]);
     }
 
     /**
@@ -61,6 +65,7 @@ class TypeOperationComptablesController extends Controller
     {
         $form = $this->createForm(TypeOperationComptablesType::class, $typeOperationComptable);
         $form->handleRequest($request);
+        $typeOperationComptables = $this->getDoctrine()->getRepository(TypeOperationComptables::class)->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
@@ -71,6 +76,7 @@ class TypeOperationComptablesController extends Controller
         return $this->render('type_operation_comptables/edit.html.twig', [
             'type_operation_comptable' => $typeOperationComptable,
             'form' => $form->createView(),
+            'type_operation_comptables' => $typeOperationComptables
         ]);
     }
 

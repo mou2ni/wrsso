@@ -3,7 +3,7 @@
 {% block title %}Devises{% endblock %}
 
 {% block body %}
-    <h1>Devises</h1>
+    <h1>Details de devise</h1>
 
     <table class="table">
         <tbody>
@@ -34,9 +34,12 @@
         </tbody>
     </table>
 
-    <a href="{{ path('devises_index') }}">back to list</a>
+    <div class="form-inline"><a href="{{ path('devises_index') }}">Retour à la liste</a> ||
 
-    <a href="{{ path('devises_edit', {'id': devise.id}) }}">edit</a>
+    <a href="{{ path('devises_edit', {'id': devise.id}) }}">Modifier</a> ||
 
     {{ include('devises/_delete_form.html.twig') }}
+    </div>
+    {{ include('devises/_liste.html.twig') }}
+
 {% endblock %}

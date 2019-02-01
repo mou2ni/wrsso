@@ -1,39 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Billets index{% endblock %}
-
+{% set pair = "#FFF" %}
+  {% set impair = "#454545" %}
 {% block body %}
     <h1>Liste Billets</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Valeur</th>
-                <th>Devise</th>
-                <th>status</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for billet in billets %}
-            <tr>
-                <td>{{ billet.id }}</td>
-                <td>{{ billet.valeur }}</td>
-                <td>{{ (billet.devise)?billet.devise:'XOF' }}</td>
-                <td>{{ (billet.isActive)?'Actif':'Desactivé' }}</td>
-                <td>
-                    <a href="{{ path('billets_show', {'id': billet.id}) }}">Voir</a>
-                    <a href="{{ path('billets_edit', {'id': billet.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun billet trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
+    {{ include('billets/_liste.html.twig') }}
     <a href="{{ path('billets_new') }}">Ajout</a>
 {% endblock %}

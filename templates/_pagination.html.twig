@@ -1,0 +1,5 @@
+<div class="form-inline">
+    {% for pag in 0..pages-1  %}
+        {{ include('_btn_page.html.twig',{'path':path}) }}|
+    {% endfor %}
+</div>

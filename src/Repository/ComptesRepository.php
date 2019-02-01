@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comptes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,14 +20,19 @@ class ComptesRepository extends ServiceEntityRepository
         parent::__construct($registry, Comptes::class);
     }
 
-    public function liste($limit = 10)
+    public function liste($offset,$limit = 10)
     {
-        return $this->createQueryBuilder('c')
+        $qb = $this->createQueryBuilder('c')
             ->orderBy('c.numCompte', 'ASC')
+            ->setFirstResult($offset)
             ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
+            //->getQuery()
+            //->getResult()
             ;
+        $pag = new Paginator($qb);
+
+        return $pag;
+
     }
 
     public function findCompteGestions(){

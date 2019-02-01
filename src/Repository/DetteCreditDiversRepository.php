@@ -16,6 +16,20 @@ use App\Entity\JourneeCaisses;
  */
 class DetteCreditDiversRepository extends EntityRepository
 {
+    public function liste($limit = 10)
+    {
+        return $this->createQueryBuilder('dcd')
+            ->where('dcd.statut=:dec')
+            ->orWhere('dcd.statut=:cec')
+            ->setParameter('cec',DetteCreditDivers::CREDIT_EN_COUR)
+            ->setParameter('dec',DetteCreditDivers::DETTE_EN_COUR)
+            ->orderBy('dcd.id', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function getTotalDettesCredits(Caisses $caisse){
         $qb = $this->createQueryBuilder('dc');
 

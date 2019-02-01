@@ -3,11 +3,15 @@
 {% block title %}Edit Devises{% endblock %}
 
 {% block body %}
-    <h1>Edit Devises</h1>
+    <h1>Modifier devise</h1>
 
-    {{ include('devises/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('devises/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('devises_index') }}">back to list</a>
+    <div class="form-inline"><a href="{{ path('devises_index') }}">Retour à la liste</a> ||
 
-    {{ include('devises/_delete_form.html.twig') }}
+        <a href="{{ path('devises_edit', {'id': devise.id}) }}">Modifier</a> ||
+
+        {{ include('devises/_delete_form.html.twig') }}
+    </div>
+    {{ include('devises/_liste.html.twig') }}
 {% endblock %}
