@@ -127,6 +127,21 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         //->getSQL();
     }
 
+    public function findDetailJournee( JourneeCaisses $journeeCaisse)
+    {
+        $qb = $this->createQueryBuilder('j');
+
+        return $qb
+            ->where($qb->expr()->eq('j.id', ':journeeCaisse'))
+            //->andWhere($qb->expr()->isNull('j.journeeSuivante'))
+            //->andWhere($qb->expr()->eq('j.statut', ':ouvert'))
+            //->addOrderBy('j.id', 'DESC')
+            ->setParameters(['journeeCaisse' => $journeeCaisse])
+            ->getQuery()
+            ->getResult();
+        //->getSQL();
+    }
+
     public function getJourneeCaissesDuJour(\DateTime $date)
     {
         $qb=$this->createQueryBuilder('jc');

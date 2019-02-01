@@ -117,6 +117,9 @@ class DeviseJournees
         $this->billetFerm = new Billetages();
     }
 
+    public function updateM($champ,$montant){
+        $this->$champ+=$montant;
+    }
 
     public function updateMCvdAchatVente($montant)
     {

@@ -450,6 +450,38 @@ class JourneeCaisses
         foreach ($this->getDeviseMouvements() as $deviseMouvement){
             $this->updateM('mCvd', $deviseMouvement->getContreValeur());
         }
+        return $this;
+    }
+    public function maintenirMLiquiditeFerm(){
+        $this->mLiquiditeFerm=$this->getBilletFerm()->getValeurTotal();
+
+        return $this;
+    }
+    public function maintenirMSoldeElectFerm(){
+        $this->mSoldeElectFerm=$this->getSystemElectInventFerm()->getValeurTotal();
+
+        return $this;
+    }
+    public function maintenirMIntercaisses(){
+        $this->mIntercaisses=0;
+        //$this->mIntercaisses=0;
+        foreach ($this->getIntercaisseSortants() as $intercaisseSortant){
+            if ($intercaisseSortant->getStatut()!=InterCaisses::ANNULE)
+            $this->updateM('mIntercaisses', - $intercaisseSortant->getMIntercaisse());
+        }
+        foreach ($this->getIntercaisseEntrants() as $intercaisseEntrant){
+            if ($intercaisseEntrant->getStatut()!=InterCaisses::ANNULE)
+                $this->updateM('mIntercaisses',  $intercaisseEntrant->getMIntercaisse());
+        }
+        return $this;
+    }
+    public function maintenirMDepotClient(){
+        $this->mDepotClient=$this->getTotalDepot();
+        return $this;
+    }
+    public function maintenirMRetraitClient(){
+        $this->mRetraitClient=$this->getTotalRetrait();
+        return $this;
     }
 
     public function maintenirTransfertsInternationaux(){
@@ -461,6 +493,7 @@ class JourneeCaisses
             else
                 $this->updateM('mReceptionTrans', $transfert->getMTransfertTTC());
         }
+        return $this;
     }
 
 
@@ -476,6 +509,7 @@ class JourneeCaisses
                 $this->updateM('mCreditDiversFerm', $detteCredit->getMCredit());
         }
             //die();
+        return $this;
     }
 
     public function maintenirRecetteDepenses(){

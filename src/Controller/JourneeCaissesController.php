@@ -205,6 +205,28 @@ class JourneeCaissesController extends Controller
 
         return $this->render('journee_caisses/verifierFermeture.html.twig', ['journeeCaisse'=>$this->journeeCaisse]);
     }
+    /**
+     * @Route("/{id}/maintenir", name="journee_caisses_maintSolde", methods="GET|POST")
+     */
+    public function maintenirSolde(Request $request, JourneeCaisses $journeeCaisse)
+    {
+        $journeeCaisse
+            ->maintenirMLiquiditeFerm()
+            ->maintenirMSoldeElectFerm()
+            ->maintenirMIntercaisses()
+            ->maintenirMDepotClient()
+            ->maintenirMRetraitClient()
+            ->maintenirDetteCreditDiversFerm()
+            ->maintenirMCvd()
+            ->maintenirRecetteDepenses()
+            ->maintenirTransfertsInternationaux();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($journeeCaisse);
+            $em->flush();
+        $this->addFlash('success', 'LES DONNEES SONT BONNE');
+
+        return $this->redirectToRoute('journee_caisse_show', ['id'=>$journeeCaisse->getId()]);
+    }
 
     /**
      * @Route("/fermeture", name="journee_caisses_fermer", methods="FERMERCAISSE")
@@ -298,6 +320,7 @@ class JourneeCaissesController extends Controller
         return $this->render('journee_caisses/etat_de_caisse.html.twig', [
             'journee_caisses' => $journeeCaisses,
             'journeeCaisse' => null,
+            'caisse' => $this->caisse,
             'form' => null
         ]);
         /*
