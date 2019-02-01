@@ -127,7 +127,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         //->getSQL();
     }
 
-    public function findJourneeCaisses(Caisses $caisse=null, $offset=0, $limit=20, \DateTime $dateDebut=null, \DateTime $dateFin=null)
+    public function findJourneeCaisses(Caisses $caisse=null, $offset=0, $limit=10, \DateTime $dateDebut=null, \DateTime $dateFin=null)
     {
         if (!$dateFin){
            $now=new \DateTime();
