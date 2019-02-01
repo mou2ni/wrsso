@@ -23,7 +23,7 @@ class ComptesController extends Controller
     {
         $limit=20;
         $_page=$request->query->get('_page');
-        $classe=$request->query->get('classe');
+        $classe=$request->query->get('master');
         //$offset = ($request)?$request->request->get('_page')*10:0;
         $offset = ($_page)?($_page-1)*$limit:0;
         $comptes = $this->getDoctrine()

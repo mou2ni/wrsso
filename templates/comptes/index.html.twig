@@ -7,15 +7,15 @@
         <div class="col"><h1>Liste des comptes  par Classe</h1></div>
     <div class="col"><h1><nav>
             <ul class="pagination">
-                {% if not app.request.query.get('classe') %} <li class="active">
+                {% if not app.request.query.get('master') %} <li class="active">
                 {% else %} <li>
                 {% endif %}
                     <a href="{{ path('comptes_index') }}">Tous</a></li>
                 {% for class in 1..9 %}
-                    {% if app.request.query.get('classe')==class %} <li class="active">
+                    {% if app.request.query.get('master')==class %} <li class="active">
                     {% else %}<li>
                     {% endif %}
-                    <a href="{{ path('comptes_index', {'classe':  class}) }}">{{ class }}</a></li>
+                    <a href="{{ path('comptes_index', {'master':  class}) }}">{{ class }}</a></li>
                 {% endfor %}
             </ul>
         </nav></h1>
@@ -26,7 +26,7 @@
             {{ include('comptes/_liste.html.twig') }}
         </div>
          <div class="row">
-            {{ include('_pagination.html.twig',{'path':'comptes_index'}) }}
+            {{ include('_pagination.html.twig',{'path':'comptes_index', 'master':app.request.query.get('master')}) }}
              <a class="form-inline" href="{{ path('comptes_new') }}">Ajouter un compte</a>
         </div>
     </div>
