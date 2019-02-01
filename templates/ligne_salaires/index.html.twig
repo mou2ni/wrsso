@@ -9,7 +9,15 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>MSalaireNet</th>
+                <th>MSalaireBase</th>
+                <th>MIndemLogement</th>
+                <th>MIndemTransport</th>
+                <th>MIndemFonction</th>
+                <th>MIndemAutres</th>
+                <th>MSecuriteSocialeSalarie</th>
+                <th>MSecuriteSocialePatronale</th>
+                <th>MImpotSalarie</th>
+                <th>MTaxePatronale</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -17,7 +25,15 @@
         {% for ligne_salaire in ligne_salaires %}
             <tr>
                 <td>{{ ligne_salaire.id }}</td>
-                <td>{{ ligne_salaire.mSalaireNet }}</td>
+                <td>{{ ligne_salaire.mSalaireBase }}</td>
+                <td>{{ ligne_salaire.mIndemLogement }}</td>
+                <td>{{ ligne_salaire.mIndemTransport }}</td>
+                <td>{{ ligne_salaire.mIndemFonction }}</td>
+                <td>{{ ligne_salaire.mIndemAutres }}</td>
+                <td>{{ ligne_salaire.mSecuriteSocialeSalarie }}</td>
+                <td>{{ ligne_salaire.mSecuriteSocialePatronale }}</td>
+                <td>{{ ligne_salaire.mImpotSalarie }}</td>
+                <td>{{ ligne_salaire.mTaxePatronale }}</td>
                 <td>
                     <a href="{{ path('ligne_salaires_show', {'id': ligne_salaire.id}) }}">show</a>
                     <a href="{{ path('ligne_salaires_edit', {'id': ligne_salaire.id}) }}">edit</a>
@@ -25,7 +41,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="11">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

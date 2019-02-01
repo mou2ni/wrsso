@@ -21,46 +21,17 @@
     </head>
     <body>
 
-    <div class="app">
-        <div class="app-container">
+    <div class="app app-loaded">
+        <div class="app-container app-header-inside-content">
             {% set active_route=app.request.attributes.get('_route') %}
             {{ render(controller(
             'App\\Controller\\Menu::getSideBarMenu'
             ,{ 'active_route': active_route }
             )) }}
 
-            <div class="app-content">
+            <div class="app-content app-sidebar-left">
                 <!-- START PAGE CONTAINER -->
                 <div class="container">
-				
-                    {#<div><span class="float-sm-right glyphicon glyphicon-user">{{ app.user }}</span><a href="{{ path('logout') }}" class="close" > <span class="glyphicon glyphicon-off" aria-hidden="true"></span>Deconnecter </a> </div>
-                    #}
-					
-                    <div class="app-content-separate-content">
-                        <!-- CONTENT CONTAINER -->
-                        <div class="container">
-                            {% for msg in app.session.flashBag.get('success') %}
-                                <div class="alert alert-success">
-                                    {{ msg }}
-                                </div>
-                            {% endfor %}
-                            {% for msg in app.session.flashBag.get('error') %}
-                                <div class="alert alert-danger">
-                                    {{ msg }}
-                                </div>
-                            {% endfor %}
-                            <div class="block block-condensed padding-top-20">
-                                <div class="block-content">
-
-                                    {% block body %}
-
-                                    {% endblock %}
-                                </div>
-                            </div>
-                        </div>
-                        <!-- CONTENT CONTAINER -->
-                    </div>
-
                     <div class="app-header app-header-design-default">
                         <ul class="app-header-buttons visible-mobile">
                             <li><a href="#" class="btn btn-link btn-icon" data-navigation-horizontal-toggle="true"><span class="icon-menu"></span></a></li>
@@ -90,6 +61,33 @@
                             </li>
                         </ul>
                     </div>
+
+                    <div class="app-content-separate-content">
+                        <!-- CONTENT CONTAINER -->
+                        <div class="container">
+                            {% for msg in app.session.flashBag.get('success') %}
+                                <div class="alert alert-success">
+                                    {{ msg }}
+                                </div>
+                            {% endfor %}
+                            {% for msg in app.session.flashBag.get('error') %}
+                                <div class="alert alert-danger">
+                                    {{ msg }}
+                                </div>
+                            {% endfor %}
+                            <div class="block block-condensed padding-top-20">
+                                <div class="block-content">
+
+                                    {% block body %}
+
+                                    {% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CONTENT CONTAINER -->
+                    </div>
+
+
                 </div>
 
             </div>

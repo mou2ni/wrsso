@@ -8,6 +8,7 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Salaires
 {
+    const STAT_INITIAL='IN', STAT_POSITIONNE='PO', STAT_PAYE='PA';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,25 +32,50 @@ class Salaires
     private $transaction;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", unique=true))
      */
     private $periodeSalaire;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $mChargeTotale;
+    private $mNetTotal;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $mRemunerationTotale;
+    private $mTaxeTotal;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mImpotTotal;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mSecuriteSocialTotal;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $statut=Salaires::STAT_INITIAL;
 
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\LigneSalaires", mappedBy="salaire", cascade={"persist"})
      */
     private $ligneSalaires;
+
+    /**s
+     * @ORM\OneToMany(targetEntity="App\Entity\Collaborateurs", mappedBy="dernierSalaire", cascade={"persist"})
+     */
+    private $collaborateurs;
+
+    public function __construct()
+    {
+        $this->ligneSalaires=new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -107,23 +134,125 @@ class Salaires
     /**
      * @return mixed
      */
-    public function getMSalaireNetTotal()
+    public function getMNetTotal()
     {
-        return $this->mSalaireNetTotal;
+        return $this->mNetTotal;
     }
 
     /**
-     * @param mixed $mSalaireNetTotal
+     * @param mixed $mNetTotal
      * @return Salaires
      */
-    public function setMSalaireNetTotal($mSalaireNetTotal)
+    public function setMNetTotal($mNetTotal)
     {
-        $this->mSalaireNetTotal = $mSalaireNetTotal;
+        $this->mNetTotal = $mNetTotal;
         return $this;
     }
 
     /**
      * @return mixed
+     */
+    public function getMTaxeTotal()
+    {
+        return $this->mTaxeTotal;
+    }
+
+    /**
+     * @param mixed $mTaxeTotal
+     * @return Salaires
+     */
+    public function setMTaxeTotal($mTaxeTotal)
+    {
+        $this->mTaxeTotal = $mTaxeTotal;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMImpotTotal()
+    {
+        return $this->mImpotTotal;
+    }
+
+    /**
+     * @param mixed $mImpotTotal
+     * @return Salaires
+     */
+    public function setMImpotTotal($mImpotTotal)
+    {
+        $this->mImpotTotal = $mImpotTotal;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMSecuriteSocialTotal()
+    {
+        return $this->mSecuriteSocialTotal;
+    }
+
+    /**
+     * @param mixed $mSecuriteSocialTotal
+     * @return Salaires
+     */
+    public function setMSecuriteSocialTotal($mSecuriteSocialTotal)
+    {
+        $this->mSecuriteSocialTotal = $mSecuriteSocialTotal;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * @param mixed $statut
+     * @return Salaires
+     */
+    public function setStatut($statut)
+    {
+        $this->statut = $statut;
+        return $this;
+    }
+
+    /**
+     * @param LigneSalaires $ligneSalaire
+     * @return $this
+     */
+    public function addLigneSalaire(LigneSalaires $ligneSalaire)
+    {
+        $this->ligneSalaires->add($ligneSalaire);
+        return $this;
+    }
+
+    /**
+     * @param LigneSalaires $ligneSalaire
+     * @return $this
+     */
+    public function removeLigneSalaire(LigneSalaires $ligneSalaire)
+    {
+        $this->ligneSalaires->removeElement($ligneSalaire);
+        return $this;
+    }
+
+    public function fillLigneSalaireFromCollaborateurs(ArrayCollection $collaborateurs){
+        foreach ($collaborateurs as $collaborateur){
+            $lignSalaire=new LigneSalaires();
+            $lignSalaire->setCollaborateur();
+            $lignSalaire->fillDataFromCollaborateur();
+            $this->addLigneSalaire($lignSalaire);
+        }
+    }
+
+
+    /**
+     * @return LigneSalaires
      */
     public function getLigneSalaires()
     {
@@ -131,7 +260,7 @@ class Salaires
     }
 
     /**
-     * @param mixed $ligneSalaires
+     * @param LigneSalaires $ligneSalaires
      * @return Salaires
      */
     public function setLigneSalaires($ligneSalaires)
@@ -140,5 +269,22 @@ class Salaires
         return $this;
     }
 
-    
+    /**
+     * @return Collaborateurs
+     */
+    public function getCollaborateurs()
+    {
+        return $this->collaborateurs;
+    }
+
+    /**
+     * @param Collaborateurs $collaborateurs
+     * @return Salaires
+     */
+    public function setCollaborateurs($collaborateurs)
+    {
+        $this->collaborateurs = $collaborateurs;
+        return $this;
+    }
+
 }

@@ -103,7 +103,7 @@ class InterCaissesController extends Controller
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
-        if ($interCaisse->getStatut() != InterCaisses::INITIE)
+        if (!($interCaisse->getStatut() == InterCaisses::INITIE or $interCaisse->getStatut() == InterCaisses::VALIDE or $interCaisse->getStatut() == InterCaisses::VALIDATION_AUTO))
         {
             $this->addFlash('error', 'Statut intercaisse non modifiable.');
             return $this->redirectToRoute('intercaisses_ajout');
@@ -115,11 +115,16 @@ class InterCaissesController extends Controller
             if ($this->isCsrfTokenValid('update'.$interCaisse->getId(), $request->request->get('_token'))) {
                 //bouton "annuler" cliqué
                 if ( $request->request->has('annuler')){
+                    if ($interCaisse->getStatut()==InterCaisses::VALIDE or $interCaisse->getStatut()==InterCaisses::VALIDATION_AUTO){
+                        $interCaisse=$this->annulerValide($interCaisse);
+                        if($interCaisse==false) return $this->redirectToRoute('intercaisses_ajout');
+                    }
                     $interCaisse->setStatut(InterCaisses::ANNULE);
                 }
                 //bouton "valider" cliqué
                 if ( $request->request->has('valider')){
                     $interCaisse=$this->valider($interCaisse);
+                    if($interCaisse==false) return $this->redirectToRoute('intercaisses_ajout');
                 }
                 $this->getDoctrine()->getManager()->persist($interCaisse);
                 $this->getDoctrine()->getManager()->flush();
@@ -149,9 +154,9 @@ class InterCaissesController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $genCompta=$recetteDepense->comptabiliser($em, $this, $this->journeeCaisse);
-            if (!$genCompta) {
-                $this->addFlash($genCompta->getErrMessage());
+            $genCompta=$recetteDepense->comptabiliser($em, $this->journeeCaisse);
+            if ($genCompta->getE()) {
+                $this->addFlash('error', $genCompta->getErrMessage());
                 return $this->redirectToRoute('recette_depenses_saisie');
             }
             //vérifier la cohérence entre l'ecriture comptable et l'intercaisse
@@ -250,9 +255,23 @@ class InterCaissesController extends Controller
         $genCompta=new GenererCompta($this->getDoctrine()->getManager());
         if (!$genCompta->genComptaIntercaisse($this->utilisateur,$interCaisse->getJourneeCaisseEntrant()->getCaisse(), $interCaisse->getJourneeCaisseSortant()->getCaisse(),$interCaisse->getMIntercaisse(),$interCaisse->getJourneeCaisseInitiateur())){
             $this->addFlash('error', $genCompta->getErrMessage());
+            return false;
         };
 
         $interCaisse->setTransaction($genCompta->getTransactions()[0]);
+        return $interCaisse;
+    }
+    
+    private function annulerValide(InterCaisses $interCaisse){
+        $interCaisse->getJourneeCaisseEntrant()->updateM('mIntercaisses', -$interCaisse->getMIntercaisse());
+        $interCaisse->getJourneeCaisseSortant()->updateM('mIntercaisses', $interCaisse->getMIntercaisse());
+        $interCaisse->setStatut(InterCaisses::ANNULE);
+
+        $genCompta=new GenererCompta($this->getDoctrine()->getManager());
+        if (!$genCompta->genComptaIntercaisse($this->utilisateur,$interCaisse->getJourneeCaisseSortant()->getCaisse(), $interCaisse->getJourneeCaisseEntrant()->getCaisse(), $interCaisse->getMIntercaisse(),$interCaisse->getJourneeCaisseInitiateur(), $interCaisse->getTransaction())){
+            $this->addFlash('error', $genCompta->getErrMessage());
+            return false;
+        };
         return $interCaisse;
     }
 

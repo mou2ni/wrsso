@@ -48,8 +48,8 @@ class DeviseIntercaissesType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'label' => false,
-            ))->add ('save_and_new', SubmitType::class, array('label' => 'Enregistrer'
-            ))->add('save_and_close', SubmitType::class, array('label' => 'Enregistrer Fermer'
+            ))->add ('save_and_new', SubmitType::class, array('label' => 'Enregistrer','attr'=>['class'=>'btn btn-info']
+            ))->add('save_and_close', SubmitType::class, array('label' => 'Enregistrer Fermer','attr'=>['class'=>'btn btn-info']
             ));
         ;
     }

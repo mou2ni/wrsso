@@ -106,12 +106,12 @@ class GenererCompta
         return $mouvement;
     }
 
-    private function initTransaction(Utilisateurs $utilisateur, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
+    private function initTransaction(Utilisateurs $utilisateur, $libelle, $montant, JourneeCaisses $journeeCaisse=null,$dateTime=null)
     {
         $transaction=new Transactions();
 
         //prend la date comptable de la journée caisse ou la date comptable du jour le cas échéant
-        $dateComptable=($journeeCaisse)?($journeeCaisse->getDateComptable())?$journeeCaisse->getDateComptable():$this::getDateComptable():$this::getDateComptable();
+        $dateComptable=($dateTime)?$dateTime:($journeeCaisse)?($journeeCaisse->getDateComptable())?$journeeCaisse->getDateComptable():$this::getDateComptable():$this::getDateComptable();
 
         //montant=0 alors ressortir avec ERR_ZERO
         if($montant==0 )
@@ -310,7 +310,7 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaDepenses(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteCharge, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
+    public function genComptaDepenses(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteCharge, $libelle, $montant, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime)
     {
         $compteOperation=$this->checkCompteOperation($caisse);
         if (!$compteOperation) return false;
@@ -319,7 +319,7 @@ class GenererCompta
             $this->setErrMessage('Compte de charge non trouvé ! ! !');
         }
 
-        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse,$dateTime);
 
         if (!$transaction) return false ;
 
@@ -336,12 +336,12 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaRecettes(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteProduit, $libelle, $montant, JourneeCaisses $journeeCaisse=null)
+    public function genComptaRecettes(Utilisateurs $utilisateur, Caisses $caisse, Comptes $compteProduit, $libelle, $montant, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime=null)
     {
         $compteOperation=$this->checkCompteOperation($caisse);
         if (!$compteOperation) return false;
 
-        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse);
+        $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse,$dateTime);
 
         if (!$transaction) return false ;
 
@@ -398,7 +398,7 @@ class GenererCompta
      * @param $journeeCaisse
      * @return bool
      */
-    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant, $journeeCaisse)
+    public function genComptaIntercaisse(Utilisateurs $utilisateur, Caisses $caisseDebit, Caisses $caisseCredit, $montant, $journeeCaisse, Transactions $transaction=null)
     {
         $compteOperationDebit=$this->checkCompteOperation($caisseDebit);
         if (!$compteOperationDebit) return false;
@@ -410,7 +410,11 @@ class GenererCompta
         $compteIntercaisseCredit=$this->checkCompteIntercaisse($caisseCredit);
         if (!$compteIntercaisseCredit) return false;
 
-        $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $montant, $journeeCaisse);
+        if ($transaction==null){
+            $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $montant, $journeeCaisse);
+        }else{
+            $transaction->setLibelle('Intercaisse corrigée - '.$utilisateur);
+        }
 
         if (!$transaction) return false ;
         $this->transactions->add($this->addDebitCreditSign($transaction, $compteOperationDebit, $compteIntercaisseCredit, $montant));

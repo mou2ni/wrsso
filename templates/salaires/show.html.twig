@@ -16,8 +16,20 @@
                 <td>{{ salaire.periodeSalaire ? salaire.periodeSalaire|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>MSalaireNetTotal</th>
-                <td>{{ salaire.mSalaireNetTotal }}</td>
+                <th>MNetTotal</th>
+                <td>{{ salaire.mNetTotal }}</td>
+            </tr>
+            <tr>
+                <th>MTaxeTotal</th>
+                <td>{{ salaire.mTaxeTotal }}</td>
+            </tr>
+            <tr>
+                <th>MImpotTotal</th>
+                <td>{{ salaire.mImpotTotal }}</td>
+            </tr>
+            <tr>
+                <th>MSecuriteSocialTotal</th>
+                <td>{{ salaire.mSecuriteSocialTotal }}</td>
             </tr>
         </tbody>
     </table>

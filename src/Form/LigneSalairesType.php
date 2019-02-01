@@ -12,9 +12,16 @@ class LigneSalairesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('mSalaireNet')
-            ->add('salaire')
-            ->add('compte')
+            ->add('collaborateur')
+            ->add('mSalaireBase')
+            ->add('mIndemLogement')
+            ->add('mIndemTransport')
+            ->add('mIndemFonction')
+            ->add('mIndemAutres')
+            ->add('mSecuriteSocialeSalarie')
+            ->add('mSecuriteSocialePatronale')
+            ->add('mImpotSalarie')
+            ->add('mTaxePatronale')
         ;
     }
 

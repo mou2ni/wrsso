@@ -95,6 +95,33 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         //->getSQL();
     }
 
+    public function findJourneeCaisses(Caisses $caisse=null, $offset=0, $limit=20, \DateTime $dateDebut=null, \DateTime $dateFin=null)
+    {
+        if (!$dateFin){
+           $now=new \DateTime();
+            $dateFin=$now->format('Y-m-d');
+        }//else $dateFin->format('Y-m-d');
+        //dateDebut = 1 mois en arrière par rapport à date fin si non fourni
+        //$dateDebut=(!$dateDebut)?$dateFin->sub(new \DateInterval('P30D')):$dateDebut;
+
+        $unmois=new \DateInterval('P1M');
+        $dateDebut=new \DateTime();
+        $dateDebut=$dateDebut->sub($unmois)->format('Y-m-d');
+        $qb = $this->createQueryBuilder('jc');
+         $qb->where('jc.dateOuv>=:dateDebut and jc.dateOuv<=:dateFin')
+            ->andWhere($qb->expr()->neq('jc.statut',':statut'));
+        if($caisse){
+            $qb->andWhere($qb->expr()->eq('jc.caisse',':caisse'));
+        }
+         return $qb//->addGroupBy('jc.caisse')
+            ->addOrderBy('jc.id', 'DESC')
+            ->setParameters(['dateDebut' => $dateDebut, 'dateFin' => $dateFin, 'statut'=>JourneeCaisses::INITIAL,'caisse'=>$caisse])
+            ->setMaxResults($limit)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getJourneeCaissesDuJour(\DateTime $date)
     {
         $qb=$this->createQueryBuilder('jc');

@@ -46,9 +46,9 @@ class DeviseRecusType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'label' => false,
-            ))->add ('save_and_new', SubmitType::class, array('label' => 'Enregistrer Ajouter'
-            ))->add ('save_and_close', SubmitType::class, array('label' => 'Enregistrer Fermer'
-            ))->add('save_and_print', SubmitType::class, array('label' => 'Enregistrer Imprimer'
+            ))->add ('save_and_new', SubmitType::class, array('label' => 'Enregistrer Ajouter','attr'=>['class'=>'btn btn-info']
+            ))->add ('save_and_close', SubmitType::class, array('label' => 'Enregistrer Fermer','attr'=>['class'=>'btn btn-info']
+            ))->add('save_and_print', SubmitType::class, array('label' => 'Enregistrer Imprimer','attr'=>['class'=>'btn btn-info']
             ));
     }
 

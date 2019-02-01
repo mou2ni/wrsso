@@ -22,58 +22,41 @@
     <div class="table-responsive">
     <table class="table table-bordered datatable-basic">
         <thead>
-        {% if journee_caisses %}
+        {% if caisse %}
         <tr>
-            <th colspan="12">FICHE ARRET CAISSE : {{ journee_caisses[0].caisse }}</th>
-        </tr>
-        {% else %}
-        <tr>
-            <th colspan="12">REVOIR LES CRITERES DE SELECTION</th>
+            <td  class="text-bold padding-5 text-center" colspan="9">FICHE ARRET CAISSE : {{ caisse }}</td>
         </tr>
         {% endif %}
             <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <th>CAISSE</th>
-                    <th>GUICHETIER</th>
-                {% endif %}
                 <th>DATES</th>
+                <th>CAISSIER</th>
                 <th>NET OUVERTURE</th>
                 <th>COMPENSES</th>
-                <th>CREDITS | DETTES</th>
-                <th>MOUVEMENTS</th>
-                <th>DEPENSES | RECETTES</th>
                 <th>DISPONIBILITE</th>
                 <th>NET FERMETURE</th>
-                <th>ECARTS Ouv|Ferm</th>
+                <th colspan="2">ECARTS Ouv|Ferm</th>
                 <th>ACTION</th>
             </tr>
         </thead>
         <tbody>
         {% for journee_caiss in journee_caisses %}
             <tr>
-                {% if is_granted('ROLE_ADMIN') %}
-                <td>{{ journee_caiss.caisse }}</td>
+                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('d-H:i') : '' }} | {{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('d-H:i') : '' }}</td>
                 <td>{{ journee_caiss.utilisateur }}</td>
-                {% endif %}
-                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }} | {{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.soldeNetOuv|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.compense|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mCreditDiversFerm|number_format(0, '.', ' ') }} |
-                    {{ journee_caiss.mDetteDiversFerm|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mouvementFond|number_format(0, '.', ' ') }}</td>
-                <td>0</td>
-                <td>{{ journee_caiss.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.soldeNetFerm|number_format(0, '.', ' ') }}</td>
-                <td>{{ journee_caiss.mEcartOuv|number_format(0, '.', ' ') }}|{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
-                <td><a href="{{ path('journee_caisse_show', {'id': journee_caiss.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir</a></td>
+                <td class="text-right">{{ journee_caiss.soldeNetOuv|number_format(0, '.', ' ') }}</td>
+                <td class="text-right">{{ journee_caiss.compense|number_format(0, '.', ' ') }}</td>
+                <td class="text-right">{{ journee_caiss.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
+                <td class="text-right">{{ journee_caiss.soldeNetFerm|number_format(0, '.', ' ') }}</td>
+                <td class="text-right">{{ journee_caiss.mEcartOuv|number_format(0, '.', ' ') }}</td>
+                <td class="text-right">{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
+                <td><a href="{{ path('journee_caisse_show', {'id': journee_caiss.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a></td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="19">no records found</td>
+                <td colspan="19">Aucune journée trouvée ! ! !</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
     </div>
-    {#<div hidden>{{ form_rest(form) }}</div>#}
 {% endblock %}

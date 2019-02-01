@@ -1,0 +1,33 @@
+<tr>
+    <td  class="text-bold padding-5 text-right" align="center" colspan="6" bgcolor="#a9a9a9"> </td>
+</tr>
+<tr>
+    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DISPONIBILITE : </td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.disponibiliteOuv|number_format(0, '.', ' ')  }}</td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ')  }}</td>
+    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
+</tr>
+<tr>
+    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >SOLDE NET : </td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ')  }}</td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ')  }}</td>
+    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
+</tr>
+<tr>
+    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >MOUVEMENTS DE FONDS : </td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">-</td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mouvementFond|number_format(0, '.', ' ')  }}</td>
+    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
+</tr>
+<tr>
+    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >COMPENSES : </td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">-</td>
+    <td colspan="2"  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.compense|number_format(0, '.', ' ')  }}</td>
+    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
+</tr>
+<tr>
+    <td class="text-bold text-bloody-500 padding-5 text-right" bgcolor="#a9a9a9" >ECARTS : </td>
+    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
+    <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ')  }}</td>
+    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
+</tr>

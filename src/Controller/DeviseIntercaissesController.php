@@ -40,12 +40,7 @@ class DeviseIntercaissesController extends Controller
         
         $em = $this->getDoctrine()->getManager();
 
-        //dump($request);die();
-
-        //$journeeCaisse = $em->getRepository(JourneeCaisses::class)->findOneBy(['statut' => 'O']);
-
         $deviseIntercaiss = new DeviseIntercaisses($this->journeeCaisse, $em);
-
 
         $form = $this->createForm(DeviseIntercaissesType::class, $deviseIntercaiss,['dateComptable'=>$this->journeeCaisse->getDateComptable(),'myJournee'=>$this->journeeCaisse]);
         $form->handleRequest($request);
@@ -63,6 +58,8 @@ class DeviseIntercaissesController extends Controller
                 if($deviseIntercaiss->getSens()==DeviseIntercaisses::ENTREE) {
                     $deviseIntercaiss->setJourneeCaisseSource($deviseIntercaiss->getJourneeCaissePartenaire());
                     $deviseIntercaiss->setJourneeCaisseDestination($this->journeeCaisse);
+
+                    $deviseIntercaiss->addDeviseMouvementsFromTmp();
                     $deviseIntercaiss->setStatut($deviseIntercaiss::VALIDATION_AUTO);
                 }else{
                     $deviseIntercaiss->setJourneeCaisseSource($this->journeeCaisse);
@@ -99,7 +96,7 @@ class DeviseIntercaissesController extends Controller
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
-        $deviseIntercaiss->setJourneeCaisse($this->journeeCaisse);
+        //$deviseIntercaiss->setJourneeCaisse($this->journeeCaisse);
         if ($deviseIntercaiss->getStatut()<>DeviseIntercaisses::INIT){
             $this->addFlash('error', 'INTERCAISSE NON MODIFIABLE ! ! !');
             return $this->redirectToRoute('devise_intercaisses_gestion');
@@ -121,17 +118,7 @@ class DeviseIntercaissesController extends Controller
 
                 //bouton "valider" cliqué
                 if ( $request->request->has('valider')){
-                    foreach ($deviseIntercaiss->getDeviseTmpMouvements() as $deviseTmpMouvement)
-                    {
-                        $deviseMouvement=new DeviseMouvements();
-                        $deviseMouvement->setDevise($deviseTmpMouvement->getDevise())
-                            ->setNombre($deviseTmpMouvement->getNombre())
-                            ->setTaux($deviseTmpMouvement->getTaux())
-                            ->setDeviseJourneeByJourneeCaisse($deviseIntercaiss->getJourneeCaisseDestination(),$em)
-                        ;
-                        $deviseIntercaiss->addDeviseMouvement($deviseMouvement);
-                    }
-
+                    $deviseIntercaiss->addDeviseMouvementsFromTmp();
                     $deviseIntercaiss->setStatut($deviseIntercaiss::VALIDE);
                 }
                 $em->flush();

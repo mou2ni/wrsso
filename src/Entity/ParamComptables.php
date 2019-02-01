@@ -126,6 +126,11 @@ class ParamComptables
     private $compteDiversProduits;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
+     */
+    private $entreprise;
+
+    /**
      * @return mixed
      */
     public function getCodeStructure()
@@ -482,6 +487,24 @@ class ParamComptables
     public function setCompteOrgaTaxeFactFseur($compteOrgaTaxeFactFseur)
     {
         $this->compteOrgaTaxeFactFseur = $compteOrgaTaxeFactFseur;
+        return $this;
+    }
+
+    /**
+     * @return Entreprises
+     */
+    public function getEntreprise()
+    {
+        return $this->entreprise;
+    }
+
+    /**
+     * @param Entreprises $entreprise
+     * @return ParamComptables
+     */
+    public function setEntreprise($entreprise)
+    {
+        $this->entreprise = $entreprise;
         return $this;
     }
 

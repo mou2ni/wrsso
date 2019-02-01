@@ -26,7 +26,9 @@ class Menu  extends Controller
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
         $this->menu_superAdmin=[['text'=>'Utilisateurs','lien'=>'utilisateurs_index']
-            ,];
+            ,['text'=>'Accueil','lien'=>'admin_main']
+            ,
+        ];
         $this->menu_parametre=[
             ['text'=>'Clients', 'lien'=>'clients_index']
             ,['text'=>'Plan comptable', 'lien'=>'comptes_index']
@@ -62,7 +64,7 @@ class Menu  extends Controller
             ['text'=>'Caisses menu depenses','lien'=>'compta_saisie_cmd']
             ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_saisie_groupee']
             ,['text'=>'Recettes Depenses à terme', 'lien'=>'#']
-            ,['text'=>'Salaires-Positionnement', 'lien'=>'#']
+            ,['text'=>'Salaires-Positionnement', 'lien'=>'salaires_positionnement']
             ,['text'=>'Salaires-Paiement', 'lien'=>'#']
             ,['text'=>'Journaux comptables', 'lien'=>'#']
             ,['text'=>'Rapprochement bancaire', 'lien'=>'#']
