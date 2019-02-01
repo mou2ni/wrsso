@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Collaborateurs{% endblock %}
+
+{% block body %}
+    <h1>Collaborateurs</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ collaborateur.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ collaborateur.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ collaborateur.prenom }}</td>
+            </tr>
+            <tr>
+                <th>DateNaissance</th>
+                <td>{{ collaborateur.dateNaissance ? collaborateur.dateNaissance|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEntree</th>
+                <td>{{ collaborateur.dateEntree ? collaborateur.dateEntree|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateSortie</th>
+                <td>{{ collaborateur.dateSortie ? collaborateur.dateSortie|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{ collaborateur.statut }}</td>
+            </tr>
+            <tr>
+                <th>NbEnfant</th>
+                <td>{{ collaborateur.nbEnfant }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ collaborateur.categorie }}</td>
+            </tr>
+            <tr>
+                <th>NSecuriteSociale</th>
+                <td>{{ collaborateur.nSecuriteSociale }}</td>
+            </tr>
+            <tr>
+                <th>MSalaireBase</th>
+                <td>{{ collaborateur.mSalaireBase }}</td>
+            </tr>
+            <tr>
+                <th>MIndemLogement</th>
+                <td>{{ collaborateur.mIndemLogement }}</td>
+            </tr>
+            <tr>
+                <th>MIndemTransport</th>
+                <td>{{ collaborateur.mIndemTransport }}</td>
+            </tr>
+            <tr>
+                <th>MIndemFonction</th>
+                <td>{{ collaborateur.mIndemFonction }}</td>
+            </tr>
+            <tr>
+                <th>MIndemAutres</th>
+                <td>{{ collaborateur.mIndemAutres }}</td>
+            </tr>
+            <tr>
+                <th>MSecuriteSocialeSalarie</th>
+                <td>{{ collaborateur.mSecuriteSocialeSalarie }}</td>
+            </tr>
+            <tr>
+                <th>MSecuriteSocialePatronale</th>
+                <td>{{ collaborateur.mSecuriteSocialePatronale }}</td>
+            </tr>
+            <tr>
+                <th>MImpotSalarie</th>
+                <td>{{ collaborateur.mImpotSalarie }}</td>
+            </tr>
+            <tr>
+                <th>MTaxePatronale</th>
+                <td>{{ collaborateur.mTaxePatronale }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('collaborateurs_index') }}">back to list</a>
+
+    <a href="{{ path('collaborateurs_edit', {'id': collaborateur.id}) }}">edit</a>
+
+    {{ include('collaborateurs/_delete_form.html.twig') }}
+{% endblock %}

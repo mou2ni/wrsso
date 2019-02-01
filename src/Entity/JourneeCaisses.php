@@ -180,17 +180,6 @@ class JourneeCaisses
      */
     private $mIntercaisses=0;
 
-    /*
-     * @ORM\Column(type="bigint")
-
-    private $mIntercaisseSortants=0;
-*/
-    /*
-     * @ORM\Column(type="bigint")
-
-    private $mIntercaisseEntrants=0;
-*/
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisse", cascade={"persist"})
      */
@@ -355,7 +344,7 @@ class JourneeCaisses
      * @ORM\PrePersist
      */
     public function setMEcarts(){
-        $this->setDateOuv(new \DateTime('now'));
+        //$this->setDateOuv(new \DateTime('now'));
         $this->setMEcartOuv();
         $this->setMEcartFerm();
         //$this->maintenirDetteCreditDiversFerm();

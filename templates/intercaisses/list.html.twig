@@ -4,11 +4,11 @@
     {% set totalV = 0 %}
     {% set totalE = 0 %}
     {% for intercaisse in myIntercaisses  %}
-        {% if  intercaisse.statut!='X'  %}
+        {% if not ((intercaisse.statut=='X')) %}
             <tr id="{{ intercaisse.id }}S">
                 <td>{{ (intercaisse.journeeCaisseEntrant.id==journeeCaisse.id)?intercaisse.journeeCaisseSortant:intercaisse.journeeCaisseEntrant }}</td>
                 <td>{{ (intercaisse.journeeCaisseEntrant.id==journeeCaisse.id)?intercaisse.mIntercaisse|number_format(0, '.', ' ') :(-intercaisse.mIntercaisse)|number_format(0, '.', ' ')}}</td>
-                {#<td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ')}}</td>#}
+                {#<td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ')}}</td>  or  (intercaisse.statut=='CC') or  (intercaisse.statut=='CP')#}
                 <td >
 
                             <span id="statut{{intercaisse.id}}V">{{ (intercaisse.statut=='I')
@@ -27,10 +27,12 @@
                             :include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'})
                             }}
                         {% endif %}
-                        {% if is_granted('ROLE_COMPTABLE') %}
-                            {% if  intercaisse.statut=='V' or intercaisse.statut=='VA'%}
-                                {{ include('intercaisses/_btn_comptabiliser.html.twig')
-                                }}
+                        {% if  intercaisse.statut=='V' or intercaisse.statut=='VA'%}
+                            {% if is_granted('ROLE_COMPTABLE') %}
+                                {{ include('intercaisses/_btn_comptabiliser.html.twig')}}
+                            {% endif %}
+                            {% if intercaisse.journeeCaisseSortant.id==journeeCaisse.id %}
+                                {{ include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler déjà valide','btn_class':'btn-danger', 'confirm_message':'OPERATION IRREVERSIBLE : ANNULER UNE INTERCAISSE DEJA VALIDE !!!!?'}) }}
                             {% endif %}
                         {% endif %}
 

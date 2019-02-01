@@ -25,7 +25,7 @@ class TypeOperationComptablesController extends Controller
     }
 
     /**
-     * @Route("/new", name="type_operation_comptables_new", methods="GET|POST")
+     * @Route("/ajout", name="type_operation_comptables_new", methods="GET|POST")
      */
     public function new(Request $request): Response
     {
@@ -39,7 +39,7 @@ class TypeOperationComptablesController extends Controller
             $em->persist($typeOperationComptable);
             $em->flush();
 
-            return $this->redirectToRoute('type_operation_comptables_index');
+            return $this->redirectToRoute('type_operation_comptables_new');
         }
 
         return $this->render('type_operation_comptables/new.html.twig', [

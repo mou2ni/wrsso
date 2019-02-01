@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Collaborateurs;
+use App\Entity\LigneSalaires;
 use App\Entity\Salaires;
-use App\Form\Salaires1Type;
+use App\Form\SalairesType;
 use App\Repository\SalairesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,12 +26,42 @@ class SalairesController extends Controller
     }
 
     /**
+     * @Route("/positionnement", name="salaires_positionnement", methods="GET|POST")
+     */
+    public function positionner(Request $request, \DateTime $periodeSalaire): Response
+    {
+        //$em=$this->getDoctrine()->getManager();
+        //$salaire=$em->getRepository(Salaires::class)->findOneBy(['periodeSalaire'=>$periodeSalaire]);
+
+        $collaborateurs=$this->getDoctrine()->getRepository(Collaborateurs::class)->findBy(['statut'=>Collaborateurs::STAT_SALARIE]);
+
+        $salaire = new Salaires();
+        $salaire->fillLigneSalaireFromCollaborateurs($collaborateurs);
+        $form = $this->createForm(SalairesType::class, $salaire);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($salaire);
+            $em->flush();
+
+            return $this->redirectToRoute('salaires_index');
+        }
+
+        return $this->render('salaires/positionnement.html.twig', [
+            'salaire' => $salaire,
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
      * @Route("/new", name="salaires_new", methods="GET|POST")
      */
     public function new(Request $request): Response
     {
         $salaire = new Salaires();
-        $form = $this->createForm(Salaires1Type::class, $salaire);
+        $form = $this->createForm(SalairesType::class, $salaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,7 +91,7 @@ class SalairesController extends Controller
      */
     public function edit(Request $request, Salaires $salaire): Response
     {
-        $form = $this->createForm(Salaires1Type::class, $salaire);
+        $form = $this->createForm(SalairesType::class, $salaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

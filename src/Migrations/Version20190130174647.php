@@ -8,14 +8,14 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190129183955 extends AbstractMigration
+final class Version20190130174647 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE Devises ADD tx_reference DOUBLE PRECISION DEFAULT NULL');
+        $this->addSql('ALTER TABLE collaborateurs CHANGE date_naissance date_naissance DATE DEFAULT NULL, CHANGE date_entree date_entree DATE DEFAULT NULL, CHANGE date_sortie date_sortie DATE DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -23,6 +23,6 @@ final class Version20190129183955 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE Devises DROP tx_reference');
+        $this->addSql('ALTER TABLE collaborateurs CHANGE date_naissance date_naissance DATE NOT NULL, CHANGE date_entree date_entree DATE NOT NULL, CHANGE date_sortie date_sortie DATE NOT NULL');
     }
 }

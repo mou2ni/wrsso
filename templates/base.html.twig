@@ -21,50 +21,47 @@
     </head>
     <body>
 
-    <div class="app">
-        <div class="app-container">
+    <div class="app app-loaded">
+        <div class="app-container app-header-inside-content">
             {% set active_route=app.request.attributes.get('_route') %}
             {{ render(controller(
             'App\\Controller\\Menu::getSideBarMenu'
             ,{ 'active_route': active_route }
             )) }}
 
-            <div class="app-content">
+            <div class="app-content app-sidebar-left">
                 <!-- START PAGE CONTAINER -->
                 <div class="container">
-				<div class="app-header app-header-design-default">        
-                    <ul class="app-header-buttons visible-mobile">
-                        <li><a href="#" class="btn btn-link btn-icon" data-navigation-horizontal-toggle="true"><span class="icon-menu"></span></a></li>                    
-                    </ul>
-                    <a href="index.php" class="app-header-logo app-header-logo-light app-header-logo-condensed">Warisso</a>
-                
-                    <ul class="app-header-buttons pull-right">
-                        <li>
-                            <div class="contact contact-rounded contact-bordered contact-lg contact-ps-controls">
-                                <img src="assets/images/users/user_1.jpg" alt="">
-                                <div class="contact-container">
+                    <div class="app-header app-header-design-default">
+                        <ul class="app-header-buttons visible-mobile">
+                            <li><a href="#" class="btn btn-link btn-icon" data-navigation-horizontal-toggle="true"><span class="icon-menu"></span></a></li>
+                        </ul>
+                        <a href="index.php" class="app-header-logo app-header-logo-light app-header-logo-condensed">Warisso</a>
+
+                        <ul class="app-header-buttons pull-right">
+                            <li>
+                                <div class="contact contact-rounded contact-bordered contact-lg contact-ps-controls">
+                                    <img src="assets/images/users/user_1.jpg" alt="">
+                                    <div class="contact-container">
                                         <a href="#">{{ app.user }}</a>
-                                    <a href="{{ path('logout') }}" class="close" >Deconnecter </a>
+                                        <a href="{{ path('logout') }}" class="close" >Deconnecter </a>
+                                    </div>
+                                    <div class="contact-controls">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-default btn-icon" data-toggle="dropdown" aria-expanded="true"><span class="icon-cog"></span></button>
+                                            <ul class="dropdown-menu dropdown-left">
+                                                <li><a href="#"><span class="icon-cog"></span> Profil</a></li>
+                                                <li><a href="#"><span class="icon-envelope"></span> Messages <span class="label label-danger pull-right">+0</span></a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="{{ path('logout') }}"><span class="icon-exit"></span> Deconnecter</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="contact-controls">
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-default btn-icon" data-toggle="dropdown" aria-expanded="true"><span class="icon-cog"></span></button>                        
-                                        <ul class="dropdown-menu dropdown-left">
-                                            <li><a href="#"><span class="icon-cog"></span> Profil</a></li> 
-                                            <li><a href="#"><span class="icon-envelope"></span> Messages <span class="label label-danger pull-right">+0</span></a></li>
-                                            <li class="divider"></li>
-                                            <li><a href="{{ path('logout') }}"><span class="icon-exit"></span> Deconnecter</a></li> 
-                                        </ul>
-                                    </div>                    
-                                </div>
-                            </div>
-                        </li>        
-                    </ul>              
-                </div>
-				
-                    {#<div><span class="float-sm-right glyphicon glyphicon-user">{{ app.user }}</span><a href="{{ path('logout') }}" class="close" > <span class="glyphicon glyphicon-off" aria-hidden="true"></span>Deconnecter </a> </div>
-                    #}
-					
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="app-content-separate-content">
                         <!-- CONTENT CONTAINER -->
                         <div class="container">

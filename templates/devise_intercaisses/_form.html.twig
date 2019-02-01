@@ -27,12 +27,8 @@
 </div>
 
 <div class="form-group">
-    <div class="form-row">
-        {{ form_widget(form.save_and_new) }} {{ form_widget(form.save_and_close) }}
+        {{ form_widget(form.save_and_new) }}  {{ form_widget(form.save_and_close) }}
         {{ form_end(form) }}
-        {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
-
-    </div>
 </div>
 
 {{ form_end(form) }}

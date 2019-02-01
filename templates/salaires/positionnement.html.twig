@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Positionnement des Salaires{% endblock %}
+
+{% block body %}
+    <h1>Positionnement des salaires</h1>
+
+    <div class="table-responsive">
+        <table id="collections-contener" class="collection-tags table"
+               data-prototype="
+{{ '<td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.collaborateur)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mSalaireBase)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mIndemLogement)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mIndemTransport)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mIndemFonction)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mIndemAutres)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mHeureSup)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mSecuriteSocialeSalarie)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mSecuriteSocialePatronale)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mImpotSalarie)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mTaxePatronale)|e }}
+{{ '</td>'|e }}"
+               data-widget-tags="{{ '<tr class="collection-tag"></tr>'|e }}"  data-list="#collections-contener" onchange="">
+
+            <thead>
+            <tr> <th>TOTAL DE RECETTES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mRecette) }}</td>
+                <th>TOTAL DE DEPENSES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mDepense) }}</td>
+
+            </tr>
+            <tr>
+                <th class="text-bold padding-5 text-center" >Date </th>
+                <th class="text-bold padding-5 text-center" >Type</th>
+                <th class="text-bold padding-5 text-center">Libelle</th>
+                <th class="text-bold padding-5 text-center">Montant</th>
+
+            </tr>
+            </thead>
+
+            {% for ligneSalaire in form.ligneSalaires %}
+                <tr class="collection-tag ">
+                    <td class="padding-0">{{ form_errors(ligneSalaire.collaborateur) }} {{ form_widget(ligneSalaire.collaborateur) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mSalaireBase) }} {{ form_widget(ligneSalaire.mSalaireBase) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mIndemLogement) }} {{ form_widget(ligneSalaire.mIndemLogement) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mIndemTransport) }} {{ form_widget(ligneSalaire.mIndemTransport) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mIndemFonction) }} {{ form_widget(ligneSalaire.mIndemFonction) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mIndemAutres) }} {{ form_widget(ligneSalaire.mIndemAutres) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mHeureSup) }} {{ form_widget(ligneSalaire.mHeureSup) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mSecuriteSocialeSalarie) }} {{ form_widget(ligneSalaire.mSecuriteSocialeSalarie) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mSecuriteSocialePatronale) }} {{ form_widget(ligneSalaire.mSecuriteSocialePatronale) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mImpotSalarie) }} {{ form_widget(ligneSalaire.mImpotSalarie) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mTaxePatronale) }} {{ form_widget(ligneSalaire.mTaxePatronale) }}</td>
+
+                </tr>
+            {% endfor %}
+
+
+        </table>
+        {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
+        {% if journeeCaisse.statut!="F" %}
+            {{ include('_btn_enregistrer.html.twig') }}
+        {% endif %}
+        {{ form_end(form) }} {#, {'render_rest': false}#}
+
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{   asset('js/collections.js') }}"></script>
+
+{% endblock %}

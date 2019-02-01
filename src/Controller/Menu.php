@@ -26,15 +26,18 @@ class Menu  extends Controller
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
         $this->menu_superAdmin=[['text'=>'Utilisateurs','lien'=>'utilisateurs_index']
-            ,];
+            ,['text'=>'Accueil','lien'=>'admin_main']
+            ,
+        ];
         $this->menu_parametre=[
             ['text'=>'Clients', 'lien'=>'clients_index']
             ,['text'=>'Plan comptable', 'lien'=>'comptes_index']
+            ,['text'=>'Paramètres comptables', 'lien'=>'param_comptables_index']
+            ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
             ,['text'=>'Caisses et banques', 'lien'=>'caisses_index']
             ,['text'=>'Parametres comptables', 'lien'=>'#']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
             ,['text'=>'Taux de Devise', 'lien'=>'#']
-            ,['text'=>'sep', 'lien'=>'#']
             ,['text'=>'Transferts Internationaux', 'lien'=>'transfert_internationaux_index']
             ,['text'=>'Transferts électroniques', 'lien'=>'system_elects_index']
             ,['text'=>'Devises', 'lien'=>'devises_index']
@@ -61,7 +64,7 @@ class Menu  extends Controller
             ['text'=>'Caisses menu depenses','lien'=>'compta_saisie_cmd']
             ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_saisie_groupee']
             ,['text'=>'Recettes Depenses à terme', 'lien'=>'#']
-            ,['text'=>'Salaires-Positionnement', 'lien'=>'#']
+            ,['text'=>'Salaires-Positionnement', 'lien'=>'salaires_positionnement']
             ,['text'=>'Salaires-Paiement', 'lien'=>'#']
             ,['text'=>'Journaux comptables', 'lien'=>'#']
             ,['text'=>'Rapprochement bancaire', 'lien'=>'#']
@@ -100,6 +103,7 @@ class Menu  extends Controller
             $menu[]=['text'=>'Comptabilité','child'=>$this->menu_comptable, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_comptable,$active_route)];
             $menu[]=['text'=>'Suivi','child'=>$this->menu_suivi, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_suivi,$active_route)];
             $menu[]=['text'=>'Rapports','child'=>$this->menu_rapport, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_rapport,$active_route)];
+            $menu[]=['text'=>'Paramètres','child'=>$this->menu_parametre, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_parametre,$active_route)];
         }
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $menu[]=['text'=>'Administration','child'=>$this->menu_superAdmin, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_superAdmin,$active_route)];

@@ -55,12 +55,17 @@ class LigneSalaires
     /**
      * @ORM\Column(type="float")
      */
-    private $mSocialeSalarie;
+    private $mHeureSup;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $mSocialePatronale;
+    private $mSecuriteSocialeSalarie;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mSecuriteSocialePatronale;
 
     /**
      * @ORM\Column(type="float")
@@ -75,7 +80,12 @@ class LigneSalaires
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
      */
-    private $compte;
+    private $compteVirement;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Collaborateurs", cascade={"persist"})
+     */
+    private $collaborateur;
 
     /**
      * @return mixed
@@ -87,7 +97,7 @@ class LigneSalaires
 
     /**
      * @param mixed $id
-     * @return Salaires
+     * @return LigneSalaires
      */
     public function setId($id)
     {
@@ -105,7 +115,7 @@ class LigneSalaires
 
     /**
      * @param mixed $salaire
-     * @return Salaires
+     * @return LigneSalaires
      */
     public function setSalaire($salaire)
     {
@@ -116,38 +126,236 @@ class LigneSalaires
     /**
      * @return mixed
      */
-    public function getMSalaireNet()
+    public function getMSalaireBase()
     {
-        return $this->mSalaireNet;
+        return $this->mSalaireBase;
     }
 
     /**
-     * @param mixed $mSalaireNet
-     * @return Salaires
+     * @param mixed $mSalaireBase
+     * @return LigneSalaires
      */
-    public function setMSalaireNet($mSalaireNet)
+    public function setMSalaireBase($mSalaireBase)
     {
-        $this->mSalaireNet = $mSalaireNet;
+        $this->mSalaireBase = $mSalaireBase;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getCompte()
+    public function getMIndemLogement()
     {
-        return $this->compte;
+        return $this->mIndemLogement;
     }
 
     /**
-     * @param mixed $compte
-     * @return Salaires
+     * @param mixed $mIndemLogement
+     * @return LigneSalaires
      */
-    public function setCompte($compte)
+    public function setMIndemLogement($mIndemLogement)
     {
-        $this->compte = $compte;
+        $this->mIndemLogement = $mIndemLogement;
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getMIndemTransport()
+    {
+        return $this->mIndemTransport;
+    }
+
+    /**
+     * @param mixed $mIndemTransport
+     * @return LigneSalaires
+     */
+    public function setMIndemTransport($mIndemTransport)
+    {
+        $this->mIndemTransport = $mIndemTransport;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMIndemFonction()
+    {
+        return $this->mIndemFonction;
+    }
+
+    /**
+     * @param mixed $mIndemFonction
+     * @return LigneSalaires
+     */
+    public function setMIndemFonction($mIndemFonction)
+    {
+        $this->mIndemFonction = $mIndemFonction;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMIndemAutres()
+    {
+        return $this->mIndemAutres;
+    }
+
+    /**
+     * @param mixed $mIndemAutres
+     * @return LigneSalaires
+     */
+    public function setMIndemAutres($mIndemAutres)
+    {
+        $this->mIndemAutres = $mIndemAutres;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMHeureSup()
+    {
+        return $this->mHeureSup;
+    }
+
+    /**
+     * @param mixed $mHeureSup
+     * @return LigneSalaires
+     */
+    public function setMHeureSup($mHeureSup)
+    {
+        $this->mHeureSup = $mHeureSup;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMSecuriteSocialeSalarie()
+    {
+        return $this->mSecuriteSocialeSalarie;
+    }
+
+    /**
+     * @param mixed $mSecuriteSocialeSalarie
+     * @return LigneSalaires
+     */
+    public function setMSecuriteSocialeSalarie($mSecuriteSocialeSalarie)
+    {
+        $this->mSecuriteSocialeSalarie = $mSecuriteSocialeSalarie;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMSecuriteSocialePatronale()
+    {
+        return $this->mSecuriteSocialePatronale;
+    }
+
+    /**
+     * @param mixed $mSecuriteSocialePatronale
+     * @return LigneSalaires
+     */
+    public function setMSecuriteSocialePatronale($mSecuriteSocialePatronale)
+    {
+        $this->mSecuriteSocialePatronale = $mSecuriteSocialePatronale;
+        return $this;
+    }
+
+    
+    /**
+     * @return mixed
+     */
+    public function getMImpotSalarie()
+    {
+        return $this->mImpotSalarie;
+    }
+
+    /**
+     * @param mixed $mImpotSalarie
+     * @return LigneSalaires
+     */
+    public function setMImpotSalarie($mImpotSalarie)
+    {
+        $this->mImpotSalarie = $mImpotSalarie;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMTaxePatronale()
+    {
+        return $this->mTaxePatronale;
+    }
+
+    /**
+     * @param mixed $mTaxePatronale
+     * @return LigneSalaires
+     */
+    public function setMTaxePatronale($mTaxePatronale)
+    {
+        $this->mTaxePatronale = $mTaxePatronale;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteVirement()
+    {
+        return $this->compteVirement;
+    }
+
+    /**
+     * @param mixed $compteVirement
+     * @return LigneSalaires
+     */
+    public function setCompteVirement($compteVirement)
+    {
+        $this->compteVirement = $compteVirement;
+        return $this;
+    }
+
+    /**
+     * @return Collaborateurs
+     */
+    public function getCollaborateur()
+    {
+        return $this->collaborateur;
+    }
+
+    /**
+     * @param Collaborateurs $collaborateur
+     * @return LigneSalaires
+     */
+    public function setCollaborateur($collaborateur)
+    {
+        $this->collaborateur = $collaborateur;
+        return $this;
+    }
+
+    public function fillDataFromCollaborateur(){
+        $this->setCompteVirement($this->getCollaborateur()->getCompteVirement())
+            ->setMSalaireBase($this->getCollaborateur()->getMSalaireBase())
+            ->setMIndemTransport($this->getCollaborateur()->getMIndemTransport())
+            ->setMIndemFonction($this->getCollaborateur()->getMIndemFonction())
+            ->setMIndemLogement($this->getCollaborateur()->getMIndemLogement())
+            ->setMIndemAutres($this->getCollaborateur()->getMIndemAutres())
+            ->setMSecuriteSocialeSalarie($this->getCollaborateur()->getMSecuriteSocialeSalarie())
+            ->setMSecuriteSocialePatronale($this->getCollaborateur()->getMSecuriteSocialePatronale())
+            ->setMImpotSalarie($this->getCollaborateur()->getMImpotSalarie())
+            ->setMTaxePatronale($this->getCollaborateur()->getMTaxePatronale())
+        ;
+
+        return $this;
+    }
+
+    
 
 }
