@@ -44,7 +44,7 @@ class DeviseIntercaisses
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $journeeCaisseInitiateur;
 

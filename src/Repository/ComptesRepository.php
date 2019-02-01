@@ -20,11 +20,14 @@ class ComptesRepository extends ServiceEntityRepository
         parent::__construct($registry, Comptes::class);
     }
 
-    public function liste($offset,$limit = 10)
+    public function liste($offset,$limit = 10, $classe=0)
     {
         $qb = $this->createQueryBuilder('c')
-            ->orderBy('c.numCompte', 'ASC')
-            ->setFirstResult($offset)
+            ->orderBy('c.numCompte', 'ASC');
+        if ($classe) {
+            $qb->where('c.numCompte like \''.$classe.'%\'');
+        }
+        $qb->setFirstResult($offset)
             ->setMaxResults($limit)
             //->getQuery()
             //->getResult()

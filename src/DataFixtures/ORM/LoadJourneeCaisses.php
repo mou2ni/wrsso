@@ -29,8 +29,8 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
         //$caisse1=$manager->getRepository(Caisses::class)->findOneBy(['code'=>'KD02']);
         //$utilisateur1->setJourneeCaisseActive($caisseO->)
 
-        $lists = array(['utilisateur' => $utilisateur, 'caisse' => $caisse, 'statut'=>JourneeCaisses::ENCOURS, 'dateOuv'=>null]
-        ,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::ENCOURS, 'dateOuv'=>null]);
+        $lists = array(['utilisateur' => $utilisateur, 'caisse' => $caisse, 'statut'=>JourneeCaisses::ENCOURS]
+        ,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::ENCOURS]);
         //,['utilisateur' => $utilisateur1, 'caisse' => $caisse1, 'statut'=>JourneeCaisses::INITIAL, 'dateOuv'=>new \DateTime()]);
 
         foreach ($lists as $list) {
@@ -38,7 +38,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
             $enr->setUtilisateur($list['utilisateur'])
                 ->setCaisse($list['caisse'])
                 ->setStatut($list['statut'])
-                ->setDateOuv($list['dateOuv']);
+                ->setDateOuv(new \DateTime());
 
             $manager->persist($enr);
         }

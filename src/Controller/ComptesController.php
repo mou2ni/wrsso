@@ -21,12 +21,16 @@ class ComptesController extends Controller
      */
     public function index(Request $request): Response
     {
-        $offset = ($request)?$request->request->get('_page')*10:0;
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $classe=$request->query->get('classe');
+        //$offset = ($request)?$request->request->get('_page')*10:0;
+        $offset = ($_page)?($_page-1)*$limit:0;
         $comptes = $this->getDoctrine()
             ->getRepository(Comptes::class)
-            ->liste($offset);
-        $pages = round(count($comptes)/10);
-        //dump($page);die();
+            ->liste($offset,$limit,$classe);
+        $pages = round(count($comptes)/$limit);
+        //dump($request);
         return $this->render('comptes/index.html.twig', ['comptes' => $comptes, 'pages'=>$pages]);
     }
 
