@@ -131,7 +131,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     {
         if (!$dateFin){
            $now=new \DateTime();
-            $dateFin=$now->format('Y-m-d');
+            $dateFin=$now->add(new \DateInterval('P1D'))->format('Y-m-d');
         }//else $dateFin->format('Y-m-d');
         //dateDebut = 1 mois en arrière par rapport à date fin si non fourni
         //$dateDebut=(!$dateDebut)?$dateFin->sub(new \DateInterval('P30D')):$dateDebut;

@@ -1,5 +1,28 @@
-<div class="form-inline">
-    {% for pag in 0..pages-1  %}
-        {{ include('_btn_page.html.twig',{'path':path}) }}|
-    {% endfor %}
-</div>
+
+    <nav>
+        <ul class="pagination pagination-rounded">
+            {#<li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                </a>
+            </li>#}
+            {% if pages > 1 %}
+            {% for pag in 1..pages  %}
+                {% if app.request.query.get('_page') == pag or (not app.request.query.get('_page') and pag==1) %}<li class="active">
+                {% else %} <li>
+                {% endif %}
+                {% if master %} <a href="{{ path(path, {'_page':  pag, 'master':  master}) }}">{{ pag }}</a></li>
+                {% else %} <a href="{{ path(path, {'_page':  pag}) }}">{{ pag }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
+            {#<li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                </a>
+            </li>#}
+        </ul>
+    </nav>
+{#{% for pag in 0..pages-1  %}
+    {{ include('_btn_page.html.twig',{'path':path}) }}|
+{% endfor %}#}
