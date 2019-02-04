@@ -13,29 +13,13 @@ class TauxDevisesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        //$data=$options['data'];
-
         $builder
-            ->add('id')
-            ->add('devises', CollectionType::class, array(
-                'entry_type' => DevisesType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true,
-                'prototype' => true,
-                'by_reference' => false,
-                'mapped'=> false
-                //'attr' => ['class' => 'lignetransfert']
-            ))
-
+            //->remove('sens')
+            ->remove('libelle')
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            //'data' => 'data'
-            'data_class' => DevisesCollection::class,
-        ]);
-        //$resolver->setRequired(['data']);
+    public function getParent(){
+        return DevisesType::class;
     }
 }

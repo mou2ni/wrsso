@@ -8,6 +8,7 @@ use App\Form\DevisesType;
 use App\Form\TauxDevisesType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ use Symfony\Component\Validator\Constraints\Collection;
  */
 class DevisesController extends Controller
 {
+    private $devise;
     /**
      * @Route("/", name="devises_index", methods="GET")
      */
@@ -67,22 +69,29 @@ class DevisesController extends Controller
     {
         $em = $this->getDoctrine();
         $devises = $em->getRepository(Devises::class)->liste();
-        $devisesCollection = new DevisesCollection();
-        $form = $this->createFormBuilder($devisesCollection)->getForm();
-        foreach ($devises as  $devise)
-            $devisesCollection->addDevises($devise);
-        //$form = $this->createForm(TauxDevisesType::class, $devisesCollection);
+        //$devise = new Devises();
+        if ($devise = $request->request->get('_devise'))
+            $devise = $em->getRepository(Devises::class)->find($devise);
+        //else
+          //  $devise = $em->getRepository(Devises::class)->findAll()[1];
+        //dump($devise);
+        $form = $this->createForm(TauxDevisesType::class, $devise);
         $form->handleRequest($request);
-        //dump($form);die();
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $devise = $em->getRepository(Devises::class)->findOneBy(['code'=>$form['code']->getData()]);
+            //dump($devise);die();
+            $devise->setTxReference($form['txReference']->getData());
+            $devise->setTxAchat($form['txAchat']->getData());
+            $devise->setTxVente($form['txVente']->getData());
+            $em->persist($devise);
+            $em->flush();
 
             return $this->redirectToRoute('devises_index');
         }
 
         return $this->render('devises/tauxDevises.html.twig', [
-            'devise' => $devisesCollection,
+            //'devise' => $devisesCollection,
             'form' => $form->createView(),
             'devises' => $devises
         ]);

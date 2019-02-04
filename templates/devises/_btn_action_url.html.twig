@@ -1,0 +1,6 @@
+<form class="form-inline" method="POST" action="{{ path('' ~ path,{'id':id})}}" onsubmit="return confirm('{{ confirm_message }} ');">
+    <input type="hidden" name="_method" value="POST">
+    <input type="hidden" name="_token" value="{{ csrf_token('action' ~ id)}}">
+    <input type="hidden" name="_devise" value="{{ id }}">
+    <button class="btn-info" name={{ btn_name }}>{{ btn_label }}</button>
+</form>

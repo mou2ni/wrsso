@@ -1,22 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(form) }}
-    <table class="table table-responsive">
+    <table class="table table-bordered">
         <thead>
-        <tr><td>Devises</td><td>Taux de reference</td><td>Achat</td><td>Vente</td></tr>
+        <tr><th>Devises</th><th>Taux de reference</th><th>Achat</th><th>Vente</th><th>action</th></tr>
         </thead>
+        <tbody>
+        {{ form_start(form) }}<tr><td>{{ form_widget(form.code) }}</td><td>{{ form_widget(form.txReference) }}</td><td>{{ form_widget(form.txAchat) }}</td><td>{{ form_widget(form.txVente) }}</td><td>
+                <input type="submit">Enregistrer</td></tr>
+
+        {% for devise in devises %}
+            {{ form_end(form) }}
+        <tr><td>{{ devise.code }}</td><td>{{ devise.txReference }}</td><td>{{ devise.txAchat }}</td><td>{{ devise.txVente }}</td>
+            <td>{{ include('devises/_btn_action_url.html.twig',{'path':'taux_devises', 'id':devise.id, 'operation':'FERMER' ,'btn_name':'Modifier', 'btn_label':'Modifier', 'confirm_message':'Confirmation du changement de taux. Confirmer ?'}) }}</td></tr>
+        {% endfor %}
+        </tbody>
     </table>
-{{ form(form.devise) }}
-{#{% for devis in form %}
-
-        <tr>
-
-            <td> 1 {{ form_row(devis) }}</td><td>{{ form_row(devise.txAchat) }}</td><td>{{ form_row(devise.txVente) }}</td>
-        </tr>
-    {% endfor %}
-    #}{{ form_rest(form) }}
-    {{ form_end(form) }}
 {% endblock %}
 
 {% block title %}
