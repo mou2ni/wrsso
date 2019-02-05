@@ -40,6 +40,18 @@ class Clients
     private $adresse;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $qualite;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $estRepresentant = false;
+
+
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comptes", mappedBy="client", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -138,6 +150,42 @@ class Clients
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getQualite()
+    {
+        return $this->qualite;
+    }
+
+    /**
+     * @param mixed $qualite
+     * @return Clients
+     */
+    public function setQualite($qualite)
+    {
+        $this->qualite = $qualite;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstRepresentant()
+    {
+        return $this->estRepresentant;
+    }
+
+    /**
+     * @param mixed $estRepresentant
+     * @return Clients
+     */
+    public function setEstRepresentant($estRepresentant)
+    {
+        $this->estRepresentant = $estRepresentant;
         return $this;
     }
 

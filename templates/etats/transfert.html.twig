@@ -4,15 +4,17 @@
         {% set nrecus=0%}
         {% set nemis=0%}
         <div style="page-break-after: always">
-            <table class="table">
-            <tr id="date"> <td>Ouagadougou le, {{ 'now'|date('d/m/Y') }}</td></tr>
-            <tr id="intitule"><td>RELEVE DES OPERATIONS DE TRANSFERTS DU {{ dateDeb.format('d/m/Y') }} au {{ dateFin.format('d/m/Y') }}</td></tr>
-            <tr><td>Nom et Prénom du Répondant</td><td>{#{{ entreprise.repondant }}#}</td></tr>
-            <tr><td>Qualité du Répondant</td><td>{#{{ entreprise.qualiteRepondant }}#}</td></tr>
+            <table class="table table-noborder">
+            <tr id="date"> <td colspan="3">Ouagadougou le, {{ 'now'|date('d/m/Y') }}</td></tr>
+            <tr id="intitule"><td colspan="3">RELEVE DES OPERATIONS DE TRANSFERTS DU {{ dateDeb.format('d/m/Y') }} au {{ dateFin.format('d/m/Y') }}</td></tr>
+            <tr><td>Nom et Prénom du Répondant</td><td>{{ entreprise.nomRepresentant }} {{ entreprise.prenomRepresentant }}</td></tr>
+            <tr><td>Qualité du Répondant</td><td>{{ entreprise.qualiteRepresentant }}</td></tr>
             <tr><td>Téléphone/Fax/e_mail du Répondant</td><td>{adresse}</td></tr>
-            <tr><td>Société Répresentée</td><td>{{ etatType.typeTransfert }}</td></tr>
+            <tr><td>Société Répresentée</td><td style="font-weight: bold">{{ etatType.typeTransfert }}</td></tr>
             <tr><td>Répresentant</td><td>{#{{ ltrans.representant }}#}</td></tr>
-            <tr>
+            </table>
+            <table class="table table-bordered">
+                <tr>
                 <th>TRANSFERT EN MILLIONS</th>
                 <th>EMIS</th>
                 <th>RECUS</th>
