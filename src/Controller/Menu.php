@@ -17,7 +17,8 @@ class Menu  extends Controller
 {
     private $menuTop = array();
     private $menu_parametre=array();
-    private $menu_caissier=array();
+    private $menu_guichetier=array();
+    private $menu_common=array();
     private $menu_comptable=array();
     private $menu_suivi=array();
     private $menu_rapport=array();
@@ -45,23 +46,25 @@ class Menu  extends Controller
             ,['text'=>'Pays', 'lien'=>'pays_index']
             ,
         ];
-        
-        $this->menu_caissier=[
+
+        $this->menu_common=[
             ['text'=>'Gerer Caisse','lien'=>'journee_caisses_gerer']
             ,['text'=>'Changer de caisse', 'lien'=>'journee_caisses_init']
-            ,['text'=>'Transfert internationaux', 'lien'=>'transfert_internationaux_saisie']
             ,['text'=>'Intercaisses', 'lien'=>'intercaisses_ajout']
             ,['text'=>'Credits et dettes', 'lien'=>'detteCredits_divers']
+            ,['text'=>'Achat vente divers', 'lien'=>'#']
+            ,['text'=>'Historiques caisses','lien'=>'journee_caisses_etat_de_caisse']
+        ];
+        $this->menu_guichetier=[
+            ['text'=>'Transfert internationaux', 'lien'=>'transfert_internationaux_saisie']
             ,['text'=>'Devises Achat vente', 'lien'=>'devise_recus_achat_vente']
             ,['text'=>'Devises - Intercaisse', 'lien'=>'devise_intercaisses_gestion']
-            ,['text'=>'Achat vente divers', 'lien'=>'#']
             ,['text'=>'Depôts', 'lien'=>'#']
             ,['text'=>'Retraits', 'lien'=>'#']
-            ,['text'=>'Historiques caisses','lien'=>'journee_caisses_etat_de_caisse']
         ];
 
         $this->menu_comptable=[
-            ['text'=>'Caisses menu depenses','lien'=>'compta_saisie_cmd']
+            ['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
             ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_saisie_groupee']
             ,['text'=>'Recettes Depenses à terme', 'lien'=>'#']
             ,['text'=>'Salaires-Positionnement', 'lien'=>'salaires_positionnement']
@@ -95,9 +98,10 @@ class Menu  extends Controller
     public function getSideBarMenu($active_route ) : Response
     {
         $menu=array();
+        $menu[]=['text'=>'Gestion Caisse','child'=>$this->menu_common, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_common,$active_route)];
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_GUICHETIER')) {
-            $menu[]=['text'=>'Gestion Caisse','child'=>$this->menu_caissier, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_caissier,$active_route)];
+            $menu[]=['text'=>'Opération de GUICHET','child'=>$this->menu_guichetier, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_guichetier,$active_route)];
         }
         if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
             $menu[]=['text'=>'Comptabilité','child'=>$this->menu_comptable, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_comptable,$active_route)];

@@ -31,7 +31,7 @@
                             {% if is_granted('ROLE_COMPTABLE') %}
                                 {{ include('intercaisses/_btn_comptabiliser.html.twig')}}
                             {% endif %}
-                            {% if intercaisse.journeeCaisseSortant.id==journeeCaisse.id %}
+                            {% if intercaisse.journeeCaisseSortant.id==journeeCaisse.id and intercaisse.journeeCaisseEntrant.statut=='E'%}
                                 {{ include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler déjà valide','btn_class':'btn-danger', 'confirm_message':'OPERATION IRREVERSIBLE : ANNULER UNE INTERCAISSE DEJA VALIDE !!!!?'}) }}
                             {% endif %}
                         {% endif %}

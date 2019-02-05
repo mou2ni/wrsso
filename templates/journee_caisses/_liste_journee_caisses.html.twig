@@ -1,0 +1,16 @@
+{% block body %}
+<nav>
+    <ul class="pagination">
+        {% for jc in journeeCaisses %}
+
+        {% if app.request.query.get('id') == jc.id or jc.id == journeeCaisse.id%} <li class="active">
+        {% else %}<li>
+        {% endif %}
+            <a href="{{ path('compta_saisie_tresorerie', {'id':  jc.id}) }}">{{ jc.codeCaisse }}</a> </li>
+        {% endfor %}
+
+    </ul>
+
+</nav>
+{% endblock %}
+

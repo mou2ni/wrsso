@@ -55,14 +55,15 @@ class CaissesController extends Controller
     }
 
     /**
-     * @Route("/{id}/nouvellejournee", name="caisses_nouvelle_journee", methods="GET|POST")
+     * @Route("/reallocation", name="caisses_relocate", methods="GET|POST")
      * @Security("has_role('ROLE_COMPTABLE')")
      */
-    public function ouvrirNouvelleJourneeCaisse(Request $request, Caisses $caisse): Response
+    public function reallouerJourneeCaisse(Request $request, Caisses $caisse): Response
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted('ROLE_COMPTABLE')) {
             throw new AccessDeniedException('Attribution de nouvelle journee interdite pour votre profil.');
         }
+        
         $journeeCaisse=$caisse->getLastJournee();
         //si journée caisse déjà disponible pour la caisse
         if ($journeeCaisse!=null){

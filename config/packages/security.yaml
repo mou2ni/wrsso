@@ -37,9 +37,9 @@ security:
     role_hierarchy:
 
         #ROLE_GUICHETIER:  ROLE_USER
-        ROLE_COMPTABLE: ROLE_GUICHETIER
+        ROLE_COMPTABLE: [ROLE_CAISSIER]
         ROLE_ADMIN: [ROLE_GUICHETIER, ROLE_COMPTABLE]
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_GUICHETIER }
+        - { path: ^/, roles: [ROLE_GUICHETIER, ROLE_CAISSIER] }

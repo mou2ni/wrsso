@@ -15,11 +15,12 @@ class UtilisateursLastCaisseType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $typeCaisse=$options['typeCaisse'];
         $builder
             ->add('lastCaisse', EntityType::class, array(
                 'class' => Caisses::class,
-                'query_builder' => function(CaissesRepository $repository) {
-                    return $repository->getClosedCaisseQb();
+                'query_builder' => function(CaissesRepository $repository) use ($typeCaisse) {
+                    return $repository->getClosedCaisseQb($typeCaisse);
                 },
                 'choice_label' => 'code',
                 'multiple' => false,
@@ -31,6 +32,7 @@ class UtilisateursLastCaisseType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Utilisateurs::class,
+            'typeCaisse'=>null,
         ]);
     }
 }

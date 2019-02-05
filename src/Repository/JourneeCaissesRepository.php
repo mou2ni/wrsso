@@ -143,15 +143,21 @@ class JourneeCaissesRepository extends ServiceEntityRepository
          $qb->where('jc.dateOuv>=:dateDebut and jc.dateOuv<=:dateFin')
             ->andWhere($qb->expr()->neq('jc.statut',':statut'));
         if($caisse){
-            $qb->andWhere($qb->expr()->eq('jc.caisse',':caisse'));
+            $qb->andWhere($qb->expr()->eq('jc.caisse',':caisse'))
+            ->setParameter('caisse', $caisse);
         }
-         return $qb//->addGroupBy('jc.caisse')
+         $qb//->addGroupBy('jc.caisse')
             ->addOrderBy('jc.id', 'DESC')
-            ->setParameters(['dateDebut' => $dateDebut, 'dateFin' => $dateFin, 'statut'=>JourneeCaisses::INITIAL,'caisse'=>$caisse])
+            ->setParameter('dateDebut',$dateDebut)
+            ->setParameter('dateFin', $dateFin)
+            ->setParameter('statut',JourneeCaisses::INITIAL)
             ->setMaxResults($limit)
             ->setFirstResult($offset)
-            ->getQuery()
-            ->getResult();
+            //->getQuery()
+            //->getResult()
+             ;
+        $pag = new Paginator($qb);
+        return $pag;
     }
 
     public function getJourneeCaissesDuJour(\DateTime $date)
@@ -220,42 +226,26 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-   /* public function findMyIntercaisseEntrant(JourneeCaisses $journeeCaisse){
-        $qb = $this->createQueryBuilder('jc');
-        return $qb->select('c.code, ie.journeeCaisseSortant, ie.montant')
-            ->from('JourneeCaisse',(''))
-            ->innerJoin('jc.intercaisseEntrants', 'ie')
-            ->innerJoin()
-    }*/
-
-
-
-//    /**
-//     * @return DeviseRecus[] Returns an array of DeviseRecus objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
+    public function findJourneeCaisseInterneOuvertes(){
+         return $this->createQueryBuilder('jc')
+             ->select('jc.id as id, c.code as codeCaisse ')
+             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse = c.id')
+             ->where('jc.statut= :statut')
+             ->andWhere('c.typeCaisse <> :typeCaisse')
+             ->setParameter('typeCaisse',Caisses::GUICHET)
+             ->setParameter('statut',JourneeCaisses::ENCOURS)
+             ->setParameter('statut',JourneeCaisses::ENCOURS)
+             ->getQuery()
+             ->getArrayResult();
+         ;
+        /*if ($typeCaisse){
+            $qb->andWhere('c.typeCaisse = :typeCaisse')
+                ->setParameter('typeCaisse',$typeCaisse);
+         }
+        return $qb->setParameter('statut',JourneeCaisses::ENCOURS)
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+            ->getArrayResult();*/
 
-    /*
-    public function findOneBySomeField($value): ?DeviseRecus
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+
     }
-    */
 }

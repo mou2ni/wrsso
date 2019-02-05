@@ -74,6 +74,7 @@ class JourneeCaissesController extends Controller
      */
     public function index(): Response
     {
+        return $this->redirectToRoute('journee_caisses_etat_de_caisse');
         $date = new \DateTime();
         $dateDeb=new \DateTime('2019-01-01 00:00:00');
         $dateFin=new \DateTime('2019-01-01 00:00:00');
@@ -101,10 +102,10 @@ class JourneeCaissesController extends Controller
      */
     public function gerer(Request $request): Response
     {
-        //si un comptable ouvrir saisie caisse menu depense
+        /*//si un comptable ouvrir saisie caisse menu depense
         if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
             return $this->redirectToRoute('compta_saisie_cmd');
-        }
+        }*/
         if (!$this->caisse){ // utilisateur n'ayant jamais ouvert de caisse
             return $this->redirectToRoute('journee_caisses_init');
         }
@@ -132,7 +133,7 @@ class JourneeCaissesController extends Controller
                     $this->addFlash('error', 'Caisse '.$this->caisse->getCode().' déjà ouverte. Choisissez une autre caisse à ouvrir');
                     return $this->redirectToRoute('journee_caisses_init');
                 }
-                return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $this->journeeCaisse]);
+                return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null]);
                 break;
             default :
                 return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
@@ -144,13 +145,15 @@ class JourneeCaissesController extends Controller
      */
     public function changerCaisse(Request $request): Response
     {
-        if($this->journeeCaisse)
-        if($this->journeeCaisse->getStatut()==JourneeCaisses::ENCOURS && $this->utilisateur->getId()==$this->journeeCaisse->getUtilisateur()->getId()){
-            $this->addFlash('error', 'Caisse toujours ouverte. Fermez la avant de changer de caisse');
-            return $this->redirectToRoute('journee_caisses_gerer');
+        //refuser le changement de caisse d'un guichetier ayant une caisse toujours ouverte
+        if($this->journeeCaisse && $this->caisse->getTypeCaisse()==Caisses::GUICHET) {
+            if ($this->journeeCaisse->getStatut() == JourneeCaisses::ENCOURS && $this->utilisateur->getId() == $this->journeeCaisse->getUtilisateur()->getId()) {
+                $this->addFlash('error', 'Caisse toujours ouverte. Fermez la avant de changer de caisse');
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
         }
-
-        $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur);
+        if ($this->isGranted('ROLE_COMPTABLE')) $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur);
+        else $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur,['typeCaisse'=>Caisses::GUICHET]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -305,16 +308,30 @@ class JourneeCaissesController extends Controller
             ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
         if ($this->isGranted('ROLE_ADMIN'))
             $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll();*/
+        //sans journeecais
 
-        $offset=$request->request->get('offset');
-        $caisse=($this->isGranted('ROLE_GUICHETIER'))?$this->journeeCaisse->getCaisse():null;
+        $limit=10;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $caisse=$this->caisse;
+        if ($this->isGranted('ROLE_ADMIN'))$caisse=null;
 
-        $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findJourneeCaisses($caisse,$offset);
+        $journeeCaisses = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->findJourneeCaisses($caisse,$offset,$limit);
+        $pages = round(count($journeeCaisses)/$limit);
 
+        //$offset=$request->request->get('offset');
+        //$caisse=($this->isGranted('ROLE_GUICHETIER'))?$this->journeeCaisse->getCaisse():null;
+
+        //$journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findJourneeCaisses($caisse,$offset);
+
+        //dump ($journeeCaisses);die();
         return $this->render('journee_caisses/etat_de_caisse.html.twig', [
             'journee_caisses' => $journeeCaisses,
+            'caisse'=>$caisse,
+            'pages'=>$pages,
             'journeeCaisse' => null,
-            'caisse'=>$caisse
             //'form' => $form->createView()
         ]);
 

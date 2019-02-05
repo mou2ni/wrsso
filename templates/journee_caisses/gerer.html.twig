@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 {% block title %}Gestion de Journee{% endblock %}
 {% block body %}
+ {% if journeeCaisse %}
     {% if  journeeCaisse.statut== 'E'%}
         {% set bgcolor="#FFF" %}
     {% else %}
         {% set bgcolor="#eee9e6" %}
+    {% endif %}
+    {% if journeeCaisses %}
+        {{ include ('journee_caisses/_liste_journee_caisses.html.twig') }}
     {% endif %}
     {#{% set color=(journeeCaisse.statut=='X')?"#eee9e6":"#FFF" %}#}
     <div class="form-inline text-bold text-center"><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}<a href="{{ path('journee_caisses_etat_de_caisse') }}" class="glyphicon glyphicon-list-alt float-right">Journées Caisses</a></h1>
@@ -22,14 +26,21 @@
                 </thead>
                 <tbody class="text-thin">
                 {{ include('journee_caisses/_gerer_head_common.html.twig') }}
+
                 {% if is_granted('ROLE_ADMIN') %}
-                    {{ include('journee_caisses/_gerer_guichet.html.twig') }}
-                    {{ include('journee_caisses/_gerer_cmd.html.twig') }}
-                {% elseif is_granted('ROLE_COMPTABLE')%}
+
+                {% endif %}
+
+                {% if is_granted('ROLE_COMPTABLE')%}
+                    {{ include ('journee_caisses/_gerer_banque.html.twig') }}
+                {% endif %}
+
+                {% if is_granted('ROLE_CAISSIER') %}
                     {{ include('journee_caisses/_gerer_cmd.html.twig') }}
                 {% elseif is_granted('ROLE_GUICHETIER')%}
                     {{ include('journee_caisses/_gerer_guichet.html.twig') }}
                 {% endif %}
+
                 {{ include('journee_caisses/_gerer_recap_solde.html.twig') }}
                 </tbody>
             </table>
@@ -39,4 +50,5 @@
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':(journeeCaisse.statut != "X")?'journee_caisses_veriferFerm':'journee_caisses_gerer' , 'btn_name':'submit', 'btn_label':(journeeCaisse.statut != "X")?'Arreter la Caisse':'Gerer caisse', 'btn_class':'btn btn-info btn-block'}) }}
         </div>
     </div>
+{% endif %}
 {% endblock %}

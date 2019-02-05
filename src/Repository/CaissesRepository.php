@@ -19,14 +19,16 @@ class CaissesRepository extends ServiceEntityRepository
         parent::__construct($registry, Caisses::class);
     }
 
-    public function getClosedCaisseQb()
+    public function getClosedCaisseQb($typeCaisse=null)
     {
-        return $this->createQueryBuilder('c')
-            ->where('c.statut=:statut')
-            ->andWhere('c.typeCaisse=:type')
-            ->orderBy('c.code', 'ASC')
-            ->setParameter('statut',Caisses::FERME)
-            ->setParameter('type',Caisses::GUICHET);
+         $qb=$this->createQueryBuilder('c')
+            ->where('c.statut=:statut');
+        if($typeCaisse){
+            $qb->andWhere('c.typeCaisse=:type')
+                ->setParameter('type',$typeCaisse);
+        }
+        return $qb->orderBy('c.code', 'ASC')
+            ->setParameter('statut',Caisses::FERME);
 
     }
 

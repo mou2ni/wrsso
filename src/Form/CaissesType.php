@@ -21,7 +21,7 @@ class CaissesType extends AbstractType
             ->add('compteAttenteCompense')
             ->add('lastUtilisateur')
             ->add('typeCaisse', ChoiceType::class
-                ,array('choices'  => ['GUICHETIER'=>Caisses::GUICHET,'CMD'=>Caisses::MENUDEPENSE, 'TONTINE'=>Caisses::TONTINE,  'COMPENSE'=>Caisses::COMPENSE], 'required' => true
+                ,array('choices'  => ['GUICHETIER'=>Caisses::GUICHET,'CMD'=>Caisses::MENUDEPENSE, 'TONTINE'=>Caisses::TONTINE,  'COMPENSE'=>Caisses::COMPENSE, 'BANQUE'=>Caisses::BANQUE], 'required' => true
                 ))
         ;
     }

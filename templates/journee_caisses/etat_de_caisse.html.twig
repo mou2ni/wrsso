@@ -4,6 +4,7 @@
 
 {% block body %}
     <div class="form-inline">
+
         <form method="post" action="{{ path('journee_caisses_etat_de_caisse') }}">
         {#{{ form(form) }}
         {{ form_start(form) }}
@@ -18,6 +19,9 @@
         {#{{ form_end(form) }}<div >{{ form_rest(form) }}</div>
                         {{ include('journee_caisses/_btn_action_url_etat.html.twig',{'path':'journee_caisses_etat_de_caisse' , 'operation':'ETAT','btn_name':'midifier', 'btn_label':'Chancer'}) }}
                                 #}
+    </div>
+    <div class="row">
+        {{ include('_pagination.html.twig',{'path':'journee_caisses_etat_de_caisse'}) }}
     </div>
     <div class="table-responsive">
     <table class="table table-bordered datatable-basic">
@@ -59,4 +63,5 @@
         </tbody>
     </table>
     </div>
+
 {% endblock %}

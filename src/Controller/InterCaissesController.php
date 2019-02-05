@@ -263,6 +263,14 @@ class InterCaissesController extends Controller
     }
     
     private function annulerValide(InterCaisses $interCaisse){
+        if( $interCaisse->getJourneeCaisseEntrant()->getStatut() != JourneeCaisses::ENCOURS){
+            $this->addFlash('error', 'Annulation Impossible. Caisse Entrant ['.$interCaisse->getJourneeCaisseEntrant()->getCaisse().'-'.$interCaisse->getJourneeCaisseEntrant()->getUtilisateur().'] déjà fermé ! ! ! ');
+            return false;
+        }
+        if( $interCaisse->getJourneeCaisseSortant()->getStatut() != JourneeCaisses::ENCOURS){
+            $this->addFlash('error', 'Annulation Impossible. Caisse Sortant ['.$interCaisse->getJourneeCaisseSortant()->getCaisse().'-'.$interCaisse->getJourneeCaisseSortant()->getUtilisateur().'] déjà fermé ! ! ! ');
+            return false;
+        }
         $interCaisse->getJourneeCaisseEntrant()->updateM('mIntercaisses', -$interCaisse->getMIntercaisse());
         $interCaisse->getJourneeCaisseSortant()->updateM('mIntercaisses', $interCaisse->getMIntercaisse());
         $interCaisse->setStatut(InterCaisses::ANNULE);

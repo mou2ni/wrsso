@@ -11,7 +11,7 @@
                 {% if app.request.query.get('_page') == pag or (not app.request.query.get('_page') and pag==1) %}<li class="active">
                 {% else %} <li>
                 {% endif %}
-                {% if master %} <a href="{{ path(path, {'_page':  pag, 'master':  master}) }}">{{ pag }}</a></li>
+                {% if app.request.query.get('master') %} <a href="{{ path(path, {'_page':  pag, 'master':  app.request.query.get('master')}) }}">{{ pag }}</a></li>
                 {% else %} <a href="{{ path(path, {'_page':  pag}) }}">{{ pag }}</a></li>
                 {% endif %}
             {% endfor %}
