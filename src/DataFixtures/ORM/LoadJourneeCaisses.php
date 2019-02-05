@@ -38,7 +38,7 @@ class LoadJourneeCaisses extends Fixture implements DependentFixtureInterface
             $enr->setUtilisateur($list['utilisateur'])
                 ->setCaisse($list['caisse'])
                 ->setStatut($list['statut'])
-                ->setDateOuv($list['dateOuv']);
+                ->setDateOuv(new \DateTime());
 
             $manager->persist($enr);
         }

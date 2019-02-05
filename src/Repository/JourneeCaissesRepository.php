@@ -57,17 +57,19 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     public function getOpenJourneeCaisseQb($dateComptable, $myJournee)
     {
         $qb=$this->createQueryBuilder('jc');
-        return $qb->addSelect('c')
+         $qb->addSelect('c')
             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
-            ->where('jc.statut=:statut')
-            ->andWhere('jc.dateComptable=:dateComptable or c.typeCaisse!=:typeCaisse')
-            ->andWhere('jc!=:myJournee')
+            ->where('jc.statut=:statut');
+        if ($myJournee->getCaisse()->getTypeCaisse()<> Caisses::GUICHET){
+            $qb->andWhere('jc.dateComptable=:dateComptable or c.typeCaisse!=:typeCaisse')
+                ->setParameter('dateComptable',$dateComptable)
+                ->setParameter('typeCaisse',Caisses::GUICHET);
+        }
+        return $qb->andWhere('jc!=:myJournee')
+            ->andWhere('c.dispoGuichet=1')
             ->setParameter('statut',JourneeCaisses::ENCOURS)
-            ->setParameter('dateComptable',$dateComptable)
-            ->setParameter('typeCaisse',Caisses::GUICHET)
             ->setParameter('myJournee',$myJournee)
             ;
-
     }
 
 
