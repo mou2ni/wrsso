@@ -122,11 +122,11 @@ class JourneeCaissesController extends Controller
                 //initier nouvelle journeeCaisse;
                 $journeePrecedent=$this->journeeCaisse;
                 $this->journeeCaisse=$this->initJournee($this->caisse,$journeePrecedent);
-                return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeePrecedente'=>$journeePrecedent]);
+                return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null,'journeePrecedente'=>$journeePrecedent]);
                 break;
             case JourneeCaisses::INITIAL :
                 //dump($this->journeeCaisse->getBilletOuv());die();
-                return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
+                return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
                 break;
             case JourneeCaisses::ENCOURS :
                 if ($this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){ //utilisateur différent de celui de la journee caisse
@@ -136,7 +136,7 @@ class JourneeCaissesController extends Controller
                 return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null]);
                 break;
             default :
-                return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
+                return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
         }
     }
 
@@ -152,7 +152,7 @@ class JourneeCaissesController extends Controller
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
         }
-        if ($this->isGranted('ROLE_COMPTABLE')) $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur);
+        if ($this->isGranted('ROLE_COMPTABLE')) $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur,['typeCaisse'=>Caisses::BANQUE]);
         else $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur,['typeCaisse'=>Caisses::GUICHET]);
         $form->handleRequest($request);
 

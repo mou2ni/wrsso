@@ -37,7 +37,7 @@ security:
     role_hierarchy:
 
         #ROLE_GUICHETIER:  ROLE_USER
-        ROLE_COMPTABLE: [ROLE_CAISSIER]
+        ROLE_COMPTABLE: ROLE_CAISSIER
         ROLE_ADMIN: [ROLE_GUICHETIER, ROLE_COMPTABLE]
 
     access_control:

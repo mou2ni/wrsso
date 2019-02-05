@@ -163,34 +163,4 @@ class RecetteDepensesController extends Controller
 
         return $this->redirectToRoute('recette_depenses_index');
     }
-
-    /*
-    private function comptabiliser($em, RecetteDepenses $recetteDepense, $estCharge){
-        $genCompta=new GenererCompta($em);
-        $compte=$recetteDepense->getTypeOperationComptable()->getCompte();
-
-        if (!$compte){
-            $this->addFlash('error', 'Compte non paramétré pour l\'opération comptable '.$recetteDepense->getTypeOperationComptable()->getLibelle());
-            return false;
-        }
-        //dump($recetteDepense);die();
-        if($estCharge){
-            //$this->journeeCaisse->updateM('mDepense',$recetteDepense->getMSaisie());
-            if (!$genCompta->genComptaDepenses($this->utilisateur,$this->caisse,$compte,$recetteDepense->getLibelle(),$recetteDepense->getMSaisie(),$this->journeeCaisse)){
-                $this->addFlash('error',$genCompta->getErrMessage());
-                //dump($recetteDepense->getMSaisie());die();
-                return false;
-            };
-
-        }else{
-            //$this->journeeCaisse->updateM('mRecette',$recetteDepense->getMSaisie());
-            if (!$genCompta->genComptaRecettes($this->utilisateur,$this->caisse,$compte,$recetteDepense->getLibelle(),$recetteDepense->getMSaisie(),$this->journeeCaisse)){
-                $this->addFlash('error',$genCompta->getErrMessage());
-                //dump($recetteDepense);die();
-                return false;
-            };
-        }
-        return $genCompta;
-    }
-    */
 }
