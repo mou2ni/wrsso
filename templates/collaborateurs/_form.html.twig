@@ -1,4 +1,78 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.entreprise) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.nom) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.prenom) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.compteVirement) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.dateNaissance) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.dateEntree) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.dateSortie) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.statut) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.categorie) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.nbEnfant) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.nSecuriteSociale) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.mSalaireBase) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.mIndemLogement) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.mIndemTransport) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.mIndemFonction) }}
+        </div>
+
+        <div class="col">
+            {{ form_row(form.mIndemAutres) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.mSecuriteSocialeSalarie) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.mImpotSalarie) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.mSecuriteSocialePatronal) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.mTaxePatronale) }}
+        </div>
+    </div>
+</div>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}

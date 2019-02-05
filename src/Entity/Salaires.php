@@ -39,7 +39,7 @@ class Salaires
     /**
      * @ORM\Column(type="float")
      */
-    private $mNetTotal;
+    private $mBrutTotal;
 
     /**
      * @ORM\Column(type="float")
@@ -54,7 +54,12 @@ class Salaires
     /**
      * @ORM\Column(type="float")
      */
-    private $mSecuriteSocialTotal;
+    private $mSecuriteSocialSalarie;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mSecuriteSocialPatronal;
 
     /**
      * @ORM\Column(type="string")
@@ -134,20 +139,21 @@ class Salaires
     /**
      * @return mixed
      */
-    public function getMNetTotal()
+    public function getMBrutTotal()
     {
-        return $this->mNetTotal;
+        return $this->mBrutTotal;
     }
 
     /**
-     * @param mixed $mNetTotal
+     * @param mixed $mBrutTotal
      * @return Salaires
      */
-    public function setMNetTotal($mNetTotal)
+    public function setMBrutTotal($mBrutTotal)
     {
-        $this->mNetTotal = $mNetTotal;
+        $this->mBrutTotal = $mBrutTotal;
         return $this;
     }
+
 
     /**
      * @return mixed
@@ -188,20 +194,39 @@ class Salaires
     /**
      * @return mixed
      */
-    public function getMSecuriteSocialTotal()
+    public function getMSecuriteSocialSalarie()
     {
-        return $this->mSecuriteSocialTotal;
+        return $this->mSecuriteSocialSalarie;
     }
 
     /**
-     * @param mixed $mSecuriteSocialTotal
+     * @param mixed $mSecuriteSocialSalarie
      * @return Salaires
      */
-    public function setMSecuriteSocialTotal($mSecuriteSocialTotal)
+    public function setMSecuriteSocialSalarie($mSecuriteSocialSalarie)
     {
-        $this->mSecuriteSocialTotal = $mSecuriteSocialTotal;
+        $this->mSecuriteSocialSalarie = $mSecuriteSocialSalarie;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMSecuriteSocialPatronal()
+    {
+        return $this->mSecuriteSocialPatronal;
+    }
+
+    /**
+     * @param mixed $mSecuriteSocialPatronal
+     * @return Salaires
+     */
+    public function setMSecuriteSocialPatronal($mSecuriteSocialPatronal)
+    {
+        $this->mSecuriteSocialPatronal = $mSecuriteSocialPatronal;
+        return $this;
+    }
+    
 
     /**
      * @return mixed
@@ -241,13 +266,20 @@ class Salaires
         return $this;
     }
 
-    public function fillLigneSalaireFromCollaborateurs(ArrayCollection $collaborateurs){
+    public function fillLigneSalaireFromCollaborateurs($collaborateurs){
         foreach ($collaborateurs as $collaborateur){
             $lignSalaire=new LigneSalaires();
-            $lignSalaire->setCollaborateur();
+            $lignSalaire->setCollaborateur($collaborateur);
             $lignSalaire->fillDataFromCollaborateur();
             $this->addLigneSalaire($lignSalaire);
+
+            $this->mBrutTotal+=$lignSalaire->getMBrutTotal();
+            $this->mImpotTotal+=$lignSalaire->getMImpotSalarie();
+            $this->mSecuriteSocialSalarie+=$lignSalaire->getMSecuriteSocialeSalarie();
+            $this->mSecuriteSocialPatronal+=$lignSalaire->getMSecuriteSocialePatronal();
+            $this->mTaxeTotal+=$lignSalaire->getMTaxePatronale();
         }
+
     }
 
 

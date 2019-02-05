@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Collaborateurs{% endblock %}
+{% block title %}Nouveau Collaborateurs{% endblock %}
 
 {% block body %}
-    <h1>Create new Collaborateurs</h1>
+    <h1>Création de Collaborateur</h1>
 
     {{ include('collaborateurs/_form.html.twig') }}
+    {{ include('collaborateurs/_liste.html.twig') }}
 
-    <a href="{{ path('collaborateurs_index') }}">back to list</a>
 {% endblock %}

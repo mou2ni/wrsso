@@ -18,8 +18,9 @@ class LigneSalairesType extends AbstractType
             ->add('mIndemTransport')
             ->add('mIndemFonction')
             ->add('mIndemAutres')
+            ->add('mHeureSup')
             ->add('mSecuriteSocialeSalarie')
-            ->add('mSecuriteSocialePatronale')
+            ->add('mSecuriteSocialePatronal')
             ->add('mImpotSalarie')
             ->add('mTaxePatronale')
         ;

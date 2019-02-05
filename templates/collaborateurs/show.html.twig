@@ -73,7 +73,7 @@
             </tr>
             <tr>
                 <th>MSecuriteSocialePatronale</th>
-                <td>{{ collaborateur.mSecuriteSocialePatronale }}</td>
+                <td>{{ collaborateur.mSecuriteSocialePatronal }}</td>
             </tr>
             <tr>
                 <th>MImpotSalarie</th>
@@ -86,9 +86,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('collaborateurs_index') }}">back to list</a>
+    <a href="{{ path('collaborateurs_index') }}"> Liste </a> |
 
-    <a href="{{ path('collaborateurs_edit', {'id': collaborateur.id}) }}">edit</a>
+    <a href="{{ path('collaborateurs_edit', {'id': collaborateur.id}) }}"> Modifier </a>
 
     {{ include('collaborateurs/_delete_form.html.twig') }}
 {% endblock %}

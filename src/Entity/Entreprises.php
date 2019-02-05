@@ -44,6 +44,11 @@ class Entreprises
     private $representant;
 
 
+    public function __toString()
+    {
+        return $this->getCode();
+    }
+
     /**
      * @return mixed
      */

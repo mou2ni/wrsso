@@ -28,7 +28,7 @@ class SalairesController extends Controller
     /**
      * @Route("/positionnement", name="salaires_positionnement", methods="GET|POST")
      */
-    public function positionner(Request $request, \DateTime $periodeSalaire): Response
+    public function positionner(Request $request): Response
     {
         //$em=$this->getDoctrine()->getManager();
         //$salaire=$em->getRepository(Salaires::class)->findOneBy(['periodeSalaire'=>$periodeSalaire]);
@@ -37,6 +37,7 @@ class SalairesController extends Controller
 
         $salaire = new Salaires();
         $salaire->fillLigneSalaireFromCollaborateurs($collaborateurs);
+        $salaire->setPeriodeSalaire(new \DateTime());
         $form = $this->createForm(SalairesType::class, $salaire);
         $form->handleRequest($request);
 
