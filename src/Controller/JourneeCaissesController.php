@@ -35,6 +35,7 @@ use APY\DataGridBundle\Grid\Source\Source;
 use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\ORM\Mapping as ORM;
 //use APY\DataGridBundle\Grid\Source\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -199,6 +200,7 @@ class JourneeCaissesController extends Controller
     }
     /**
      * @Route("/{id}/maintenir", name="journee_caisses_maintSolde", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function maintenirSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
@@ -349,7 +351,7 @@ class JourneeCaissesController extends Controller
             $date = new \DateTime($request->get('date'));
         $journeeCaisses = $em->getRepository(JourneeCaisses::class)->getJourneeCaissesDuJour($date);
         $recapJourneeCaisses = $em->getRepository(JourneeCaisses::class)->getRecapJourneeCaisses($date);
-        dump($recapJourneeCaisses);die();
+        //dump($recapJourneeCaisses);die();
 
         $ecart=0;
         $cvd=0;
