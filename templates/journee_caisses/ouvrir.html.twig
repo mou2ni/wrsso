@@ -5,6 +5,11 @@
 {% block title %}Ouverture{% endblock %}
 
 {% block body %}
+    {% if journeeCaisse %}
+
+    {% if  is_granted('ROLE_COMPTABLE') %}
+        {{ include ('journee_caisses/_liste_journee_caisses.html.twig') }}
+    {% endif %}
     <div class="row text-bold text-center "><h1>OUVERTURE CAISSE : {{ journeeCaisse.caisse }}
             {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_init' , 'operation':'Changer','btn_name':'changer', 'btn_label':'Changer de Caisse', 'btn_class':'btn btn-info'}) }}</h1>
     </div>
@@ -18,4 +23,5 @@
 {#{{ journeeCaisse.billetOuv ? include('_modal_form.html.twig',{'modal_id':'modal_billetage', 'modal_form': 'billetages/_form.html.twig', 'titre':'Billetage'}) }}
 
     #}
+{% endif %}
 {% endblock %}

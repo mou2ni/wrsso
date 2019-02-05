@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block title %}Gestion de Journee{% endblock %}
 {% block body %}
- {% if journeeCaisse %}
     {% if  journeeCaisse.statut== 'E'%}
         {% set bgcolor="#FFF" %}
     {% else %}
         {% set bgcolor="#eee9e6" %}
     {% endif %}
-    {% if journeeCaisses %}
+    {% if  is_granted('ROLE_COMPTABLE') %}
         {{ include ('journee_caisses/_liste_journee_caisses.html.twig') }}
     {% endif %}
     {#{% set color=(journeeCaisse.statut=='X')?"#eee9e6":"#FFF" %}#}
-    <div class="form-inline text-bold text-center"><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}<a href="{{ path('journee_caisses_etat_de_caisse') }}" class="glyphicon glyphicon-list-alt float-right">Journées Caisses</a></h1>
+ {% if journeeCaisse %}
+        <div class="form-inline text-bold text-center"><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}<a href="{{ path('journee_caisses_etat_de_caisse') }}" class="glyphicon glyphicon-list-alt float-right">Journées Caisses</a></h1>
     </div>
     <div class="row">
         <div class="table-responsive">

@@ -6,7 +6,7 @@
         {% if  journeeCaisse.statut== 'E'%}
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_saisie_groupee' ,'btn_name':'saisieRecetteDepense', 'btn_label':'Recettes et Depenses au comptant'}) }}</td>
         {% else %}
-            <a href="{{ path('recette_depenses_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+            <a href="{{ path('recette_depenses_details', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
         {% endif %}
 </tr>
 <tr>
