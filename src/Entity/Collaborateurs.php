@@ -577,6 +577,4 @@ class Collaborateurs
         $this->compteRemunerationDue = $compteRemunerationDue;
         return $this;
     }
-
-
 }
