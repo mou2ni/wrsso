@@ -65,7 +65,7 @@ class LigneSalaires
     /**
      * @ORM\Column(type="float")
      */
-    private $mSecuriteSocialePatronale;
+    private $mSecuriteSocialePatronal;
 
     /**
      * @ORM\Column(type="float")
@@ -86,6 +86,18 @@ class LigneSalaires
      * @ORM\ManyToOne(targetEntity="App\Entity\Collaborateurs", cascade={"persist"})
      */
     private $collaborateur;
+
+
+
+    public function getMBrutTotal(){
+        return $this->getMSalaireBase()
+            +$this->getMHeureSup()
+            +$this->getMIndemLogement()
+            +$this->getMIndemTransport()
+            +$this->getMIndemFonction()
+            +$this->getMIndemAutres()
+            ;
+    }
 
     /**
      * @return mixed
@@ -252,18 +264,18 @@ class LigneSalaires
     /**
      * @return mixed
      */
-    public function getMSecuriteSocialePatronale()
+    public function getMSecuriteSocialePatronal()
     {
-        return $this->mSecuriteSocialePatronale;
+        return $this->mSecuriteSocialePatronal;
     }
 
     /**
      * @param mixed $mSecuriteSocialePatronale
      * @return LigneSalaires
      */
-    public function setMSecuriteSocialePatronale($mSecuriteSocialePatronale)
+    public function setMSecuriteSocialePatronal($mSecuriteSocialePatronal)
     {
-        $this->mSecuriteSocialePatronale = $mSecuriteSocialePatronale;
+        $this->mSecuriteSocialePatronal = $mSecuriteSocialePatronal;
         return $this;
     }
 
@@ -348,9 +360,10 @@ class LigneSalaires
             ->setMIndemLogement($this->getCollaborateur()->getMIndemLogement())
             ->setMIndemAutres($this->getCollaborateur()->getMIndemAutres())
             ->setMSecuriteSocialeSalarie($this->getCollaborateur()->getMSecuriteSocialeSalarie())
-            ->setMSecuriteSocialePatronale($this->getCollaborateur()->getMSecuriteSocialePatronale())
+            ->setMSecuriteSocialePatronal($this->getCollaborateur()->getMSecuriteSocialePatronal())
             ->setMImpotSalarie($this->getCollaborateur()->getMImpotSalarie())
             ->setMTaxePatronale($this->getCollaborateur()->getMTaxePatronale())
+            ->setMHeureSup($this->getCollaborateur()->getMHeureSup())
         ;
 
         return $this;

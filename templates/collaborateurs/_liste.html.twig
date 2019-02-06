@@ -1,0 +1,45 @@
+{{ include('_pagination.html.twig') }}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Base</th>
+            <th>Logement</th>
+            <th>Transport</th>
+            <th>Fonction</th>
+            <th>Autres</th>
+            {#<th colspan="2">CNSS SAL|PAT</th>
+            <th>IUTS</th>
+            <th>TPA</th>#}
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for collaborateur in collaborateurs %}
+        <tr>
+            <td>{{ collaborateur.id }}</td>
+            <td>{{ collaborateur.nom }}</td>
+            <td>{{ collaborateur.prenom }}</td>
+            <td>{{ collaborateur.mSalaireBase }}</td>
+            <td>{{ collaborateur.mIndemLogement }}</td>
+            <td>{{ collaborateur.mIndemTransport }}</td>
+            <td>{{ collaborateur.mIndemFonction }}</td>
+            <td>{{ collaborateur.mIndemAutres }}</td>
+            {#<td>{{ collaborateur.mSecuriteSocialeSalarie }}</td>
+            <td>{{ collaborateur.mSecuriteSocialePatronal }}</td>
+            <td>{{ collaborateur.mImpotSalarie }}</td>
+            <td>{{ collaborateur.mTaxePatronale }}</td>#}
+            <td>
+                <a href="{{ path('collaborateurs_show', {'id': collaborateur.id}) }}"> Détails </a> |
+                <a href="{{ path('collaborateurs_edit', {'id': collaborateur.id}) }}"> Modifier</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="20">Aucun enregistrement</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

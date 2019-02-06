@@ -11,11 +11,11 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CollaborateursRepository")
  */
 class Collaborateurs
 {
-    const STAT_STAGIAIRE='ST', STAT_SALARIE='SA', STAT_PRESTATEUR='PR', STAT_SORTI='SO';
+    const STAT_STAGIAIRE='ST', STAT_SALARIE='SA', STAT_PRESTATAIRE='PR', STAT_SORTI='SO';
     const CAT_BFCADRE='BFCA', CAT_BFNONCADRE='BFNCA';
     const QUAL_GERANT='GERANT',QUAL_DG='DG', QUAL_DAF='DAF';
     /**
@@ -123,7 +123,7 @@ class Collaborateurs
     /**
      * @ORM\Column(type="float")
      */
-    private $mSecuriteSocialePatronale=0;
+    private $mSecuriteSocialePatronal=0;
 
     /**
      * @ORM\Column(type="float")
@@ -149,6 +149,13 @@ class Collaborateurs
      * @ORM\ManyToOne(targetEntity="App\Entity\Salaires", cascade={"persist"})
      */
     private $dernierSalaire;
+
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->getPrenom().' '.$this->getNom();
+    }
 
     /**
      * @return mixed
@@ -459,18 +466,18 @@ class Collaborateurs
     /**
      * @return mixed
      */
-    public function getMSecuriteSocialePatronale()
+    public function getMSecuriteSocialePatronal()
     {
-        return $this->mSecuriteSocialePatronale;
+        return $this->mSecuriteSocialePatronal;
     }
 
     /**
-     * @param mixed $mSecuriteSocialePatronale
+     * @param mixed $mSecuriteSocialePatronal
      * @return Collaborateurs
      */
-    public function setMSecuriteSocialePatronale($mSecuriteSocialePatronale)
+    public function setMSecuriteSocialePatronal($mSecuriteSocialePatronal)
     {
-        $this->mSecuriteSocialePatronale = $mSecuriteSocialePatronale;
+        $this->mSecuriteSocialePatronal = $mSecuriteSocialePatronal;
         return $this;
     }
 

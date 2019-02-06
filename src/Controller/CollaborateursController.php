@@ -17,21 +17,28 @@ class CollaborateursController extends Controller
     /**
      * @Route("/", name="collaborateurs_index", methods="GET")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $collaborateurs = $this->getDoctrine()
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()
             ->getRepository(Collaborateurs::class)
-            ->findAll();
+            ->liste($offset,$limit);
+        $pages = round(count($liste)/$limit);
 
-        return $this->render('collaborateurs/index.html.twig', ['collaborateurs' => $collaborateurs]);
+        return $this->render('collaborateurs/index.html.twig', ['collaborateurs' => $liste, 'pages'=>$pages, 'path'=>'collaborateurs_index']);
     }
 
     /**
-     * @Route("/new", name="collaborateurs_new", methods="GET|POST")
+     * @Route("/ajout", name="collaborateurs_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function ajouter(Request $request): Response
     {
         $collaborateur = new Collaborateurs();
+        /*$dateSortie=new \DateTime();
+        $dateSortie->setDate(2100,1,1);
+        $collaborateur->setDateSortie($dateSortie);*/
         $form = $this->createForm(CollaborateursType::class, $collaborateur);
         $form->handleRequest($request);
 
@@ -40,12 +47,24 @@ class CollaborateursController extends Controller
             $em->persist($collaborateur);
             $em->flush();
 
-            return $this->redirectToRoute('collaborateurs_index');
+            return $this->redirectToRoute('collaborateurs_new');
         }
+
+        $limit=5;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()
+            ->getRepository(Collaborateurs::class)
+            ->liste($offset,$limit);
+        $pages = round(count($liste)/$limit);
+
 
         return $this->render('collaborateurs/new.html.twig', [
             'collaborateur' => $collaborateur,
             'form' => $form->createView(),
+            'collaborateurs'=>$liste,
+            'pages'=>$pages,
+            'path'=>'collaborateurs_new'
         ]);
     }
 

@@ -60,6 +60,11 @@ class Entreprises
 
 
 
+    public function __toString()
+    {
+        return $this->getCode();
+    }
+
     /**
      * @return mixed
      */

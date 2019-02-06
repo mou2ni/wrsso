@@ -47,7 +47,7 @@ class RecetteDepensesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if (!$recetteDepense->comptabiliser($em,$this,$this->journeeCaisse)){
+            if (!$recetteDepense->comptabiliser($em,$this->journeeCaisse)){
                 return $this->redirectToRoute('recette_depenses_saisie');
             }
             //$em->persist($recetteDepense);
@@ -86,7 +86,7 @@ class RecetteDepensesController extends Controller
 
                 if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null){
                     $recetteDepense->setEstComptant(true);
-                    $genCompta=$recetteDepense->comptabiliser($em,$this,$this->journeeCaisse);
+                    $genCompta=$recetteDepense->comptabiliser($em,$this->journeeCaisse);
                     if (!$genCompta) {
                         return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse,'form' => $form->createView(), ]);
                     }

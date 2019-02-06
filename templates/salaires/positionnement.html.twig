@@ -5,6 +5,34 @@
 {% block body %}
     <h1>Positionnement des salaires</h1>
 
+    <div class="form-group">
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.periodeSalaire) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.mBrutTotal) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.mImpotTotal) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.mSecuriteSocialSalarie) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.mTaxeTotal) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.mSecuriteSocialPatronal) }}
+            </div>
+        </div>
+
+    </div>
+
     <div class="table-responsive">
         <table id="collections-contener" class="collection-tags table"
                data-prototype="
@@ -16,22 +44,28 @@
 {{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mIndemAutres)|e }}
 {{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mHeureSup)|e }}
 {{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mSecuriteSocialeSalarie)|e }}
-{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mSecuriteSocialePatronale)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mSecuriteSocialePatronal)|e }}
 {{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mImpotSalarie)|e }}
 {{ '</td><td class="padding-0">'|e }}{{ form_widget(form.ligneSalaires.vars.prototype.mTaxePatronale)|e }}
 {{ '</td>'|e }}"
                data-widget-tags="{{ '<tr class="collection-tag"></tr>'|e }}"  data-list="#collections-contener" onchange="">
 
             <thead>
-            <tr> <th>TOTAL DE RECETTES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mRecette) }}</td>
+            {#<tr> <th>TOTAL DE RECETTES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mRecette) }}</td>
                 <th>TOTAL DE DEPENSES : </th> <td class="text-bold padding-5 text-center" > {{ form_widget(form.mDepense) }}</td>
 
-            </tr>
+            </tr>#}
             <tr>
-                <th class="text-bold padding-5 text-center" >Date </th>
-                <th class="text-bold padding-5 text-center" >Type</th>
-                <th class="text-bold padding-5 text-center">Libelle</th>
-                <th class="text-bold padding-5 text-center">Montant</th>
+                <th class="text-bold padding-5 text-center" >Collaborateurs </th>
+                <th class="text-bold padding-5 text-center" >Salaire Base</th>
+                <th class="text-bold padding-5 text-center">Logement</th>
+                <th class="text-bold padding-5 text-center">Transport</th>
+                <th class="text-bold padding-5 text-center">Fonction</th>
+                <th class="text-bold padding-5 text-center">Autres indemnités</th>
+                <th class="text-bold padding-5 text-center">Heures sup</th>
+                <th class="text-bold padding-5 text-center" colspan="2">CNSS EMPLOYE/PATRONEL</th>
+                <th class="text-bold padding-5 text-center">IUTS</th>
+                <th class="text-bold padding-5 text-center">TPA</th>
 
             </tr>
             </thead>
@@ -46,7 +80,7 @@
                     <td class="padding-0">{{ form_errors(ligneSalaire.mIndemAutres) }} {{ form_widget(ligneSalaire.mIndemAutres) }}</td>
                     <td class="padding-0">{{ form_errors(ligneSalaire.mHeureSup) }} {{ form_widget(ligneSalaire.mHeureSup) }}</td>
                     <td class="padding-0">{{ form_errors(ligneSalaire.mSecuriteSocialeSalarie) }} {{ form_widget(ligneSalaire.mSecuriteSocialeSalarie) }}</td>
-                    <td class="padding-0">{{ form_errors(ligneSalaire.mSecuriteSocialePatronale) }} {{ form_widget(ligneSalaire.mSecuriteSocialePatronale) }}</td>
+                    <td class="padding-0">{{ form_errors(ligneSalaire.mSecuriteSocialePatronal) }} {{ form_widget(ligneSalaire.mSecuriteSocialePatronal) }}</td>
                     <td class="padding-0">{{ form_errors(ligneSalaire.mImpotSalarie) }} {{ form_widget(ligneSalaire.mImpotSalarie) }}</td>
                     <td class="padding-0">{{ form_errors(ligneSalaire.mTaxePatronale) }} {{ form_widget(ligneSalaire.mTaxePatronale) }}</td>
 
@@ -56,9 +90,7 @@
 
         </table>
         {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
-        {% if journeeCaisse.statut!="F" %}
             {{ include('_btn_enregistrer.html.twig') }}
-        {% endif %}
         {{ form_end(form) }} {#, {'render_rest': false}#}
 
     </div>

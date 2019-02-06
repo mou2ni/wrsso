@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Created by Hamado.
  * User: houedraogo
  * Date: 28/01/2019
  * Time: 11:12
@@ -36,6 +36,7 @@ class Menu  extends Controller
             ,['text'=>'Paramètres comptables', 'lien'=>'param_comptables_index']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
             ,['text'=>'Caisses et banques', 'lien'=>'caisses_index']
+            ,['text'=>'Collaborateurs', 'lien'=>'collaborateurs_new']
             ,['text'=>'Parametres comptables', 'lien'=>'#']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
             ,['text'=>'Taux de Devise', 'lien'=>'#']
