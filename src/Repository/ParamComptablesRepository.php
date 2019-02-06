@@ -24,22 +24,4 @@ class ParamComptablesRepository extends ServiceEntityRepository
         parent::__construct($registry, ParamComptables::class);
     }
 
-
-    public function findDetailsEntreprise($structure = 'YESBO')
-    {
-        $qb = $this->createQueryBuilder('pc')
-            ->innerJoin('pc.entreprise', 'e', 'WITH', 'pc.entreprise = e.id')
-            ->innerJoin('e.representant', 'r', 'WITH', 'e.representant = r.id')
-            ->select('pc.codeStructure as code','r.nom as nomRepresentant','r.prenom as prenomRepresentant','r.qualite as qualiteRepresentant','e.adresse')
-            ->where('r.estRepresentant =:representant')
-            ->andWhere('pc.codeStructure =:structure')
-            ->setParameter('representant',true)
-            ->setParameter('structure',$structure)
-            ->getQuery()
-            ->getResult()
-        ;
-        return $qb;
-    }
-
-
 }

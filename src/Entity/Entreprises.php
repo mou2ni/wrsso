@@ -8,6 +8,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,10 +39,25 @@ class Entreprises
     private $adresse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Clients", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Collaborateurs", mappedBy="entreprise", cascade={"persist"})
      */
+    private $collaborateurs;
+
+    /**
+     * Entreprises constructor.
+     * @param $collaborateurs
+     */
+    public function __construct()
+    {
+        $this->collaborateurs = new ArrayCollection();
+    }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Collaborateurs", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+
     private $representant;
+*/
+
 
 
     public function __toString()
@@ -139,6 +155,33 @@ class Entreprises
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCollaborateurs()
+    {
+        return $this->collaborateurs;
+    }
 
+    /**
+     * @param mixed $collaborateurs
+     * @return Entreprises
+     */
+    public function setCollaborateurs($collaborateurs)
+    {
+        $this->collaborateurs = $collaborateurs;
+        return $this;
+    }
+
+    public function addCollaborateur(Collaborateurs $collaborateur)
+    {
+        $this->collaborateurs->add($collaborateur);
+        $collaborateur->setEntreprise($this);
+    }
+
+    public function removeCollaborateur(Collaborateurs $collaborateur)
+    {
+        $this->collaborateurs->removeElement($collaborateur);
+    }
 
 }
