@@ -37,6 +37,7 @@ class CollaborateursType extends AbstractType
             ->add('mIndemLogement')
             ->add('mIndemTransport')
             ->add('mIndemFonction')
+            ->add('mHeureSup')
             ->add('mIndemAutres')
             ->add('mSecuriteSocialeSalarie')
             ->add('mSecuriteSocialePatronal')

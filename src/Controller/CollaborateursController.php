@@ -36,6 +36,9 @@ class CollaborateursController extends Controller
     public function ajouter(Request $request): Response
     {
         $collaborateur = new Collaborateurs();
+        /*$dateSortie=new \DateTime();
+        $dateSortie->setDate(2100,1,1);
+        $collaborateur->setDateSortie($dateSortie);*/
         $form = $this->createForm(CollaborateursType::class, $collaborateur);
         $form->handleRequest($request);
 

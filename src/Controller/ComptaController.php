@@ -45,7 +45,7 @@ class ComptaController extends Controller
      */
     public function accueil(Request $request) : Response
     {
-        return $this->redirectToRoute('compta_saisie_tresorerie');
+        return $this->redirectToRoute('journee_caisses_gerer');
         /*if ($this->utilisateur->getEstCaissier()){
             return $this->redirectToRoute('compta_saisie_cmd');
         }*/

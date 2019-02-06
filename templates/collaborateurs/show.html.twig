@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Collaborateurs{% endblock %}
+{% block title %}Collaborateur détails{% endblock %}
 
 {% block body %}
-    <h1>Collaborateurs</h1>
+    <h1>Détails du collaborateur</h1>
 
     <table class="table">
         <tbody>
@@ -20,15 +20,15 @@
                 <td>{{ collaborateur.prenom }}</td>
             </tr>
             <tr>
-                <th>DateNaissance</th>
+                <th>Date de naissance</th>
                 <td>{{ collaborateur.dateNaissance ? collaborateur.dateNaissance|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>DateEntree</th>
+                <th>Date d'entrée</th>
                 <td>{{ collaborateur.dateEntree ? collaborateur.dateEntree|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
-                <th>DateSortie</th>
+                <th>Date de sortie</th>
                 <td>{{ collaborateur.dateSortie ? collaborateur.dateSortie|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
@@ -36,51 +36,55 @@
                 <td>{{ collaborateur.statut }}</td>
             </tr>
             <tr>
-                <th>NbEnfant</th>
+                <th>Nombre d'enfant</th>
                 <td>{{ collaborateur.nbEnfant }}</td>
             </tr>
             <tr>
-                <th>Categorie</th>
+                <th>Catégorie</th>
                 <td>{{ collaborateur.categorie }}</td>
             </tr>
             <tr>
-                <th>NSecuriteSociale</th>
+                <th>Numéro Securite Sociale</th>
                 <td>{{ collaborateur.nSecuriteSociale }}</td>
             </tr>
             <tr>
-                <th>MSalaireBase</th>
+                <th>Salaire de base</th>
                 <td>{{ collaborateur.mSalaireBase }}</td>
             </tr>
             <tr>
-                <th>MIndemLogement</th>
+                <th>Indemnités de logement</th>
                 <td>{{ collaborateur.mIndemLogement }}</td>
             </tr>
             <tr>
-                <th>MIndemTransport</th>
+                <th>Indemnités de Transport</th>
                 <td>{{ collaborateur.mIndemTransport }}</td>
             </tr>
             <tr>
-                <th>MIndemFonction</th>
+                <th>Indemnités de Fonction</th>
                 <td>{{ collaborateur.mIndemFonction }}</td>
             </tr>
             <tr>
-                <th>MIndemAutres</th>
+                <th>Autres indemnités</th>
                 <td>{{ collaborateur.mIndemAutres }}</td>
             </tr>
             <tr>
-                <th>MSecuriteSocialeSalarie</th>
+                <th>Heures supplémentaires</th>
+                <td>{{ collaborateur.mHeureSup }}</td>
+            </tr>
+            <tr>
+                <th>Securité Sociale Salarié</th>
                 <td>{{ collaborateur.mSecuriteSocialeSalarie }}</td>
             </tr>
             <tr>
-                <th>MSecuriteSocialePatronale</th>
+                <th>Securité Sociale Patronale</th>
                 <td>{{ collaborateur.mSecuriteSocialePatronal }}</td>
             </tr>
             <tr>
-                <th>MImpotSalarie</th>
+                <th>Impots sur Salaire</th>
                 <td>{{ collaborateur.mImpotSalarie }}</td>
             </tr>
             <tr>
-                <th>MTaxePatronale</th>
+                <th>Taxe Patronale</th>
                 <td>{{ collaborateur.mTaxePatronale }}</td>
             </tr>
         </tbody>
