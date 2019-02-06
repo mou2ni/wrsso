@@ -44,6 +44,7 @@ class CollaborateursType extends AbstractType
             ->add('mImpotSalarie')
             ->add('mTaxePatronale')
             ->add('compteVirement')
+            ->add('compteRemunerationDue')
             ->add('entreprise')
         ;
     }

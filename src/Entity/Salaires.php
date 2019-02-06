@@ -26,15 +26,14 @@ class Salaires
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $transaction;
-
-    /**
-     * @ORM\Column(type="date", unique=true))
+     * @ORM\Column(type="string", length=50, unique=true))
      */
     private $periodeSalaire;
+
+    /**
+     * @ORM\Column(type="date"))
+     */
+    private $dateSalaire;
 
     /**
      * @ORM\Column(type="float")
@@ -316,6 +315,24 @@ class Salaires
     public function setCollaborateurs($collaborateurs)
     {
         $this->collaborateurs = $collaborateurs;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateSalaire()
+    {
+        return $this->dateSalaire;
+    }
+
+    /**
+     * @param mixed $dateSalaire
+     * @return Salaires
+     */
+    public function setDateSalaire($dateSalaire)
+    {
+        $this->dateSalaire = $dateSalaire;
         return $this;
     }
 

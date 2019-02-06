@@ -11,6 +11,7 @@ namespace App\Utils;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
 use App\Entity\JourneeCaisses;
+use App\Entity\LigneSalaires;
 use App\Entity\ParamComptables;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
@@ -422,26 +423,41 @@ class GenererCompta
         return !$this->getE();
     }
 
-    /**
-     * @param Utilisateurs $utilisateur
-     * @param Caisses $caisse
-     * @param ParamComptables $paramComptable
-     * @param $mIntercaisse
-     * @param $mCompense
-     * @param $mDevise
-     * @param $mEcart
-     * @return bool
-     */
-    /*public function genComptaFermeture(Utilisateurs $utilisateur, Caisses $caisse, ParamComptables $paramComptable, $mIntercaisse, $mCompense, $mDevise, $mEcart)
-    {
 
-        if (!$this->genComptaIntercaisse($utilisateur,$caisse,$paramComptable,$mIntercaisse)) return false;
-        if (!$this->genComptaCompense($utilisateur,$caisse,$paramComptable,$mCompense)) return false;
-        if (!$this->genComptaCvDevise($utilisateur,$caisse,$mDevise)) return false;
-        if (!$this->genComptaEcart($utilisateur,$caisse,'Ecart fermeture',$mEcart)) return false;
-        return !$this->getE();
 
-    }*/
+    public function genComptaLigneSalaire(Utilisateurs $utilisateur, ParamComptables $paramComptable, LigneSalaires $ligneSalaire, $periodeSalaire, JourneeCaisses $journeeCaisse){
+
+        if (!$this->isSetParamComptablesSalaire($paramComptable)) return false;
+        $mTotalCharge=$ligneSalaire->getMChargeTotal();
+
+        $transaction=$this->initTransaction($utilisateur,'Salaire de '.$ligneSalaire->getCollaborateur().' - '.$periodeSalaire, $mTotalCharge, $journeeCaisse, new \DateTime());
+        if ($this->getE()) return false;
+        if( $mTotalCharge<0){
+            $this->setE($transaction::ERR_NEGATIF);
+            return false;
+        }
+        if (!$transaction) return false ;
+        //Débit comptes Charges
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), $ligneSalaire->getMSalaireBase(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), $ligneSalaire->getMIndemLogement(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), $ligneSalaire->getMIndemFonction(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), $ligneSalaire->getMIndemTransport(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), $ligneSalaire->getMIndemAutres(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), $ligneSalaire->getMHeureSup(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), $ligneSalaire->getMSecuriteSocialePatronal(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), true));
+
+        //crédit comptes tiers
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $ligneSalaire->getMImpotSalarie(), false));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), false));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialeSalarie(), false));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialePatronal(), false));
+        $compteRemunerationDue=($ligneSalaire->getCompteRemunerationDue())?$ligneSalaire->getCompteRemunerationDue():$paramComptable->getCompteRemunerationDue();
+        $transaction->addTransactionComptes($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), false));
+
+        $this->em->persist($transaction);
+        return $transaction;
+    }
 
     /**
      * @param Utilisateurs $utilisateur
@@ -526,6 +542,61 @@ class GenererCompta
             return false;
         }
         return $compte;
+    }
+
+    private function isSetParamComptablesSalaire(ParamComptables $paramComptable){
+        if (! $paramComptable->getCompteRemunerationDue()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte REMUNERATION DUE non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteChargeCotiPatronale()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte CHARGE SOCIALE PATRONALE  non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteChargeIndemSalaire()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte AUTRES INDEMNITES  non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteChargeBaseSalaire()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte CHARGE SALAIRE DE BASE non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteChargeLogeSalaire()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte CHARGE INDEMNITE DE LOGEMENT non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteChargeFonctSalaire()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte CHARGE INDEMNITE DE FONCTION non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteChargeTranspSalaire()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte CHARGE INDEMNITE DE TRANSPORT non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteOrgaImpotSalaire()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte ORGANISME IMPOT SUR SALAIRE non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteOrgaSocial()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte ORGANISME SECURITE SOCIAL non parametré dans Paramètres comptables');
+            return false;
+        }
+        if (! $paramComptable->getCompteOrgaTaxeSalaire()){
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            $this->setErrMessage('Compte ORGANISME TAXE PATRONALE SALAIRE non parametré dans Paramètres comptables');
+            return false;
+        }
+
+        return true;
     }
 
     /**

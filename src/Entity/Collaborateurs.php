@@ -123,6 +123,11 @@ class Collaborateurs
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
      */
     private $compteVirement;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteRemunerationDue;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
@@ -552,6 +557,24 @@ class Collaborateurs
     public function setDernierSalaire($dernierSalaire)
     {
         $this->dernierSalaire = $dernierSalaire;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteRemunerationDue()
+    {
+        return $this->compteRemunerationDue;
+    }
+
+    /**
+     * @param mixed $compteRemunerationDue
+     * @return Collaborateurs
+     */
+    public function setCompteRemunerationDue($compteRemunerationDue)
+    {
+        $this->compteRemunerationDue = $compteRemunerationDue;
         return $this;
     }
 

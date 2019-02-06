@@ -4,21 +4,38 @@ namespace App\Controller;
 
 use App\Entity\Collaborateurs;
 use App\Entity\LigneSalaires;
+use App\Entity\ParamComptables;
 use App\Entity\Salaires;
 use App\Form\SalairesType;
 use App\Repository\SalairesRepository;
+use App\Utils\GenererCompta;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/salaires")
  */
 class SalairesController extends Controller
 {
+    private $journeeCaisse;
+    private $utilisateur;
+    private $caisse;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
+        //dernière caisse ouverte par l'utilisateur ou null si inexistant
+        $this->caisse=$sessionUtilisateur->getLastCaisse();
+        //dernière journée de la caisse ou null si inexistant
+        $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+    }
     /**
      * @Route("/", name="salaires_index", methods="GET")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function index(SalairesRepository $salairesRepository): Response
     {
@@ -33,22 +50,37 @@ class SalairesController extends Controller
         //$em=$this->getDoctrine()->getManager();
         //$salaire=$em->getRepository(Salaires::class)->findOneBy(['periodeSalaire'=>$periodeSalaire]);
 
+        if (!$this->journeeCaisse){
+            $this->addFlash('error', 'L\'Ouverture d\'une journée caisse est obligatoire pour continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
+
+        $paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findAll()[0];
+
         $collaborateurs=$this->getDoctrine()->getRepository(Collaborateurs::class)->findBy(['statut'=>Collaborateurs::STAT_SALARIE]);
 
         $salaire = new Salaires();
         $salaire->fillLigneSalaireFromCollaborateurs($collaborateurs);
-        $salaire->setPeriodeSalaire(new \DateTime());
+        $salaire->setDateSalaire(new \DateTime());
         $form = $this->createForm(SalairesType::class, $salaire);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $genCompta=new GenererCompta($em);
+            foreach ($salaire->getLigneSalaires() as $ligneSalaire){
+                $transaction=$genCompta->genComptaLigneSalaire($this->utilisateur,$paramComptable, $ligneSalaire, $salaire->getPeriodeSalaire(),$this->journeeCaisse);
+                if (!$transaction){
+                    $this->addFlash('error', $genCompta->getErrMessage());
+                    return $this->redirectToRoute('salaires_positionnement');
+                }
+                $ligneSalaire->setTransaction($transaction);
+            }
+            $salaire->setStatut(Salaires::STAT_POSITIONNE);
             $em->persist($salaire);
             $em->flush();
-
-            return $this->redirectToRoute('salaires_index');
+            return $this->redirectToRoute('salaires_positionnement');
         }
-
         return $this->render('salaires/positionnement.html.twig', [
             'salaire' => $salaire,
             'form' => $form->createView(),

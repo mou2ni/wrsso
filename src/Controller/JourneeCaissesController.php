@@ -153,7 +153,7 @@ class JourneeCaissesController extends Controller
                 return $this->redirectToRoute('journee_caisses_gerer');
             }
         }
-        if ($this->isGranted('ROLE_COMPTABLE')) $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur,['typeCaisse'=>Caisses::BANQUE]);
+        if ($this->isGranted('ROLE_COMPTABLE')) $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur);
         else $form = $this->createForm(UtilisateursLastCaisseType::class, $this->utilisateur,['typeCaisse'=>Caisses::GUICHET]);
         $form->handleRequest($request);
 

@@ -221,11 +221,14 @@ class Transactions
 
     public function addTransactionComptes(TransactionComptes $transactionCompte)
     {
+        if ($transactionCompte->getMCredit() ==0 and $transactionCompte->getMDebit()==0) return $this;
+
         $this->transactionComptes->add($transactionCompte);
         $transactionCompte->setTransaction($this);
         $compte=$transactionCompte->getCompte();
         $compte->setSoldeCourant($compte->getSoldeCourant()+$transactionCompte->getMCredit()-$transactionCompte->getMDebit());
         $transactionCompte->setCompte($compte);
+        return $this;
     }
 
     public function removeTransactionComptes(TransactionComptes $transactionCompte)
