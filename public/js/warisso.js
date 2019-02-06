@@ -27,7 +27,6 @@ function majTransfert() {
 
 };
 
-
 /*function majTransfert() {
 
     // les variables des totaux

@@ -3,15 +3,18 @@
     {% for etatType in etatType %}
         {% set nrecus=0%}
         {% set nemis=0%}
-        <div style="page-break-after: always">
-            <table class="table table-noborder">
-            <tr id="date"> <td colspan="3">Ouagadougou le, {{ 'now'|date('d/m/Y') }}</td></tr>
-            <tr id="intitule"><td colspan="3">RELEVE DES OPERATIONS DE TRANSFERTS DU {{ dateDeb.format('d/m/Y') }} au {{ dateFin.format('d/m/Y') }}</td></tr>
-            <tr><td>Nom et Prénom du Répondant</td><td>{{ entreprise.nomRepresentant }} {{ entreprise.prenomRepresentant }}</td></tr>
-            <tr><td>Qualité du Répondant</td><td>{{ entreprise.qualiteRepresentant }}</td></tr>
-            <tr><td>Téléphone/Fax/e_mail du Répondant</td><td>{adresse}</td></tr>
-            <tr><td>Société Répresentée</td><td style="font-weight: bold">{{ etatType.typeTransfert }}</td></tr>
-            <tr><td>Répresentant</td><td>{#{{ ltrans.representant }}#}</td></tr>
+        {#<div class="accessoire"><a href="#" onclick="$('#rapport').tableExport({type:'pdf',escape:'false'});"><img src="img/icons/pdf.png" width="24"> PDF</a>
+        </div>#}
+        </div>
+        <div style="page-break-after: always" id="rapport">
+            <table class="table table-noborder datatable-basic" >
+            <tr id="date"> <td >OUAGADOUGOU,</td><td style="font-weight: bold"> {{ 'now'|date('d/m/Y') }}</td></tr>
+            <tr id="intitule"><td >RELEVE DES OPERATIONS DE TRANSFERTS DU</td><td style="font-weight: bold"> {{ dateDeb.format('d/m/Y') }} au {{ dateFin.format('d/m/Y') }}</td></tr>
+            <tr><td>NOM ET PRENOM DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.nomRepresentant }} {{ entreprise.prenomRepresentant }}</td></tr>
+            <tr><td>QUALITE DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.qualiteRepresentant }}</td></tr>
+            <tr><td>TELEPHONE/FAX/E_MAIL DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.adresse }}</td></tr>
+            <tr><td>SOCIETE REPRESENTEE</td><td style="font-weight: bold">{{ etatType.typeTransfert }}</td></tr>
+            <tr><td>REPRESENTANT</td><td style="font-weight: bold">{{ etatType.banque }}</td></tr>
             </table>
             <table class="table table-bordered">
                 <tr>
@@ -39,9 +42,16 @@
             <tr><td>NOMBRE D'EMPLOIS GENERES</td><td></td><td></td></tr>
         </table>
         </div>
+
     {% endfor %}
 {% endblock %}
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tableExport.js') }}"></script>
+    <script src="{{ asset('js/jspdf.js') }}"></script>
+    <script src="{{ asset('js/sprintf.js') }}"></script>
+    <script src="{{ asset('js/base64.js') }}"></script>
+{% endblock %}
 {% block title %}
 
 {% endblock %}

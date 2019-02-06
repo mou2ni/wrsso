@@ -115,9 +115,11 @@ class TransfertInternationauxRepository extends EntityRepository
             ->Join('Transfert.idPays','pays')
             ->Join('Transfert.idSystemTransfert','type')
             ->Join('Transfert.journeeCaisse','jc')
+            ->Join('type.banque','b')
             ->addSelect(
             //'type.societe as Societe',
                 'type.libelle as typeTransfert',
+                'b.libelle as banque',
                 'SUM(CASE Transfert.sens WHEN \'1\' THEN Transfert.mTransfertTTC ELSE 0 END ) as EMIS',
                 'SUM(CASE Transfert.sens WHEN \'2\' THEN Transfert.mTransfertTTC ELSE 0 END ) as RECUS',
                 "COUNT(CASE WHEN Transfert.sens = :sens1 THEN :value ELSE :nul END ) as NEMIS",

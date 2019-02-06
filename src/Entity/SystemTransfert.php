@@ -30,6 +30,13 @@ class SystemTransfert
     private $libelle;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $banque;
+
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="idSystemTransfert" )
      * @ORM\JoinColumn(nullable=false)
      */
