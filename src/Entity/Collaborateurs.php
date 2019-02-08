@@ -17,7 +17,6 @@ class Collaborateurs
 {
     const STAT_STAGIAIRE='ST', STAT_SALARIE='SA', STAT_PRESTATAIRE='PR', STAT_SORTI='SO';
     const CAT_BFCADRE='BFCA', CAT_BFNONCADRE='BFNCA';
-    const QUAL_GERANT='GERANT',QUAL_DG='DG', QUAL_DAF='DAF';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -41,16 +40,6 @@ class Collaborateurs
     private $dateNaissance;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $qualite;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $estRepresentant = false;
-
-    /**
      * @ORM\Column(type="date", nullable=true)
      */
     private $dateEntree;
@@ -64,11 +53,6 @@ class Collaborateurs
      * @ORM\Column(type="string")
      */
     private $statut=Collaborateurs::STAT_SALARIE;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $adresse;
 
     /**
      * @ORM\Column(type="integer")
@@ -139,9 +123,14 @@ class Collaborateurs
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
      */
     private $compteVirement;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
+    private $compteRemunerationDue;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", inversedBy="collaborateurs", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
      */
     private $entreprise;
 
@@ -574,57 +563,18 @@ class Collaborateurs
     /**
      * @return mixed
      */
-    public function getQualite()
+    public function getCompteRemunerationDue()
     {
-        return $this->qualite;
+        return $this->compteRemunerationDue;
     }
 
     /**
-     * @param mixed $qualite
+     * @param mixed $compteRemunerationDue
      * @return Collaborateurs
      */
-    public function setQualite($qualite)
+    public function setCompteRemunerationDue($compteRemunerationDue)
     {
-        $this->qualite = $qualite;
+        $this->compteRemunerationDue = $compteRemunerationDue;
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getEstRepresentant()
-    {
-        return $this->estRepresentant;
-    }
-
-    /**
-     * @param mixed $estRepresentant
-     * @return Collaborateurs
-     */
-    public function setEstRepresentant($estRepresentant)
-    {
-        $this->estRepresentant = $estRepresentant;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAdresse()
-    {
-        return $this->adresse;
-    }
-
-    /**
-     * @param mixed $adresse
-     * @return Collaborateurs
-     */
-    public function setAdresse($adresse)
-    {
-        $this->adresse = $adresse;
-        return $this;
-    }
-
-
-
 }

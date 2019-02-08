@@ -100,6 +100,11 @@ class ParamComptables
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
      */
+    private $compteRemunerationDue;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
+     */
     private $compteOrgaTaxeFactClt;
 
     /**
@@ -505,6 +510,24 @@ class ParamComptables
     public function setEntreprise($entreprise)
     {
         $this->entreprise = $entreprise;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteRemunerationDue()
+    {
+        return $this->compteRemunerationDue;
+    }
+
+    /**
+     * @param mixed $compteRemunerationDue
+     * @return ParamComptables
+     */
+    public function setCompteRemunerationDue($compteRemunerationDue)
+    {
+        $this->compteRemunerationDue = $compteRemunerationDue;
         return $this;
     }
 

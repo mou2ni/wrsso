@@ -4,9 +4,12 @@
 
 {% block body %}
     <h1>Positionnement des salaires</h1>
-
+{{ form_start(form) }}
     <div class="form-group">
         <div class="row">
+            <div class="col">
+                {{ form_row(form.dateSalaire) }}
+            </div>
             <div class="col">
                 {{ form_row(form.periodeSalaire) }}
             </div>

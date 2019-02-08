@@ -21,6 +21,11 @@ class LigneSalaires
      * @ORM\Column(type="integer")
      */
     private $id;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $transaction;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Salaires", inversedBy="ligneSalaires", cascade={"persist"})
@@ -83,6 +88,11 @@ class LigneSalaires
     private $compteVirement;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
+     */
+    private $compteRemunerationDue;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Collaborateurs", cascade={"persist"})
      */
     private $collaborateur;
@@ -99,6 +109,18 @@ class LigneSalaires
             ;
     }
 
+
+    public function getMNet(){
+        return $this->getMBrutTotal()
+            -$this->getMSecuriteSocialeSalarie()
+            -$this->getMImpotSalarie();
+    }
+
+    public function getMChargeTotal(){
+        return $this->getMBrutTotal()
+            +$this->getMTaxePatronale()
+            +$this->getMSecuriteSocialePatronal();
+    }
     /**
      * @return mixed
      */
@@ -335,6 +357,24 @@ class LigneSalaires
     }
 
     /**
+     * @return mixed
+     */
+    public function getCompteRemunerationDue()
+    {
+        return $this->compteRemunerationDue;
+    }
+
+    /**
+     * @param mixed $compteRemunerationDue
+     * @return LigneSalaires
+     */
+    public function setCompteRemunerationDue($compteRemunerationDue)
+    {
+        $this->compteRemunerationDue = $compteRemunerationDue;
+        return $this;
+    }
+
+    /**
      * @return Collaborateurs
      */
     public function getCollaborateur()
@@ -349,6 +389,24 @@ class LigneSalaires
     public function setCollaborateur($collaborateur)
     {
         $this->collaborateur = $collaborateur;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param mixed $transaction
+     * @return LigneSalaires
+     */
+    public function setTransaction($transaction)
+    {
+        $this->transaction = $transaction;
         return $this;
     }
 

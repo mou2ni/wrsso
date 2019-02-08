@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\LigneSalaires;
 use App\Entity\Salaires;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,10 +15,17 @@ class SalairesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $today=new \DateTime();
+        $annee=$today->format('Y');
         $builder
-            ->add('periodeSalaire', DateType::class, [
+            ->add('dateSalaire', DateType::class, [
                 'widget' => 'single_text'
             ])
+            ->add('periodeSalaire', ChoiceType::class
+                ,array('choices'  => ['Janvier'=> 'Jan-'.$annee, 'Février'=>'Fev-'.$annee,'Mars'=>'Mar-'.$annee,'Avril'=>'Avri-'.$annee,
+                    'Mai'=>'Mai-'.$annee,'Juin'=>'Juin-'.$annee,'Juillet'=>'Juil-'.$annee,'Aout'=>'Aout-'.$annee,'Septembre'=>'Sept-'.$annee,
+                    'Octobre'=>'Oct-'.$annee,'Novembre'=>'Nov-'.$annee,'Décembre'=>'Dec-'.$annee,], 'required' => true
+                ))
             ->add('mBrutTotal')
             ->add('mTaxeTotal')
             ->add('mImpotTotal')

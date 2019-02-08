@@ -28,6 +28,7 @@ class ParamComptablesType extends AbstractType
             ->add('compteOrgaTaxeSalaire')
             ->add('compteOrgaTaxeFactClt')
             ->add('compteOrgaTaxeFactFseur')
+            ->add('compteRemunerationDue')
             ->add('compteEcartCaisse')
             ->add('compteDiversCharge')
             ->add('compteDiversProduits')
