@@ -24,6 +24,31 @@ class DeviseJourneesRepository extends ServiceEntityRepository
         parent::__construct($registry, DeviseJournees::class);
     }
 
+    public function liste($limit = 10)
+    {
+         $qb = $this->createQueryBuilder('b')
+            //->orderBy('b.id', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+            ;
+        return $qb;
+    }
+    public function getDeviseTresorerie( \DateTime $date){
+        $date=$date->format('Y/m/d');
+        $qb = $this->createQueryBuilder('dj')
+            ->leftJoin('dj.journeeCaisse','j')
+            ->leftJoin('dj.devise','d')
+            ->where('j.dateComptable=:date')
+            ->setParameter('date',$date)
+            //->orderBy('b.id', 'ASC')
+            //->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+        return $qb;
+    }
+
     public function trouverDevise( \DateTime $date)
     {
         $dateDeb=new \DateTime('2018-12-01 00:00:00');
@@ -65,6 +90,7 @@ class DeviseJourneesRepository extends ServiceEntityRepository
         } catch (NonUniqueResultException $e) {
         }
     }
+
 
 
     //    /**

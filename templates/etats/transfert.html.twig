@@ -1,48 +1,58 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <div class="form-inline">
+        {{ form_start(form) }}
+        {{ form_widget(form.date.year) }}
+        {{ form_widget(form.date.month) }}
+        <button class="btn">{{ button_label|default('CHANGER') }}</button>
+        <div hidden>{{ form_rest(form) }}</div>
+        {{ form_end(form) }}
+    </div>
     {% for etatType in etatType %}
         {% set nrecus=0%}
         {% set nemis=0%}
         {#<div class="accessoire"><a href="#" onclick="$('#rapport').tableExport({type:'pdf',escape:'false'});"><img src="img/icons/pdf.png" width="24"> PDF</a>
         </div>#}
-        </div>
-        <div style="page-break-after: always" id="rapport">
-            <table class="table table-noborder datatable-basic" >
-            <tr id="date"> <td >OUAGADOUGOU,</td><td style="font-weight: bold"> {{ 'now'|date('d/m/Y') }}</td></tr>
-            <tr id="intitule"><td >RELEVE DES OPERATIONS DE TRANSFERTS DU</td><td style="font-weight: bold"> {{ dateDeb.format('d/m/Y') }} au {{ dateFin.format('d/m/Y') }}</td></tr>
-            <tr><td>NOM ET PRENOM DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.nomRepresentant }} {{ entreprise.prenomRepresentant }}</td></tr>
-            <tr><td>QUALITE DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.qualiteRepresentant }}</td></tr>
-            <tr><td>TELEPHONE/FAX/E_MAIL DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.adresse }}</td></tr>
-            <tr><td>SOCIETE REPRESENTEE</td><td style="font-weight: bold">{{ etatType.typeTransfert }}</td></tr>
-            <tr><td>REPRESENTANT</td><td style="font-weight: bold">{{ etatType.banque }}</td></tr>
-            </table>
-            <table class="table table-bordered">
-                <tr>
-                <th>TRANSFERT EN MILLIONS</th>
-                <th>EMIS</th>
-                <th>RECUS</th>
-            </tr>
-            {% for etatTypeZone in etatTypeZone %}
-                {% if etatTypeZone.typeTransfert == etatType.typeTransfert %}
-                    <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>
-                    {% for transfert in etat %}
-                        {% if transfert.typeTransfert == etatTypeZone.typeTransfert %}
-                            {% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}
-                            {% if transfert.zone == etatTypeZone.zone %}
-                                <tr><td>{{ transfert.nomPays }}</td><td>{{ transfert.EMIS }}</td><td>{{ transfert.RECUS }}</td></tr>
-                            {% endif %}
+        <div>
+            <div style="page-break-after: always" id="rapport">
+                <table class="table table-noborder datatable-basic" >
+                    <tr id="date"> <td >OUAGADOUGOU,</td><td style="font-weight: bold"> {{ 'now'|date('d/m/Y') }}</td></tr>
+                    <tr id="intitule"><td >RELEVE DES OPERATIONS DE TRANSFERTS DU</td><td style="font-weight: bold"> {{ dateDeb.format('d/m/Y') }} au {{ dateFin.format('d/m/Y') }}</td></tr>
+                    <tr><td>NOM ET PRENOM DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.nomRepresentant }} {{ entreprise.prenomRepresentant }}</td></tr>
+                    <tr><td>QUALITE DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.qualiteRepresentant }}</td></tr>
+                    <tr><td>TELEPHONE/FAX/E_MAIL DU REPONDANT</td><td style="font-weight: bold">{{ entreprise.adresse }}</td></tr>
+                    <tr><td>SOCIETE REPRESENTEE</td><td style="font-weight: bold">{{ etatType.typeTransfert }}</td></tr>
+                    <tr><td>REPRESENTANT</td><td style="font-weight: bold">{{ etatType.banque }}</td></tr>
+                </table>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>TRANSFERT EN MILLIONS</th>
+                        <th>EMIS</th>
+                        <th>RECUS</th>
+                    </tr>
+                    {% for etatTypeZone in etatTypeZone %}
+                        {% if etatTypeZone.typeTransfert == etatType.typeTransfert %}
+                            <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>
+                            {% for transfert in etat %}
+                                {% if transfert.typeTransfert == etatTypeZone.typeTransfert %}
+                                    {% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}
+                                    {% if transfert.zone == etatTypeZone.zone %}
+                                        <tr><td>{{ transfert.nomPays }}</td><td>{{ transfert.EMIS }}</td><td>{{ transfert.RECUS }}</td></tr>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endfor %}
-                {% endif %}
-            {% endfor %}
-            <tr><td>TOTAL</td><td>{{ etatType.EMIS }}</td><td>{{ etatType.RECUS }}</td></tr>
-            <tr><td>NOMBRE D'OPERATIONS</td><td>{{ etatType.NEMIS }}</td><td>{{ etatType.NRECUS }}</td></tr>
-            <tr> <td>MONTANT DES TAXES RECUES (en F CFA)</td><td></td><td></td></tr>
-            <tr><td>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</td><td></td><td></td></tr>
-            <tr><td>NOMBRE D'EMPLOIS GENERES</td><td></td><td></td></tr>
-        </table>
+                    <tr><td>TOTAL</td><td>{{ etatType.EMIS }}</td><td>{{ etatType.RECUS }}</td></tr>
+                    <tr><td>NOMBRE D'OPERATIONS</td><td>{{ etatType.NEMIS }}</td><td>{{ etatType.NRECUS }}</td></tr>
+                    <tr> <td>MONTANT DES TAXES RECUES (en F CFA)</td><td></td><td></td></tr>
+                    <tr><td>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</td><td></td><td></td></tr>
+                    <tr><td>NOMBRE D'EMPLOIS GENERES</td><td></td><td></td></tr>
+                </table>
+            </div>
         </div>
-
+        {% else %}
+        <h1>Aucun transfert trouvé. choisissez un autre mois</h1>
     {% endfor %}
 {% endblock %}
 {% block javascripts %}
