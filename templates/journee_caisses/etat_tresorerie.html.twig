@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}etat caisse{% endblock %}
+
+{% block body %}
+    {#<div class="row" style=" max-height:  100px;">#}
+        <div>
+            <table id="tresorerie" class="table table-bordered datatable-basic dataTable">
+                <tbody>
+                <tr>
+                    <th bgcolor="#a9a9a9">Date : </th>
+                    <td>{{ date|date('Y-m-d') }}</td>
+                    <td>
+                        <div class="form-inline">
+                            <form method="post" action="{{ path('journee_caisses_tresorerie') }}">
+                                {{ include('journee_caisses/_btn_action_url_compense.html.twig',{'path':'journee_caisses_tresorerie' , 'operation':'ETAT','btn_name':'midifier', 'btn_label':'Changer'}) }}
+                            </form>
+                        </div></td>
+                </tr>
+                {#<tr>
+                    <th>Caisse : </th>
+                    <td>{{ journee_caisses_recap.caisse }}</td>
+                </tr>#}
+                <tr>
+                    <th bgcolor="#a9a9a9">Ouverture : </th>
+                    <td colspan="2">{{(treso_ouv)?treso_ouv.Ouverture:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9"> Compensation : </th>
+                    <td colspan="2">{{ (treso_recap)?treso_recap.compense:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">Appro : </th>
+                    <td colspan="2">{{ (treso_appro)?treso_appro.appro:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">Dettes : </th>
+                    <td colspan="2">{{ (treso_ferm)?treso_ferm.dette:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">Credits : </th>
+                    <td colspan="2">{{ (treso_ferm)?treso_ferm.credit:'?' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">Recettes : </th>
+                    <td colspan="2">{{ (treso_recap)?treso_recap.recette:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">Depenses : </th>
+                    <td colspan="2">{{ (treso_recap)?treso_recap.depense:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">Disponibilite : </th>
+                    <td colspan="2">{{ (treso_ferm)?treso_ferm.dispo:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">Fermeture : </th>
+                    <td colspan="2"> {{ (treso_ferm)?treso_ferm.fermeture:'0' }}</td>
+                </tr>
+                <tr>
+                    <th bgcolor="#a9a9a9">ECARTS CAISSE : </th>
+                    <td colspan="2">{{ (treso_recap)?treso_recap.ecart:'0' }}</td>
+                </tr>
+                </tbody>
+            </table>
+            {#<a href="#" onclick="$('#tresorerie').tableExport({type:'excel',escape:'false'});"><img src="img/icons/xls.png" width="24"> XLS</a>
+            #}
+        </div >
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {##}<script src="{{ asset('js/tableExport.js') }}"></script>
+    <script src="{{ asset('js/jspdf.js') }}"></script>
+    <script src="{{ asset('js/sprintf.js') }}"></script>
+    <script src="{{ asset('js/base64.js') }}"></script>
+{% endblock %}

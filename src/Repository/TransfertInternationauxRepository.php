@@ -51,18 +51,20 @@ class TransfertInternationauxRepository extends EntityRepository
         //$dateFin = $date -> format('t/m/Y');
         return $this->createQueryBuilder('Transfert')
             ->Join('Transfert.idPays','pays')
+            ->Join('pays.zone','z')
             ->Join('Transfert.idSystemTransfert','type')
             ->Join('Transfert.journeeCaisse','jc')
             ->addSelect(
             //'type.societe as Societe',
                 'type.libelle as typeTransfert',
-                'pays.zone as zone',
+                'z.code as zone',
                 'pays.libelle as nomPays',
                 'SUM(CASE Transfert.sens WHEN \'1\' THEN Transfert.mTransfertTTC ELSE 0 END ) as EMIS',
                 'SUM(CASE Transfert.sens WHEN \'2\' THEN Transfert.mTransfertTTC ELSE 0 END ) as RECUS')
             //'COUNT(CASE Transfert.sens WHEN \'1\' THEN Transfert.mTransfertTTC ELSE 0 END ) as NEMIS',
             //'COUNT(CASE Transfert.sens WHEN \'0\' THEN Transfert.mTransfertTTC ELSE 0 END ) as NRECUS')
             ->addGroupBy('type','zone','pays.id')
+            ->addOrderBy('zone')
             ->Where('jc.dateOuv >= :param1')
             ->andWhere('jc.dateOuv <= :param2')
             ->setParameter('param1' ,$dateDeb)
@@ -82,12 +84,14 @@ class TransfertInternationauxRepository extends EntityRepository
         //$dateFin = $date -> format('t/m/Y');
         return $this->createQueryBuilder('Transfert')
             ->Join('Transfert.idPays','pays')
+            ->Join('pays.zone','z')
             ->Join('Transfert.idSystemTransfert','type')
             ->Join('Transfert.journeeCaisse','jc')
             ->addSelect(
             //'type.societe as Societe',
                 'type.libelle as typeTransfert',
-                'pays.zone as zone',
+                'z.code as zone',
+                'z.ordre as ordre',
                 'pays.libelle as nomPays',
                 'SUM(CASE Transfert.sens WHEN \'1\' THEN Transfert.mTransfertTTC ELSE 0 END ) as EMIS',
                 'SUM(CASE Transfert.sens WHEN \'2\' THEN Transfert.mTransfertTTC ELSE 0 END ) as RECUS',
@@ -98,6 +102,7 @@ class TransfertInternationauxRepository extends EntityRepository
             ->andWhere('jc.dateOuv <= :param2')
             ->setParameter('param1' ,$dateDeb)
             ->setParameter('param2' ,$dateFin)
+            ->addOrderBy('ordre')
             ->getQuery()->getResult();
     }
     /**

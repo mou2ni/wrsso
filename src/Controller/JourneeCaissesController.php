@@ -87,7 +87,7 @@ class JourneeCaissesController extends Controller
         $journeeCaisses = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
             ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
-        $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
+        //$journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
 
         if ($this->isGranted('ROLE_ADMIN'))
             $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
@@ -409,13 +409,41 @@ class JourneeCaissesController extends Controller
         );
 
     }
+    /**
+     * @Route("/etat/tresorerie", name="journee_caisses_tresorerie", methods="GET|POST|UPDATE")
+     */
+    public function etatTresorerie(Request $request): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $date = new \DateTime('now');
+        //$date->setDate(2019, 02, 05);
+        if ($request->get('date'))
+            $date = new \DateTime($request->get('date'));
+        $tresoOuv = $em->getRepository(JourneeCaisses::class)->getOuvertureTresorerie($date);
+        $tresoRecap = $em->getRepository(JourneeCaisses::class)->getCompenseRecetteDepenseEcartTresorerie($date);
+        $tresoFerm = $em->getRepository(JourneeCaisses::class)->getFermetureTresorerie($date);
+        $tresoAppro = $em->getRepository(JourneeCaisses::class)->getApproTresorerie($date);
+        $tresoDevise = $em->getRepository(DeviseJournees::class)->getDeviseTresorerie($date);
+        //dump($tresoDevise);die();
+
+        return $this->render('journee_caisses/etat_tresorerie.html.twig'
+            , [
+                'treso_ouv' => $tresoOuv,
+                'treso_recap' => $tresoRecap,
+                'treso_ferm' => $tresoFerm,
+                'treso_appro' => $tresoAppro,
+                'date'=>$date
+            ]
+        );
+
+    }
 
     /**
      * @Route("/{id}", name="journee_caisse_show", methods="GET")
      */
     public function show(JourneeCaisses $journeeCaisse): Response
     {
-        return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse]);
+        return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse,'journeeCaisses'=>null]);
     }
 
 

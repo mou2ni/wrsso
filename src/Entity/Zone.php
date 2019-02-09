@@ -12,10 +12,10 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\PaysRepository")
- * @ORM\Table(name="Pays")
+ * @ORM\Entity(repositoryClass="App\Repository\ZoneRepository")
+ * @ORM\Table(name="Zone")
  */
-class Pays
+class Zone
 {
     /**
      * @ORM\Id
@@ -25,24 +25,23 @@ class Pays
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $libelle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Zone", cascade={"persist"})
-     * @ORM\JoinColumn(fieldName="zone", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $zone;
+    private $code;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
-    private $dansRegion = false;
+    private $ordre ;
 
     public function __toString()
     {
-        return ''.$this->getLibelle();
+        return ''.$this->getCode();
     }
 
     /**
@@ -55,10 +54,12 @@ class Pays
 
     /**
      * @param mixed $id
+     * @return Zone
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -71,6 +72,7 @@ class Pays
 
     /**
      * @param mixed $libelle
+     * @return Zone
      */
     public function setLibelle($libelle)
     {
@@ -81,37 +83,40 @@ class Pays
     /**
      * @return mixed
      */
-    public function getZone()
+    public function getCode()
     {
-        return $this->zone;
+        return $this->code;
     }
 
     /**
-     * @param mixed $zone
+     * @param mixed $code
+     * @return Zone
      */
-    public function setZone($zone)
+    public function setCode($code)
     {
-        $this->zone = $zone;
+        $this->code = $code;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getDansRegion()
+    public function getOrdre()
     {
-        return $this->dansRegion;
+        return $this->ordre;
     }
 
     /**
-     * @param mixed $dansRegion
-     * @return Pays
+     * @param mixed $ordre
+     * @return Zone
      */
-    public function setDansRegion($dansRegion)
+    public function setOrdre($ordre)
     {
-        $this->dansRegion = $dansRegion;
+        $this->ordre = $ordre;
         return $this;
     }
+
+
 
 
 }
