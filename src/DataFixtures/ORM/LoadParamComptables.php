@@ -23,13 +23,31 @@ class LoadParamComptables extends Fixture implements DependentFixtureInterface
         $compteIntercaisse=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Intercaisse']);
         $compteContreValeurDevise=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Contre Valeur Devises']);
         $compteCompense=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense']);
-        $compteChargeSalaireNet=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Charges Salaires']);
+        $compteBaseSalaire=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'661000']);
+        $compteIndemSalaire=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'663000']);
+        $compteSecSocPat=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'664000']);
+        $compteTaxPat=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'641400']);
+        $compteOrgaSecSoc=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'431000']);
+        $compteOrgaImpSal=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'447200']);
+        $compteOrgaTaxPat=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'442100']);
+        $compteRemunerationDue=$manager->getRepository(Comptes::class)->findOneBy(['numCompte'=>'422000']);
         $compteEcartCaisse=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse']);
         $compteDiversCharge=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Charges diverses']);
         $compteDiversProduit=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Produits divers']);
 
         $enr=new ParamComptables();
-        $enr->setCodeStructure('YESBO')->setCompteChargeBaseSalaire($compteChargeSalaireNet)->setCompteCompense($compteCompense)
+        $enr->setCodeStructure('YESBO')->setCompteChargeBaseSalaire($compteBaseSalaire)
+            ->setCompteChargeCotiPatronale($compteSecSocPat)
+            ->setCompteTaxeSalaire($compteTaxPat)
+            ->setCompteChargeFonctSalaire($compteIndemSalaire)
+            ->setCompteChargeIndemSalaire($compteIndemSalaire)
+            ->setCompteChargeLogeSalaire($compteIndemSalaire)
+            ->setCompteChargeTranspSalaire($compteIndemSalaire)
+            ->setCompteOrgaImpotSalaire($compteOrgaImpSal)
+            ->setCompteOrgaSocial($compteOrgaSecSoc)
+            ->setCompteOrgaTaxeSalaire($compteOrgaTaxPat)
+            ->setCompteRemunerationDue($compteRemunerationDue)
+            ->setCompteCompense($compteCompense)
             ->setCompteContreValeurDevise($compteContreValeurDevise)->setCompteIntercaisse($compteIntercaisse)->setCompteEcartCaisse($compteEcartCaisse)
         ->setCompteDiversCharge($compteDiversCharge)->setCompteDiversProduits($compteDiversProduit);
 
@@ -41,6 +59,7 @@ class LoadParamComptables extends Fixture implements DependentFixtureInterface
     {
         return array(
             LoadComptes::class,
+            LoadJournauxComptables::class,
         );
     }
 

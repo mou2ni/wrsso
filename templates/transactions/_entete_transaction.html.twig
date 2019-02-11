@@ -1,0 +1,12 @@
+<tr>
+    <th > Date pièces </th>
+    <td colspan="2"> {{(transaction.dateTransaction)?transaction.dateTransaction|date('d-m-Y'):'' }}</td>
+</tr>
+<tr>
+    <th > Numéro pièce </th>
+    <td colspan="2"> {{ transaction.numPiece }}</td>
+</tr>
+<tr>
+    <th > Intitulé de l'écriture </th>
+    <td colspan="2"> {{ transaction.libelle }}</td>
+</tr>

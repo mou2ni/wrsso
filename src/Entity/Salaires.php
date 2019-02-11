@@ -252,6 +252,7 @@ class Salaires
     public function addLigneSalaire(LigneSalaires $ligneSalaire)
     {
         $this->ligneSalaires->add($ligneSalaire);
+        $ligneSalaire->setSalaire($this);
         return $this;
     }
 

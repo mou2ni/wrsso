@@ -1,0 +1,23 @@
+<tr>
+    <th class="padding-5 text-right"> Compte</th>
+    <th class="padding-5 text-right"> Débit</th>
+    <th class="padding-5 text-right"> Crédit</th>
+
+</tr>
+<tr>
+    <th class="padding-5 text-right"> TOTAUX </th>
+    <th class="padding-5 text-right"> {{ transaction.mDebitTotal|number_format(0, '.', ' ') }}</th>
+    <th class="padding-5 text-right"> {{ transaction.mCreditTotal|number_format(0, '.', ' ') }}</th>
+
+</tr>
+{% for transactionCompte in transaction.transactionComptes %}
+<tr>
+    <td class="padding-5 text-right">{{ transactionCompte.numCompte}}</td>
+    <td class="padding-5 text-right">{{ transactionCompte.mDebit|number_format(0, '.', ' ')}}</td>
+    <td class="padding-5 text-right">{{ transactionCompte.mCredit|number_format(0, '.', ' ')}}</td>
+</tr>
+{% endfor %}
+<tr>
+    <td  class="text-bold padding-5 text-right" align="center" colspan="3" bgcolor="#a9a9a9"> </td>
+</tr>
+

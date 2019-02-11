@@ -34,7 +34,7 @@ class LoadCollaborateurs extends Fixture
             $enr=new Collaborateurs();
             $enr->SetNom($listElement['nom'])->setPrenom($listElement['prenom'])->setMSalaireBase($listElement['mSalaireBase'])->setMIndemLogement($listElement['mIndemLogement'])->setMIndemTransport($listElement['mIndemTransport'])
                 ->setMIndemFonction($listElement['mIndemFonction'])->setMIndemAutres($listElement['mIndemAutres'])->setMHeureSup($listElement['mHeureSup'])->setMSecuriteSocialeSalarie($listElement['mSecuriteSocialeSalarie'])
-                ->setMSecuriteSocialePatronale($listElement['mSecuriteSocialePatronale'])->setMImpotSalarie($listElement['mImpotSalarie'])->setMTaxePatronale($listElement['mTaxePatronale'])->setCompteVirement($listElement['compteVirement']);
+                ->setMSecuriteSocialePatronal($listElement['mSecuriteSocialePatronale'])->setMImpotSalarie($listElement['mImpotSalarie'])->setMTaxePatronale($listElement['mTaxePatronale'])->setCompteVirement($listElement['compteVirement']);
             $manager->persist($enr);
         }
 

@@ -13,11 +13,9 @@ class TransactionComptesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('numCompte')
-            ->add('mDebit', NumberType::class,array('grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
-            ->add('mCredit', NumberType::class,array('grouping'=>3,'scale'=>0, 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThanOrEqual(0)]))
-            ->add('transaction', TransactionsType::class)
             ->add('compte')
+            ->add('mDebit')
+            ->add('mCredit')
         ;
     }
 

@@ -412,6 +412,7 @@ class LigneSalaires
 
     public function fillDataFromCollaborateur(){
         $this->setCompteVirement($this->getCollaborateur()->getCompteVirement())
+            ->setCompteRemunerationDue($this->getCollaborateur()->getCompteRemunerationDue())
             ->setMSalaireBase($this->getCollaborateur()->getMSalaireBase())
             ->setMIndemTransport($this->getCollaborateur()->getMIndemTransport())
             ->setMIndemFonction($this->getCollaborateur()->getMIndemFonction())

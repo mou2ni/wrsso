@@ -32,10 +32,9 @@ class RecetteDepenses
      */
     private $utilisateur;
 
-    /*
-    *
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeOperationComptables")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $typeOperationComptable;
 
@@ -50,6 +49,12 @@ class RecetteDepenses
      * @ORM\JoinColumn(nullable=false)
      */
     private $journeeCaisse;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $compteTier;
 
     /**
      * @ORM\Column(type="datetime")
@@ -110,8 +115,6 @@ class RecetteDepenses
                 return $genCompta;
             };
             $this->setMDepense($this->getMSaisie());
-
-
         }elseif($this->estProduit){
             if (!$genCompta->genComptaRecettes($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse, $this->getDateOperation())){
                 return $genCompta;
@@ -393,6 +396,24 @@ class RecetteDepenses
         $this->estCharge=($classCompte==GenererCompta::COMPTE_CHARGE);
         $this->estProduit=($classCompte==GenererCompta::COMPTE_PRODUIT);
         return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompteTier()
+    {
+        return $this->compteTier;
+    }
+
+    /**
+     * @param mixed $compteTier
+     * @return RecetteDepenses
+     */
+    public function setCompteTier($compteTier)
+    {
+        $this->compteTier = $compteTier;
+        return $this;
     }
 
 }

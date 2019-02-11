@@ -134,6 +134,11 @@ class ParamComptables
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
      */
     private $entreprise;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JournauxComptables")
+     */
+    private $journalPaye;
 
     /**
      * @return mixed

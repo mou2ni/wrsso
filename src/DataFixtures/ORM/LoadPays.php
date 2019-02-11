@@ -10,68 +10,80 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\Billets;
 use App\Entity\Pays;
+use App\Entity\Zones;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-//use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
-class LoadPays extends Fixture
+class LoadPays extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $zoneUEMOA=$manager->getRepository(Zones::class)->findOneBy(['code'=>'UEMOA']);
+        $zoneCEDEAO=$manager->getRepository(Zones::class)->findOneBy(['code'=>'CEDEAO']);
+        $zoneCEMAC=$manager->getRepository(Zones::class)->findOneBy(['code'=>'CEMAC']);
+        $zoneMAGHREB=$manager->getRepository(Zones::class)->findOneBy(['code'=>'MAGHREB']);
+        $zoneAFRIQUESUD=$manager->getRepository(Zones::class)->findOneBy(['code'=>'AFRIQUESUD']);
+        $zoneUSA=$manager->getRepository(Zones::class)->findOneBy(['code'=>'USA']);
+        $zoneEUROPE=$manager->getRepository(Zones::class)->findOneBy(['code'=>'EUROPE']);
+        $zoneINDE=$manager->getRepository(Zones::class)->findOneBy(['code'=>'INDE']);
+        $zoneCHINE=$manager->getRepository(Zones::class)->findOneBy(['code'=>'CHINE']);
+        $zoneBRESIL=$manager->getRepository(Zones::class)->findOneBy(['code'=>'BRESIL']);
+        $zoneAUTRES=$manager->getRepository(Zones::class)->findOneBy(['code'=>'AUTRES']);
         $lists=array (
-            array('libelle'=>'Burkina Faso', 'zone'=>'UEMOA', 'dansRegion'=>true),
-            array('libelle'=>'Mali', 'zone'=>'UEMOA', 'dansRegion'=>true),
-            array('libelle'=>"Cote d'Ivoire", 'zone'=>'UEMOA', 'dansRegion'=>true),
-            array('libelle'=>'Niger', 'zone'=>'UEMOA', 'dansRegion'=>true),
-            array('libelle'=>'Guinee Bissau', 'zone'=>'UEMOA', 'dansRegion'=>true),
-            array('libelle'=>'Benin', 'zone'=>'UEMOA', 'dansRegion'=>true),
-            array('libelle'=>'Togo', 'zone'=>'UEMOA', 'dansRegion'=>true),
-            array('libelle'=>'Sénégal', 'zone'=>'UEMOA', 'dansRegion'=>true),
+            array('libelle'=>'Burkina Faso', 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
+            array('libelle'=>'Mali', 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
+            array('libelle'=>"Cote d'Ivoire", 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
+            array('libelle'=>'Niger', 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
+            array('libelle'=>'Guinee Bissau', 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
+            array('libelle'=>'Benin', 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
+            array('libelle'=>'Togo', 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
+            array('libelle'=>'Sénégal', 'zone'=>$zoneUEMOA, 'dansRegion'=>true),
             //autres CEDEAO
-            array('libelle'=>'Ghana', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
-            array('libelle'=>'Guinée Conakry', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
-            array('libelle'=>'Nigeria', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
-            array('libelle'=>'Liberia', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
-            array('libelle'=>'Gambie', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
-            array('libelle'=>'Serra Leone', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
-            array('libelle'=>'Cap Vert', 'zone'=>'AUTRES CEDEAO', 'dansRegion'=>false),
+            array('libelle'=>'Ghana', 'zone'=>$zoneCEDEAO, 'dansRegion'=>false),
+            array('libelle'=>'Guinée Conakry', 'zone'=>$zoneCEDEAO, 'dansRegion'=>false),
+            array('libelle'=>'Nigeria', 'zone'=>$zoneCEDEAO, 'dansRegion'=>false),
+            array('libelle'=>'Liberia', 'zone'=>$zoneCEDEAO, 'dansRegion'=>false),
+            array('libelle'=>'Gambie', 'zone'=>$zoneCEDEAO, 'dansRegion'=>false),
+            array('libelle'=>'Serra Leone', 'zone'=>$zoneCEDEAO, 'dansRegion'=>false),
+            array('libelle'=>'Cap Vert', 'zone'=>$zoneCEDEAO, 'dansRegion'=>false),
             ////////CEMAC/////
-            array('libelle'=>'Cameroun', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'République Centrafricaine', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'Congo - RDC', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'Congo Brazza', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'Gabon', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'Tchad', 'zone'=>'CEMAC', 'dansRegion'=>false),
-            array('libelle'=>'Guinée Equatoriale', 'zone'=>'CEMAC', 'dansRegion'=>false),
+            array('libelle'=>'Cameroun', 'zone'=>$zoneCEMAC, 'dansRegion'=>false),
+            array('libelle'=>'République Centrafricaine', 'zone'=>$zoneCEMAC, 'dansRegion'=>false),
+            array('libelle'=>'Congo - RDC', 'zone'=>$zoneCEMAC, 'dansRegion'=>false),
+            array('libelle'=>'Congo Brazza', 'zone'=>$zoneCEMAC, 'dansRegion'=>false),
+            array('libelle'=>'Gabon', 'zone'=>$zoneCEMAC, 'dansRegion'=>false),
+            array('libelle'=>'Tchad', 'zone'=>$zoneCEMAC, 'dansRegion'=>false),
+            array('libelle'=>'Guinée Equatoriale', 'zone'=>$zoneCEMAC, 'dansRegion'=>false),
             /////////////MAGHREB/////////////
-            array('libelle'=>'Tunisie', 'zone'=>'MAGHREB', 'dansRegion'=>false),
-            array('libelle'=>'Algerie', 'zone'=>'MAGHREB', 'dansRegion'=>false),
-            array('libelle'=>'Maroc', 'zone'=>'MAGHREB', 'dansRegion'=>false),
+            array('libelle'=>'Tunisie', 'zone'=>$zoneMAGHREB, 'dansRegion'=>false),
+            array('libelle'=>'Algerie', 'zone'=>$zoneMAGHREB, 'dansRegion'=>false),
+            array('libelle'=>'Maroc', 'zone'=>$zoneMAGHREB, 'dansRegion'=>false),
             ////////////Afrique du Sud//////////
-            array('libelle'=>'Afrique du Sud', 'zone'=>'AFRIQUE DU SUD', 'dansRegion'=>false),
+            array('libelle'=>'Afrique du Sud', 'zone'=>$zoneAFRIQUESUD, 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'USA', 'zone'=>'USA', 'dansRegion'=>false),
+            array('libelle'=>'USA', 'zone'=>$zoneUSA, 'dansRegion'=>false),
             ///////////EUROPE/////////////
-            array('libelle'=>'France', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Espagne', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Italie', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Portugal', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Belgique', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Grèce', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Royaume-Unie', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Luxembourg', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Allemagne', 'zone'=>'EUROPE', 'dansRegion'=>false),
-            array('libelle'=>'Danemark', 'zone'=>'EUROPE', 'dansRegion'=>false),
+            array('libelle'=>'France', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Espagne', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Italie', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Portugal', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Belgique', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Grèce', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Royaume-Unie', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Luxembourg', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Allemagne', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
+            array('libelle'=>'Danemark', 'zone'=>$zoneEUROPE, 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'Inde', 'zone'=>'INDE', 'dansRegion'=>false),
+            array('libelle'=>'Inde', 'zone'=>$zoneINDE, 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'Chine', 'zone'=>'CHINE', 'dansRegion'=>false),
+            array('libelle'=>'Chine', 'zone'=>$zoneCHINE, 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'Bresil', 'zone'=>'BRESIL', 'dansRegion'=>false),
+            array('libelle'=>'Bresil', 'zone'=>$zoneBRESIL, 'dansRegion'=>false),
             ////////USA///////////////
-            array('libelle'=>'XAutres', 'zone'=>'AUTRES', 'dansRegion'=>false),
+            array('libelle'=>'XAutres', 'zone'=>$zoneAUTRES, 'dansRegion'=>false),
 
 
         );
@@ -84,9 +96,10 @@ class LoadPays extends Fixture
 
         $manager->flush();
     }
-
-    public function getOrder()
+    public function getDependencies()
     {
-        return 10;
+        return array(
+            LoadZones::class,
+        );
     }
 }

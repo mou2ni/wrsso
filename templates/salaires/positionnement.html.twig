@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Positionnement des salaires</h1>
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'onsubmit':'return confirm("OPERATION IRREVERSIBLE. CONFIRMER ?");'} }) }}
     <div class="form-group">
         <div class="row">
             <div class="col">
@@ -93,7 +93,7 @@
 
         </table>
         {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
-            {{ include('_btn_enregistrer.html.twig') }}
+            {{ include('salaires/_btn_valider.html.twig') }}
         {{ form_end(form) }} {#, {'render_rest': false}#}
 
     </div>

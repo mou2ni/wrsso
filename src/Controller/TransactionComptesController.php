@@ -102,7 +102,8 @@ class TransactionComptesController extends Controller
             $comptes=$this->getDoctrine()->getManager()->getRepository('App:Comptes')->findOneBy(['numCompte'=>$num]);
 
             $compte=[
-                ['client'=>$comptes?$comptes->getClient()->getPrenom().' '.$comptes->getClient()->getNom():'','intitule'=>$comptes?$comptes->getIntitule():'']
+                //['client'=>$comptes?$comptes->getClient()->getPrenom().' '.$comptes->getClient()->getNom():'','intitule'=>$comptes?$comptes->getIntitule():'']
+                ['client'=>$comptes?$comptes->getIntitule():'']
             ];
 
             $data = ["compte"=>$compte];

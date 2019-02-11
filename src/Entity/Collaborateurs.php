@@ -130,7 +130,7 @@ class Collaborateurs
     private $compteRemunerationDue;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", inversedBy="collaborateurs", cascade={"persist"})
      */
     private $entreprise;
 

@@ -37,16 +37,26 @@ class TransactionComptes
     private $numCompte;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $libelle;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
      */
     private $mDebit;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
      */
     private $mCredit;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $mSoldeAvant;
 
 
     /**
@@ -160,6 +170,42 @@ class TransactionComptes
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMSoldeAvant()
+    {
+        return $this->mSoldeAvant;
+    }
+
+    /**
+     * @param mixed $mSoldeAvant
+     * @return TransactionComptes
+     */
+    public function setMSoldeAvant($mSoldeAvant)
+    {
+        $this->mSoldeAvant = $mSoldeAvant;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLibelle()
+    {
+        return $this->libelle;
+    }
+
+    /**
+     * @param mixed $libelle
+     * @return TransactionComptes
+     */
+    public function setLibelle($libelle)
+    {
+        $this->libelle = $libelle;
         return $this;
     }
 

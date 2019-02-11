@@ -8,6 +8,7 @@
 
 namespace App\DataFixtures\ORM;
 
+use App\Entity\JournauxComptables;
 use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -24,6 +25,13 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
         $reqCompte = $manager->getRepository(Comptes::class);
         $compteIntercaisse=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Intercaisse']);
         $compteCompense=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Compense']);
+
+        $journalKD00=$manager->getRepository(JournauxComptables::class)->findOneBy(['code'=>'KD00']);
+        $journalKD01=$manager->getRepository(JournauxComptables::class)->findOneBy(['code'=>'KD01']);
+        $journalKD02=$manager->getRepository(JournauxComptables::class)->findOneBy(['code'=>'KD02']);
+        $journalKD03=$manager->getRepository(JournauxComptables::class)->findOneBy(['code'=>'KD03']);
+        $journalCMD=$manager->getRepository(JournauxComptables::class)->findOneBy(['code'=>'CMD']);
+        $journalAPPRO=$manager->getRepository(JournauxComptables::class)->findOneBy(['code'=>'APPRO']);
         /*
         $compteOperationCaisse1=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 1']);
         $compteOperationCaisse2=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Opérations Caisse 2']);
@@ -46,7 +54,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::GUICHET
+                'typeCaisse'=>Caisses::GUICHET,
+                'journalComptable'=>$journalKD00
             ]
         ,['libelle' => 'DAPOYA KD01',
                 'code' => 'KD01',
@@ -55,7 +64,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::GUICHET
+                'typeCaisse'=>Caisses::GUICHET,
+                'journalComptable'=>$journalKD01
             ]
         ,['libelle' => 'PISSY KD02',
                 'code' => 'KD02',
@@ -64,7 +74,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::GUICHET
+                'typeCaisse'=>Caisses::GUICHET,
+                'journalComptable'=>$journalKD02
             ]
         ,['libelle' => 'PISSY KD03',
                 'code' => 'KD03',
@@ -73,7 +84,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::GUICHET
+                'typeCaisse'=>Caisses::GUICHET,
+                'journalComptable'=>$journalKD03
             ]
         ,['libelle' => 'Caisse menu depense',
                 'code' => 'CMD',
@@ -82,7 +94,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::MENUDEPENSE
+                'typeCaisse'=>Caisses::MENUDEPENSE,
+                'journalComptable'=>$journalCMD
             ]
         ,['libelle' => 'Caisse Appro',
                 'code' => 'APPRO',
@@ -91,7 +104,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
                 'compteIntercaisse' => $compteIntercaisse,
                 'compteAttenteCompense' => $compteCompense,
                 'journeeCaisse' => null,
-                'typeCaisse'=>Caisses::COMPENSE
+                'typeCaisse'=>Caisses::COMPENSE,
+                'journalComptable'=>$journalAPPRO
             ]
             /*,['libelle' => 'PISSY KD03', 'code' => 'KD03','compteOperation' => $compteOperationCaisse3, 'compteCvDevise' => $compteCvDevise3, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => $idJourneeCaisseO]
             ,['libelle' => 'Caisse menu depense', 'code' => 'CMD', 'compteOperation' => $compteOperationCaisseCMD, 'compteCvDevise' => null, 'compteIntercaisse' => $compteIntercaisse, 'journeeCaisse' => null]
@@ -101,7 +115,10 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
 
         foreach ($lists as $list) {
             $enr = new Caisses($manager);
-            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])->setCompteCvDevise($list['compteCvDevise'])->setCompteIntercaisse($list['compteIntercaisse'])->setCompteAttenteCompense($list['compteAttenteCompense'])->setTypeCaisse($list['typeCaisse']);
+            $enr->setLibelle($list['libelle'])->setCode($list['code'])->setCompteOperation($list['compteOperation'])
+                ->setCompteCvDevise($list['compteCvDevise'])->setCompteIntercaisse($list['compteIntercaisse'])
+                ->setCompteAttenteCompense($list['compteAttenteCompense'])->setTypeCaisse($list['typeCaisse'])
+                ->setJournalComptable($list['journalComptable']);
             $manager->persist($enr);
         }
 
@@ -112,7 +129,8 @@ class LoadCaisses extends Fixture implements DependentFixtureInterface
     {
         return array(
             LoadClients::class,
-            LoadComptes::class
+            LoadComptes::class,
+            LoadJournauxComptables::class,
         );
     }
 }

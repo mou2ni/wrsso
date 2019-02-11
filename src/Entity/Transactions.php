@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TransactionsRepository")
  * @ORM\Table(name="Transactions")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -43,6 +43,12 @@ class Transactions
     private $journeeCaisse;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JournauxComptables", inversedBy="transactions", cascade={"persist"} )
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $journauxComptable;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
      * @ORM\JoinColumn(name="idUtilisateurLast", nullable=true)
      */
@@ -52,6 +58,21 @@ class Transactions
      * @ORM\Column(type="string")
      */
     private $libelle;
+
+    /**
+     * @ORM\Column(type="string", length=50, unique=true, nullable=true)
+     */
+    private $numPiece;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $mDebitTotal;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $mCreditTotal;
 
     /**
      * @ORM\Column(type="datetime")
@@ -226,14 +247,22 @@ class Transactions
         $this->transactionComptes->add($transactionCompte);
         $transactionCompte->setTransaction($this);
         $compte=$transactionCompte->getCompte();
+        $transactionCompte->setMSoldeAvant($compte->getSoldeCourant());
         $compte->setSoldeCourant($compte->getSoldeCourant()+$transactionCompte->getMCredit()-$transactionCompte->getMDebit());
         $transactionCompte->setCompte($compte);
+        $this->mCreditTotal+=$transactionCompte->getMCredit();
+        $this->mDebitTotal+=$transactionCompte->getMDebit();
         return $this;
     }
 
     public function removeTransactionComptes(TransactionComptes $transactionCompte)
     {
         $this->transactionComptes->removeElement($transactionCompte);
+
+        $compte=$transactionCompte->getCompte();
+        $compte->setSoldeCourant($compte->getSoldeCourant()-$transactionCompte->getMCredit()+$transactionCompte->getMDebit());
+        $this->mCreditTotal-=$transactionCompte->getMCredit();
+        $this->mDebitTotal-=$transactionCompte->getMDebit();
     }
 
     /**
@@ -269,6 +298,7 @@ class Transactions
     public function setId($id)
     {
         $this->id = $id;
+        //if(!$this->getNumPiece()) $this->setNumPiece($id);
         return $this;
     }
 
@@ -287,6 +317,84 @@ class Transactions
     public function setJourneeCaisse($journeeCaisse)
     {
         $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumPiece()
+    {
+        $numPiece=($this->numPiece)?$this->numPiece:$this->getId();
+        return $numPiece;
+    }
+
+    /**
+     * @param mixed $numPiece
+     * @return Transactions
+     */
+    public function setNumPiece($numPiece)
+    {
+        $this->numPiece = $numPiece;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMDebitTotal()
+    {
+        return $this->mDebitTotal;
+    }
+
+    /**
+     * @param mixed $mDebitTotal
+     */
+    public function setMDebitTotal($mDebitTotal)
+    {
+        $this->mDebitTotal = $mDebitTotal;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMCreditTotal()
+    {
+        return $this->mCreditTotal;
+    }
+
+    /**
+     * @param mixed $mCreditTotal
+     */
+    public function setMCreditTotal($mCreditTotal)
+    {
+        $this->mCreditTotal = $mCreditTotal;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function isDesequilibre()
+    {
+        return $this->getMDebitTotal()!=$this->getMCreditTotal();
+    }
+
+    /**
+     * @return JournauxComptables
+     */
+    public function getJournauxComptable()
+    {
+        return $this->journauxComptable;
+    }
+
+    /**
+     * @param JournauxComptables $journauxComptable
+     * @return Transactions
+     */
+    public function setJournauxComptable($journauxComptable)
+    {
+        $this->journauxComptable = $journauxComptable;
         return $this;
     }
 

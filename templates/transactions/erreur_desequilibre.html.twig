@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}Détails écritures déséquibrées{% endblock %}
+{% block body %}
+    <h1> Détails des écritures déséquilibrées </h1>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th> Total Debit</th>
+                <td> {{ transaction.mDebitTotal }}</td>
+            </tr>
+            <tr>
+                <th> Total Credit</th>
+                <td> {{ transaction.mCreditTotal }}</td>
+            </tr>
+
+            </thead>
+            <tbody class="text-thin">
+                {{ include('transactions/_detail_transaction.html.twig') }}
+            </tbody>
+        </table>
+    </div>
+    {{ include('_btn_close.html.twig') }}
+{% endblock %}

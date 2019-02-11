@@ -3,28 +3,15 @@
 {% block title %}Transactions{% endblock %}
 
 {% block body %}
-    <h1>Transactions</h1>
-
+    <h1>Détail des écritures comptables</h1>
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ transaction.id }}</td>
-            </tr>
-            <tr>
-                <th>Libelle</th>
-                <td>{{ transaction.libelle }}</td>
-            </tr>
-            <tr>
-                <th>DateTransaction</th>
-                <td>{{ transaction.dateTransaction ? transaction.dateTransaction|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
+        {{ include('transactions/_entete_transaction.html.twig') }}
+        {{ include('transactions/_detail_transaction.html.twig') }}
         </tbody>
     </table>
 
-    <a href="{{ path('transactions_index') }}">back to list</a>
+    <a href="{{ path('transactions_index') }}"> Liste des transactions </a> |
 
-    <a href="{{ path('transactions_edit', {'id': transaction.id}) }}">edit</a>
-
-    {{ include('transactions/_delete_form.html.twig') }}
+    <a href="{{ path('transactions_edit', {'id': transaction.id}) }}"> Modifier</a>
 {% endblock %}

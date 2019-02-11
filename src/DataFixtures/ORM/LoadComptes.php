@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Comptes;
 use App\Entity\Clients;
 
-class LoadComptes extends Fixture
+class LoadComptes extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -53,6 +53,11 @@ class LoadComptes extends Fixture
         ,array('numCompte'=>'16520011','intitule'=>'ZONOU Amidou - Salaire', 'typeCompte'=>Comptes::SALAIRE, 'client'=>$repClent->findOneBy(['prenom'=>'Amidou']))
 
             ///COMPTES INTERNES DE YESBO
+        ,array('numCompte'=>'431000','intitule'=>'Organisme de sécurité sociales', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'422000','intitule'=>'Remuneration due', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'442100','intitule'=>'Organisme Taxes sur salaire', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'447200','intitule'=>'Organisme Impot sur salaire', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+
         ,array('numCompte'=>'521001','intitule'=>'Coris Bank Gestion', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
         //,array('numCompte'=>'521002','intitule'=>'Coris Bank Pret', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
         ,array('numCompte'=>'521003','intitule'=>'Coris Bank Compense', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
@@ -84,7 +89,10 @@ class LoadComptes extends Fixture
         ,array('numCompte'=>'5712004','intitule'=>'CV devise Caisse 4', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
         ,array('numCompte'=>'5712005','intitule'=>'CV devise Caisse 0', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
 
-        ,array('numCompte'=>'661000','intitule'=>'Charges du personnel', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'661000','intitule'=>'Salaire de base du personnel', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'663000','intitule'=>'Indemnités du personnel', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'664000','intitule'=>'Charges sociales patronale', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
+        ,array('numCompte'=>'641400','intitule'=>'Taxes patronales salaire', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
         ,array('numCompte'=>'601000','intitule'=>'Achats de marchandises', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
         ,array('numCompte'=>'605000','intitule'=>'Achats divers', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)
         ,array('numCompte'=>'610000','intitule'=>'Transport', 'typeCompte'=>Comptes::INTERNE, 'client'=>$cltInterne)

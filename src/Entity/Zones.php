@@ -12,10 +12,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ZoneRepository")
- * @ORM\Table(name="Zone")
+ * @ORM\Entity(repositoryClass="App\Repository\ZonesRepository")
  */
-class Zone
+class Zones
 {
     /**
      * @ORM\Id
@@ -54,7 +53,7 @@ class Zone
 
     /**
      * @param mixed $id
-     * @return Zone
+     * @return Zones
      */
     public function setId($id)
     {
@@ -72,7 +71,7 @@ class Zone
 
     /**
      * @param mixed $libelle
-     * @return Zone
+     * @return Zones
      */
     public function setLibelle($libelle)
     {
@@ -90,7 +89,7 @@ class Zone
 
     /**
      * @param mixed $code
-     * @return Zone
+     * @return Zones
      */
     public function setCode($code)
     {
@@ -108,7 +107,7 @@ class Zone
 
     /**
      * @param mixed $ordre
-     * @return Zone
+     * @return Zones
      */
     public function setOrdre($ordre)
     {

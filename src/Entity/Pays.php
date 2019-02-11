@@ -30,7 +30,7 @@ class Pays
     private $libelle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Zone", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Zones", cascade={"persist"})
      * @ORM\JoinColumn(fieldName="zone", nullable=true)
      */
     private $zone;

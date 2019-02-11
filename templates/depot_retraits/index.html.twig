@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DepotRetraits index{% endblock %}
+
+{% block body %}
+    <h1>DepotRetraits index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateOperation</th>
+                <th>Libelle</th>
+                <th>MDepot</th>
+                <th>MRetrait</th>
+                <th>Statut</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for depot_retrait in depot_retraits %}
+            <tr>
+                <td>{{ depot_retrait.id }}</td>
+                <td>{{ depot_retrait.dateOperation ? depot_retrait.dateOperation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ depot_retrait.libelle }}</td>
+                <td>{{ depot_retrait.mDepot }}</td>
+                <td>{{ depot_retrait.mRetrait }}</td>
+                <td>{{ depot_retrait.statut }}</td>
+                <td>
+                    <a href="{{ path('depot_retraits_show', {'id': depot_retrait.id}) }}">show</a>
+                    <a href="{{ path('depot_retraits_edit', {'id': depot_retrait.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('depot_retraits_new') }}">Create new</a>
+{% endblock %}

@@ -44,6 +44,13 @@ class Caisses
      */
     private $compteOperation;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JournauxComptables", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $journalComptable;
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="devises", cascade={"persist"})
      * @ORM\JoinColumn(name= "id_cpt_cv_devise",nullable=true)
@@ -448,6 +455,24 @@ class Caisses
     public function setDispoGuichet($dispoGuichet)
     {
         $this->dispoGuichet = $dispoGuichet;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJournalComptable()
+    {
+        return $this->journalComptable;
+    }
+
+    /**
+     * @param mixed $journalComptable
+     * @return Caisses
+     */
+    public function setJournalComptable($journalComptable)
+    {
+        $this->journalComptable = $journalComptable;
         return $this;
     }
 

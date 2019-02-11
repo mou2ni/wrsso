@@ -107,7 +107,7 @@ class GenererCompta
         return $mouvement;
     }
 
-    private function initTransaction(Utilisateurs $utilisateur, $libelle, $montant, JourneeCaisses $journeeCaisse=null,$dateTime=null)
+    private function initTransaction(Utilisateurs $utilisateur, $libelle, $montant, JourneeCaisses $journeeCaisse=null,$dateTime=null, $numPiece=null)
     {
         $transaction=new Transactions();
 
@@ -127,10 +127,12 @@ class GenererCompta
 
     }
 
-    private function debiterCrediter(Transactions $transaction, Comptes $compteDebit, Comptes $compteCredit, $montant)
+    private function debiterCrediter(Transactions $transaction, Comptes $compteDebit, Comptes $compteCredit, $montant, $numPiece=null)
     {
         //vérification de la non nullité des comptes transmis
         //if ($compteDebit==null or $compteCredit==null) return new Transactions();
+
+        if ($numPiece) $transaction->setNumPiece($numPiece);
 
         $montant = abs($montant);
         //ajout de ligne d'écriture debit
@@ -455,6 +457,13 @@ class GenererCompta
         $compteRemunerationDue=($ligneSalaire->getCompteRemunerationDue())?$ligneSalaire->getCompteRemunerationDue():$paramComptable->getCompteRemunerationDue();
         $transaction->addTransactionComptes($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), false));
 
+        //dump($transaction);
+        $this->transactions->add($transaction);
+        if ($transaction->isDesequilibre()){
+            $this->setE(Transactions::ERR_DESEQUILIBRE);
+            $this->setErrMessage('Ecriture comptable déséquibrée');
+            return false;
+        }
         $this->em->persist($transaction);
         return $transaction;
     }

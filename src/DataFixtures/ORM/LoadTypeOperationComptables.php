@@ -10,25 +10,18 @@ namespace App\DataFixtures\ORM;
 
 use App\Entity\Comptes;
 use App\Entity\TypeOperationComptables;
-use App\Repository\ComptesRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-//use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
 
-class LoadTypeOperationComptables extends Fixture
+class LoadTypeOperationComptables extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $compteCharges=$manager->getRepository(Comptes::class)->findCompteCharges();
         $compteProduits=$manager->getRepository(Comptes::class)->findCompteProduits();
-        /*foreach ($compteGestions as $compteGestion){
-
-            $lists=array (
-                array('libelle'=>$compteGestion->getLibelle(), 'code'=>$compteGestion->getLibelle(), 'compte'=>$compteGestion->numCompte()),
-            );
-        }*/
 
         foreach ($compteCharges as $list) {
             $objet=new TypeOperationComptables();
@@ -48,7 +41,10 @@ class LoadTypeOperationComptables extends Fixture
     public function getDependencies()
     {
         return array(
-            LoadComptes::class
+            LoadClients::class,
+            LoadComptes::class,
+            LoadJournauxComptables::class,
         );
     }
+
 }

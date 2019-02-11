@@ -17,19 +17,23 @@ class TransactionsController extends Controller
     /**
      * @Route("/", name="transactions_index", methods="GET")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $transactions = $this->getDoctrine()
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()
             ->getRepository(Transactions::class)
-            ->findAll();
+            ->liste($offset,$limit);
+        $pages = round(count($liste)/$limit);
 
-        return $this->render('transactions/index.html.twig', ['transactions' => $transactions]);
+        return $this->render('transactions/index.html.twig', ['transactions' => $liste, 'pages'=>$pages]);
     }
 
     /**
-     * @Route("/new", name="transactions_new", methods="GET|POST")
+     * @Route("/ajout", name="transactions_ajout", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function ajout(Request $request): Response
     {
         $transaction = new Transactions();
         $form = $this->createForm(TransactionsType::class, $transaction);
@@ -50,7 +54,7 @@ class TransactionsController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="transactions_show", methods="GET")
+     * @Route("/{id}/detail", name="transactions_show", methods="GET")
      */
     public function show(Transactions $transaction): Response
     {

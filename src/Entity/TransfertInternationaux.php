@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
- * @ORM\Entity
  * @ORM\Entity (repositoryClass="App\Repository\TransfertInternationauxRepository")
  * @ORM\Table(name="TransfertInternationaux")
  * @ORM\HasLifecycleCallbacks()

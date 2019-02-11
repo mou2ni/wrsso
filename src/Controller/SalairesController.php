@@ -6,6 +6,8 @@ use App\Entity\Collaborateurs;
 use App\Entity\LigneSalaires;
 use App\Entity\ParamComptables;
 use App\Entity\Salaires;
+use App\Entity\TransactionComptes;
+use App\Entity\Transactions;
 use App\Form\SalairesType;
 use App\Repository\SalairesRepository;
 use App\Utils\GenererCompta;
@@ -43,6 +45,14 @@ class SalairesController extends Controller
     }
 
     /**
+     * @Route("/{id}/ecriturecomptables", name="salaires_ecriture_comptables", methods="GET|POST")
+     */
+    public function detatilTransaction(Request $request, Salaires $salaire): Response
+    {
+        return $this->render('salaires/detail_transactions.html.twig', ['salaire' =>$salaire]);
+    }
+
+    /**
      * @Route("/positionnement", name="salaires_positionnement", methods="GET|POST")
      */
     public function positionner(Request $request): Response
@@ -60,26 +70,51 @@ class SalairesController extends Controller
         $collaborateurs=$this->getDoctrine()->getRepository(Collaborateurs::class)->findBy(['statut'=>Collaborateurs::STAT_SALARIE]);
 
         $salaire = new Salaires();
-        $salaire->fillLigneSalaireFromCollaborateurs($collaborateurs);
+        //mettre les données par defaut si premier chargement
+        if ($request->request->get('operation')!='positionner'){
+            $salaire->fillLigneSalaireFromCollaborateurs($collaborateurs);
+        }
         $salaire->setDateSalaire(new \DateTime());
         $form = $this->createForm(SalairesType::class, $salaire);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+       if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $genCompta=new GenererCompta($em);
+
+            $mBrutTotal=0;
+            $mTaxeTotal=0;
+            $mImpotTotal=0;
+            $mSecuriteSocialSalarie=0;
+            $mSecuriteSocialPatronal=0;
+
             foreach ($salaire->getLigneSalaires() as $ligneSalaire){
                 $transaction=$genCompta->genComptaLigneSalaire($this->utilisateur,$paramComptable, $ligneSalaire, $salaire->getPeriodeSalaire(),$this->journeeCaisse);
                 if (!$transaction){
                     $this->addFlash('error', $genCompta->getErrMessage());
+                    if ($genCompta->getE()==Transactions::ERR_DESEQUILIBRE){
+                        return $this->render('transactions/erreur_desequilibre.html.twig',['transaction'=>$transaction]);
+                    }
                     return $this->redirectToRoute('salaires_positionnement');
                 }
                 $ligneSalaire->setTransaction($transaction);
+
+                $mBrutTotal+=$ligneSalaire->getMBrutTotal();
+                $mTaxeTotal+=$ligneSalaire->getMTaxePatronale();
+                $mImpotTotal+=$ligneSalaire->getMImpotSalarie();
+                $mSecuriteSocialSalarie+=$ligneSalaire->getMSecuriteSocialeSalarie();
+                $mSecuriteSocialPatronal+=$ligneSalaire->getMSecuriteSocialePatronal();
             }
+            $salaire->setMBrutTotal($mBrutTotal);
+            $salaire->setMTaxeTotal($mTaxeTotal);
+            $salaire->setMImpotTotal($mImpotTotal);
+            $salaire->setMSecuriteSocialSalarie($mSecuriteSocialSalarie);
+            $salaire->setMSecuriteSocialPatronal($mSecuriteSocialPatronal);
             $salaire->setStatut(Salaires::STAT_POSITIONNE);
-            $em->persist($salaire);
+           
+           $em->persist($salaire);
             $em->flush();
-            return $this->redirectToRoute('salaires_positionnement');
+            return $this->redirectToRoute('salaires_ecriture_comptables',['id'=>$salaire->getId()]);
         }
         return $this->render('salaires/positionnement.html.twig', [
             'salaire' => $salaire,

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Détails écritures comptables{% endblock %}
+{% block body %}
+    <h1> Détails des écritures comptables Salaire de {{ salaire.periodeSalaire }} </h1>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody class="text-thin">
+                {% for ligneSalaire in salaire.ligneSalaires %}
+                    {% set transaction= ligneSalaire.transaction %}
+                    {{ include('transactions/_entete_transaction.html.twig') }}
+                    {{ include('transactions/_detail_transaction.html.twig') }}
+                {% else %} aucune écriture !!!
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}
