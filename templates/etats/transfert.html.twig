@@ -30,18 +30,11 @@
                         <th>EMIS</th>
                         <th>RECUS</th>
                     </tr>
-                    {% for etatTypeZone in etatTypeZone %}
-                        {% if etatTypeZone.typeTransfert == etatType.typeTransfert %}
-                            <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>
-                            {% for transfert in etat %}
-                                {% if transfert.typeTransfert == etatTypeZone.typeTransfert %}
-                                    {% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}
-                                    {% if transfert.zone == etatTypeZone.zone %}
-                                        <tr><td>{{ transfert.nomPays }}</td><td>{{ transfert.EMIS }}</td><td>{{ transfert.RECUS }}</td></tr>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                    {% for zone in zones %}
+
+                            {#<tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>#}
+                            {{ render(controller('App\\Controller\\EtatsController::afficherTransfertType', {'type':etatType.typeId,'zone':zone, 'date':dateDeb})) }}
+
                     {% endfor %}
                     <tr><td>TOTAL</td><td>{{ etatType.EMIS }}</td><td>{{ etatType.RECUS }}</td></tr>
                     <tr><td>NOMBRE D'OPERATIONS</td><td>{{ etatType.NEMIS }}</td><td>{{ etatType.NRECUS }}</td></tr>

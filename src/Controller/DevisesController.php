@@ -69,21 +69,19 @@ class DevisesController extends Controller
     {
         $em = $this->getDoctrine();
         $devises = $em->getRepository(Devises::class)->liste();
-        //$devise = new Devises();
+        $devise=new Devises();
         if ($devise = $request->request->get('_devise'))
             $devise = $em->getRepository(Devises::class)->find($devise);
-        //else
-          //  $devise = $em->getRepository(Devises::class)->findAll()[1];
-        //dump($devise);
+
         $form = $this->createForm(TauxDevisesType::class, $devise);
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $em = $this->getDoctrine()->getManager();
-            $devise = $em->getRepository(Devises::class)->findOneBy(['code'=>$form['code']->getData()]);
-            //dump($devise);die();
+            $devise = $em->getRepository(Devises::class)->findOneByCode($form['code']->getData());
             $devise->setTxReference($form['txReference']->getData());
-            $devise->setTxAchat($form['txAchat']->getData());
-            $devise->setTxVente($form['txVente']->getData());
+            $devise->setFormuleAchat($form['formuleAchat']->getData());
+            $devise->setFormuleVente($form['formuleVente']->getData());
+            //dump($devise);die();
             $em->persist($devise);
             $em->flush();
 

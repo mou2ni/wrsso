@@ -1,0 +1,15 @@
+{% block body %}
+    {% for transfert in etat %}
+        {#{% if transfert.typeTransfert == etatTypeZone.typeTransfert %}#}
+        {#{% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}#}
+        {% if zone.detail == true %}
+            <tr><td>{{ transfert.nomPays }}</td><td>{{ transfert.emis }}</td><td>{{ transfert.recus }}</td></tr>
+            {#{% endif %}#}
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

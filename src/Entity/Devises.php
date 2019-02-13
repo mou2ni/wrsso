@@ -52,6 +52,14 @@ class Devises
      * @ORM\Column(type="float")
      */
     private $txVente;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $formuleAchat;
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $formuleVente;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Billets", mappedBy="devise", cascade={"persist"})
@@ -162,7 +170,7 @@ class Devises
      */
     public function setTxVente($txVente)
     {
-        $this->txVente = $txVente;
+        $this->txVente=$txVente;
         return $this;
     }
 
@@ -205,9 +213,72 @@ class Devises
      */
     public function setTxReference($txReference)
     {
+
         $this->txReference = $txReference;
+        $this->setFormuleAchat($this->formuleAchat);
+        $this->setFormuleVente($this->formuleVente);
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFormuleAchat()
+    {
+        return $this->formuleAchat;
+    }
+
+    /**
+     * @param mixed $formuleAchat
+     * @return Devises
+     */
+    public function setFormuleAchat($formuleAchat)
+    {
+        if (substr_count($formuleAchat, '%')==1)
+        {
+            $txAchat = intval($formuleAchat);
+            $this->txAchat = $this->txReference * (100-$txAchat)/100;
+        }
+        elseif (substr_count($formuleAchat, '.')==1)
+        {
+            $this->txAchat = $this->txReference * (1-$formuleAchat);
+        }
+        else
+            $this->txAchat = $this->txReference - $formuleAchat;
+
+        $this->formuleAchat = $formuleAchat;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormuleVente()
+    {
+        return $this->formuleVente;
+    }
+
+    /**
+     * @param mixed $formuleVente
+     * @return Devises
+     */
+    public function setFormuleVente($formuleVente)
+    {
+        if (substr_count($formuleVente, '%')==1)
+        {
+            $txVente = intval($formuleVente);
+            $this->txVente = $this->txReference * (100+$txVente)/100;
+        }
+        elseif (substr_count($formuleVente, '.')==1)
+        {
+            $this->txVente = $this->txReference * (1+$formuleVente);
+        }
+        else
+            $this->txVente = $this->txReference + $formuleVente;
+        $this->formuleVente = $formuleVente;
+        return $this;
+    }
+
 
 
     

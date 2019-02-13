@@ -1,0 +1,13 @@
+{% block body %}
+    {% for etatTypeZone in etatTypeZone %}
+{#{% if etatTypeZone.typeTransfert == etatType.typeTransfert %}#}
+            <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.emis }}</th><th>{{ etatTypeZone.recus }}</th></tr>
+        {{ render(controller('App\\Controller\\EtatsController::afficherTransfertZone', {'zone':etatTypeZone.zoneId,'type':etatTypeZone.typeId, 'date':date})) }}
+{#{% endif %}#}
+    {% endfor %}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

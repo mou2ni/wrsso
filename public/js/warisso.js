@@ -85,6 +85,7 @@ function  valeurDevises() {
     return valeurDevises;
 }
 
+
 /*$("<input>").on('click', function () {
     var x = $(this).attr('id');
     var valeur = this.value;

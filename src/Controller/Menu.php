@@ -39,7 +39,7 @@ class Menu  extends Controller
             ,['text'=>'Collaborateurs', 'lien'=>'collaborateurs_new']
             ,['text'=>'Parametres comptables', 'lien'=>'#']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
-            ,['text'=>'Taux de Devise', 'lien'=>'#']
+            ,['text'=>'Taux de Devise', 'lien'=>'taux_devises']
             ,['text'=>'Transferts Internationaux', 'lien'=>'transfert_internationaux_index']
             ,['text'=>'Transferts électroniques', 'lien'=>'system_elects_index']
             ,['text'=>'Devises', 'lien'=>'devises_index']
