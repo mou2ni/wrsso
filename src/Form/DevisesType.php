@@ -15,8 +15,8 @@ class DevisesType extends AbstractType
             ->add('code')
             ->add('libelle')
             ->add('txReference')
-            ->add('txAchat')
-            ->add('txVente')
+            ->add('formuleAchat')
+            ->add('formuleVente')
         ;
     }
 

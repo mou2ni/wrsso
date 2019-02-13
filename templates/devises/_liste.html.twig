@@ -24,6 +24,7 @@
             <td>
                 <a href="{{ path('devises_show', {'id': devise.id}) }}">Detail</a>
                 <a href="{{ path('devises_edit', {'id': devise.id}) }}">Modifier</a>
+                {{ include('devises/_btn_action_url.html.twig',{ path:'taux_devises',id:devise.id, confirm_message:'Voulez vous modifier les taux?', btn_name:'Taux',btn_label:'Taux'}) }}
             </td>
         </tr>
     {% else %}

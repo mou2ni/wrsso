@@ -6,8 +6,9 @@
         <tr><th>Devises</th><th>Taux de reference</th><th>Achat</th><th>Vente</th><th>action</th></tr>
         </thead>
         <tbody>
-        {{ form_start(form) }}<tr><td>{{ form_widget(form.code) }}</td><td>{{ form_widget(form.txReference) }}</td><td>{{ form_widget(form.txAchat) }}</td><td>{{ form_widget(form.txVente) }}</td><td>
-                <input type="submit">Enregistrer</td></tr>
+        {{ form_start(form) }}
+        <tr><td>{{ form_widget(form.code) }}</td><td>{{ form_widget(form.txReference) }}</td><td>{{ form_widget(form.formuleAchat) }}</td><td>{{ form_widget(form.formuleVente) }}</td><td>
+                <input type="submit" value="Enregistrer"></td></tr>
 
         {% for devise in devises %}
             {{ form_end(form) }}
@@ -16,9 +17,9 @@
         {% endfor %}
         </tbody>
     </table>
+
 {% endblock %}
 
 {% block title %}
 
 {% endblock %}
-

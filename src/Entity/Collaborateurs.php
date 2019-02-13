@@ -17,6 +17,7 @@ class Collaborateurs
 {
     const STAT_STAGIAIRE='ST', STAT_SALARIE='SA', STAT_PRESTATAIRE='PR', STAT_SORTI='SO';
     const CAT_BFCADRE='BFCA', CAT_BFNONCADRE='BFNCA';
+    const QUAL_GERANT='GERANT',QUAL_DG='DG', QUAL_DAF='DAF';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -40,6 +41,16 @@ class Collaborateurs
     private $dateNaissance;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $qualite;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $estRepresentant = false;
+
+    /**
      * @ORM\Column(type="date", nullable=true)
      */
     private $dateEntree;
@@ -55,9 +66,10 @@ class Collaborateurs
     private $statut=Collaborateurs::STAT_SALARIE;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $estRepresentant=false;
+    private $adresse;
+
 
     /**
      * @ORM\Column(type="integer")

@@ -37,6 +37,10 @@ class Zones
      * @ORM\Column(type="integer")
      */
     private $ordre ;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $detail=true ;
 
     public function __toString()
     {
@@ -112,6 +116,24 @@ class Zones
     public function setOrdre($ordre)
     {
         $this->ordre = $ordre;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetail()
+    {
+        return $this->detail;
+    }
+
+    /**
+     * @param mixed $detail
+     * @return Zones
+     */
+    public function setDetail($detail)
+    {
+        $this->detail = $detail;
         return $this;
     }
 

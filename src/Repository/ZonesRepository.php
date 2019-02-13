@@ -22,7 +22,9 @@ class ZonesRepository extends ServiceEntityRepository
         parent::__construct($registry, Zones::class);
     }
 
-
+    /**
+     * @return Paginator
+     */
     public function liste($offset=0,$limit = 10)
     {
         $qb = $this->createQueryBuilder('z')
@@ -36,5 +38,13 @@ class ZonesRepository extends ServiceEntityRepository
 
         return $pag;
     }
-
+    /**
+     * @return Zones[]|\Doctrine\ORM\QueryBuilder
+     */
+    public function trouverZone()
+    {
+        return $this->createQueryBuilder('zones')
+            ->addOrderBy('zones.ordre')
+            ->getQuery()->getResult();
+    }
 }
