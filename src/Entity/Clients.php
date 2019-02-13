@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Clients
 {
-    const TYP_CLIENT='CLT', TYP_FOURNISSEUR='FRS', TYP_PERSONNEL='PER', TYP_DIVERS='DIV';
+    const TYP_CLIENT='CLT', TYP_FOURNISSEUR='FRS', TYP_PERSONNEL='PER', TYP_DIVERS='DIV', TYP_INTERNE='INT';
 
     /**
      * @ORM\Id
@@ -183,6 +183,24 @@ class Clients
     public function setEstRepresentant($estRepresentant)
     {
         $this->estRepresentant = $estRepresentant;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTypeTier()
+    {
+        return $this->typeTier;
+    }
+
+    /**
+     * @param mixed $typeTier
+     * @return Clients
+     */
+    public function setTypeTier($typeTier)
+    {
+        $this->typeTier = $typeTier;
         return $this;
     }
 

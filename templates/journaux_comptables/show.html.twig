@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JournauxComptables{% endblock %}
+
+{% block body %}
+    <h1>JournauxComptables</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ journaux_comptable.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ journaux_comptable.code }}</td>
+            </tr>
+            <tr>
+                <th>TypeJournal</th>
+                <td>{{ journaux_comptable.typeJournal }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ journaux_comptable.libelle }}</td>
+            </tr>
+            <tr>
+                <th>DernierNumPiece</th>
+                <td>{{ journaux_comptable.dernierNumPiece }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('journaux_comptables_index') }}">back to list</a>
+
+    <a href="{{ path('journaux_comptables_edit', {'id': journaux_comptable.id}) }}">edit</a>
+
+    {{ include('journaux_comptables/_delete_form.html.twig') }}
+{% endblock %}

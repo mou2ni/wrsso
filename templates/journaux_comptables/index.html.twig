@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JournauxComptables index{% endblock %}
+
+{% block body %}
+    <h1>JournauxComptables index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>TypeJournal</th>
+                <th>Libelle</th>
+                <th>DernierNumPiece</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for journaux_comptable in journaux_comptables %}
+            <tr>
+                <td>{{ journaux_comptable.id }}</td>
+                <td>{{ journaux_comptable.code }}</td>
+                <td>{{ journaux_comptable.typeJournal }}</td>
+                <td>{{ journaux_comptable.libelle }}</td>
+                <td>{{ journaux_comptable.dernierNumPiece }}</td>
+                <td>
+                    <a href="{{ path('journaux_comptables_show', {'id': journaux_comptable.id}) }}">show</a>
+                    <a href="{{ path('journaux_comptables_edit', {'id': journaux_comptable.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('journaux_comptables_new') }}">Create new</a>
+{% endblock %}
