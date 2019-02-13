@@ -31,7 +31,7 @@ class Pays
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Zones", cascade={"persist"})
-     * @ORM\JoinColumn(fieldName="zone", nullable=true)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $zone;
 

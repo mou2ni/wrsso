@@ -36,10 +36,10 @@
 
                 {% for recetteDepense in form.recetteDepenses %}
                     <tr class="collection-tag ">
-                        <td class="padding-0">{{ form_errors(recetteDepense.dateOperation) }} {{ form_widget(recetteDepense.dateOperation) }}</td>
-                        <td class="padding-0">{{ form_errors(recetteDepense.typeOperationComptable) }} {{ form_widget(recetteDepense.typeOperationComptable) }}</td>
-                        <td class="padding-0">{{ form_errors(recetteDepense.libelle) }} {{ form_widget(recetteDepense.libelle) }}</td>
-                        <td class="padding-0">{{ form_errors(recetteDepense.mSaisie) }} {{ form_widget(recetteDepense.mSaisie) }}</td>
+                        <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(recetteDepense.dateOperation) }} {{ form_widget(recetteDepense.dateOperation) }}</td>
+                        <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(recetteDepense.typeOperationComptable) }} {{ form_widget(recetteDepense.typeOperationComptable) }}</td>
+                        <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(recetteDepense.libelle) }} {{ form_widget(recetteDepense.libelle) }}</td>
+                        <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(recetteDepense.mSaisie) }} {{ form_widget(recetteDepense.mSaisie) }}</td>
                     </tr>
                 {% endfor %}
 

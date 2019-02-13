@@ -463,7 +463,7 @@ class Caisses
     }
 
     /**
-     * @return mixed
+     * @return JournauxComptables
      */
     public function getJournalComptable()
     {

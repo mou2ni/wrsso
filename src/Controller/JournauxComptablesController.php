@@ -18,13 +18,20 @@ class JournauxComptablesController extends Controller
     /**
      * @Route("/", name="journaux_comptables_index", methods="GET")
      */
-    public function index(JournauxComptablesRepository $journauxComptablesRepository): Response
+    public function index(Request $request): Response
     {
-        return $this->render('journaux_comptables/index.html.twig', ['journaux_comptables' => $journauxComptablesRepository->findAll()]);
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()
+            ->getRepository(JournauxComptables::class)
+            ->liste($offset,$limit);
+        $pages = round(count($liste)/$limit);
+        return $this->render('journaux_comptables/index.html.twig', ['journaux_comptables' => $liste, 'pages'=>$pages, 'path'=>'journaux_comptables_index']);
     }
 
     /**
-     * @Route("/new", name="journaux_comptables_new", methods="GET|POST")
+     * @Route("/ajout", name="journaux_comptables_new", methods="GET|POST")
      */
     public function new(Request $request): Response
     {
@@ -47,7 +54,7 @@ class JournauxComptablesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="journaux_comptables_show", methods="GET")
+     * @Route("/{id}/details", name="journaux_comptables_show", methods="GET")
      */
     public function show(JournauxComptables $journauxComptable): Response
     {
@@ -55,7 +62,7 @@ class JournauxComptablesController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="journaux_comptables_edit", methods="GET|POST")
+     * @Route("/{id}/modifier", name="journaux_comptables_edit", methods="GET|POST")
      */
     public function edit(Request $request, JournauxComptables $journauxComptable): Response
     {
@@ -64,6 +71,8 @@ class JournauxComptablesController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Journal enregistré correctement.');
 
             return $this->redirectToRoute('journaux_comptables_index', ['id' => $journauxComptable->getId()]);
         }
@@ -75,7 +84,7 @@ class JournauxComptablesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="journaux_comptables_delete", methods="DELETE")
+     * @Route("/{id}/supprimer", name="journaux_comptables_delete", methods="DELETE")
      */
     public function delete(Request $request, JournauxComptables $journauxComptable): Response
     {

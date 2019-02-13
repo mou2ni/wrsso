@@ -14,34 +14,25 @@ class RecetteDepenseJourneesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $estComptant=$options['estComptant'];
+        //$estComptant=$options['estComptant'];
 
         $builder
             ->add('mRecette', NumberType::class,array('grouping'=>3,'scale'=>0))
-            ->add('mDepense', NumberType::class,array('grouping'=>3,'scale'=>0));
-        if (($estComptant)) {
-            $builder->add('recetteDepenses', CollectionType::class, array(
+            ->add('mDepense', NumberType::class,array('grouping'=>3,'scale'=>0))
+            ->add('recetteDepenses', CollectionType::class, array(
                 'entry_type' => RecetteDepensesComptantsType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
                 'attr' => ['class' => 'collections-tag']
             ));
-        } else {
-            $builder->add('recetteDepenses', CollectionType::class, array(
-                'entry_type' => RecetteDepensesType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'attr' => ['class' => 'collections-tag']
-            ));
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => JourneeCaisses::class,
+            //'estComptant'=>true,
         ]);
     }
 }

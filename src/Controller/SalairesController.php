@@ -93,7 +93,7 @@ class SalairesController extends Controller
                 if (!$transaction){
                     $this->addFlash('error', $genCompta->getErrMessage());
                     if ($genCompta->getE()==Transactions::ERR_DESEQUILIBRE){
-                        return $this->render('transactions/erreur_desequilibre.html.twig',['transaction'=>$transaction]);
+                        return $this->render('transactions/erreur_desequilibre.html.twig',['transaction'=>$genCompta->getTransactions()[0]]);
                     }
                     return $this->redirectToRoute('salaires_positionnement');
                 }
