@@ -13,7 +13,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Boolean;
-use Proxies\__CG__\App\Entity\Comptes;
 
 /**
  * @ORM\Entity (repositoryClass="App\Repository\CaissesRepository")
@@ -110,6 +109,11 @@ class Caisses
      * @ORM\Column(type="boolean")
      */
     private $dispoGuichet=false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $comptaDetail=false;
 
     /**
      * Caisses constructor.
@@ -473,6 +477,24 @@ class Caisses
     public function setJournalComptable($journalComptable)
     {
         $this->journalComptable = $journalComptable;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComptaDetail()
+    {
+        return $this->comptaDetail;
+    }
+
+    /**
+     * @param mixed $comptaDetail
+     * @return Caisses
+     */
+    public function setComptaDetail($comptaDetail)
+    {
+        $this->comptaDetail = $comptaDetail;
         return $this;
     }
 

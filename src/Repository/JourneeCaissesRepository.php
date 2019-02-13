@@ -64,10 +64,10 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         if ($myJournee->getCaisse()->getTypeCaisse()<> Caisses::GUICHET){
             $qb->andWhere('jc.dateComptable=:dateComptable or c.typeCaisse!=:typeCaisse')
                 ->setParameter('dateComptable',$dateComptable)
-                ->setParameter('typeCaisse',Caisses::GUICHET);
+                ->setParameter('typeCaisse',Caisses::GUICHET)
+                ->andWhere('c.dispoGuichet=1');
         }
         return $qb->andWhere('jc!=:myJournee')
-            ->andWhere('c.dispoGuichet=1')
             ->setParameter('statut',JourneeCaisses::ENCOURS)
             ->setParameter('myJournee',$myJournee)
             ;

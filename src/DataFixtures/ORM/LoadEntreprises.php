@@ -9,6 +9,7 @@
 namespace App\DataFixtures\ORM;
 
 use App\Entity\Clients;
+use App\Entity\Collaborateurs;
 use App\Entity\Entreprises;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -19,7 +20,7 @@ class LoadEntreprises extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $representant = $manager->getRepository(Clients::class)->findOneBy(['estRepresentant'=>true]);
+        $representant = $manager->getRepository(Collaborateurs::class)->findOneBy(['estRepresentant'=>true]);
         $list=array (
             array('code'=>'YESBO','libelle'=>'YESBO SARL','representant'=>$representant, 'adresse'=>'DAPOYA, Avenue Dimdolobson, 02 BP 6106, Tel : +226 25332205')
         );

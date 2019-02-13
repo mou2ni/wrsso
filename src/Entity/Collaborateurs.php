@@ -70,6 +70,7 @@ class Collaborateurs
      */
     private $adresse;
 
+
     /**
      * @ORM\Column(type="integer")
      */
@@ -591,6 +592,24 @@ class Collaborateurs
     public function setCompteRemunerationDue($compteRemunerationDue)
     {
         $this->compteRemunerationDue = $compteRemunerationDue;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstRepresentant()
+    {
+        return $this->estRepresentant;
+    }
+
+    /**
+     * @param mixed $estRepresentant
+     * @return Collaborateurs
+     */
+    public function setEstRepresentant($estRepresentant)
+    {
+        $this->estRepresentant = $estRepresentant;
         return $this;
     }
 

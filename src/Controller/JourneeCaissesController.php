@@ -234,8 +234,14 @@ class JourneeCaissesController extends Controller
             //sécuriser l'opération avec un token
             if ($this->isCsrfTokenValid('fermer'.$this->journeeCaisse->getId(), $request->request->get('_token'))) {
                 //comptabiliser l'écart de caisse
+                $this->addFlash('success', 'COMPTABILISATION ....');
                 $genererCompta=new GenererCompta($em);
-                if ($this->journeeCaisse->getCompense()!=0){
+                if (!$genererCompta->genComptaFermeture($this->journeeCaisse)){
+                    $this->addFlash('error', '==> ECHEC : '. $genererCompta->getErrMessage());
+                    return $this->redirectToRoute('journee_caisses_gerer');
+                }
+                $this->addFlash('success', '==>OK ');
+                /*if ($this->journeeCaisse->getCompense()!=0){
                     if ($genererCompta->genComptaCompense($this->utilisateur,$this->caisse,$this->journeeCaisse->getCompense(), $this->journeeCaisse)){
                         $this->addFlash('success', 'COMPTABILISATION COMPENSES ==> OK');
                     }else {
@@ -250,7 +256,7 @@ class JourneeCaissesController extends Controller
                         $this->addFlash('error', 'COMPTABILISATION ECART DE CAISSE ==> ECHEC : '.$genererCompta->getErrMessage());
                         return $this->redirectToRoute('journee_caisses_gerer');
                     }
-                }
+                }*/
                 //fermer la caisse
                 $this->journeeCaisse->setDateFerm(new \DateTime());
                 $this->journeeCaisse->setStatut(JourneeCaisses::CLOSE);
@@ -284,8 +290,8 @@ class JourneeCaissesController extends Controller
             return $this->redirectToRoute('journee_caisses_gerer');
         }
         $em=$this->getDoctrine()->getManager();
-        $genererCompta=new GenererCompta($em);
-        $genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv(), $this->journeeCaisse);
+        //$genererCompta=new GenererCompta($em);
+        //$genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'Ecart ouverture' . $this->journeeCaisse, $this->journeeCaisse->getMEcartOuv(), $this->journeeCaisse);
         $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
         $this->journeeCaisse->setDateOuv(new \DateTime());
         $this->journeeCaisse->setUtilisateur($this->utilisateur);

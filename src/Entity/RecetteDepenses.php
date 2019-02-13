@@ -109,25 +109,10 @@ class RecetteDepenses
             $genCompta->setE(Transactions::ERR_COMPTE_INEXISTANT);
             return $genCompta;
         }
-        //dump($recetteDepense);die();
-        if($this->estCharge){
-            if (!$genCompta->genComptaDepenses($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse,$this->getDateOperation())){
-                return $genCompta;
-            };
-            $this->setMDepense($this->getMSaisie());
-        }elseif($this->estProduit){
-            if (!$genCompta->genComptaRecettes($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse, $this->getDateOperation())){
-                return $genCompta;
-            };
-            $this->setMRecette($this->getMSaisie());
-        }else{
-            $genCompta->setErrMessage('Le compte numero ['.$compte->getNumCompte().'] parametré dans l\'operation comptable ['.$this->getTypeOperationComptable()->getLibelle().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
-            $genCompta->setE(Transactions::ERR_COMPTE_INEXISTANT);
-            return $genCompta;
-        }
 
-        $this->setTransaction($genCompta->getTransactions()[0]);
-        $this->setStatut(RecetteDepenses::STAT_COMPTA);
+        if($this->getStatut()==RecetteDepenses::STAT_INITIAL or $this->getStatut()==null){
+            $genCompta=$this->comptaAjoutRecetteDepenses($journeeCaisse,$genCompta,$compte);
+        }
         return $genCompta;
     }
 
@@ -416,4 +401,28 @@ class RecetteDepenses
         return $this;
     }
 
+    private function comptaAjoutRecetteDepenses(JourneeCaisses $journeeCaisse, GenererCompta $genCompta, Comptes $compte){
+
+        //dump($recetteDepense);die();
+        if($this->estCharge){
+            if (!$genCompta->genComptaDepenses($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse,$this->getDateOperation())){
+                return $genCompta;
+            };
+            $this->setMDepense($this->getMSaisie());
+        }elseif($this->estProduit){
+            if (!$genCompta->genComptaRecettes($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse, $this->getDateOperation())){
+                return $genCompta;
+            };
+            $this->setMRecette($this->getMSaisie());
+        }else{
+            $genCompta->setErrMessage('Le compte numero ['.$compte->getNumCompte().'] parametré dans l\'operation comptable ['.$this->getTypeOperationComptable()->getLibelle().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
+            $genCompta->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return $genCompta;
+        }
+
+        $this->setTransaction($genCompta->getTransactions()[0]);
+        $this->setStatut(RecetteDepenses::STAT_COMPTA);
+
+        return $genCompta;
+    }
 }

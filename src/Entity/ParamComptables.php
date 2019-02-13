@@ -536,5 +536,23 @@ class ParamComptables
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getJournalPaye()
+    {
+        return $this->journalPaye;
+    }
+
+    /**
+     * @param mixed $journalPaye
+     * @return ParamComptables
+     */
+    public function setJournalPaye($journalPaye)
+    {
+        $this->journalPaye = $journalPaye;
+        return $this;
+    }
+
     
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\RecetteDepenses;
 use App\Form\RecetteDepenseJourneesType;
+use App\Form\RecetteDepensesComptantsType;
 use App\Form\RecetteDepensesType;
 use App\Repository\RecetteDepensesRepository;
 use App\Utils\GenererCompta;
@@ -35,13 +36,27 @@ class RecetteDepensesController extends Controller
     }
 
     /**
-     * @Route("/saisie", name="recette_depenses_saisie", methods="GET|POST")
+     * @Route("/saisieComptant", name="recette_depenses_comptant", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function ajoutComptant(Request $request): Response
+    {
+        return $this->ajout($request);
+    }
+
+    /**
+     * @Route("/saisieAterme", name="recette_depenses_aterme", methods="GET|POST")
+     */
+    public function ajoutAterme(Request $request): Response
+    {
+        return $this->ajout($request,false);
+    }
+
+    private function ajout(Request $request, $estComptant=true): Response
     {
         $recetteDepense = new RecetteDepenses();
         $recetteDepense->setUtilisateur($this->utilisateur)->setJourneeCaisse($this->journeeCaisse)->setStatut(RecetteDepenses::STAT_INITIAL);
-        $form = $this->createForm(RecetteDepensesType::class, $recetteDepense);
+        $form = ($estComptant)?$this->createForm(RecetteDepensesComptantsType::class, $recetteDepense)
+        :$this->createForm(RecetteDepensesType::class, $recetteDepense);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,11 +85,24 @@ class RecetteDepensesController extends Controller
     }
 
     /**
-     * @Route("/saisiegroupee", name="recette_depenses_saisie_groupee", methods="GET|POST")
+     * @Route("/saisiegroupeecomptant", name="recette_depenses_comptant_groupee", methods="GET|POST")
      */
-    public function saisieGroupe(Request $request): Response
+    public function saisieComptantGroupee(Request $request):Response
     {
-        $form = $this->createForm(RecetteDepenseJourneesType::class, $this->journeeCaisse);
+        return $this->saisieGroupe($request);
+    }
+
+    /**
+     * @Route("/saisiegroupeeaterme", name="recette_depenses_aterme_groupee", methods="GET|POST")
+     */
+    public function saisieAtermeGroupee(Request $request):Response
+    {
+        return $this->saisieGroupe($request, false);
+    }
+
+    private function saisieGroupe(Request $request, $estComptant=true): Response
+    {
+        $form = $this->createForm(RecetteDepenseJourneesType::class, $this->journeeCaisse,['estComptant'=>$estComptant]);
         $form->handleRequest($request);
 
         //dump($request);die();
@@ -84,16 +112,16 @@ class RecetteDepensesController extends Controller
             //dump($this->journeeCaisse);die();
             foreach ($this->journeeCaisse->getRecetteDepenses() as $recetteDepense) {
 
-                if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null){
-                    $recetteDepense->setEstComptant(true);
-                    $genCompta=$recetteDepense->comptabiliser($em,$this->journeeCaisse);
-                    if (!$genCompta) {
-                        return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse,'form' => $form->createView(), ]);
-                    }
+                //if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null){
+                $recetteDepense->setEstComptant($estComptant);
+                $genCompta=$recetteDepense->comptabiliser($em,$this->journeeCaisse);
+                if (!$genCompta) {
+                    return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse,'form' => $form->createView(), ]);
+                }
                     //$recetteDepense->setTransaction($genCompta->getTransactions()[0]);
                     //$recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
                     //$em->persist($recetteDepense);
-                }
+                //}
             }
             $this->journeeCaisse->maintenirRecetteDepenses();
             $em->persist($this->journeeCaisse);

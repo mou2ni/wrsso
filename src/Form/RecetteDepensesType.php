@@ -24,6 +24,11 @@ class RecetteDepensesType extends AbstractType
                 'choice_label' => 'libelle',
                 'multiple' => false,
                 'expanded'=>false,))
+            ->add('compteTier', EntityType::class, array (
+                'class' => 'App\Entity\Comptes',
+                'choice_label' => 'intitule',
+                'multiple' => false,
+                'expanded'=>false,))
             ->add('mSaisie')
         ;
     }

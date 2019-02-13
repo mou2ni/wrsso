@@ -252,13 +252,13 @@ class InterCaissesController extends Controller
         $interCaisse->setStatut($statut);
         $interCaisse->getJourneeCaisseEntrant()->updateM('mIntercaisses', $interCaisse->getMIntercaisse());
         $interCaisse->getJourneeCaisseSortant()->updateM('mIntercaisses', -$interCaisse->getMIntercaisse());
-        $genCompta=new GenererCompta($this->getDoctrine()->getManager());
+        /*$genCompta=new GenererCompta($this->getDoctrine()->getManager());
         if (!$genCompta->genComptaIntercaisse($this->utilisateur,$interCaisse->getJourneeCaisseEntrant()->getCaisse(), $interCaisse->getJourneeCaisseSortant()->getCaisse(),$interCaisse->getMIntercaisse(),$interCaisse->getJourneeCaisseInitiateur())){
             $this->addFlash('error', $genCompta->getErrMessage());
             return false;
         };
 
-        $interCaisse->setTransaction($genCompta->getTransactions()[0]);
+        $interCaisse->setTransaction($genCompta->getTransactions()[0]);*/
         return $interCaisse;
     }
     
@@ -275,11 +275,11 @@ class InterCaissesController extends Controller
         $interCaisse->getJourneeCaisseSortant()->updateM('mIntercaisses', $interCaisse->getMIntercaisse());
         $interCaisse->setStatut(InterCaisses::ANNULE);
 
-        $genCompta=new GenererCompta($this->getDoctrine()->getManager());
+       /* $genCompta=new GenererCompta($this->getDoctrine()->getManager());
         if (!$genCompta->genComptaIntercaisse($this->utilisateur,$interCaisse->getJourneeCaisseSortant()->getCaisse(), $interCaisse->getJourneeCaisseEntrant()->getCaisse(), $interCaisse->getMIntercaisse(),$interCaisse->getJourneeCaisseInitiateur(), $interCaisse->getTransaction())){
             $this->addFlash('error', $genCompta->getErrMessage());
             return false;
-        };
+        };*/
         return $interCaisse;
     }
 

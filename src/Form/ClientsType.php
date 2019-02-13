@@ -19,6 +19,9 @@ class ClientsType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('adresse')
+            ->add('typeTier', ChoiceType::class
+                ,array('choices'  => ['Client'=>Clients::TYP_CLIENT, 'Fournisseur'=>Clients::TYP_FOURNISSEUR, 'Collaboreur'=>Clients::TYP_PERSONNEL, 'Divers'=>Clients::TYP_DIVERS], 'required' => true
+                ))
             //->add('adresse')
             //->add('comptes',CollectionType::class)
         ;

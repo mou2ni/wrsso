@@ -43,6 +43,13 @@ class Entreprises
      */
     private $collaborateurs;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Collaborateurs", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $representant;
+
     /**
      * Entreprises constructor.
      * @param $collaborateurs
@@ -51,12 +58,7 @@ class Entreprises
     {
         $this->collaborateurs = new ArrayCollection();
     }
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Collaborateurs", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
 
-    private $representant;
-*/
 
 
 
