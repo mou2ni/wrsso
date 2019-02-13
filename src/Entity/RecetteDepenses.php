@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RecetteDepenses
 {
-    const STAT_COMPTA='C', STAT_INITIAL='I', STAT_ANNULER='X';
+    const STAT_COMPTA='C', STAT_INITIAL='I', STAT_ANNULER='X', RECETTE=7, DEPENSE=6;
 
     /**
      * @ORM\Id
@@ -96,24 +96,6 @@ class RecetteDepenses
     {
         $this->dateOperation = new \DateTime();
     }
-
-
-    public function getCompteGestion(){
-        //$genCompta=new GenererCompta($em);
-        $compteGestion=$this->getTypeOperationComptable()->getCompte();
-        
-        
-
-        /*if($this->getStatut()==RecetteDepenses::STAT_INITIAL or $this->getStatut()==null){
-            //$genCompta=$this->comptaAjoutRecetteDepenses($journeeCaisse,$genCompta,$compte);
-            //$genCompta->genComptaRecetteDepenses($utilisateur,$this->getCompteTier(),$compteGestion,$this->getLibelle(),$this->getMSaisie(),$journalComptable,$journeeCaisse);
-            if ($this->estComptant()){
-                $genCompta->genComptaRecetteDepenseComptant($utilisateur,)
-            }
-        }
-        return $genCompta;*/
-    }
-
 
     /**
      * @return mixed
@@ -237,7 +219,7 @@ class RecetteDepenses
      */
     public function setMRecette($mRecette)
     {
-        if($mRecette<0) $mRecette=abs($mRecette);
+        //if($mRecette<0) $mRecette=abs($mRecette);
         $this->mRecette = $mRecette;
         return $this;
     }
@@ -297,7 +279,14 @@ class RecetteDepenses
      */
     public function setMSaisie($mSaisie)
     {
+        //empecher la modification si déjà comptabilisé
+        if ($this->getStatut()==RecetteDepenses::STAT_COMPTA) return $this;
         //if($mSaisie<0) $mSaisie=abs($mSaisie);
+        $compte=$this->getTypeOperationComptable()->getCompte();
+        $classCompte=substr($compte,0,1);
+
+        if($classCompte==RecetteDepenses::DEPENSE) $this->setMDepense($mSaisie);
+        if($classCompte==RecetteDepenses::RECETTE) $this->setMRecette($mSaisie);
         $this->mSaisie = $mSaisie;
         return $this;
     }

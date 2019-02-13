@@ -15,14 +15,15 @@ use App\Entity\JournauxComptables;
 use App\Entity\JourneeCaisses;
 use App\Entity\LigneSalaires;
 use App\Entity\ParamComptables;
+use App\Entity\RecetteDepenses;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
 use App\Entity\TransfertInternationaux;
 use App\Entity\Utilisateurs;
+use App\Entity\TypeOperationComptables;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
-use Proxies\__CG__\App\Entity\TypeOperationComptables;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
@@ -348,15 +349,15 @@ class GenererCompta
     }
 
 
-    public function genComptaRecetteDepenseComptant(Utilisateurs $utilisateur, Caisses $caisse, TypeOperationComptables $typeOperationComptable, $libelle, $montant,JourneeCaisses $journeeCaisse){
+    public function genComptaRecetteDepenseComptant(Utilisateurs $utilisateur, Caisses $caisse, RecetteDepenses $recetteDepense,JourneeCaisses $journeeCaisse){
         $compteOperation=$this->checkCompteOperation($caisse);
         if (!$compteOperation) return false;
         $journalComptable=$this->checkJournalComptable($caisse);
         if (!$journalComptable) return false;
-        $compteGestion=$this->checkCompteTypeOperationComptables($typeOperationComptable);
+        $compteGestion=$this->checkCompteTypeOperationComptables($recetteDepense->getTypeOperationComptable());
         if (!$compteGestion) return false;
-        
-        return $this->recetteDepenses($utilisateur,$compteOperation,$compteGestion,$libelle,$montant,$journalComptable,$journeeCaisse);
+
+        return $this->recetteDepenses($utilisateur,$compteOperation,$compteGestion,$recetteDepense->getLibelle(),$recetteDepense->getMSaisie(),$journalComptable,$journeeCaisse);
     }
 
     public function genComptaRecetteDepenseAterme(Utilisateurs $utilisateur, Comptes $compteTier, TypeOperationComptables $typeOperationComptable, $libelle, $montant, JournauxComptables $journalComptable){
@@ -368,7 +369,7 @@ class GenererCompta
 
     private function genEcritureDebitCredit(Utilisateurs $utilisateur, Comptes $compteDebit, $compteCredit, $libelle, $montant, JournauxComptables $journalComptable, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime=null)
     {
-        if (!$compteDebit or $compteCredit){
+        if (!$compteDebit or !$compteCredit){
             $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
             $this->setErrMessage('Compte de débit ou crédit non renseigné ! ! !');
         }

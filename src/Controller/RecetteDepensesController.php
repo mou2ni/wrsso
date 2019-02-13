@@ -101,14 +101,15 @@ class RecetteDepensesController extends Controller
                 if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null) {
                     $recetteDepense->setEstComptant(true);
                     //$ok = $recetteDepense->comptabiliser($genCompta, $this->utilisateur, $this->caisse->getJournalComptable(), $this->journeeCaisse);
-                    $ok=$genCompta->genComptaRecetteDepenseComptant($this->utilisateur,$this->caisse,$recetteDepense->getTypeOperationComptable(),$recetteDepense->getLibelle(),$recetteDepense->getMSaisie(),$this->journeeCaisse);
+                    $ok=$genCompta->genComptaRecetteDepenseComptant($this->utilisateur,$this->caisse,$recetteDepense,$this->journeeCaisse);
                     if (!$ok) {
                         $this->addFlash('error', $genCompta->getErrMessage());
                         return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse, 'form' => $form->createView(),]);
                     }
                 }
                 $recetteDepense->setTransaction($genCompta->getTransactions()[0]);
-                $em->persist($recetteDepense);
+                $recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
+                //$em->persist($recetteDepense);
             }
             $this->journeeCaisse->maintenirRecetteDepenses();
             $em->persist($this->journeeCaisse);
@@ -118,7 +119,7 @@ class RecetteDepensesController extends Controller
             if($request->request->has('save_and_close')){
                 return $this->redirectToRoute('compta_saisie_cmd');
             }
-            return $this->redirectToRoute('recette_depenses_saisie_groupee');
+            return $this->redirectToRoute('recette_depenses_comptant_groupee');
         }
 
         return $this->render('recette_depenses/recette_depense_journee.html.twig', [
