@@ -353,6 +353,7 @@ class Transactions
     public function setMDebitTotal($mDebitTotal)
     {
         $this->mDebitTotal = $mDebitTotal;
+        return $this;
     }
 
     /**
@@ -369,6 +370,7 @@ class Transactions
     public function setMCreditTotal($mCreditTotal)
     {
         $this->mCreditTotal = $mCreditTotal;
+        return $this;
     }
 
 

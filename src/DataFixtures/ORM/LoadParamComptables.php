@@ -14,6 +14,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use App\Entity\Comptes;
+use Proxies\__CG__\App\Entity\JournauxComptables;
 
 
 class LoadParamComptables extends Fixture implements DependentFixtureInterface
@@ -34,6 +35,7 @@ class LoadParamComptables extends Fixture implements DependentFixtureInterface
         $compteEcartCaisse=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Ecarts de caisse']);
         $compteDiversCharge=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Charges diverses']);
         $compteDiversProduit=$manager->getRepository(Comptes::class)->findOneBy(['intitule'=>'Produits divers']);
+        $journalPaye=$manager->getRepository(JournauxComptables::class)->findOneBy(['code'=>'PAYE']);
 
         $enr=new ParamComptables();
         $enr->setCodeStructure('YESBO')->setCompteChargeBaseSalaire($compteBaseSalaire)
@@ -49,7 +51,8 @@ class LoadParamComptables extends Fixture implements DependentFixtureInterface
             ->setCompteRemunerationDue($compteRemunerationDue)
             ->setCompteCompense($compteCompense)
             ->setCompteContreValeurDevise($compteContreValeurDevise)->setCompteIntercaisse($compteIntercaisse)->setCompteEcartCaisse($compteEcartCaisse)
-        ->setCompteDiversCharge($compteDiversCharge)->setCompteDiversProduits($compteDiversProduit);
+            ->setCompteDiversCharge($compteDiversCharge)->setCompteDiversProduits($compteDiversProduit)
+            ->setJournalPaye($journalPaye);
 
         $manager->persist($enr);
         $manager->flush();

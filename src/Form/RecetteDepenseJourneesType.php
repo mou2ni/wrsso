@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\JourneeCaisses;
+use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -13,28 +14,28 @@ class RecetteDepenseJourneesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $estComptant=$options['estComptant'];
+
         $builder
             ->add('mRecette', NumberType::class,array('grouping'=>3,'scale'=>0))
-            ->add('mDepense', NumberType::class,array('grouping'=>3,'scale'=>0))
-            ->add('recetteDepenses', CollectionType::class, array(
-                'entry_type' => RecetteDepensesType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true,
+            ->add('mDepense', NumberType::class,array('grouping'=>3,'scale'=>0));
+        if (($estComptant)) {
+            $builder->add('recetteDepenses', CollectionType::class, array(
+                'entry_type' => RecetteDepensesComptantsType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
                 'attr' => ['class' => 'collections-tag']
-            ))
-            /*->add('transfertInternationaux', CollectionType::class, array(
-                'entry_type' => ReceptionType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true,
-                'prototype' => true,
+            ));
+        } else {
+            $builder->add('recetteDepenses', CollectionType::class, array(
+                'entry_type' => RecetteDepensesType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
                 'by_reference' => false,
-                'attr' => ['class' => 'lignetransfert']
-            ))*/
-
-
-
-        ;
+                'attr' => ['class' => 'collections-tag']
+            ));
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

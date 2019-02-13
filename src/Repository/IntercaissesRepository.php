@@ -35,5 +35,19 @@ class IntercaissesRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findIntercaissesValides(JourneeCaisses $journeeCaisse, $entrant=true)
+    {
+        $qb = $this->createQueryBuilder('i');
+
+           ($entrant)?$qb->where('i.journeeCaisseEntrant=:journeeCaisse')
+               :$qb->where('i.journeeCaisseSortant=:journeeCaisse');
+
+        return $qb->andWhere('i.statut= :valide OR i.statut= :autovalide')
+            ->setParameters(['journeeCaisse'=>$journeeCaisse, 'valide'=>Intercaisses::VALIDE, 'autovalide'=>Intercaisses::VALIDATION_AUTO])
+            ->addOrderBy('i.statut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
     
 }

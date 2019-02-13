@@ -55,6 +55,11 @@ class Collaborateurs
     private $statut=Collaborateurs::STAT_SALARIE;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $estRepresentant=false;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $nbEnfant=0;
@@ -577,4 +582,24 @@ class Collaborateurs
         $this->compteRemunerationDue = $compteRemunerationDue;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEstRepresentant()
+    {
+        return $this->estRepresentant;
+    }
+
+    /**
+     * @param mixed $estRepresentant
+     * @return Collaborateurs
+     */
+    public function setEstRepresentant($estRepresentant)
+    {
+        $this->estRepresentant = $estRepresentant;
+        return $this;
+    }
+
+
 }

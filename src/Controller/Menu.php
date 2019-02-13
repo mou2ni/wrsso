@@ -66,7 +66,7 @@ class Menu  extends Controller
 
         $this->menu_comptable=[
             ['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
-            ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_saisie_groupee']
+            ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_comptant_groupee']
             ,['text'=>'Salaires-Positionnement', 'lien'=>'salaires_positionnement']
             ,['text'=>'Ecritures comptables', 'lien'=>'transactions_index']
             ,['text'=>'Recettes Depenses à terme', 'lien'=>'#']

@@ -64,6 +64,12 @@ class TransfertInternationaux
     private $idPays;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $transaction;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $sens;
@@ -400,6 +406,24 @@ class TransfertInternationaux
     public function setJourneeCaisseRecu($journeeCaisseRecu)
     {
         $this->journeeCaisseRecu = $journeeCaisseRecu;
+        return $this;
+    }
+
+    /**
+     * @return Transactions
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param mixed $transaction
+     * @return TransfertInternationaux
+     */
+    public function setTransaction($transaction)
+    {
+        $this->transaction = $transaction;
         return $this;
     }
 
