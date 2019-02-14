@@ -63,6 +63,18 @@
                 </tr>
                 </tbody>
             </table>
+            <table class="table">
+                <thead>
+                <tr><th>Devise</th><th>Solde Ouverture</th><th>Ecart Ouverture</th><th>Achat</th><th>Vente</th><th>Solde</th><th>Ecart</th></tr>
+                </thead>
+                <tbody>
+                {% for devise in treso_devise %}
+                <tr><td> {{ devise.devise }}</td><td><a href="{{ path('devise_journees_ouv',{'id':devise.id}) }}">{{ devise.qteOuv }}</a></td><td> {{ devise.ecartOuv }}</td><td>
+                        <a href="{{ path('devise_journees_achat_vente',{'id':devise.id}) }}"> {{ devise.achat }}</a></td><td><a href="{{ path('devise_journees_achat_vente',{'id':devise.id}) }}">  {{ devise.vente }}</a></td><td><a href="{{ path('devise_journees_ferm',{'id':devise.id}) }}"> {{ devise.stock }}
+                            </a></td><td> {{ devise.ecartFerm }}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
             {#<a href="#" onclick="$('#tresorerie').tableExport({type:'excel',escape:'false'});"><img src="img/icons/xls.png" width="24"> XLS</a>
             #}
         </div >

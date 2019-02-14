@@ -26,7 +26,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
 
     public function liste($dateDeb,$dateFin,$caisse = null,$offset,$limit = 10)
     {
-         $req = $this->createQueryBuilder('jc');
+        $req = $this->createQueryBuilder('jc');
 
         if ($dateDeb){
             $req->where('(jc.dateOuv) >=:dateDeb')
@@ -40,12 +40,12 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         }
         //->andWhere('(jc.dateFerm) <=:dateFin')
 
-         if ($caisse){
-             $req->andWhere('jc.caisse=:caisse')
-                 ->setParameter('caisse',$caisse);
-             //dump($req);
-         }
-         //die();
+        if ($caisse){
+            $req->andWhere('jc.caisse=:caisse')
+                ->setParameter('caisse',$caisse);
+            //dump($req);
+        }
+        //die();
         $req->orderBy('jc.dateComptable', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
@@ -58,7 +58,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     public function getOpenJourneeCaisseQb($dateComptable, $myJournee)
     {
         $qb=$this->createQueryBuilder('jc');
-         $qb->addSelect('c')
+        $qb->addSelect('c')
             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
             ->where('jc.statut=:statut');
         if ($myJournee->getCaisse()->getTypeCaisse()<> Caisses::GUICHET){
@@ -133,7 +133,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     public function findJourneeCaisses(Caisses $caisse=null, $offset=0, $limit=10, \DateTime $dateDebut=null, \DateTime $dateFin=null)
     {
         if (!$dateFin){
-           $now=new \DateTime();
+            $now=new \DateTime();
             $dateFin=$now->add(new \DateInterval('P1D'))->format('Y-m-d');
         }//else $dateFin->format('Y-m-d');
         //dateDebut = 1 mois en arrière par rapport à date fin si non fourni
@@ -143,14 +143,14 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         $dateDebut=new \DateTime();
         $dateDebut=$dateDebut->sub($unmois)->format('Y-m-d');
         $qb = $this->createQueryBuilder('jc');
-         $qb->where('jc.dateOuv>=:dateDebut and jc.dateOuv<=:dateFin')
+        $qb->where('jc.dateOuv>=:dateDebut and jc.dateOuv<=:dateFin')
             ->andWhere($qb->expr()->neq('jc.statut',':statut'));
         if($caisse){
             $qb->andWhere($qb->expr()->eq('jc.caisse',':caisse'))
-            ->setParameter('caisse', $caisse);
+                ->setParameter('caisse', $caisse);
         }
-         $qb//->addGroupBy('jc.caisse')
-            ->addOrderBy('jc.id', 'DESC')
+        $qb//->addGroupBy('jc.caisse')
+        ->addOrderBy('jc.id', 'DESC')
             ->setParameter('dateDebut',$dateDebut)
             ->setParameter('dateFin', $dateFin)
             ->setParameter('statut',JourneeCaisses::INITIAL)
@@ -158,7 +158,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->setFirstResult($offset)
             //->getQuery()
             //->getResult()
-             ;
+        ;
         $pag = new Paginator($qb);
         return $pag;
     }
@@ -185,18 +185,20 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     public function getOuvertureTresorerie(\DateTime $date)
     {
         $qb=$this->createQueryBuilder('jc');
-        return $qb
-            ->select('SUM(jc.mLiquiditeOuv) as liquidite','SUM(jc.mSoldeElectOuv) as solde','SUM(jc.mCreditDiversOuv) as credit',
-                'SUM(jc.mDetteDiversOuv) as dette', 'SUM(jc.mLiquiditeOuv + jc.mSoldeElectOuv) as dispo',
-                'SUM(jc.mLiquiditeOuv + jc.mSoldeElectOuv + jc.mCreditDiversOuv - jc.mDetteDiversOuv ) as Ouverture')
+        return $qb->select('SUM(jc.mLiquiditeOuv) as liquidite','SUM(jc.mSoldeElectOuv) as solde','SUM(jc.mCreditDiversOuv) as credit',
+            'SUM(jc.mDetteDiversOuv) as dette', 'SUM(jc.mLiquiditeOuv + jc.mSoldeElectOuv) as dispo',
+            'SUM(jc.mLiquiditeOuv + jc.mSoldeElectOuv + jc.mCreditDiversOuv - jc.mDetteDiversOuv ) as Ouverture')
             ->innerJoin('jc.journeePrecedente', 'jcp', 'WITH', 'jc.journeePrecedente= jcp.id')
-             ->where('jc.dateComptable=:dateComptable' /*or c.typeCaisse!=:typeCaisse*/)
-            ->andWhere('jcp.dateComptable!=:dateComptable')
-            ->setParameter('dateComptable',$date)
-            ->groupBy('jc.dateComptable')
+            ->where('jcp.dateComptable<:fin')
+            ->andWhere('jc.dateComptable>=:debut' )
+            ->andWhere('jcp.dateComptable<:fin')
+            ->setParameter('debut',$date)
+            ->setParameter('fin',$date)
+            //->groupBy('jc.dateComptable')
             ->getQuery()
             ->getOneOrNullResult();
- }
+
+    }
 
     //** retourne les sommes des compenses, des recettes, des depenses et des ecarts des journees caisses
     // de la date comptable */
@@ -211,7 +213,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->setParameter('dateComptable',$date)
             ->getQuery()
             ->getOneOrNullResult();
-        }
+    }
 
     //** retourne la somme des Appro des journees caisses
     // de la date comptable */
@@ -237,9 +239,17 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     // des premieres journées caisses de toutes les caisses de la datecomptable */
     public function getFermetureTresorerie( \DateTime $date)
     {
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
         $date = $date->format('Y/m/d');
         $em = $this->getEntityManager();
-        $req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM journeecaisses jc WHERE id NOT IN (SELECT jcp.journee_precedente_id FROM journeecaisses jcp WHERE jcp.date_comptable='$date') AND jc.date_comptable='$date'";
+        //$req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM journeecaisses jc WHERE id NOT IN (SELECT jcp.journee_precedente_id FROM journeecaisses jcp WHERE jcp.date_comptable='$date') AND jc.date_comptable='$date'";
+        $req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM journeecaisses jc WHERE id NOT IN (
+    SELECT jcp.id FROM journeecaisses jcp, journeecaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable >'2019/01/28'
+) AND jc.date_comptable>='$debut' AND jc.date_comptable <='$fin'";
         try {
             $stmt = $em->getConnection()->prepare($req);
             $stmt->bindParam(1,$val, \PDO::PARAM_INT);
@@ -317,17 +327,17 @@ class JourneeCaissesRepository extends ServiceEntityRepository
     }
 
     public function findJourneeCaisseInterneOuvertes(){
-         return $this->createQueryBuilder('jc')
-             ->select('jc.id as id, c.code as codeCaisse ')
-             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse = c.id')
-             ->where('jc.statut= :statut')
-             ->andWhere('c.typeCaisse <> :typeCaisse')
-             ->setParameter('typeCaisse',Caisses::GUICHET)
-             ->setParameter('statut',JourneeCaisses::ENCOURS)
-             ->setParameter('statut',JourneeCaisses::ENCOURS)
-             ->getQuery()
-             ->getArrayResult();
-         ;
+        return $this->createQueryBuilder('jc')
+            ->select('jc.id as id, c.code as codeCaisse ')
+            ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse = c.id')
+            ->where('jc.statut= :statut')
+            ->andWhere('c.typeCaisse <> :typeCaisse')
+            ->setParameter('typeCaisse',Caisses::GUICHET)
+            ->setParameter('statut',JourneeCaisses::ENCOURS)
+            ->setParameter('statut',JourneeCaisses::ENCOURS)
+            ->getQuery()
+            ->getArrayResult();
+        ;
         /*if ($typeCaisse){
             $qb->andWhere('c.typeCaisse = :typeCaisse')
                 ->setParameter('typeCaisse',$typeCaisse);

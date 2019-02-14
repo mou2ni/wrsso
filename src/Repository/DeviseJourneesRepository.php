@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\DeviseJournees;
+use App\Entity\Devises;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Types\DateTimeType;
@@ -35,18 +36,69 @@ class DeviseJourneesRepository extends ServiceEntityRepository
         return $qb;
     }
     public function getDeviseTresorerie( \DateTime $date){
-        $date=$date->format('Y/m/d');
-        $qb = $this->createQueryBuilder('dj')
-            ->leftJoin('dj.journeeCaisse','j')
-            ->leftJoin('dj.devise','d')
-            ->where('j.dateComptable=:date')
-            ->setParameter('date',$date)
-            //->orderBy('b.id', 'ASC')
-            //->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-        ;
-        return $qb;
+        //$date=$date->format('Y/m/d');
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $em = $this->getEntityManager();
+        $req = "SELECT d.id as id,d.code as devise, 
+(SELECT SUM(dj.qte_ouv)  FROM devisejournees dj 
+ WHERE dj.idJourneeCaisse IN 
+ 
+ (SELECT jc.id FROM journeecaisses jc, journeecaisses jcp
+ WHERE
+  jc.journee_precedente_id=jcp.id AND jcp.date_comptable<'$debut' 
+  AND jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'                                                                                   
+ )
+ AND dj.devise_id = d.id
+ GROUP BY dj.devise_id
+) AS qteOuv,
+
+(SELECT SUM(dj.qte_achat) FROM devisejournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM journeecaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id)) AS achat,
+
+ (SELECT SUM(dj.qte_vente) FROM devisejournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM journeecaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id)) AS vente,
+
+(SELECT SUM(dj.qte_ferm) as stockFerm FROM devisejournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jcp.journee_precedente_id FROM journeecaisses jcp, journeecaisses jc 
+WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable>'$fin')
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id) AS stock,
+
+(SELECT SUM(dj.ecart_ferm) FROM devisejournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM journeecaisses jcp, journeecaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable >'$fin')
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id) AS ecartFerm,
+
+(SELECT SUM(dj.ecart_ouv) FROM devisejournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM journeecaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin')
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id) AS ecartOuv
+ 
+ FROM devises d
+";
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+        //dump($stmt);die();
+        return $stmt->fetchAll();
     }
 
     public function trouverDevise( \DateTime $date)
@@ -90,6 +142,85 @@ class DeviseJourneesRepository extends ServiceEntityRepository
         } catch (NonUniqueResultException $e) {
         }
     }
+
+    public function getDeviseOuv( \DateTime $date, Devises $devise)
+    {
+        //$date = $date->format('Y/m/d');
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $devise=$devise->getId();
+        $em = $this->getEntityManager();
+        $req="SELECT *  FROM devisejournees dj
+     WHERE dj.idJourneeCaisse IN
+     
+     (SELECT jc.id FROM journeecaisses jc, journeecaisses jcp
+     WHERE
+      jc.journee_precedente_id=jcp.id AND jcp.date_comptable<'$fin'
+      AND jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'                                                                                   
+     )
+     AND dj.devise_id = '$devise'";
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            //$stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+        //dump($stmt);die();
+        return $stmt->fetchAll();
+    }
+    public function getDeviseAchatVente( \DateTime $date, Devises $devise)
+    {
+        //$date = $date->format('Y/m/d');
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $devise=$devise->getId();
+        $em = $this->getEntityManager();
+        $req="
+SELECT * FROM devisejournees dj
+    WHERE dj.idJourneeCaisse 
+    IN (SELECT jc.id FROM journeecaisses jc
+    WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+     AND dj.devise_id = '$devise'
+    )";
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            //$stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+        //dump($stmt);die();
+        return $stmt->fetchAll();
+    }
+    public function getDeviseFerm( \DateTime $date, Devises $devise)
+    {
+        //$date = $date->format('Y/m/d');
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $devise=$devise->getId();
+        $em = $this->getEntityManager();
+        $req="
+SELECT * FROM devisejournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jcp.id FROM journeecaisses jcp, journeecaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable >'$fin')
+ AND dj.devise_id = '$devise'
+   ";
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            //$stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+        //dump($stmt);die();
+        return $stmt->fetchAll();
+    }
+
 
 
 

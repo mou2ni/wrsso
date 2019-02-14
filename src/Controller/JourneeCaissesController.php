@@ -430,7 +430,7 @@ class JourneeCaissesController extends Controller
         $tresoFerm = $em->getRepository(JourneeCaisses::class)->getFermetureTresorerie($date);
         $tresoAppro = $em->getRepository(JourneeCaisses::class)->getApproTresorerie($date);
         $tresoDevise = $em->getRepository(DeviseJournees::class)->getDeviseTresorerie($date);
-        dump($tresoDevise);die();
+        //dump($tresoOuv);die();
 
         return $this->render('journee_caisses/etat_tresorerie.html.twig'
             , [
@@ -438,6 +438,7 @@ class JourneeCaissesController extends Controller
                 'treso_recap' => $tresoRecap,
                 'treso_ferm' => $tresoFerm,
                 'treso_appro' => $tresoAppro,
+                'treso_devise' => $tresoDevise,
                 'date'=>$date
             ]
         );
