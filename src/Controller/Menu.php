@@ -79,7 +79,7 @@ class Menu  extends Controller
 
         $this->menu_suivi=[
             ['text'=>'Tableau de bord', 'lien'=>'#']
-            ,['text'=>'Etat consolidé tresorerie', 'lien'=>'#']
+            ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Mouvements de Devises', 'lien'=>'#']
             ,['text'=>'Grand livre', 'lien'=>'#']
             ,['text'=>'Balance', 'lien'=>'#']

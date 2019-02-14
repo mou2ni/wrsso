@@ -279,7 +279,5 @@ class Devises
         return $this;
     }
 
-
-
     
 }

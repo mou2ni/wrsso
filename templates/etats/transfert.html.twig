@@ -30,12 +30,12 @@
                         <th>EMIS</th>
                         <th>RECUS</th>
                     </tr>
-                    {% for zone in zones %}
+                    {#{% for zone in zones %}
 
-                            {#<tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>#}
+                            <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>
                             {{ render(controller('App\\Controller\\EtatsController::afficherTransfertType', {'type':etatType.typeId,'zone':zone, 'date':dateDeb})) }}
 
-                    {% endfor %}
+                    {% endfor %}#}
                     <tr><td>TOTAL</td><td>{{ etatType.EMIS }}</td><td>{{ etatType.RECUS }}</td></tr>
                     <tr><td>NOMBRE D'OPERATIONS</td><td>{{ etatType.NEMIS }}</td><td>{{ etatType.NRECUS }}</td></tr>
                     <tr> <td>MONTANT DES TAXES RECUES (en F CFA)</td><td></td><td></td></tr>

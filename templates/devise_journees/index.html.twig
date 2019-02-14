@@ -3,7 +3,7 @@
 {% block title %}DeviseJournees index{% endblock %}
 
 {% block body %}
-    <h1>DeviseJournees index</h1>
+    <h1>LISTE DES DEVISES JOURNEES</h1>
 
     <table class="table table-striped">
         <thead>
@@ -24,6 +24,7 @@
         <tbody>
         {% for devise_journee in devise_journees %}
             <tr>
+                {% if src == 'orm' %}
                 <td>{{ devise_journee.id }}</td>
                 <td>{{ devise_journee.qteOuv }}</td>
                 <td>{{ devise_journee.ecartOuv }}</td>
@@ -34,18 +35,30 @@
                 <td>{{ devise_journee.qteIntercaisse }}</td>
                 <td>{{ devise_journee.qteFerm }}</td>
                 <td>{{ devise_journee.ecartFerm }}</td>
+                {% else %}
+                    <td>{{ devise_journee.id }}</td>
+                    <td>{{ devise_journee.qte_ouv }}</td>
+                    <td>{{ devise_journee.ecart_ouv }}</td>
+                    <td>{{ devise_journee.qte_achat }}</td>
+                    <td>{{ devise_journee.qte_vente }}</td>
+                    <td>{{ devise_journee.m_cvd_achat }}</td>
+                    <td>{{ devise_journee.m_cvd_vente }}</td>
+                    <td>{{ devise_journee.qte_intercaisse }}</td>
+                    <td>{{ devise_journee.qte_ferm }}</td>
+                    <td>{{ devise_journee.ecart_ferm }}</td>
+                    {% endif %}
                 <td>
-                    <a href="{{ path('devise_journees_show', {'id': devise_journee.id}) }}">show</a>
-                    <a href="{{ path('devise_journees_edit', {'id': devise_journee.id}) }}">edit</a>
+                    <a href="{{ path('devise_journees_show', {'id': devise_journee.id}) }}">Detail</a>
+                    <a href="{{ path('devise_journees_edit', {'id': devise_journee.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="11">no records found</td>
+                <td colspan="11">Aucune Devise Journee n'est trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('devise_journees_new') }}">Create new</a>
+    <a href="{{ path('devise_journees_new') }}">Ajouter</a>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\DeviseJournees;
+use App\Entity\Devises;
 use App\Form\DeviseJourneesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,55 @@ class DeviseJourneesController extends Controller
             ->getRepository(DeviseJournees::class)
             ->findAll();
 
-        return $this->render('devise_journees/index.html.twig', ['devise_journees' => $deviseJournees]);
+        return $this->render('devise_journees/index.html.twig', [
+            'src'=>'orm',
+            'devise_journees' => $deviseJournees]);
+    }
+
+    /**
+     * @Route("/ouverture/{id}", name="devise_journees_ouv", methods="GET")
+     */
+    public function getDeviseOuv( Devises $devise): Response
+    {
+        //dump($devise);die();
+        $date = new \DateTime('2019-01-28 00:00:00');
+        $deviseJournees = $this->getDoctrine()
+            ->getRepository(DeviseJournees::class)
+            ->getDeviseOuv($date,$devise);
+        //dump($deviseJournees);die();
+        return $this->render('devise_journees/index.html.twig', [
+            'src'=>'bd',
+            'devise_journees' => $deviseJournees]);
+    }
+    /**
+     * @Route("/achatvente/{id}", name="devise_journees_achat_vente", methods="GET")
+     */
+    public function getDeviseAchatVente( Devises $devise): Response
+    {
+        //dump($devise);die();
+        $date = new \DateTime('2019-01-28 00:00:00');
+        $deviseJournees = $this->getDoctrine()
+            ->getRepository(DeviseJournees::class)
+            ->getDeviseAchatVente($date,$devise);
+        //dump($deviseJournees);die();
+        return $this->render('devise_journees/index.html.twig', [
+            'src'=>'bd',
+            'devise_journees' => $deviseJournees]);
+    }
+    /**
+     * @Route("/fermeture/{id}", name="devise_journees_ferm", methods="GET")
+     */
+    public function getDeviseFerm( Devises $devise): Response
+    {
+        //dump($devise);die();
+        $date = new \DateTime('2019-01-28 00:00:00');
+        $deviseJournees = $this->getDoctrine()
+            ->getRepository(DeviseJournees::class)
+            ->getDeviseFerm($date,$devise);
+        //dump($deviseJournees);die();
+        return $this->render('devise_journees/index.html.twig', [
+            'src'=>'bd',
+            'devise_journees' => $deviseJournees]);
     }
 
     /**
