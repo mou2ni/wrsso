@@ -1157,7 +1157,7 @@ class JourneeCaisses
     }
 
     /**
-     * @return mixed
+     * @return Caisses
      */
     public function getCaisse()
     {

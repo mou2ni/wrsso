@@ -15,10 +15,12 @@ use App\Entity\JournauxComptables;
 use App\Entity\JourneeCaisses;
 use App\Entity\LigneSalaires;
 use App\Entity\ParamComptables;
+use App\Entity\RecetteDepenses;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
 use App\Entity\TransfertInternationaux;
 use App\Entity\Utilisateurs;
+use App\Entity\TypeOperationComptables;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -136,7 +138,7 @@ class GenererCompta
         }else{
             $montant = abs($montant);
             $transaction->setUtilisateur($utilisateur)->setLibelle($libelle)->setDateTransaction($dateComptable)
-                ->setJourneeCaisse($journalComptable)->setJourneeCaisse($journeeCaisse);
+                ->setJourneeCaisse($journalComptable)->setJourneeCaisse($journeeCaisse)->setNumPiece($numPiece);
             //->setMCreditTotal($montant)
              //   ->setMDebitTotal($montant);
             return $transaction;
@@ -314,7 +316,7 @@ class GenererCompta
      * @param $montant
      * @return bool
      */
-    public function genComptaRecetteDepenses(Utilisateurs $utilisateur, Comptes $compteTier, Comptes $compteGestion, $libelle, $montant, JournauxComptables $journalComptable, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime=null)
+    private function recetteDepenses(Utilisateurs $utilisateur, Comptes $compteTier, Comptes $compteGestion, $libelle, $montant, JournauxComptables $journalComptable, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime=null)
     {
         //$compteOperation=$this->checkCompteOperation($caisse);
        // if (!$compteOperation) return false;
@@ -322,9 +324,9 @@ class GenererCompta
         $classCompte=substr($compteGestion,0,1);
 
         if( $classCompte==GenererCompta::COMPTE_CHARGE){
-            return $this->genEcritureDebitCredit($utilisateur,$compteGestion,$compteTier,$libelle,$montant,$journalComptable, $journeeCaisse,$dateTime);
+            return $this->genEcritureDebitCredit($utilisateur,$compteGestion,$compteTier,$libelle,-$montant,$journalComptable, $journeeCaisse,$dateTime);
         }elseif ($classCompte==GenererCompta::COMPTE_PRODUIT){
-            return $this->genEcritureDebitCredit($utilisateur,$compteTier,$compteGestion ,$libelle,$montant,$journalComptable,$journeeCaisse,$dateTime);
+            return $this->genEcritureDebitCredit($utilisateur,$compteTier,$compteGestion ,$libelle,-$montant,$journalComptable,$journeeCaisse,$dateTime);
         }else{
             $this->setErrMessage('Le compte numero ['.$compteGestion->getNumCompte().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
             $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
@@ -347,9 +349,27 @@ class GenererCompta
     }
 
 
+    public function genComptaRecetteDepenseComptant(Utilisateurs $utilisateur, Caisses $caisse, RecetteDepenses $recetteDepense,JourneeCaisses $journeeCaisse){
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
+        $journalComptable=$this->checkJournalComptable($caisse);
+        if (!$journalComptable) return false;
+        $compteGestion=$this->checkCompteTypeOperationComptables($recetteDepense->getTypeOperationComptable());
+        if (!$compteGestion) return false;
+
+        return $this->recetteDepenses($utilisateur,$compteOperation,$compteGestion,$recetteDepense->getLibelle(),$recetteDepense->getMSaisie(),$journalComptable,$journeeCaisse);
+    }
+
+    public function genComptaRecetteDepenseAterme(Utilisateurs $utilisateur, Comptes $compteTier, TypeOperationComptables $typeOperationComptable, $libelle, $montant, JournauxComptables $journalComptable){
+
+        $compteGestion=$this->checkCompteTypeOperationComptables($typeOperationComptable);
+        if (!$compteGestion) return false;
+        return $this->recetteDepenses($utilisateur,$compteTier,$compteGestion,$libelle,$montant,$journalComptable);
+    }
+
     private function genEcritureDebitCredit(Utilisateurs $utilisateur, Comptes $compteDebit, $compteCredit, $libelle, $montant, JournauxComptables $journalComptable, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime=null)
     {
-        if (!$compteDebit or $compteCredit){
+        if (!$compteDebit or !$compteCredit){
             $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
             $this->setErrMessage('Compte de débit ou crédit non renseigné ! ! !');
         }
@@ -402,26 +422,6 @@ class GenererCompta
         return !$this->getE();
     }*/
 
-
-    /**
-     * @param Utilisateurs $utilisateur
-     * @param Caisses $caisse
-     * @param $montant
-     * @return bool
-     */
-    public function genComptaCvDevise(Utilisateurs $utilisateur, Caisses $caisse, $montant, JourneeCaisses $journeeCaisse)
-    {
-        $compteOperation=$this->checkCompteOperation($caisse);
-        if (!$compteOperation) return false;
-
-        $compteCvdDevise=$this->checkCompteCvd($caisse);
-        if (!$compteCvdDevise) return false;
-
-        //$this->transactions->add($this->debiterCrediter($utilisateur, $compteOperation,$compteCvdDevise,$utilisateur.' - Contre valeur devises',$montant));
-        $this->genEcritureDebitCredit($utilisateur,$compteOperation,$compteCvdDevise,$utilisateur.' - Contre valeur devises',$montant,$caisse->getJournalComptable(),$journeeCaisse);
-        return !$this->getE();
-
-    }
 
     public function genComptaCvdDeviseFerm(Utilisateurs $utilisateur, Caisses $caisse, JourneeCaisses $journeeCaisse){
         $compteOperation=$this->checkCompteOperation($caisse);
@@ -592,22 +592,22 @@ class GenererCompta
         }
         if (!$transaction) return false ;
         //Débit comptes Charges
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), $ligneSalaire->getMSalaireBase(), true));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), $ligneSalaire->getMIndemLogement(), true));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), $ligneSalaire->getMIndemFonction(), true));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), $ligneSalaire->getMIndemTransport(), true));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), $ligneSalaire->getMIndemAutres(), true));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), $ligneSalaire->getMHeureSup(), true));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), $ligneSalaire->getMSecuriteSocialePatronal(), true));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), true));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), -$ligneSalaire->getMSalaireBase(), 'Salaire de Base'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), -$ligneSalaire->getMIndemLogement(), 'Indemnités de logement'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), -$ligneSalaire->getMIndemFonction(), 'Indemnités de fonction'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), -$ligneSalaire->getMIndemTransport(), 'Indemnités de transport'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMIndemAutres(), 'Autres primes et indemnités'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMHeureSup(), 'Heures supplémentaires'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), -$ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale patronale'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), -$ligneSalaire->getMTaxePatronale(), 'Taxe patronale sur salaire'));
 
         //crédit comptes tiers
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $ligneSalaire->getMImpotSalarie(), false));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), false));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialeSalarie(), false));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialePatronal(), false));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $ligneSalaire->getMImpotSalarie(), 'Impots sur salaires'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), 'Taxes patronales sur salaires'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialeSalarie(), 'Sécurité sociale part salarié'));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale part patronale'));
         $compteRemunerationDue=($ligneSalaire->getCompteRemunerationDue())?$ligneSalaire->getCompteRemunerationDue():$paramComptable->getCompteRemunerationDue();
-        $transaction->addTransactionComptes($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), false));
+        $transaction->addTransactionComptes($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), 'Remunération nette due'));
 
         //dump($transaction);
         $this->transactions->add($transaction);
@@ -649,6 +649,34 @@ class GenererCompta
             return false;
         }
         return $compteOperation;
+    }
+
+    private function checkJournalComptable(Caisses $caisse){
+        $journalComptable=$caisse->getJournalComptable();
+        if(!$journalComptable){
+            $this->setErrMessage('Journal comptable de caisse ['.$caisse->getCode().'] NON PARAMETRE.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $journalComptable;
+    }
+
+    private function checkCompteTypeOperationComptables(TypeOperationComptables $typeOperationComptable){
+        $compteGestion=$typeOperationComptable->getCompte();
+        if (!$compteGestion){
+            $this->setErrMessage('Compte non paramétré pour l\'opération comptable '.$this->getTypeOperationComptable()->getLibelle());
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        // $this->typageCompte($compteGestion);
+        $classCompte=substr($compteGestion,0,1);
+        if($classCompte!=$this::COMPTE_CHARGE and $classCompte!=$this::COMPTE_PRODUIT){
+            $this->setErrMessage('Le compte numero ['.$compteGestion->getNumCompte().'] parametré dans l\'operation comptable ['.$typeOperationComptable->getLibelle().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+
+        return $compteGestion;
     }
 
     private function checkCompteAttenteCompense(Caisses $caisse){

@@ -25,13 +25,18 @@ class Pays
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=5, unique=true, nullable=true)
+     */
+    private $code;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $libelle;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Zones", cascade={"persist"})
-     * @ORM\JoinColumn(fieldName="zone", nullable=true)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $zone;
 
@@ -110,6 +115,24 @@ class Pays
     public function setDansRegion($dansRegion)
     {
         $this->dansRegion = $dansRegion;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param mixed $code
+     * @return Pays
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
         return $this;
     }
 

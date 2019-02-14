@@ -1,3 +1,4 @@
+{{ include('_pagination.html.twig') }}
 <table class="table table-striped">
     <thead>
     <tr>
@@ -16,7 +17,7 @@
             <td>{{ pay.zone }}</td>
             <td>{{ (pay.dansRegion)?'OUI':'NON' }}</td>
             <td>
-                <a href="{{ path('pays_show', {'id': pay.id}) }}">Detail</a>
+                <a href="{{ path('pays_show', {'id': pay.id}) }}">Detail</a> |
                 <a href="{{ path('pays_edit', {'id': pay.id}) }}">Modifier</a>
             </td>
         </tr>

@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit JournauxComptables{% endblock %}
+{% block title %}modification Journal Comptable{% endblock %}
 
 {% block body %}
-    <h1>Edit JournauxComptables</h1>
+    <h1>Modification journal comptable</h1>
 
-    {{ include('journaux_comptables/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('journaux_comptables/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('journaux_comptables_index') }}">back to list</a>
+    <a href="{{ path('journaux_comptables_index') }}">Liste</a>
 
     {{ include('journaux_comptables/_delete_form.html.twig') }}
 {% endblock %}

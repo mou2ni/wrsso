@@ -20,9 +20,7 @@ class CaissesType extends AbstractType
             ->add('compteIntercaisse')
             ->add('compteAttenteCompense')
             ->add('journalComptable')
-            ->add('comptaDetail', ChoiceType::class
-                ,array('choices'  => ['Oui'=>true,'Non'=>false], 'required' => true, 'expended'=>true,
-                ))
+            ->add('comptaDetail')
             ->add('lastUtilisateur')
             ->add('typeCaisse', ChoiceType::class
                 ,array('choices'  => ['GUICHETIER'=>Caisses::GUICHET,'CMD'=>Caisses::MENUDEPENSE, 'TONTINE'=>Caisses::TONTINE,  'COMPENSE'=>Caisses::COMPENSE, 'BANQUE'=>Caisses::BANQUE], 'required' => true

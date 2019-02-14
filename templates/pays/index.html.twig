@@ -3,7 +3,7 @@
 {% block title %}Pays index{% endblock %}
 
 {% block body %}
-    <h1>Liste des pays</h1>
+    <h1>Liste des pays | Ajouter : <a href="{{ path('pays_new') }}"> Un Pays</a> | <a href="{{ path('zones_new') }}"> Une Zones</a></h1>
     {{ include('pays/_liste.html.twig') }}
-    <a href="{{ path('pays_new') }}">Ajouter</a>
+
 {% endblock %}

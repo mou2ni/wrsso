@@ -89,39 +89,27 @@ class RecetteDepensesController extends Controller
      */
     public function saisieComptantGroupee(Request $request):Response
     {
-        return $this->saisieGroupe($request);
-    }
-
-    /**
-     * @Route("/saisiegroupeeaterme", name="recette_depenses_aterme_groupee", methods="GET|POST")
-     */
-    public function saisieAtermeGroupee(Request $request):Response
-    {
-        return $this->saisieGroupe($request, false);
-    }
-
-    private function saisieGroupe(Request $request, $estComptant=true): Response
-    {
-        $form = $this->createForm(RecetteDepenseJourneesType::class, $this->journeeCaisse,['estComptant'=>$estComptant]);
+        $form = $this->createForm(RecetteDepenseJourneesType::class, $this->journeeCaisse);
         $form->handleRequest($request);
-
         //dump($request);die();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
+            $genCompta=new GenererCompta($em);
             //dump($this->journeeCaisse);die();
             foreach ($this->journeeCaisse->getRecetteDepenses() as $recetteDepense) {
-
-                //if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null){
-                $recetteDepense->setEstComptant($estComptant);
-                $genCompta=$recetteDepense->comptabiliser($em,$this->journeeCaisse);
-                if (!$genCompta) {
-                    return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse,'form' => $form->createView(), ]);
+                $recetteDepense->setCompteTier($this->caisse->getCompteOperation());
+                if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null) {
+                    $recetteDepense->setEstComptant(true);
+                    //$ok = $recetteDepense->comptabiliser($genCompta, $this->utilisateur, $this->caisse->getJournalComptable(), $this->journeeCaisse);
+                    $ok=$genCompta->genComptaRecetteDepenseComptant($this->utilisateur,$this->caisse,$recetteDepense,$this->journeeCaisse);
+                    if (!$ok) {
+                        $this->addFlash('error', $genCompta->getErrMessage());
+                        return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse, 'form' => $form->createView(),]);
+                    }
                 }
-                    //$recetteDepense->setTransaction($genCompta->getTransactions()[0]);
-                    //$recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
-                    //$em->persist($recetteDepense);
-                //}
+                $recetteDepense->setTransaction($genCompta->getTransactions()[0]);
+                $recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
+                //$em->persist($recetteDepense);
             }
             $this->journeeCaisse->maintenirRecetteDepenses();
             $em->persist($this->journeeCaisse);
@@ -131,16 +119,7 @@ class RecetteDepensesController extends Controller
             if($request->request->has('save_and_close')){
                 return $this->redirectToRoute('compta_saisie_cmd');
             }
-
-            return $this->redirectToRoute('recette_depenses_saisie_groupee');
-
-            /*if($request->request->has('save_and_close')){
-                return $this->redirectToRoute('journee_caisses_gerer');
-            }
-            if($request->request->has('save_and_close')){
-                return $this->redirectToRoute('recette_depenses_saisie_groupee');
-            }*/
-
+            return $this->redirectToRoute('recette_depenses_comptant_groupee');
         }
 
         return $this->render('recette_depenses/recette_depense_journee.html.twig', [
@@ -149,6 +128,15 @@ class RecetteDepensesController extends Controller
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/saisiegroupeeaterme", name="recette_depenses_aterme_groupee", methods="GET|POST")
+     */
+    public function saisieAtermeGroupee(Request $request):Response
+    {
+
+    }
+
 
     /**
      * @Route("/{id}", name="recette_depenses_details", methods="GET")

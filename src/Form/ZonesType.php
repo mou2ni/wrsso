@@ -12,9 +12,10 @@ class ZonesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('libelle')
             ->add('code')
+            ->add('libelle')
             ->add('ordre')
+            ->add('detail')
         ;
     }
 

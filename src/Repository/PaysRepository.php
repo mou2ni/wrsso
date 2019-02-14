@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Pays;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -20,13 +21,15 @@ class PaysRepository extends ServiceEntityRepository
         parent::__construct($registry, Pays::class);
     }
 
-    public function liste($limit = 10)
+    public function liste($offset=0, $limit = 10)
     {
-        return $this->createQueryBuilder('p')
-            ->orderBy('p.id', 'ASC')
+        $qb=$this->createQueryBuilder('p')
+            ->orderBy('p.libelle', 'ASC')
+            ->setFirstResult($offset)
             ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
             ;
+        $pag = new Paginator($qb);
+
+        return $pag;
     }
 }

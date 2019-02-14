@@ -1,18 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}JournauxComptables index{% endblock %}
+{% block title %}Journaux Comptables {% endblock %}
 
 {% block body %}
-    <h1>JournauxComptables index</h1>
+    <h1>Liste des journaux comptables |  <a href="{{ path('journaux_comptables_new') }}">Ajouter</a></h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Code</th>
-                <th>TypeJournal</th>
+                <th>Type Journal</th>
                 <th>Libelle</th>
-                <th>DernierNumPiece</th>
+                <th>Dernier Numéro</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,17 +25,16 @@
                 <td>{{ journaux_comptable.libelle }}</td>
                 <td>{{ journaux_comptable.dernierNumPiece }}</td>
                 <td>
-                    <a href="{{ path('journaux_comptables_show', {'id': journaux_comptable.id}) }}">show</a>
-                    <a href="{{ path('journaux_comptables_edit', {'id': journaux_comptable.id}) }}">edit</a>
+                    <a href="{{ path('journaux_comptables_show', {'id': journaux_comptable.id}) }}">Détails</a> |
+                    <a href="{{ path('journaux_comptables_edit', {'id': journaux_comptable.id}) }}">Modifer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Aucun enregistrement</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('journaux_comptables_new') }}">Create new</a>
 {% endblock %}

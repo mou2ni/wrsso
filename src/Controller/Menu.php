@@ -31,13 +31,13 @@ class Menu  extends Controller
             ,
         ];
         $this->menu_parametre=[
-            ['text'=>'Clients', 'lien'=>'clients_index']
+            ['text'=>'Tiers', 'lien'=>'clients_index']
             ,['text'=>'Plan comptable', 'lien'=>'comptes_index']
+            ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_index']
             ,['text'=>'Paramètres comptables', 'lien'=>'param_comptables_index']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
             ,['text'=>'Caisses et banques', 'lien'=>'caisses_index']
             ,['text'=>'Collaborateurs', 'lien'=>'collaborateurs_new']
-            ,['text'=>'Parametres comptables', 'lien'=>'#']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
             ,['text'=>'Taux de Devise', 'lien'=>'taux_devises']
             ,['text'=>'Transferts Internationaux', 'lien'=>'transfert_internationaux_index']

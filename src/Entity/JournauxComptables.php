@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class JournauxComptables
 {
-    const TYP_TRESORERIE='TRS', TYP_ACHAT='ACH', TYP_VENTE='VTE', TYP_PAYE='PAY', TYP_OD='OD';
+    const TYP_TRESORERIE='TRS', TYP_ACHAT='ACH', TYP_VENTE='VTE', TYP_OD='OD';
 
     /**
      * @ORM\Id
@@ -57,6 +57,12 @@ class JournauxComptables
      * @ORM\Column(type="integer")
      */
     private $dernierNumPiece=0;
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+        return $this->getCode();
+    }
 
     /**
      * @return mixed
