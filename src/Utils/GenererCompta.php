@@ -424,12 +424,14 @@ class GenererCompta
 
 
     public function genComptaCvdDeviseFerm(Utilisateurs $utilisateur, Caisses $caisse, JourneeCaisses $journeeCaisse){
+        $journalComptable=$this->checkJournalComptable($caisse);
+        if (!$journalComptable) return false;
         $compteOperation=$this->checkCompteOperation($caisse);
         if (!$compteOperation) return false;
         $compteCvdDevise=$this->checkCompteCvd($caisse);
         if (!$compteCvdDevise) return false;
 
-        $transaction=$this->initTransaction($utilisateur,'Contre valeur devise - '.$utilisateur, $journeeCaisse->getMCvd(),$caisse->getJournalComptable(), $journeeCaisse);
+        $transaction=$this->initTransaction($utilisateur,'Contre valeur devise - '.$utilisateur, $journeeCaisse->getMCvd(),$journalComptable, $journeeCaisse);
         if (!$transaction) return false ;
 
         if ($caisse->getComptaDetail()){
@@ -483,12 +485,14 @@ class GenererCompta
     }*/
 
     public function genComptaIntercaisseFerm(Utilisateurs $utilisateur, Caisses $caisse, JourneeCaisses $journeeCaisse){
+        $journalComptable=$this->checkJournalComptable($caisse);
+        if (!$journalComptable) return false;
         $compteOperation=$this->checkCompteOperation($caisse);
         if (!$compteOperation) return false;
         $compteIntercaisse=$this->checkCompteIntercaisse($caisse);
         if (!$compteIntercaisse) return false;
 
-        $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $journeeCaisse->getMIntercaisses(),$caisse->getJournalComptable(), $journeeCaisse);
+        $transaction=$this->initTransaction($utilisateur,'Intercaissse - '.$utilisateur, $journeeCaisse->getMIntercaisses(),$journalComptable, $journeeCaisse);
         if (!$transaction) return false ;
 
         if ($caisse->getComptaDetail()){
@@ -517,12 +521,14 @@ class GenererCompta
     }
 
     public function genComptaCompensesFerm(Utilisateurs $utilisateur, Caisses $caisse, JourneeCaisses $journeeCaisse){
+        $journalComptable=$this->checkJournalComptable($caisse);
+        if (!$journalComptable) return false;
         $compteOperation=$this->checkCompteOperation($caisse);
         if (!$compteOperation) return false;
         $compteCompense=$this->checkCompteAttenteCompense($caisse);
         if (!$compteCompense) return false;
 
-        $transaction=$this->initTransaction($utilisateur,'Compenses - '.$utilisateur, $journeeCaisse->getCompense(),$caisse->getJournalComptable(), $journeeCaisse);
+        $transaction=$this->initTransaction($utilisateur,'Compenses - '.$utilisateur, $journeeCaisse->getCompense(),$journalComptable, $journeeCaisse);
         if (!$transaction) return false ;
 
         if ($caisse->getComptaDetail()){

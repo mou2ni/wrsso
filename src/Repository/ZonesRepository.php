@@ -28,7 +28,7 @@ class ZonesRepository extends ServiceEntityRepository
     public function liste($offset=0,$limit = 10)
     {
         $qb = $this->createQueryBuilder('z')
-            ->orderBy('z.ordre', 'ASC')
+            ->orderBy('z.zone', 'ASC')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             //->getQuery()

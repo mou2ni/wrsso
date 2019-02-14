@@ -39,12 +39,12 @@ class Menu  extends Controller
             ,['text'=>'Caisses et banques', 'lien'=>'caisses_index']
             ,['text'=>'Collaborateurs', 'lien'=>'collaborateurs_new']
             ,['text'=>'Opérations comptables', 'lien'=>'type_operation_comptables_index']
-            ,['text'=>'Taux de Devise', 'lien'=>'taux_devises']
+            ,['text'=>'Devises', 'lien'=>'devises_index']
             ,['text'=>'Transferts Internationaux', 'lien'=>'transfert_internationaux_index']
             ,['text'=>'Transferts électroniques', 'lien'=>'system_elects_index']
             ,['text'=>'Devises', 'lien'=>'devises_index']
             ,['text'=>'Billets', 'lien'=>'billets_index']
-            ,['text'=>'Pays', 'lien'=>'pays_index']
+            ,['text'=>'Pays et zones', 'lien'=>'pays_index']
             ,
         ];
 

@@ -40,9 +40,9 @@ class PaysController extends Controller
         $pay = new Pays();
         $form = $this->createForm(PaysType::class, $pay);
         $form->handleRequest($request);
-        $pays = $this->getDoctrine()
+        /*$pays = $this->getDoctrine()
             ->getRepository(Pays::class)
-            ->liste();
+            ->liste();*/
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($pay);
@@ -54,7 +54,7 @@ class PaysController extends Controller
         return $this->render('pays/new.html.twig', [
             'pay' => $pay,
             'form' => $form->createView(),
-            'pays' => $pays
+            //'pays' => $pays
         ]);
     }
 
@@ -77,19 +77,19 @@ class PaysController extends Controller
     {
         $form = $this->createForm(PaysType::class, $pay);
         $form->handleRequest($request);
-        $pays = $this->getDoctrine()
+        /*$pays = $this->getDoctrine()
             ->getRepository(Pays::class)
-            ->liste();
+            ->liste();*/
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('pays_edit', ['id' => $pay->getId()]);
+            return $this->redirectToRoute('pays_index');
         }
 
         return $this->render('pays/edit.html.twig', [
             'pay' => $pay,
             'form' => $form->createView(),
-            'pays' => $pays
+            //'pays' => $pays
         ]);
     }
 
