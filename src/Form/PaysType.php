@@ -13,8 +13,10 @@ class PaysType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('code')
             ->add('libelle')
-            ->add('zone', ChoiceType::class, ['choices'=>['UEMOA'=>'UEMOA','AUTRES CEDEAO'=>'AUTRES CEDEAO','CEMAC'=>'CEMAC','MAGHREB'=>'MAGHREB','AFRIQUE DU SUD'=>'AFRIQUE DU SUD','USA'=>'USA','EUROPE'=>'EUROPE','INDE'=>'INDE','CHINE'=>'CHINE','BRESIL'=>'BRESIL','AUTRES'=>'AUTRES']])
+            ->add('zone')
+            ->add('dansRegion')
         ;
     }
 

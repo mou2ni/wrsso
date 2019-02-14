@@ -3,9 +3,10 @@
 {% block title %}Zones index{% endblock %}
 
 {% block body %}
-    <h1>Zones index</h1>
+    <h1>Liste des Zones | Ajouter : <a href="{{ path('zones_new') }}"> Une Zone</a> | <a href="{{ path('pays_new') }}"> Un Pays</a></h1>
 
-    <table class="table">
+    {{ include('_pagination.html.twig') }}
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -23,17 +24,16 @@
                 <td>{{ zone.code }}</td>
                 <td>{{ zone.ordre }}</td>
                 <td>
-                    <a href="{{ path('zones_show', {'id': zone.id}) }}">show</a>
-                    <a href="{{ path('zones_edit', {'id': zone.id}) }}">edit</a>
+                    <a href="{{ path('zones_show', {'id': zone.id}) }}">Details</a> |
+                    <a href="{{ path('zones_edit', {'id': zone.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Aucun enregistrement</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('zones_new') }}">Create new</a>
 {% endblock %}

@@ -18,13 +18,17 @@ class PaysController extends Controller
     /**
      * @Route("/", name="pays_index", methods="GET")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $pays = $this->getDoctrine()
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()
             ->getRepository(Pays::class)
-            ->liste();
+            ->liste($offset,$limit);
+        $pages = round(count($liste)/$limit);
 
-        return $this->render('pays/index.html.twig', ['pays' => $pays]);
+        return $this->render('pays/index.html.twig', ['pays' => $liste, 'pages'=>$pages, 'path'=>'pays_index']);
     }
 
     /**

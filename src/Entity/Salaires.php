@@ -102,24 +102,6 @@ class Salaires
     /**
      * @return mixed
      */
-    public function getTransaction()
-    {
-        return $this->transaction;
-    }
-
-    /**
-     * @param mixed $transaction
-     * @return Salaires
-     */
-    public function setTransaction($transaction)
-    {
-        $this->transaction = $transaction;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getPeriodeSalaire()
     {
         return $this->periodeSalaire;
