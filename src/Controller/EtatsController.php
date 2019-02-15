@@ -43,9 +43,9 @@ class EtatsController extends AbstractController
         ]);
     }
     /**
-     * @Route("/etats/transfert", name="etats_rapport_transfert", methods="GET|POST|UPDATE")
+     * @Route("/etats/transfert1", name="etats_rapport_transfert1", methods="GET|POST|UPDATE")
      */
-    public function transfert(Request $request): Response
+    public function transfert1(Request $request): Response
     {
         $date = new \DateTime();
 
@@ -67,7 +67,7 @@ class EtatsController extends AbstractController
         $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
         $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
         //dump($etatTransfert);die();
-        return $this->render('etats/transfert.html.twig', [
+        return $this->render('etats/transfert1.html.twig', [
             //'etat' => $etatTransfert,
             'form' => $form->createView(),
             'zones' => $zones,
@@ -104,7 +104,7 @@ class EtatsController extends AbstractController
     {
         //$date = new \DateTime();
         $em = $this->getDoctrine();
-        $etatTransfert = $em->getRepository(TransfertInternationaux::class)->trouverTransfert1($type,$zone,$date);
+        $etatTransfert = $em->getRepository(TransfertInternationaux::class)->trouverTransfert($type,$zone,$date);
         //dump($etatTransfert);die();
         return $this->render('etats/transfertZone.html.twig', [
             'etat' => $etatTransfert,
@@ -114,13 +114,18 @@ class EtatsController extends AbstractController
     }
 
     /**
-     * @Route("/etats/transfert1", name="etats_rapport_transfert1", methods="GET|POST|UPDATE")
+     * @Route("/etats/transfert", name="etats_rapport_transfert", methods="GET|POST|UPDATE")
      */
-    public function transfert1(Request $request): Response
+    public function transfert(Request $request): Response
     {
         $date = new \DateTime();
-
+        $imprimer = false;
         $em = $this->getDoctrine();
+        //dump($request);die();
+        if ($request->get('date')){
+            $date = new \DateTime($request->get('date'));
+            $imprimer = true;
+        }
         $form = $this->createForm(DateTimeType::class, $date);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -136,6 +141,16 @@ class EtatsController extends AbstractController
         $dateFin=new \DateTime('2019-01-01 00:00:00');
         $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
         $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
+        if($imprimer)
+            return $this->render('etats/etat_transfert_bceao_impression.html.twig', [
+                'etat' => $etatTransfert,
+                //'form' => $form->createView(),
+                'etatTypeZone' => $etatTransfertTypeZone,
+                'etatType' => $etatTransfertType,
+                'entreprise' => $entreprise,
+                'dateDeb' => $dateDeb,
+                'dateFin' => $dateFin,
+            ]);
         return $this->render('etats/transfert.html.twig', [
             'etat' => $etatTransfert,
             'form' => $form->createView(),
@@ -144,9 +159,24 @@ class EtatsController extends AbstractController
             'entreprise' => $entreprise,
             'dateDeb' => $dateDeb,
             'dateFin' => $dateFin,
+            //'imprimer' => $imprimer
         ]);
     }
 
+    /**
+     * @Route("/etats/transfert/apercue", name="etats_rapport_transfert_apercu", methods="GET|POST|UPDATE")
+     */
+    public function apercue($etatTransfert,$etatTransfertTypeZone,$etatTransfertType,$entreprise,$dateDeb,$dateFin){
+        return $this->render('etats/etat_transfert_bceao_impression.html.twig', [
+            'etat' => $etatTransfert,
+            //'form' => $form->createView(),
+            'etatTypeZone' => $etatTransfertTypeZone,
+            'etatType' => $etatTransfertType,
+            'entreprise' => $entreprise,
+            'dateDeb' => $dateDeb,
+            'dateFin' => $dateFin,
+        ]);
+    }
     /**
      * @Route("/etats/devises", name="etats_rapport_devises")
      */

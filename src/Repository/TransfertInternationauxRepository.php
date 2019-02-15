@@ -43,26 +43,30 @@ class TransfertInternationauxRepository extends EntityRepository
     /**
      * @return TransfertInternationaux[]|\Doctrine\ORM\QueryBuilder
      */
-    public function trouverTransfert1(SystemTransfert $type,Zones $zone, \DateTime $date)
+    public function trouverTransfert(\DateTime $date)
     {
-        $type=$type->getId();
-        $zone=$zone->getId();
         $dateDeb=new \DateTime('2019-01-01 00:00:00');
         $dateFin=new \DateTime('2019-01-01 00:00:00');
         $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'))->format('d/m/y');
         $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'))->format('d/m/y');
         $em = $this->getEntityManager();
         //$req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM journeecaisses jc WHERE id NOT IN (SELECT jcp.journee_precedente_id FROM journeecaisses jcp WHERE jcp.date_comptable='$date') AND jc.date_comptable='$date'";
-        $req="SELECT p.libelle AS nomPays,
-(SELECT SUM(CASE WHEN t.sens=1 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t,journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND j.date_comptable >= '$debut' AND j.date_comptable <= 'fin' AND t.idSystemTransfert='$type' ) AS emis,
-(SELECT SUM(CASE WHEN t.sens=2 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t,journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND j.date_comptable >= 'debut' AND j.date_comptable <= 'fin' AND t.idSystemTransfert='$type') AS recus
-FROM pays p, zones z
-WHERE p.zone_id = z.id AND z.id='$zone'";
-        $req="SELECT p.libelle AS nomPays,
-(SELECT SUM(CASE WHEN t.sens=1 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t, journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND t.idSystemTransfert='$type' AND j.date_comptable >= '01/01/2019' AND j.date_comptable <= '2019/01/31'  ) AS emis,
-(SELECT SUM(CASE WHEN t.sens=2 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t , journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND t.idSystemTransfert='$type' AND j.date_comptable >= '01/01/2019' AND j.date_comptable <= '2019/01/31' ) AS recus
-FROM pays p, zones z
-WHERE p.zone_id = z.id AND z.id='$zone'";
+        $req="SELECT z.code AS zone, z.id AS zoneId, systemtransfert.id AS typeId, p.libelle as paysId,
+
+(SELECT SUM(CASE WHEN t.sens=1 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t, journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND p.zone_id=z.id AND z.code=code AND t.idSystemTransfert=typeId AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS emis,
+
+(SELECT SUM(CASE WHEN t.sens=2 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t , journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND p.zone_id=z.id AND z.code=code AND t.idSystemTransfert=typeId  AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS recus,
+
+(SELECT COUNT(CASE WHEN t.sens=1 THEN t.m_transfert_ttc END) FROM transfertinternationaux t, journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND p.zone_id=z.id AND z.code=code AND t.idSystemTransfert=typeId AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS nemis,
+
+(SELECT COUNT(CASE WHEN t.sens=2 THEN t.m_transfert_ttc END) FROM transfertinternationaux t , journeecaisses j WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND p.zone_id=z.id AND z.code=code AND t.idSystemTransfert=typeId AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS nrecus
+
+FROM zones z, systemTransfert, pays p
+WHERE z.id=p.zone_id
+
+GROUP BY systemTransfert.id,z.id,p.id
+ORDER BY systemtransfert.id, z.ordre, p.id
+LIMIT 200";
         try {
             $stmt = $em->getConnection()->prepare($req);
         } catch (DBALException $e) {
@@ -78,7 +82,7 @@ WHERE p.zone_id = z.id AND z.id='$zone'";
     /**
      * @return TransfertInternationaux[]|\Doctrine\ORM\QueryBuilder
      */
-    public function trouverTransfert(SystemTransfert $type,Zones $zone, \DateTime $date)
+    public function trouverTransfert1(SystemTransfert $type,Zones $zone, \DateTime $date)
     {
         $dateDeb=new \DateTime('2019-01-01 00:00:00');
         $dateFin=new \DateTime('2019-01-01 00:00:00');
@@ -116,30 +120,29 @@ WHERE p.zone_id = z.id AND z.id='$zone'";
     /**
      * @return TransfertInternationaux[]|\Doctrine\ORM\QueryBuilder
      */
-    public function trouverTransfertTypeZone1(SystemTransfert $type,Zones $zone, \DateTime $date)
+    public function trouverTransfertTypeZone(\DateTime $date)
     {
-        $type=$type->getId();
-        $zone=$zone->getId();
         $dateDeb=new \DateTime('2019-01-01 00:00:00');
         $dateFin=new \DateTime('2019-01-01 00:00:00');
         $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'))->format('d/m/y');
         $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'))->format('d/m/y');
         $em = $this->getEntityManager();
         //$req = "SELECT type.libelle as typeTransfert, type.id as typeId, z.code as zone, z.id as zoneId, z.ordre as ordre, pays.libelle as nomPays, SUM(CASE Transfert.sens WHEN '1' THEN Transfert.mTransfertTTC ELSE 0 END ) as EMIS, SUM(CASE Transfert.sens WHEN '2' THEN Transfert.mTransfertTTC ELSE 0 END ) as RECUS, COUNT(CASE Transfert.sens WHEN '1' THEN Transfert.mTransfertTTC ELSE 0 END ) as NEMIS, COUNT(CASE Transfert.sens WHEN '0' THEN Transfert.mTransfertTTC ELSE 0 END ) as NRECUS FROM TransfertInternationaux Transfert INNER JOIN Transfert.idPays pays RIGHT JOIN pays.zone z INNER JOIN Transfert.idSystemTransfert type INNER JOIN Transfert.journeeCaisse jc WHERE pays.zone ='$zone' AND type.id = '$type' GROUP BY type, zone ORDER BY ordre ASC";
-        $req = "SELECT z.code AS zone, z.id AS zoneId, type.id AS typeId,
+        $req = "SELECT z.code AS zone, z.id AS zoneId, systemtransfert.id AS typeId, z.detail AS detail,
 
-(SELECT SUM(CASE WHEN t.sens=1 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t, journeecaisses j, pays p WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND t.idSystemTransfert='$type' AND p.zone_id=z.id AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS emis,
+(SELECT SUM(CASE WHEN t.sens=1 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t, journeecaisses j, pays p WHERE p.zone_id=z.id and t.id_pays_id=p.id AND j.id=t.journeeCaisse AND z.code=code AND t.idSystemTransfert=typeId AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS emis,
 
-(SELECT SUM(CASE WHEN t.sens=2 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t , journeecaisses j, pays p WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND t.idSystemTransfert='$type' AND p.zone_id=z.id AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS recus,
+(SELECT SUM(CASE WHEN t.sens=2 THEN t.m_transfert_ttc ELSE 0 END) FROM transfertinternationaux t , journeecaisses j, pays p WHERE p.zone_id=z.id and t.id_pays_id=p.id AND j.id=t.journeeCaisse AND z.code=code AND t.idSystemTransfert=typeId  AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS recus,
 
-(SELECT COUNT(CASE WHEN t.sens=1 THEN t.m_transfert_ttc END) FROM transfertinternationaux t, journeecaisses j, pays p WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND t.idSystemTransfert='$type' AND p.zone_id=z.id AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS nemis,
+(SELECT COUNT(CASE WHEN t.sens=1 THEN t.m_transfert_ttc END) FROM transfertinternationaux t, journeecaisses j, pays p WHERE p.zone_id=z.id and t.id_pays_id=p.id AND j.id=t.journeeCaisse AND z.code=code AND t.idSystemTransfert=typeId AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS nemis,
 
-(SELECT COUNT(CASE WHEN t.sens=2 THEN t.m_transfert_ttc END) FROM transfertinternationaux t , journeecaisses j, pays p WHERE t.id_pays_id = p.id AND j.id=t.journeeCaisse AND t.idSystemTransfert='$type' AND p.zone_id=z.id AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS nrecus
+(SELECT COUNT(CASE WHEN t.sens=2 THEN t.m_transfert_ttc END) FROM transfertinternationaux t , journeecaisses j, pays p WHERE p.zone_id=z.id and t.id_pays_id=p.id AND j.id=t.journeeCaisse AND z.code=code AND t.idSystemTransfert=typeId AND j.date_comptable >= '$debut' AND j.date_comptable <= '$fin' ) AS nrecus
 
-FROM zones z, systemTransfert type
+FROM zones z, systemTransfert
 
-WHERE type.id = '$type'
-ORDER BY z.ordre
+GROUP BY systemTransfert.id,z.id
+ORDER BY systemtransfert.id, z.ordre
+LIMIT 200
 ";
         try {
             $stmt = $em->getConnection()->prepare($req);
@@ -155,7 +158,7 @@ ORDER BY z.ordre
     /**
      * @return TransfertInternationaux[]|\Doctrine\ORM\QueryBuilder
      */
-    public function trouverTransfertTypeZone(SystemTransfert $type,Zones $zone, \DateTime $date)
+    public function trouverTransfertTypeZone1(SystemTransfert $type,Zones $zone, \DateTime $date)
     {
         $dateDeb=new \DateTime('2018-12-01 00:00:00');
         $dateFin=new \DateTime('2018-12-01 00:00:00');
