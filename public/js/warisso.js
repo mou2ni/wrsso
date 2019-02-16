@@ -179,8 +179,8 @@ function  valider() {
 
 
 function  chargerNomCompte() {
-    var nom = $("#retrait_numCompte").val();
-    if (!nom) nom = $("#depot_numCompte").val();
+    var nom = $("#retrait_numCompteSaisie").val();
+    if (!nom) nom = $("#depot_numCompteSaisie").val();
     var DATA = 'num=' + nom;
     //alert(DATA);
     $.ajax({

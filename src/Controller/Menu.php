@@ -60,8 +60,8 @@ class Menu  extends Controller
             ['text'=>'Transfert internationaux', 'lien'=>'transfert_internationaux_saisie']
             ,['text'=>'Devises Achat vente', 'lien'=>'devise_recus_achat_vente']
             ,['text'=>'Devises - Intercaisse', 'lien'=>'devise_intercaisses_gestion']
-            ,['text'=>'Depôts', 'lien'=>'#']
-            ,['text'=>'Retraits', 'lien'=>'#']
+            ,['text'=>'Depôts', 'lien'=>'depot_retraits_depot']
+            ,['text'=>'Retraits', 'lien'=>'depot_retraits_retrait']
         ];
 
         $this->menu_comptable=[

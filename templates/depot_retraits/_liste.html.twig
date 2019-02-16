@@ -1,0 +1,26 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Client</th>
+        <th>libelle</th>
+        <th>Depot</th>
+        <th>Retrait</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th  colspan="2">Total</th>
+        <th>{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</th>
+        <th> {{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</th>
+    </tr>
+    {% for depotRetrait in depotRetraits %}
+        <tr>
+            <td>{{ depotRetrait.compteClient }}</td>
+            <td>{{ depotRetrait.libelle }}</td>
+            <td>{{ depotRetrait.mDepot|number_format(0, '.', ' ') }}</td>
+            <td>{{ depotRetrait.mRetrait|number_format(0, '.', ' ') }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+

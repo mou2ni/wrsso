@@ -247,8 +247,8 @@ class Transactions
         $this->transactionComptes->add($transactionCompte);
         $transactionCompte->setTransaction($this);
         $compte=$transactionCompte->getCompte();
-        $transactionCompte->setMSoldeAvant($compte->getSoldeCourant());
         $compte->setSoldeCourant($compte->getSoldeCourant()+$transactionCompte->getMCredit()-$transactionCompte->getMDebit());
+        //$transactionCompte->setMSoldeApres($compte->getSoldeCourant());
         $transactionCompte->setCompte($compte);
         $this->mCreditTotal+=$transactionCompte->getMCredit();
         $this->mDebitTotal+=$transactionCompte->getMDebit();
