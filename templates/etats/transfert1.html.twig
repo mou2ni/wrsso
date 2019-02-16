@@ -7,7 +7,6 @@
         <button class="btn">{{ button_label|default('CHANGER') }}</button>
         <div hidden>{{ form_rest(form) }}</div>
         {{ form_end(form) }}
-        {{ include('etats/_btn_action_url.html.twig',{'path':'etats_rapport_transfert','value':dateDeb.format('Y/m/d'),'btn_name':'aperçue','btn_label':'aperçue'}) }}
     </div>
     {% for etatType in etatType %}
         {% set nrecus=0%}
@@ -31,26 +30,18 @@
                         <th>EMIS</th>
                         <th>RECUS</th>
                     </tr>
-                    {% for etatTypeZone in etatTypeZone %}
-                        {% if etatTypeZone.typeId == etatType.typeId %}
-                            <tr><th>{{ etatTypeZone.zone }}</th><th>{{ (etatTypeZone.emis)?etatTypeZone.emis|number_format(0, '.', ' '):0 }}</th><th>{{ (etatTypeZone.recus)?etatTypeZone.recus|number_format(0, '.', ' '):0 }}</th></tr>
-                            {% for transfert in etat %}
-                                {% if transfert.typeId == etatTypeZone.typeId %}
-                                    {#{% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}#}
-                                    {% if transfert.zone == etatTypeZone.zone and etatTypeZone.detail!=0 %}
-                                        <tr><td>{{ transfert.paysId }}</td><td>{{ (transfert.emis)?transfert.emis|number_format(0, '.', ' '):0 }}</td><td>{{ (transfert.recus)?transfert.recus|number_format(0, '.', ' '):0 }}</td></tr>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                    <tr><td>TOTAL</td><td>{{ (etatType.EMIS)?etatType.EMIS:0 }}</td><td>{{ (etatType.RECUS)?etatType.RECUS:0 }}</td></tr>
+                    {#{% for zone in zones %}
+
+                            <tr><th>{{ etatTypeZone.zone }}</th><th>{{ etatTypeZone.EMIS }}</th><th>{{ etatTypeZone.RECUS }}</th></tr>
+                            {{ render(controller('App\\Controller\\EtatsController::afficherTransfertType', {'type':etatType.typeId,'zone':zone, 'date':dateDeb})) }}
+
+                    {% endfor %}#}
+                    <tr><td>TOTAL</td><td>{{ etatType.EMIS }}</td><td>{{ etatType.RECUS }}</td></tr>
                     <tr><td>NOMBRE D'OPERATIONS</td><td>{{ etatType.NEMIS }}</td><td>{{ etatType.NRECUS }}</td></tr>
                     <tr> <td>MONTANT DES TAXES RECUES (en F CFA)</td><td></td><td></td></tr>
                     <tr><td>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</td><td></td><td></td></tr>
                     <tr><td>NOMBRE D'EMPLOIS GENERES</td><td></td><td></td></tr>
                 </table>
-
             </div>
         </div>
         {% else %}
