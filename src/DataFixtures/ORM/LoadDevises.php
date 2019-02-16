@@ -20,14 +20,14 @@ class LoadDevises extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $lists=array ( array('code'=>'EURO','libelle'=>'EURO', 'date'=>new \DateTime(), 'txachat'=>655, 'txvente'=>656),
-            array('code'=>'USD','libelle'=>'Dollar Americain', 'date'=>new \DateTime(), 'txachat'=>540, 'txvente'=>540),
+        $lists=array ( array('code'=>'EURO','libelle'=>'EURO', 'date'=>new \DateTime(), 'txachat'=>655, 'txvente'=>656, 'fxachat'=>1, 'fxvente'=>0),
+            array('code'=>'USD','libelle'=>'Dollar Americain', 'date'=>new \DateTime(), 'txachat'=>540, 'txvente'=>540, 'fxachat'=>0, 'fxvente'=>0),
 
         );
 
         foreach ($lists as $list) {
             $devise=new Devises();
-            $devise->setCode($list['code'])->setLibelle($list['libelle'])->setDateModification($list['date'])->setTxAchat($list['txachat'])->setTxVente($list['txvente']);
+            $devise->setCode($list['code'])->setLibelle($list['libelle'])->setDateModification($list['date'])->setTxAchat($list['txachat'])->setTxVente($list['txvente'])->setFormuleVente($list['fxvente'])->setFormuleAchat($list['fxachat']);
             $manager->persist($devise);
         }
 

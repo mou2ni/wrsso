@@ -141,6 +141,7 @@ class EtatsController extends AbstractController
         $dateFin=new \DateTime('2019-01-01 00:00:00');
         $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
         $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
+        //dump($etatTransfert);die();
         if($imprimer)
             return $this->render('etats/etat_transfert_bceao_impression.html.twig', [
                 'etat' => $etatTransfert,
