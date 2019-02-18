@@ -319,4 +319,12 @@ class DeviseMouvements
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return ($this->deviseIntercaisse)?$this::INTERCAISSE:($this->getContreValeur()>0)?$this::ACHAT:$this::VENTE;
+    }
+
 }

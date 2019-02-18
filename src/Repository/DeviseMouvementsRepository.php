@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\DeviseMouvements;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Proxies\__CG__\App\Entity\JourneeCaisses;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -39,6 +40,39 @@ class DeviseMouvementsRepository extends ServiceEntityRepository
         //return $this->findBy(['journeeCaisseDestination'=>$journeeCaisse]);
 
     }
+    public function findMouvement($dateDeb,$dateFin,$offset,$limit = 10)
+    {
+        $req = $this->createQueryBuilder('dmvt');
+        $req = $req->leftJoin('dmvt.journeeCaisse','jc');
+
+        if ($dateDeb){
+            $req->where('(jc.dateComptable) >=:dateDeb')
+                ->setParameter('dateDeb',$dateDeb);
+            //dump($req);
+        }
+        if ($dateFin){
+            $req->andWhere('(jc.dateComptable) <= :dateFin')
+                ->setParameter('dateFin',$dateFin);
+            //dump($req);
+        }
+        /*//->andWhere('(jc.dateFerm) <=:dateFin')
+
+        if ($caisse){
+            $req->andWhere('jc.caisse=:caisse')
+                ->setParameter('caisse',$caisse);
+            //dump($req);
+        }
+        //die();*/
+        //->orderBy('jc.dateComptable', 'DESC')
+           $req ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $pag = new Paginator($req);
+
+        return $pag;
+    }
+
+
 
 //    /**
 //     * @return DeviseRecus[] Returns an array of DeviseRecus objects

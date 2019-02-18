@@ -19,17 +19,69 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeviseMouvementsController extends Controller
 {
-    
+
     /**
      * @Route("/", name="devise_mouvements_index", methods="GET")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $date = new \DateTime();
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $limit=10;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+
         $deviseMouvements = $this->getDoctrine()
             ->getRepository(DeviseMouvements::class)
-            ->findAll();
+            ->findMouvement($dateDeb,$dateFin,$offset,$limit);
+        $pages = round(count($deviseMouvements)/$limit);
+        //dump($deviseMouvements);die();
 
-        return $this->render('devise_mouvements/index.html.twig', ['devise_mouvements' => $deviseMouvements]);
+        return $this->render('devise_mouvements/index.html.twig',
+            [
+                'devise_mouvements' => $deviseMouvements,
+                'pages'=>$pages,
+            ]);
+    }
+    /**
+     * @Route("/etat", name="devise_mouvements_etat", methods="GET")
+     */
+    public function etat(Request $request): Response
+    {
+        $date = new \DateTime();
+        $dateDeb=new \DateTime('2019-01-01 00:00:00');
+        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        elseif ($request->query->get('dateDeb'))
+            $debut = new \DateTime($request->query->get('dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        //elseif ($request->query->get('dateFin'))
+            //dump($request->query->get('_dateFin'));die();
+          //  $fin = new \DateTime($request->query->get('dateFin'));
+
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $deviseMouvements = $this->getDoctrine()
+            ->getRepository(DeviseMouvements::class)
+            ->findMouvement($debut,$fin,$offset,$limit);
+        $pages = round(count($deviseMouvements)/$limit);
+
+
+        return $this->render('devise_mouvements/etat.html.twig',
+            [
+                'devise_mouvements' => $deviseMouvements,
+                'pages'=>$pages,
+                'dateDeb'=>$debut,
+                'dateFin'=>$fin,
+            ]);
     }
 
     /**

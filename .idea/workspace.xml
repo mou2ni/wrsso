@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="etat transfert">
+      <change afterPath="$PROJECT_DIR$/templates/_paginationAvecDate.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/devise_mouvements/etat.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/EtatsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/EtatsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Pays.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Pays.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TransfertInternationauxRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TransfertInternationauxRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DeviseMouvementsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DeviseMouvementsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Menu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/DeviseMouvements.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/DeviseMouvements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/DeviseMouvementsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/DeviseMouvementsRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/devise_mouvements/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devise_mouvements/index.html.twig" afterDir="false" />
     </list>
+    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,41 +62,82 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Pays.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Entity/Pays.php">
+      <file leaf-file-name="DeviseMouvementsController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/DeviseMouvementsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="159" selection-start-line="159" selection-end-line="159" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoadPays.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LoadDevises.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="29" column="236" selection-start-line="29" selection-start-column="236" selection-end-line="29" selection-end-column="236" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TransfertInternationauxRepository.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Repository/TransfertInternationauxRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="67" column="45" selection-start-line="67" selection-start-column="45" selection-end-line="67" selection-end-column="45" />
+            <state relative-caret-position="238">
+              <caret line="67" column="14" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
               <folding>
-                <element signature="e#34#65#0#PHP" expanded="true" />
+                <element signature="e#1438#1473#0#PHP" expanded="true" />
+                <element signature="e#2859#2893#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BilletagesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1683" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DeviseMouvements.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Entity/DeviseMouvements.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="326" column="15" selection-start-line="326" selection-start-column="15" selection-end-line="326" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="etat.html.twig" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/devise_mouvements/etat.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="24" column="153" lean-forward="true" selection-start-line="24" selection-start-column="153" selection-end-line="24" selection-end-column="153" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="_paginationAvecDate.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/_paginationAvecDate.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="101" selection-start-line="14" selection-start-column="101" selection-end-line="14" selection-end-column="101" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="etat_transfert_bceao_impression.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/etats/etat_transfert_bceao_impression.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="34" column="91" selection-start-line="34" selection-start-column="91" selection-end-line="34" selection-end-column="110" />
+              <folding>
+                <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="etat_de_caisse.html.twig" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/journee_caisses/etat_de_caisse.html.twig">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-68">
+              <caret line="14" column="76" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="76" />
+              <folding>
+                <element signature="e#12#26#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JourneeCaissesRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="190">
+              <caret line="227" column="37" selection-start-line="227" selection-start-column="24" selection-end-line="227" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -203,12 +246,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Entity/DeviseJournees.php" />
-        <option value="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" />
-        <option value="$PROJECT_DIR$/templates/devises/_btn_action_url.html.twig" />
-        <option value="$PROJECT_DIR$/src/Entity/Personnes.php" />
-        <option value="$PROJECT_DIR$/src/Entity/ParamComptables.php" />
-        <option value="$PROJECT_DIR$/src/Migrations/Version20190204111749.php" />
         <option value="$PROJECT_DIR$/src/Entity/Clients.php" />
         <option value="$PROJECT_DIR$/src/Migrations/Version20190204094528.php" />
         <option value="$PROJECT_DIR$/gestBD.bat" />
@@ -241,7 +278,6 @@
         <option value="$PROJECT_DIR$/src/Repository/DeviseJourneesRepository.php" />
         <option value="$PROJECT_DIR$/templates/journee_caisses/etat_tresorerie.html.twig" />
         <option value="$PROJECT_DIR$/templates/devise_journees/index.html.twig" />
-        <option value="$PROJECT_DIR$/src/Controller/Menu.php" />
         <option value="$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php" />
         <option value="$PROJECT_DIR$/templates/etats/transfert1.html.twig" />
         <option value="$PROJECT_DIR$/templates/etats/_btn_action_url.html.twig" />
@@ -254,6 +290,13 @@
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadPays.php" />
         <option value="$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php" />
         <option value="$PROJECT_DIR$/src/Repository/TransfertInternationauxRepository.php" />
+        <option value="$PROJECT_DIR$/templates/devise_mouvements/index.html.twig" />
+        <option value="$PROJECT_DIR$/src/Repository/DeviseMouvementsRepository.php" />
+        <option value="$PROJECT_DIR$/src/Entity/DeviseMouvements.php" />
+        <option value="$PROJECT_DIR$/src/Controller/Menu.php" />
+        <option value="$PROJECT_DIR$/templates/devise_mouvements/etat.html.twig" />
+        <option value="$PROJECT_DIR$/templates/_paginationAvecDate.html.twig" />
+        <option value="$PROJECT_DIR$/src/Controller/DeviseMouvementsController.php" />
       </list>
     </option>
   </component>
@@ -508,6 +551,12 @@
               <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
               <item name="wrsso" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="devise_mouvements" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wrsso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wrsso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="devise_recus" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -579,11 +628,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp1\htdocs\wrsso\templates" />
+      <recent name="C:\xampp1\htdocs\wrsso\templates\devise_mouvements" />
       <recent name="C:\xampp1\htdocs\wrsso\templates\etats" />
       <recent name="C:\xampp1\htdocs\wrsso\templates\journee_caisses" />
       <recent name="C:\xampp1\htdocs\wrsso\src\Entity" />
-      <recent name="C:\xampp1\htdocs\wrsso\public\js" />
-      <recent name="C:\xampp1\htdocs\wrsso\src\DataFixtures\ORM" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp1\htdocs\wrsso\templates" />
@@ -806,14 +855,7 @@
       <workItem from="1545652522311" duration="88255000" />
       <workItem from="1546157172294" duration="149624000" />
       <workItem from="1548064807327" duration="144656000" />
-      <workItem from="1548862587994" duration="304068000" />
-    </task>
-    <task id="LOCAL-00062" summary="journee de 26/12/2018">
-      <created>1545847078159</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1545847078159</updated>
+      <workItem from="1548862587994" duration="322185000" />
     </task>
     <task id="LOCAL-00063" summary="matin du 27/12/2018">
       <created>1545903605818</created>
@@ -1151,11 +1193,18 @@
       <option name="project" value="LOCAL" />
       <updated>1550231957405</updated>
     </task>
-    <option name="localTasksCounter" value="111" />
+    <task id="LOCAL-00111" summary="etat transfert">
+      <created>1550301514168</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1550301514168</updated>
+    </task>
+    <option name="localTasksCounter" value="112" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2241048000" />
+    <option name="totallyTimeSpent" value="2259165000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1176,12 +1225,12 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4924357" weight="0.5718954" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32843137" />
       <window_info id="npm" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" visible="true" weight="0.35620916" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49319214" weight="0.35620916" />
       <window_info anchor="right" id="Remote Host" order="0" weight="0.32980332" />
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49888143" visible="true" weight="0.2473525" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
-      <window_info anchor="right" id="Database" order="4" visible="true" weight="0.1505295" />
+      <window_info anchor="right" id="Database" order="4" weight="0.1505295" />
       <window_info id="Structure" order="1" sideWeight="0.50111854" side_tool="true" weight="0.21028744" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -1315,58 +1364,6 @@
     <select />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Repository/DevisesRepository.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/comptes">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Collaborateurs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="50" column="21" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/etats/transfertType.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" selection-start-line="5" selection-end-line="5" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/etats/transfertZone.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190212140838.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-51">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="337">
-          <caret line="136" selection-start-line="132" selection-start-column="4" selection-end-line="136" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/Devises.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3846">
-          <caret line="281" column="4" selection-start-line="281" selection-start-column="4" selection-end-line="281" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/journeecaisses">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -1408,23 +1405,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/Menu.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="81" column="86" selection-start-line="81" selection-start-column="86" selection-end-line="81" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="418" column="66" selection-start-line="418" selection-start-column="40" selection-end-line="418" selection-end-column="66" />
-          <folding>
-            <element signature="e#19967#20010#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/DeviseJourneesController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1435,25 +1415,6 @@
             <element signature="e#1833#1866#0#PHP" expanded="true" />
             <element signature="e#2452#2485#0#PHP" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="258" lean-forward="true" selection-start-line="258" selection-end-line="258" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseMouvements.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1601" />
-      </provider>
-    </entry>
-    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/devisemouvements">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
@@ -1533,13 +1494,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/etats/etat_transfert_bceao_impression.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="55" column="140" selection-start-line="55" selection-start-column="140" selection-end-line="55" selection-end-column="140" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Temp/scp41730/var/www/clients/client8/web62/web/src/Entity/Pays.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2037" />
@@ -1572,20 +1526,6 @@
     <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190213113446.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/EtatsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="143" column="10" selection-start-line="143" selection-start-column="10" selection-end-line="143" selection-end-column="10" />
-          <folding>
-            <element signature="e#34#64#0#PHP" expanded="true" />
-            <element signature="e#2744#2772#0#PHP" expanded="true" />
-            <element signature="e#5925#5974#0#PHP" expanded="true" />
-            <element signature="e#5707#5734#0#PHP" expanded="true" />
-            <element signature="e#6319#6368#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Migrations/Version20190215171010.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="86">
@@ -1602,13 +1542,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="139">
           <caret line="82" column="41" selection-start-line="82" selection-start-column="41" selection-end-line="82" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="29" column="236" selection-start-line="29" selection-start-column="236" selection-end-line="29" selection-end-column="236" />
         </state>
       </provider>
     </entry>
@@ -1629,9 +1562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1db14c84-a27e-4117-bd5f-6c225e712501/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/Pays.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -1646,6 +1576,132 @@
           <folding>
             <element signature="e#34#65#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/DataFixtures/ORM/LoadDevises.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="29" column="236" selection-start-line="29" selection-start-column="236" selection-end-line="29" selection-end-column="236" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/devise_mouvements/index.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="75" selection-start-line="36" selection-start-column="75" selection-end-line="36" selection-end-column="75" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/DeviseMouvementsRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="53" column="45" selection-start-line="53" selection-start-column="45" selection-end-line="53" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/JourneeCaissesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="337" column="57" selection-start-line="337" selection-start-column="57" selection-end-line="337" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://1db14c84-a27e-4117-bd5f-6c225e712501/schema/wrsso/table/devisemouvements">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Entity/DeviseMouvements.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="326" column="15" selection-start-line="326" selection-start-column="15" selection-end-line="326" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_pagination.html.twig">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1db14c84-a27e-4117-bd5f-6c225e712501/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/JourneeCaissesRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="227" column="37" selection-start-line="227" selection-start-column="24" selection-end-line="227" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/Menu.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="82" column="78" selection-start-line="82" selection-start-column="78" selection-end-line="82" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/journee_caisses/etat_de_caisse.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-68">
+          <caret line="14" column="76" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="76" />
+          <folding>
+            <element signature="e#12#26#0#Twig" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/EtatsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="145" column="58" selection-start-line="145" selection-start-column="58" selection-end-line="145" selection-end-column="58" />
+          <folding>
+            <element signature="e#34#64#0#PHP" expanded="true" />
+            <element signature="e#2744#2772#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/etats/etat_transfert_bceao_impression.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="34" column="91" selection-start-line="34" selection-start-column="91" selection-end-line="34" selection-end-column="110" />
+          <folding>
+            <element signature="n#style#0;n#td#1;n#tr#0;n#table#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/BilletagesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1683" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/DeviseMouvementsController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="67" column="14" selection-start-line="67" selection-start-column="14" selection-end-line="67" selection-end-column="14" />
+          <folding>
+            <element signature="e#1438#1473#0#PHP" expanded="true" />
+            <element signature="e#2859#2893#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/_paginationAvecDate.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="101" selection-start-line="14" selection-start-column="101" selection-end-line="14" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/devise_mouvements/etat.html.twig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="24" column="153" lean-forward="true" selection-start-line="24" selection-start-column="153" selection-end-line="24" selection-end-column="153" />
         </state>
       </provider>
     </entry>
