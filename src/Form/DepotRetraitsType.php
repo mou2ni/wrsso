@@ -12,15 +12,10 @@ class DepotRetraitsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateOperation')
+            ->add('numCompteSaisie')
             ->add('libelle')
             ->add('mDepot')
             ->add('mRetrait')
-            ->add('statut')
-            ->add('utilisateur')
-            ->add('transaction')
-            ->add('compteOperationCaisse')
-            ->add('compteClient')
         ;
     }
 

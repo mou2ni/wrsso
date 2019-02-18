@@ -54,6 +54,12 @@ class RecetteDepenses
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
+    private $compteGestion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $compteTier;
 
     /**
@@ -160,11 +166,12 @@ class RecetteDepenses
     }
 
     /**
-     * @param mixed $journeeCaisse
+     * @param JourneeCaisses $journeeCaisse
      * @return RecetteDepenses
      */
-    public function setJourneeCaisse($journeeCaisse)
+    public function setJourneeCaisse(JourneeCaisses $journeeCaisse)
     {
+        $this->setCompteTier($journeeCaisse->getCaisse()->getCompteOperation());
         $this->journeeCaisse = $journeeCaisse;
         return $this;
     }
@@ -220,7 +227,7 @@ class RecetteDepenses
     public function setMRecette($mRecette)
     {
         //if($mRecette<0) $mRecette=abs($mRecette);
-        $this->mRecette = $mRecette;
+        $this->mRecette = abs($mRecette);
         return $this;
     }
 
@@ -239,7 +246,7 @@ class RecetteDepenses
     public function setMDepense($mDepense)
     {
         //if($mDepense<0) $mDepense=abs($mDepense);
-        $this->mDepense = $mDepense;
+        $this->mDepense = abs($mDepense);
         return $this;
     }
 
@@ -282,11 +289,11 @@ class RecetteDepenses
         //empecher la modification si déjà comptabilisé
         if ($this->getStatut()==RecetteDepenses::STAT_COMPTA) return $this;
         //if($mSaisie<0) $mSaisie=abs($mSaisie);
-        $compte=$this->getTypeOperationComptable()->getCompte();
+        /*$compte=$this->getTypeOperationComptable()->getCompte();
         $classCompte=substr($compte,0,1);
 
         if($classCompte==RecetteDepenses::DEPENSE) $this->setMDepense($mSaisie);
-        if($classCompte==RecetteDepenses::RECETTE) $this->setMRecette($mSaisie);
+        if($classCompte==RecetteDepenses::RECETTE) $this->setMRecette($mSaisie);*/
         $this->mSaisie = $mSaisie;
         return $this;
     }
@@ -300,11 +307,12 @@ class RecetteDepenses
     }
 
     /**
-     * @param mixed $typeOperationComptable
+     * @param TypeOperationComptables $typeOperationComptable
      * @return RecetteDepenses
      */
-    public function setTypeOperationComptable($typeOperationComptable)
+    public function setTypeOperationComptable(TypeOperationComptables $typeOperationComptable)
     {
+        $this->setCompteGestion($typeOperationComptable->getCompte());
         $this->typeOperationComptable = $typeOperationComptable;
         return $this;
     }
@@ -328,45 +336,69 @@ class RecetteDepenses
     }
 
     /**
-     * @return boolean
+     * @return mixed
      */
-    public function isEstCharge()
+    public function getCompteGestion()
     {
-        return $this->estCharge;
+        return $this->compteGestion;
     }
 
     /**
-     * @param boolean $estCharge
+     * @param mixed $compteGestion
      * @return RecetteDepenses
      */
+    public function setCompteGestion($compteGestion)
+    {
+        $this->compteGestion = $compteGestion;
+        return $this;
+    }
+
+
+    /*
+     * @return boolean
+
+    public function isEstCharge()
+    {
+        return $this->estCharge;
+    }*/
+
+    /*
+     * @param boolean $estCharge
+     * @return RecetteDepenses
+
     public function setEstCharge($estCharge)
     {
         $this->estCharge = $estCharge;
         return $this;
-    }
+    }*/
 
-    /**
+    /*
      * @return boolean
-     */
+
     public function isEstProduit()
     {
         return $this->estProduit;
     }
-
-    /**
+*/
+    /*
      * @param boolean $estProduit
      * @return RecetteDepenses
-     */
+
     public function setEstProduit($estProduit)
     {
         $this->estProduit = $estProduit;
         return $this;
-    }
+    }*/
 
-    private function typageCompte($compte){
-        $classCompte=substr($compte,0,1);
-        $this->estCharge=($classCompte==GenererCompta::COMPTE_CHARGE);
-        $this->estProduit=($classCompte==GenererCompta::COMPTE_PRODUIT);
+    public function typageCompteGestion(){
+        $classCompte=substr($this->getCompteGestion(),0,1);
+        if ($classCompte==RecetteDepenses::DEPENSE) {
+            $this->setMDepense($this->getMSaisie());
+            $this->setMRecette(0);
+        }elseif ($classCompte==RecetteDepenses::RECETTE) {
+            $this->setMRecette($this->getMSaisie());
+            $this->setMDepense(0);
+        }else return false;
         return true;
     }
 
@@ -386,6 +418,20 @@ class RecetteDepenses
     {
         $this->compteTier = $compteTier;
         return $this;
+    }
+
+    public function comptabiliserNouveau(GenererCompta $genCompta, JourneeCaisses $journeeCaisse){
+        if ($this->getEstComptant()) {
+            $ok= $genCompta->genComptaRecetteDepenseComptant($this,$journeeCaisse);
+            if (!$ok) return false;
+            //return $genCompta;
+        }else{
+            $genCompta->setErrMessage('Recette depenses non comptant non implementé');
+            return false;
+        }
+        $this->setTransaction($genCompta->getTransactions()[0]);
+        $this->setStatut(RecetteDepenses::STAT_COMPTA);
+        return true;
     }
     /*
         private function comptaAjoutRecetteDepenses(JourneeCaisses $journeeCaisse, GenererCompta $genCompta, Comptes $compte){

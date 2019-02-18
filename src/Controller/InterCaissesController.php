@@ -134,10 +134,10 @@ class InterCaissesController extends Controller
     }
 
     /**
-     * @Route("/{id}/compta", name="inter_caisses_comptabiliser", methods="GET|POST|COMPTABILISE")
+     * @Route("/{id}/comptaRecetteDepenses", name="inter_caisses_comptabiliser_recetteDepenses", methods="GET|POST|COMPTABILISE")
      * @Security("has_role('ROLE_COMPTABLE')")
      */
-    public function comptaIntercaisse(Request $request, InterCaisses $interCaisse): Response
+    public function comptaIntercaisseRecetteDepenses(Request $request, InterCaisses $interCaisse): Response
     {
         //dump($interCaisse);die();
         if (!($interCaisse->getStatut()==InterCaisses::VALIDE or $interCaisse->getStatut()==InterCaisses::VALIDATION_AUTO)){
@@ -154,7 +154,8 @@ class InterCaissesController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $genCompta=$recetteDepense->comptabiliser($em, $this->journeeCaisse);
+            $genCompta=new GenererCompta($em);
+            $recetteDepense->comptabiliserNouveau($genCompta, $this->journeeCaisse);
             if ($genCompta->getE()) {
                 $this->addFlash('error', $genCompta->getErrMessage());
                 return $this->redirectToRoute('recette_depenses_saisie');
@@ -162,8 +163,8 @@ class InterCaissesController extends Controller
             //vérifier la cohérence entre l'ecriture comptable et l'intercaisse
             if ($this->isCoherent($recetteDepense,$interCaisse)){
                 $interCaisse->setRecetteDepense($recetteDepense);
-                ($recetteDepense->isEstCharge())?$interCaisse->setStatut(InterCaisses::COMPTA_CHARGE)
-                    :$interCaisse->setStatut(InterCaisses::COMPTA_PRODUIT);
+                ($recetteDepense->getMRecette())?$interCaisse->setStatut(InterCaisses::COMPTA_PRODUIT)
+                    :$interCaisse->setStatut(InterCaisses::COMPTA_CHARGE);
                 //$em->persist($recetteDepense);
                 $this->journeeCaisse->addRecetteDepense($recetteDepense);
                 $em->persist($this->journeeCaisse);
@@ -283,12 +284,12 @@ class InterCaissesController extends Controller
         return $interCaisse;
     }
 
-    private function isCoherent($recetteDepense,$interCaisse ){
-        if ($recetteDepense->isEstCharge() && $interCaisse->getJourneeCaisseSortant()->getId()==$this->journeeCaisse->getId()){
+    private function isCoherent(RecetteDepenses $recetteDepense, Intercaisses $interCaisse ){
+        if ($recetteDepense->getMDepense() && $interCaisse->getJourneeCaisseSortant()->getId()==$this->journeeCaisse->getId()){
             $this->addFlash('error', 'Intercaisse Sortant ne peut être pour une depense. Vérifier le type d\'operation comptable');
             return false;
         }
-        if ($recetteDepense->isEstProduit() && $interCaisse->getJourneeCaisseEntrant()->getId()==$this->journeeCaisse->getId()){
+        if ($recetteDepense->getMRecette() && $interCaisse->getJourneeCaisseEntrant()->getId()==$this->journeeCaisse->getId()){
             $this->addFlash('error', 'Intercaisse Entrant ne peut être pour une recette. Vérifier le type d\'operation comptable');
             return false;
         }

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+    <meta charset="UTF-8">
+    <title>Reçu d'opération</title>
+    {% if not solde %}
+    <script type="text/javascript">
+        function imprimer_recu(){
+            window.print();
+        }
+    </script>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/impression.css') }}" type="text/css" media="print" />
+    {% endblock %}
+    {% endif %}
+
+</HEAD>
+<BODY>
+{% block body %}
+    {% set nb=1 %}
+{% if not solde %}
+    {% set nb=2 %}
+<DIV id="btn-action" class="btn-action" style="position:absolute; left:10px; top:10px;">
+
+        {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+
+    <form>
+        <input id="imprimer" name="imprimer" type="button" onclick="imprimer_recu()" value="Imprimer" class="btn-primary"/>
+    </form>
+
+</DIV>
+{% endif %}
+{% for copie in 1..nb %}
+<div>
+    <table>
+        <tr>
+            <th colspan="2" height="40"> <span style=" font-family:'Arial'; font-size:16px;"><u> RECU DE {{ (depotRetrait.mDepot!=0)?'DEPOT':'RETRAIT' }}  </u></span></th>
+        </tr>
+        <tr>
+            <th colspan="2"  height="30">N° : <span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.id }} </span><span style=" font-family:'Arial'; font-size:16px;"> du </span><span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.dateOperation|date('d-m-Y H:i:s') }}</span></th>
+        </tr>
+        <tr>
+            <td style="text-align: right">Montant : </td>
+            <td><span style=" color:blue;">{{ (depotRetrait.mDepot!=0)?depotRetrait.mDepot|number_format(0, '.', ' '):depotRetrait.mRetrait|number_format(0, '.', ' ') }}</span></td>
+        </tr>
+        <tr>
+            <td style="text-align: right">Numéro du compte : </td>
+            <td><span style=" color:blue;">{{ depotRetrait.compteClient.numCompte }}</span></td>
+        </tr>
+        <tr>
+            <td style="text-align: right">Intitulé du compte : </td>
+            <td><span style=" color:blue;">{{ depotRetrait.compteClient.intitule }}</span></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        {% if solde %}
+            <tr>
+                <td style="text-align: right"  height="30">SOLDE INDICATIF : </td>
+                <td><span style=" color:blue;"  height="30">{{ depotRetrait.compteClient.soldeCourant|number_format(0, '.', ' ')}}</span></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td style="text-align: left"  height="40"><u>Signature du client</u></td>
+                <td style="text-align: right"  height="40"><u>Signature de l'agent</u></td>
+            </tr>
+            <tr>
+                <td colspan="2" height="100">.</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="text-align: center" height="20">=  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  =  = </td>
+
+            </tr>
+        {% endif %}
+
+    </table>
+</div>
+{% endfor %}
+{% endblock %}
+</BODY>
+</HTML>

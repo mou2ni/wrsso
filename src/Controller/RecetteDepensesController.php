@@ -94,21 +94,21 @@ class RecetteDepensesController extends Controller
         //dump($request);die();
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $genCompta=new GenererCompta($em);
             //dump($this->journeeCaisse);die();
             foreach ($this->journeeCaisse->getRecetteDepenses() as $recetteDepense) {
+                $genCompta=new GenererCompta($em);
                 $recetteDepense->setCompteTier($this->caisse->getCompteOperation());
                 if ($recetteDepense->getStatut()==RecetteDepenses::STAT_INITIAL or $recetteDepense->getStatut()==null) {
                     $recetteDepense->setEstComptant(true);
-                    //$ok = $recetteDepense->comptabiliser($genCompta, $this->utilisateur, $this->caisse->getJournalComptable(), $this->journeeCaisse);
-                    $ok=$genCompta->genComptaRecetteDepenseComptant($this->utilisateur,$this->caisse,$recetteDepense,$this->journeeCaisse);
+                    $ok = $recetteDepense->comptabiliserNouveau($genCompta, $this->journeeCaisse);
+                    //$ok=$genCompta->genComptaRecetteDepenseComptant($this->utilisateur,$this->caisse,$recetteDepense,$this->journeeCaisse);
                     if (!$ok) {
                         $this->addFlash('error', $genCompta->getErrMessage());
                         return $this->render('recette_depenses/recette_depense_journee.html.twig', ['journeeCaisse' => $this->journeeCaisse, 'form' => $form->createView(),]);
                     }
                 }
-                $recetteDepense->setTransaction($genCompta->getTransactions()[0]);
-                $recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
+                //$recetteDepense->setTransaction($genCompta->getTransactions()[0]);
+                //$recetteDepense->setStatut(RecetteDepenses::STAT_COMPTA);
                 //$em->persist($recetteDepense);
             }
             $this->journeeCaisse->maintenirRecetteDepenses();

@@ -37,6 +37,12 @@ class DepotRetraits
     private $transaction;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="depotRetraits", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $journeeCaisse;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -57,6 +63,11 @@ class DepotRetraits
      * @ORM\Column(type="string", length=255)
      */
     private $libelle;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $numCompteSaisie;
 
     /**
      * @ORM\Column(type="float")
@@ -147,7 +158,7 @@ class DepotRetraits
     }
 
     /**
-     * @return mixed
+     * @return Comptes
      */
     public function getCompteClient()
     {
@@ -251,6 +262,42 @@ class DepotRetraits
     public function setStatut($statut)
     {
         $this->statut = $statut;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumCompteSaisie()
+    {
+        return $this->numCompteSaisie;
+    }
+
+    /**
+     * @param mixed $numCompteSaisie
+     * @return DepotRetraits
+     */
+    public function setNumCompteSaisie($numCompteSaisie)
+    {
+        $this->numCompteSaisie = $numCompteSaisie;
+        return $this;
+    }
+
+    /**
+     * @return JourneeCaisses
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param JourneeCaisses $journeeCaisse
+     * @return DepotRetraits
+     */
+    public function setJourneeCaisse(JourneeCaisses $journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
         return $this;
     }
 

@@ -176,6 +176,11 @@ class JourneeCaisses
     private $intercaisseSortants;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DepotRetraits", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $depotRetraits;
+
+    /**
      * @ORM\Column(type="bigint")
      */
     private $mIntercaisses=0;
@@ -1581,5 +1586,47 @@ class JourneeCaisses
     {
         $this->recetteDepenses->removeElement($recetteDepense);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDepotRetraits()
+    {
+        return $this->depotRetraits;
+    }
+
+    /**
+     * @param mixed $depotRetraits
+     * @return JourneeCaisses
+     */
+    public function setDepotRetraits($depotRetraits)
+    {
+        $this->depotRetraits = $depotRetraits;
+        return $this;
+    }
+
+    /**
+     * @param DepotRetraits $depotRetrait
+     * @return $this
+     */
+    public function addDepotRetrait(DepotRetraits $depotRetrait)
+    {
+        $depotRetrait->setUtilisateur($this->getUtilisateur());
+        $depotRetrait->setJourneeCaisse($this);
+        $depotRetrait->setCompteOperationCaisse($this->getCaisse()->getCompteOperation());
+        $this->depotRetraits->add($depotRetrait);
+        $this->updateM('mDepotClient',$depotRetrait->getMDepot());
+        $this->updateM('mRetraitClient',$depotRetrait->getMRetrait());
+        return $this;
+    }
+
+    /**
+     * @param DepotRetraits $depotRetrait
+     */
+    public function removeDepotRetrait(DepotRetraits $depotRetrait)
+    {
+        $this->depotRetraits->removeElement($depotRetrait);
+    }
+
 
 }

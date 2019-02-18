@@ -53,10 +53,10 @@ class TransactionComptes
      */
     private $mCredit;
 
-    /**
+    /*
      * @ORM\Column(type="float", nullable=true)
-     */
-    private $mSoldeAvant;
+
+    private $mSoldeApres;*/
 
 
     /**
@@ -170,24 +170,6 @@ class TransactionComptes
     public function setId($id)
     {
         $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMSoldeAvant()
-    {
-        return $this->mSoldeAvant;
-    }
-
-    /**
-     * @param mixed $mSoldeAvant
-     * @return TransactionComptes
-     */
-    public function setMSoldeAvant($mSoldeAvant)
-    {
-        $this->mSoldeAvant = $mSoldeAvant;
         return $this;
     }
 
