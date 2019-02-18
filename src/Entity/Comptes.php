@@ -97,7 +97,7 @@ class Comptes
     }
 
     /**
-     * @return mixed
+     * @return Clients
      */
     public function getClient()
     {
@@ -105,7 +105,7 @@ class Comptes
     }
 
     /**
-     * @param mixed $client
+     * @param Clients $client
      * @return Comptes
      */
     public function setClient($client)

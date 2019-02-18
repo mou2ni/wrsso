@@ -43,20 +43,29 @@ class DepotRetraitsController extends Controller
     }
 
     /**
+     * @Route("/{id}/imprimer", name="depot_retraits_imprimer", methods="GET|POST")
+     */
+    public function imprimer(Request $request,DepotRetraits $depotRetrait): Response
+    {
+        return $this->render('depot_retraits/recu_depot_retrait.html.twig',['depotRetrait'=>$depotRetrait,'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse]);
+
+    }
+
+    /**
      * @Route("/depot", name="depot_retraits_depot", methods="GET|POST")
      */
-    public function deposer(Request $request): Response
+    public function deposer(Request $request,\Swift_Mailer $mailer): Response
     {
-        return $this->depotRetrait($request,true);
+        return $this->depotRetrait($request,$mailer, true);
 
     }
 
     /**
      * @Route("/retrait", name="depot_retraits_retrait", methods="GET|POST")
      */
-    public function retirer(Request $request): Response
+    public function retirer(Request $request,\Swift_Mailer $mailer): Response
     {
-        return $this->depotRetrait($request,false);
+        return $this->depotRetrait($request,$mailer,false);
     }
     /**
      * @Route("/{id}", name="depot_retraits_show", methods="GET")
@@ -100,35 +109,7 @@ class DepotRetraitsController extends Controller
         return $this->redirectToRoute('depot_retraits_index');
     }
 
-    private function getIntituleCompteAjax(Request $request){
-        if ($request->isXmlHttpRequest()){
-
-            $num=$request->get('num');
-            $comptes=$this->getDoctrine()->getManager()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$num]);
-
-            $compte=[
-                //['client'=>$comptes?$comptes->getClient()->getPrenom().' '.$comptes->getClient()->getNom():'','intitule'=>$comptes?$comptes->getIntitule():'']
-                ['client'=>$comptes?$comptes->getIntitule():'']
-            ];
-
-            $data = ["compte"=>$compte];
-
-            return new JsonResponse($data);
-        }
-    }
-
-    private function checkCompteSaise(DepotRetraits $depotRetrait){
-        $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depotRetrait->getNumCompteSaisie()]);
-        if (!$compteClient){
-            $this->addFlash('error', 'Compte saisie inexistant. Vérifier le numéro de compte');
-            //return $this->redirectToRoute('depot_retraits_depot');
-            return false;
-        }
-        $depotRetrait->setCompteClient($compteClient);
-        return true;
-    }
-
-    private function depotRetrait(Request $request,$depot=true){
+    private function depotRetrait(Request $request,\Swift_Mailer $mailer, $depot=true){
 
         $depotRetrait = new DepotRetraits();
         $depotRetrait->setDateOperation(new \DateTime());
@@ -153,7 +134,7 @@ class DepotRetraitsController extends Controller
                 ]);
             }
             $depotRetrait->setCompteClient($compteClient);
-           
+
             $genCompta=new GenererCompta($em);
             $ok=$genCompta->genComptaDepotRetrait($depotRetrait, $this->journeeCaisse);
             if (!$ok){
@@ -169,7 +150,15 @@ class DepotRetraitsController extends Controller
             $em->persist($this->journeeCaisse);
             $em->flush();
 
-            return $this->redirectToRoute('journee_caisses_gerer');
+            $message = (new \Swift_Message('Warisso - Confirmation d\'opération'))
+                ->setFrom('warisso-no-reply@yesbo.bf')
+                ->setTo($depotRetrait->getCompteClient()->getClient()->getEmail())
+                ->setBody( $this->renderView('depot_retraits/recu_depot_retrait.html.twig',
+                        ['depotRetrait'=>$depotRetrait,'solde' => $depotRetrait->getCompteClient()->getSoldeCourant()]
+                    ),'text/html' );
+
+            $mailer->send($message);
+            return $this->render('depot_retraits/recu_depot_retrait.html.twig', ['depotRetrait'=>$depotRetrait, 'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse]);
         }
 
         if ($request->isXmlHttpRequest()){

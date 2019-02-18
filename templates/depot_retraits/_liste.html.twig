@@ -5,13 +5,15 @@
         <th>libelle</th>
         <th>Depot</th>
         <th>Retrait</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <th  colspan="2">Total</th>
+        <th  colspan="2" class="text-right">TOTAL : </th>
         <th>{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ')  }}</th>
         <th> {{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ')  }}</th>
+        <th> </th>
     </tr>
     {% for depotRetrait in depotRetraits %}
         <tr>
@@ -19,6 +21,7 @@
             <td>{{ depotRetrait.libelle }}</td>
             <td>{{ depotRetrait.mDepot|number_format(0, '.', ' ') }}</td>
             <td>{{ depotRetrait.mRetrait|number_format(0, '.', ' ') }}</td>
+            <td><a href="{{ path('depot_retraits_imprimer', {'id': depotRetrait.id}) }}">Imprimer</a></td>
         </tr>
     {% endfor %}
     </tbody>

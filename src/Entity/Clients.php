@@ -44,6 +44,11 @@ class Clients
     /**
      * @ORM\Column(type="string", nullable=true)
      */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
     private $typeTier=Clients::TYP_CLIENT;
 
 
@@ -201,6 +206,24 @@ class Clients
     public function setTypeTier($typeTier)
     {
         $this->typeTier = $typeTier;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     * @return Clients
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
         return $this;
     }
 
