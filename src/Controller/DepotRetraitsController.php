@@ -150,8 +150,10 @@ class DepotRetraitsController extends Controller
             $em->persist($this->journeeCaisse);
             $em->flush();
 
-            $message = (new \Swift_Message('Warisso - Confirmation d\'opération'))
-                ->setFrom('warisso-no-reply@yesbo.bf')
+            $message_object='WARISSO - Confirmation de ';
+            $message_object.=($depot)?'DEPOT':'RETRAIT';
+            $message = (new \Swift_Message($message_object))
+                ->setFrom('warisso-confirm@yesbo.bf')
                 ->setTo($depotRetrait->getCompteClient()->getClient()->getEmail())
                 ->setBody( $this->renderView('depot_retraits/recu_depot_retrait.html.twig',
                         ['depotRetrait'=>$depotRetrait,'solde' => $depotRetrait->getCompteClient()->getSoldeCourant()]
