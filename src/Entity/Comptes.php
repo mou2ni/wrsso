@@ -19,6 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Comptes
 {
     const INTERNE='I', ORDINAIRE='O', SALAIRE='S', EPARGNE='E';
+    const COMPTE_CAPITAL='1', COMPTE_IMMOBILISATION='2', COMPTE_STOCK='3', COMPTE_TIERS='4', COMPTE_TRESORERIE='5',COMPTE_CHARGE='6',COMPTE_PRODUIT='7';
 
     /**
      * @ORM\Id
@@ -94,6 +95,10 @@ class Comptes
     public function __toString()
     {
         return $this->getNumCompte();
+    }
+
+    public function getNumCompteIntitule(){
+        return $this->getNumCompte().' - '.$this->getIntitule();
     }
 
     /**

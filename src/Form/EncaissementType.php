@@ -10,13 +10,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DepotType extends AbstractType
+class EncaissementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->remove('mRetrait')
-            ->remove('compteClient')
+            ->remove('numCompteSaisie')
         ;
     }
 

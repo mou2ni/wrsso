@@ -42,6 +42,7 @@ class ComptesRepository extends ServiceEntityRepository
         $qb=$this->createQueryBuilder('c');
         return $qb
             ->where('c.numCompte like \'6%\' or c.numCompte like \'7%\' ')
+            ->orderBy('c.numCompte', 'ASC')
             ->getQuery()
             ->getResult()
         ;
@@ -51,18 +52,33 @@ class ComptesRepository extends ServiceEntityRepository
         $qb=$this->createQueryBuilder('c');
         return $qb
             ->where('c.numCompte like \'6%\'')
+            ->orderBy('c.numCompte', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findCompteProduits(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            ->where('c.numCompte like \'7%\'')
+            ->orderBy('c.numCompte', 'ASC')
             ->getQuery()
             ->getResult()
             ;
     }
 
-    public function findCompteProduits(){
+    public function findCompteTiers(){
+        return $this->getCompteTiersQb()
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getCompteTiersQb(){
         $qb=$this->createQueryBuilder('c');
         return $qb
-            ->where('c.numCompte like \'7%\' ')
-            ->getQuery()
-            ->getResult()
-            ;
+            ->where('c.numCompte like \'4%\' ')
+            //->andWhere('c.numCompte not like \'47%\' ')
+            ->orderBy('c.numCompte', 'ASC');
     }
 
 
