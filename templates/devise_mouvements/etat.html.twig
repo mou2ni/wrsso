@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseMouvements index{% endblock %}
+
+{% block body %}
+    {#<h1 class="form-inline">Mouvements de devises </h1>#}
+
+    <div class="form-inline">
+
+        <form method="get" action="{{ path('devise_mouvements_etat') }}">
+            {#{{ form(form) }}
+            {{ form_start(form) }}
+
+            Caisse : {{ form_widget(form.caisse) }}
+            <input type="text" value="Choisir" onfocus="if(this.value=='Choisir'){this.value=''}" onblur="if(this.value==''){this.value = 'Choisir'}" />
+            #}
+            Du : <input type="date" id="form_dateDeb" name="_dateDeb"  class="form-control" value="{{ dateDeb.format('d/m/Y') }}" onfocus="if(this.value=='{{ dateDeb.format('d/m/Y') }}'){this.value=''}" onblur="if(this.value==''){this.value = '{{ dateDeb.format('d/m/Y') }}'}">
+            Au : <input type="date" id="form_dateFin" name="_dateFin"  class="form-control" value="{{ dateFin.format('d/m/Y')}}" onfocus="if(this.value=='{{ dateFin.format('d/m/Y') }}'){this.value=''}" onblur="if(this.value==''){this.value = '{{ dateFin.format('d/m/Y') }}'}">
+            <button class="btn-primary btn" name="modifier" > Changer</button>
+
+        </form>
+
+    </div>
+    <div class="row">
+        {{ include('_paginationAvecDate.html.twig',{'path':'devise_mouvements_etat', 'dateDeb':dateDeb.format('d/m/Y'),'dateFin':dateFin.format('d/m/Y')}) }}
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Devise</th>
+                <th>Sens</th>
+                <th>Nombre</th>
+                <th>Taux</th>
+                <th>MCvd</th>
+                <th>Type d'opération</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for devise_mouvement in devise_mouvements %}
+            <tr>
+                <td>{{ devise_mouvement.id }}</td>
+                <td>{{ devise_mouvement.devise }}</td>
+                <td>{{ devise_mouvement.sens }}</td>
+                <td>{{ devise_mouvement.nombre }}</td>
+                <td>{{ devise_mouvement.taux }}</td>
+                <td>{{ devise_mouvement.contreValeur|number_format(0, '.', ' ') }}</td>
+                <td>{{ devise_mouvement.type }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('devise_mouvements_new') }}">Ajouter</a>
+{% endblock %}

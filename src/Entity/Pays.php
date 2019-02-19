@@ -44,6 +44,10 @@ class Pays
      * @ORM\Column(type="boolean")
      */
     private $dansRegion = false;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ordre;
 
     public function __toString()
     {
@@ -133,6 +137,24 @@ class Pays
     public function setCode($code)
     {
         $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrdre()
+    {
+        return $this->ordre;
+    }
+
+    /**
+     * @param mixed $ordre
+     * @return Pays
+     */
+    public function setOrdre($ordre)
+    {
+        $this->ordre = $ordre;
         return $this;
     }
 
