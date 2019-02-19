@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Transactions{% endblock %}
+{% block title %}Nouvelle écriture{% endblock %}
 
 {% block body %}
-    <h1>Create new Transactions</h1>
+    <h1>Saisie d'une écriture comptable | <a href="{{ path('transactions_index') }}">Liste des écritures</a></h1>
 
-    {{ include('transactions/_form.html.twig') }}
+    {{ include('transactions/_collection_form.html.twig') }}
 
-    <a href="{{ path('transactions_index') }}">back to list</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script src="{{   asset('js/collections.js') }}"></script>
 {% endblock %}

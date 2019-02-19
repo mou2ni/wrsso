@@ -3,15 +3,13 @@
 {% block title %}Transactions{% endblock %}
 
 {% block body %}
-    <h1>Détail des écritures comptables</h1>
-    <table class="table">
-        <tbody>
-        {{ include('transactions/_entete_transaction.html.twig') }}
-        {{ include('transactions/_detail_transaction.html.twig') }}
-        </tbody>
-    </table>
+    <h1>Détail des écritures comptables |
+        <a href="{{ path('transactions_ajout') }}">Nouvelle écriture</a></h1>
+    {{ include('transactions/_entete_transaction.html.twig') }}
 
-    <a href="{{ path('transactions_index') }}"> Liste des transactions </a> |
+    {{ include('transactions/_detail_transaction.html.twig') }}
+
+    <a href="{{ path('transactions_index') }}"> Liste des écritures </a> |
 
     <a href="{{ path('transactions_edit', {'id': transaction.id}) }}"> Modifier</a>
 {% endblock %}

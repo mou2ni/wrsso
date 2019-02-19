@@ -64,6 +64,10 @@ class JournauxComptables
         return $this->getCode();
     }
 
+    public function getDisplayName(){
+        return $this->getCode().' - '.$this->getLibelle();
+    }
+
     /**
      * @return mixed
      */

@@ -1,12 +1,5 @@
-<tr>
-    <th > Date pièces </th>
-    <td colspan="2"> {{(transaction.dateTransaction)?transaction.dateTransaction|date('d-m-Y'):'' }}</td>
-</tr>
-<tr>
-    <th > Numéro pièce </th>
-    <td colspan="2"> {{ transaction.numPiece }}</td>
-</tr>
-<tr>
-    <th > Intitulé de l'écriture </th>
-    <td colspan="2"> {{ transaction.libelle }}</td>
-</tr>
+<div>
+    <p> JOURNAL  : <span style="font-weight: bold"> {{transaction.journauxComptable}} </span> DATE PIECE  : <span style="font-weight: bold"> {{(transaction.dateTransaction)?transaction.dateTransaction|date('d-m-Y'):'' }}</span></p>
+    <p> NUMERO PIECE : <span style="font-weight: bold"> {{ transaction.numPiece }}</span> LIBELLE ECRITURE : <span style="font-weight: bold"> {{ transaction.libelle }} </span></p>
+    <p></p>
+</div>

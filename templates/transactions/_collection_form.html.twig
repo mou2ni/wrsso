@@ -1,0 +1,43 @@
+{{ form_start(form, {'attr': {'onsubmit':'return confirm("Confirmer l\'enregistrement ?");'} } ) }}
+<div class="table-responsive">
+    <table id="collections-contener" class="collection-tags table"
+           data-prototype="
+{{ '<td class="padding-0">'|e }}{{ form_widget(form.transactionComptes.vars.prototype.compte)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transactionComptes.vars.prototype.libelle)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transactionComptes.vars.prototype.mDebit)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transactionComptes.vars.prototype.mCredit)|e }}
+{{ '</td>'|e }}"
+           data-widget-tags="{{ '<tr class="collection-tag"></tr>'|e }}"  data-list="#collections-contener" onchange="">
+
+        <thead>
+        <tr>
+            <td class="text-bold ">Journal </td> <td class="text-bold padding-5 text-center" > {{ form_widget(form.journauxComptable) }}</td>
+            <td class="text-bold ">Date </td> <td class="text-bold padding-5 text-center" > {{ form_widget(form.dateTransaction) }}</td>
+        </tr>
+        <tr>
+            <td class="text-bold ">Pièce </td> <td class="text-bold padding-5 text-center" > {{ form_widget(form.numPiece) }}</td>
+            <td class="text-bold ">Libellé </td> <td class="text-bold padding-5 text-center" > {{ form_widget(form.libelle) }}</td>
+        </tr>
+        <tr>
+            <th class="text-bold padding-5 text-center">Compte </th>
+            <th class="text-bold padding-5 text-center">Libelle</th>
+            <th class="text-bold padding-5 text-center">Débit</th>
+            <th class="text-bold padding-5 text-center">Crédit</th>
+
+        </tr>
+        </thead>
+
+        {% for transactionCompte in form.transactionComptes %}
+            <tr class="collection-tag ">
+                <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(transactionCompte.compte) }} {{ form_widget(transactionCompte.compte) }}</td>
+                <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(transactionCompte.libelle) }} {{ form_widget(transactionCompte.libelle) }}</td>
+                <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(transactionCompte.mDebit) }} {{ form_widget(transactionCompte.mDebit) }}</td>
+                <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(transactionCompte.mCredit) }} {{ form_widget(transactionCompte.mCredit) }}</td>
+            </tr>
+        {% endfor %}
+
+
+    </table>
+        {{ include('_btn_enregistrer.html.twig') }}
+</div>
+{{ form_end(form) }}
