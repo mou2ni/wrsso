@@ -82,7 +82,6 @@ class DepotRetraitsController extends Controller
      */
     public function retirer(Request $request,\Swift_Mailer $mailer): Response
     {
-        dump($request);die();
         return $this->depotRetrait($request,$mailer,'retrait');
     }
 
@@ -194,16 +193,15 @@ class DepotRetraitsController extends Controller
 
             return new JsonResponse($data);
         }
-        $limit=10;
-        $_page=$request->query->get('_page');
-        $offset = ($_page)?($_page-1)*$limit:0;
-        //$depotRetraits=$this->getDoctrine()->getRepository(DepotRetraits::class)->findByJourneeCaisse($this->journeeCaisse,$offset,$limit);
+       // $limit=10;
+       // $_page=$request->query->get('_page');
+       // $offset = ($_page)?($_page-1)*$limit:0;
+        $depotRetraits=$this->getDoctrine()->getRepository(DepotRetraits::class)->findByJourneeCaisse($this->journeeCaisse,$offset,$limit);
         //$pages = round(count($depotRetraits)/$limit);
 
         return $this->render('depot_retraits/'.$returnTwig, [
             'journeeCaisse' => $this->journeeCaisse,
-            //'depotRetraits'=>$depotRetraits,
-            //'pages'=>$pages,
+            'depotRetraits'=>$depotRetraits,
             'form' => $form->createView(),
         ]);
     }
