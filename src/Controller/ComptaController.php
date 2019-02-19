@@ -85,23 +85,6 @@ class ComptaController extends Controller
 
     }
 
-    /**
-     * @Route("/decaissement", name="compta_saisie_decaissement", methods="GET")
-     * @Security("has_role('ROLE_COMPTABLE')")
-     */
-    public function saisieDecaisser(Request $request) : Response
-    {
-
-    }
-
-    /**
-     * @Route("/encaissement", name="compta_saisie_encaissement", methods="GET")
-     * @Security("has_role('ROLE_COMPTABLE')")
-     */
-    public function saisieEncaisser(Request $request) : Response
-    {
-
-    }
     private function initCaisse(){
         //journeeCaisse à jour
     }

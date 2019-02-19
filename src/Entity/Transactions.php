@@ -240,7 +240,7 @@ class Transactions
         return $this;
     }
 
-    public function addTransactionComptes(TransactionComptes $transactionCompte)
+    public function addTransactionCompte(TransactionComptes $transactionCompte)
     {
         if ($transactionCompte->getMCredit() ==0 and $transactionCompte->getMDebit()==0) return $this;
 
@@ -250,12 +250,13 @@ class Transactions
         $compte->setSoldeCourant($compte->getSoldeCourant()+$transactionCompte->getMCredit()-$transactionCompte->getMDebit());
         //$transactionCompte->setMSoldeApres($compte->getSoldeCourant());
         $transactionCompte->setCompte($compte);
+        $transactionCompte->setNumCompte($compte->getNumCompte());
         $this->mCreditTotal+=$transactionCompte->getMCredit();
         $this->mDebitTotal+=$transactionCompte->getMDebit();
         return $this;
     }
 
-    public function removeTransactionComptes(TransactionComptes $transactionCompte)
+    public function removeTransactionCompte(TransactionComptes $transactionCompte)
     {
         $this->transactionComptes->removeElement($transactionCompte);
 

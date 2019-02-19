@@ -156,10 +156,10 @@ class GenererCompta
 
         //$montant = abs($montant);
         //ajout de ligne d'écriture debit
-        $transaction->addTransactionComptes($this->fillTransactionCompte($compteDebit, -$montant));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteDebit, -$montant));
 
         //ajout de ligne d'écriture credit
-        $transaction->addTransactionComptes($this->fillTransactionCompte($compteCredit, $montant));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteCredit, $montant));
 
         //$this->em=$this->getDoctrine()->getManager();
         $this->em->persist($transaction);
@@ -227,10 +227,10 @@ class GenererCompta
         $transaction=$this->initTransaction($utilisateur,'Ecarts - '.$utilisateur,$montant,$caisse->getJournalComptable(), $journeeCaisse);
         if (!$transaction) return false ;
 
-        $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMEcartOuv())->setLibelle('Ecart Ouverture'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMEcartFerm())->setLibelle('Ecart Fermeture'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMEcartOuv())->setLibelle('Ecart Ouverture'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMEcartFerm())->setLibelle('Ecart Fermeture'));
 
-        $transaction->addTransactionComptes($this->fillTransactionCompte($compteEcartCaisse, $montant));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteEcartCaisse, $montant));
 
         //$this->genEcritureDebitCredit($utilisateur,$compteOperation,$compteEcartCaisse,$libelle,$journeeCaisse->getMEcartFerm(),$caisse->getJournalComptable(),$journeeCaisse, new \DateTime());
         //$this->genEcritureDebitCredit($utilisateur,$compteOperation,$compteEcartCaisse,$libelle,$journeeCaisse->getMEcartFerm(),$caisse->getJournalComptable(),$journeeCaisse, new \DateTime());
@@ -467,15 +467,15 @@ class GenererCompta
         if ($caisse->getComptaDetail()){
 
             //contrepartie groupé dans le compte opération de la caisse
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMCvd()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMCvd()));
             //lignes détaillées dans le compte contrevaleur devise
             foreach ($journeeCaisse->getDeviseJournees() as $deviseJournee){
-                $transaction->addTransactionComptes($this->fillTransactionCompte($compteCvdDevise, $deviseJournee->getMCvdVente()));
-                $transaction->addTransactionComptes($this->fillTransactionCompte($compteCvdDevise, $deviseJournee->getMCvdAchat()));
+                $transaction->addTransactionCompte($this->fillTransactionCompte($compteCvdDevise, $deviseJournee->getMCvdVente()));
+                $transaction->addTransactionCompte($this->fillTransactionCompte($compteCvdDevise, $deviseJournee->getMCvdAchat()));
             }
         }else{
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMCvd()));
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteCvdDevise, $journeeCaisse->getMCvd()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMCvd()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteCvdDevise, $journeeCaisse->getMCvd()));
         }
         $this->em->persist($transaction);
         return true;
@@ -531,24 +531,24 @@ class GenererCompta
             $IntercaisseEntrantValides=$this->em->getRepository(InterCaisses::class)->findIntercaissesValides($journeeCaisse);
             $IntercaisseSortantValides=$this->em->getRepository(InterCaisses::class)->findIntercaissesValides($journeeCaisse, false);
             foreach ($IntercaisseEntrantValides as $intercaisseEntrant){
-                $transaction->addTransactionComptes($this->fillTransactionCompte($compteIntercaisse, $intercaisseEntrant->getMIntercaisse(), 'Intercaisse  '.$intercaisseEntrant->getJourneeCaisseSortant()));
+                $transaction->addTransactionCompte($this->fillTransactionCompte($compteIntercaisse, $intercaisseEntrant->getMIntercaisse(), 'Intercaisse  '.$intercaisseEntrant->getJourneeCaisseSortant()));
                 $intercaisseEntrant->setTransaction($transaction);
                 $this->em->persist($intercaisseEntrant);
                 $mIntercaisse+=$intercaisseEntrant->getMIntercaisse();
             }
             foreach ($IntercaisseSortantValides as $intercaisseSortant){
-                $transaction->addTransactionComptes($this->fillTransactionCompte($compteIntercaisse, -$intercaisseSortant->getMIntercaisse(), 'Intercaisse  '.$intercaisseSortant->getJourneeCaisseEntrant()));
+                $transaction->addTransactionCompte($this->fillTransactionCompte($compteIntercaisse, -$intercaisseSortant->getMIntercaisse(), 'Intercaisse  '.$intercaisseSortant->getJourneeCaisseEntrant()));
                 $intercaisseSortant->setTransaction($transaction);
                 $this->em->persist($intercaisseSortant);
                 $mIntercaisse-=$intercaisseSortant->getMIntercaisse();
             }
 
             //contrepartie groupé dans le compte operation de la caisse
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$mIntercaisse, 'Solde Intercaisse'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$mIntercaisse, 'Solde Intercaisse'));
 
         }else{
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMIntercaisses()));
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteIntercaisse, $journeeCaisse->getMIntercaisses()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMIntercaisses()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteIntercaisse, $journeeCaisse->getMIntercaisses()));
         }
         $this->em->persist($transaction);
         return true;
@@ -570,10 +570,10 @@ class GenererCompta
             //lignes détaillées dans le compte d'opération
             foreach ($journeeCaisse->getTransfertInternationaux() as $transfert){
                 if ($transfert->getSens()==TransfertInternationaux::ENVOI){
-                    $transaction->addTransactionComptes($this->fillTransactionCompte($compteCompense, $transfert->getMTransfertTTC(), 'Envoi : '.$caisse->getCode().' - '.$transfert->getId()));
+                    $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, $transfert->getMTransfertTTC(), 'Envoi : '.$caisse->getCode().' - '.$transfert->getId()));
                     $mCompense+=$transfert->getMTransfertTTC();
                 }else {
-                    $transaction->addTransactionComptes($this->fillTransactionCompte($compteCompense, -$transfert->getMTransfertTTC(), 'Reception : '.$caisse->getCode().' - '.$transfert->getId()));
+                    $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, -$transfert->getMTransfertTTC(), 'Reception : '.$caisse->getCode().' - '.$transfert->getId()));
                     $mCompense-=$transfert->getMTransfertTTC();
                 }
 
@@ -581,13 +581,13 @@ class GenererCompta
                 $this->em->persist($transfert);
             }
             //contrepartie groupé dans le compte operation de la caisse
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$mCompense,'Solde compense'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$mCompense,'Solde compense'));
 
         }else{
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompense()));
-            //$transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, $journeeCaisse->getMReceptionTrans()));
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteCompense, $journeeCaisse->getMEmissionTrans(), 'Total Envoi '.$caisse->getCode()));
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteCompense, -$journeeCaisse->getMReceptionTrans(), 'Total Reception'.$caisse->getCode()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompense()));
+            //$transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, $journeeCaisse->getMReceptionTrans()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, $journeeCaisse->getMEmissionTrans(), 'Total Envoi '.$caisse->getCode()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, -$journeeCaisse->getMReceptionTrans(), 'Total Reception'.$caisse->getCode()));
         }
         $this->em->persist($transaction);
         return true;
@@ -637,22 +637,22 @@ class GenererCompta
         }
         if (!$transaction) return false ;
         //Débit comptes Charges
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), -$ligneSalaire->getMSalaireBase(), 'Salaire de Base'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), -$ligneSalaire->getMIndemLogement(), 'Indemnités de logement'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), -$ligneSalaire->getMIndemFonction(), 'Indemnités de fonction'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), -$ligneSalaire->getMIndemTransport(), 'Indemnités de transport'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMIndemAutres(), 'Autres primes et indemnités'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMHeureSup(), 'Heures supplémentaires'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), -$ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale patronale'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), -$ligneSalaire->getMTaxePatronale(), 'Taxe patronale sur salaire'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), -$ligneSalaire->getMSalaireBase(), 'Salaire de Base'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), -$ligneSalaire->getMIndemLogement(), 'Indemnités de logement'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), -$ligneSalaire->getMIndemFonction(), 'Indemnités de fonction'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), -$ligneSalaire->getMIndemTransport(), 'Indemnités de transport'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMIndemAutres(), 'Autres primes et indemnités'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMHeureSup(), 'Heures supplémentaires'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), -$ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale patronale'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), -$ligneSalaire->getMTaxePatronale(), 'Taxe patronale sur salaire'));
 
         //crédit comptes tiers
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $ligneSalaire->getMImpotSalarie(), 'Impots sur salaires'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), 'Taxes patronales sur salaires'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialeSalarie(), 'Sécurité sociale part salarié'));
-        $transaction->addTransactionComptes($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale part patronale'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $ligneSalaire->getMImpotSalarie(), 'Impots sur salaires'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), 'Taxes patronales sur salaires'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialeSalarie(), 'Sécurité sociale part salarié'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale part patronale'));
         $compteRemunerationDue=($ligneSalaire->getCompteRemunerationDue())?$ligneSalaire->getCompteRemunerationDue():$paramComptable->getCompteRemunerationDue();
-        $transaction->addTransactionComptes($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), 'Remunération nette due'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), 'Remunération nette due'));
 
         //dump($transaction);
         $this->transactions->add($transaction);

@@ -10,6 +10,7 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use Proxies\__CG__\App\Entity\Comptes;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -66,7 +67,7 @@ class TransactionComptes
     private $transaction;
 
     /**
-     * @return mixed
+     * @return Comptes
      */
     public function getCompte()
     {
@@ -74,7 +75,7 @@ class TransactionComptes
     }
 
     /**
-     * @param mixed $compte
+     * @param Comptes $compte
      * @return TransactionComptes
      */
     public function setCompte($compte)

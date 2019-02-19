@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Transactions;
 use App\Form\TransactionsType;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TransactionsController extends Controller
 {
+    private $utilisateur;
+
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
+    }
+
     /**
      * @Route("/", name="transactions_index", methods="GET")
      */
@@ -41,6 +49,7 @@ class TransactionsController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $transaction->setUtilisateur($this->utilisateur);
             $em->persist($transaction);
             $em->flush();
 
