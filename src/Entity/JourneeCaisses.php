@@ -475,12 +475,15 @@ class JourneeCaisses
         }
         return $this;
     }
-    public function maintenirMDepotClient(){
-        $this->mDepotClient=$this->getTotalDepot();
-        return $this;
-    }
-    public function maintenirMRetraitClient(){
-        $this->mRetraitClient=$this->getTotalRetrait();
+
+    public function maintenirMDepotRetraits(){
+
+        $this->mRetraitClient=0;
+        $this->mDepotClient=0;
+        foreach ($this->getDepotRetraits() as $depotRetrait){
+                $this->updateM('mRetraitClient', $depotRetrait->getMRetrait());
+                $this->updateM('mDepotClient', $depotRetrait->getMDepot());
+        }
         return $this;
     }
 
