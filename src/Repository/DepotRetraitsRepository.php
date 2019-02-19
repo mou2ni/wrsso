@@ -48,12 +48,14 @@ class DepotRetraitsRepository extends ServiceEntityRepository
             ->orderBy('dr.id', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
-           // ->getQuery()
-            //->getResult()
+            ->getQuery()
+            ->getResult()
         ;
-        $pag = new Paginator($qb);
+        //dump($qb);die();
+        //$pag = new Paginator($qb);
 
-        return $pag;
+        //return $pag;
+        return $qb;
     }
 
 

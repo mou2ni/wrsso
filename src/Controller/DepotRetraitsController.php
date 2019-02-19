@@ -58,10 +58,19 @@ class DepotRetraitsController extends Controller
     /**
      * @Route("/{id}", name="depot_retraits_show", methods="GET|POST")
      */
-    public function liste(JourneeCaisses $journeeCaisse): Response
+    public function liste(Request $request,JourneeCaisses $journeeCaisse): Response
     {
+        $limit=10;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $depotRetraits=$this->getDoctrine()->getRepository(DepotRetraits::class)->findByJourneeCaisse($journeeCaisse,$offset,$limit);
+        //$pages = round(count($depotRetraits)/$limit);
+        //dump($pages);die();
         return $this->render('depot_retraits/liste.html.twig',
-            ['journeeCaisse' => $journeeCaisse,
+            [
+                'depotRetraits' => $depotRetraits,
+                'journeeCaisse' => $journeeCaisse,
+                //'pages'=>$pages
 
                 ]);
     }
@@ -197,13 +206,13 @@ class DepotRetraitsController extends Controller
         $limit=10;
         $_page=$request->query->get('_page');
         $offset = ($_page)?($_page-1)*$limit:0;
-        //$depotRetraits=$this->getDoctrine()->getRepository(DepotRetraits::class)->findByJourneeCaisse($this->journeeCaisse,$offset,$limit);
-        //$pages = round(count($depotRetraits)/$limit);
+        $depotRetraits=$this->getDoctrine()->getRepository(DepotRetraits::class)->findByJourneeCaisse($this->journeeCaisse,$offset,$limit);
+        $pages = round(count($depotRetraits)/$limit);
 
         return $this->render('depot_retraits/'.$returnTwig, [
             'journeeCaisse' => $this->journeeCaisse,
-            //'depotRetraits'=>$depotRetraits,
-            //'pages'=>$pages,
+            'depotRetraits'=>$depotRetraits,
+            'pages'=>$pages,
             'form' => $form->createView(),
         ]);
     }
