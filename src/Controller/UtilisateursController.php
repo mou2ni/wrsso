@@ -31,15 +31,24 @@ class UtilisateursController extends Controller
 
     /**
      * @Route("/", name="utilisateurs_index", methods="GET")
+     * @Security("has_role('ROLE_ADMIN')")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $limit=10;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
         $utilisateurs = $this->getDoctrine()
             ->getRepository(Utilisateurs::class)
-            ->liste(10);
+            ->liste($offset,$limit);
+        $pages = round(count($utilisateurs)/$limit);
         //dump($utilisateurs);die();
 
-        return $this->render('utilisateurs/index.html.twig', ['utilisateurs' => $utilisateurs]);
+        return $this->render('utilisateurs/index.html.twig',
+            [
+                'utilisateurs' => $utilisateurs,
+                'pages'=>$pages,
+            ]);
     }
 
     /**
@@ -90,37 +99,74 @@ class UtilisateursController extends Controller
             return $this->redirectToRoute('utilisateurs_index');
         }
 
-        return $this->render('utilisateurs/new.html.twig', [
+        return $this->render('utilisateurs/profile.html.twig', [
+            'utilisateur' => $this->utilisateur,
+            'utilisateurs' => $utilisateurs,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/passchg", name="utilisateur_pass_change", methods="GET|POST")
+     */
+    public function changer(Request $request): Response
+    {
+        $user = new Utilisateurs();
+        $form = $this->createForm(PassType::class, $user);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            if(password_verify($form['actmdp']->getData(), $this->utilisateur->getMdp()))
+            {
+                //dump($this->getUser());die();
+                $this->utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($this->utilisateur,$user->getMdp()));
+                $em->persist($this->utilisateur);
+                $em->flush();
+                $this->addFlash('success', 'Mot de passe modifié avec succes!');
+                return $this->redirectToRoute('logout');
+            }
+            else
+                $this->addFlash('error', 'Mot de passe actuel incorrect!');
+        }
+
+        return $this->render('utilisateurs/passe.html.twig', [
             'utilisateur' => $this->utilisateur,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/passchg", name="pass_change", methods="GET|POST")
+     * @Route("/passchg/{id}", name="utilisateur_pass_change_by_admin", methods="GET|POST")
+     * @Security("has_role('ROLE_ADMIN')")
      */
-    public function changer(Request $request): Response
+    public function changerUser(Request $request, Utilisateurs $utilisateur): Response
     {
-        $form = $this->createForm(PassType::class, $this->utilisateur);
+        $user = new Utilisateurs();
+        $form = $this->createForm(PassType::class, $user);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-             //if ($form['actmdp']->getData()
-            //== $em->getRepository(Utilisateurs::class)->find($this->utilisateur)->getPassword())
-             //{
-                $this->utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($this->utilisateur,$this->utilisateur->getMdp()));
-                $em->persist($this->utilisateur);
+
+            if(password_verify($form['actmdp']->getData(), $this->utilisateur->getMdp()))
+            {
+                //dump($this->getUser());die();
+                $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$user->getMdp()));
+                $em->persist($utilisateur);
                 $em->flush();
                 $this->addFlash('success', 'Mot de passe modifié avec succes!');
-                return $this->redirectToRoute('logout');
-            //}
-            //else
-              //  $this->addFlash('error', 'Echec : Mot de passe actuel erroné!');
+                return $this->redirectToRoute('utilisateurs_index');
+            }
+            else
+                $this->addFlash('error', 'Mot de passe actuel incorrect!');
         }
 
-        return $this->render('utilisateurs/new.html.twig', [
-            'utilisateur' => $this->utilisateur,
+        return $this->render('utilisateurs/passe.html.twig', [
+            'utilisateur' => $utilisateur,
             'form' => $form->createView(),
         ]);
     }
@@ -129,19 +175,27 @@ class UtilisateursController extends Controller
     /**
      * @Route("/{id}", name="utilisateurs_show", methods="GET")
      */
-    public function show(Utilisateurs $utilisateur): Response
+    public function show(Request $request, Utilisateurs $utilisateur): Response
     {
+        $limit=10;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
         $utilisateurs = $this->getDoctrine()
             ->getRepository(Utilisateurs::class)
-            ->liste(10);
-        return $this->render('utilisateurs/show.html.twig', ['utilisateur' => $utilisateur, 'utilisateurs' => $utilisateurs]);
+            ->liste($offset,$limit);
+        $pages = round(count($utilisateurs)/$limit);
+        return $this->render('utilisateurs/show.html.twig', [
+            'utilisateur' => $utilisateur,
+            'utilisateurs' => $utilisateurs,
+            'pages' => $pages
+        ]);
     }
 
 
 
     /**
      * @Route("/{id}/edit", name="utilisateurs_edit", methods="GET|POST")
-     * @Security("has_role('ROLE_COMPTABLE')")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function edit(Request $request, Utilisateurs $utilisateur): Response
     {
@@ -152,8 +206,7 @@ class UtilisateursController extends Controller
             ->getRepository(Utilisateurs::class)
             ->liste(10);
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
-            $utilisateur->setRoles($form['role']->getData());
+            if (!empty($form['role']->getData()))$utilisateur->setRoles($form['role']->getData());
             $em->persist($utilisateur);
             $em->flush();
 
@@ -169,7 +222,7 @@ class UtilisateursController extends Controller
 
     /**
      * @Route("/{id}", name="utilisateurs_delete", methods="DELETE")
-     * @Security("has_role('ROLE_COMPTABLE')")
+     * @Security("has_role('ROLE_AROLE_ADMIN')")
      */
     public function delete(Request $request, Utilisateurs $utilisateur): Response
     {

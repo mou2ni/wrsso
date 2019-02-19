@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>CHANGEMENT DE MOT DE PASSE</h1>
+
+    {{ include('utilisateurs/_form.html.twig') }}
+    <a href="{{ path('utilisateurs_index') }}">Retour à la liste</a> ||
+
+{% endblock %}
