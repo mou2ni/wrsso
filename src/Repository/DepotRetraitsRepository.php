@@ -38,17 +38,22 @@ class DepotRetraitsRepository extends ServiceEntityRepository
         return $pag;
     }
 
-    public function findByJourneeCaisse(JourneeCaisses $journeeCaisse)
+    public function findByJourneeCaisse(JourneeCaisses $journeeCaisse,$offset=0,$limit = 10)
     {
-        return $qb = $this->createQueryBuilder('dr')
+        $qb = $this->createQueryBuilder('dr')
             ->select('dr.id as id, dr.dateOperation as dateOperation, cc.intitule as compteClient, dr.libelle as libelle, dr.mDepot as mDepot, dr.mRetrait as mRetrait')
             ->innerJoin('dr.compteClient','cc', 'WITH', 'dr.compteClient= cc.id')
             ->where('dr.journeeCaisse= :journeeCaisse')
             ->setParameter('journeeCaisse',$journeeCaisse)
             ->orderBy('dr.id', 'DESC')
-            ->getQuery()
-            ->getResult()
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+           // ->getQuery()
+            //->getResult()
         ;
+        $pag = new Paginator($qb);
+
+        return $pag;
     }
 
 

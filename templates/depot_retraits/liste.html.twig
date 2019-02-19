@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1> LISTE DES TRANSFERT DE {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}</h1>
+{{ include('depot_retraits/_liste.html.twig') }}
+    {{ include('_btn_close.html.twig') }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

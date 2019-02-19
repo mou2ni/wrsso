@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comptes;
 use App\Entity\DepotRetraits;
+use App\Entity\JourneeCaisses;
 use App\Form\DecaissementType;
 use App\Form\DepotType;
 use App\Form\EncaissementType;
@@ -55,6 +56,17 @@ class DepotRetraitsController extends Controller
     }
 
     /**
+     * @Route("/{id}", name="depot_retraits_show", methods="GET|POST")
+     */
+    public function liste(JourneeCaisses $journeeCaisse): Response
+    {
+        return $this->render('depot_retraits/liste.html.twig',
+            ['journeeCaisse' => $journeeCaisse,
+
+                ]);
+    }
+
+    /**
      * @Route("/depot", name="depot_retraits_depot", methods="GET|POST")
      * @Security("has_role('ROLE_GUICHETIER')")
      */
@@ -70,6 +82,7 @@ class DepotRetraitsController extends Controller
      */
     public function retirer(Request $request,\Swift_Mailer $mailer): Response
     {
+        dump($request);die();
         return $this->depotRetrait($request,$mailer,'retrait');
     }
 
@@ -181,12 +194,16 @@ class DepotRetraitsController extends Controller
 
             return new JsonResponse($data);
         }
-
-        $depotRetraits=$this->getDoctrine()->getRepository(DepotRetraits::class)->findByJourneeCaisse($this->journeeCaisse);
+        $limit=10;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        //$depotRetraits=$this->getDoctrine()->getRepository(DepotRetraits::class)->findByJourneeCaisse($this->journeeCaisse,$offset,$limit);
+        //$pages = round(count($depotRetraits)/$limit);
 
         return $this->render('depot_retraits/'.$returnTwig, [
             'journeeCaisse' => $this->journeeCaisse,
-            'depotRetraits'=>$depotRetraits,
+            //'depotRetraits'=>$depotRetraits,
+            //'pages'=>$pages,
             'form' => $form->createView(),
         ]);
     }

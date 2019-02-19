@@ -208,6 +208,7 @@ class JourneeCaissesController extends Controller
      */
     public function maintenirSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
+        //dump($journeeCaisse);die();
         $journeeCaisse=$this->maintenirJournee($journeeCaisse);
 
         $this->addFlash('success', 'LES DONNEES SONT BONNE');
@@ -616,13 +617,13 @@ class JourneeCaissesController extends Controller
             ->maintenirMLiquiditeFerm()
             ->maintenirMSoldeElectFerm()
             ->maintenirMIntercaisses()
-            ->maintenirMDepotClient()
-            ->maintenirMRetraitClient()
+            ->maintenirMDepotRetraits()
             ->maintenirDetteCreditDiversFerm()
             ->maintenirMCvd()
             ->maintenirRecetteDepenses()
             ->maintenirTransfertsInternationaux();
         $this->getDoctrine()->getManager()->persist($journeeCaisse);
         $this->getDoctrine()->getManager()->flush();
+        return $journeeCaisse;
     }
 }
