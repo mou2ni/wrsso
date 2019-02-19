@@ -39,8 +39,8 @@
         {% if journeeCaisse.statut == 'E' %}
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'depot_retraits_depot','btn_name':'midifier', 'btn_label':'Dépots'}) }}
         {% else %}
-            {#<a href="{{ path('depot_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir</a>
-            #}
+            <a href="{{ path('depot_retraits_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>Voir</a>
+
         {% endif %}
     </td>
 </tr>
