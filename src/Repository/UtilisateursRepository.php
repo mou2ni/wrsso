@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Entity\Utilisateurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -21,14 +22,18 @@ class UtilisateursRepository extends ServiceEntityRepository
     }
 
 
-    public function liste($limit = 10)
+    public function liste($offset=0,$limit = 10)
     {
-        return $this->createQueryBuilder('u')
+        $qb = $this->createQueryBuilder('u')
             ->orderBy('u.nom', 'ASC')
+            ->setFirstResult($offset)
             ->setMaxResults($limit)
-            ->getQuery()
-            ->getResult()
-            ;
+            //->getQuery()
+            //->getResult()
+        ;
+        $pag = new Paginator($qb);
+
+        return $pag;
     }
 
 

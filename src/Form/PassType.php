@@ -17,7 +17,7 @@ class PassType extends AbstractType
     {
         $builder
             //->add('login')
-            //->add('actmdp',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['label'=>'Mot de passe actuel', 'mapped'=>false])
+            ->add('actmdp',\Symfony\Component\Form\Extension\Core\Type\TextType::class,['label'=>'Mot de passe actuel', 'mapped'=>false])
             ->add('mdp', RepeatedType::class,['type'=>PasswordType::class,
                 'invalid_message' => 'Les mots de passes doivent correspondre.',
                 'options' => ['attr' => ['class' => 'password-field']],

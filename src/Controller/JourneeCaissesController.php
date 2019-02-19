@@ -283,14 +283,6 @@ class JourneeCaissesController extends Controller
     {
         $dateDeb = new \DateTime("01-11-2018");
         $dateFin = new \DateTime('now');
-        //if ($this->isGranted('ROLE_GUICHETIER'))
-        /*$journeeCaisses = $this->getDoctrine()
-            ->getRepository(JourneeCaisses::class)
-            ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
-        if ($this->isGranted('ROLE_ADMIN'))
-            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll();*/
-        //sans journeecais
-
         $limit=10;
         $_page=$request->query->get('_page');
         $offset = ($_page)?($_page-1)*$limit:0;
@@ -302,12 +294,6 @@ class JourneeCaissesController extends Controller
             ->findJourneeCaisses($caisse,$offset,$limit);
         $pages = round(count($journeeCaisses)/$limit);
 
-        //$offset=$request->request->get('offset');
-        //$caisse=($this->isGranted('ROLE_GUICHETIER'))?$this->journeeCaisse->getCaisse():null;
-
-        //$journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findJourneeCaisses($caisse,$offset);
-
-        //dump ($journeeCaisses);die();
         return $this->render('journee_caisses/etat_de_caisse.html.twig', [
             'journee_caisses' => $journeeCaisses,
             'caisse'=>$caisse,
