@@ -26,7 +26,7 @@ class ClientsRepository extends ServiceEntityRepository
     public function liste($offset=0,$limit = 10)
     {
         $qb = $this->createQueryBuilder('c')
-            ->orderBy('c.id', 'ASC')
+            ->orderBy('c.nom, c.prenom', 'ASC')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             //->getQuery()

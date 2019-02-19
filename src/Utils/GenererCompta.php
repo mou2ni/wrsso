@@ -526,9 +526,7 @@ class GenererCompta
         if (!$transaction) return false ;
 
         if ($caisse->getComptaDetail()){
-            //contrepartie groupé dans le compte operation de la caisse
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMIntercaisses(), 'Solde Intercaisse'));
-
+            $mIntercaisse=0;
             //lignes détaillées dans le compte d'attente intercaisse
             $IntercaisseEntrantValides=$this->em->getRepository(InterCaisses::class)->findIntercaissesValides($journeeCaisse);
             $IntercaisseSortantValides=$this->em->getRepository(InterCaisses::class)->findIntercaissesValides($journeeCaisse, false);
@@ -536,13 +534,19 @@ class GenererCompta
                 $transaction->addTransactionComptes($this->fillTransactionCompte($compteIntercaisse, $intercaisseEntrant->getMIntercaisse(), 'Intercaisse  '.$intercaisseEntrant->getJourneeCaisseSortant()));
                 $intercaisseEntrant->setTransaction($transaction);
                 $this->em->persist($intercaisseEntrant);
+                $mIntercaisse+=$intercaisseEntrant->getMIntercaisse();
             }
             foreach ($IntercaisseSortantValides as $intercaisseSortant){
                 $transaction->addTransactionComptes($this->fillTransactionCompte($compteIntercaisse, -$intercaisseSortant->getMIntercaisse(), 'Intercaisse  '.$intercaisseSortant->getJourneeCaisseEntrant()));
                 $intercaisseSortant->setTransaction($transaction);
                 $this->em->persist($intercaisseSortant);
+                $mIntercaisse-=$intercaisseSortant->getMIntercaisse();
             }
-         }else{
+
+            //contrepartie groupé dans le compte operation de la caisse
+            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$mIntercaisse, 'Solde Intercaisse'));
+
+        }else{
             $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getMIntercaisses()));
             $transaction->addTransactionComptes($this->fillTransactionCompte($compteIntercaisse, $journeeCaisse->getMIntercaisses()));
         }
@@ -562,18 +566,23 @@ class GenererCompta
         if (!$transaction) return false ;
 
         if ($caisse->getComptaDetail()){
-            //contrepartie groupé dans le compte operation de la caisse
-            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompense(),'Solde compense'));
-            //$transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, $journeeCaisse->getMReceptionTrans())->setLibelle('Total Reception'));
+            $mCompense=0;
             //lignes détaillées dans le compte d'opération
             foreach ($journeeCaisse->getTransfertInternationaux() as $transfert){
-                if ($transfert->getSens()==TransfertInternationaux::ENVOI)
+                if ($transfert->getSens()==TransfertInternationaux::ENVOI){
                     $transaction->addTransactionComptes($this->fillTransactionCompte($compteCompense, $transfert->getMTransfertTTC(), 'Envoi : '.$caisse->getCode().' - '.$transfert->getId()));
-                else $transaction->addTransactionComptes($this->fillTransactionCompte($compteCompense, -$transfert->getMTransfertTTC(), 'Reception : '.$caisse->getCode().' - '.$transfert->getId()));
+                    $mCompense+=$transfert->getMTransfertTTC();
+                }else {
+                    $transaction->addTransactionComptes($this->fillTransactionCompte($compteCompense, -$transfert->getMTransfertTTC(), 'Reception : '.$caisse->getCode().' - '.$transfert->getId()));
+                    $mCompense-=$transfert->getMTransfertTTC();
+                }
+
                 $transfert->setTransaction($transaction);
                 $this->em->persist($transfert);
             }
-             //}
+            //contrepartie groupé dans le compte operation de la caisse
+            $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$mCompense,'Solde compense'));
+
         }else{
             $transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompense()));
             //$transaction->addTransactionComptes($this->fillTransactionCompte($compteOperation, $journeeCaisse->getMReceptionTrans()));

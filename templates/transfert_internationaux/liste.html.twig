@@ -27,7 +27,7 @@
         {% for trans in journeeCaisse.transfertInternationaux %}
             <tr class="transfert ">
                 <td class="padding-0">{{ trans.idSystemTransfert }}</td>
-                <td class="padding-0">{{ (trans.sens == 1)?'RECEPTION':'ENVOI' }}</td>
+                <td class="padding-0">{{ (trans.sens == 1)?'ENVOI':'RECEPTION' }}</td>
                 <td class="padding-0">{{ trans.idPays }}</td>
                 <td class="padding-0">{{ trans.mTransfert|number_format(0, '.', ' ') }}</td>
                 <td class="padding-0">{{ trans.mTransfertTTC|number_format(0, '.', ' ') }}</td>

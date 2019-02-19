@@ -34,7 +34,7 @@
 <div>
     <table>
         <tr>
-            <th colspan="2" height="40"> <span style=" font-family:'Arial'; font-size:16px;"><u> RECU DE {{ (depotRetrait.mDepot!=0)?'DEPOT':'RETRAIT' }}  </u></span></th>
+            <th colspan="2" height="40"> <span style=" font-family:'Arial'; font-size:16px;"><u> RECU DE {{ (typeOperation!=null)?typeOperation|upper:(depotRetrait.mDepot!=0)?'DEPOT':'RETRAIT' }}  </u></span></th>
         </tr>
         <tr>
             <th colspan="2"  height="30">N° : <span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.id }} </span><span style=" font-family:'Arial'; font-size:16px;"> du </span><span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.dateOperation|date('d-m-Y H:i:s') }}</span></th>

@@ -3,8 +3,8 @@
 {% block title %}Clients index{% endblock %}
 
 {% block body %}
-    <h1>Liste Clients</h1>
-    {{ include('clients/_liste.html.twig') }}
+    <h1>Liste Clients |
+        <a href="{{ path('clients_new') }}">Ajouter</a></h1>
     {{ include('_pagination.html.twig',{'path':'clients_index'}) }}
-    <a href="{{ path('clients_new') }}">Ajouter</a>
+    {{ include('clients/_liste.html.twig') }}
 {% endblock %}

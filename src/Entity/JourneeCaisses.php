@@ -460,11 +460,17 @@ class JourneeCaisses
         $this->mIntercaisses=0;
         //$this->mIntercaisses=0;
         foreach ($this->getIntercaisseSortants() as $intercaisseSortant){
-            if ($intercaisseSortant->getStatut()!=InterCaisses::ANNULE)
+            if ($intercaisseSortant->getStatut()==InterCaisses::VALIDATION_AUTO
+                or $intercaisseSortant->getStatut()==InterCaisses::VALIDE 
+                or $intercaisseSortant->getStatut()==InterCaisses::COMPTA_CHARGE
+                or $intercaisseSortant->getStatut()==InterCaisses::COMPTA_PRODUIT)
             $this->updateM('mIntercaisses', - $intercaisseSortant->getMIntercaisse());
         }
         foreach ($this->getIntercaisseEntrants() as $intercaisseEntrant){
-            if ($intercaisseEntrant->getStatut()!=InterCaisses::ANNULE)
+            if ($intercaisseEntrant->getStatut()==InterCaisses::VALIDATION_AUTO
+                or $intercaisseEntrant->getStatut()==InterCaisses::VALIDE
+                or $intercaisseEntrant->getStatut()==InterCaisses::COMPTA_CHARGE
+                or $intercaisseEntrant->getStatut()==InterCaisses::COMPTA_PRODUIT)
                 $this->updateM('mIntercaisses',  $intercaisseEntrant->getMIntercaisse());
         }
         return $this;

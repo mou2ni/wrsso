@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Comptes;
 use App\Entity\DepotRetraits;
+use App\Form\DecaissementType;
 use App\Form\DepotType;
+use App\Form\EncaissementType;
 use App\Form\RetraitType;
 use App\Repository\DepotRetraitsRepository;
 use App\Utils\GenererCompta;
@@ -16,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/depotRetraits")
@@ -47,99 +50,99 @@ class DepotRetraitsController extends Controller
      */
     public function imprimer(Request $request,DepotRetraits $depotRetrait): Response
     {
-        return $this->render('depot_retraits/recu_depot_retrait.html.twig',['depotRetrait'=>$depotRetrait,'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse]);
+        return $this->render('depot_retraits/recu_depot_retrait.html.twig',['depotRetrait'=>$depotRetrait,'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse,'typeOperation'=>null]);
 
     }
 
     /**
      * @Route("/depot", name="depot_retraits_depot", methods="GET|POST")
+     * @Security("has_role('ROLE_GUICHETIER')")
      */
     public function deposer(Request $request,\Swift_Mailer $mailer): Response
     {
-        return $this->depotRetrait($request,$mailer, true);
+        return $this->depotRetrait($request,$mailer, 'depot');
 
     }
 
     /**
      * @Route("/retrait", name="depot_retraits_retrait", methods="GET|POST")
+     * @Security("has_role('ROLE_GUICHETIER')")
      */
     public function retirer(Request $request,\Swift_Mailer $mailer): Response
     {
-        return $this->depotRetrait($request,$mailer,false);
-    }
-    /**
-     * @Route("/{id}", name="depot_retraits_show", methods="GET")
-     */
-    public function show(DepotRetraits $depotRetrait): Response
-    {
-        return $this->render('depot_retraits/show.html.twig', ['depot_retrait' => $depotRetrait]);
+        return $this->depotRetrait($request,$mailer,'retrait');
     }
 
     /**
-     * @Route("/{id}/edit", name="depot_retraits_edit", methods="GET|POST")
+     * @Route("/encaissement", name="depot_retraits_encaissement", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
-    public function edit(Request $request, DepotRetraits $depotRetrait): Response
+    public function encaisser(Request $request,\Swift_Mailer $mailer): Response
     {
-        $form = $this->createForm(DepotRetraitsType::class, $depotRetrait);
-        $form->handleRequest($request);
+        return $this->depotRetrait($request,$mailer, 'encaissement');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('depot_retraits_index', ['id' => $depotRetrait->getId()]);
-        }
-
-        return $this->render('depot_retraits/edit.html.twig', [
-            'depot_retrait' => $depotRetrait,
-            'form' => $form->createView(),
-        ]);
     }
 
     /**
-     * @Route("/{id}", name="depot_retraits_delete", methods="DELETE")
+     * @Route("/decaissement", name="depot_retraits_decaissement", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
-    public function delete(Request $request, DepotRetraits $depotRetrait): Response
+    public function decaisser(Request $request,\Swift_Mailer $mailer): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$depotRetrait->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($depotRetrait);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('depot_retraits_index');
+        return $this->depotRetrait($request,$mailer,'decaissement');
     }
 
-    private function depotRetrait(Request $request,\Swift_Mailer $mailer, $depot=true){
+    private function depotRetrait(Request $request,\Swift_Mailer $mailer, $typeOperation='depot'){
 
         $depotRetrait = new DepotRetraits();
         $depotRetrait->setDateOperation(new \DateTime());
-        if ($depot){
-            $form = $this->createForm(DepotType::class, $depotRetrait);
-            $returnTwig='depot.html.twig';
-        }else{
-            $form = $this->createForm(RetraitType::class, $depotRetrait);
-            $returnTwig='retrait.html.twig';
+
+        //choisir le bon type
+        switch ($typeOperation){
+            case 'depot':
+                $form = $this->createForm(DepotType::class, $depotRetrait);
+                $returnTwig='depot.html.twig';
+                break;
+            case 'retrait':
+                $form = $this->createForm(RetraitType::class, $depotRetrait);
+                $returnTwig='retrait.html.twig';
+                break;
+            case 'encaissement':
+                $form = $this->createForm(EncaissementType::class, $depotRetrait);
+                $returnTwig='encaissement.html.twig';
+                break;
+            case 'decaissement':
+                $form = $this->createForm(DecaissementType::class, $depotRetrait);
+                $returnTwig='decaissement.html.twig';
+                break;
+
+            default : $this->addFlash('error', 'Type opération ['.$typeOperation.'] non connu. Seulement [depot,retrait,encaissement,decaissement] accepté');
+                return false;
         }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depotRetrait->getNumCompteSaisie()]);
-            if (!$compteClient){
-                $this->addFlash('error', 'Compte saisie inexistant. Vérifier le numéro de compte');
-                return $this->render('depot_retraits/'.$returnTwig, [
-                    'journeeCaisse' => $this->journeeCaisse,
-                    'depotRetraits'=>null,
-                    'form' => $form->createView(),
-                ]);
+            //cherche le compte pour depot et retrait
+            if($typeOperation=='depot' or $typeOperation=='retrait'){
+                $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$depotRetrait->getNumCompteSaisie()]);
+                if (!$compteClient){
+                    $this->addFlash('error', 'Compte saisie inexistant. Vérifier le numéro de compte');
+                    return $this->render('depot_retraits/'.$returnTwig, [
+                        'journeeCaisse' => $this->journeeCaisse,
+                        'depotRetraits'=>null,
+                        'form' => $form->createView(),
+                    ]);
+                }
+                $depotRetrait->setCompteClient($compteClient);
+            }else{
+                $depotRetrait->setNumCompteSaisie($depotRetrait->getCompteClient()->getNumCompte());
             }
-            $depotRetrait->setCompteClient($compteClient);
 
             $genCompta=new GenererCompta($em);
             $ok=$genCompta->genComptaDepotRetrait($depotRetrait, $this->journeeCaisse);
             if (!$ok){
                 $this->addFlash('error', $genCompta->getErrMessage());
-                //return $this->redirectToRoute('depot_retraits_depot');
                 return $this->render('depot_retraits/'.$returnTwig, [
                     'journeeCaisse' => $this->journeeCaisse,
                     'depotRetraits'=>null,
@@ -150,17 +153,18 @@ class DepotRetraitsController extends Controller
             $em->persist($this->journeeCaisse);
             $em->flush();
 
-            $message_object='WARISSO - Confirmation de ';
-            $message_object.=($depot)?'DEPOT':'RETRAIT';
+            //envoi mail
+            $message_object='WARISSO - Confirmation de '.strtoupper($typeOperation);
             $message = (new \Swift_Message($message_object))
                 ->setFrom('warisso-confirm@yesbo.bf')
                 ->setTo($depotRetrait->getCompteClient()->getClient()->getEmail())
                 ->setBody( $this->renderView('depot_retraits/recu_depot_retrait.html.twig',
-                        ['depotRetrait'=>$depotRetrait,'solde' => $depotRetrait->getCompteClient()->getSoldeCourant()]
+                        ['depotRetrait'=>$depotRetrait,'solde' => $depotRetrait->getCompteClient()->getSoldeCourant(),'typeOperation'=>$typeOperation]
                     ),'text/html' );
 
             $mailer->send($message);
-            return $this->render('depot_retraits/recu_depot_retrait.html.twig', ['depotRetrait'=>$depotRetrait, 'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse]);
+
+            return $this->render('depot_retraits/recu_depot_retrait.html.twig', ['depotRetrait'=>$depotRetrait, 'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse, 'typeOperation'=>$typeOperation]);
         }
 
         if ($request->isXmlHttpRequest()){

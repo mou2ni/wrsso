@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Saisie des decaissements{% endblock %}
+
+{% block body %}
+
+    <h1> Decaissement pour un tiers</h1><div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+</div>
+    {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
+    <table class="table">
+        <tr>
+            <td>Compte</td><td>{{ form_widget(form.compteClient) }}</td><td><p id="nom"></p></td>
+        </tr>
+        <tr>
+            <td>Montant</td><td>{{ form_widget(form.mRetrait) }}{{ form_errors(form.mRetrait) }}</td>
+        </tr>
+        <tr>
+            <td>Libelle</td><td>{{ form_widget(form.libelle) }}</td>
+        </tr>
+        <tr>
+            {% if journeeCaisse.statut!="F" %}
+            <td><button class="btn btn-info" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button></td>
+            <td><button class="btn btn-info" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button></td>
+            {% endif %}
+        </tr>
+    </table>
+    <div hidden>{{ form_rest(form) }}
+        <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+    </div>
+
+{{ form_end(form) }}
+{{ include('depot_retraits/_liste.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script type="text/javascript">
+        function  getIntituleCompte() {
+            var nom = $("#retrait_numCompteSaisie").val();
+            if (!nom) nom = $("#depot_numCompteSaisie").val();
+            var DATA = 'num=' + nom;
+            //alert(DATA);
+            $.ajax({
+                type: "POST",
+                data: DATA,
+                cache: false,
+                success: function (data) {
+                    //var yourval = jQuery.parseJSON(JSON.stringify(data));
+                    //var obj = JSON.parse(data);
+                    //console.log(data.compte[0].client);
+                    console.log(data.compte[0].client);
+                    document.getElementById('nom').innerHTML=data.compte[0].client;
+                    $("#solde").val(data.compte[0].soldeCourant);
+                }
+
+            })
+        }
+        $("#retrait_numCompteSaisie").change(function () {
+            getIntituleCompte();
+        });
+
+
+    </script>
+{% endblock %}
+

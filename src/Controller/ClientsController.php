@@ -20,13 +20,15 @@ class ClientsController extends Controller
      */
     public function index(Request $request): Response
     {
-        $offset = ($request)?$request->request->get('_page')*10:0;
-        $clients = $this->getDoctrine()
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()
             ->getRepository(Clients::class)
-            ->liste($offset);
-        $pages = round(count($clients)/10);
+            ->liste($offset,$limit);
+        $pages = round(count($liste)/10);
 
-        return $this->render('clients/index.html.twig', ['clients' => $clients, 'pages'=>$pages]);
+        return $this->render('clients/index.html.twig', ['clients' => $liste, 'pages'=>$pages]);
     }
 
     /**

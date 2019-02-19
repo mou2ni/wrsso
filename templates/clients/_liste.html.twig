@@ -2,7 +2,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Adresse</th>
@@ -12,12 +11,11 @@
         <tbody>
         {% for client in clients %}
             <tr>
-                <td>{{ client.id }}</td>
                 <td>{{ client.nom }}</td>
                 <td>{{ client.prenom }}</td>
                 <td>{{ client.adresse }}</td>
                 <td>
-                    <a href="{{ path('clients_show', {'id': client.id}) }}">Voir</a>
+                    <a href="{{ path('clients_show', {'id': client.id}) }}">Voir</a> |
                     <a href="{{ path('clients_edit', {'id': client.id}) }}">Modifier</a>
                 </td>
             </tr>

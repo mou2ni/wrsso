@@ -183,6 +183,10 @@ class JourneeCaissesController extends Controller
             $this->addFlash('error', 'JOURNEE DEJA FERMEE !!!');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
+        //Maintenir les solde de la journee
+        $this->addFlash('success', 'MAINTENANCE DES SOLDES DE LA JOURNEE');
+        $this->maintenirJournee($this->journeeCaisse);
+
         //Verifier la validation de toutes les intercaisses
         $this->addFlash('success', 'VERIFICATION DES INTERCAISSES ENTRANTS');
         if (!$this->verifierIntercaisses($this->journeeCaisse->getIntercaisseEntrants())) return $this->redirectToRoute('intercaisses_ajout');
@@ -204,19 +208,8 @@ class JourneeCaissesController extends Controller
      */
     public function maintenirSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
-        $journeeCaisse
-            ->maintenirMLiquiditeFerm()
-            ->maintenirMSoldeElectFerm()
-            ->maintenirMIntercaisses()
-            ->maintenirMDepotClient()
-            ->maintenirMRetraitClient()
-            ->maintenirDetteCreditDiversFerm()
-            ->maintenirMCvd()
-            ->maintenirRecetteDepenses()
-            ->maintenirTransfertsInternationaux();
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($journeeCaisse);
-            $em->flush();
+        $journeeCaisse=$this->maintenirJournee($journeeCaisse);
+
         $this->addFlash('success', 'LES DONNEES SONT BONNE');
 
         return $this->redirectToRoute('journee_caisse_show', ['id'=>$journeeCaisse->getId()]);
@@ -241,31 +234,11 @@ class JourneeCaissesController extends Controller
                     return $this->redirectToRoute('journee_caisses_gerer');
                 }
                 $this->addFlash('success', '==>OK ');
-                /*if ($this->journeeCaisse->getCompense()!=0){
-                    if ($genererCompta->genComptaCompense($this->utilisateur,$this->caisse,$this->journeeCaisse->getCompense(), $this->journeeCaisse)){
-                        $this->addFlash('success', 'COMPTABILISATION COMPENSES ==> OK');
-                    }else {
-                        $this->addFlash('error', 'COMPTABILISATION COMPENSES ==> ECHEC : '.$genererCompta->getErrMessage());
-                        return $this->redirectToRoute('journee_caisses_gerer');
-                    }
-                }
-                if ($this->journeeCaisse->getMEcartFerm()!=0){
-                    if ($genererCompta->genComptaEcart($this->utilisateur, $this->caisse, 'ECART DE CAISSE ', $this->journeeCaisse->getMEcartFerm(), $this->journeeCaisse)){
-                        $this->addFlash('success', 'COMPTABILISATION ECART DE CAISSE ==> OK');
-                    }else {
-                        $this->addFlash('error', 'COMPTABILISATION ECART DE CAISSE ==> ECHEC : '.$genererCompta->getErrMessage());
-                        return $this->redirectToRoute('journee_caisses_gerer');
-                    }
-                }*/
+
                 //fermer la caisse
                 $this->journeeCaisse->setDateFerm(new \DateTime());
                 $this->journeeCaisse->setStatut(JourneeCaisses::CLOSE);
                 $em->persist($this->journeeCaisse);
-
-                //initialiser une nouvelle journee
-                /*if ($this->initJournee($this->caisse,$this->journeeCaisse)){
-                    $this->addFlash('success', 'INITIALISATION JOURNEE SUIVANTE ==> OK');
-                }else $this->addFlash('error', 'INITIALISATION JOURNEE SUIVANTE ==> ECHEC');*/
                 $em->flush();
 
                 return $this->redirectToRoute('journee_caisses_etat_de_caisse');
@@ -587,7 +560,10 @@ class JourneeCaissesController extends Controller
             $newLigne->setBillet($billetageLigneOuv->getBillet())
                 ->setNbBillet($billetageLigneOuv->getNbBillet())
                 ->setValeurBillet($billetageLigneOuv->getValeurBillet())
-                ->setBilletages($this->journeeCaisse->getBilletFerm());
+               // ->setBilletages($this->journeeCaisse->getBilletFerm())
+            ;
+
+            $this->journeeCaisse->getBilletFerm()->addBilletageLigne($newLigne);
             $this->getDoctrine()->getManager()->persist($newLigne);
         }
         $this->journeeCaisse->setMLiquiditeFerm($this->journeeCaisse->getMLiquiditeOuv());
@@ -625,6 +601,7 @@ class JourneeCaissesController extends Controller
                 $this->addFlash('error', $intercaisse->getMIntercaisse().' ==>ECHEC. Validez ou annuler toutes les intercaisses avant la cloture ! ! !');
 
             }else{
+                if ($intercaisse->getStatut()!=InterCaisses::ANNULE)
                 $this->addFlash('success', $intercaisse->getMIntercaisse().' ==>OK');
 
             }
@@ -640,10 +617,26 @@ class JourneeCaissesController extends Controller
                 $this->addFlash('error',$intercaisse->getObservations().' ==>ECHEC. Validez ou annuler toutes les intercaisses avant la cloture ! ! !');
 
             }else{
+                if ($intercaisse->getStatut()!=DeviseIntercaisses::ANNULE)
                 $this->addFlash('success', $intercaisse->getObservations().' ==>OK');
 
             }
         }
         return $test;
+    }
+
+    private function maintenirJournee(JourneeCaisses $journeeCaisse){
+         $journeeCaisse
+            ->maintenirMLiquiditeFerm()
+            ->maintenirMSoldeElectFerm()
+            ->maintenirMIntercaisses()
+            ->maintenirMDepotClient()
+            ->maintenirMRetraitClient()
+            ->maintenirDetteCreditDiversFerm()
+            ->maintenirMCvd()
+            ->maintenirRecetteDepenses()
+            ->maintenirTransfertsInternationaux();
+        $this->getDoctrine()->getManager()->persist($journeeCaisse);
+        $this->getDoctrine()->getManager()->flush();
     }
 }

@@ -18,7 +18,9 @@
     {% endfor %}
     </div>
     <div class="form-group">
-        {{ include('_btn_close.html.twig',{'btn_label':'RETOUR', 'btn_class':'btn btn-cancel btn-block'}) }}
+        {{ include('journee_caisses/_btn_action_url.html.twig', {'path':'journee_caisses_gerer' ,'btn_label':'RETOUR GERER CAISSE', 'btn_class':'btn btn-cancel btn-block', 'btn_name':'GERERCAISSE'}) }}
+        {#{{ include('_btn_close.html.twig',{'btn_label':'RETOUR', 'btn_class':'btn btn-cancel btn-block'}) }}
+        #}
         <form class="form-inline" method="POST" action="{{ path('journee_caisses_fermer')}}" >
             <input type="hidden" name="_method" value="FERMERCAISSE">
             <input type="hidden" name="_token" value="{{ csrf_token('fermer' ~ journeeCaisse.id)}}">
