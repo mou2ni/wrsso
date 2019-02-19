@@ -16,7 +16,7 @@ class DepotType extends AbstractType
     {
         $builder
             ->remove('mRetrait')
-            ->remove('compteClient')
+            ->remove('numCompteSaisie')
         ;
     }
 

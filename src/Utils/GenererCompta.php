@@ -31,7 +31,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class GenererCompta
 {
-    const COMPTE_CAPITAL='1', COMPTE_IMMOBILISATION='2', COMPTE_STOCK='3', COMPTE_TIERS='4', COMPTE_TRESORERIE='5',COMPTE_CHARGE='6',COMPTE_PRODUIT='7';
+    //const COMPTE_CAPITAL='1', COMPTE_IMMOBILISATION='2', COMPTE_STOCK='3', COMPTE_TIERS='4', COMPTE_TRESORERIE='5',COMPTE_CHARGE='6',COMPTE_PRODUIT='7';
 
     /**
      * @var e
@@ -366,36 +366,6 @@ class GenererCompta
             return false;
         }
         return true;
-        //$compteOperation=$this->checkCompteOperation($caisse);
-       // if (!$compteOperation) return false;
-        /*
-                $classCompte=substr($compteGestion,0,1);
-
-                if( $classCompte==GenererCompta::COMPTE_CHARGE){
-                    $recetteDepense->setMDepense($recetteDepense->getMSaisie());
-                    return $this->genEcritureDebitCredit($utilisateur,$compteGestion,$compteTier,$recetteDepense->getLibelle(),-$recetteDepense->getMSaisie(),$journalComptable, $journeeCaisse,$dateTime);
-                }elseif ($classCompte==GenererCompta::COMPTE_PRODUIT){
-                    $recetteDepense->setMRecette($recetteDepense->getMSaisie());
-                    return $this->genEcritureDebitCredit($utilisateur,$compteTier,$compteGestion ,$recetteDepense->getLibelle(),-$recetteDepense->getMSaisie(),$journalComptable,$journeeCaisse,$dateTime);
-                }else{
-                    $this->setErrMessage('Le compte numero ['.$compteGestion->getNumCompte().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
-                    $this->sE(Transactions::ERR_COMPTE_INEXISTANT);
-                    return false;
-                }
-
-
-                /*
-                if (!$compteCharge){
-                    $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
-                    $this->setErrMessage('Compte de charge non trouvé ! ! !');
-                }
-
-                $transaction=$this->initTransaction($utilisateur,$libelle,$montant,$journeeCaisse,$dateTime);
-
-                if (!$transaction) return false ;
-
-                $this->transactions->add($this->debiterCrediter($transaction, $compteCharge, $compteOperation, $montant));
-                return !$this->getE();*/
     }
 
 

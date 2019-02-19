@@ -16,6 +16,7 @@ class RetraitType extends AbstractType
     {
         $builder
             ->remove('mDepot')
+            ->remove('compteClient')
         ;
     }
 
