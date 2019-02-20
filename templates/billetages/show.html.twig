@@ -27,54 +27,8 @@
         {% endfor %}
         </tbody>
     </table>
-
-    {#<table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ billetage.id }}</td>
-            </tr>
-            <tr>
-                <th>ValeurTotal</th>
-                <td>{{ billetage.valeurTotal }}</td>
-            </tr>
-            <tr>
-                <th>DateBillettage</th>
-                <td>{{ billetage.dateBillettage ? billetage.dateBillettage|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('billetages_index') }}">back to list</a>
-
-    <a href="{{ path('billetages_edit', {'id': billetage.id}) }}">edit</a>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>NbBillet</th>
-            <th>ValeurLigne</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for billetage_ligne in billetage_lignes %}
-            <tr>
-                <td>{{ billetage_ligne.id }}</td>
-                <td>{{ billetage_ligne.nbBillet }}</td>
-                <td>{{ billetage_ligne.valeurLigne }}</td>
-                <td>
-                    <a href="{{ path('billetage_lignes_show', {'id': billetage_ligne.id}) }}">show</a>
-                    <a href="{{ path('billetage_lignes_edit', {'id': billetage_ligne.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>#}
-    {{ include('_btn_close.html.twig') }}
+    <div class="form-group">
+        {{ include('_btn_close.html.twig') }}
+        <a class="btn-primary" href="{{ path('billetages_maint', {'id': billetage.id}) }}"><span class="glyphicon glyphicon-wrench"></span>Maintenir</a>
+    </div>
 {% endblock %}

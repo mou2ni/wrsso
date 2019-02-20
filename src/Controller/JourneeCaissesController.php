@@ -215,6 +215,21 @@ class JourneeCaissesController extends Controller
 
         return $this->redirectToRoute('journee_caisse_show', ['id'=>$journeeCaisse->getId()]);
     }
+    /**
+     * @Route("/{id}/maintenance", name="journee_caisses_maintenance", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function maintenanceSolde(Request $request, JourneeCaisses $journeeCaisse)
+    {
+        $copieDeJournee = $this->copierJournee($journeeCaisse);
+        $journeeCaisseMaintenue=$this->maintenirJourneePersonnalise($journeeCaisse);
+        $ecartJournees = $this->ecartJournees($copieDeJournee, $journeeCaisseMaintenue);
+        return $this->render('journee_caisses/maintenance.html.twig', ['journeeCaisse' => $copieDeJournee,'journeeCaisseMaintenue'=>$journeeCaisseMaintenue, 'ecartJournees'=>$ecartJournees]);
+
+        //$this->addFlash('success', 'LES DONNEES SONT BONNE');
+
+        //return $this->redirectToRoute('journee_caisse_show', ['id'=>$journeeCaisse->getId()]);
+    }
 
     /**
      * @Route("/fermeture", name="journee_caisses_fermer", methods="FERMERCAISSE")
@@ -613,7 +628,7 @@ class JourneeCaissesController extends Controller
     }
 
     private function maintenirJournee(JourneeCaisses $journeeCaisse){
-         $journeeCaisse
+        $journeeCaisse
             ->maintenirMLiquiditeFerm()
             ->maintenirMSoldeElectFerm()
             ->maintenirMIntercaisses()
@@ -625,5 +640,55 @@ class JourneeCaissesController extends Controller
         $this->getDoctrine()->getManager()->persist($journeeCaisse);
         $this->getDoctrine()->getManager()->flush();
         return $journeeCaisse;
+    }
+    private function maintenirJourneePersonnalise(JourneeCaisses $journeeCaisse){
+        $journeeCaisse
+            ->maintenirMLiquiditeFerm()
+            ->maintenirMSoldeElectFerm()
+            ->maintenirMIntercaisses()
+            ->maintenirMDepotRetraits()
+            ->maintenirDetteCreditDiversFerm()
+            ->maintenirMCvd()
+            ->maintenirRecetteDepenses()
+            ->maintenirTransfertsInternationaux();
+        //$this->getDoctrine()->getManager()->persist($journeeCaisse);
+        //$this->getDoctrine()->getManager()->flush();
+        return $journeeCaisse;
+        }
+    private function copierJournee(JourneeCaisses $journeeCaisse){
+        $em = $this->getDoctrine()->getManager();
+        $newjournee = new JourneeCaisses($em);
+        $newjournee->setMSoldeElectFerm($journeeCaisse->getMSoldeElectFerm())
+            ->setMLiquiditeFerm($journeeCaisse->getMLiquiditeFerm())
+            ->setMCreditDiversFerm($journeeCaisse->getMCreditDiversFerm())
+            ->setMDetteDiversFerm($journeeCaisse->getMDetteDiversFerm())
+            ->setMIntercaisses($journeeCaisse->getMIntercaisses())
+            ->setMDepotClient($journeeCaisse->getMDepotClient())
+            ->setMRetraitClient($journeeCaisse->getMRetraitClient())
+            ->setMEmissionTrans($journeeCaisse->getMEmissionTrans())
+            ->setMReceptionTrans($journeeCaisse->getMReceptionTrans())
+            ->setMRecette($journeeCaisse->getMRecette())
+            ->setMDepense($journeeCaisse->getMDepense())
+            ->setMCvd($journeeCaisse->getMCvd())
+            ->setMEcartFerm();
+        return $newjournee;
+    }
+    private function ecartJournees(JourneeCaisses $journeeCaisse, JourneeCaisses $journeeCaisseMaintenue){
+        $em = $this->getDoctrine()->getManager();
+        $newjournee = new JourneeCaisses($em);
+        $newjournee->setMSoldeElectFerm($journeeCaisse->getMSoldeElectFerm() - $journeeCaisseMaintenue->getMSoldeElectFerm())
+            ->setMLiquiditeFerm($journeeCaisse->getMLiquiditeFerm() - $journeeCaisseMaintenue->getMLiquiditeFerm())
+            ->setMCreditDiversFerm($journeeCaisse->getMCreditDiversFerm() - $journeeCaisseMaintenue->getMCreditDiversFerm())
+            ->setMDetteDiversFerm($journeeCaisse->getMDetteDiversFerm() - $journeeCaisseMaintenue->getMDetteDiversFerm())
+            ->setMIntercaisses($journeeCaisse->getMIntercaisses() - $journeeCaisseMaintenue->getMIntercaisses())
+            ->setMDepotClient($journeeCaisse->getMDepotClient() - $journeeCaisseMaintenue->getMDepotClient())
+            ->setMRetraitClient($journeeCaisse->getMRetraitClient() - $journeeCaisseMaintenue->getMRetraitClient())
+            ->setMEmissionTrans($journeeCaisse->getMEmissionTrans() - $journeeCaisseMaintenue->getMEmissionTrans())
+            ->setMReceptionTrans($journeeCaisse->getMReceptionTrans() - $journeeCaisseMaintenue->getMReceptionTrans())
+            ->setMRecette($journeeCaisse->getMRecette() - $journeeCaisseMaintenue->getMRecette())
+            ->setMDepense($journeeCaisse->getMDepense() - $journeeCaisseMaintenue->getMDepense())
+            ->setMCvd($journeeCaisse->getMCvd() - $journeeCaisseMaintenue->getMCvd());
+            //->setMEcartFerm();
+        return $newjournee;
     }
 }

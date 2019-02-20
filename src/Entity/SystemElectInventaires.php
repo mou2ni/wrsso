@@ -184,6 +184,19 @@ class SystemElectInventaires
     }
 
     /**
+     * @return mixed
+     */
+    public function maintenir()
+    {
+        $this->soldeTotal=0;
+        foreach ($this->getSystemElectLigneInventaires() as $ligne){
+            $this->soldeTotal += $ligne->getSoldeTotal();
+        }
+        return $this;
+    }
+
+
+    /**
      * @ORM\PreUpdate
      */
     public function fillOnUpdate(){
