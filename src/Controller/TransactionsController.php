@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Caisses;
+use App\Entity\TransactionComptes;
 use App\Entity\Transactions;
 use App\Form\TransactionsType;
 use App\Utils\SessionUtilisateur;
@@ -32,7 +34,7 @@ class TransactionsController extends Controller
         $offset = ($_page)?($_page-1)*$limit:0;
         $liste = $this->getDoctrine()
             ->getRepository(Transactions::class)
-            ->liste($offset,$limit);
+            ->listePaginee($offset,$limit);
         $pages = round(count($liste)/$limit);
 
         return $this->render('transactions/index.html.twig', ['transactions' => $liste, 'pages'=>$pages]);
@@ -53,11 +55,13 @@ class TransactionsController extends Controller
             $em->persist($transaction);
             $em->flush();
 
-            return $this->redirectToRoute('transactions_index');
+            return $this->redirectToRoute('transactions_ajout');
         }
-
+        
+        $transactions=$this->getDoctrine()->getRepository(Transactions::class)->liste(0,5);
         return $this->render('transactions/new.html.twig', [
             'transaction' => $transaction,
+            'transactions'=>$transactions,
             'form' => $form->createView(),
         ]);
     }
@@ -67,25 +71,41 @@ class TransactionsController extends Controller
      */
     public function show(Transactions $transaction): Response
     {
+        //$transaction=$this->getDoctrine()->getRepository(TransactionComptes::class)->getEcriture($id);
+        //dump($transaction);die();
         return $this->render('transactions/show.html.twig', ['transaction' => $transaction]);
     }
 
     /**
-     * @Route("/{id}/edit", name="transactions_edit", methods="GET|POST")
+     * @Route("/{id}/modifier", name="transactions_edit", methods="GET|POST")
      */
     public function edit(Request $request, Transactions $transaction): Response
     {
+        $journeeCaisse=$transaction->getJourneeCaisse();
+        if($journeeCaisse){
+            if( $journeeCaisse->getCaisse()->getTypeCaisse()==Caisses::GUICHET){
+                $this->addFlash('error','Modification impossible des écritures comptables de guichet');
+                return $this->redirectToRoute('transactions_ajout');
+            }
+        }
         $form = $this->createForm(TransactionsType::class, $transaction);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transaction->maintenir();
+            if ($transaction->isDesequilibre()){
+                $this->addFlash('error','Ecriture déséquilibrée ! ! !');
+                return $this->render('transactions/erreur_desequilibre.html.twig',['transaction'=>$transaction]);
+            }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('transactions_edit', ['id' => $transaction->getId()]);
+            return $this->redirectToRoute('transactions_ajout');
         }
 
+        $transactions=$this->getDoctrine()->getRepository(Transactions::class)->liste(0,5);
         return $this->render('transactions/edit.html.twig', [
             'transaction' => $transaction,
+            'transactions'=>$transactions,
             'form' => $form->createView(),
         ]);
     }

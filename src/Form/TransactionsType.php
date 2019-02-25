@@ -24,6 +24,7 @@ class TransactionsType extends AbstractType
                     return $journal->getDisplayName();},
                 'multiple' => false,
                 'expanded'=>false,
+                'placeholder'=>'Selectionnez le journal',
             ))
             ->add('dateTransaction', DateType::class, [
                 'widget' => 'single_text'

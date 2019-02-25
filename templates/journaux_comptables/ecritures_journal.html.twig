@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JournauxComptables{% endblock %}
+
+{% block body %}
+    <h1>Detail journal comptable  <a href="{{ path('journaux_comptables_index') }}">Liste</a> </h1>
+
+    {{ include('journaux_comptables/_entete_journal.html.twig') }}
+
+    {{ include('journaux_comptables/_detail_journal.html.twig') }}
+
+    {{ include('_pagination.html.twig',{'path':'journaux_comptables_ecritures','id':(id) }) }}
+
+{% endblock %}

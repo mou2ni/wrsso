@@ -14,8 +14,9 @@ use Proxies\__CG__\App\Entity\Comptes;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\TransactionComptesRepository")
  * @ORM\Table(name="TransactionComptes")
+ * @ORM\HasLifecycleCallbacks()
  */
 class TransactionComptes
 {
@@ -46,13 +47,13 @@ class TransactionComptes
      * @ORM\Column(type="float", nullable=true)
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
      */
-    private $mDebit;
+    private $mDebit=0;
 
     /**
      * @ORM\Column(type="float", nullable=true)
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
      */
-    private $mCredit;
+    private $mCredit=0;
 
     /*
      * @ORM\Column(type="float", nullable=true)
@@ -65,6 +66,14 @@ class TransactionComptes
      * @ORM\JoinColumn(name="IdTransaction", referencedColumnName="id", nullable=false)
      */
     private $transaction;
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateTransaction(){
+        //$this->getTransaction()->setUpdatedAt(new \DateTime());
+    }
+
 
     /**
      * @return Comptes
@@ -139,7 +148,7 @@ class TransactionComptes
     }
 
     /**
-     * @return mixed
+     * @return Transactions
      */
     public function getTransaction()
     {

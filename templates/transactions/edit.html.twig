@@ -3,11 +3,12 @@
 {% block title %}Edit Transactions{% endblock %}
 
 {% block body %}
-    <h1>Modification d'écriture comptables</h1>
+    <h1>Modification d'écriture comptables | <a href="{{ path('transactions_index') }}">Retour à la liste</a> |
+        <a href="{{ path('transactions_ajout') }}">Nouvelle saisie Comptable</a></h1>
 
-    {{ include('transactions/_form.html.twig', {'button_label': 'Modifier'}) }}
-
-    <a href="{{ path('transactions_index') }}">Liste des transactsions</a> |
+    {{ include('transactions/_collection_form.html.twig', {'button_label': 'Modifier'}) }}
 
     {{ include('transactions/_delete_form.html.twig') }}
+
+    {{ include('transactions/_liste.html.twig') }}
 {% endblock %}

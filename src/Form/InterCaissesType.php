@@ -26,6 +26,7 @@ class InterCaissesType extends AbstractType
                 'choice_label' => 'journeeCaisse',
                 'multiple' => false,
                 'expanded'=>false,
+                 'placeholder'=>'Selectionnez',
                 'query_builder' => function(JourneeCaissesRepository $repository) use ($dateComptable,$myJournee) {
                     return $repository->getOpenJourneeCaisseQb($dateComptable,$myJournee);
                 }

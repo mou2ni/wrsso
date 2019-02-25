@@ -13,7 +13,7 @@
             <tr>
                 <td class="padding-5 ">{{ transactionCompte.compte.intitule}}</td>
                 <td class="padding-5 ">{{ transactionCompte.numCompte}}</td>
-                <td class="padding-5 ">{{ transactionCompte.libelle}}</td>
+                <td class="padding-5 ">{{ (transactionCompte.libelle)?transactionCompte.libelle:transaction.libelle}}</td>
                 <td class="padding-5 text-right">{{ transactionCompte.mDebit|number_format(0, '.', ' ')}}</td>
                 <td class="padding-5 text-right">{{ transactionCompte.mCredit|number_format(0, '.', ' ')}}</td>
             </tr>

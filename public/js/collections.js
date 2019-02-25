@@ -13,7 +13,7 @@ jQuery(document).ready(function() {
     $collectionHolder.data('index', $collectionHolder.find('tr.collection-tag').length);
 
     if ($collectionHolder.data('index') == 0)
-        while ($collectionHolder.data('index') < 4 )
+        while ($collectionHolder.data('index') < 1 )
             addTagForm($collectionHolder, $newLinkLi);
 
     $addLink.on('click', function(e) {

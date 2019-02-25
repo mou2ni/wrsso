@@ -81,11 +81,11 @@ class Menu  extends Controller
             ['text'=>'Tableau de bord', 'lien'=>'#']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Mouvements de Devises', 'lien'=>'devise_mouvements_etat']
+            ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_index']
             ,['text'=>'Grand livre', 'lien'=>'#']
             ,['text'=>'Balance', 'lien'=>'#']
             ,['text'=>'Compte de résultat', 'lien'=>'#']
             ,['text'=>'Soldes de gestion', 'lien'=>'#']
-            ,['text'=>'Journaux comptables', 'lien'=>'#']
             ,
         ];
 

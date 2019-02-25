@@ -34,10 +34,16 @@
 <div>
     <table>
         <tr>
-            <th colspan="2" height="40"> <span style=" font-family:'Arial'; font-size:16px;"><u> RECU DE {{ (typeOperation!=null)?typeOperation|upper:(depotRetrait.mDepot!=0)?'DEPOT':'RETRAIT' }}  </u></span></th>
+            <td rowspan="3"><span>
+                    <img style="width:130px; height:120px; " src="/wrsso/public/images/logo.jpg" border="0" alt="">
+                </span>
+            </td>
+            <td height="20"> <span>YESBO SARL|Transferts, Bureau de change|<a href="http://www.yesbo.bf/">www.yesbo.bf </a>|(+226) 25 33 22 05</span></td>
+        </tr><tr>
+            <td height="40"> <span style=" font-family:'Arial'; font-size:16px;"><u> RECU DE {{ (typeOperation!=null)?typeOperation|upper:(depotRetrait.mDepot!=0)?'DEPOT':'RETRAIT' }}  </u></span></td>
         </tr>
         <tr>
-            <th colspan="2"  height="30">N° : <span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.id }} </span><span style=" font-family:'Arial'; font-size:16px;"> du </span><span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.dateOperation|date('d-m-Y H:i:s') }}</span></th>
+            <td height="30">N°<span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.id }} </span><span style=" font-family:'Arial'; font-size:16px;"> du </span><span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ depotRetrait.dateOperation|date('d-m-Y H:i:s') }}</span></td>
         </tr>
         <tr>
             <td style="text-align: right">Montant : </td>
