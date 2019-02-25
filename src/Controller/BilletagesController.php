@@ -182,6 +182,22 @@ class BilletagesController extends Controller
         ]);
     }
     /**
+     * @Route("/{id}/maintenir", name="billetages_maint", methods="GET|UPDATE")
+     */
+    public function maintenir(Billetages $billetage): Response
+    {
+        $em = $this->getDoctrine()->getManager();
+        $billetage->maintenir();
+        $em->persist($billetage);
+        $em->flush();
+        $billetageLignes = $billetage->getBilletageLignes();
+        $this->addFlash('success', 'Les données sont bonnes!');
+        return $this->render('billetages/show.html.twig', [
+            'billetage' => $billetage
+            ,'billetage_lignes' => $billetageLignes
+        ]);
+    }
+    /**
      * @Route("/{id}", name="billetages_delete", methods="DELETE")
      */
     public function delete(Request $request, Billetages $billetage): Response

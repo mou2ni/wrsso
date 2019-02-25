@@ -54,7 +54,7 @@
                 <td class="text-right">{{ journee_caiss.mEcartOuv|number_format(0, '.', ' ') }}</td>
                 <td class="text-right">{{ journee_caiss.mEcartFerm|number_format(0, '.', ' ') }}</td>
                 <td><a href="{{ path('journee_caisse_show', {'id': journee_caiss.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a>
-                    {% if is_granted('ROLE_COMPTABLE')%} |<a href="{{ path('journee_caisses_maintSolde', {'id': journee_caiss.id}) }}"><span class="glyphicon glyphicon-wrench"></span>Maintenir</a>{% endif %}
+                    {% if is_granted('ROLE_COMPTABLE')%} |<a href="{{ path('journee_caisses_maintenance', {'id': journee_caiss.id}) }}"><span class="glyphicon glyphicon-wrench"></span>Maintenir</a>{% endif %}
                 </td>
             </tr>
         {% else %}

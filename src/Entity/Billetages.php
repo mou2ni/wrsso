@@ -167,12 +167,18 @@ class Billetages
      */
     public function getValeurTotal()
     {
-        /*$valeurTotal=0;
-        foreach ($this->getBilletageLignes() as $ligne){
-            $valeurTotal += $ligne->getValeurLigne();
-        }
-        return $valeurTotal;*/
         return $this->valeurTotal;
+    }
+    /**
+     * @return mixed
+     */
+    public function maintenir()
+    {
+        $this->valeurTotal=0;
+        foreach ($this->getBilletageLignes() as $ligne){
+            $this->valeurTotal += $ligne->getValeurLigne();
+        }
+        return $this;
     }
 
 

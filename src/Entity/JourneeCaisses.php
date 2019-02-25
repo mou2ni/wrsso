@@ -811,6 +811,7 @@ class JourneeCaisses
     public function setMCvd($mCvd)
     {
         $this->mCvd = $mCvd;
+        return $this;
     }
 
     /**
@@ -827,6 +828,7 @@ class JourneeCaisses
     public function setMEmissionTrans($mEmissionTrans)
     {
         $this->mEmissionTrans = $mEmissionTrans;
+        return $this;
     }
 
     /**
@@ -843,6 +845,7 @@ class JourneeCaisses
     public function setMReceptionTrans($mReceptionTrans)
     {
         $this->mReceptionTrans = $mReceptionTrans;
+        return $this;
     }
 
     /**
