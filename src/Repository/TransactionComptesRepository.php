@@ -102,6 +102,19 @@ class TransactionComptesRepository extends ServiceEntityRepository
             ->orderBy('t.dateTransaction', 'ASC')
             ->getQuery()->getResult();
     }
+
+    public function getBalanceComptes($classe=null){
+        $qb =$this->createQueryBuilder('tc')
+            ->select('IDENTITY(tc.compte) as compte,tc.numCompte as numCompte, SUM(tc.mDebit) as mDebit, SUM(tc.mCredit) as mCredit');
+        if ($classe)
+            $qb->where('tc.numCompte like \''.$classe.'%\'');
+
+        return $qb->groupBy('tc.compte')
+            ->addGroupBy('tc.numCompte')
+            ->addOrderBy('tc.numCompte', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 /*
     public function findComptesMouvements($dateDebut=null, $dateFin=null){
         if ($dateFin==null) $dateFin=new \DateTime();

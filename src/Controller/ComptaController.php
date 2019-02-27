@@ -122,6 +122,36 @@ class ComptaController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/maintenirsoldecomptes", name="compta_maintenir_solde_compte", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function maintenirSoldeCompte(Request $request) : Response
+    {
+        $balances=$this->getDoctrine()->getRepository(TransactionComptes::class)->getBalanceComptes();
+
+        $resultMaintenances=array();
+        foreach ($balances as $balance){
+
+            $id_compte = $balance['compte'];
+            $compte=$this->getDoctrine()->getRepository(Comptes::class)->find($id_compte);
+            $soldeTheorique=$compte->getSoldeCourant();
+            $soldeBalance=$balance['mCredit']-$balance['mDebit'];
+            if ($soldeTheorique!=$soldeBalance){
+                $compte->setSoldeCourant($soldeBalance);
+                $this->getDoctrine()->getManager()->persist($compte);
+            }
+
+            $resultMaintenances[]=['id'=>$id_compte,'numCompte'=>$balance['numCompte'], 'soldeTheorique'=>$soldeTheorique, 'soldeBalance'=>$soldeBalance];
+        }
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->render('compta/resultat_maintenance_compte.html.twig',
+            ['resultMaintenances'=>$resultMaintenances]);
+
+    }
+
     private function initCaisse(){
         //journeeCaisse à jour
     }

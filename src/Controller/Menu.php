@@ -74,6 +74,7 @@ class Menu  extends Controller
             ,['text'=>'Journaux comptables', 'lien'=>'#']
             ,['text'=>'Rapprochement bancaire', 'lien'=>'#']
             ,['text'=>'Pointage des écritures', 'lien'=>'#']
+            ,['text'=>'Maintenance comptes', 'lien'=>'compta_maintenir_solde_compte']
             ,
         ];
 
