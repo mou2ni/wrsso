@@ -45,7 +45,7 @@
         <tbody>
         {% for journee_caiss in journee_caisses %}
             <tr>
-                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('d-H:i') : '' }} | {{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('d-H:i') : '' }}</td>
+                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('d H:i') : '' }} | {{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('d H:i') : '' }}</td>
                 <td>{{ journee_caiss.utilisateur }}</td>
                 <td class="text-right">{{ journee_caiss.soldeNetOuv|number_format(0, '.', ' ') }}</td>
                 <td class="text-right">{{ journee_caiss.compense|number_format(0, '.', ' ') }}</td>

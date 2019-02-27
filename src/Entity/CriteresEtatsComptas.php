@@ -9,7 +9,7 @@
 namespace App\Entity;
 
 
-class GrandLivres
+class CriteresEtatsComptas
 {
 
     private $compteDebut;

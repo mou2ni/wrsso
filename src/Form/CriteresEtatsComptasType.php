@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Comptes;
-use App\Entity\GrandLivres;
+use App\Entity\CriteresEtatsComptas;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GrandLivresType extends AbstractType
+class CriteresEtatsComptasType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -50,7 +50,7 @@ class GrandLivresType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => GrandLivres::class,
+            'data_class' => CriteresEtatsComptas::class,
         ]);
     }
 }

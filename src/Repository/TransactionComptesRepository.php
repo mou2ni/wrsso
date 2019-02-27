@@ -103,15 +103,25 @@ class TransactionComptesRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
-    public function getBalanceComptes($classe=null){
+    public function getBalanceComptes($classe=null, $detail=false, $compteDebut=null, $compteFin=null,$dateDebut=null, $dateFin=null){
         $qb =$this->createQueryBuilder('tc')
             ->select('IDENTITY(tc.compte) as compte,tc.numCompte as numCompte, SUM(tc.mDebit) as mDebit, SUM(tc.mCredit) as mCredit');
-        if ($classe)
-            $qb->where('tc.numCompte like \''.$classe.'%\'');
+        if ($detail){
+            $qb->innerJoin('tc.compte','c', 'WITH', 'tc.compte=c.id')
+                ->innerJoin('tc.transaction','t', 'WITH', 'tc.transaction=t.id')
+                ->addSelect('c.intitule as intitule, t.dateTransaction as dateTransaction');
+        }
+        if ($classe)  $qb->where('tc.numCompte like \''.$classe.'%\'');
+        if ($compteDebut) $qb->andWhere('tc.numCompte>=:compteDebut')->setParameter('compteDebut',$compteDebut);
+        if ($compteFin) $qb->andWhere('tc.numCompte<=:compteFin')->setParameter('compteFin',$compteFin);
 
-        return $qb->groupBy('tc.compte')
-            ->addGroupBy('tc.numCompte')
-            ->addOrderBy('tc.numCompte', 'ASC')
+        $qb->groupBy('tc.compte')
+            ->addGroupBy('tc.numCompte');
+
+        if($dateDebut) $qb->having('t.dateTransaction >= :dateDebut')->setParameter('dateDebut',$dateDebut);
+        if($dateFin) $qb->andHaving('t.dateTransaction <= :dateFin')->setParameter('dateFin',$dateFin);
+
+         return $qb->addOrderBy('tc.numCompte', 'ASC')
             ->getQuery()
             ->getResult();
     }

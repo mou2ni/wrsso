@@ -9,13 +9,13 @@
 namespace App\Controller;
 
 
-use App\Entity\GrandLivres;
+use App\Entity\CriteresEtatsComptas;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
 use App\Entity\TransactionComptes;
-use App\Form\GrandLivresType;
+use App\Form\CriteresEtatsComptasType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,12 +94,19 @@ class ComptaController extends Controller
      */
     public function grandLivre(Request $request) : Response
     {
-        $criteresGrandLivre=new GrandLivres();
-        $form = $this->createForm(GrandLivresType::class, $criteresGrandLivre);
+        $criteresGrandLivre=new CriteresEtatsComptas();
+        $form = $this->createForm(CriteresEtatsComptasType::class, $criteresGrandLivre);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $comptes=$this->getDoctrine()->getRepository(Comptes::class)->plageComptes($criteresGrandLivre->getCompteDebut()->getNumCompte(), $criteresGrandLivre->getCompteFin()->getNumCompte());
+            $compteDebut=$criteresGrandLivre->getCompteDebut()->getNumCompte();
+            $compteFin=$criteresGrandLivre->getCompteFin()->getNumCompte();
+            if ($compteDebut>$compteFin){
+                $tmp=$compteDebut;
+                $compteDebut=$compteFin;
+                $compteFin=$tmp;
+            }
+            $comptes=$this->getDoctrine()->getRepository(Comptes::class)->plageComptes($compteDebut, $compteFin);
             $rubriquesGrandLivres=array();
             foreach ($comptes as $compte){
                 $rubriquesGrandLivres[]=['compte'=>$compte, 'ecritures'=>$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresComptes($compte, $criteresGrandLivre->getDateDebut(), $criteresGrandLivre->getDateFin())];
@@ -117,11 +124,54 @@ class ComptaController extends Controller
             ]);
         }
 
-        return $this->render('compta/criteres_gl.html.twig', [
+        return $this->render('compta/criteres_etats.html.twig', [
             'form' => $form->createView(),
+            'type'=>'Grand livre',
         ]);
     }
 
+
+    /**
+     * @Route("/balance", name="compta_balance", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function balance(Request $request) : Response
+    {
+        $criteresBalance=new CriteresEtatsComptas();
+        $form = $this->createForm(CriteresEtatsComptasType::class, $criteresBalance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$comptes=$this->getDoctrine()->getRepository(Comptes::class)->plageComptes($criteresBalance->getCompteDebut()->getNumCompte(), $criteresBalance->getCompteFin()->getNumCompte());
+            $rubriquesBalances=array();
+            $compteDebut=$criteresBalance->getCompteDebut()->getNumCompte();
+            $compteFin=$criteresBalance->getCompteFin()->getNumCompte();
+            if ($compteDebut>$compteFin){
+                $tmp=$compteDebut;
+                $compteDebut=$compteFin;
+                $compteFin=$tmp;
+            }
+            $classeDebut=substr($compteDebut,0,1);
+            $classeFin=substr($compteFin,0,1);
+            for($classe=$classeDebut; $classe<=$classeFin; $classe++){
+
+                $rubriquesBalances[]=['classe'=>$classe, 'lignes'=>$this->getDoctrine()->getRepository(TransactionComptes::class)
+                    ->getBalanceComptes($classe, true,$compteDebut, $compteFin
+                        ,$criteresBalance->getDateDebut(), $criteresBalance->getDateFin())];
+            }
+            
+            return $this->render('compta/balance_6.html.twig',[
+                'rubriquesBalances'=>$rubriquesBalances,
+                'form' => $form->createView(),
+                'criteres'=>$criteresBalance,
+            ]);
+        }
+
+        return $this->render('compta/criteres_etats.html.twig', [
+            'form' => $form->createView(),
+            'type'=>'Balance générale',
+        ]);
+    }
     /**
      * @Route("/maintenirsoldecomptes", name="compta_maintenir_solde_compte", methods="GET|POST")
      * @Security("has_role('ROLE_COMPTABLE')")
