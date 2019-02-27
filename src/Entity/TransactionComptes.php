@@ -68,14 +68,6 @@ class TransactionComptes
     private $transaction;
 
     /**
-     * @ORM\PreUpdate
-     */
-    public function updateTransaction(){
-        //$this->getTransaction()->setUpdatedAt(new \DateTime());
-    }
-
-
-    /**
      * @return Comptes
      */
     public function getCompte()

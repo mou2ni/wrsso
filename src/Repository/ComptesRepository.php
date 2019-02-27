@@ -38,6 +38,17 @@ class ComptesRepository extends ServiceEntityRepository
 
     }
 
+    public function plageComptes($numCompteDebut=null, $numCompteFin=null)
+    {
+        $qb = $this->createQueryBuilder('c');
+        if ($numCompteDebut)
+            $qb->where('c.numCompte>=:compteDebut')->setParameter('compteDebut',$numCompteDebut);
+        if ($numCompteFin)
+            $qb->andWhere('c.numCompte<=:numCompteFin')->setParameter('numCompteFin',$numCompteFin);
+
+        return $qb ->orderBy('c.numCompte', 'ASC')->getQuery()->getResult();
+    }
+
     public function findCompteGestions(){
         $qb=$this->createQueryBuilder('c');
         return $qb
@@ -77,7 +88,13 @@ class ComptesRepository extends ServiceEntityRepository
         $qb=$this->createQueryBuilder('c');
         return $qb
             ->where('c.numCompte like \'4%\' ')
-            //->andWhere('c.numCompte not like \'47%\' ')
+            ->orderBy('c.numCompte', 'ASC');
+    }
+
+    public function getCompteTresorerieQb(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            ->where('c.numCompte like \'5%\' ')
             ->orderBy('c.numCompte', 'ASC');
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Comptes;
 use App\Entity\JournauxComptables;
 use App\Entity\TransactionComptes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -20,7 +22,7 @@ class TransactionComptesRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, TransactionComptes::class);
-        $this->select='jc.id, tc.id, t.id, jc.code as code, t.dateTransaction as dateTransaction, t.numPiece as numPiece, t.libelle as libelleT,tc.numCompte as numCompte, tc.libelle as libelleTC, tc.mDebit, tc.mCredit';
+        $this->select='jc.id, tc.id, t.id, jc.code as codeJournal, t.dateTransaction as dateTransaction, t.numPiece as numPiece, t.libelle as libelleT,tc.numCompte as numCompte, tc.libelle as libelleTC, tc.mDebit, tc.mCredit';
     }
 
 
@@ -62,46 +64,56 @@ class TransactionComptesRepository extends ServiceEntityRepository
             ->getQuery()->getResult();
     }
 
-    public function findEcrituresJournauxComptables($dateDebut=null, $dateFin=null, JournauxComptables $journauxComptable=null,  $offset=0, $limit=20){
+    /**
+     * @param \DateTime $dateDebut
+     * @param \DateTime $dateFin
+     * @return QueryBuilder
+     */
+    private function ecrituresQb($dateDebut=null, $dateFin=null){
         if ($dateFin==null) $dateFin=new \DateTime();
         if ($dateDebut==null) {
             $dateDebut=new \DateTime();;
             $un_mois=new \DateInterval('P1M');
             $dateDebut->sub($un_mois);
         }
-        //dump($dateFin);dump($dateDebut);
+         return   $qb =$this->createQueryBuilder('tc')
+                ->addSelect($this->select)
+                ->innerJoin('tc.transaction','t', 'WITH', 'tc.transaction=t.id')
+                ->innerJoin('t.journauxComptable', 'jc', 'WITH','t.journauxComptable=jc.id')
+                ->where('t.dateTransaction <= :dateFin and t.dateTransaction >= :dateDebut')
+                ->setParameter('dateFin',$dateFin)->setParameter('dateDebut',$dateDebut)
+            ;
+    }
 
-        $qb =$this->createQueryBuilder('tc')
-            //->select('tc.id, t.id, jc.id, as id')
-            ->addSelect($this->select)
-            ->innerJoin('tc.transaction','t', 'WITH', 'tc.transaction=t.id')
-            ->innerJoin('t.journauxComptable', 'jc', 'WITH','t.journauxComptable=jc.id')
-            ->where('t.dateTransaction <= :dateFin and t.dateTransaction >= :dateDebut');
-        if ($journauxComptable)
+    public function findEcrituresJournauxComptables($dateDebut=null, $dateFin=null, JournauxComptables $journauxComptable=null,  $offset=0, $limit=20){
+        $qb=$this->ecrituresQb($dateDebut,$dateFin);
+         if ($journauxComptable)
             $qb->andWhere('t.journauxComptable=:journauxComptable')->setParameter('journauxComptable',$journauxComptable);
-        $qb->setParameter('dateFin',$dateFin)->setParameter('dateDebut',$dateDebut)
-            ->orderBy('t.id', 'DESC')
+        $qb->orderBy('t.id', 'DESC')
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-        ;
+            ->setMaxResults($limit);
         $pag = new Paginator($qb);
-
         return $pag;
-
-       // return $qb->getQuery()->getResult();
     }
 
-
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+    public function findEcrituresComptes(Comptes $compte, $dateDebut=null, $dateFin=null){
+        return $qb=$this->ecrituresQb($dateDebut,$dateFin)
+            ->andWhere('tc.compte=:compte')->setParameter('compte',$compte)
+            ->orderBy('t.dateTransaction', 'ASC')
+            ->getQuery()->getResult();
     }
-    */
+/*
+    public function findComptesMouvements($dateDebut=null, $dateFin=null){
+        if ($dateFin==null) $dateFin=new \DateTime();
+        if ($dateDebut==null) {
+            $dateDebut=new \DateTime();;
+            $un_mois=new \DateInterval('P1M');
+            $dateDebut->sub($un_mois);
+        }
+        return $qb =$this->createQueryBuilder('tc')
+            ->addSelect('distinct(tc.numCompte)')
+            ->where('t.dateTransaction <= :dateFin and t.dateTransaction >= :dateDebut')
+            ->setParameter('dateFin',$dateFin)->setParameter('dateDebut',$dateDebut)
+            ->getQuery()->getResult();
+    }*/
 }

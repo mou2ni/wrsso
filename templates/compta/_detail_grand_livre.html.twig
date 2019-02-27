@@ -1,0 +1,48 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="padding-5">Date</th>
+            <th class="padding-5">Journal</th>
+            <th class="padding-5">Pièce</th>
+            <th class="padding-5"> Libellé</th>
+            <th class="padding-5 text-right"> Débit</th>
+            <th class="padding-5 text-right"> Crédit</th>
+            <th class="padding-5 text-right"> Solde Progressif</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for rubrique in rubriquesGrandLivres %}
+            <tr>
+                <th class="padding-5 text-right" colspan="2" bgcolor="#e5e5e5"> {{ rubrique.compte.numCompte }}</th>
+                <th colspan="5" bgcolor="#e5e5e5"> {{ rubrique.compte.intitule|upper }}</th>
+            </tr>
+            {% set totalDebit=0 %}
+            {% set totalCredit=0 %}
+            {% for ecriture in rubrique.ecritures %}
+                {% set totalDebit= totalDebit+ecriture.mDebit %}
+                {% set totalCredit= totalCredit+ecriture.mCredit %}
+                <tr>
+                    <td class="padding-5 ">{{ (ecriture.dateTransaction)?ecriture.dateTransaction|date('d-m-Y'):''}}</td>
+                    <td class="padding-5 ">{{ ecriture.codeJournal}}</td>
+                    <td class="padding-5 ">{{(ecriture.numPiece)?ecriture.numPiece:ecriture.id}}</td>
+                    <td class="padding-5 ">{{ (ecriture.libelleTC)?ecriture.libelleTC:ecriture.libelleT}}</td>
+                    <td class="padding-5 text-right">{{ ecriture.mDebit|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{ ecriture.mCredit|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{ (totalDebit-totalCredit)|number_format(0, '.', ' ')}}</td>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center"> Aucun mouvement</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th class="padding-5 text-right" colspan="4"> Total du compte {{ rubrique.compte.numCompte }} </th>
+                <th class="padding-5 text-right"> {{totalDebit|number_format(0, '.', ' ') }}</th>
+                <th class="padding-5 text-right"> {{totalCredit|number_format(0, '.', ' ') }}</th>
+                <th class="padding-5 text-right"> {{(totalDebit-totalCredit)|number_format(0, '.', ' ') }}</th>
+            </tr>
+
+        {% endfor %}
+    </tbody>
+</table>

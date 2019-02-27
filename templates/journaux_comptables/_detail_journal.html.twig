@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
     <thead>
         <tr>
             <th class="padding-5"> Date</th>
@@ -7,6 +7,7 @@
             <th class="padding-5"> Libellé</th>
             <th class="padding-5 text-right"> Débit</th>
             <th class="padding-5 text-right"> Crédit</th>
+            <th class="padding-5 text-right"> Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -14,12 +15,13 @@
             <tr>
                 <td class="padding-5 ">{{(ligneEcriture.dateTransaction)?ligneEcriture.dateTransaction|date('d-m-Y'):'' }}</td>
 
-                <td class="padding-5 "><a href="{{ path('transactions_edit', {'id': ligneEcriture.id}) }}"> {{ (ligneEcriture.numPiece)?ligneEcriture.numPiece:ligneEcriture.id}}</a></td>
+                <td class="padding-5 ">{{ (ligneEcriture.numPiece)?ligneEcriture.numPiece:ligneEcriture.id}}</td>
 
                 <td class="padding-5 ">{{ ligneEcriture.numCompte}}</td>
                 <td class="padding-5 ">{{ (ligneEcriture.libelleTC)?ligneEcriture.libelleTC:ligneEcriture.libelleT}}</td>
                 <td class="padding-5 text-right">{{ ligneEcriture.mDebit|number_format(0, '.', ' ')}}</td>
                 <td class="padding-5 text-right">{{ ligneEcriture.mCredit|number_format(0, '.', ' ')}}</td>
+                <td class="padding-5 text-right"><a href="{{ path('transactions_edit', {'id': ligneEcriture.id}) }}"> Modifier </a></td>
             </tr>
         {% endfor %}
 

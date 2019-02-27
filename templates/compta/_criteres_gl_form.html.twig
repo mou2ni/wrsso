@@ -1,0 +1,19 @@
+{{ form_start(form) }}
+<div class="form-group">
+    <div class="row">
+        <div class="col">
+            Du compte {{ form_widget(form.compteDebut) }}
+        </div>
+        <div class="col">
+            au compte{{ form_widget(form.compteFin) }}
+        </div>
+        <div class="col">
+            Periode du {{ form_widget(form.dateDebut) }}
+        </div>
+        <div class="col">
+            au {{ form_widget(form.dateFin) }}
+        </div>
+    </div>
+</div>
+<button type="submit" class="btn btn-info">{{ button_label|default('AFFICHER') }}</button>
+{{ form_end(form) }}

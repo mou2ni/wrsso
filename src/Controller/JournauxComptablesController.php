@@ -55,20 +55,27 @@ class JournauxComptablesController extends Controller
     }
 
     /**
-     * @Route("/{id}/ecritures", name="journaux_comptables_ecritures", methods="GET")
+     * @Route("/ecritures", name="journaux_comptables_ecritures", methods="GET")
      */
-    public function ecritures(Request $request, JournauxComptables $journauxComptable): Response
+    public function ecritures(Request $request): Response
     {
         $limit=20;
         $_page=$request->query->get('_page');
+        $idJournal=$request->query->get('master');
+        $journauxComptables=$this->getDoctrine()->getRepository(JournauxComptables::class)->findAll();
+        if(!$idJournal){
+            $journal=$journauxComptables[0];
+            $request->query->set('master', $journal->getId());
+        }else{
+            $journal=$this->getDoctrine()->getRepository(JournauxComptables::class)->find($idJournal);
+        }
         $offset = ($_page)?($_page-1)*$limit:0;
         $liste = $this->getDoctrine()->getRepository(TransactionComptes::class)
-            ->findEcrituresJournauxComptables(new \DateTime('2019-01-01 00:00:00'), new \DateTime(),$journauxComptable,$offset,$limit);
+            ->findEcrituresJournauxComptables(new \DateTime('2019-01-01 00:00:00'), new \DateTime(),$journal,$offset,$limit);
         $pages = round(count($liste)/$limit);
-        //dump($liste);
-        //$ecritures=$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresJournauxComptables(new \DateTime('2019-01-01 00:00:00'), new \DateTime(),$journauxComptable,$offset, $limit);
-        return $this->render('journaux_comptables/ecritures_journal.html.twig', ['journal' => $journauxComptable,
-            'ecritures' => $liste, 'pages'=>$pages, 'path'=>'journaux_comptables_ecritures', 'id'=>$journauxComptable->getId()]);
+
+        return $this->render('journaux_comptables/ecritures_journal.html.twig', ['journal' => $journal,
+            'ecritures' => $liste, 'pages'=>$pages, 'path'=>'journaux_comptables_ecritures', 'journauxComptables'=>$journauxComptables]);
     }
 
     /**

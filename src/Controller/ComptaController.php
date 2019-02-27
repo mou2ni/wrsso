@@ -9,10 +9,13 @@
 namespace App\Controller;
 
 
+use App\Entity\GrandLivres;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Entity\TransactionComptes;
+use App\Form\GrandLivresType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -83,6 +86,40 @@ class ComptaController extends Controller
 
         return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse, 'journeeCaisses' => $journeeCaisses]);
 
+    }
+
+    /**
+     * @Route("/grandlivre", name="compta_grand_livre", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function grandLivre(Request $request) : Response
+    {
+        $criteresGrandLivre=new GrandLivres();
+        $form = $this->createForm(GrandLivresType::class, $criteresGrandLivre);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comptes=$this->getDoctrine()->getRepository(Comptes::class)->plageComptes($criteresGrandLivre->getCompteDebut()->getNumCompte(), $criteresGrandLivre->getCompteFin()->getNumCompte());
+            $rubriquesGrandLivres=array();
+            foreach ($comptes as $compte){
+                $rubriquesGrandLivres[]=['compte'=>$compte, 'ecritures'=>$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresComptes($compte, $criteresGrandLivre->getDateDebut(), $criteresGrandLivre->getDateFin())];
+            }
+            
+            
+            //$limit=20;
+            //$_page=$request->query->get('_page');
+            //$offset = ($_page)?($_page-1)*$limit:0;
+            //$liste = 
+            return $this->render('compta/grand_livre.html.twig',[
+                'rubriquesGrandLivres'=>$rubriquesGrandLivres,
+                'form' => $form->createView(),
+                'criteres'=>$criteresGrandLivre,
+            ]);
+        }
+
+        return $this->render('compta/criteres_gl.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     private function initCaisse(){

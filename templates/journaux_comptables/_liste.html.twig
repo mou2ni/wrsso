@@ -16,7 +16,7 @@
             <td>{{ journaux_comptable.libelle }}</td>
             <td>{{ journaux_comptable.dernierNumPiece }}</td>
             <td>
-                <a href="{{ path('journaux_comptables_ecritures', {'id': journaux_comptable.id}) }}">Ecritures</a> |
+                <a href="{{ path('journaux_comptables_ecritures', {'master': journaux_comptable.id}) }}">Ecritures</a> |
                 <a href="{{ path('journaux_comptables_edit', {'id': journaux_comptable.id}) }}">Modifer</a>
             </td>
         </tr>
