@@ -103,18 +103,22 @@ class DepotRetraitsController extends Controller
             case 'depot':
                 $form = $this->createForm(DepotType::class, $depotRetrait);
                 $returnTwig='depot.html.twig';
+                $route='depot_retraits_depot';
                 break;
             case 'retrait':
                 $form = $this->createForm(RetraitType::class, $depotRetrait);
                 $returnTwig='retrait.html.twig';
+                $route='depot_retraits_retrait';
                 break;
             case 'encaissement':
                 $form = $this->createForm(EncaissementType::class, $depotRetrait);
                 $returnTwig='encaissement.html.twig';
+                $route='depot_retraits_encaissement';
                 break;
             case 'decaissement':
                 $form = $this->createForm(DecaissementType::class, $depotRetrait);
                 $returnTwig='decaissement.html.twig';
+                $route='depot_retraits_decaissement';
                 break;
 
             default : $this->addFlash('error', 'Type opération ['.$typeOperation.'] non connu. Seulement [depot,retrait,encaissement,decaissement] accepté');
@@ -141,7 +145,7 @@ class DepotRetraitsController extends Controller
             }
 
             $genCompta=new GenererCompta($em);
-            $ok=$genCompta->genComptaDepotRetrait($depotRetrait, $this->journeeCaisse);
+            $ok=$genCompta->genComptaDepotRetrait($depotRetrait, $this->journeeCaisse, $typeOperation);
             if (!$ok){
                 $this->addFlash('error', $genCompta->getErrMessage());
                 return $this->render('depot_retraits/'.$returnTwig, [
@@ -154,18 +158,20 @@ class DepotRetraitsController extends Controller
             $em->persist($this->journeeCaisse);
             $em->flush();
 
-            //envoi mail
-            $message_object='WARISSO - Confirmation de '.strtoupper($typeOperation);
-            $message = (new \Swift_Message($message_object))
-                ->setFrom('warisso-confirm@yesbo.bf')
-                ->setTo($depotRetrait->getCompteClient()->getClient()->getEmail())
-                ->setBody( $this->renderView('depot_retraits/recu_depot_retrait.html.twig',
+            //envoi mail si non compte interne
+            if ($depotRetrait->getCompteClient()->getTypeCompte()!=Comptes::INTERNE){
+                $message_object='WARISSO - Confirmation de '.strtoupper($typeOperation);
+                $message = (new \Swift_Message($message_object))
+                    ->setFrom('warisso-confirm@yesbo.bf')
+                    ->setTo($depotRetrait->getCompteClient()->getClient()->getEmail())
+                    ->setBody( $this->renderView('depot_retraits/recu_depot_retrait.html.twig',
                         ['depotRetrait'=>$depotRetrait,'solde' => $depotRetrait->getCompteClient()->getSoldeCourant(),'typeOperation'=>$typeOperation]
                     ),'text/html' );
 
-            $mailer->send($message);
-
-            return $this->render('depot_retraits/recu_depot_retrait.html.twig', ['depotRetrait'=>$depotRetrait, 'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse, 'typeOperation'=>$typeOperation]);
+                $mailer->send($message);
+                return $this->render('depot_retraits/recu_depot_retrait.html.twig', ['depotRetrait'=>$depotRetrait, 'solde'=>null, 'journeeCaisse'=>$this->journeeCaisse, 'typeOperation'=>$typeOperation]);
+            }
+            return $this->redirectToRoute($route);
         }
 
         if ($request->isXmlHttpRequest()){

@@ -18,6 +18,7 @@ use App\Entity\TransactionComptes;
 use App\Form\CriteresEtatsComptasType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -99,34 +100,49 @@ class ComptaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $compteDebut=$criteresGrandLivre->getCompteDebut()->getNumCompte();
-            $compteFin=$criteresGrandLivre->getCompteFin()->getNumCompte();
-            if ($compteDebut>$compteFin){
-                $tmp=$compteDebut;
-                $compteDebut=$compteFin;
-                $compteFin=$tmp;
-            }
-            $comptes=$this->getDoctrine()->getRepository(Comptes::class)->plageComptes($compteDebut, $compteFin);
-            $rubriquesGrandLivres=array();
-            foreach ($comptes as $compte){
-                $rubriquesGrandLivres[]=['compte'=>$compte, 'ecritures'=>$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresComptes($compte, $criteresGrandLivre->getDateDebut(), $criteresGrandLivre->getDateFin())];
-            }
-            
-            
-            //$limit=20;
-            //$_page=$request->query->get('_page');
-            //$offset = ($_page)?($_page-1)*$limit:0;
-            //$liste = 
-            return $this->render('compta/grand_livre.html.twig',[
-                'rubriquesGrandLivres'=>$rubriquesGrandLivres,
-                'form' => $form->createView(),
-                'criteres'=>$criteresGrandLivre,
-            ]);
+            return $this->afficherGrandLivre($form,$criteresGrandLivre);
         }
 
         return $this->render('compta/criteres_etats.html.twig', [
             'form' => $form->createView(),
             'type'=>'Grand livre',
+        ]);
+    }
+
+    /**
+     * @Route("/grandlivre/{id}", name="compta_grand_livre_specific", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function grandLivreUnCompte(Request $request, Comptes $compte) : Response
+    {
+        $criteresGrandLivre=new CriteresEtatsComptas();
+        $criteresGrandLivre->setCompteDebut($compte)
+            ->setCompteFin($compte);
+
+        $form = $this->createForm(CriteresEtatsComptasType::class, $criteresGrandLivre);
+        $form->handleRequest($request);
+
+        return $this->afficherGrandLivre($form,$criteresGrandLivre);
+    }
+
+    private function afficherGrandLivre(FormInterface $form, CriteresEtatsComptas $criteresGrandLivre)
+    {
+        $compteDebut=$criteresGrandLivre->getCompteDebut()->getNumCompte();
+        $compteFin=$criteresGrandLivre->getCompteFin()->getNumCompte();
+        if ($compteDebut>$compteFin){
+            $tmp=$compteDebut;
+            $compteDebut=$compteFin;
+            $compteFin=$tmp;
+        }
+        $comptes=$this->getDoctrine()->getRepository(Comptes::class)->plageComptes($compteDebut, $compteFin);
+        $rubriquesGrandLivres=array();
+        foreach ($comptes as $compte){
+            $rubriquesGrandLivres[]=['compte'=>$compte, 'ecritures'=>$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresComptes($compte, $criteresGrandLivre->getDateDebut(), $criteresGrandLivre->getDateFin())];
+        }
+        return $this->render('compta/grand_livre.html.twig',[
+            'rubriquesGrandLivres'=>$rubriquesGrandLivres,
+            'form' => $form->createView(),
+            'criteres'=>$criteresGrandLivre,
         ]);
     }
 

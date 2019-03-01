@@ -95,11 +95,11 @@ class TransactionsController extends Controller
             $transaction->maintenir();
             if ($transaction->isDesequilibre()){
                 $this->addFlash('error','Ecriture déséquilibrée ! ! !');
-                return $this->render('transactions/erreur_desequilibre.html.twig',['transaction'=>$transaction]);
+                return $this->redirectToRoute('transactions_edit');
             }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('transactions_ajout');
+            return $this->redirectToRoute('transactions_index');
         }
 
         $transactions=$this->getDoctrine()->getRepository(Transactions::class)->liste(0,5);

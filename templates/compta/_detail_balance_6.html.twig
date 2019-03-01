@@ -22,8 +22,11 @@
 
                 {% set totalDebit= totalDebit+ligne.mDebit %}
                 {% set totalCredit= totalCredit+ligne.mCredit %}
-                {% set totalSoldeDebit= totalSoldeDebit+ligne.mDebit %}
-                {% set totalSoldeCredit= totalSoldeCredit+ligne.mCredit %}
+                {% if ligne.mDebit>ligne.mCredit %}
+                    {% set totalSoldeDebit= totalSoldeDebit+ligne.mDebit-ligne.mCredit %}
+                {% else %}
+                    {% set totalSoldeCredit= totalSoldeCredit+ligne.mCredit-ligne.mDebit %}
+                {% endif %}
                 <tr>
                     <td class="padding-5 ">{{ligne.numCompte}}</td>
                     <td class="padding-5 ">{{ligne.intitule}}</td>

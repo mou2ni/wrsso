@@ -15,10 +15,10 @@
             {#<td>{{ compte.id }}</td>#}
             <td>{{ compte.numCompte }}</td>
             <td>{{ compte.intitule }}</td>
-            <td>{{ compte.soldeCourant }}</td>
+            <td>{{ compte.soldeCourant|number_format(0, '.', ' ')}}</td>
             <td>{{ compte.typeCompte }}</td>
             <td>
-                <a href="{{ path('comptes_show', {'id': compte.id}) }}">Détails</a>
+                <a href="{{ path('comptes_show', {'id': compte.id}) }}">Détails</a> |
                 <a href="{{ path('comptes_edit', {'id': compte.id}) }}">Modifier</a>
             </td>
         </tr>

@@ -98,6 +98,13 @@ class ComptesRepository extends ServiceEntityRepository
             ->orderBy('c.numCompte', 'ASC');
     }
 
+    public function getCompteEncDecQb(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            ->where('c.numCompte like \'4%\' or c.numCompte like \'1%\'')
+            ->orderBy('c.numCompte', 'DESC');
+    }
+
 
 
 //$qb->innerJoin('u.Group', 'g', 'WITH', 'u.status = ?1', 'g.id')

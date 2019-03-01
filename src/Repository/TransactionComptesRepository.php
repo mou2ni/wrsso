@@ -79,7 +79,7 @@ class TransactionComptesRepository extends ServiceEntityRepository
          return   $qb =$this->createQueryBuilder('tc')
                 ->addSelect($this->select)
                 ->innerJoin('tc.transaction','t', 'WITH', 'tc.transaction=t.id')
-                ->innerJoin('t.journauxComptable', 'jc', 'WITH','t.journauxComptable=jc.id')
+                ->leftJoin('t.journauxComptable', 'jc', 'WITH','t.journauxComptable=jc.id')
                 ->where('t.dateTransaction <= :dateFin and t.dateTransaction >= :dateDebut')
                 ->setParameter('dateFin',$dateFin)->setParameter('dateDebut',$dateDebut)
             ;
@@ -96,11 +96,15 @@ class TransactionComptesRepository extends ServiceEntityRepository
         return $pag;
     }
 
-    public function findEcrituresComptes(Comptes $compte, $dateDebut=null, $dateFin=null){
-        return $qb=$this->ecrituresQb($dateDebut,$dateFin)
-            ->andWhere('tc.compte=:compte')->setParameter('compte',$compte)
-            ->orderBy('t.dateTransaction', 'ASC')
-            ->getQuery()->getResult();
+    public function findEcrituresComptes(Comptes $compte, $dateDebut=null, $dateFin=null, $limit=null){
+        $qb=$this->ecrituresQb($dateDebut,$dateFin)
+            ->andWhere('tc.compte=:compte')->setParameter('compte',$compte);
+        if ($limit) {
+            $qb->setMaxResults($limit)
+            ->orderBy('t.createdAt', 'DESC');
+        } else $qb->orderBy('t.createdAt', 'ASC');
+
+        return  $qb->getQuery()->getResult();
     }
 
     public function getBalanceComptes($classe=null, $detail=false, $compteDebut=null, $compteFin=null,$dateDebut=null, $dateFin=null){
@@ -109,7 +113,8 @@ class TransactionComptesRepository extends ServiceEntityRepository
         if ($detail){
             $qb->innerJoin('tc.compte','c', 'WITH', 'tc.compte=c.id')
                 ->innerJoin('tc.transaction','t', 'WITH', 'tc.transaction=t.id')
-                ->addSelect('c.intitule as intitule, t.dateTransaction as dateTransaction');
+                ->addSelect('c.intitule as intitule, t.dateTransaction as dateTransaction')
+                ;
         }
         if ($classe)  $qb->where('tc.numCompte like \''.$classe.'%\'');
         if ($compteDebut) $qb->andWhere('tc.numCompte>=:compteDebut')->setParameter('compteDebut',$compteDebut);

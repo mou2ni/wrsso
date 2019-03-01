@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comptes;
+use App\Entity\TransactionComptes;
 use App\Form\ComptesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,11 +66,15 @@ class ComptesController extends Controller
      */
     public function show(Comptes $compte): Response
     {
-        $comptes = $this->getDoctrine()
+        /*$comptes = $this->getDoctrine()
         ->getRepository(Comptes::class)
-        ->liste(0);
+        ->liste(0);*/
+        $auj=new \DateTime();
+        //$cetteAnnee=$auj->format('Y');
+
+        $rubriquesGrandLivres[]=['compte'=>$compte, 'ecritures'=>$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresComptes($compte,new \DateTime($auj->format('Y').'-01-01 00:00:00'), new \DateTime(),10)];
         return $this->render('comptes/show.html.twig', ['compte' => $compte,
-            'comptes' => $comptes]);
+            'rubriquesGrandLivres' => $rubriquesGrandLivres]);
     }
 
     /**
@@ -86,7 +91,7 @@ class ComptesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('comptes_edit', ['id' => $compte->getId()]);
+            return $this->redirectToRoute('comptes_edit', ['id' => $compte->getId()+1]);
         }
 
         return $this->render('comptes/edit.html.twig', [
