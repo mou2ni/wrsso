@@ -150,7 +150,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
                 ->setParameter('caisse', $caisse);
         }
         $qb//->addGroupBy('jc.caisse')
-        ->addOrderBy('jc.id', 'DESC')
+        ->addOrderBy('jc.dateComptable', 'DESC')
             ->setParameter('dateDebut',$dateDebut)
             ->setParameter('dateFin', $dateFin)
             ->setParameter('statut',JourneeCaisses::INITIAL)
@@ -182,7 +182,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
 
     //** retourne le solde net Ouverture (sommes des netOuv)
     // des premieres journées caisses de toutes les caisses de la datecomptable */
-    public function getOuvertureTresorerie(\DateTime $date)
+    public function getOuvertureTresorerie1(\DateTime $date)
     {
         $qb=$this->createQueryBuilder('jc');
         return $qb->select('SUM(jc.mLiquiditeOuv) as liquidite','SUM(jc.mSoldeElectOuv) as solde','SUM(jc.mCreditDiversOuv) as credit',
@@ -199,10 +199,125 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
 
     }
+//** retourne le solde net Ouverture (sommes des netOuv)
+    // des premieres journées caisses de toutes les caisses de la datecomptable */
+    public function getOuvertureTresorerie(\DateTime $dateDeb, \DateTime $dateFin)
+    {
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
+        $em = $this->getEntityManager();
+        //$req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM JourneeCaisses jc WHERE id NOT IN (SELECT jcp.journee_precedente_id FROM JourneeCaisses jcp WHERE jcp.date_comptable='$date') AND jc.date_comptable='$date'";
+        $req="SELECT SUM(jc.m_liquidite_ouv) as liquidite,SUM(jc.m_solde_elect_ouv) as solde,SUM(jc.m_credit_divers_ouv) as credit,
+            SUM(jc.m_dette_divers_ouv) as dette, SUM(jc.m_liquidite_ouv + jc.m_solde_elect_ouv) as dispo,
+            SUM(jc.m_liquidite_ouv + jc.m_solde_elect_ouv + jc.m_credit_divers_ouv - jc.m_dette_divers_ouv ) as Ouverture 
+            FROM JourneeCaisses jc
+           WHERE jc.id IN (
+SELECT jc.id FROM JourneeCaisses jc, JourneeCaisses jcp
+ WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable<'$debut' AND jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+ UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_comptable < '$debut' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))";
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            $stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+
+        return $stmt->fetch();
+    }
+    //////////details
+    public function getDetailsTresorerie($etat,\DateTime $dateDeb, \DateTime $dateFin)
+    {
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
+        $em = $this->getEntityManager();
+        if ($etat == 'appro'){
+            $qb=$this->createQueryBuilder('jc');
+            return $qb
+                ->select('i.mIntercaisse as appro','jc.dateComptable as date','jc.id as id','c.code as caissesource')
+                ->innerJoin('jc.intercaisseEntrants', 'i')
+                ->innerJoin('i.journeeCaisseSortant', 'jcs')
+                ->innerJoin('jcs.caisse', 'c', 'WITH', ' c.typeCaisse = :type')
+                ->where('jc.dateComptable>=:dateDeb')
+                ->andWhere( 'jc.dateComptable<=:dateFin')
+                ->setParameters(['dateDeb'=>$debut,'dateFin'=>$fin, 'type'=>Caisses::BANQUE])
+                ->getQuery()
+                ->getResult();
+        }
+        $reqOuv="SELECT jc.id as id, jc.date_comptable as date, jc.m_liquidite_ouv as liquidite,jc.m_solde_elect_ouv as solde,jc.m_credit_divers_ouv as credit,
+            jc.m_dette_divers_ouv as dette, SUM(jc.m_liquidite_ouv + m_solde_elect_ouv) as dispo, SUM(jc.m_liquidite_ouv + m_solde_elect_ouv + jc.m_credit_divers_ouv - m_dette_divers_ouv) as ouverture
+            FROM JourneeCaisses jc
+           WHERE jc.id IN (
+SELECT jc.id FROM JourneeCaisses jc, JourneeCaisses jcp
+ WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable<'$debut' AND jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+ UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_comptable < '$debut' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))
+GROUP BY jc.id";
+        $reqRecap = "SELECT jc.id as id, jc.date_comptable as date, jc.m_emission_trans as emission, jc.m_reception_trans as reception,
+jc.m_depense as depense, jc.m_recette as recette, SUM( jc.m_ecart_ouv + jc.m_ecart_ferm) as ecart, SUM(
+jc.m_emission_trans - jc.m_reception_trans)  as compense 
+FROM JourneeCaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+GROUP BY jc.id
+";
+        $reqFerm = "SELECT jc.id as id, jc.date_comptable as date, jc.m_liquidite_ferm as liquidite,jc.m_solde_elect_ferm as solde,jc.m_dette_divers_ferm as dette,jc.m_credit_divers_ferm as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture 
+FROM JourneeCaisses jc 
+WHERE id IN (
+    SELECT jcp.id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable<='$fin' AND ( jc.date_comptable>'$fin')
+    UNION
+    SELECT jcp.journee_precedente_id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable<='$fin' AND  jc.date_comptable IS NULL
+UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))
+GROUP BY jc.id";
+
+        if ($etat=='ouv')
+        $req =$reqOuv;
+        elseif ($etat=='crd')
+            $req=$reqRecap;
+        elseif ($etat=='ferm')
+            $req=$reqFerm;
+        //dump($req);die();
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            $stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+
+        return $stmt->fetchAll();
+    }
 
     //** retourne les sommes des compenses, des recettes, des depenses et des ecarts des journees caisses
     // de la date comptable */
-    public function getCompenseRecetteDepenseEcartTresorerie(\DateTime $date)
+    public function getCompenseRecetteDepenseEcartTresorerie(\DateTime $dateDeb, \DateTime $dateFin)
+    {
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
+        $em = $this->getEntityManager();
+        //$req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM JourneeCaisses jc WHERE id NOT IN (SELECT jcp.journee_precedente_id FROM JourneeCaisses jcp WHERE jcp.date_comptable='$date') AND jc.date_comptable='$date'";
+        $req="SELECT SUM(jc.m_emission_trans) as emission, SUM( jc.m_reception_trans) as reception, SUM(
+jc.m_depense) as depense, SUM( jc.m_recette) as recette, SUM( jc.m_ecart_ouv + jc.m_ecart_ferm) as ecart, SUM(
+jc.m_emission_trans - jc.m_reception_trans)  as compense 
+FROM JourneeCaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+";
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            $stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+//dump($stmt->fetch());die();
+        return $stmt->fetch();
+    }
+//** retourne les sommes des compenses, des recettes, des depenses et des ecarts des journees caisses
+    // de la date comptable */
+    public function getCompenseRecetteDepenseEcartTresorerie1(\DateTime $date)
     {
         $qb=$this->createQueryBuilder('jc');
         return $qb
@@ -217,39 +332,43 @@ class JourneeCaissesRepository extends ServiceEntityRepository
 
     //** retourne la somme des Appro des journees caisses
     // de la date comptable */
-    public function getApproTresorerie(\DateTime $date)
+    public function getApproTresorerie(\DateTime $dateDeb, \DateTime $dateFin)
     {
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
         $qb=$this->createQueryBuilder('jc');
         return $qb
             ->select('SUM(i.mIntercaisse) as appro')
             ->innerJoin('jc.intercaisseEntrants', 'i')
             ->innerJoin('i.journeeCaisseSortant', 'jcs')
             ->innerJoin('jcs.caisse', 'c', 'WITH', ' c.typeCaisse = :type')
-            ->where('jc.dateComptable=:dateComptable' /*or c.typeCaisse!=:typeCaisse*/)
-            ->setParameter('dateComptable',$date)
-            ->setParameter('type',Caisses::COMPENSE)
+            ->where('jc.dateComptable>=:dateDeb')
+            ->andWhere( 'jc.dateComptable<=:dateFin')
+            ->setParameters(['dateDeb'=>$debut,'dateFin'=>$fin, 'type'=>Caisses::BANQUE])
             ->getQuery()
             ->getOneOrNullResult();
-
-
-    }
+        }
 
 
     //** retourne le solde net Ouverture (sommes des netOuv)
     // des premieres journées caisses de toutes les caisses de la datecomptable */
-    public function getFermetureTresorerie( \DateTime $date)
+    public function getFermetureTresorerie( \DateTime $dateDeb, \DateTime $dateFin)
     {
-        $dateDeb=new \DateTime('2019-01-01 00:00:00');
-        $dateFin=new \DateTime('2019-01-01 00:00:00');
-        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
-        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
-        $date = $date->format('Y/m/d');
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
         $em = $this->getEntityManager();
-        //$req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM journeecaisses jc WHERE id NOT IN (SELECT jcp.journee_precedente_id FROM journeecaisses jcp WHERE jcp.date_comptable='$date') AND jc.date_comptable='$date'";
-        $req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM journeecaisses jc WHERE id NOT IN (
-    SELECT jcp.id FROM journeecaisses jcp, journeecaisses jc
-    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable >'2019/01/28'
-) AND jc.date_comptable>='$debut' AND jc.date_comptable <='$fin'";
+        //$req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture FROM JourneeCaisses jc WHERE id NOT IN (SELECT jcp.journee_precedente_id FROM JourneeCaisses jcp WHERE jcp.date_comptable='$date') AND jc.date_comptable='$date'";
+        $req="SELECT SUM(jc.m_liquidite_ferm)  as liquidite,SUM(jc.m_solde_elect_ferm) as solde,SUM(jc.m_dette_divers_ferm) as dette,SUM(jc.m_credit_divers_ferm) as credit, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm) as dispo, SUM(jc.m_liquidite_ferm + jc.m_solde_elect_ferm + jc.m_credit_divers_ferm - jc.m_dette_divers_ferm ) as fermeture 
+FROM JourneeCaisses jc 
+WHERE id IN (
+    SELECT jcp.id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable<='$fin' AND ( jc.date_comptable>'$fin')
+    UNION
+    SELECT jcp.journee_precedente_id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable<='$fin' AND  jc.date_comptable IS NULL
+UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))";
         try {
             $stmt = $em->getConnection()->prepare($req);
             $stmt->bindParam(1,$val, \PDO::PARAM_INT);

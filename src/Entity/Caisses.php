@@ -266,7 +266,7 @@ class Caisses
         $this->journeeCaisses->removeElement($journeeCaisse);
     }
     
-    public function getNouvelleJournee(){
+    /*public function getNouvelleJournee(){
 
         //dump($this);die();
         $nouvellleJournee=$this->em->getRepository(JourneeCaisses::class)->findOneJourneeActive($this);
@@ -276,7 +276,7 @@ class Caisses
         }
         
         return $nouvellleJournee;
-    }
+    }*/
 
     /**
      * @return ObjectManager

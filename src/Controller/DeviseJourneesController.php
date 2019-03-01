@@ -32,13 +32,24 @@ class DeviseJourneesController extends Controller
     /**
      * @Route("/ouverture/{id}", name="devise_journees_ouv", methods="GET")
      */
-    public function getDeviseOuv( Devises $devise): Response
+    public function getDeviseOuv(Request $request, Devises $devise): Response
     {
         //dump($devise);die();
-        $date = new \DateTime('2019-01-28 00:00:00');
+        $date = new \DateTime();
+        $dateDeb=new \DateTime();
+        $dateFin=new \DateTime();
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        $date = new \DateTime('');
+        if ($request->query->get('_date'))$date = new \DateTime($request->query->get('_date'));
         $deviseJournees = $this->getDoctrine()
             ->getRepository(DeviseJournees::class)
-            ->getDeviseOuv($date,$devise);
+            ->getDeviseOuv($debut,$fin,$devise);
         //dump($deviseJournees);die();
         return $this->render('devise_journees/index.html.twig', [
             'src'=>'bd',
@@ -47,13 +58,24 @@ class DeviseJourneesController extends Controller
     /**
      * @Route("/achatvente/{id}", name="devise_journees_achat_vente", methods="GET")
      */
-    public function getDeviseAchatVente( Devises $devise): Response
+    public function getDeviseAchatVente(Request $request, Devises $devise): Response
     {
-        //dump($devise);die();
-        $date = new \DateTime('2019-01-28 00:00:00');
+        //dump();die();
+        $date = new \DateTime();
+        $dateDeb=new \DateTime();
+        $dateFin=new \DateTime();
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        $date = new \DateTime('');
+        if ($request->query->get('_date'))$date = new \DateTime($request->query->get('_date'));
         $deviseJournees = $this->getDoctrine()
             ->getRepository(DeviseJournees::class)
-            ->getDeviseAchatVente($date,$devise);
+            ->getDeviseAchatVente($debut,$fin,$devise);
         //dump($deviseJournees);die();
         return $this->render('devise_journees/index.html.twig', [
             'src'=>'bd',
@@ -62,17 +84,58 @@ class DeviseJourneesController extends Controller
     /**
      * @Route("/fermeture/{id}", name="devise_journees_ferm", methods="GET")
      */
-    public function getDeviseFerm( Devises $devise): Response
+    public function getDeviseFerm(Request $request, Devises $devise): Response
     {
         //dump($devise);die();
-        $date = new \DateTime('2019-01-28 00:00:00');
+        $date = new \DateTime();
+        $dateDeb=new \DateTime();
+        $dateFin=new \DateTime();
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        $date = new \DateTime('');
+        if ($request->query->get('_date'))$date = new \DateTime($request->query->get('_date'));
         $deviseJournees = $this->getDoctrine()
             ->getRepository(DeviseJournees::class)
-            ->getDeviseFerm($date,$devise);
+            ->getDeviseFerm($debut,$fin,$devise);
         //dump($deviseJournees);die();
         return $this->render('devise_journees/index.html.twig', [
             'src'=>'bd',
             'devise_journees' => $deviseJournees]);
+    }
+    /**
+     * @Route("/cvd/{id}", name="devise_journees_cvd", methods="GET")
+     */
+    public function getDeviseCvd(Request $request, Devises $devise): Response
+    {
+        //dump($devise);die();
+        $date = new \DateTime();
+        $dateDeb=new \DateTime();
+        $dateFin=new \DateTime();
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        $date = new \DateTime('');
+        if ($request->query->get('_date'))$date = new \DateTime($request->query->get('_date'));
+        $deviseJournees = $this->getDoctrine()
+            ->getRepository(DeviseJournees::class)
+            ->getDeviseCvd($debut,$fin,$devise);
+        //dump($deviseJournees);die();
+        /*return $this->render('devise', [
+            'src'=>'bd',
+            'devise_mouvements' => $deviseJournees]);*/
+        return $this->render('devise_mouvements/index.html.twig', [
+            'devise_mouvements' => $deviseJournees,
+            'journeeCaisse'=>null,
+        ]);
     }
 
     /**

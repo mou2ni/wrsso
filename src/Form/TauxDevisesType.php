@@ -17,7 +17,7 @@ class TauxDevisesType extends AbstractType
     {
         $builder
             //->add('code', EntityType::class, ['class'=>Devises::class, 'placeholder'=>'CHOISIR'])
-            ->add('code')
+            ->add('code', TextType::class, ['disabled'=>true])
             ->add('txReference')
             ->add('formuleAchat')
             ->add('formuleVente')

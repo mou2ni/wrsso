@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JourneeCaisses index{% endblock %}
+{% set color = "#a9a9a9" %}
+{% set
+    liquidite,solde, dispo, credit, dette, ouverture,
+    recette, depense, emission, reception, compense, ecart,
+    fermeture, appro =
+    (champ=='liqudite')?color:'',(champ=='solde')?color:'',(champ=='dispo')?color:'',(champ=='credit')?color:'',(champ=='dette')?color:'',(champ=='ouverture')?color:'',
+    (champ=='recette')?color:'',(champ=='depense')?color:'',(champ=='emission')?color:'',(champ=='reception')?color:'',(champ=='compense')?color:'',(champ=='ecart')?color:'',
+    (champ=='fermeture')?color:'',(champ=='appro')?color:'' %}
+
+{% block body %}
+    <h1>LISTE DES JOURNEE CAISSES {{ champ }}</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+
+            <th>Id</th>
+            <th>Date</th>
+            {% if etat == 'ouv' %}
+                <th bgcolor="{{ liquidite }}">Liquidité</th>
+                <th bgcolor="{{ solde }}">Solde</th>
+                <th bgcolor="{{ dispo }}">Dispo</th>
+                <th bgcolor="{{ credit }}">Crédits</th>
+                <th bgcolor="{{ dette }}">Dettes</th>
+                <th bgcolor="{{ ouverture }}">Net ouverture</th>
+            {% endif %}
+            {% if etat == 'crd' %}
+                <th bgcolor="">Recettes</th>
+                <th>Dépenses</th>
+                <th>Emission</th>
+                <th>Reception</th>
+                <th>Compense</th>
+                <th>Ecarts de caisses</th>
+            {% endif %}
+            {% if etat == 'ferm' %}
+                <th>Liquidite</th>
+                <th>Solde</th>
+                <th>Dispo</th>
+                <th>Dette</th>
+                <th>Credit</th>
+                <th>Net fermeture</th>
+            {% endif %}
+            {% if etat == 'appro' %}
+                <th>Appro</th>
+                <th>Source</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for journee_caiss in journee_caisses %}
+            <tr>
+                <td>{{ journee_caiss.id }}</td>
+                <td>{{journee_caiss.date|date('d-m-Y') }}</td>
+                {% if etat == 'ouv' %}
+                    <td bgcolor="{{ liquidite }}">{{ journee_caiss.liquidite|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ solde }}">{{ journee_caiss.solde|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ dispo }}">{{ journee_caiss.dispo|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ credit }}">{{ journee_caiss.credit|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ dette }}">{{ journee_caiss.dette|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ ouverture }}">{{ journee_caiss.ouverture|number_format(0,',', ' ') }}</td>
+                {% endif %}
+                {% if etat == 'crd' %}
+                    <td bgcolor="{{ recette }}">{{ journee_caiss.recette|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ depense }}">{{ journee_caiss.depense|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ emission }}">{{ journee_caiss.emission|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ reception }}">{{ journee_caiss.reception|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ compense }}">{{ journee_caiss.compense|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ ecart }}">{{ journee_caiss.ecart|number_format(0,',', ' ') }}</td>
+                {% endif %}
+                {% if etat == 'ferm' %}
+                    <td bgcolor="{{ liquidite }}">{{ journee_caiss.liquidite|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ solde }}">{{ journee_caiss.solde|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ dispo }}">{{ journee_caiss.dispo|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ dette }}">{{ journee_caiss.dette|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ credit }}">{{ journee_caiss.credit|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="{{ fermeture }}">{{ journee_caiss.fermeture|number_format(0,',', ' ') }}</td>
+                {% endif %}
+                {% if etat == 'appro' %}
+                    <td bgcolor="{{ appro }}">{{ journee_caiss.appro|number_format(0,',', ' ') }}</td>
+                    <td bgcolor="">{{ journee_caiss.caissesource }}</td>
+                {% endif %}
+
+                {#<td>
+                    <a href="{{ path('j', {'id': journee_caiss.id}) }}">show</a>
+                    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
+                </td>#}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {#<a href="{{ path('journee_caisses_new') }}">Create new</a>#}
+{% endblock %}

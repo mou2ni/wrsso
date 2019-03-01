@@ -1,16 +1,51 @@
 {% extends 'base.html.twig' %}
 {% set cumul = 0 %}
 {% block body %}
-    <table class="table">
-        <thead>
-        <tr><th>DATE</th><th>Devise</th><th>Stock Ouverture</th><th>Stock Fermeture</th><th>Taux</th><th>MARGE</th><th>Vente - Achat</th><th>Cumul</th></tr>
-        </thead>
+    <div class="form-inline">
+        {{ form_start(form) }}
+        {{ form_widget(form.trimestre) }}
+        {{ form_widget(form.an.date.year) }}
+        <button class="btn">{{ button_label|default('CHANGER') }}</button>
+        <div hidden>{{ form_rest(form) }}</div>
+        {{ form_end(form) }}
+        {{ include('etats/_btn_action_url.html.twig',{'path':'etats_rapport_devises','value':dateDeb.format('Y/m/d'),'trimestre':trimestre,'btn_name':'aperçue','btn_label':'aperçue'}) }}
+    </div>
+    <div class="box-centered">
+        <div><h1 class="text-center">RELEVE DES OPERATIONS DE CHANGE</h1>
+        <h4> EFFECTUEES DU {{ dateDeb|date('Y/m/d') }} AU {{ dateFin|date('Y/m/d') }}</h4>
+        <h4> PAR : {{ entreprise.code }} </h4>
+        <h4> ADRESSE : {{ entreprise.adresse }} </h4>
+    </div>
+
+    <table class="table table-bordered">
+        <tdead>
+            <tr>
+                <td rowspan="3">DEVISES</td><td colspan="6">BILLETS</td><td colspan="4">CHEQUES DE VOYAGE</td>
+            </tr>
+            <tr>
+                <td rowspan="2">Soldes Precedents</td><td colspan="2">Achats</td><td colspan="2">Ventes</td><td rowspan="2">Solde en caisse</td>
+                <td rowspan="2">Soldes précedents</td><td rowspan="2">Achats à la clientèle</td><td rowspan="2">Ventes aux int. agréés</td><td rowspan="2">Solde en caisse</td>
+            </tr>
+            <tr>
+                <td>à la clientèle</td><td>aux int. agréés</td><td>à la clientèle</td><td>aux int. agréés</td>
+            </tr>
+        </tdead>
         <tbody>
         {% for row in etat %}
-            <tr><td>{{ row.dt }}</td><td>{{ row.devise }}</td><td>{{ row.ouverture }}</td><td>{{ row.fermeture }}</td><td>{{ row.taux }}</td><td>{{ row.marge }}</td><td>{{ row.VA }}</td><td>{% set cumul = cumul + row.cummul %}{{ cumul }}</td></tr>
+            <tr><td>{{ row.devise }}</td><td>{{ row.qteOuv }}</td><td>{{ row.achat }}</td><td></td><td>{{ row.vente }}</td><td></td><td>{{ row.stock }}</td><td></td><td></td><td></td><td></td></tr>
         {% endfor %}
         </tbody>
     </table>
+        <div class="right" align="right">
+            <h5 style="padding-bottom: 20px">Ouagadougou, le {{ date('now')|date('d M Y') }}</h5>
+
+            <h5 style="padding-bottom: 100px"> Le Gérant</h5>
+
+            <h5> {{ entreprise.nomRepresentant }} {{ entreprise.prenomRepresentant }} </h5>
+        </div>
+        <h5>NB : Le poste "soldes précedents" indique le solde à la cloture du trimestre precédent</h5>
+
+    </div>
 {% endblock %}
 
 {% block title %}

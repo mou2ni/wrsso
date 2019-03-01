@@ -8,8 +8,8 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Sens</th>
                 <th>Nombre</th>
+                <th>Taux</th>
                 {#<th>MCvd</th>#}
                 <th>actions</th>
             </tr>
@@ -18,12 +18,12 @@
         {% for devise_mouvement in devise_mouvements %}
             <tr>
                 <td>{{ devise_mouvement.id }}</td>
-                <td>{{ devise_mouvement.sens }}</td>
+                {#<td>{{ devise_mouvement.sens }}</td>#}
                 <td>{{ devise_mouvement.nombre }}</td>
-                {#<td>{{ devise_mouvement.mCvd }}</td>#}
+                <td>{{ devise_mouvement.taux }}</td>
                 <td>
-                    <a href="{{ path('devise_mouvements_show', {'id': devise_mouvement.id}) }}">detail</a>
-                    <a href="{{ path('devise_mouvements_edit', {'id': devise_mouvement.id}) }}">Modifier</a>
+
+                    <a href="{{ path('devise_recus_imprimer', {'id': devise_mouvement.devise_recu_id}) }}">imprimer</a>
                 </td>
             </tr>
         {% else %}
@@ -33,8 +33,5 @@
         {% endfor %}
         </tbody>
     </table>
-    <div class="row">
-        {{ include('_pagination.html.twig',{'path':'devise_mouvements_index'}) }}
-    </div>
     <a href="{{ path('devise_mouvements_new') }}">Ajouter</a>
 {% endblock %}

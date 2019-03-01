@@ -396,15 +396,23 @@ class JourneeCaissesController extends Controller
     public function etatTresorerie(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $date = new \DateTime('now');
-        //$date->setDate(2019, 02, 05);
-        if ($request->get('date'))
-            $date = new \DateTime($request->get('date'));
-        $tresoOuv = $em->getRepository(JourneeCaisses::class)->getOuvertureTresorerie($date);
-        $tresoRecap = $em->getRepository(JourneeCaisses::class)->getCompenseRecetteDepenseEcartTresorerie($date);
-        $tresoFerm = $em->getRepository(JourneeCaisses::class)->getFermetureTresorerie($date);
-        $tresoAppro = $em->getRepository(JourneeCaisses::class)->getApproTresorerie($date);
-        $tresoDevise = $em->getRepository(DeviseJournees::class)->getDeviseTresorerie($date);
+        $date = new \DateTime();
+        $dateDeb=new \DateTime();
+        $dateFin=new \DateTime();
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        elseif ($request->query->get('dateDeb'))
+            $debut = new \DateTime($request->query->get('dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        $tresoOuv = $em->getRepository(JourneeCaisses::class)->getOuvertureTresorerie($debut,$fin);
+        $tresoRecap = $em->getRepository(JourneeCaisses::class)->getCompenseRecetteDepenseEcartTresorerie($debut,$fin);
+        $tresoFerm = $em->getRepository(JourneeCaisses::class)->getFermetureTresorerie($debut,$fin);
+        $tresoAppro = $em->getRepository(JourneeCaisses::class)->getApproTresorerie($debut,$fin);
+        $tresoDevise = $em->getRepository(DeviseJournees::class)->getDeviseTresorerie($debut,$fin);
         //dump($tresoOuv);die();
 
         return $this->render('journee_caisses/etat_tresorerie.html.twig'
@@ -414,10 +422,88 @@ class JourneeCaissesController extends Controller
                 'treso_ferm' => $tresoFerm,
                 'treso_appro' => $tresoAppro,
                 'treso_devise' => $tresoDevise,
-                'date'=>$date
+                'dateDeb'=>$debut,
+                'dateFin'=>$fin,
             ]
         );
 
+    }
+
+    /**
+     * @Route("/detail/tresorerie", name="detail_ouverture_tresorerie", methods="GET")
+     */
+    public function getDetailTresorerie(Request $request): Response
+    {
+        $date = new \DateTime();
+        $dateDeb=new \DateTime();
+        $dateFin=new \DateTime();
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        if (($request->query->get('_etat')))
+            $etat = $request->query->get('_etat');
+        elseif ($request->query->get('dateDeb'))
+            $debut = new \DateTime($request->query->get('dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        $date = new \DateTime('');
+        if ($request->query->get('_date'))$date = new \DateTime($request->query->get('_date'));
+        $champ = $request->query->get('_champ');
+        /*$tresoOuv = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->getDetailsTresorerie('ouv',$debut,$fin);
+        $tresoRecap = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->getDetailsTresorerie('crd',$debut,$fin);
+        $tresoFerm = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->getDetailsTresorerie('ferm',$debut,$fin);
+        if ($etat=='ouv')
+            $journeeCaisse = $this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('ouv',$debut,$fin);
+        elseif ($etat=='crd')
+            $journeeCaisse= $this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('crd',$debut,$fin);
+        elseif ($etat=='ferm')
+            $journeeCaisse= $this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('ferm',$debut,$fin);
+        elseif ($etat=='appro')
+            $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('appro',$debut,$fin);
+        */
+        $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie($etat,$debut,$fin);
+
+        //dump($req);die();
+
+        return $this->render('journee_caisses/detail_etat_tresorerie.html.twig', [
+            'journee_caisses' => $journeeCaisse,
+            'etat'=>$etat,
+            'champ'=>$champ,
+            'src'=>'bd',]);
+    }
+    /**
+     * @Route("/detail/compense/recette/depense/tresorerie", name="detail_compense_recette_depense__tresorerie", methods="GET")
+     */
+    public function getDetailCompenseRecetteDepenseEcartTresorerie(Request $request): Response
+    {
+        $date = new \DateTime();
+        $dateDeb=new \DateTime();
+        $dateFin=new \DateTime();
+        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'));
+        $limit=10;
+        if (($request->query->get('_dateDeb')))
+            $debut = new \DateTime($request->query->get('_dateDeb'));
+        if ($request->query->get('_dateFin'))
+            $fin = new \DateTime($request->query->get('_dateFin'));
+        $date = new \DateTime('');
+        if ($request->query->get('_date'))$date = new \DateTime($request->query->get('_date'));
+        $tresoOuv = $this->getDoctrine()
+            ->getRepository(JourneeCaisses::class)
+            ->getDetailsOuvertureTresorerie($debut,$fin);
+        //dump($deviseJournees);die();
+        return $this->render('journee_caisses/detail_etat_tresorerie.html.twig', [
+            'journee_caisses' => $tresoOuv,
+            'etat'=>'crd',
+            'src'=>'bd',]);
     }
 
     /**

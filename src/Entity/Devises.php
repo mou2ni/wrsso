@@ -237,14 +237,14 @@ class Devises
         if (substr_count($formuleAchat, '%')==1)
         {
             $txAchat = intval($formuleAchat);
-            $this->txAchat = $this->txReference * (100-$txAchat)/100;
+            $this->txAchat = $this->txReference * (100+$txAchat)/100;
         }
         elseif (substr_count($formuleAchat, '.')==1)
         {
-            $this->txAchat = $this->txReference * (1-$formuleAchat);
+            $this->txAchat = $this->txReference * (1+$formuleAchat);
         }
         else
-            $this->txAchat = $this->txReference - $formuleAchat;
+            $this->txAchat = $this->txReference + $formuleAchat;
 
         $this->formuleAchat = $formuleAchat;
         return $this;
