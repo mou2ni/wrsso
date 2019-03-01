@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JournauxComptables{% endblock %}
+
+{% block body %}
+<div  class="row"><h1>Journaux disponibles : </h1></div>
+<div class="row">
+    <div class="col"><h1><nav>
+            <ul class="pagination">
+                {% for journauxComptable in journauxComptables %}
+                    {% if app.request.query.get('master')==journauxComptable.id %} <li class="active">
+                    {% else %}<li>
+                    {% endif %}
+                    <a href="{{ path('journaux_comptables_ecritures', {'master':  journauxComptable.id}) }}">{{ journauxComptable.code }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav></h1>
+    </div>
+</div>
+    <h1>DETAILS {{ journal.code }} - {{ journal.libelle }} | <a href="{{ path('journaux_comptables_index') }}">Paramètres des Journaux</a></h1>
+
+    {{ include('journaux_comptables/_entete_journal.html.twig') }}
+
+    {{ include('journaux_comptables/_detail_journal.html.twig') }}
+
+    {{ include('_pagination.html.twig',{'path':'journaux_comptables_ecritures','id':(journal.id), 'master':app.request.query.get('master') }) }}
+
+{% endblock %}

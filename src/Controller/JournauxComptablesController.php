@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\JournauxComptables;
+use App\Entity\TransactionComptes;
 use App\Form\JournauxComptablesType;
 use App\Repository\JournauxComptablesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -54,11 +55,42 @@ class JournauxComptablesController extends Controller
     }
 
     /**
+     * @Route("/ecritures", name="journaux_comptables_ecritures", methods="GET")
+     */
+    public function ecritures(Request $request): Response
+    {
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $idJournal=$request->query->get('master');
+        $journauxComptables=$this->getDoctrine()->getRepository(JournauxComptables::class)->findAll();
+        if(!$idJournal){
+            $journal=$journauxComptables[0];
+            $request->query->set('master', $journal->getId());
+        }else{
+            $journal=$this->getDoctrine()->getRepository(JournauxComptables::class)->find($idJournal);
+        }
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()->getRepository(TransactionComptes::class)
+            ->findEcrituresJournauxComptables(new \DateTime('2019-01-01 00:00:00'), new \DateTime(),$journal,$offset,$limit);
+        $pages = round(count($liste)/$limit);
+
+        return $this->render('journaux_comptables/ecritures_journal.html.twig', ['journal' => $journal,
+            'ecritures' => $liste, 'pages'=>$pages, 'path'=>'journaux_comptables_ecritures', 'journauxComptables'=>$journauxComptables]);
+    }
+
+    /**
      * @Route("/{id}/details", name="journaux_comptables_show", methods="GET")
      */
-    public function show(JournauxComptables $journauxComptable): Response
+    public function show(Request $request, JournauxComptables $journauxComptable): Response
     {
-        return $this->render('journaux_comptables/show.html.twig', ['journaux_comptable' => $journauxComptable]);
+        /*$limit=20;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        $liste = $this->getDoctrine()->getRepository(TransactionComptes::class)
+            ->findEcrituresJournauxComptables(new \DateTime('2019-01-01 00:00:00'), new \DateTime(),$journauxComptable,$offset,$limit);
+        $pages = round(count($liste)/$limit);
+        *///$ecritures=$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresJournauxComptables(new \DateTime('2019-01-01 00:00:00'), new \DateTime(),$journauxComptable,$offset, $limit);
+        return $this->render('journaux_comptables/show.html.twig', ['journaux_comptable' => $journauxComptable,]);
     }
 
     /**

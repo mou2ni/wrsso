@@ -89,6 +89,8 @@ class SalairesController extends Controller
             $mSecuriteSocialPatronal=0;
 
             foreach ($salaire->getLigneSalaires() as $ligneSalaire){
+                $ligneSalaire->setCompteRemunerationDue($ligneSalaire->getCollaborateur()->getCompteRemunerationDue());
+                $ligneSalaire->setCompteVirement($ligneSalaire->getCollaborateur()->getCompteVirement());
                 $transaction=$genCompta->genComptaLigneSalaire($this->utilisateur,$paramComptable, $ligneSalaire, $salaire->getPeriodeSalaire(),$this->journeeCaisse);
                 if (!$transaction){
                     $this->addFlash('error', $genCompta->getErrMessage());

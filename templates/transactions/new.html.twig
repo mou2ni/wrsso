@@ -7,9 +7,11 @@
 
     {{ include('transactions/_collection_form.html.twig') }}
 
+    {{ include('transactions/_liste.html.twig') }}
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-<script src="{{   asset('js/collections.js') }}"></script>
+    <script src="{{   asset('js/compta_collection.js') }}"></script>
 {% endblock %}

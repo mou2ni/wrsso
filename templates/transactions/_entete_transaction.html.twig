@@ -1,5 +1,5 @@
 <div>
-    <p> JOURNAL  : <span style="font-weight: bold"> {{transaction.journauxComptable}} </span> DATE PIECE  : <span style="font-weight: bold"> {{(transaction.dateTransaction)?transaction.dateTransaction|date('d-m-Y'):'' }}</span></p>
+    <p> JOURNAL  : <span style="font-weight: bold"> {{transaction.journauxComptable}} </span> DATE PIECE  : <span style="font-weight: bold"> {{(transaction.dateTransaction)?transaction.dateTransaction|date('d-m-Y'):'' }}</p>
     <p> NUMERO PIECE : <span style="font-weight: bold"> {{ transaction.numPiece }}</span> LIBELLE ECRITURE : <span style="font-weight: bold"> {{ transaction.libelle }} </span></p>
     <p></p>
 </div>

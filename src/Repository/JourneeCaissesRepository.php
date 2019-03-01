@@ -46,7 +46,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             //dump($req);
         }
         //die();
-        $req->orderBy('jc.dateComptable', 'DESC')
+        $req->orderBy('jc.id', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
 

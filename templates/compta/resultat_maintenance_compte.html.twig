@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maintenance comptes{% endblock %}
+
+{% block body %}
+<h1>Resultat maintenance solde des comptes</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="padding-5">Id Compte</th>
+            <th class="padding-5">Numero</th>
+            <th class="padding-5 text-right"> Solde Théorique</th>
+            <th class="padding-5 text-right"> Solde Balance</th>
+            <th class="padding-5 text-right"> Différence</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for resultMaintenance in resultMaintenances %}
+            <tr>
+                <td class="padding-5 ">{{resultMaintenance.id}}</td>
+                <td class="padding-5 ">{{resultMaintenance.numCompte}}</td>
+                <td class="padding-5 text-right">{{resultMaintenance.soldeTheorique|number_format(0, '.', ' ')}}</td>
+                <td class="padding-5 text-right">{{resultMaintenance.soldeBalance|number_format(0, '.', ' ')}}</td>
+                <td class="padding-5 text-right">{{ (resultMaintenance.soldeTheorique-resultMaintenance.soldeBalance)|number_format(0, '.', ' ')}}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7" class="text-center"> Aucun compte maintenu</td>
+            </tr>
+
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

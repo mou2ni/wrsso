@@ -27,7 +27,7 @@ class DepotRetraitsType extends AbstractType
                 'multiple' => false,
                 'expanded'=>false,
                 'query_builder' => function(ComptesRepository $repository){
-                    return $repository->getCompteTiersQb();
+                    return $repository->getCompteEncDecQb();
                 }
             ))
         ;

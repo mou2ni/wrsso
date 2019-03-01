@@ -74,6 +74,7 @@ class Menu  extends Controller
             ,['text'=>'Journaux comptables', 'lien'=>'#']
             ,['text'=>'Rapprochement bancaire', 'lien'=>'#']
             ,['text'=>'Pointage des écritures', 'lien'=>'#']
+            ,['text'=>'Maintenance comptes', 'lien'=>'compta_maintenir_solde_compte']
             ,
         ];
 
@@ -81,11 +82,11 @@ class Menu  extends Controller
             ['text'=>'Tableau de bord', 'lien'=>'#']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Mouvements de Devises', 'lien'=>'devise_mouvements_etat']
-            ,['text'=>'Grand livre', 'lien'=>'#']
-            ,['text'=>'Balance', 'lien'=>'#']
+            ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_ecritures']
+            ,['text'=>'Grand livre', 'lien'=>'compta_grand_livre']
+            ,['text'=>'Balance', 'lien'=>'compta_balance']
             ,['text'=>'Compte de résultat', 'lien'=>'#']
             ,['text'=>'Soldes de gestion', 'lien'=>'#']
-            ,['text'=>'Journaux comptables', 'lien'=>'#']
             ,
         ];
 

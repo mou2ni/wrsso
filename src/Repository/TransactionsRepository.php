@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Transactions;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Proxies\__CG__\App\Entity\JournauxComptables;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -20,20 +22,45 @@ class TransactionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Transactions::class);
     }
 
+    /**
+     * @param int $offset
+     * @param int $limit
+     * @param null $dateDebut
+     * @param null $dateFin
+     * @return QueryBuilder
+     */
 
-    public function liste($offset=0,$limit = 10)
-    {
-        $qb =$this->createQueryBuilder('t')
+    private function _listeQb($offset=0,$limit = 10, $dateDebut=null, $dateFin=null){
+        if ($dateFin==null) $dateFin=new \DateTime();
+        if ($dateDebut==null) {
+            $dateDebut=new \DateTime();;
+            $tps_recul=new \DateInterval('P1W');
+            $dateDebut->sub($tps_recul);
+        }
+        return $qb =$this->createQueryBuilder('t')
             //->select('t.id as id, t.dateTransaction, t.numPiece, t.libelle, t.mDebitTotal, t.mCreditTotal')
-            ->orderBy('t.id', 'DESC')
+            ->orderBy('t.updatedAt', 'DESC')
+            ->where('t.createdAt <= :dateFin and t.createdAt >= :dateDebut')
+            ->setParameter('dateFin',$dateFin)->setParameter('dateDebut',$dateDebut)
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ;
-        $pag = new Paginator($qb);
+            ->setMaxResults($limit);
+    }
 
+
+    public function listePaginee($offset=0,$limit = 10, $dateDebut=null, $dateFin=null)
+    {
+        $qb=$this->_listeQb($offset,$limit,$dateDebut,$dateFin);
+        $pag = new Paginator($qb);
         return $pag;
     }
 
+    public function liste($offset=0,$limit = 10, $dateDebut=null, $dateFin=null)
+    {
+        $qb=$this->_listeQb($offset,$limit,$dateDebut,$dateFin);
+        return $qb->getQuery()->getResult();
+    }
+
+   
 
     /*
     public function findOneBySomeField($value): ?User

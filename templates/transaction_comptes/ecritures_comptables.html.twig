@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block body %}
+    <h1>Ecritures comptables |
+        <a href="{{ path('transactions_ajout') }}">Nouvelle écriture</a></h1>
+    <div class="table-responsive">
+        <table class="table table-bordered datatable-basic">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Pièce</th>
+                <th>Libellé</th>
+                <th>Total Débit</th>
+                <th>Total Crédit</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.dateTransaction ? transaction.dateTransaction|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ (transaction.numPiece)?transaction.numPiece:transaction.id }}</td>
+                <td>{{ (transaction.libelleTC)?transaction.libelleTC:transaction.libelleT }}</td>
+                <td>{{ transaction.mDebit }}</td>
+                <td>{{ transaction.mCredit}}</td>
+                <td>
+                    <a href="{{ path('transactions_show', {'id': transaction.id}) }}"> Fiche d'imputation</a> |
+                    <a href="{{ path('transactions_edit', {'id': transaction.id}) }}"> Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun enregistrement ! ! !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        {{ include('_pagination.html.twig',{'path':'transactions_index'}) }}
+</div>
+{% endblock %}

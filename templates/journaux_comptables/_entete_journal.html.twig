@@ -1,0 +1,5 @@
+<div>
+    <p> Code  : <span style="font-weight: bold"> {{journal.code}} </span> Libellé  : <span style="font-weight: bold"> {{journal.libelle}}</span></p>
+    <p> Compte de contrepartie : <span style="font-weight: bold"> {{ (journal.compteContrePartie)?journal.compteContrePartie.numCompte:'' }} - {{ (journal.compteContrePartie)?journal.compteContrePartie.intitule:'' }}</p>
+    <p></p>
+</div>

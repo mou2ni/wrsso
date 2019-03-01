@@ -1,0 +1,31 @@
+        <table class="table table-bordered datatable-basic">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pièce</th>
+                <th>Libellé</th>
+                <th>Total Débit</th>
+                <th>Total Crédit</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.createdAt ? transaction.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ transaction.numPiece }}</td>
+                <td>{{ transaction.libelle }}</td>
+                <td class="padding-5 text-right">{{ transaction.mDebitTotal|number_format(0, '.', ' ')}}</td>
+                <td class="padding-5 text-right">{{ transaction.mCreditTotal|number_format(0, '.', ' ') }}</td>
+                <td>
+                    <a href="{{ path('transactions_show', {'id': transaction.id}) }}"> Fiche d'imputation</a> |
+                    <a href="{{ path('transactions_edit', {'id': transaction.id}) }}"> Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun enregistrement ! ! !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>

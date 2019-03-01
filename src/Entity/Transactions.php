@@ -105,6 +105,7 @@ class Transactions
      */
     public function updateDate(){
         $this->setUpdatedAt(new \DateTime());
+        //$this->maintenir();
     }
 
     /**
@@ -112,6 +113,8 @@ class Transactions
      */
     public function createDate(){
         $this->setCreatedAt(new \DateTime());
+        $this->updateDate();
+        //$this->maintenir();
     }
 
     /**
@@ -304,7 +307,7 @@ class Transactions
     }
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaisse()
     {
@@ -350,6 +353,7 @@ class Transactions
 
     /**
      * @param mixed $mDebitTotal
+     * @return $this
      */
     public function setMDebitTotal($mDebitTotal)
     {
@@ -402,4 +406,12 @@ class Transactions
     }
 
 
+    public function maintenir(){
+        $this->mCreditTotal=0;
+        $this->mDebitTotal=0;
+        foreach ( $this->getTransactionComptes() as $transactionCompte) {
+            $this->mCreditTotal+=$transactionCompte->getMCredit();
+            $this->mDebitTotal+=$transactionCompte->getMDebit();
+        }
+    }
 }

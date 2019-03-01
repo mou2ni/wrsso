@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Caisses;
+use App\Entity\Comptes;
+use App\Repository\ComptesRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,10 +18,42 @@ class CaissesType extends AbstractType
         $builder
             ->add('libelle')
             ->add('code')
-            ->add('compteOperation')
-            ->add('compteCvDevise')
-            ->add('compteIntercaisse')
-            ->add('compteAttenteCompense')
+            ->add('compteOperation', EntityType::class, array (
+                'class' => 'App\Entity\Comptes',
+                'choice_label' => function (Comptes $compte) {
+                    return $compte->getNumCompteIntitule();},
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function (ComptesRepository $er) {
+                    return $er->getCompteTresorerieQb();
+                }))
+            ->add('compteCvDevise', EntityType::class, array (
+                'class' => 'App\Entity\Comptes',
+                'choice_label' => function (Comptes $compte) {
+                    return $compte->getNumCompteIntitule();},
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function (ComptesRepository $er) {
+                    return $er->getCompteTresorerieQb();
+                }))
+            ->add('compteIntercaisse', EntityType::class, array (
+                'class' => 'App\Entity\Comptes',
+                'choice_label' => function (Comptes $compte) {
+                    return $compte->getNumCompteIntitule();},
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function (ComptesRepository $er) {
+                    return $er->getCompteTresorerieQb();
+                }))
+            ->add('compteAttenteCompense', EntityType::class, array (
+                'class' => 'App\Entity\Comptes',
+                'choice_label' => function (Comptes $compte) {
+                    return $compte->getNumCompteIntitule();},
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function (ComptesRepository $er) {
+                    return $er->getCompteTresorerieQb();
+                }))
             ->add('journalComptable')
             ->add('comptaDetail')
             ->add('lastUtilisateur')
