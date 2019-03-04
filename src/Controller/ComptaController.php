@@ -10,12 +10,15 @@ namespace App\Controller;
 
 
 use App\Entity\CriteresEtatsComptas;
+use App\Entity\CriteresRecherches;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
 use App\Entity\TransactionComptes;
+use App\Entity\TransfertInternationaux;
 use App\Form\CriteresEtatsComptasType;
+use App\Form\CriteresRecherchesType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
@@ -218,8 +221,22 @@ class ComptaController extends Controller
 
     }
 
-    private function initCaisse(){
-        //journeeCaisse à jour
+    /**
+     * @Route("/compenses", name="compta_compenses", methods="GET|POST")
+     */
+    public function compenses(Request $request): Response
+    {
+        $criteresRecherches=new CriteresRecherches();
+        $form = $this->createForm(CriteresRecherchesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $compenses=$this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin());
+
+        return $this->render('compta/compense_transfert.html.twig', [
+            'form' => $form->createView(),
+            'compenses'=>$compenses,
+        ]);
     }
+
 
 }

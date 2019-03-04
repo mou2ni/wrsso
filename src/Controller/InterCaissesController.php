@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\DepotRetraits;
 use App\Entity\InterCaisses;
 use App\Entity\JourneeCaisses;
 use App\Entity\RecetteDepenses;
@@ -183,6 +184,14 @@ class InterCaissesController extends Controller
         ]);
     }
 
+    /**
+     * @Route("/{id}/retourCompense", name="inter_caisses_comptabiliser_retour_compense", methods="GET|POST|COMPTABILISE")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function comptaIntercaisseCompense(Request $request, InterCaisses $interCaisse): Response
+    {
+        $retourCompense=new DepotRetraits();
+    }
     /**
      * @Route("/new", name="inter_caisses_new", methods="GET|POST")
      */

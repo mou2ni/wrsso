@@ -75,6 +75,11 @@ class TransfertInternationaux
     private $sens;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateTransfert;
+
+    /**
      * @ORM\Column(type="float")
      * @Assert\GreaterThan(value="0")
      */
@@ -123,6 +128,7 @@ class TransfertInternationaux
         $this->mTva = 0;
         $this->mAutresTaxes = 0;
         $this->mTransfertTTC = 0;
+        $this->dateTransfert=new \DateTime();
         //$this->container=$container;
     }
 
@@ -424,6 +430,24 @@ class TransfertInternationaux
     public function setTransaction($transaction)
     {
         $this->transaction = $transaction;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateTransfert()
+    {
+        return $this->dateTransfert;
+    }
+
+    /**
+     * @param \DateTime $dateTransfert
+     * @return TransfertInternationaux
+     */
+    public function setDateTransfert($dateTransfert)
+    {
+        $this->dateTransfert = $dateTransfert;
         return $this;
     }
 

@@ -269,6 +269,24 @@ LIMIT 200
             ->setParameter('nul' ,null)
             ->getQuery()->getResult();
     }
+
+    public function findCompense($dateDebut=null, $dateFin=null){
+
+        $qb=$this->createQueryBuilder('ti')
+            ->select('st.id, st.libelle, SUM(CASE WHEN ti.sens=:envoi THEN ti.mTransfert ELSE 0 END) as mEnvoi
+            , SUM(CASE WHEN ti.sens=:envoi THEN ti.mFraisHt ELSE 0 END) as mFrais
+            , SUM(CASE WHEN ti.sens=:envoi THEN ti.mTva ELSE 0 END) as mTVA
+            , SUM(CASE WHEN ti.sens=:envoi THEN ti.mAutresTaxes ELSE 0 END) as mAutresTaxes
+            , SUM(CASE WHEN ti.sens=:reception THEN ti.mTransfertTTC ELSE 0 END) as mReception')
+            ->setParameter('envoi', TransfertInternationaux::ENVOI)->setParameter('reception', TransfertInternationaux::RECEPTION)
+            ->innerJoin('ti.idSystemTransfert','st');
+        if ($dateDebut) $qb->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut);
+        if ($dateFin) $qb->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin);
+
+        return $qb->groupBy('st.id')
+            ->orderBy('st.libelle')
+            ->getQuery()->getResult();
+    }
 //COUNT(CASE WHEN rsp_ind = 0 then 1 ELSE NULL END) as "New",
 //COUNT(CASE WHEN Col1 = 'A' THEN 1 END) AS CountWithoutElse,
 //COUNT(CASE WHEN Col1 = 'A' THEN 1 ELSE NULL END) AS CountWithElseNull,
