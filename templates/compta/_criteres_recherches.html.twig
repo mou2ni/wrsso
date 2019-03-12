@@ -13,7 +13,11 @@
     <div class="row">
         {% if type=='compense' %}
         <div class="col-3">
-            <select id="type_affichage" name="type_affichage" class="form-control"><option  {{ (affichage=='resume')?'selected="selected"':''}} value="resume">Résumé</option><option {{ (affichage=='detail')?'selected="selected"':'' }} value="detail">Détails</option></select>
+            <select id="type_affichage" name="type_affichage" class="form-control">
+                <option  {{ (affichage=='transfert')?'selected="selected"':''}} value="transfert">Par transfert</option>
+                <option {{ (affichage=='caisse')?'selected="selected"':'' }} value="caisse">Par caisse</option>
+                <option {{ (affichage=='detail')?'selected="selected"':'' }} value="detail">Détails</option>
+            </select>
         </div>
         {% endif %}
         <div class="col-3">

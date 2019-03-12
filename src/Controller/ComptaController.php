@@ -236,21 +236,27 @@ class ComptaController extends Controller
         $form = $this->createForm(CriteresRecherchesType::class, $criteresRecherches);
         $form->handleRequest($request);
 
-        $detailParCaisse=($request->request->get('type_affichage')=='detail');
-        
-        $systemTransferts=$this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
+        $type_affichage=$request->request->get('type_affichage');
 
-        $systemTransfertCompenses=array();
-        foreach ($systemTransferts as $systemTransfert){
-            $compenses=$this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin(), $systemTransfert, $detailParCaisse);
-            if ($compenses) $systemTransfertCompenses[]=['libelle'=>$systemTransfert->getLibelle(),'compenses'=>$compenses];
+        if ($type_affichage!='caisse') {
+            $systemTransferts = $this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
+
+            $systemTransfertCompenses = array();
+            foreach ($systemTransferts as $systemTransfert) {
+                $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $type_affichage);
+                if ($compenses) $systemTransfertCompenses[] = ['libelle' => $systemTransfert->getLibelle(), 'compenses' => $compenses];
+            }
+        }else{
+            $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), null, $type_affichage);
+            if ($compenses) $systemTransfertCompenses[] = ['libelle' => '', 'compenses' => $compenses];
         }
 
         return $this->render('compta/compense_transfert.html.twig', [
             'form' => $form->createView(),
-            'systemTransfertCompenses'=>$systemTransfertCompenses,
-            'affichage'=>$request->request->get('type_affichage'),
+            'systemTransfertCompenses' => $systemTransfertCompenses,
+            'affichage' => $type_affichage,
         ]);
+
     }
 
 

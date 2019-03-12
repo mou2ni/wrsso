@@ -1,7 +1,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th class="padding-5 text-right">Type Transfert</th>
+            <th class="padding-5 text-right">Description</th>
             <th class="padding-5 text-right">Envoi TTC</th>
             <th class="padding-5 text-right">Reception</th>
             <th class="padding-5 text-right">Net</th>
@@ -19,18 +19,28 @@
                 {% set mEnvoiTTC=compense.mEnvoi +compense.mFrais +compense.mTVA+compense.mAutresTaxes%}
                 {% set mTotalEnvoiTTC=mTotalEnvoiTTC+mEnvoiTTC%}
                 {% set mTotalReception=mTotalReception+compense.mReception%}
+                {% if affichage=='caisse' %}
+                    <tr>
+                        <td class="padding-5  text-right">{{compense.caisse|upper}}</td>
+                        <td class="padding-5 text-right">{{mEnvoiTTC|number_format(0, '.', ' ')}}</td>
+                        <td class="padding-5 text-right">{{compense.mReception|number_format(0, '.', ' ')}}</td>
+                        <td class="padding-5 text-right">{{(mEnvoiTTC-compense.mReception)|number_format(0, '.', ' ')}}</td>
+                    </tr>
+                {% endif %}
             {% else %}
                 <tr>
                     <td colspan="4" class="text-center"> Aucune ligne trouvée</td>
                 </tr>
             {% endfor %}
-
+            {% if affichage!='caisse' %}
             <tr>
-                <th class="padding-5  text-right">{{ sytemTransfert.libelle|upper}}</th>
-                <th class="padding-5 text-right">{{mTotalEnvoiTTC|number_format(0, '.', ' ')}}</th>
-                <th class="padding-5 text-right">{{mTotalReception|number_format(0, '.', ' ')}}</th>
-                <th class="padding-5 text-right">{{(mTotalEnvoiTTC-mTotalReception)|number_format(0, '.', ' ')}}</th>
+                <td class="padding-5  text-right">{{ ( sytemTransfert.libelle)?sytemTransfert.libelle|upper:''}}</td>
+                <td class="padding-5 text-right">{{mTotalEnvoiTTC|number_format(0, '.', ' ')}}</td>
+                <td class="padding-5 text-right">{{mTotalReception|number_format(0, '.', ' ')}}</td>
+                <td class="padding-5 text-right">{{(mTotalEnvoiTTC-mTotalReception)|number_format(0, '.', ' ')}}</td>
             </tr>
+
+            {% endif %}
             {% set mEnvoiTTCGeneral=mEnvoiTTCGeneral+mTotalEnvoiTTC %}
             {% set mReceptionGeneral=mReceptionGeneral+ mTotalReception%}
         {% else %}
