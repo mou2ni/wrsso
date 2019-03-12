@@ -98,3 +98,10 @@
             #}
         </div >
 {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tableExport.js') }}"></script>
+    <script src="{{ asset('js/jspdf.js') }}"></script>
+    <script src="{{ asset('js/sprintf.js') }}"></script>
+    <script src="{{ asset('js/base64.js') }}"></script>
+{% endblock %}

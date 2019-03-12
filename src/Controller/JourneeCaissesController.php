@@ -442,33 +442,13 @@ class JourneeCaissesController extends Controller
         $limit=10;
         if (($request->query->get('_dateDeb')))
             $debut = new \DateTime($request->query->get('_dateDeb'));
-        if (($request->query->get('_etat')))
-            $etat = $request->query->get('_etat');
-        elseif ($request->query->get('dateDeb'))
-            $debut = new \DateTime($request->query->get('dateDeb'));
         if ($request->query->get('_dateFin'))
             $fin = new \DateTime($request->query->get('_dateFin'));
         $date = new \DateTime('');
         if ($request->query->get('_date'))$date = new \DateTime($request->query->get('_date'));
+        if (($request->query->get('_etat')))
+            $etat = $request->query->get('_etat');
         $champ = $request->query->get('_champ');
-        /*$tresoOuv = $this->getDoctrine()
-            ->getRepository(JourneeCaisses::class)
-            ->getDetailsTresorerie('ouv',$debut,$fin);
-        $tresoRecap = $this->getDoctrine()
-            ->getRepository(JourneeCaisses::class)
-            ->getDetailsTresorerie('crd',$debut,$fin);
-        $tresoFerm = $this->getDoctrine()
-            ->getRepository(JourneeCaisses::class)
-            ->getDetailsTresorerie('ferm',$debut,$fin);
-        if ($etat=='ouv')
-            $journeeCaisse = $this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('ouv',$debut,$fin);
-        elseif ($etat=='crd')
-            $journeeCaisse= $this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('crd',$debut,$fin);
-        elseif ($etat=='ferm')
-            $journeeCaisse= $this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('ferm',$debut,$fin);
-        elseif ($etat=='appro')
-            $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie('appro',$debut,$fin);
-        */
         $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->getDetailsTresorerie($etat,$debut,$fin);
 
         //dump($req);die();

@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>journée caisse</th>
                 <th>QteOuv</th>
                 <th>EcartOuv</th>
                 <th>QteAchat</th>
@@ -37,6 +38,7 @@
                 <td>{{ devise_journee.ecartFerm }}</td>
                 {% else %}
                     <td>{{ devise_journee.id }}</td>
+                    <td>{{ devise_journee.idJourneeCaisse }}</td>
                     <td>{{ devise_journee.qte_ouv }}</td>
                     <td>{{ devise_journee.ecart_ouv }}</td>
                     <td>{{ devise_journee.qte_achat }}</td>

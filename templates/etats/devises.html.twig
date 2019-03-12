@@ -9,6 +9,7 @@
         <div hidden>{{ form_rest(form) }}</div>
         {{ form_end(form) }}
         {{ include('etats/_btn_action_url.html.twig',{'path':'etats_rapport_devises','value':dateDeb.format('Y/m/d'),'trimestre':trimestre,'btn_name':'aperçue','btn_label':'aperçue'}) }}
+        <li><a href="#" onclick="$('#sortable-data').tableExport({type:'excel',escape:'false'});"><img src="img/icons/xls.png" width="24"> XLS</a></li>
     </div>
     <div class="box-centered">
         <div><h1 class="text-center">RELEVE DES OPERATIONS DE CHANGE</h1>
@@ -17,10 +18,10 @@
         <h4> ADRESSE : {{ entreprise.adresse }} </h4>
     </div>
 
-    <table class="table table-bordered">
+    <table id="sortable-data" class="table table-bordered">
         <tdead>
             <tr>
-                <td rowspan="3">DEVISES</td><td colspan="6">BILLETS</td><td colspan="4">CHEQUES DE VOYAGE</td>
+                <td rowspan="3" colspan="1">DEVISES</td><td rowspan="1" colspan="6">BILLETS</td><td rowspan="1" colspan="4">CHEQUES DE VOYAGE</td>
             </tr>
             <tr>
                 <td rowspan="2">Soldes Precedents</td><td colspan="2">Achats</td><td colspan="2">Ventes</td><td rowspan="2">Solde en caisse</td>
@@ -52,3 +53,14 @@
 
 {% endblock %}
 
+{% block javascripts %}
+{{ parent() }}
+    <script src="{{ asset('js/tableExport.js') }}"></script>
+    <script src="{{ asset('js/jspdf.js') }}"></script>
+    <script src="{{ asset('js/sprintf.js') }}"></script>
+    <script src="{{ asset('js/base64.js') }}"></script>
+    <script src="{{ asset('js/jquery.base64.js') }}"></script>
+    <script src="{{ asset('js/app_plugins.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.js') }}"></script>
+{% endblock %}
