@@ -8,10 +8,13 @@ use App\Entity\ParamComptables;
 use App\Entity\SystemTransfert;
 use App\Entity\TransfertInternationaux;
 use App\Entity\Zones;
+use App\Form\trimestreType;
 use App\Repository\EntreprisesRepository;
 use App\Utils\SessionUtilisateur;
+use Doctrine\DBAL\Types\ArrayType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -130,7 +133,6 @@ class EtatsController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $date = $form->getData();
-            //dump($date); die();
         }
         //dump($date); die();
         $etatTransfert = $em->getRepository(TransfertInternationaux::class)->trouverTransfert($date);
@@ -181,13 +183,63 @@ class EtatsController extends AbstractController
     /**
      * @Route("/etats/devises", name="etats_rapport_devises")
      */
-    public function devises()
+    public function devises(Request $request)
     {
         $date = new \DateTime();
+        $dateDeb = new  \DateTime();
+        $dateFin = new  \DateTime();
+        $imprimer = false;
+        $trimestre = intval($date->format('m')/3)+1;
+
+        if ($request->get('date')){
+            $date = new \DateTime($request->get('date'));
+            $trimestre = $request->get('trimestre');
+            $imprimer = true;
+            //dump($trimestre);die();
+        }
+        $default = ['an'=>$date,'trimestre'=>1];
+        $form = $this->createForm(trimestreType::class, $default);
+        //dump($dateDeb); dump($dateFin);die();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = $form['an']->getData();
+            $trimestre = intval( $form['trimestre']->getData());
+            //dump($trimestre);die();
+        }
+        //dump($trimestre);die();
+        $moisDepart = ($trimestre-1)*3 +1;
+        $dateDeb->setDate($date->format('Y'),$moisDepart,$date->format('01'));
+        $dateFin->setDate($date->format('Y'),$moisDepart + 3,$date->format('0'));
         $em = $this->getDoctrine();
-        $etatDevise = $em->getRepository(DeviseJournees::class)->trouverDevise($date);
+
+        $entreprise = $em->getRepository(Entreprises::class)->findDetailsEntreprise();
+        $etatDevise = $em->getRepository(DeviseJournees::class)->getDeviseTresorerie($dateDeb, $dateFin);
+
+        if($imprimer)
+            return $this->render('etats/etat_devise_bceao_impression.html.twig', [
+                'etat' => $etatDevise,
+                'entreprise' => $entreprise,
+                'dateDeb' => $dateDeb,
+                'dateFin' => $dateFin,
+            ]);
         return $this->render('etats/devises.html.twig', [
             'etat' => $etatDevise,
+            'entreprise' => $entreprise,
+            'dateDeb' => $dateDeb,
+            'dateFin' => $dateFin,
+            'trimestre'=>$trimestre,
+            'form'=>$form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/etats/devises/apercue", name="etats_rapport_devise_apercu", methods="GET|POST|UPDATE")
+     */
+    public function apercueDevise($etatDevise,$entreprise,$dateDeb,$dateFin){
+        return $this->render('etats/etat_devise_bceao_impression.html.twig', [
+            'etat' => $etatDevise,
+            'entreprise' => $entreprise,
+            'dateDeb' => $dateDeb,
+            'dateFin' => $dateFin,
         ]);
     }
 }

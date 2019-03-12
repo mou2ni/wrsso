@@ -2,4 +2,5 @@
     <input type="hidden" name="_method" value="POST">
     <button class="btn-primary btn" name={{ btn_name }}>{{ btn_label }}</button>
     <input type="text" hidden name="date" value="{{ value }}"/>
+    <input type="text" hidden name="trimestre" value="{{ trimestre|default(1) }}"/>
 </form>

@@ -35,69 +35,101 @@ class DeviseJourneesRepository extends ServiceEntityRepository
             ;
         return $qb;
     }
-    public function getDeviseTresorerie( \DateTime $date){
-        //$date=$date->format('Y/m/d');
-        $dateDeb=new \DateTime('2019-01-01 00:00:00');
-        $dateFin=new \DateTime('2019-01-01 00:00:00');
-        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
-        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+    public function getDeviseTresorerie(\DateTime $dateDeb, \DateTime $dateFin){
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
         $em = $this->getEntityManager();
         $req = "SELECT d.id as id,d.code as devise, 
-(SELECT SUM(dj.qte_ouv)  FROM devisejournees dj 
+(SELECT SUM(dj.qte_ouv)  FROM DeviseJournees dj 
  WHERE dj.idJourneeCaisse IN 
- 
- (SELECT jc.id FROM journeecaisses jc, journeecaisses jcp
- WHERE
-  jc.journee_precedente_id=jcp.id AND jcp.date_comptable<'$debut' 
-  AND jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'                                                                                   
- )
+ (SELECT jc.id FROM JourneeCaisses jc, JourneeCaisses jcp
+ WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable<'$debut' AND jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
+ UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_comptable < '$debut' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))
  AND dj.devise_id = d.id
  GROUP BY dj.devise_id
 ) AS qteOuv,
 
-(SELECT SUM(dj.qte_achat) FROM devisejournees dj
+(SELECT SUM(dj.qte_achat) FROM DeviseJournees dj
 WHERE dj.idJourneeCaisse 
-IN (SELECT jc.id FROM journeecaisses jc
-WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
- AND dj.devise_id = d.id
-GROUP BY dj.devise_id)) AS achat,
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin' AND dj.devise_id = d.id)
+GROUP BY dj.devise_id) AS achat,
 
- (SELECT SUM(dj.qte_vente) FROM devisejournees dj
+ (SELECT SUM(dj.qte_vente) FROM DeviseJournees dj
 WHERE dj.idJourneeCaisse 
-IN (SELECT jc.id FROM journeecaisses jc
-WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
- AND dj.devise_id = d.id
-GROUP BY dj.devise_id)) AS vente,
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin' AND dj.devise_id = d.id)
+GROUP BY dj.devise_id) AS vente,
 
-(SELECT SUM(dj.qte_ferm) as stockFerm FROM devisejournees dj
+(SELECT SUM(dj.qte_ferm) FROM DeviseJournees dj
 WHERE dj.idJourneeCaisse 
-IN (SELECT jcp.journee_precedente_id FROM journeecaisses jcp, journeecaisses jc 
-WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable>'$fin')
- AND dj.devise_id = d.id
+IN (SELECT jcp.id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable<='$fin' AND ( jc.date_comptable>'$fin')
+    UNION
+    SELECT jcp.journee_precedente_id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable<='$fin' AND  jc.date_comptable IS NULL
+UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))
+AND dj.devise_id = d.id
 GROUP BY dj.devise_id) AS stock,
 
-(SELECT SUM(dj.ecart_ferm) FROM devisejournees dj
+(SELECT SUM(dm.nombre * dm.taux) FROM DeviseMouvements dm
+WHERE dm.devise_journee_id IN
+(SELECT dj.id FROM DeviseJournees dj
 WHERE dj.idJourneeCaisse 
-IN (SELECT jc.id FROM journeecaisses jcp, journeecaisses jc
-    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable >'$fin')
- AND dj.devise_id = d.id
-GROUP BY dj.devise_id) AS ecartFerm,
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin' AND dj.devise_id = d.id)) AND dm.devise_intercaisse_id IS NULL
+) AS cvd,
 
-(SELECT SUM(dj.ecart_ouv) FROM devisejournees dj
+(SELECT SUM(dj.ecart_ouv) FROM DeviseJournees dj
 WHERE dj.idJourneeCaisse 
-IN (SELECT jc.id FROM journeecaisses jc
+IN (SELECT jc.id FROM JourneeCaisses jc
 WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin')
  AND dj.devise_id = d.id
-GROUP BY dj.devise_id) AS ecartOuv
+GROUP BY dj.devise_id) AS ecartOuv,
  
- FROM devises d
+ (SELECT SUM(dj.ecart_ferm) FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin')
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id) AS ecartFerm
+ 
+ FROM Devises d
 ";
+
         try {
             $stmt = $em->getConnection()->prepare($req);
         } catch (DBALException $e) {
         }
         $stmt->execute([]);
         //dump($stmt);die();
+        return $stmt->fetchAll();
+    }
+
+    public function trouverDevise1( \DateTime $date)
+    {
+        $dateDeb=new \DateTime('2018-12-01 00:00:00');
+        $dateFin=new \DateTime('2018-12-01 00:00:00');
+        $val = 100;
+        $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
+        $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
+        $dateDeb = $dateDeb->format('Y/m/d');
+        $dateFin = $dateFin->format('Y/m/d');
+        //dump($dateFin);die();
+        $em = $this->getEntityManager();
+        $req="SELECT CAST(jc.date_ferm as date) as dt, dev.code as devise, SUM(d.qte_ouv) as ouverture, SUM(d.qte_ferm) as fermeture, dev.tx_vente as taux, d.qte_vente * tx_vente - d.qte_achat * tx_achat as VA, SUM(d.qte_vente * tx_vente - d.qte_achat * tx_achat) as cummul, d.qte_ferm * dev.tx_vente + SUM(d.qte_vente - d.qte_achat) as marge FROM DeviseJournees d, JourneeCaisses jc, Devises dev WHERE d.idJourneeCaisse=jc.id AND d.devise_id=dev.id AND date_ferm >= '$dateDeb' AND date_ferm <= '$dateFin' GROUP BY cast(date_ouv as date),devise ORDER BY CAST(date_ouv as date) ASC";
+        try {
+
+            $stmt = $em->getConnection()->prepare($req);
+            $stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+
         return $stmt->fetchAll();
     }
 
@@ -112,7 +144,8 @@ GROUP BY dj.devise_id) AS ecartOuv
         $dateFin = $dateFin->format('Y/m/d');
         //dump($dateFin);die();
         $em = $this->getEntityManager();
-        $req="SELECT CAST(jc.date_ferm as date) as dt, dev.code as devise, SUM(d.qte_ouv) as ouverture, SUM(d.qte_ferm) as fermeture, dev.tx_vente as taux, d.qte_vente * tx_vente - d.qte_achat * tx_achat as VA, SUM(d.qte_vente * tx_vente - d.qte_achat * tx_achat) as cummul, d.qte_ferm * dev.tx_vente + SUM(d.qte_vente - d.qte_achat) as marge FROM devisejournees d, journeecaisses jc, devises dev WHERE d.idJourneeCaisse=jc.id AND d.devise_id=dev.id AND date_ferm >= '$dateDeb' AND date_ferm <= '$dateFin' GROUP BY cast(date_ouv as date),devise ORDER BY CAST(date_ouv as date) ASC";
+        $req="SELECT CAST(jc.date_ferm as date) as dt, dev.code as devise, SUM(d.qte_ouv) as ouverture, SUM(d.qte_ferm) as fermeture, dev.tx_vente as taux, d.qte_vente * tx_vente - d.qte_achat * tx_achat as VA, SUM(d.qte_vente * tx_vente - d.qte_achat * tx_achat) as cummul, d.qte_ferm * dev.tx_vente + SUM(d.qte_vente - d.qte_achat) as marge FROM DeviseJournees d, JourneeCaisses jc, Devises dev WHERE d.idJourneeCaisse=jc.id AND d.devise_id=dev.id AND date_ferm >= '$dateDeb' AND date_ferm <= '$dateFin' GROUP BY cast(date_ouv as date),devise ORDER BY CAST(date_ouv as date) ASC";
+        $req = "";
         try {
 
             $stmt = $em->getConnection()->prepare($req);
@@ -143,16 +176,14 @@ GROUP BY dj.devise_id) AS ecartOuv
         }
     }
 
-    public function getDeviseOuv( \DateTime $date, Devises $devise)
+    public function getDeviseOuv( \DateTime $dateDeb, \DateTime $dateFin, Devises $devise)
     {
         //$date = $date->format('Y/m/d');
-        $dateDeb=new \DateTime('2019-01-01 00:00:00');
-        $dateFin=new \DateTime('2019-01-01 00:00:00');
-        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
-        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
         $devise=$devise->getId();
         $em = $this->getEntityManager();
-        $req="SELECT *  FROM devisejournees dj
+        $req="SELECT *  FROM DeviseJournees dj
      WHERE dj.idJourneeCaisse IN
      
      (SELECT jc.id FROM journeecaisses jc, journeecaisses jcp
@@ -170,19 +201,17 @@ GROUP BY dj.devise_id) AS ecartOuv
         //dump($stmt);die();
         return $stmt->fetchAll();
     }
-    public function getDeviseAchatVente( \DateTime $date, Devises $devise)
+    public function getDeviseAchatVente( \DateTime $dateDeb, \DateTime $dateFin, Devises $devise)
     {
         //$date = $date->format('Y/m/d');
-        $dateDeb=new \DateTime('2019-01-01 00:00:00');
-        $dateFin=new \DateTime('2019-01-01 00:00:00');
-        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
-        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
         $devise=$devise->getId();
         $em = $this->getEntityManager();
         $req="
-SELECT * FROM devisejournees dj
+SELECT * FROM DeviseJournees dj
     WHERE dj.idJourneeCaisse 
-    IN (SELECT jc.id FROM journeecaisses jc
+    IN (SELECT jc.id FROM JourneeCaisses jc
     WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
      AND dj.devise_id = '$devise'
     )";
@@ -195,22 +224,44 @@ SELECT * FROM devisejournees dj
         //dump($stmt);die();
         return $stmt->fetchAll();
     }
-    public function getDeviseFerm( \DateTime $date, Devises $devise)
+    public function getDeviseFerm( \DateTime $dateDeb, \DateTime $dateFin, Devises $devise)
     {
         //$date = $date->format('Y/m/d');
-        $dateDeb=new \DateTime('2019-01-01 00:00:00');
-        $dateFin=new \DateTime('2019-01-01 00:00:00');
-        $debut = $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
-        $fin = $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('d'))->format('Y/m/d');
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
         $devise=$devise->getId();
         $em = $this->getEntityManager();
         $req="
-SELECT * FROM devisejournees dj
+SELECT * FROM DeviseJournees dj
 WHERE dj.idJourneeCaisse 
-IN (SELECT jcp.id FROM journeecaisses jcp, journeecaisses jc
+IN (SELECT jcp.id FROM JourneeCaisses jcp, JourneeCaisses jc
     WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable>='$debut' AND jcp.date_comptable <='$fin' AND jc.date_comptable >'$fin')
  AND dj.devise_id = '$devise'
    ";
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            //$stmt->bindParam(1,$val, \PDO::PARAM_INT);
+        } catch (DBALException $e) {
+        }
+        $stmt->execute([]);
+        //dump($stmt);die();
+        return $stmt->fetchAll();
+    }
+    public function getDeviseCvd( \DateTime $dateDeb, \DateTime $dateFin, Devises $devise)
+    {
+        //$date = $date->format('Y/m/d');
+        $debut = $dateDeb->format('Y/m/d');
+        $fin = $dateFin->format('Y/m/d');
+        $devise=$devise->getId();
+        $em = $this->getEntityManager();
+        $req="
+SELECT * FROM DeviseMouvements dm
+WHERE dm.devise_journee_id IN
+(SELECT dj.id FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin' AND dj.devise_id = $devise)) AND dm.devise_intercaisse_id IS NULL
+";
         try {
             $stmt = $em->getConnection()->prepare($req);
             //$stmt->bindParam(1,$val, \PDO::PARAM_INT);

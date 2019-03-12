@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>journée caisse</th>
                 <th>QteOuv</th>
                 <th>EcartOuv</th>
                 <th>QteAchat</th>
@@ -30,19 +31,20 @@
                 <td>{{ devise_journee.ecartOuv }}</td>
                 <td>{{ devise_journee.qteAchat }}</td>
                 <td>{{ devise_journee.qteVente }}</td>
-                <td>{{ devise_journee.mCvdAchat }}</td>
-                <td>{{ devise_journee.mCvdVente }}</td>
+                <td>{{ devise_journee.mCvdAchat|number_format(0,',', ' ') }}</td>
+                <td>{{ devise_journee.mCvdVente|number_format(0,',', ' ') }}</td>
                 <td>{{ devise_journee.qteIntercaisse }}</td>
                 <td>{{ devise_journee.qteFerm }}</td>
                 <td>{{ devise_journee.ecartFerm }}</td>
                 {% else %}
                     <td>{{ devise_journee.id }}</td>
+                    <td>{{ devise_journee.idJourneeCaisse }}</td>
                     <td>{{ devise_journee.qte_ouv }}</td>
                     <td>{{ devise_journee.ecart_ouv }}</td>
                     <td>{{ devise_journee.qte_achat }}</td>
                     <td>{{ devise_journee.qte_vente }}</td>
-                    <td>{{ devise_journee.m_cvd_achat }}</td>
-                    <td>{{ devise_journee.m_cvd_vente }}</td>
+                    <td>{{ devise_journee.m_cvd_achat|number_format(0,',', ' ') }}</td>
+                    <td>{{ devise_journee.m_cvd_vente|number_format(0,',', ' ') }}</td>
                     <td>{{ devise_journee.qte_intercaisse }}</td>
                     <td>{{ devise_journee.qte_ferm }}</td>
                     <td>{{ devise_journee.ecart_ferm }}</td>
