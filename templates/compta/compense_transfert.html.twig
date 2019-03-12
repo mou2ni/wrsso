@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}compense transfert{% endblock %}
+
+{% block body %}
+    <h1>Compensation des transferts</h1>
+
+    {{ include('compta/_criteres_recherches.html.twig',{'type':'compense'}) }}
+
+    {% if affichage=='detail' %}
+        {{ include('compta/_compense_detail.html.twig') }}
+    {% else %}
+        {{ include('compta/_compense_resume.html.twig') }}
+    {% endif %}
+
+{% endblock %}

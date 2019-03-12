@@ -1,0 +1,12 @@
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Balance générale{% endblock %}
+
+{% block body %}
+    {{ include('compta/_criteres_form.html.twig',{'type': 'Balance générale'}) }}
+    <h1>Balance générale à  {{ (affichage=='6C')?'6 colonnes':'4 colonnes' }}</h1>
+    {{ include('compta/_entete_criteres.html.twig') }}
+    {{ include('compta/_detail_balance.html.twig') }}
+
+{% endblock %}

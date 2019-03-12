@@ -10,12 +10,16 @@ namespace App\Controller;
 
 
 use App\Entity\CriteresEtatsComptas;
+use App\Entity\CriteresRecherches;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Entity\SystemTransfert;
 use App\Entity\TransactionComptes;
+use App\Entity\TransfertInternationaux;
 use App\Form\CriteresEtatsComptasType;
+use App\Form\CriteresRecherchesType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
@@ -158,7 +162,6 @@ class ComptaController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$comptes=$this->getDoctrine()->getRepository(Comptes::class)->plageComptes($criteresBalance->getCompteDebut()->getNumCompte(), $criteresBalance->getCompteFin()->getNumCompte());
             $rubriquesBalances=array();
             $compteDebut=$criteresBalance->getCompteDebut()->getNumCompte();
             $compteFin=$criteresBalance->getCompteFin()->getNumCompte();
@@ -174,27 +177,32 @@ class ComptaController extends Controller
                 $rubriquesBalances[]=['classe'=>$classe, 'lignes'=>$this->getDoctrine()->getRepository(TransactionComptes::class)
                     ->getBalanceComptes($classe, true,$compteDebut, $compteFin
                         ,$criteresBalance->getDateDebut(), $criteresBalance->getDateFin())];
+
             }
-            
-            return $this->render('compta/balance_6.html.twig',[
+
+            return $this->render('compta/balance.html.twig',[
                 'rubriquesBalances'=>$rubriquesBalances,
                 'form' => $form->createView(),
                 'criteres'=>$criteresBalance,
+                'affichage'=> $request->request->get('type_affichage_balance'),
             ]);
+
         }
 
         return $this->render('compta/criteres_etats.html.twig', [
             'form' => $form->createView(),
             'type'=>'Balance générale',
+            'affichage'=>'4C'
         ]);
     }
+    
     /**
      * @Route("/maintenirsoldecomptes", name="compta_maintenir_solde_compte", methods="GET|POST")
      * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function maintenirSoldeCompte(Request $request) : Response
     {
-        $balances=$this->getDoctrine()->getRepository(TransactionComptes::class)->getBalanceComptes();
+        $balances=$this->getDoctrine()->getRepository(TransactionComptes::class)->getSoldesMvt();
 
         $resultMaintenances=array();
         foreach ($balances as $balance){
@@ -218,8 +226,32 @@ class ComptaController extends Controller
 
     }
 
-    private function initCaisse(){
-        //journeeCaisse à jour
+    /**
+     * @Route("/compenses", name="compta_compenses", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function compenses(Request $request): Response
+    {
+        $criteresRecherches=new CriteresRecherches();
+        $form = $this->createForm(CriteresRecherchesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $detailParCaisse=($request->request->get('type_affichage')=='detail');
+        
+        $systemTransferts=$this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
+
+        $systemTransfertCompenses=array();
+        foreach ($systemTransferts as $systemTransfert){
+            $compenses=$this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin(), $systemTransfert, $detailParCaisse);
+            if ($compenses) $systemTransfertCompenses[]=['libelle'=>$systemTransfert->getLibelle(),'compenses'=>$compenses];
+        }
+
+        return $this->render('compta/compense_transfert.html.twig', [
+            'form' => $form->createView(),
+            'systemTransfertCompenses'=>$systemTransfertCompenses,
+            'affichage'=>$request->request->get('type_affichage'),
+        ]);
     }
+
 
 }

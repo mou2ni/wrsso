@@ -239,9 +239,9 @@ jQuery(document).ready(function() {
     $addTagButton.on('click', function(e) {
         // add a new tag form (see next code block)
         //i=0;
-        for (i=0;i<5;i++){
+        //for (i=0;i<5;i++){
             addTagForm($collectionHolder, $newLinkLi);
-        }
+        //}
         // get the new index
         /*var i = $collectionHolder.data('index');
         alert(i);

@@ -62,7 +62,9 @@ class RecetteDepensesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if (!$recetteDepense->comptabiliser($em,$this->journeeCaisse)){
+            $genCompta=new GenererCompta($em);
+
+            if (!$recetteDepense->comptabiliserNouveau($genCompta,$this->journeeCaisse)){
                 return $this->redirectToRoute('recette_depenses_saisie');
             }
             //$em->persist($recetteDepense);

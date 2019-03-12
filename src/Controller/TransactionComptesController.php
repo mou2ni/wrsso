@@ -185,56 +185,7 @@ class TransactionComptesController extends Controller
             'operation'=>$operation
         ]);
     }
-
-    /**
-     * @Route("/retrait", name="retrait", methods="GET|POST")
-
-    public function retrait(Request $request): Response
-    {
-    $em = $this->getDoctrine()->getManager();
-    $genererCompta=new GenererCompta($em);
-    $journeeCaisses= $em->getRepository('App:JourneeCaisses')->find(1);
-    $utilisateur=$this->getDoctrine()->getRepository(Utilisateurs::class)->findOneBy(['login'=>'asanou']);
-
-    $retrait=new DepotRetrait();
-    $form = $this->createForm(DepotRetraitType::class, $retrait);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-    $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
-    dump($journeeCaisses->getUtilisateur());die();
-    if(!$genererCompta->genComptaRetrait($utilisateur,$journeeCaisses->getIdCaisse(),$compteClient, "RETRAIT TEST", 40000)) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
-    //if(!$genererCompta->genComptaRetrait($journeeCaisses->getIdUtilisateur(),$journeeCaisses->getIdCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
-
-    //if(!$genererCompta->genComptaRetrait($journeeCaisses->getIdUtilisateur(),$journeeCaisses->getIdCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit())) return $this->render( 'comptMainTest.html.twig',['transactions'=>[$genererCompta->getTransactions()]]);
-
-    $journeeCaisses->setMDepotClient($this->getTotalDepot($journeeCaisses));
-    $em->persist($journeeCaisses);
-    $em->flush();
-
-    return $this->redirectToRoute('transaction_comptes_index');
-    }
-
-    if ($request->isXmlHttpRequest()){
-
-    $num=$request->get('num');
-    $comptes=$this->getDoctrine()->getManager()->getRepository('App:Comptes')->findOneBy(['numCompte'=>$num]);
-
-    $compte=[
-    ['client'=>$comptes?$comptes->getClient()->getPrenom().' '.$comptes->getClient()->getNom():'','intitule'=>$comptes?$comptes->getIntitule():'']
-    ];
-
-    $data = ["compte"=>$compte];
-
-    return new JsonResponse($data);
-    }
-
-    return $this->render('transaction_comptes/retrait.html.twig', [
-    //'transaction_compte' => $transactionCompte,
-    'form' => $form->createView(),
-    ]);
-    }
-     */
+    
     /**
      * @Route("/new", name="transaction_comptes_new", methods="GET|POST")
      */
