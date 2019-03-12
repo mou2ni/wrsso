@@ -23,9 +23,11 @@ class CriteresRecherches
         $this->dateFin=new \DateTime($y.'-12-31');*/
 
         $auj=new \DateTime();
-        $auj=$auj->format('Y-m-d');
-        $this->dateDebut=new \DateTime($auj);
-        $this->dateFin=new \DateTime($auj);
+        //$string_auj=$auj->format('Y-m-d');
+        $hier=$auj->sub(new \DateInterval('P1D'));
+        $string_hier=$hier->format('Y-m-d');
+        $this->dateDebut=new \DateTime($string_hier);
+        $this->dateFin=new \DateTime($string_hier);
     }
 
     /**

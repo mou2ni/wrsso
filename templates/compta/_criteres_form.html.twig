@@ -1,3 +1,4 @@
+<h1>Critères d'édition {{ type }}</h1>
 {{ form_start(form) }}
 <div class="form-group">
     <div class="row">
@@ -15,5 +16,16 @@
         </div>
     </div>
 </div>
-<button type="submit" class="btn btn-info">{{ button_label|default('AFFICHER') }}</button>
+<div class="form-group">
+    <div class="row">
+        {% if  type == 'Balance générale'%}
+            <div class="col-3">
+               <select id="type_affichage_balance" name="type_affichage_balance" class="form-control"><option {{ (affichage=='4C')?'selected="selected"':'' }} value="4C">4 colonnes </option><option  {{ (affichage=='6C')?'selected="selected"':''}} value="6C">6 colonnes</option></select>
+            </div>
+        {% endif %}
+        <div class="col">
+            <button type="submit" class="btn btn-info">{{ button_label|default('AFFICHER') }}</button>
+        </div>
+    </div>
+</div>
 {{ form_end(form) }}

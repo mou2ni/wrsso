@@ -101,7 +101,7 @@ class ComptesRepository extends ServiceEntityRepository
     public function getCompteEncDecQb(){
         $qb=$this->createQueryBuilder('c');
         return $qb
-            ->where('c.numCompte like \'4%\' or c.numCompte like \'1%\'')
+            ->where('c.numCompte like \'4%\' or c.numCompte like \'1%\' or c.numCompte like \'58%\'')
             ->orderBy('c.numCompte', 'DESC');
     }
 

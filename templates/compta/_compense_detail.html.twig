@@ -1,0 +1,82 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+        <tr>
+            <th class="padding-5">Caisse</th>
+            <th class="padding-5 text-right">Envoi</th>
+            <th class="padding-5 text-right">Frais</th>
+            <th class="padding-5 text-right">TVA</th>
+            <th class="padding-5 text-right">Autres Taxes</th>
+            <th class="padding-5 text-right">Reception</th>
+            <th class="padding-5 text-right">Net</th>
+        </tr>
+        </tr>
+    </thead>
+    <tbody>
+        {% set mEnvoiGeneral=0 %}
+        {% set mFraisGeneral=0 %}
+        {% set mTVAGeneral=0 %}
+        {% set mAutresTaxesGeneral=0 %}
+        {% set mReceptionGeneral=0 %}
+        {% for sytemTransfert in systemTransfertCompenses %}
+            <tr>
+                <th class="padding-5" colspan="7" bgcolor="#e5e5e5"> {{ sytemTransfert.libelle|upper}}</th>
+            </tr>
+            {% set mTotalEnvoi=0 %}
+            {% set mTotalFrais=0 %}
+            {% set mTotalTVA=0 %}
+            {% set mTotalAutresTaxes=0 %}
+            {% set mTotalReception=0 %}
+
+            {% for compense in sytemTransfert.compenses %}
+                {% set mTotalEnvoi=mTotalEnvoi+compense.mEnvoi%}
+                {% set mTotalFrais=mTotalFrais+compense.mFrais%}
+                {% set mTotalTVA=mTotalTVA+compense.mTVA%}
+                {% set mTotalAutresTaxes=mTotalAutresTaxes+compense.mAutresTaxes%}
+                {% set mTotalReception=mTotalReception+compense.mReception%}
+                <tr>
+                    <th class="padding-5 text-right">{{compense.caisse}}</th>
+                    <td class="padding-5 text-right">{{compense.mEnvoi|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{compense.mFrais|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{compense.mTVA|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{compense.mAutresTaxes|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{compense.mReception|number_format(0, '.', ' ')}}</td>
+                    <th class="padding-5 text-right">{{(compense.mEnvoi+compense.mFrais+compense.mTVA+compense.mAutresTaxes-compense.mReception)|number_format(0, '.', ' ')}}</th>
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="8" class="text-center"> Aucune ligne trouvée</td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <th class="padding-5  text-right">TOTAL {{ sytemTransfert.libelle|upper}}</th>
+                <th class="padding-5 text-right">{{mTotalEnvoi|number_format(0, '.', ' ')}}</th>
+                <th class="padding-5 text-right">{{mTotalFrais|number_format(0, '.', ' ')}}</th>
+                <th class="padding-5 text-right">{{mTotalTVA|number_format(0, '.', ' ')}}</th>
+                <th class="padding-5 text-right">{{mTotalAutresTaxes|number_format(0, '.', ' ')}}</th>
+                <th class="padding-5 text-right">{{mTotalReception|number_format(0, '.', ' ')}}</th>
+                <th class="padding-5 text-right">{{(mTotalEnvoi+mTotalFrais+mTotalTVA+mTotalAutresTaxes-mTotalReception)|number_format(0, '.', ' ')}}</th>
+            </tr>
+            {% set mEnvoiGeneral=mEnvoiGeneral+mTotalEnvoi %}
+            {% set mFraisGeneral=mFraisGeneral+mTotalFrais %}
+            {% set mTVAGeneral=mTVAGeneral+mTotalTVA%}
+            {% set mAutresTaxesGeneral=mAutresTaxesGeneral+ mTotalAutresTaxes%}
+            {% set mReceptionGeneral=mReceptionGeneral+ mTotalReception%}
+        {% else %}
+            <tr>
+                <td colspan="8" class="text-center"> Aucune ligne trouvée</td>
+            </tr>
+        {% endfor %}
+        <tr bgcolor="#f69f00">
+            <th class="padding-5  text-right">TOTAL GENERAL</th>
+            <th class="padding-5 text-right">{{mEnvoiGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right">{{mFraisGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right">{{mTVAGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right">{{mAutresTaxesGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right">{{mReceptionGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right">{{(mEnvoiGeneral+mFraisGeneral+mTVAGeneral+mAutresTaxesGeneral-mReceptionGeneral)|number_format(0, '.', ' ')}}</th>
+        </tr>
+    </tbody>
+</table>

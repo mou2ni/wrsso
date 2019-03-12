@@ -1,0 +1,83 @@
+<table class="table table-bordered table-striped">
+    <thead> <tr>
+        <th class="padding-5" rowspan="2">Compte</th>
+        <th class="padding-5" rowspan="2">Intitulé</th>
+        {% if affichage=='6C' %}
+        <th class="padding-5 text-center" colspan="2">Ouverture</th>
+        {% endif %}
+        <th class="padding-5 text-center" colspan="2">Mouvements</th>
+        <th class="padding-5 text-center" colspan="2">Soldes</th>
+    </tr>
+    <tr>
+        {% if affichage=='6C' %}
+        <th class="padding-5 text-right">Débiteur</th>
+        <th class="padding-5 text-right">Créditeur</th>
+        {% endif %}
+        <th class="padding-5 text-right">Débit</th>
+        <th class="padding-5 text-right">Crédit</th>
+        <th class="padding-5 text-right">Débiteur</th>
+        <th class="padding-5 text-right">Créditeur</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for rubrique in rubriquesBalances %}
+            <tr>
+                <th class="padding-5" colspan="{{ (affichage=='6C')?8:6 }}" bgcolor="#e5e5e5"> Classe {{ rubrique.classe }}</th>
+            </tr>
+            {% set totalDebit=0 %}
+            {% set totalCredit=0 %}
+            {% set totalSoldeDebit=0 %}
+            {% set totalSoldeCredit=0 %}
+        {% if affichage=='6C' %}
+            {% set totalDebitOuv=0 %}
+            {% set totalCreditOuv=0 %}
+        {% endif %}
+        {% for ligne in rubrique.lignes %}
+            {% set mSoldeMvt = ligne.mDebit-ligne.mCredit %}
+            {% set mSoldeFerm = mSoldeMvt%}
+                <tr>
+                    <td class="padding-5 "><a href="{{ path('compta_grand_livre_specific',{'id': ligne.compte}) }}">{{ligne.numCompte}}</a></td>
+                    <td class="padding-5 ">{{ligne.intitule}}</td>
+                    {% if affichage=='6C' %}
+                        {% set mSoldeOuv = ligne.mDebitOuv-ligne.mCreditOuv %}
+
+                        <td class="padding-5 text-right">{{(mSoldeOuv>0)?mSoldeOuv|number_format(0, '.', ' '):0}}</td>
+                        <td class="padding-5 text-right">{{(mSoldeOuv<0)?(-mSoldeOuv)|number_format(0, '.', ' '):0}}</td>
+
+                        {% set mSoldeFerm= mSoldeFerm + mSoldeOuv%}
+                    {% endif %}
+
+                    {% if mSoldeFerm>0 %}
+                        {% set totalSoldeDebit= totalSoldeDebit+mSoldeFerm %}
+                    {% else %}
+                        {% set totalSoldeCredit= totalSoldeCredit-mSoldeFerm%}
+                    {% endif %}
+
+                    <td class="padding-5 text-right">{{ligne.mDebit|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{ligne.mCredit|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right">{{(mSoldeFerm>0)?mSoldeFerm|number_format(0, '.', ' '):0}}</td>
+                    <td class="padding-5 text-right">{{(mSoldeFerm<0)?(-mSoldeFerm)|number_format(0, '.', ' '):0}}</td>
+                </tr>
+            {% set totalDebit= totalDebit+ligne.mDebit %}
+            {% set totalCredit= totalCredit+ligne.mCredit %}
+
+        {% else %}
+                <tr>
+                    <td colspan="8" class="text-center"> Aucune ligne trouvée</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <th class="padding-5 text-right" colspan="2"> Total Classe {{ rubrique.classe }} </th>
+                {% if affichage=='6C' %}
+                    <th class="padding-5 text-right"> {{totalDebitOuv|number_format(0, '.', ' ') }}</th>
+                    <th class="padding-5 text-right"> {{totalCreditOuv|number_format(0, '.', ' ')}}</th>
+                {% endif %}
+                <th class="padding-5 text-right"> {{totalDebit|number_format(0, '.', ' ') }}</th>
+                <th class="padding-5 text-right"> {{totalCredit|number_format(0, '.', ' ') }}</th>
+                <th class="padding-5 text-right"> {{totalSoldeDebit|number_format(0, '.', ' ') }}</th>
+                <th class="padding-5 text-right"> {{totalSoldeCredit|number_format(0, '.', ' ') }}</th>
+            </tr>
+
+        {% endfor %}
+    </tbody>
+</table>

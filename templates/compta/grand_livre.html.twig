@@ -4,10 +4,9 @@
 {% block title %}Grand livre{% endblock %}
 
 {% block body %}
+
+    {{ include('compta/_criteres_form.html.twig',{'type': 'Grand livre'}) }}
     <h1>Grand livre général </h1>
-
-    {{ include('compta/_criteres_form.html.twig') }}
-
     {{ include('compta/_entete_criteres.html.twig') }}
     {{ include('compta/_detail_grand_livre.html.twig') }}
 

@@ -331,11 +331,12 @@ class GenererCompta
             return false;
         }
 
+        //dump($recetteDepense); die();
         ///Comptabilisation
         if ($recetteDepense->getMDepense()){
-            $this->genEcritureDebitCredit($utilisateur,$compteGestion,$compteTier,$recetteDepense->getLibelle(),-$recetteDepense->getMDepense(),$journalComptable, $journeeCaisse);
+            $this->genEcritureDebitCredit($utilisateur,$compteGestion,$compteTier,$recetteDepense->getLibelle(),$recetteDepense->getMDepense(),$journalComptable, $journeeCaisse);
         }elseif ($recetteDepense->getMRecette()){
-            $this->genEcritureDebitCredit($utilisateur,$compteTier,$compteGestion,$recetteDepense->getLibelle(),-$recetteDepense->getMRecette(),$journalComptable, $journeeCaisse);
+            $this->genEcritureDebitCredit($utilisateur,$compteTier,$compteGestion,$recetteDepense->getLibelle(),$recetteDepense->getMRecette(),$journalComptable, $journeeCaisse);
         }else{
             $this->setErrMessage('Comptabilisation Depense, recettes de montant 0 refusé! ! !');
             $this->setE(Transactions::ERR_ZERO);
@@ -368,6 +369,7 @@ class GenererCompta
             $recetteDepense->setCompteGestion($compteGestion);
         }
 
+        //dump($recetteDepense); die();
         return $this->recetteDepenses($utilisateur, $compteOperation, $compteGestion, $recetteDepense, $journalComptable,$journeeCaisse);
     }
 

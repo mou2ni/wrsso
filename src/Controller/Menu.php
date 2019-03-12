@@ -80,6 +80,7 @@ class Menu  extends Controller
 
         $this->menu_suivi=[
             ['text'=>'Tableau de bord', 'lien'=>'#']
+            ,['text'=>'Etat Compenses', 'lien'=>'compta_compenses']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Mouvements de Devises', 'lien'=>'devise_mouvements_etat']
             ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_ecritures']

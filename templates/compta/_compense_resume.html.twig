@@ -1,0 +1,48 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="padding-5 text-right">Type Transfert</th>
+            <th class="padding-5 text-right">Envoi TTC</th>
+            <th class="padding-5 text-right">Reception</th>
+            <th class="padding-5 text-right">Net</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set mEnvoiTTCGeneral=0 %}
+        {% set mReceptionGeneral=0 %}
+        {% for sytemTransfert in systemTransfertCompenses %}
+
+            {% set mTotalEnvoiTTC=0 %}
+            {% set mTotalReception=0 %}
+
+            {% for compense in sytemTransfert.compenses %}
+                {% set mEnvoiTTC=compense.mEnvoi +compense.mFrais +compense.mTVA+compense.mAutresTaxes%}
+                {% set mTotalEnvoiTTC=mTotalEnvoiTTC+mEnvoiTTC%}
+                {% set mTotalReception=mTotalReception+compense.mReception%}
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-center"> Aucune ligne trouvée</td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <th class="padding-5  text-right">{{ sytemTransfert.libelle|upper}}</th>
+                <th class="padding-5 text-right">{{mTotalEnvoiTTC|number_format(0, '.', ' ')}}</th>
+                <th class="padding-5 text-right">{{mTotalReception|number_format(0, '.', ' ')}}</th>
+                <th class="padding-5 text-right">{{(mTotalEnvoiTTC-mTotalReception)|number_format(0, '.', ' ')}}</th>
+            </tr>
+            {% set mEnvoiTTCGeneral=mEnvoiTTCGeneral+mTotalEnvoiTTC %}
+            {% set mReceptionGeneral=mReceptionGeneral+ mTotalReception%}
+        {% else %}
+            <tr>
+                <td colspan="4" class="text-center"> Aucune ligne trouvée</td>
+            </tr>
+        {% endfor %}
+        <tr bgcolor="#f69f00">
+            <th class="padding-5  text-right">TOTAL GENERAL</th>
+            <th class="padding-5 text-right">{{mEnvoiTTCGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right">{{mReceptionGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right">{{(mEnvoiTTCGeneral-mReceptionGeneral)|number_format(0, '.', ' ')}}</th>
+        </tr>
+    </tbody>
+</table>

@@ -5,58 +5,12 @@
 {% block body %}
     <h1>Compensation des transferts</h1>
 
-    {{ include('compta/_criteres_recherches.html.twig') }}
+    {{ include('compta/_criteres_recherches.html.twig',{'type':'compense'}) }}
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th class="padding-5">Type</th>
-                <th class="padding-5 text-right">Envoi</th>
-                <th class="padding-5 text-right">Frais</th>
-                <th class="padding-5 text-right">TVA</th>
-                <th class="padding-5 text-right">Autres Taxes</th>
-                <th class="padding-5 text-right">Reception</th>
-                <th class="padding-5 text-right">Net</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% set mTotalEnvoi=0 %}
-        {% set mTotalFrais=0 %}
-        {% set mTotalTVA=0 %}
-        {% set mTotalAutresTaxes=0 %}
-        {% set mTotalReception=0 %}
-            {% for compense in compenses %}
-                {% set mTotalEnvoi=mTotalEnvoi+compense.mEnvoi%}
-                {% set mTotalFrais=mTotalFrais+compense.mFrais%}
-                {% set mTotalTVA=mTotalTVA+compense.mTVA%}
-                {% set mTotalAutresTaxes=mTotalAutresTaxes+compense.mAutresTaxes%}
-                {% set mTotalReception=mTotalReception+compense.mReception%}
-                <tr>
-                    <th class="padding-5 ">{{compense.libelle}}</th>
-                    <td class="padding-5 text-right">{{compense.mEnvoi|number_format(0, '.', ' ')}}</td>
-                    <td class="padding-5 text-right">{{compense.mFrais|number_format(0, '.', ' ')}}</td>
-                    <td class="padding-5 text-right">{{compense.mTVA|number_format(0, '.', ' ')}}</td>
-                    <td class="padding-5 text-right">{{compense.mAutresTaxes|number_format(0, '.', ' ')}}</td>
-                    <td class="padding-5 text-right">{{compense.mReception|number_format(0, '.', ' ')}}</td>
-                    <th class="padding-5 text-right">{{(compense.mEnvoi+compense.mFrais+compense.mTVA+compense.mAutresTaxes-compense.mReception)|number_format(0, '.', ' ')}}</th>
-                </tr>
-
-            {% else %}
-                <tr>
-                    <td colspan="7" class="text-center"> Aucune ligne trouvée</td>
-                </tr>
-            {% endfor %}
-
-        <tr>
-            <th class="padding-5  text-right">TOTAL </th>
-            <th class="padding-5 text-right">{{mTotalEnvoi|number_format(0, '.', ' ')}}</th>
-            <th class="padding-5 text-right">{{mTotalFrais|number_format(0, '.', ' ')}}</th>
-            <th class="padding-5 text-right">{{mTotalTVA|number_format(0, '.', ' ')}}</th>
-            <th class="padding-5 text-right">{{mTotalAutresTaxes|number_format(0, '.', ' ')}}</th>
-            <th class="padding-5 text-right">{{mTotalReception|number_format(0, '.', ' ')}}</th>
-            <th class="padding-5 text-right">{{(mTotalEnvoi+mTotalFrais+mTotalTVA+mTotalAutresTaxes-mTotalReception)|number_format(0, '.', ' ')}}</th>
-        </tr>
-        </tbody>
-    </table>
+    {% if affichage=='detail' %}
+        {{ include('compta/_compense_detail.html.twig') }}
+    {% else %}
+        {{ include('compta/_compense_resume.html.twig') }}
+    {% endif %}
 
 {% endblock %}

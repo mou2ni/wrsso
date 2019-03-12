@@ -270,26 +270,41 @@ LIMIT 200
             ->getQuery()->getResult();
     }
 
-    public function findCompense($dateDebut=null, $dateFin=null){
+    public function findCompense(\DateTime $dateDebut=null, \DateTime $dateFin=null, SystemTransfert $systemTransfert=null, $estParCaisse=true){
 
         $qb=$this->createQueryBuilder('ti')
-            ->select('st.id, st.libelle, SUM(CASE WHEN ti.sens=:envoi THEN ti.mTransfert ELSE 0 END) as mEnvoi
+            ->select('st.id, st.libelle,  SUM(CASE WHEN ti.sens=:envoi THEN ti.mTransfert ELSE 0 END) as mEnvoi
             , SUM(CASE WHEN ti.sens=:envoi THEN ti.mFraisHt ELSE 0 END) as mFrais
             , SUM(CASE WHEN ti.sens=:envoi THEN ti.mTva ELSE 0 END) as mTVA
             , SUM(CASE WHEN ti.sens=:envoi THEN ti.mAutresTaxes ELSE 0 END) as mAutresTaxes
             , SUM(CASE WHEN ti.sens=:reception THEN ti.mTransfertTTC ELSE 0 END) as mReception')
             ->setParameter('envoi', TransfertInternationaux::ENVOI)->setParameter('reception', TransfertInternationaux::RECEPTION)
             ->innerJoin('ti.idSystemTransfert','st');
-        if ($dateDebut) $qb->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut);
-        if ($dateFin) $qb->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin);
+        if ($estParCaisse){
+            $qb->leftJoin('ti.journeeCaisse','jc')
+                ->leftJoin('jc.caisse','c')
+                ->addSelect('c.libelle as caisse');
 
-        return $qb->groupBy('st.id')
-            ->orderBy('st.libelle')
-            ->getQuery()->getResult();
+        }
+        if ($dateDebut){
+            $string_date=$dateDebut->format('Y-m-d');
+            $dateDebut= new \DateTime($string_date.' 00:00:00');
+            $qb->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut);
+        }
+        if ($dateFin) {
+            $string_date=$dateFin->format('Y-m-d');
+            $dateFin= new \DateTime($string_date.' 23:59:59');
+            $qb->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin);
+        }
+        if($systemTransfert){
+            $qb->andWhere('ti.idSystemTransfert=:systemTransfert')->setParameter('systemTransfert',$systemTransfert);
+        }
+
+         $qb->groupBy('st.id');
+        if ($estParCaisse)  $qb->addGroupBy('c.id');
+
+         return   $qb->orderBy('st.libelle')
+            ->getQuery()->getArrayResult();
     }
-//COUNT(CASE WHEN rsp_ind = 0 then 1 ELSE NULL END) as "New",
-//COUNT(CASE WHEN Col1 = 'A' THEN 1 END) AS CountWithoutElse,
-//COUNT(CASE WHEN Col1 = 'A' THEN 1 ELSE NULL END) AS CountWithElseNull,
-//COUNT(CASE WHEN Col1 = 'A' THEN 1 ELSE 0 END) AS CountWithElseZero
 
 }
