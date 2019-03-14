@@ -2,13 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\CriteresRecherches;
+use App\Entity\CriteresDates;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CriteresRecherchesType extends AbstractType
+class CriteresDatesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,7 +25,7 @@ class CriteresRecherchesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => CriteresRecherches::class,
+            'data_class' => CriteresDates::class,
         ]);
     }
 }

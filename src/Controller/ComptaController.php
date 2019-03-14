@@ -9,8 +9,8 @@
 namespace App\Controller;
 
 
+use App\Entity\CriteresDates;
 use App\Entity\CriteresEtatsComptas;
-use App\Entity\CriteresRecherches;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Caisses;
@@ -18,8 +18,8 @@ use App\Entity\Comptes;
 use App\Entity\SystemTransfert;
 use App\Entity\TransactionComptes;
 use App\Entity\TransfertInternationaux;
+use App\Form\CriteresDatesType;
 use App\Form\CriteresEtatsComptasType;
-use App\Form\CriteresRecherchesType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
@@ -232,8 +232,8 @@ class ComptaController extends Controller
      */
     public function compenses(Request $request): Response
     {
-        $criteresRecherches=new CriteresRecherches();
-        $form = $this->createForm(CriteresRecherchesType::class, $criteresRecherches);
+        $criteresRecherches=new CriteresDates();
+        $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
         $form->handleRequest($request);
 
         $type_affichage=$request->request->get('type_affichage');

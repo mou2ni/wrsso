@@ -9,7 +9,7 @@
 namespace App\Entity;
 
 
-class CriteresRecherches
+class CriteresDates
 {
     private $dateDebut;
 

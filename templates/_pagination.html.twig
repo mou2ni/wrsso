@@ -1,7 +1,7 @@
 
 <nav>
     <ul class="pagination pagination-rounded">
-        {% if pages > 1 %}
+        {% if pages >= 1 %}
         {% for pag in 1..pages  %}
             {% if app.request.query.get('_page') == pag or (not app.request.query.get('_page') and pag==1) %}<li class="active">
             {% else %} <li>

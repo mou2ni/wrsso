@@ -1,0 +1,38 @@
+{{ include('_pagination.html.twig') }}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Caisse</th>
+            <th>Ouverture</th>
+            <th>Dettes - Crédits</th>
+            <th>Envoi-Reception</th>
+            <th>Disponibilité</th>
+            <th>Fermeture</th>
+            <th colspan="2">ECARTS Ouv|Ferm</th>
+            <th >Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for journeeCaisse in journeeCaisses %}
+        <tr>
+            <td>{{ journeeCaisse.dateOuv ? journeeCaisse.dateOuv|date('d H:i') : '' }} {{ journeeCaisse.dateFerm ? journeeCaisse.dateFerm|date('d H:i') : '' }}</td>
+            <td>{{ journeeCaisse.caisse}}-{{ journeeCaisse.prenom}}</td>
+            <td class="text-right">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.mDetteCredit|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.compense|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ') }}</td>
+            <td><a href="{{ path('journee_caisse_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a>
+                {% if is_granted('ROLE_COMPTABLE')%} |<a href="{{ path('journee_caisses_maintenance', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-wrench"></span>Maintenir</a>{% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="12">Aucune journée trouvée ! ! !</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
