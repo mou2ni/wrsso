@@ -7,7 +7,7 @@
         {% if  journeeCaisse.statut== 'E'%}
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'transfert_internationaux_saisie' ,'btn_name':'midifier', 'btn_label':'Transferts Internationaux'})}}
         {% else %}
-        <a href="{{ path('transfert_internationaux_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+        <a href="{{ path('journee_caisses_transferts', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
         {% endif %}
     </td>
 

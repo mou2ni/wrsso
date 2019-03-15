@@ -783,4 +783,10 @@ class JourneeCaissesController extends Controller
             //->setMEcartFerm();
         return $newjournee;
     }
+    /**
+     * @Route("/{id}/listingtransferts", name="journee_caisses_transferts", methods="GET|POST")
+     */
+    public function listingTransferts(JourneeCaisses $journeeCaisse){
+        return $this->render('transfert_internationaux/liste.html.twig', ['journeeCaisse' => $journeeCaisse]);
+    }
 }

@@ -3,41 +3,70 @@
 {% block title %}TransfertInternationaux index{% endblock %}
 
 {% block body %}
-    <h1>TransfertInternationaux index</h1>
+    <h1>Transferts internationaux</h1>
+
+    {{ form_start(form) }}
+    {{ include('_criteres_recherches.html.twig') }}
+    CAISSE : <select id="caisse" name="caisse" class="">
+    <option  {{ (app.request.request.get('caisse')=='')?'selected="selected"':''}} value="">Tous</option>
+    {% for caisse in caisses %}
+        <option  {{ (caisse_id==caisse.id)?'selected="selected"':''}} value={{ caisse.id }}>{{ caisse }}</option>
+    {% endfor %}
+</select>
+    Type Transfert : <select id="systemTransfert" name="systemTransfert" class="">
+    <option  {{ (app.request.request.get('systemTransfert')=='')?'selected="selected"':''}} value="">Tous</option>
+    {% for systemTransfert in systemTransferts %}
+        <option  {{ (systemTransfert_id==systemTransfert.id)?'selected="selected"':''}} value={{ systemTransfert.id }}>{{ systemTransfert.libelle }}</option>
+    {% endfor %}
+</select>
+    Sens : <select id="sens" name="sens" class="">
+    <option  {{ (app.request.request.get('sens')=='')?'selected="selected"':''}} value="">Tous</option>
+    <option  {{ (sens==1)?'selected="selected"':''}} value=1>Envoi</option>
+    <option  {{ (sens==2)?'selected="selected"':''}} value=2>Reception</option>
+</select>
+    {{ form_end(form) }}
+
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Caisse</th>
+                <th>Date</th>
+                <th>Transfert</th>
                 <th>Sens</th>
-                <th>MTransfert</th>
-                <th>MFraisHt</th>
-                <th>MTva</th>
-                <th>MAutresTaxes</th>
-                <th>actions</th>
+                <th>Montant HT</th>
+                <th>Frais TTC</th>
+                <th>Montant TTC</th>
             </tr>
         </thead>
         <tbody>
-        {% for transfert_internationaux in transfert_internationauxes %}
+        {% for transfert in listingTransferts %}
             <tr>
-                <td>{{ transfert_internationaux.id }}</td>
-                <td>{{ transfert_internationaux.sens }}</td>
-                <td>{{ transfert_internationaux.mTransfert }}</td>
-                <td>{{ transfert_internationaux.mFraisHt }}</td>
-                <td>{{ transfert_internationaux.mTva }}</td>
-                <td>{{ transfert_internationaux.mAutresTaxes }}</td>
+                <td>{{ transfert.caisse }}</td>
+                <td>{{ (transfert.dateTransfert)?transfert.dateTransfert|date('d-m-Y') : ''  }}</td>
+                <td>{{ transfert.typeTransfert }}</td>
+                <td>{{ (transfert.sens ==1)?'Envoi':'Reception'}}</td>
+                <td>{{ transfert.mTransfert|number_format(0, '.', ' ') }}</td>
+                <td>{{ (transfert.mFraisHt+transfert.mTva+transfert.mAutresTaxes)|number_format(0, '.', ' ') }}</td>
+                <td>{{ transfert.mTransfertTTC|number_format(0, '.', ' ') }}</td>
                 <td>
-                    <a href="{{ path('transfert_internationaux_show', {'id': transfert_internationaux.id}) }}">show</a>
-                    <a href="{{ path('transfert_internationaux_edit', {'id': transfert_internationaux.id}) }}">edit</a>
+                    <a href="{{ path('transfert_internationaux_show', {'id': transfert.id,
+                        'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                        'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                        'systemTransfert':systemTransfert_id,
+                        }) }}">Supprimer</a> |
+                    <a href="{{ path('transfert_internationaux_edit', {'id': transfert.id,
+                        'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                        'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                        'systemTransfert':systemTransfert_id,
+                    }) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="8">Aucun enregistrement trouvé !</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('transfert_internationaux_new') }}">Create new</a>
 {% endblock %}

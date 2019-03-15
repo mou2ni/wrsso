@@ -35,8 +35,22 @@
             {% if affichage!='caisse' %}
             <tr>
                 <td class="padding-5  text-right">{{ ( sytemTransfert.libelle)?sytemTransfert.libelle|upper:''}}</td>
-                <td class="padding-5 text-right">{{mTotalEnvoiTTC|number_format(0, '.', ' ')}}</td>
-                <td class="padding-5 text-right">{{mTotalReception|number_format(0, '.', ' ')}}</td>
+                <td class="padding-5 text-right">
+                    <a href="{{ path('transfert_internationaux_index', {
+                        'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                        'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                        'systemTransfert':sytemTransfert.id,
+                        'sens':1}) }}">
+                    {{mTotalEnvoiTTC|number_format(0, '.', ' ')}}</a>
+                </td>
+                <td class="padding-5 text-right">
+                    <a href="{{ path('transfert_internationaux_index', {
+                        'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                        'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                        'systemTransfert':sytemTransfert.id,
+                        'sens':2}) }}">
+                    {{mTotalReception|number_format(0, '.', ' ')}}</a>
+                </td>
                 <td class="padding-5 text-right">{{(mTotalEnvoiTTC-mTotalReception)|number_format(0, '.', ' ')}}</td>
             </tr>
 

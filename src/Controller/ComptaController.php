@@ -244,7 +244,7 @@ class ComptaController extends Controller
             $systemTransfertCompenses = array();
             foreach ($systemTransferts as $systemTransfert) {
                 $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $type_affichage);
-                if ($compenses) $systemTransfertCompenses[] = ['libelle' => $systemTransfert->getLibelle(), 'compenses' => $compenses];
+                if ($compenses) $systemTransfertCompenses[] = ['libelle' => $systemTransfert->getLibelle(),'id'=>$systemTransfert->getId(), 'compenses' => $compenses];
             }
         }else{
             $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), null, $type_affichage);
@@ -255,6 +255,7 @@ class ComptaController extends Controller
             'form' => $form->createView(),
             'systemTransfertCompenses' => $systemTransfertCompenses,
             'affichage' => $type_affichage,
+            'criteres'=>$criteresRecherches,
         ]);
 
     }

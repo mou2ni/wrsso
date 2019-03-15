@@ -87,19 +87,16 @@ class TransfertInternationaux
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\GreaterThan(value="0")
      */
     private $mFraisHt=0;
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\GreaterThan(value="0")
      */
     private $mTva=0;
 
     /**
      * @ORM\Column(type="float")
-     * @Assert\GreaterThan(value="0")
      */
     private $mAutresTaxes=0;
 
