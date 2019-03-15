@@ -1,0 +1,55 @@
+{{ include('_pagination.html.twig') }}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Caisse</th>
+            <th>Ouverture</th>
+            <th>Dettes - Crédits</th>
+            <th >Envoi-Reception</th>
+            <th>Disponibilité</th>
+            <th>Fermeture</th>
+            <th colspan="2">ECARTS Ouv|Ferm</th>
+            <th >Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set totalEnvoi=0 %}
+    {% set totalReception=0 %}
+    {% set totalDetteCredit=0 %}
+    {% set totalEcart=0 %}
+    {% for journeeCaisse in journeeCaisses %}
+        {% set totalEnvoi=totalEnvoi+ journeeCaisse.mEnvoi%}
+        {% set totalReception=totalReception+ journeeCaisse.mReception%}
+        {% set totalDetteCredit=totalDetteCredit+journeeCaisse.mDetteCredit %}
+        {% set totalEcart=totalEcart+ journeeCaisse.mEcartOuv+journeeCaisse.mEcartFerm%}
+        <tr>
+            <td>{{ journeeCaisse.dateOuv ? journeeCaisse.dateOuv|date('d H:i') : '' }} {{ journeeCaisse.dateFerm ? journeeCaisse.dateFerm|date('d H:i') : '' }}</td>
+            <td>{{ journeeCaisse.caisse}}-{{ journeeCaisse.prenom}}</td>
+            <th class="text-right">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ') }}</th>
+            <td class="text-right">{{ journeeCaisse.mDetteCredit|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ (journeeCaisse.mEnvoi-journeeCaisse.mReception)|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
+            <th class="text-right" >{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ') }}</th>
+            <td class="text-right">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ') }}</td>
+            <td class="text-right">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ') }}</td>
+            <td><a href="{{ path('journee_caisse_show', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a>
+                {% if is_granted('ROLE_COMPTABLE')%} |<a href="{{ path('journee_caisses_maintenance', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-wrench"></span>Maintenir</a>{% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="12">Aucune journée trouvée ! ! !</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <th colspan="3" class="text-right"> TOTAUX : </th>
+        <th class="text-right">{{totalDetteCredit|number_format(0, '.', ' ') }}</th>
+        <th class="text-right">{{ (totalEnvoi-totalReception)|number_format(0, '.', ' ') }}</th>
+        <th class="text-right"></th>
+        <th class="text-right"></th>
+        <th class="text-right" colspan="2">{{ totalEcart|number_format(0, '.', ' ') }}</th>
+        <th> </th>
+    </tr>
+    </tbody>
+</table>

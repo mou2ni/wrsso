@@ -1,67 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}JourneeCaisses index{% endblock %}
+{% block title %}Recapitulatif Journee Caisses{% endblock %}
 
 {% block body %}
-    <h1>JourneeCaisses index</h1>
+    <h1>Recapitulatif des journées de caisses index</h1>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateOuv</th>
-                <th>Statut</th>
-                <th>ValeurBillet</th>
-                <th>SoldeElectOuv</th>
-                <th>EcartOuv</th>
-                <th>MCvd</th>
-                <th>MEmissionTrans</th>
-                <th>MReceptionTrans</th>
-                <th>MIntercaisse</th>
-                <th>MRetraitClient</th>
-                <th>MDepotClient</th>
-                <th>MCreditDivers</th>
-                <th>MDetteDivers</th>
-                <th>DateFerm</th>
-                <th>ValeurBilletFerm</th>
-                <th>SoldeElectFerm</th>
-                <th>MEcartFerm</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for journee_caiss in journee_caisses %}
-            <tr>
-                <td>{{ journee_caiss.id }}</td>
-                <td>{{ journee_caiss.dateOuv ? journee_caiss.dateOuv|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.statut }}</td>
-                <td>{{ journee_caiss.mLiquiditeOuv }}</td>
-                <td>{{ journee_caiss.mSoldeElectOuv }}</td>
-                <td>{{ journee_caiss.mecartOuv }}</td>
-                <td>{{ journee_caiss.mCvd }}</td>
-                <td>{{ journee_caiss.mEmissionTrans }}</td>
-                <td>{{ journee_caiss.mReceptionTrans }}</td>
-                <td>{{ journee_caiss.mIntercaisses }}</td>
-                <td>{{ journee_caiss.mRetraitClient }}</td>
-                <td>{{ journee_caiss.mDepotClient }}</td>
-                <td>{{ journee_caiss.mCreditDiversOuv }}</td>
-                <td>{{ journee_caiss.mDetteDiversOuv }}</td>
-                <td>{{ journee_caiss.dateFerm ? journee_caiss.dateFerm|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ journee_caiss.mLiquiditeFerm }}</td>
-                <td>{{ journee_caiss.mSoldeElectFerm }}</td>
-                <td>{{ journee_caiss.mEcartFerm }}</td>
-                <td>
-                    <a href="{{ path('journee_caisses_show', {'id': journee_caiss.id}) }}">show</a>
-                    <a href="{{ path('journee_caisses_edit', {'id': journee_caiss.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="19">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {{ form_start(form) }}
+        {{ include('_criteres_recherches.html.twig') }}
+        CAISSE : <select id="caisse" name="caisse" class="">
+            <option  {{ (app.request.request.get('caisse')=='')?'selected="selected"':''}} value="">Tous</option>
+            {% for caisse in caisses %}
+                <option  {{ (caisse_id==caisse.id)?'selected="selected"':''}} value={{ caisse.id }}>{{ caisse }}</option>
+            {% endfor %}
+        </select>
+    {{ form_end(form) }}
 
-    <a href="{{ path('journee_caisses_new') }}">Create new</a>
+    {{ include('journee_caisses/_liste.html.twig') }}
+
 {% endblock %}

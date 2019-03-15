@@ -37,7 +37,8 @@
 
                 {% if is_granted('ROLE_CAISSIER') %}
                     {{ include('journee_caisses/_gerer_cmd.html.twig') }}
-                {% elseif is_granted('ROLE_GUICHETIER')%}
+                {% endif %}
+                {% if is_granted('ROLE_GUICHETIER')%}
                     {{ include('journee_caisses/_gerer_guichet.html.twig') }}
                 {% endif %}
 

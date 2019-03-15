@@ -13,7 +13,7 @@
             </tr>
             <tr>
                 <th>Sens</th>
-                <td>{{ transfert_internationaux.sens }}</td>
+                <td>{{ (transfert_internationaux.sens==1)?'Envoi':'Reception' }}</td>
             </tr>
             <tr>
                 <th>MTransfert</th>
@@ -34,9 +34,17 @@
         </tbody>
     </table>
 
-    <a href="{{ path('transfert_internationaux_index') }}">back to list</a>
+    <a href="{{ path('transfert_internationaux_index', {
+        'dateDebut': app.request.query.get('dateDebut'),
+        'dateFin':app.request.query.get('dateFin'),
+        'systemTransfert':app.request.query.get('systemTransfert'),
+    }) }}">Liste</a> |
 
-    <a href="{{ path('transfert_internationaux_edit', {'id': transfert_internationaux.id}) }}">edit</a>
+    <a href="{{ path('transfert_internationaux_edit', {'id': transfert_internationaux.id,
+        'dateDebut': app.request.query.get('dateDebut'),
+        'dateFin':app.request.query.get('dateFin'),
+        'systemTransfert':app.request.query.get('systemTransfert'),
+    }) }}">Modifier</a>
 
     {{ include('transfert_internationaux/_delete_form.html.twig') }}
 {% endblock %}

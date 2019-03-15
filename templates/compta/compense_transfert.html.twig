@@ -5,7 +5,15 @@
 {% block body %}
     <h1>Compensation des transferts</h1>
 
-    {{ include('compta/_criteres_recherches.html.twig',{'type':'compense'}) }}
+    {{ form_start(form) }}
+        {{ include('_criteres_recherches.html.twig') }}
+       <select id="type_affichage" name="type_affichage" class="">
+            <option  {{ (affichage=='transfert')?'selected="selected"':''}} value="transfert">Par transfert</option>
+            <option {{ (affichage=='caisse')?'selected="selected"':'' }} value="caisse">Par caisse</option>
+            <option {{ (affichage=='detail')?'selected="selected"':'' }} value="detail">Détails</option>
+        </select>
+
+    {{ form_end(form) }}
 
     {% if affichage=='detail' %}
         {{ include('compta/_compense_detail.html.twig') }}

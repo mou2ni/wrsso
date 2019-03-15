@@ -7,6 +7,7 @@ use App\Entity\Billetages;
 use App\Entity\Billets;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Entity\CriteresDates;
 use App\Entity\DetteCreditDivers;
 use App\Entity\DeviseIntercaisses;
 use App\Entity\DeviseJournees;
@@ -20,10 +21,10 @@ use App\Entity\SystemElects;
 use App\Entity\Utilisateurs;
 use App\Form\BilletagesType;
 use App\Form\ChoisirCaisseType;
+use App\Form\CriteresRecherchesJourneeCaissesType;
 use App\Form\DeviseJourneesType;
 use App\Form\FermetureType;
 use App\Form\JourneeCaissesType;
-use App\Form\OuvertureFermetureType;
 use App\Form\OuvertureType;
 use App\Form\UtilisateursLastCaisseType;
 use App\Repository\DetteCreditDiversRepository;
@@ -42,7 +43,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\VarDumper\Tests\Fixture\DumbFoo;
 
 /**
@@ -71,31 +71,56 @@ class JourneeCaissesController extends Controller
     }
 
     /**
-     * @Route("/", name="journee_caisses_index", methods="GET")
+     * @Route("/", name="journee_caisses_index", methods="GET|POST")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        return $this->redirectToRoute('journee_caisses_etat_de_caisse');
-        $date = new \DateTime();
-        $dateDeb=new \DateTime('2019-01-01 00:00:00');
-        $dateFin=new \DateTime('2019-01-01 00:00:00');
+        $caisse=$request->request->get('caisse')?$request->request->get('caisse'):$request->query->get('caisse');
+        $limit=20;
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
 
-        $dateDeb->setDate($date->format('Y'),$date->format('m'),$date->format('1'));
-        $dateFin->setDate($date->format('Y'),$date->format('m'),$date->format('t'));
+        if (!$_page) {
+            $criteresRecherches=new CriteresDates();
+        }else{
+            $criteresRecherches=new CriteresDates();
+            $criteres=$request->query->get('master');
+            $criteres= explode ('|',$criteres);
+           // dump($criteres);
+           // dump($caisse);
+            if (count($criteres)==3) {
+                $criteresRecherches->setDateDebut(new \DateTime($criteres[0]));
+                $criteresRecherches->setDateFin(new \DateTime($criteres[1]));
+                $caisse=($caisse)?$caisse:$criteres[2];
+            }
+        }
 
-        //if ($this->isGranted('ROLE_GUICHETIER'))
-        $journeeCaisses = $this->getDoctrine()
+        $form = $this->createForm(CriteresRecherchesJourneeCaissesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $dateDebut=new \DateTime($criteresRecherches->getDateDebut()->format('Y-m-d').' 00:00:00');
+        $dateFin=new \DateTime($criteresRecherches->getDateFin()->format('Y-m-d').' 23:59:59');
+
+        $liste = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
-            ->getJourneesDeCaisse($this->journeeCaisse->getCaisse(), $dateDeb, $dateFin);
-        //$journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
+            ->findRecapitulatifJourneeCaisses($dateDebut, $dateFin, $caisse, $offset,$limit);
+        $pages = round(count($liste)/$limit);
 
-        if ($this->isGranted('ROLE_ADMIN'))
-            $journeeCaisses=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findAll(['ORDERBY'=>'dateComptable']);
-        return $this->render('journee_caisses/etat_de_caisse.html.twig', [
-                'journee_caisses' => $journeeCaisses,
-                'journeeCaisse' => null,
-                //'form' => $form->createView()
-            ]);
+        $request->query->set('master',$dateDebut->format('Y-m-d').'|'.$dateFin->format('Y-m-d').'|'.$caisse);
+
+        
+        $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAll();
+
+        return $this->render('journee_caisses/index.html.twig', [
+            'journeeCaisses' => $liste,
+            'form' => $form->createView(),
+            'pages'=>$pages,
+            'path'=>'journee_caisses_index',
+            'caisses'=>$caisses,
+            'criteres'=>$criteresRecherches,
+            'caisse_id'=>$caisse,
+        ]);
+
     }
 
     /**
@@ -297,7 +322,7 @@ class JourneeCaissesController extends Controller
      */
     public function etatDeCaisse(Request $request): Response
     {
-        $dateDeb = new \DateTime("01-11-2018");
+        /*$dateDeb = new \DateTime("01-11-2018");
         $dateFin = new \DateTime('now');
         $limit=10;
         $_page=$request->query->get('_page');
@@ -316,7 +341,8 @@ class JourneeCaissesController extends Controller
             'pages'=>$pages,
             'journeeCaisse' => null,
             //'form' => $form->createView()
-        ]);
+        ]);*/
+        return $this->redirectToRoute('journee_caisses_index',['caisse'=>$this->caisse->getId()]);
 
     }
 
@@ -756,5 +782,11 @@ class JourneeCaissesController extends Controller
             ->setMCvd($journeeCaisse->getMCvd() - $journeeCaisseMaintenue->getMCvd());
             //->setMEcartFerm();
         return $newjournee;
+    }
+    /**
+     * @Route("/{id}/listingtransferts", name="journee_caisses_transferts", methods="GET|POST")
+     */
+    public function listingTransferts(JourneeCaisses $journeeCaisse){
+        return $this->render('transfert_internationaux/liste.html.twig', ['journeeCaisse' => $journeeCaisse]);
     }
 }

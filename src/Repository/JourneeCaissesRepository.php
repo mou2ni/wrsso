@@ -457,14 +457,33 @@ WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses
             ->getQuery()
             ->getArrayResult();
         ;
-        /*if ($typeCaisse){
-            $qb->andWhere('c.typeCaisse = :typeCaisse')
-                ->setParameter('typeCaisse',$typeCaisse);
-         }
-        return $qb->setParameter('statut',JourneeCaisses::ENCOURS)
-            ->getQuery()
-            ->getArrayResult();*/
+    }
+/*
+ * ->addSelect('IDENTITY(jc.caisse) as idCaisse, IDENTITY(jc.utilisateur) as idUtilisateur,IDENTITY(jc.journeePrecedente) as idJP, jc.id as id, c.code as caisse, u.nom as nom, u.prenom as prenom
+             ,jc.dateOuv as dateOuv, jc.mLiquiditeOuv as mLiquiditeOuv, jc.mSoldeElectOuv as mSoldeElectOuv,jc.mEcartOuv as mEcartOuv, jc.mDetteDiversOuv as mDetteDiversOuv, jc.mCreditDiversOuv as mCreditDiversOuv
+             ,jc.dateFerm as dateFerm , jc.mLiquiditeFerm as mLiquiditeFerm, jc.mSoldeElectFerm as mSoldeElectFerm, jc.mDetteDiversFerm as mDetteDiversFerm, jc.mCreditDiversFerm as mCreditDiversFerm, jc.mEcartFerm as mEcartFerm
+             ,jc.mIntercaisses as mIntercaisses, jc.mEmissionTrans as mEmissionTrans, jc.mReceptionTrans as mReceptionTrans, jc.mCvd as mCvd, jc.mRetraitClient as mRetraitClient, jc.mDepotClient as mDepotClient
+             ,jc.mRecette as mRecette, jc.mDepense as mDepense' )
+ */
+    public function findRecapitulatifJourneeCaisses($dateDebut=null, $dateFin=null, $caisse=null, $offset=0,$limit = 20){
+        $qb=$this->createQueryBuilder('jc')
+            ->addSelect('IDENTITY(jc.caisse) as idCaisse, IDENTITY(jc.utilisateur) as idUtilisateur,IDENTITY(jc.journeePrecedente) as idJP, jc.id as id, c.code as caisse, u.nom as nom, u.prenom as prenom
+             ,jc.dateOuv as dateOuv, (jc.mLiquiditeOuv + jc.mSoldeElectOuv -jc.mDetteDiversOuv+ jc.mCreditDiversOuv) as soldeNetOuv
+             ,jc.dateFerm as dateFerm , (jc.mDetteDiversFerm -jc.mCreditDiversFerm) as mDetteCredit,(jc.mLiquiditeFerm+jc.mSoldeElectFerm) as disponibiliteFerm, (jc.mLiquiditeFerm+jc.mSoldeElectFerm-jc.mDetteDiversFerm +jc.mCreditDiversFerm) as soldeNetFerm, jc.mEcartOuv as mEcartOuv, jc.mEcartFerm as mEcartFerm
+             ,jc.mIntercaisses as mIntercaisses, jc.mEmissionTrans as mEnvoi, jc.mReceptionTrans as mReception, jc.mCvd as mCvd, jc.mRetraitClient as mRetraitClient, jc.mDepotClient as mDepotClient
+             ,jc.mRecette as mRecette, jc.mDepense as mDepense' )
+            ->innerJoin('jc.caisse','c', 'WITH', 'jc.caisse=c.id')
+            ->innerJoin('jc.utilisateur','u', 'WITH', 'jc.utilisateur=u.id')
+            ->where('jc.statut<>:statut')->setParameter('statut', JourneeCaisses::INITIAL);
+        if ($dateDebut) $qb->andWhere('jc.dateOuv >=:dateDebut')->setParameter('dateDebut',$dateDebut);
+        if ($dateFin) $qb->andWhere('jc.dateOuv <=:dateFin')->setParameter('dateFin',$dateFin);
+        if ($caisse) $qb->andWhere('jc.caisse =:caisse')->setParameter('caisse',$caisse);
 
+        $qb->orderBy('jc.dateOuv','DESC')->addOrderBy('c.code','ASC')->addOrderBy('u.nom','ASC')->addOrderBy('u.prenom', 'ASC')
+            ->setFirstResult($offset)->setMaxResults($limit);
 
+        $pag=new Paginator($qb);
+
+        return $pag;
     }
 }

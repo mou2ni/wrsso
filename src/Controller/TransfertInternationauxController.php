@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Caisses;
+use App\Entity\CriteresDates;
 use App\Entity\JourneeCaisses;
+use App\Entity\SystemTransfert;
 use App\Entity\TransfertInternationaux;
+use App\Form\CriteresRecherchesJourneeCaissesType;
 use App\Form\EmissionsType;
 use App\Form\ReceptionsType;
 use App\Form\TransfertInternationauxType;
@@ -17,6 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 //use Webmozart\Assert\Assert;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/transfert/internationaux")
@@ -34,20 +39,52 @@ class TransfertInternationauxController extends Controller
         }
     }
     /**
-     * @Route("/", name="transfert_internationaux_index", methods="GET")
+     * @Route("/", name="transfert_internationaux_index", methods="GET|POST")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $transfertInternationauxes = $this->getDoctrine()
-            ->getRepository(TransfertInternationaux::class)
-            ->findAll();
+        //si données envoyé pour post ou get
+        $caisse=$request->request->get('caisse')?$request->request->get('caisse'):$request->query->get('caisse');
+        $systemTransfert=$request->request->get('systemTransfert')?$request->request->get('systemTransfert'):$request->query->get('systemTransfert');
+        $sens=$request->request->get('sens')?$request->request->get('sens'):$request->query->get('sens');
+        $dateDebut=$request->query->get('dateDebut');
+        $dateFin=$request->query->get('dateFin');
 
-        return $this->render('transfert_internationaux/index.html.twig', ['transfert_internationauxes' => $transfertInternationauxes]);
+        $criteresRecherches=new CriteresDates();
+
+        if ($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut.' 00:00:00'));
+        if ($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin.' 23:59:59'));
+
+        $form = $this->createForm(CriteresRecherchesJourneeCaissesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+
+        $dateFin=$criteresRecherches->getDateFin();
+        $dateDebut=$criteresRecherches->getDateDebut();
+
+
+        $listingTransferts = $this->getDoctrine()
+            ->getRepository(TransfertInternationaux::class)
+            ->findListingTransferts($dateDebut, $dateFin, $systemTransfert, $caisse, $sens);
+
+        $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAll();
+        $systemTransferts=$this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
+
+        return $this->render('transfert_internationaux/index.html.twig', [
+            'listingTransferts' => $listingTransferts,
+            'form' => $form->createView(),
+            'caisses'=>$caisses,
+            'caisse_id'=>$caisse,
+            'systemTransferts'=>$systemTransferts,
+            'systemTransfert_id'=>$systemTransfert,
+            'sens'=>$sens,
+            'criteres'=>$criteresRecherches,
+        ]);
     }
 
-    /**
+    /*
      * @Route("/new", name="transfert_internationaux_new", methods="GET|POST")
-     */
+
     public function new(Request $request): Response
     {
         $transfertInternationaux = new TransfertInternationaux();
@@ -67,7 +104,7 @@ class TransfertInternationauxController extends Controller
             'form' => $form->createView(),
         ]);
     }
-
+*/
     /**
      * @Route("/saisieTransfert", name="transfert_internationaux_saisie", methods="GET|POST")
      */
@@ -143,19 +180,24 @@ class TransfertInternationauxController extends Controller
     }
 
     /**
-     * @Route("/{id}/detail", name="transfert_internationaux_detail", methods="GET")
+     * @Route("/{id}/detail", name="transfert_internationaux_show", methods="GET")
      */
-    public function show(TransfertInternationaux $transfertInternationaux): Response
+    public function show(Request $request, TransfertInternationaux $transfertInternationaux): Response
     {
-        return $this->render('transfert_internationaux/show.html.twig', ['transfert_internationaux' => $transfertInternationaux]);
+        return $this->render('transfert_internationaux/show.html.twig', ['transfert_internationaux' => $transfertInternationaux,
+            'dateDebut'=>$request->query->get('dateDebut'),
+            'dateFin'=>$request->query->get('dateFin'),
+            'systemTransfert'=>$request->query->get('systemTransfert'),
+        ]);
     }
-    /**
+    /*
      * @Route("/{id}", name="transfert_internationaux_show", methods="GET|POST")
-     */
+
     public function liste(JourneeCaisses $journeeCaisse): Response
     {
         return $this->render('transfert_internationaux/liste.html.twig', ['journeeCaisse' => $journeeCaisse]);
     }
+    */
     /**
      * @Route("/{id}/edit", name="transfert_internationaux_edit", methods="GET|POST")
      */
@@ -167,17 +209,26 @@ class TransfertInternationauxController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('transfert_internationaux_edit', ['id' => $transfertInternationaux->getId()]);
+            return $this->redirectToRoute('transfert_internationaux_index',[
+                'dateDebut'=>$request->query->get('dateDebut'),
+                'dateFin'=>$request->query->get('dateFin'),
+                'systemTransfert'=>$request->query->get('systemTransfert'),
+        ]);
+            //return $this->redirectToRoute('transfert_internationaux_edit', ['id' => $transfertInternationaux->getId()]);
         }
 
         return $this->render('transfert_internationaux/edit.html.twig', [
             'transfert_internationaux' => $transfertInternationaux,
             'form' => $form->createView(),
+            'dateDebut'=>$request->query->get('dateDebut'),
+            'dateFin'=>$request->query->get('dateFin'),
+            'systemTransfert'=>$request->query->get('systemTransfert'),
         ]);
     }
 
     /**
      * @Route("/{id}", name="transfert_internationaux_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, TransfertInternationaux $transfertInternationaux): Response
     {
@@ -185,8 +236,13 @@ class TransfertInternationauxController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->remove($transfertInternationaux);
             $em->flush();
+            $this->addFlash('success','Suppression de transfert de montant ['.$transfertInternationaux->getMTransfert().'] effectuée avec succes !');
         }
 
-        return $this->redirectToRoute('transfert_internationaux_index');
+        return $this->redirectToRoute('transfert_internationaux_index',[
+            'dateDebut'=>$request->query->get('dateDebut'),
+            'dateFin'=>$request->query->get('dateFin'),
+            'systemTransfert'=>$request->query->get('systemTransfert'),
+        ]);
     }
 }

@@ -9,8 +9,8 @@
 namespace App\Controller;
 
 
+use App\Entity\CriteresDates;
 use App\Entity\CriteresEtatsComptas;
-use App\Entity\CriteresRecherches;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
 use App\Entity\Caisses;
@@ -18,8 +18,8 @@ use App\Entity\Comptes;
 use App\Entity\SystemTransfert;
 use App\Entity\TransactionComptes;
 use App\Entity\TransfertInternationaux;
+use App\Form\CriteresDatesType;
 use App\Form\CriteresEtatsComptasType;
-use App\Form\CriteresRecherchesType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
@@ -232,25 +232,32 @@ class ComptaController extends Controller
      */
     public function compenses(Request $request): Response
     {
-        $criteresRecherches=new CriteresRecherches();
-        $form = $this->createForm(CriteresRecherchesType::class, $criteresRecherches);
+        $criteresRecherches=new CriteresDates();
+        $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
         $form->handleRequest($request);
 
-        $detailParCaisse=($request->request->get('type_affichage')=='detail');
-        
-        $systemTransferts=$this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
+        $type_affichage=$request->request->get('type_affichage');
 
-        $systemTransfertCompenses=array();
-        foreach ($systemTransferts as $systemTransfert){
-            $compenses=$this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin(), $systemTransfert, $detailParCaisse);
-            if ($compenses) $systemTransfertCompenses[]=['libelle'=>$systemTransfert->getLibelle(),'compenses'=>$compenses];
+        if ($type_affichage!='caisse') {
+            $systemTransferts = $this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
+
+            $systemTransfertCompenses = array();
+            foreach ($systemTransferts as $systemTransfert) {
+                $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $type_affichage);
+                if ($compenses) $systemTransfertCompenses[] = ['libelle' => $systemTransfert->getLibelle(),'id'=>$systemTransfert->getId(), 'compenses' => $compenses];
+            }
+        }else{
+            $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), null, $type_affichage);
+            if ($compenses) $systemTransfertCompenses[] = ['libelle' => '', 'compenses' => $compenses];
         }
 
         return $this->render('compta/compense_transfert.html.twig', [
             'form' => $form->createView(),
-            'systemTransfertCompenses'=>$systemTransfertCompenses,
-            'affichage'=>$request->request->get('type_affichage'),
+            'systemTransfertCompenses' => $systemTransfertCompenses,
+            'affichage' => $type_affichage,
+            'criteres'=>$criteresRecherches,
         ]);
+
     }
 
 
