@@ -75,7 +75,7 @@ class JourneeCaissesController extends Controller
      */
     public function index(Request $request): Response
     {
-        $caisse=$request->request->get('caisse');//?$request->request->get('caisse'):$request->query->get('caisse');
+        $caisse=$request->request->get('caisse')?$request->request->get('caisse'):$request->query->get('caisse');
         $limit=20;
         $_page=$request->query->get('_page');
         $offset = ($_page)?($_page-1)*$limit:0;
@@ -86,8 +86,8 @@ class JourneeCaissesController extends Controller
             $criteresRecherches=new CriteresDates();
             $criteres=$request->query->get('master');
             $criteres= explode ('|',$criteres);
-            dump($criteres);
-            dump($caisse);
+           // dump($criteres);
+           // dump($caisse);
             if (count($criteres)==3) {
                 $criteresRecherches->setDateDebut(new \DateTime($criteres[0]));
                 $criteresRecherches->setDateFin(new \DateTime($criteres[1]));
@@ -98,8 +98,8 @@ class JourneeCaissesController extends Controller
         $form = $this->createForm(CriteresRecherchesJourneeCaissesType::class, $criteresRecherches);
         $form->handleRequest($request);
 
-        $dateDebut=$criteresRecherches->getDateDebut();
-        $dateFin=$criteresRecherches->getDateFin();
+        $dateDebut=new \DateTime($criteresRecherches->getDateDebut()->format('Y-m-d').' 00:00:00');
+        $dateFin=new \DateTime($criteresRecherches->getDateFin()->format('Y-m-d').' 23:59:59');
 
         $liste = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
@@ -117,6 +117,7 @@ class JourneeCaissesController extends Controller
             'pages'=>$pages,
             'path'=>'journee_caisses_index',
             'caisses'=>$caisses,
+            'criteres'=>$criteresRecherches,
             'caisse_id'=>$caisse,
         ]);
 
@@ -321,7 +322,7 @@ class JourneeCaissesController extends Controller
      */
     public function etatDeCaisse(Request $request): Response
     {
-        $dateDeb = new \DateTime("01-11-2018");
+        /*$dateDeb = new \DateTime("01-11-2018");
         $dateFin = new \DateTime('now');
         $limit=10;
         $_page=$request->query->get('_page');
@@ -340,7 +341,8 @@ class JourneeCaissesController extends Controller
             'pages'=>$pages,
             'journeeCaisse' => null,
             //'form' => $form->createView()
-        ]);
+        ]);*/
+        return $this->redirectToRoute('journee_caisses_index',['caisse'=>$this->caisse->getId()]);
 
     }
 

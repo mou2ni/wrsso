@@ -26,8 +26,8 @@ class CriteresDates
         //$string_auj=$auj->format('Y-m-d');
         $hier=$auj->sub(new \DateInterval('P1D'));
         $string_hier=$hier->format('Y-m-d');
-        $this->dateDebut=new \DateTime($string_hier);
-        $this->dateFin=new \DateTime($string_hier);
+        $this->dateDebut=new \DateTime($string_hier.' 00:00:00');
+        $this->dateFin=new \DateTime($string_hier.' 23:59:59');
     }
 
     /**

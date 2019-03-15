@@ -470,11 +470,12 @@ WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses
             ->addSelect('IDENTITY(jc.caisse) as idCaisse, IDENTITY(jc.utilisateur) as idUtilisateur,IDENTITY(jc.journeePrecedente) as idJP, jc.id as id, c.code as caisse, u.nom as nom, u.prenom as prenom
              ,jc.dateOuv as dateOuv, (jc.mLiquiditeOuv + jc.mSoldeElectOuv -jc.mDetteDiversOuv+ jc.mCreditDiversOuv) as soldeNetOuv
              ,jc.dateFerm as dateFerm , (jc.mDetteDiversFerm -jc.mCreditDiversFerm) as mDetteCredit,(jc.mLiquiditeFerm+jc.mSoldeElectFerm) as disponibiliteFerm, (jc.mLiquiditeFerm+jc.mSoldeElectFerm-jc.mDetteDiversFerm +jc.mCreditDiversFerm) as soldeNetFerm, jc.mEcartOuv as mEcartOuv, jc.mEcartFerm as mEcartFerm
-             ,jc.mIntercaisses as mIntercaisses, (jc.mEmissionTrans - jc.mReceptionTrans) as compense, jc.mCvd as mCvd, jc.mRetraitClient as mRetraitClient, jc.mDepotClient as mDepotClient
+             ,jc.mIntercaisses as mIntercaisses, jc.mEmissionTrans as mEnvoi, jc.mReceptionTrans as mReception, jc.mCvd as mCvd, jc.mRetraitClient as mRetraitClient, jc.mDepotClient as mDepotClient
              ,jc.mRecette as mRecette, jc.mDepense as mDepense' )
             ->innerJoin('jc.caisse','c', 'WITH', 'jc.caisse=c.id')
-            ->innerJoin('jc.utilisateur','u', 'WITH', 'jc.utilisateur=u.id');
-        if ($dateDebut) $qb->where('jc.dateOuv >=:dateDebut')->setParameter('dateDebut',$dateDebut);
+            ->innerJoin('jc.utilisateur','u', 'WITH', 'jc.utilisateur=u.id')
+            ->where('jc.statut<>:statut')->setParameter('statut', JourneeCaisses::INITIAL);
+        if ($dateDebut) $qb->andWhere('jc.dateOuv >=:dateDebut')->setParameter('dateDebut',$dateDebut);
         if ($dateFin) $qb->andWhere('jc.dateOuv <=:dateFin')->setParameter('dateFin',$dateFin);
         if ($caisse) $qb->andWhere('jc.caisse =:caisse')->setParameter('caisse',$caisse);
 
