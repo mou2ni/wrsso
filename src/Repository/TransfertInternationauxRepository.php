@@ -270,17 +270,30 @@ LIMIT 200
             ->getQuery()->getResult();
     }
 
-    public function findCompense(\DateTime $dateDebut=null, \DateTime $dateFin=null, SystemTransfert $systemTransfert=null, $typeAffichage='detail'){
 
-        $qb=$this->createQueryBuilder('ti')
-            ->select('st.id, st.libelle,  SUM(CASE WHEN ti.sens=:envoi THEN ti.mTransfert ELSE 0 END) as mEnvoi
+    /**
+     * @param \DateTime|null $dateDebut
+     * @param \DateTime|null $dateFin
+     * @param SystemTransfert|null $systemTransfert
+     * @param string $typeAffichage
+     * @param string $typeDonnees
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function qbTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, SystemTransfert $systemTransfert=null, $typeAffichage='detail', $typeDonnees='sum'){
+
+        $qb=$this->createQueryBuilder('ti');
+        if ($typeDonnees=='sum')
+            $qb->select('st.id, st.libelle,  SUM(CASE WHEN ti.sens=:envoi THEN ti.mTransfert ELSE 0 END) as mEnvoi
             , SUM(CASE WHEN ti.sens=:envoi THEN ti.mFraisHt ELSE 0 END) as mFrais
             , SUM(CASE WHEN ti.sens=:envoi THEN ti.mTva ELSE 0 END) as mTVA
             , SUM(CASE WHEN ti.sens=:envoi THEN ti.mAutresTaxes ELSE 0 END) as mAutresTaxes
             , SUM(CASE WHEN ti.sens=:reception THEN ti.mTransfertTTC ELSE 0 END) as mReception')
-            ->setParameter('envoi', TransfertInternationaux::ENVOI)->setParameter('reception', TransfertInternationaux::RECEPTION)
-            ->innerJoin('ti.idSystemTransfert','st');
-        if ($typeAffichage=='detail' or $typeAffichage=='caisse'){
+                ->setParameter('envoi', TransfertInternationaux::ENVOI)->setParameter('reception', TransfertInternationaux::RECEPTION);
+        else $qb->select('st.id, st.libelle as typeTransfert, ti.sens as sens, ti.mEnvoi as mEnvoi, ti.mFraisHt as mFraisHt, ti.mTva as mTva, ti.mAutresTaxes as mAutresTaxes, ti.mTransfertTTC as mTransfertTTC');
+
+        $qb->innerJoin('ti.idSystemTransfert','st');
+
+        if ($typeAffichage=='detail' or $typeAffichage=='caisse' or $typeDonnees=='sum'){
             $qb->leftJoin('ti.journeeCaisse','jc')
                 ->leftJoin('jc.caisse','c')
                 ->addSelect('c.libelle as caisse');
@@ -300,11 +313,26 @@ LIMIT 200
             $qb->andWhere('ti.idSystemTransfert=:systemTransfert')->setParameter('systemTransfert',$systemTransfert);
         }
 
+        return $qb;
+
+    }
+
+    public function findCompense(\DateTime $dateDebut=null, \DateTime $dateFin=null, SystemTransfert $systemTransfert=null, $typeAffichage='detail'){
+
+        $qb=$this->qbTransferts($dateDebut,$dateFin,$systemTransfert,$typeAffichage,'sum');
+
         if ($typeAffichage!='caisse') $qb->groupBy('st.id');
         if ($typeAffichage=='detail' or $typeAffichage=='caisse')  $qb->addGroupBy('c.id');
 
          return   $qb->orderBy('st.libelle')
             ->getQuery()->getResult();
+    }
+
+    public function findListingTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, SystemTransfert $systemTransfert=null){
+        $qb=$this->qbTransferts($dateDebut,$dateFin,$systemTransfert,'','listing');
+        return   $qb->orderBy('st.libelle', 'ASC')->addOrderBy('c.libelle', 'ASC')->addOrderBy('ti.dateTransfert','DESC')
+            ->getQuery()->getResult();
+
     }
 
 }
