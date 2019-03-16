@@ -75,7 +75,7 @@ ORDER BY SystemTransfert.id, z.ordre, p.ordre
         //$stmt->bindParam(1,$dateDeb);
         //$stmt->bindParam(2,$dateFin);
         $stmt->execute([]);
-        dump($stmt);
+        //dump($stmt);
         return $stmt->fetchAll();
     }
 

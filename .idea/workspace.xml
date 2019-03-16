@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="etat compenses">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wrsso.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wrsso.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TransfertInternationauxRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TransfertInternationauxRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/etats/transfert.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/etats/transfert.html.twig" afterDir="false" />
-    </list>
     <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
+    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="Rapport transferts">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -664,11 +661,11 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="database.console.LAST_STATE" value="false" />
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/devises" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
     <property name="settings.editor.selected.configurable" value="Errors" />
-    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
@@ -793,14 +790,7 @@
       <workItem from="1552396729456" duration="28704000" />
       <workItem from="1552579406592" duration="751000" />
       <workItem from="1552582164813" duration="3592000" />
-      <workItem from="1552674478383" duration="7883000" />
-    </task>
-    <task id="LOCAL-00077" summary="Retouche sur transferts envoyés">
-      <created>1547200764105</created>
-      <option name="number" value="00077" />
-      <option name="presentableId" value="LOCAL-00077" />
-      <option name="project" value="LOCAL" />
-      <updated>1547200764105</updated>
+      <workItem from="1552674478383" duration="8221000" />
     </task>
     <task id="LOCAL-00078" summary="migration">
       <created>1547204594664</created>
@@ -1138,11 +1128,18 @@
       <option name="project" value="LOCAL" />
       <updated>1552561172295</updated>
     </task>
-    <option name="localTasksCounter" value="126" />
+    <task id="LOCAL-00126" summary="Rapport transferts">
+      <created>1552699511118</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1552699511118</updated>
+    </task>
+    <option name="localTasksCounter" value="127" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2509524000" />
+    <option name="totallyTimeSpent" value="2509862000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1154,7 +1151,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1372" height="728" extended-state="0" />
+    <frame x="0" y="1" width="1372" height="727" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="5" />
@@ -1268,7 +1265,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Retouche sur transferts envoyés" />
     <MESSAGE value="migration" />
     <MESSAGE value="retouches sur transfert" />
     <MESSAGE value="corrections de petits bugs" />
@@ -1293,7 +1289,8 @@
     <MESSAGE value="Balance générale à 6 colonnes" />
     <MESSAGE value="etat compenses" />
     <MESSAGE value="etat compenses-balance à 6 colonnes" />
-    <option name="LAST_COMMIT_MESSAGE" value="etat compenses-balance à 6 colonnes" />
+    <MESSAGE value="Rapport transferts" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rapport transferts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
