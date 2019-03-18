@@ -275,8 +275,8 @@ LIMIT 200
      * @param \DateTime|null $dateDebut
      * @param \DateTime|null $dateFin
      * @param mixed|null $systemTransfert
-     * @param string $typeAffichage
-     * @param string $typeDonnees
+     * @param string (detail, caisse) $typeAffichage
+     * @param string (sum, listing) $typeDonnees
      * @return \Doctrine\ORM\QueryBuilder
      */
     private function qbTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $typeAffichage='detail', $typeDonnees='sum', $caisse=null, $sens=null){
@@ -293,6 +293,10 @@ LIMIT 200
         , ti.mAutresTaxes as mAutresTaxes, ti.mTransfertTTC as mTransfertTTC, ti.dateTransfert as dateTransfert');
 
         $qb->innerJoin('ti.idSystemTransfert','st');
+        if ($typeDonnees!='sum'){
+            $qb->innerJoin('ti.idPays','p')
+                ->addSelect('p.libelle as pays');
+        }
 
         if ($typeAffichage=='detail' or $typeAffichage=='caisse' or $typeDonnees!='sum'){
             $qb->leftJoin('ti.journeeCaisse','jc')

@@ -30,7 +30,7 @@ class TransfertInternationauxType extends AbstractType
             ->add('idPays')
         ;*/
             ->add('sens', ChoiceType::class, array(
-                'choices'  => array('Reception' => TransfertInternationaux::RECEPTION,'Envoi' => TransfertInternationaux::ENVOI)
+                'choices'  => array('Reception' => TransfertInternationaux::RECEPTION,'Envoi' => TransfertInternationaux::ENVOI, 'Remboursement'=>TransfertInternationaux::REMBOURSEMENT)
                 ,'mapped'=>true))
             ->add('mTransfert', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'mtransfert'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))
             ->add('mTransfertTTC', NumberType::class,array('grouping'=>3,'scale'=>0, 'attr'=>['class'=>'transfertttc'], 'constraints'=>[new \Symfony\Component\Validator\Constraints\GreaterThan(0)]))

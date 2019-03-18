@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}TransfertInternationaux index{% endblock %}
+{% block title %}Transferts Internationaux {% endblock %}
 
 {% block body %}
     <h1>Transferts internationaux</h1>
@@ -34,8 +34,7 @@
                 <th>Date</th>
                 <th>Transfert</th>
                 <th>Sens</th>
-                <th>Montant HT</th>
-                <th>Frais TTC</th>
+                <th>Pays</th>
                 <th>Montant TTC</th>
             </tr>
         </thead>
@@ -46,8 +45,9 @@
                 <td>{{ (transfert.dateTransfert)?transfert.dateTransfert|date('d-m-Y') : ''  }}</td>
                 <td>{{ transfert.typeTransfert }}</td>
                 <td>{{ (transfert.sens ==1)?'Envoi':'Reception'}}</td>
-                <td>{{ transfert.mTransfert|number_format(0, '.', ' ') }}</td>
-                <td>{{ (transfert.mFraisHt+transfert.mTva+transfert.mAutresTaxes)|number_format(0, '.', ' ') }}</td>
+                <td>{{ transfert.pays }}</td>
+                {#<td>{{ transfert.mTransfert|number_format(0, '.', ' ') }}</td>
+                <td>{{ (transfert.mFraisHt+transfert.mTva+transfert.mAutresTaxes)|number_format(0, '.', ' ') }}</td>#}
                 <td>{{ transfert.mTransfertTTC|number_format(0, '.', ' ') }}</td>
                 <td>
                     <a href="{{ path('transfert_internationaux_show', {'id': transfert.id,

@@ -27,7 +27,7 @@ class TransfertInternationaux
     const ERR_NEGATIF=1, ERR_ZERO=0;
     private $e ;
     const TVA=0.18, TTZ=0.006;
-    const ENVOI=1, RECEPTION=2;
+    const ENVOI=1, RECEPTION=2, REMBOURSEMENT=3;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -305,8 +305,9 @@ class TransfertInternationaux
     {
         if ($this->getIdPays()->getDansRegion())
             return 0;
-        else
+        elseif ($this->getMFraisHt()!=0 and $this->getSens()== TransfertInternationaux::ENVOI)
             return $this::TTZ*$this->getMTransfert();
+        else return 0;
     }
 
     /**

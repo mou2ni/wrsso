@@ -80,6 +80,7 @@ class Menu  extends Controller
 
         $this->menu_suivi=[
             ['text'=>'Tableau de bord', 'lien'=>'#']
+            ,['text'=>'Journées Caisses', 'lien'=>'journee_caisses_index']
             ,['text'=>'Etat Compenses', 'lien'=>'compta_compenses']
             ,['text'=>'Transferts', 'lien'=>'transfert_internationaux_index']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
