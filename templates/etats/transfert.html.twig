@@ -36,7 +36,6 @@
                             <tr><th>{{ etatTypeZone.zone }}</th><th>{{ (etatTypeZone.emis)?etatTypeZone.emis|number_format(0, '.', ' '):0 }}</th><th>{{ (etatTypeZone.recus)?etatTypeZone.recus|number_format(0, '.', ' '):0 }}</th></tr>
                             {% for transfert in etat %}
                                 {% if transfert.typeId == etatTypeZone.typeId %}
-                                    {#{% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}#}
                                     {% if transfert.zone == etatTypeZone.zone and etatTypeZone.detail!=0 %}
                                         <tr><td>{{ transfert.paysId }}</td><td>{{ (transfert.emis)?transfert.emis|number_format(0, '.', ' '):0 }}</td><td>{{ (transfert.recus)?transfert.recus|number_format(0, '.', ' '):0 }}</td></tr>
                                     {% endif %}
