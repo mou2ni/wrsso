@@ -40,10 +40,11 @@ class CaissesRepository extends ServiceEntityRepository
 
     public function findAllJoinCompteOperation($limit = 10){
         $qb=$this->createQueryBuilder('c');
-        return $qb->select('c.id, c.libelle, c.code, co.numCompte')
-            ->innerJoin('c.compteOperation','co', 'WITH', 'c.compteOperation= co.id')
-            ->setMaxResults($limit)
-            ->getQuery()
+         $qb->select('c.id, c.libelle, c.code, IDENTITY(c.compteOperation) as compteOperation, co.numCompte')
+            ->innerJoin('c.compteOperation','co', 'WITH', 'c.compteOperation= co.id');
+        if($limit) $qb->setMaxResults($limit);
+
+        return $qb->getQuery()
             ->getResult()
         ;
     }

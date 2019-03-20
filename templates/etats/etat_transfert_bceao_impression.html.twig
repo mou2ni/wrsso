@@ -59,11 +59,11 @@
                             {% endfor %}
                         {% endif %}
                     {% endfor %}
-                    <tr><td>TOTAL</td><td>{{ (etatType.EMIS)?etatType.EMIS:0 }}</td><td>{{ (etatType.RECUS)?etatType.RECUS:0 }}</td></tr>
-                    <tr><td>NOMBRE D'OPERATIONS</td><td>{{ etatType.NEMIS }}</td><td>{{ etatType.NRECUS }}</td></tr>
-                    <tr> <td>MONTANT DES TAXES RECUES (en F CFA)</td><td></td><td></td></tr>
-                    <tr><td>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</td><td></td><td></td></tr>
-                    <tr><td>NOMBRE D'EMPLOIS GENERES</td><td></td><td></td></tr>
+                    <tr><th>TOTAL</th><th>{{ (etatType.EMIS)?etatType.EMIS|number_format(0, '.', ' '):0 }}</th><th>{{ (etatType.RECUS)?etatType.RECUS|number_format(0, '.', ' '):0 }}</th></tr>
+                    <tr><th>NOMBRE D'OPERATIONS</th><th>{{ etatType.NEMIS }}</th><th>{{ etatType.NRECUS }}</th></tr>
+                    <tr> <th>MONTANT DES TAXES RECUES (en F CFA)</th><th></th><th></th></tr>
+                    <tr><th>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</th><th></th><th></th></tr>
+                    <tr><th>NOMBRE D'EMPLOIS GENERES</th><th></th><th></th></tr>
                 </table>
 
             </div>

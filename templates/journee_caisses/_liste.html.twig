@@ -1,4 +1,5 @@
-{{ include('_pagination.html.twig') }}
+<div>
+    {{ include('_pagination.html.twig') }}
 <table class="table table-striped">
     <thead>
         <tr>
@@ -7,7 +8,7 @@
             <th>Ouverture</th>
             <th>Dettes - Crédits</th>
             <th >Envoi-Reception</th>
-            <th>Disponibilité</th>
+            <th colspan="2">Depot|Retrait</th>
             <th>Fermeture</th>
             <th colspan="2">ECARTS Ouv|Ferm</th>
             <th >Actions</th>
@@ -18,18 +19,23 @@
     {% set totalReception=0 %}
     {% set totalDetteCredit=0 %}
     {% set totalEcart=0 %}
+    {% set totalDepotClient=0 %}
+    {% set totalRetraitClient=0 %}
     {% for journeeCaisse in journeeCaisses %}
         {% set totalEnvoi=totalEnvoi+ journeeCaisse.mEnvoi%}
         {% set totalReception=totalReception+ journeeCaisse.mReception%}
         {% set totalDetteCredit=totalDetteCredit+journeeCaisse.mDetteCredit %}
         {% set totalEcart=totalEcart+ journeeCaisse.mEcartOuv+journeeCaisse.mEcartFerm%}
+        {% set totalDepotClient=totalDepotClient + journeeCaisse.mDepotClient %}
+        {% set totalRetraitClient=totalRetraitClient + journeeCaisse.mRetraitClient %}
         <tr>
             <td>{{ journeeCaisse.dateOuv ? journeeCaisse.dateOuv|date('d H:i') : '' }} {{ journeeCaisse.dateFerm ? journeeCaisse.dateFerm|date('d H:i') : '' }}</td>
             <td>{{ journeeCaisse.caisse}}-{{ journeeCaisse.prenom}}</td>
             <th class="text-right">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ') }}</th>
             <td class="text-right">{{ journeeCaisse.mDetteCredit|number_format(0, '.', ' ') }}</td>
             <td class="text-right"><a href="{{ path('journee_caisses_transferts', {'id': journeeCaisse.id}) }}">{{ (journeeCaisse.mEnvoi-journeeCaisse.mReception)|number_format(0, '.', ' ') }}</a></td>
-            <td class="text-right">{{ journeeCaisse.disponibiliteFerm|number_format(0, '.', ' ') }}</td>
+            <td class="text-right"><a href="{{ path('depot_retraits_show', {'id': journeeCaisse.id}) }}">{{ journeeCaisse.mDepotClient|number_format(0, '.', ' ') }}</a></td>
+            <td class="text-right"><a href="{{ path('depot_retraits_show', {'id': journeeCaisse.id}) }}">{{ journeeCaisse.mRetraitClient|number_format(0, '.', ' ') }}</a></td>
             <th class="text-right" >{{ journeeCaisse.soldeNetFerm|number_format(0, '.', ' ') }}</th>
             <td class="text-right">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ') }}</td>
             <td class="text-right">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ') }}</td>
@@ -46,10 +52,12 @@
         <th colspan="3" class="text-right"> TOTAUX : </th>
         <th class="text-right">{{totalDetteCredit|number_format(0, '.', ' ') }}</th>
         <th class="text-right">{{ (totalEnvoi-totalReception)|number_format(0, '.', ' ') }}</th>
-        <th class="text-right"></th>
+        <th class="text-right">{{ (totalDepotClient)|number_format(0, '.', ' ') }}</th>
+        <th class="text-right">{{ (totalRetraitClient)|number_format(0, '.', ' ') }}</th>
         <th class="text-right"></th>
         <th class="text-right" colspan="2">{{ totalEcart|number_format(0, '.', ' ') }}</th>
         <th> </th>
     </tr>
     </tbody>
 </table>
+</div>

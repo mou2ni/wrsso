@@ -19,9 +19,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class DeviseIntercaissesController extends Controller
 {
     private $journeeCaisse;
+    private $utilisateur;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
@@ -33,7 +35,8 @@ class DeviseIntercaissesController extends Controller
      */
     public function demander(Request $request): Response
     {
-        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
@@ -92,7 +95,8 @@ class DeviseIntercaissesController extends Controller
      */
     public function autoriser(Request $request, DeviseIntercaisses $deviseIntercaiss, $jc ): Response
     {
-        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }

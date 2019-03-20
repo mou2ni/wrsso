@@ -104,6 +104,14 @@ class ComptesRepository extends ServiceEntityRepository
             ->where('c.numCompte like \'4%\' or c.numCompte like \'1%\' or c.numCompte like \'58%\'')
             ->orderBy('c.numCompte', 'DESC');
     }
+    
+    public function findComptesClients(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            ->where('c.typeCompte<>:typeCompte')->setParameter('typeCompte', Comptes::INTERNE)
+            ->orderBy('c.numCompte', 'ASC')->getQuery()
+            ->getResult();
+    }
 
 
 

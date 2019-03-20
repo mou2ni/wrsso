@@ -23,9 +23,11 @@ use Symfony\Component\Validator\Constraints\DateTime;
 class DetteCreditDiversController extends Controller
 {
     private $journeeCaisse;
+    private $utilisateur;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
@@ -48,7 +50,8 @@ class DetteCreditDiversController extends Controller
      */
     public function detteCredit(Request $request)
     {
-        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }

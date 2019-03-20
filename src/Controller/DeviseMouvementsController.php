@@ -84,9 +84,9 @@ class DeviseMouvementsController extends Controller
             ]);
     }
 
-    /**
+    /*
      * @Route("/new", name="devise_mouvements_new", methods="GET|POST")
-     */
+     
     public function new(Request $request): Response
     {
         $deviseMouvement = new DeviseMouvements();
@@ -105,11 +105,11 @@ class DeviseMouvementsController extends Controller
             'devise_mouvement' => $deviseMouvement,
             'form' => $form->createView(),
         ]);
-    }
+    }*/
 
-    /**
+    /*
      * @Route("/achatvente", name="devise_mouvements_achatvente", methods="GET|POST")
-     */
+    
     public function achatVente(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
@@ -141,7 +141,7 @@ class DeviseMouvementsController extends Controller
             'form' => $form->createView(),
         ]);
     }
-
+*/
     /**
      * @Route("/{id}", name="devise_mouvements_show", methods="GET")
      */
@@ -150,9 +150,9 @@ class DeviseMouvementsController extends Controller
         return $this->render('devise_mouvements/show.html.twig', ['devise_mouvement' => $deviseMouvement]);
     }
 
-    /**
+    /*
      * @Route("/{id}/edit", name="devise_mouvements_edit", methods="GET|POST")
-     */
+     
     public function edit(Request $request, DeviseMouvements $deviseMouvement): Response
     {
         $form = $this->createForm(DeviseMouvementsType::class, $deviseMouvement);
@@ -168,11 +168,11 @@ class DeviseMouvementsController extends Controller
             'devise_mouvement' => $deviseMouvement,
             'form' => $form->createView(),
         ]);
-    }
+    }*/
 
-    /**
+    /*
      * @Route("/{id}", name="devise_mouvements_delete", methods="DELETE")
-     */
+     
     public function delete(Request $request, DeviseMouvements $deviseMouvement): Response
     {
         if ($this->isCsrfTokenValid('delete'.$deviseMouvement->getId(), $request->request->get('_token'))) {
@@ -182,6 +182,6 @@ class DeviseMouvementsController extends Controller
         }
 
         return $this->redirectToRoute('devise_mouvements_index');
-    }
+    }*/
 
 }

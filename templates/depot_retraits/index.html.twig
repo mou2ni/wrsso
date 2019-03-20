@@ -1,43 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DepotRetraits index{% endblock %}
+{% block title %}Depot Retraits index{% endblock %}
 
 {% block body %}
-    <h1>DepotRetraits index</h1>
 
-    <table class="table">
+    <h1>Critères de recherche</h1>
+    {{ form_start(form) }}
+    {{ include('_criteres_recherches.html.twig') }}
+    CAISSE : <select id="compteOperation" name="compteOperation" class="">
+    <option  {{ (app.request.request.get('compteOperation')=='')?'selected="selected"':''}} value="">Tous</option>
+    {% for caisse in caisses %}
+        <option  {{ (caisse_co==caisse.compteOperation)?'selected="selected"':''}} value={{ caisse.compteOperation }}>{{ caisse.libelle }}</option>
+    {% endfor %}
+</select>
+    Utilisateurs : <select id="utilisateur" name="utilisateur" class="">
+    <option  {{ (app.request.request.get('utilisateur')=='')?'selected="selected"':''}} value="">Tous</option>
+    {% for utilisateur in utilisateurs %}
+        <option  {{ (utilisateur_id==utilisateur.id)?'selected="selected"':''}} value={{ utilisateur.id }}>{{ utilisateur }}</option>
+    {% endfor %}
+</select>
+    Comptes : <select id="compte" name="compte" style="width: 30%;">
+    <option  {{ (app.request.request.get('compte')=='')?'selected="selected"':''}} value="">Tous</option>
+    {% for compte in comptes %}
+        <option  {{ (compte_id==compte.id)?'selected="selected"':''}} value={{ compte.id }}>{{ compte.numCompteIntitule }}</option>
+    {% endfor %}
+</select>
+    {{ form_end(form) }}
+
+    <h1>Depots et retrait</h1>
+
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>DateOperation</th>
+                <th>Date</th>
+                <th colspan="2">Compte caisse - Utilisateur</th>
+                <th>Client</th>
                 <th>Libelle</th>
-                <th>MDepot</th>
-                <th>MRetrait</th>
-                <th>Statut</th>
-                <th>actions</th>
+                <th>Montant Depot</th>
+                <th>Montant Retrait</th>
             </tr>
         </thead>
         <tbody>
+        {% set totalDepot=0 %}
+        {% set totalRetrait=0 %}
         {% for depot_retrait in depot_retraits %}
+            {% set totalDepot=totalDepot+ depot_retrait.mDepot%}
+            {% set totalRetrait=totalRetrait+ depot_retrait.mRetrait%}
             <tr>
-                <td>{{ depot_retrait.id }}</td>
                 <td>{{ depot_retrait.dateOperation ? depot_retrait.dateOperation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ depot_retrait.compteOperation }}</td>
+                <td>{{ depot_retrait.nomUtilisateur }} {{ depot_retrait.prenomUtilisateur }}</td>
+                <td>{{ depot_retrait.compteClient }}</td>
                 <td>{{ depot_retrait.libelle }}</td>
-                <td>{{ depot_retrait.mDepot }}</td>
-                <td>{{ depot_retrait.mRetrait }}</td>
-                <td>{{ depot_retrait.statut }}</td>
-                <td>
+                <td class="text-right">{{ depot_retrait.mDepot|number_format(0, '.', ' ') }}</td>
+                <td class="text-right">{{ depot_retrait.mRetrait|number_format(0, '.', ' ') }}</td>
+                {#<td>
                     <a href="{{ path('depot_retraits_show', {'id': depot_retrait.id}) }}">show</a>
                     <a href="{{ path('depot_retraits_edit', {'id': depot_retrait.id}) }}">edit</a>
-                </td>
+                </td>#}
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">Aucun enregistrement</td>
             </tr>
         {% endfor %}
+        <tr>
+            <th class="text-right" colspan="5">TOTAL : </th>
+            <th class="text-right">{{ totalDepot|number_format(0, '.', ' ') }}</th>
+            <th class="text-right">{{ totalRetrait|number_format(0, '.', ' ') }}</th>
+        </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('depot_retraits_new') }}">Create new</a>
 {% endblock %}

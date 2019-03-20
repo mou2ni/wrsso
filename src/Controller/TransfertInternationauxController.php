@@ -10,8 +10,8 @@ use App\Entity\TransfertInternationaux;
 use App\Form\CriteresRecherchesJourneeCaissesType;
 use App\Form\EmissionsType;
 use App\Form\ReceptionsType;
+use App\Form\TransfertCollectionType;
 use App\Form\TransfertInternationauxType;
-use App\Form\TransfertType;
 use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Builder\ValidationBuilder;
@@ -29,10 +29,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class TransfertInternationauxController extends Controller
 {
     private $journeeCaisse;
+    private $utilisateur;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
 
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
@@ -58,14 +60,9 @@ class TransfertInternationauxController extends Controller
         $form = $this->createForm(CriteresRecherchesJourneeCaissesType::class, $criteresRecherches);
         $form->handleRequest($request);
 
-
-        $dateFin=$criteresRecherches->getDateFin();
-        $dateDebut=$criteresRecherches->getDateDebut();
-
-
         $listingTransferts = $this->getDoctrine()
             ->getRepository(TransfertInternationaux::class)
-            ->findListingTransferts($dateDebut, $dateFin, $systemTransfert, $caisse, $sens);
+            ->findListingTransferts($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $caisse, $sens);
 
         $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAll();
         $systemTransferts=$this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
@@ -110,13 +107,14 @@ class TransfertInternationauxController extends Controller
      */
     public function saisieTransfert(Request $request, $envoi = true): Response
     {
-        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+        $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
         $em =$this->getDoctrine();
          
-        $form= $this->createForm(TransfertType::class, $this->journeeCaisse);
+        $form= $this->createForm(TransfertCollectionType::class, $this->journeeCaisse);
         $form->handleRequest($request);
         //dump($form);die();
         if ($form->isSubmitted() && $form->isValid() ) {
@@ -200,6 +198,7 @@ class TransfertInternationauxController extends Controller
     */
     /**
      * @Route("/{id}/edit", name="transfert_internationaux_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, TransfertInternationaux $transfertInternationaux): Response
     {

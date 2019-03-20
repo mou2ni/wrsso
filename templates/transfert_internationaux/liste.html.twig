@@ -35,8 +35,9 @@
                 <td class="padding-0">{{ trans.mTva|number_format(0,'.',',') }}</td>
                 <td class="padding-0">{{ trans.mAutresTaxes|number_format(0,'.',',') }}</td>
                 <td>
-                    <a href="{{ path('transfert_internationaux_show', {'id': trans.id}) }}">Details</a> |
-                    <a href="{{ path('transfert_internationaux_edit', {'id': trans.id}) }}">Modifier</a>
+                    <a href="{{ path('transfert_internationaux_show', {'id': trans.id}) }}">Details</a>
+                    {% if  is_granted('ROLE_COMPTABLE') %}| <a href="{{ path('transfert_internationaux_edit', {'id': trans.id}) }}">Modifier</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

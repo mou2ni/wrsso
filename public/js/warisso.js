@@ -8,19 +8,18 @@ function majTransfert() {
     var reception = 0;
     var emission = 0;
     var i=0;
-    while ($("#transfert_transfertInternationaux_"+i+"_mTransfert")) {
-
-        if ($("#transfert_transfertInternationaux_"+i+"_sens").val() == "1"){
-            emission = emission + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val());
-            $("#transfert_mEmissionTrans").val(emission);
-            //alert($("#transfert_mEmissionTrans").val());
+    while ($("#transfert_collection_transfertInternationaux_"+i+"_mTransfert")) {
+        if ($("#transfert_collection_transfertInternationaux_"+i+"_sens").val() == "1"){
+            emission = emission + +Echape($("#transfert_collection_transfertInternationaux_" + i + "_mTransfertTTC").val());
+            $("#transfert_collection_mEmissionTrans").val(emission);
+            //alert($("#transfert_collection_mEmissionTrans").val());
         }
         else {
-            if ($("#transfert_transfertInternationaux_"+i+"_mTransfertTTC").val()==0){
-                $("#transfert_transfertInternationaux_"+i+"_mTransfertTTC").val($("#transfert_transfertInternationaux_"+i+"_mTransfert").val());
+            if ($("#transfert_collection_transfertInternationaux_"+i+"_mTransfertTTC").val()==0){
+                $("#transfert_collection_transfertInternationaux_"+i+"_mTransfertTTC").val($("#transfert_collection_transfertInternationaux_"+i+"_mTransfert").val());
             }
-            reception = reception + +Echape($("#transfert_transfertInternationaux_" + i + "_mTransfertTTC").val())
-            $("#transfert_mReceptionTrans").val(reception);
+            reception = reception + +Echape($("#transfert_collection_transfertInternationaux_" + i + "_mTransfertTTC").val())
+            $("#transfert_collection_mReceptionTrans").val(reception);
         }
         i++;
     }
@@ -213,7 +212,7 @@ jQuery(document).ready(function() {
 var $collectionHolder;
 
 // setup an "add a tag" link
-var $addTagButton = $('<td><button type="button" class="add_tag_link"> +5 lignes</button></td>');
+var $addTagButton = $('<td><button type="button" class="add_tag_link">Ajouter</button></td>');
 var $newLinkLi = $('<tr></tr>').append($addTagButton);
 
 jQuery(document).ready(function() {

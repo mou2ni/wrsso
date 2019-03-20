@@ -43,7 +43,8 @@ class DeviseRecusController extends Controller
      */
     public function achatVente(Request $request): Response
     {
-        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
@@ -147,9 +148,9 @@ class DeviseRecusController extends Controller
     }
 
 
-    /**
+    /*
      * @Route("/{id}/edit", name="devise_recus_edit", methods="GET|POST")
-     */
+
     public function edit(Request $request, DeviseRecus $deviseRecus): Response
     {
         $form = $this->createForm(DeviseRecusType::class, $deviseRecus);
@@ -166,11 +167,11 @@ class DeviseRecusController extends Controller
             'form' => $form->createView(),
         ]);
     }
+*/
 
-
-    /**
+    /*
      * @Route("/{id}/delete", name="devise_recus_delete", methods="DELETE")
-     */
+
     public function delete(Request $request, DeviseRecus $deviseRecus): Response
     {
         if ($this->isCsrfTokenValid('delete'.$deviseRecus->getId(), $request->request->get('_token'))) {
@@ -181,5 +182,5 @@ class DeviseRecusController extends Controller
 
         return $this->redirectToRoute('devise_recus_index');
     }
-
+*/
 }

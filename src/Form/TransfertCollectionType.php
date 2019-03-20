@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TransfertType extends AbstractType
+class TransfertCollectionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -18,7 +18,7 @@ class TransfertType extends AbstractType
             ->add('mReceptionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('mEmissionTrans', NumberType::class,array('grouping'=>3,'scale'=>0))
             ->add('transfertInternationaux', CollectionType::class, array(
-                'entry_type' => TransfertInternationauxType::class,
+                'entry_type' => TransfertLigneType::class,
                 'allow_add'=>true,
                 'allow_delete'=>true,
                 'prototype' => true,

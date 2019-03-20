@@ -6,6 +6,7 @@ use App\Entity\DepotRetraits;
 use App\Entity\JourneeCaisses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -23,16 +24,40 @@ class DepotRetraitsRepository extends ServiceEntityRepository
         parent::__construct($registry, DepotRetraits::class);
     }
 
-
-    public function liste($offset=0,$limit = 10)
-    {
+    /**
+     * @param \DateTime|null $dateDebut
+     * @param \DateTime|null $dateFin
+     * @param null $utilisateur
+     * @param int $offset
+     * @param int $limit
+     * @return QueryBuilder
+     */
+    private function qbListingDepotRetraits(\DateTime $dateDebut=null, \DateTime $dateFin=null, $compteOperationCaisse=null, $utilisateur=null, $compteClient=null, $offset=0, $limit=20){
         $qb = $this->createQueryBuilder('dr')
-            ->orderBy('dr.id', 'DESC')
+            ->select('dr.id as id, dr.dateOperation as dateOperation, cc.intitule as compteClient, dr.libelle as libelle, dr.mDepot as mDepot, dr.mRetrait as mRetrait, u.nom as nomUtilisateur, u.prenom as prenomUtilisateur, IDENTITY(dr.compteOperationCaisse) as compteOperation')
+            ->innerJoin('dr.compteClient','cc', 'WITH', 'dr.compteClient= cc.id')
+            ->innerJoin('dr.utilisateur','u', 'WITH', 'dr.utilisateur= u.id')
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            //->getQuery()
-            //->getResult()
-        ;
+            ->orderBy('dr.dateOperation','DESC');
+        if ($limit) $qb->setMaxResults($limit);
+        if ($dateDebut)$qb->where('dr.dateOperation>=:dateDebut')->setParameter('dateDebut',$dateDebut);
+        if ($dateFin) $qb->andWhere('dr.dateOperation<=:dateFin')->setParameter('dateFin',$dateFin);
+        if($utilisateur) $qb->andWhere('dr.utilisateur=:utilisateur')->setParameter('utilisateur',$utilisateur);
+        if($compteOperationCaisse) $qb->andWhere('dr.compteOperationCaisse=:compteOperationCaisse')->setParameter('compteOperationCaisse',$compteOperationCaisse);
+        if($compteClient) $qb->andWhere('dr.compteClient=:compteClient')->setParameter('compteClient',$compteClient);
+
+        return $qb;
+    }
+
+
+    public function findListingDepotRetraits(\DateTime $dateDebut=null, \DateTime $dateFin=null, $compteOperation=null, $utilisateur=null, $compteClient=null){
+        $qb = $this->qbListingDepotRetraits($dateDebut,$dateFin,$compteOperation,$utilisateur,$compteClient,0,100 );
+        return $qb->getQuery()->getResult();
+    }
+    public function liste(\DateTime $dateDebut=null, \DateTime $dateFin=null, $caisse=null, $utilisateur=null, $offset=0, $limit=20)
+    {
+        $qb = $this->qbListingDepotRetraits($dateDebut,$dateFin,$caisse,$utilisateur,$offset,$limit );
+        
         $pag = new Paginator($qb);
 
         return $pag;

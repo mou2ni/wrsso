@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Recapitulatif des journées de caisses index</h1>
-
+<div>
     {{ form_start(form) }}
         {{ include('_criteres_recherches.html.twig') }}
         CAISSE : <select id="caisse" name="caisse" class="">
@@ -14,7 +14,7 @@
             {% endfor %}
         </select>
     {{ form_end(form) }}
-
+</div>
     {{ include('journee_caisses/_liste.html.twig') }}
 
 {% endblock %}

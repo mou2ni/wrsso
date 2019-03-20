@@ -95,7 +95,7 @@ class TransactionsController extends Controller
             $transaction->maintenir();
             if ($transaction->isDesequilibre()){
                 $this->addFlash('error','Ecriture déséquilibrée ! ! !');
-                return $this->redirectToRoute('transactions_edit');
+                return $this->redirectToRoute('transactions_edit',['id'=>$transaction->getId()]);
             }
             $this->getDoctrine()->getManager()->flush();
 

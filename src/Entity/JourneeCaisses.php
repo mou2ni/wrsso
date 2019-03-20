@@ -546,87 +546,113 @@ class JourneeCaisses
 
     public function addDeviseJournee(DeviseJournees $deviseJournee)
     {
-        $deviseJournee->setJourneeCaisse($this);
-        $this->deviseJournees->add($deviseJournee);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $deviseJournee->setJourneeCaisse($this);
+            $this->deviseJournees->add($deviseJournee);
+        }
     }
 
     public function removeDeviseJournee(DeviseJournees $deviseJournees)
     {
-        $this->deviseJournees->removeElement($deviseJournees);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->deviseJournees->removeElement($deviseJournees);
+        }
     }
 
     public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
 
-        //$transfertInternationaux->setSens($this->getSensTransfert());
-        $this->transfertInternationaux->add($transfertInternationaux);
-        $transfertInternationaux->setJourneeCaisse($this);
-        /*($transfertInternationaux->getSens()==TransfertInternationaux::ENVOI)
-        ?$transfertInternationaux->setJourneeCaisseEmi($this)
-        :$transfertInternationaux->setJourneeCaisseRecu($this);*/
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            //$transfertInternationaux->setSens($this->getSensTransfert());
+            $this->transfertInternationaux->add($transfertInternationaux);
+            $transfertInternationaux->setJourneeCaisse($this);
+            /*($transfertInternationaux->getSens()==TransfertInternationaux::ENVOI)
+            ?$transfertInternationaux->setJourneeCaisseEmi($this)
+            :$transfertInternationaux->setJourneeCaisseRecu($this);*/
+        }
 
     }
 
     public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
     {
-        $this->transfertInternationaux->removeElement($transfertInternationaux);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->transfertInternationaux->removeElement($transfertInternationaux);
+        }
     }
     public function addTransfertEmi(TransfertInternationaux $transfertInternationaux)
     {
-
-        $transfertInternationaux->setSens(TransfertInternationaux::ENVOI);
-        $this->transfertEmis->add($transfertInternationaux);
-        $transfertInternationaux->setJourneeCaisseEmi($this);
-        $transfertInternationaux->setJourneeCaisse($this);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $transfertInternationaux->setSens(TransfertInternationaux::ENVOI);
+            $this->transfertEmis->add($transfertInternationaux);
+            $transfertInternationaux->setJourneeCaisseEmi($this);
+            $transfertInternationaux->setJourneeCaisse($this);
+        }
 
     }
 
     public function removeTransfertEmi(TransfertInternationaux $transfertInternationaux)
     {
-        $this->transfertEmis->removeElement($transfertInternationaux);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->transfertEmis->removeElement($transfertInternationaux);
+        }
     }
     public function addTransfertRecu(TransfertInternationaux $transfertInternationaux)
     {
-        $transfertInternationaux->setSens(TransfertInternationaux::RECEPTION);
-        $transfertInternationaux->setMTransfertTTC($transfertInternationaux->getMTransfert());
-        $this->transfertRecus->add($transfertInternationaux);
-        $transfertInternationaux->setJourneeCaisseRecu($this);
-        $transfertInternationaux->setJourneeCaisse($this);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $transfertInternationaux->setSens(TransfertInternationaux::RECEPTION);
+            $transfertInternationaux->setMTransfertTTC($transfertInternationaux->getMTransfert());
+            $this->transfertRecus->add($transfertInternationaux);
+            $transfertInternationaux->setJourneeCaisseRecu($this);
+            $transfertInternationaux->setJourneeCaisse($this);
+        }
         //dump($transfertInternationaux); die();
 
     }
 
     public function removeTransfertRecu(TransfertInternationaux $transfertInternationaux)
     {
-        $this->transfertRecus->removeElement($transfertInternationaux);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->transfertRecus->removeElement($transfertInternationaux);
+        }
+
     }
 
     public function addInterCaisseSortant(InterCaisses $interCaisses)
     {
-        $this->intercaisseSortants->add($interCaisses);
-        $interCaisses->setJourneeCaisseSortant($this);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->intercaisseSortants->add($interCaisses);
+            $interCaisses->setJourneeCaisseSortant($this);
+        }
     }
 
     public function removeInterCaisseSortant(InterCaisses $interCaisses)
     {
-        $this->intercaisseSortants->removeElement($interCaisses);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->intercaisseSortants->removeElement($interCaisses);
+        }
     }
 
     public function addInterCaisseEntrant(InterCaisses $interCaisses)
     {
-        $this->intercaisseEntrants->add($interCaisses);
-        $interCaisses->setJourneeCaisseEntrant($this);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->intercaisseEntrants->add($interCaisses);
+            $interCaisses->setJourneeCaisseEntrant($this);
+        }
     }
 
     public function removeInterCaisseEntrant(InterCaisses $interCaisses)
     {
-        $this->intercaisseEntrants->removeElement($interCaisses);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->intercaisseEntrants->removeElement($interCaisses);
+        }
     }
 
     public function addInterCaisseDestination(InterCaisses $interCaisses)
     {
-        $this->intercaisseEntrants->add($interCaisses);
-        $interCaisses->setJourneeCaisseEntrant($this);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->intercaisseEntrants->add($interCaisses);
+            $interCaisses->setJourneeCaisseEntrant($this);
+        }
     }
 
 
@@ -635,8 +661,10 @@ class JourneeCaisses
      */
     public function addDeviseRecu(DeviseRecus $deviseRecu)
     {
-        $deviseRecu->setJourneeCaisse($this);
-        $this->deviseRecus->add($deviseRecu);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $deviseRecu->setJourneeCaisse($this);
+            $this->deviseRecus->add($deviseRecu);
+        }
 
     }
 
@@ -645,7 +673,9 @@ class JourneeCaisses
      */
     public function removeDeviseRecu(DeviseRecus $deviseRecu)
     {
-        $this->deviseRecus->removeElement($deviseRecu);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->deviseRecus->removeElement($deviseRecu);
+        }
     }
 
     /**
@@ -653,8 +683,10 @@ class JourneeCaisses
      */
     public function addTransaction(Transactions $transaction)
     {
-        $this->transactions->add($transaction);
-        $transaction->setJourneeCaisse($this);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->transactions->add($transaction);
+            $transaction->setJourneeCaisse($this);
+        }
     }
 
     /**
@@ -662,7 +694,9 @@ class JourneeCaisses
      */
     public function removeTransaction(Transactions $transaction)
     {
-        $this->transactions->removeElement($transaction);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->transactions->removeElement($transaction);
+        }
     }
 
     /**
@@ -689,7 +723,9 @@ class JourneeCaisses
      */
     public function removeDetteCredit(DetteCreditDivers $detteCreditDiver)
     {
-        $this->detteCredits->removeElement($detteCreditDiver);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->detteCredits->removeElement($detteCreditDiver);
+        }
     }
 
 
@@ -1583,12 +1619,14 @@ class JourneeCaisses
      */
     public function addRecetteDepense(RecetteDepenses $recetteDepense)
     {
-        $recetteDepense->setUtilisateur($this->getUtilisateur());
-        $recetteDepense->setJourneeCaisse($this);
-        $this->recetteDepenses->add($recetteDepense);
-        $this->updateM('mRecette',$recetteDepense->getMRecette());
-        $this->updateM('mDepense',$recetteDepense->getMDepense());
-        return $this;
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $recetteDepense->setUtilisateur($this->getUtilisateur());
+            $recetteDepense->setJourneeCaisse($this);
+            $this->recetteDepenses->add($recetteDepense);
+            $this->updateM('mRecette', $recetteDepense->getMRecette());
+            $this->updateM('mDepense', $recetteDepense->getMDepense());
+            return $this;
+        }
     }
 
     /**
@@ -1623,13 +1661,15 @@ class JourneeCaisses
      */
     public function addDepotRetrait(DepotRetraits $depotRetrait)
     {
-        $depotRetrait->setUtilisateur($this->getUtilisateur());
-        $depotRetrait->setJourneeCaisse($this);
-        $depotRetrait->setCompteOperationCaisse($this->getCaisse()->getCompteOperation());
-        $this->depotRetraits->add($depotRetrait);
-        $this->updateM('mDepotClient',$depotRetrait->getMDepot());
-        $this->updateM('mRetraitClient',$depotRetrait->getMRetrait());
-        return $this;
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $depotRetrait->setUtilisateur($this->getUtilisateur());
+            $depotRetrait->setJourneeCaisse($this);
+            $depotRetrait->setCompteOperationCaisse($this->getCaisse()->getCompteOperation());
+            $this->depotRetraits->add($depotRetrait);
+            $this->updateM('mDepotClient', $depotRetrait->getMDepot());
+            $this->updateM('mRetraitClient', $depotRetrait->getMRetrait());
+            return $this;
+        }
     }
 
     /**
@@ -1637,7 +1677,9 @@ class JourneeCaisses
      */
     public function removeDepotRetrait(DepotRetraits $depotRetrait)
     {
-        $this->depotRetraits->removeElement($depotRetrait);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->depotRetraits->removeElement($depotRetrait);
+        }
     }
 
 

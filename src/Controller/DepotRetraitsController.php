@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Caisses;
 use App\Entity\Comptes;
+use App\Entity\CriteresDates;
 use App\Entity\DepotRetraits;
 use App\Entity\JourneeCaisses;
+use App\Entity\Utilisateurs;
+use App\Form\CriteresDatesType;
 use App\Form\DecaissementType;
 use App\Form\DepotType;
 use App\Form\EncaissementType;
@@ -39,11 +43,44 @@ class DepotRetraitsController extends Controller
         $this->journeeCaisse = $sessionUtilisateur->getJourneeCaisse();
     }
     /**
-     * @Route("/", name="depot_retraits_index", methods="GET")
+     * @Route("/", name="depot_retraits_index", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
-    public function index(DepotRetraitsRepository $depotRetraitsRepository): Response
+    public function index(Request $request): Response
     {
-        return $this->render('depot_retraits/index.html.twig', ['depot_retraits' => $depotRetraitsRepository->findAll()]);
+        $compteOperation=$request->request->get('compteOperation')?$request->request->get('compteOperation'):$request->query->get('compteOperation');
+        $utilisateur=$request->request->get('utilisateur')?$request->request->get('utilisateur'):$request->query->get('utilisateur');
+        $compte=$request->request->get('compte')?$request->request->get('compte'):$request->query->get('compte');
+        $dateDebut=$request->query->get('dateDebut');
+        $dateFin=$request->query->get('dateFin');
+
+        $criteresRecherches=new CriteresDates();
+
+        if ($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut.' 00:00:00'));
+        if ($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin.' 23:59:59'));
+
+        $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $listingDepotRetraits = $this->getDoctrine()
+            ->getRepository(DepotRetraits::class)
+            ->findListingDepotRetraits($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $compteOperation, $utilisateur, $compte);
+
+        $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAllJoinCompteOperation(0);
+        $utilisateurs=$this->getDoctrine()->getRepository(Utilisateurs::class)->findAll();
+        $comptes=$this->getDoctrine()->getRepository(Comptes::class)->findComptesClients();
+
+        return $this->render('depot_retraits/index.html.twig', [
+            'depot_retraits' => $listingDepotRetraits,
+            'form' => $form->createView(),
+            'caisses'=>$caisses,
+            'caisse_co'=>$compteOperation,
+            'utilisateurs'=>$utilisateurs,
+            'utilisateur_id'=>$utilisateur,
+            'comptes'=>$comptes,
+            'compte_id'=>$compte,
+            'criteres'=>$criteresRecherches,
+        ]);
     }
 
     /**
@@ -95,6 +132,12 @@ class DepotRetraitsController extends Controller
 
     private function depotRetrait(Request $request,\Swift_Mailer $mailer, $typeOperation='depot'){
 
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId())
+        {
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
         $depotRetrait = new DepotRetraits();
         $depotRetrait->setDateOperation(new \DateTime());
 

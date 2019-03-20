@@ -55,7 +55,8 @@ class InterCaissesController extends Controller
      */
     public function ajout(Request $request): Response
     {
-        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
@@ -100,7 +101,8 @@ class InterCaissesController extends Controller
      */
     public function autoriser(Request $request, InterCaisses $interCaisse): Response
     {
-        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS){
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
@@ -192,9 +194,9 @@ class InterCaissesController extends Controller
     {
         $retourCompense=new DepotRetraits();
     }
-    /**
+    /*
      * @Route("/new", name="inter_caisses_new", methods="GET|POST")
-     */
+     
     public function new(Request $request): Response
     {
         $interCaiss = new InterCaisses();
@@ -213,7 +215,7 @@ class InterCaissesController extends Controller
             'inter_caiss' => $interCaiss,
             'form' => $form->createView(),
         ]);
-    }
+    }*/
     /**
      * @Route("/{id}", name="inter_caisses_show", methods="GET|POST")
      */
@@ -224,9 +226,9 @@ class InterCaissesController extends Controller
             'myIntercaisses'=>$myIntercaisses ]);
     }
 
-    /**
+    /*
      * @Route("/{id}/edit", name="inter_caisses_edit", methods="GET|POST")
-     */
+     
     public function edit(Request $request, InterCaisses $interCaiss): Response
     {
         $form = $this->createForm(InterCaissesType::class, $interCaiss);
@@ -242,11 +244,11 @@ class InterCaissesController extends Controller
             'inter_caiss' => $interCaiss,
             'form' => $form->createView(),
         ]);
-    }
+    }*/
 
-    /**
+    /*
      * @Route("/{id}", name="inter_caisses_delete", methods="DELETE")
-     */
+     
     public function delete(Request $request, InterCaisses $interCaiss): Response
     {
         if ($this->isCsrfTokenValid('delete'.$interCaiss->getId(), $request->request->get('_token'))) {
@@ -256,7 +258,7 @@ class InterCaissesController extends Controller
         }
 
         return $this->redirectToRoute('inter_caisses_index');
-    }
+    }*/
 
     private function valider(InterCaisses $interCaisse, $statut=InterCaisses::VALIDE){
         $interCaisse->setStatut($statut);

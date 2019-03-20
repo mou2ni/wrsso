@@ -23,11 +23,11 @@ class CriteresDates
         $this->dateFin=new \DateTime($y.'-12-31');*/
 
         $auj=new \DateTime();
-        //$string_auj=$auj->format('Y-m-d');
-        $hier=$auj->sub(new \DateInterval('P1D'));
-        $string_hier=$hier->format('Y-m-d');
-        $this->dateDebut=new \DateTime($string_hier.' 00:00:00');
-        $this->dateFin=new \DateTime($string_hier.' 23:59:59');
+        $string_auj=$auj->format('Y-m-d');
+        //$hier=$auj->sub(new \DateInterval('P1D'));
+        //$string_hier=$hier->format('Y-m-d');
+        $this->dateDebut=new \DateTime($string_auj.' 00:00:00');
+        $this->dateFin=new \DateTime($string_auj.' 23:59:59');
     }
 
     /**

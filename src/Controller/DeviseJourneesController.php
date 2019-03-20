@@ -138,7 +138,7 @@ class DeviseJourneesController extends Controller
         ]);
     }
 
-    /**
+    /*
      * @Route("/new", name="devise_journees_new", methods="GET|POST")
      */
     public function new(Request $request): Response
@@ -169,7 +169,7 @@ class DeviseJourneesController extends Controller
         return $this->render('devise_journees/show.html.twig', ['devise_journee' => $deviseJournee]);
     }
 
-    /**
+    /*
      * @Route("/{id}/edit", name="devise_journees_edit", methods="GET|POST")
      */
     public function edit(Request $request, DeviseJournees $deviseJournee): Response
@@ -189,7 +189,7 @@ class DeviseJourneesController extends Controller
         ]);
     }
 
-    /**
+    /*
      * @Route("/{id}", name="devise_journees_delete", methods="DELETE")
      */
     public function delete(Request $request, DeviseJournees $deviseJournee): Response

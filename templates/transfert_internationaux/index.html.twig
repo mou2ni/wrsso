@@ -50,16 +50,18 @@
                 <td>{{ (transfert.mFraisHt+transfert.mTva+transfert.mAutresTaxes)|number_format(0, '.', ' ') }}</td>#}
                 <td>{{ transfert.mTransfertTTC|number_format(0, '.', ' ') }}</td>
                 <td>
-                    <a href="{{ path('transfert_internationaux_show', {'id': transfert.id,
-                        'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
-                        'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
-                        'systemTransfert':systemTransfert_id,
-                        }) }}">Supprimer</a> |
-                    <a href="{{ path('transfert_internationaux_edit', {'id': transfert.id,
-                        'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
-                        'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
-                        'systemTransfert':systemTransfert_id,
-                    }) }}">Modifier</a>
+                    {% if  is_granted('ROLE_COMPTABLE') %}
+                        <a href="{{ path('transfert_internationaux_show', {'id': transfert.id,
+                            'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                            'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                            'systemTransfert':systemTransfert_id,
+                            }) }}">Supprimer</a> |
+                        <a href="{{ path('transfert_internationaux_edit', {'id': transfert.id,
+                            'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                            'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                            'systemTransfert':systemTransfert_id,
+                        }) }}">Modifier</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
