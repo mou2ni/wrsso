@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compenses index{% endblock %}
+
+{% block body %}
+    <h1>Compenses | <a href="{{ path('compenses_saisie') }}">Nouvelle compensation</a> </h1>
+
+    {{ include('_pagination.html.twig') }}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>DateCompense</th>
+                <th class="padding-0 text-right">Total Envoi</th>
+                <th class="padding-0 text-right">Total Reception</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set totalEnvoi=0 %}
+        {% set totalReception=0 %}
+        {% for compense in compenses %}
+            <tr>
+                <td>Du {{ compense.dateDebut ? compense.dateDebut|date('d-m H:i:s') : '' }} Au  {{ compense.dateFin ? compense.dateFin|date('d-m H:i:s') : '' }}</td>
+                <td class="padding-0 text-right">{{ compense.totalEnvoi|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0 text-right">{{ compense.totalReception|number_format(0, '.', ' ') }}</td>
+                <td>
+                    <a href="{{ path('compenses_show', {'id': compense.id}) }}">Details</a> |
+                    <a href="{{ path('compenses_edit', {'id': compense.id}) }}">Modifier</a>
+                </td>
+            </tr>
+            {% set totalEnvoi=totalEnvoi+compense.totalEnvoi %}
+            {% set totalReception=totalReception+compense.totalReception%}
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun enregistrement</td>
+            </tr>
+        {% endfor %}
+        <tr  bgcolor="#f69f00">
+            <th class="padding-0 text-right">TOTAUX : </th>
+            <th class="padding-0 text-right">{{totalEnvoi|number_format(0, '.', ' ') }}</th>
+            <th class="padding-0 text-right">{{totalReception|number_format(0, '.', ' ') }}</th>
+            <th>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+
+{% endblock %}

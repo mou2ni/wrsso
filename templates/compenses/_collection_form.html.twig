@@ -1,0 +1,97 @@
+<div class="table-responsive">
+    <table id="collections-contener" class="collection-tags table table-bordered"
+           data-prototype="
+{{ '<td class="padding-0">'|e }}{{ form_widget(form.compenseLignes.vars.prototype.systemTransfert)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.compenseLignes.vars.prototype.mEnvoiAttendu)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.compenseLignes.vars.prototype.mEnvoiCompense)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.compenseLignes.vars.prototype.mReceptionAttendu)|e }}
+{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.compenseLignes.vars.prototype.mReceptionCompense)|e }}
+{{ '</td>'|e }}"
+           data-widget-tags="{{ '<tr class="collection-tag"></tr>'|e }}"  data-list="#collections-contener" onchange="">
+
+        <thead>
+        <tr>
+            <th class="text-bold ">Période </th> <td class="text-bold padding-5 text-center" colspan="7">
+                <div class="form-inline">
+                <form method="get" action="{{ path('compenses_saisie') }}">
+                    Du : <input type="date" id="dateDebut" name="dateDebut"  class="form-control"  value="{{ dateDebut.format('Y-m-d') }}">
+                    Au : <input type="date" id="dateFin" name="dateFin"  class="form-control"  value="{{ dateFin.format('Y-m-d') }}">
+                    Banque : <select id="banque" name="banque" class="">
+                        {#<option  {{ (app.request.request.get('banque')=='')?'selected="selected"':''}} value="">Selectionnez une banque</option>
+                        #}{% for banque in banques %}
+                            <option  {{ (banque_id==banque.id)?'selected="selected"':''}} value={{ banque.id }}>{{ banque.code }}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn-primary btn" name="charger" > Charger...</button>
+
+                </form>
+
+
+               {# {{ form_widget(form.dateCompense) }}
+                    <form class="form-inline" method="GET" action="{{ path('compenses_saisie',{'dateCompense':dateCompense})}}" >
+                        <button class="btn-primary btn" name="afficher" id="afficher"> Afficher</button>
+
+                    </form>#}
+                </div></td>
+        </tr>
+        <tr>
+            <th class="text-bold padding-5 text-center" rowspan="2">Transfert </th>
+            <th class="text-bold padding-5 text-center" colspan="2">Envois</th>
+            <th class="text-bold padding-5 text-center" colspan="2">Receptions</th>
+            <th class="text-bold padding-5 text-center" colspan="3">Net</th>
+        </tr>
+        <tr>
+            <th class="text-bold padding-5 text-right">Attendu</th>
+            <th class="text-bold padding-5 ">Compensé</th>
+            <th class="text-bold padding-5 text-right">Attendu</th>
+            <th class="text-bold padding-5 ">Compensé</th>
+            <th class="text-bold padding-5 text-right">Attendu</th>
+            <th class="text-bold padding-5 ">Compensé</th>
+            <th class="text-bold padding-5 ">Ecarts</th>
+        </tr>
+        </thead>
+ {{ form_start(form, {'attr': {'onsubmit':'return confirm("Confirmer l\'enregistrement ?");'} } ) }}
+        {% set  totalEnvoiAttendu=0%}
+        {% set  totalReceptionAttendu=0%}
+        {% set  totalEnvoi=0%}
+        {% set  totalReception=0%}
+        {% set i=0 %}
+        {% for compenseLigne in form.compenseLignes %}
+            <tr class="collection-tag ">
+                <td class="padding-0" bgcolor="#eee9e6" >{{ form_errors(compenseLigne.systemTransfert) }} {{ form_widget(compenseLigne.systemTransfert) }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6">{{compenseLigne.mEnvoiAttendu.vars.data|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseEnvoi_{{ i }}" onchange="changeEnvoi({{ i }})">{{ form_errors(compenseLigne.mEnvoiCompense) }} {{ form_widget(compenseLigne.mEnvoiCompense) }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6">{{compenseLigne.mReceptionAttendu.vars.data|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseReception_{{ i }}" onchange="changeReception({{ i }})">{{ form_errors(compenseLigne.mReceptionCompense) }} {{ form_widget(compenseLigne.mReceptionCompense) }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6" id="AttenduNet_{{ i }}">{{(compenseLigne.mEnvoiAttendu.vars.data-compenseLigne.mReceptionAttendu.vars.data)|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseNet_{{ i }}">{{(compenseLigne.mEnvoiCompense.vars.data-compenseLigne.mReceptionCompense.vars.data)|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseEcart_{{ i }}">{{((compenseLigne.mEnvoiAttendu.vars.data-compenseLigne.mReceptionAttendu.vars.data) - (compenseLigne.mEnvoiCompense.vars.data-compenseLigne.mReceptionCompense.vars.data))|number_format(0, '.', ' ') }}</td>
+            </tr>
+
+            {% set  totalEnvoiAttendu=totalEnvoiAttendu+compenseLigne.mEnvoiAttendu.vars.data%}
+            {% set  totalReceptionAttendu=totalReceptionAttendu+compenseLigne.mReceptionAttendu.vars.data%}
+            {% set  totalEnvoi=totalEnvoi+compenseLigne.mEnvoiCompense.vars.data%}
+            {% set  totalReception=totalReception+compenseLigne.mReceptionCompense.vars.data%}
+            {% set i=i+1 %}
+        {% else %}
+            <tr> <td> aucun enregistrement</td></tr>
+        {% endfor %}
+
+        <tr bgcolor="#f69f00">
+            <th class="text-bold ">TOTAUX </th>
+            <th class="text-bold padding-5 text-right" > {{ totalEnvoiAttendu|number_format(0, '.', ' ') }}</th>
+            <th class="text-bold padding-5" id="compenseTotalEnvoi">{{ totalEnvoi|number_format(0, '.', ' ') }}</th>
+            <th class="text-bold padding-5 text-right"> {{ totalReceptionAttendu|number_format(0, '.', ' ')}}</th>
+            <th class="text-bold padding-5" id="compenseTotalReception">{{totalReception|number_format(0, '.', ' ')}}</th>
+            <th class="text-bold padding-5 text-right"> {{ (totalEnvoiAttendu-totalReceptionAttendu)|number_format(0, '.', ' ')}}</th>
+            <th class="text-bold padding-5 text-right" id="compenseTotalNet"> {{ (totalEnvoi-totalReception)|number_format(0, '.', ' ') }}</th>
+            <th class="text-bold padding-5 text-right" id="compenseTotalEcart"> {{ ((totalEnvoiAttendu-totalReceptionAttendu)-(totalEnvoi-totalReception))|number_format(0, '.', ' ') }}</th>
+        </tr>
+
+
+    </table>
+
+    {{ form_row(form._token) }}
+    {{ include('_btn_enregistrer.html.twig') }}
+</div>
+{{ form_end(form, {'render_rest': false})  }}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Compenses{% endblock %}
+
+{% block body %}
+    <h1>Modification Compenses</h1>
+
+    {{ include('compenses/_collection_form.html.twig') }}
+
+    <a href="{{ path('compenses_index') }}">Liste</a>
+
+    {{ include('compenses/_delete_form.html.twig') }}
+{% endblock %}

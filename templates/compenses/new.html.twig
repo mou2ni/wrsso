@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Compenses{% endblock %}
+
+{% block body %}
+    <h1>Saisie de la compense</h1>
+
+    {{ include('compenses/_collection_form.html.twig') }}
+
+    <a href="{{ path('compenses_index') }}">Liste des compenses</a>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{   asset('js/compense.js') }}"></script>
+{% endblock %}
