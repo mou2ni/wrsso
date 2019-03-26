@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CompenseLignes{% endblock %}
+
+{% block body %}
+    <h1>CompenseLignes</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ compense_ligne.id }}</td>
+            </tr>
+            <tr>
+                <th>MEnvoiAttendu</th>
+                <td>{{ compense_ligne.mEnvoiAttendu }}</td>
+            </tr>
+            <tr>
+                <th>MReceptionAttendu</th>
+                <td>{{ compense_ligne.mReceptionAttendu }}</td>
+            </tr>
+            <tr>
+                <th>MEnvoiCompense</th>
+                <td>{{ compense_ligne.mEnvoiCompense }}</td>
+            </tr>
+            <tr>
+                <th>MReceptionCompense</th>
+                <td>{{ compense_ligne.mReceptionCompense }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('compense_lignes_index') }}">back to list</a>
+
+    <a href="{{ path('compense_lignes_edit', {'id': compense_ligne.id}) }}">edit</a>
+
+    {{ include('compense_lignes/_delete_form.html.twig') }}
+{% endblock %}

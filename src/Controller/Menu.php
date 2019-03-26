@@ -66,31 +66,30 @@ class Menu  extends Controller
 
         $this->menu_comptable=[
             ['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
+            ,['text'=>'Compensation', 'lien'=>'compenses_saisie']
             ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_comptant_groupee']
             ,['text'=>'Salaires-Positionnement', 'lien'=>'salaires_positionnement']
             ,['text'=>'Ecritures comptables', 'lien'=>'transactions_index']
-            ,['text'=>'Recettes Depenses à terme', 'lien'=>'#']
-            ,['text'=>'Salaires-Paiement', 'lien'=>'#']
-            ,['text'=>'Journaux comptables', 'lien'=>'#']
-            ,['text'=>'Rapprochement bancaire', 'lien'=>'#']
-            ,['text'=>'Pointage des écritures', 'lien'=>'#']
+            ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_ecritures']
+            ,['text'=>'Grand livre', 'lien'=>'compta_grand_livre']
+            ,['text'=>'Balance', 'lien'=>'compta_balance']
             ,['text'=>'Maintenance comptes', 'lien'=>'compta_maintenir_solde_compte']
+            //,['text'=>'Compte de résultat', 'lien'=>'#']
+            //,['text'=>'Soldes de gestion', 'lien'=>'#']
+            //,['text'=>'Recettes Depenses à terme', 'lien'=>'#']
+            //,['text'=>'Salaires-Paiement', 'lien'=>'#']
+            //,['text'=>'Rapprochement bancaire', 'lien'=>'#']
+            //,['text'=>'Pointage des écritures', 'lien'=>'#']
             ,
         ];
 
         $this->menu_suivi=[
-            ['text'=>'Tableau de bord', 'lien'=>'#']
-            ,['text'=>'Journées Caisses', 'lien'=>'journee_caisses_index']
-            ,['text'=>'Etat Compenses', 'lien'=>'compta_compenses']
-            ,['text'=>'Transferts', 'lien'=>'transfert_internationaux_index']
+            ['text'=>'Journées Caisses', 'lien'=>'journee_caisses_index']
+            ,['text'=>'Suivi transferts', 'lien'=>'compta_compenses']
             ,['text'=>'Depots retraits', 'lien'=>'depot_retraits_index']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Mouvements de Devises', 'lien'=>'devise_mouvements_etat']
-            ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_ecritures']
-            ,['text'=>'Grand livre', 'lien'=>'compta_grand_livre']
-            ,['text'=>'Balance', 'lien'=>'compta_balance']
-            ,['text'=>'Compte de résultat', 'lien'=>'#']
-            ,['text'=>'Soldes de gestion', 'lien'=>'#']
+            ,['text'=>'Tableau de bord', 'lien'=>'#']
             ,
         ];
 

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CompenseLignes index{% endblock %}
+
+{% block body %}
+    <h1>CompenseLignes index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>MEnvoiAttendu</th>
+                <th>MReceptionAttendu</th>
+                <th>MEnvoiCompense</th>
+                <th>MReceptionCompense</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for compense_ligne in compense_lignes %}
+            <tr>
+                <td>{{ compense_ligne.id }}</td>
+                <td>{{ compense_ligne.mEnvoiAttendu }}</td>
+                <td>{{ compense_ligne.mReceptionAttendu }}</td>
+                <td>{{ compense_ligne.mEnvoiCompense }}</td>
+                <td>{{ compense_ligne.mReceptionCompense }}</td>
+                <td>
+                    <a href="{{ path('compense_lignes_show', {'id': compense_ligne.id}) }}">show</a>
+                    <a href="{{ path('compense_lignes_edit', {'id': compense_ligne.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('compense_lignes_new') }}">Create new</a>
+{% endblock %}

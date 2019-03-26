@@ -62,10 +62,6 @@ function majTransfert() {
 };
 */
 
-function Echape(data)
-{
-    return data.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "");
-}
 
 function majOuverture() {
     alert('top');
@@ -478,6 +474,9 @@ function totaljourneeCaisseFermeture() {
 }
 
 
+
+
+////////////////////////////////////////////////////////////////////////// COMMUN ////////////////////////////////////////////////
 // fonction prenant le nom d un champ et retournant la valeur de ce champ 
 
 function valeur(champ) {
@@ -486,4 +485,44 @@ function valeur(champ) {
         r=parseInt($(champ).val(),10);
     else r=0;
     return r;
+}
+
+
+function totalInnerHTMLCol(colonnePrefix, colonneSufix, resultId) {
+    var i=0;
+    var total=0;
+    while (document.getElementById(colonnePrefix+i+colonneSufix)) {
+        total=total+Echape(document.getElementById(colonnePrefix+i+colonneSufix).innerHTML)*1;
+        //console.log(colonnePrefix+i+colonneSufix+" = "+ document.getElementById(colonnePrefix+i+colonneSufix).innerHTML) ;
+        i++;
+    }
+    document.getElementById(resultId).innerHTML=formatMillier(total,0);
+}
+
+function totalInputCol(colonnePrefix, colonneSufix, resultId) {
+    var i=0;
+    var total=0;
+    while ($("#"+colonnePrefix+i+colonneSufix).val()!=undefined ) {
+        total=total+Echape($("#"+colonnePrefix+i+colonneSufix).val())*1;
+        //console.log(colonnePrefix+i+colonneSufix+"="+$("#"+colonnePrefix+i+colonneSufix).val());
+        i++;
+    }
+    //$("#"+resultId).val(total);
+    document.getElementById(resultId).innerHTML=formatMillier(total,0);
+}
+
+function Echape(data)
+{
+    //return data.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "");
+    return data.replace(/[[\]{}()*?.,\\^$|#\s]/g, "");
+}
+
+function Arrondir( nombre, nbDecimal ) {
+    //return ( parseInt(nombre * Math.pow(10,nbDecimal) + 0.5) ) / Math.pow(10,nbDecimal);
+    return ( parseInt(nombre * Math.pow(10,nbDecimal)) ) / Math.pow(10,nbDecimal);
+}
+
+function formatMillier( nombre, nbDecimal ) {
+    var nbrArrnd = Arrondir(nombre, nbDecimal);
+    return new Intl.NumberFormat().format( nbrArrnd );
 }

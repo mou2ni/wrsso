@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CompenseLignes{% endblock %}
+
+{% block body %}
+    <h1>Edit CompenseLignes</h1>
+
+    {{ include('compense_lignes/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('compense_lignes_index') }}">back to list</a>
+
+    {{ include('compense_lignes/_delete_form.html.twig') }}
+{% endblock %}

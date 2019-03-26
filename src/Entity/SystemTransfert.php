@@ -30,7 +30,7 @@ class SystemTransfert
     private $libelle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Caisses", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $banque;
@@ -95,6 +95,24 @@ class SystemTransfert
     public function setTransfertInternationaux($transfertInternationaux)
     {
         $this->transfertInternationaux = $transfertInternationaux;
+        return $this;
+    }
+
+    /**
+     * @return Caisses
+     */
+    public function getBanque()
+    {
+        return $this->banque;
+    }
+
+    /**
+     * @param Caisses $banque
+     * @return SystemTransfert
+     */
+    public function setBanque($banque)
+    {
+        $this->banque = $banque;
         return $this;
     }
 

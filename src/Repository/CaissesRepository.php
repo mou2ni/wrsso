@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Caisses;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -58,6 +59,21 @@ class CaissesRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function qbFindBanques(){
+        return $qb=$this->createQueryBuilder('c')
+            ->where('c.typeCaisse=:banque')
+            ->setParameter('banque', Caisses::BANQUE)
+            ->orderBy('c.code','ASC');
+
+    }
+
+    public function findBanques(){
+        return $this->qbFindBanques()->getQuery()->getResult();
     }
 
 //$qb->innerJoin('u.Group', 'g', 'WITH', 'u.status = ?1', 'g.id')

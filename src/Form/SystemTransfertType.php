@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Caisses;
 use App\Entity\SystemTransfert;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,6 +16,17 @@ class SystemTransfertType extends AbstractType
     {
         $builder
             ->add('libelle')
+            ->add('banque', EntityType::class, array (
+                'class' => 'App\Entity\Caisses',
+                'choice_label' => 'code',
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->where('c.typeCaisse=:typeCaisse')->setParameter('typeCaisse', Caisses::COMPENSE)
+                        ->orderBy('c.code', 'ASC');
+                }
+            ))
         ;
     }
 

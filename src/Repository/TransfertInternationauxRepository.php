@@ -339,4 +339,21 @@ ORDER BY SystemTransfert.id, z.ordre
 
     }
 
+    public function findCompensations(\DateTime $dateDebut, \DateTime $dateFin, $caisse){
+        $qb=$this->createQueryBuilder('ti')
+            ->select('st.id, st.libelle,  SUM(CASE WHEN ti.sens=:envoi THEN ti.mTransfertTTC ELSE 0 END) as mEnvoi
+            , SUM(CASE WHEN ti.sens=:reception THEN ti.mTransfertTTC ELSE 0 END) as mReception')
+            ->setParameter('envoi', TransfertInternationaux::ENVOI)->setParameter('reception', TransfertInternationaux::RECEPTION)
+            ->innerJoin('ti.idSystemTransfert','st', 'WITH', 'ti.idSystemTransfert=st.id')
+            ->innerJoin('st.banque','b', 'WITH', 'st.banque=b.id')
+            ->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut)
+            ->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin)
+            ->andWhere('st.banque=:caisse')->setParameter('caisse',$caisse)
+            ->groupBy('st.id');
+
+        return   $qb->orderBy('st.libelle')
+            ->getQuery()->getResult();
+
+    }
+
 }
