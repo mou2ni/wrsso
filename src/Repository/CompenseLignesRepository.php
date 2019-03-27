@@ -21,18 +21,23 @@ class CompenseLignesRepository extends ServiceEntityRepository
         parent::__construct($registry, CompenseLignes::class);
     }
     
-    public function liste($offset,$limit = 10)
+    public function listing(\DateTime $dateDebut, \DateTime $dateFin, $offset=0,$limit = 50)
     {
-        $qb = $this->createQueryBuilder('e')
-            ->orderBy('e.id', 'ASC')
+        return $qb = $this->createQueryBuilder('cl')
+            ->select('c.id as cId, c.dateFin as dateFin, SUM(cl.mEnvoiAttendu - cl.mReceptionAttendu) as mAttendu, SUM(cl.mEnvoiCompense-cl.mReceptionCompense) as mCompense')
+            ->innerJoin('cl.compense','c', 'WITH', 'cl.compense=c.id')
+            ->where('c.dateFin >=?1')->setParameter(1,$dateDebut)
+            ->andWhere('c.dateFin<=?2')->setParameter(2, $dateFin)
+            ->groupBy('c.id')
+            ->orderBy('c.dateFin', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
-            //->getQuery()
-            //->getResult()
+            ->getQuery()
+            ->getResult()
             ;
-        $pag = new Paginator($qb);
+        //$pag = new Paginator($qb);
 
-        return $pag;
+        //return $pag;
     }
 
 

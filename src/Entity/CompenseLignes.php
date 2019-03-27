@@ -26,12 +26,6 @@ class CompenseLignes
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $transaction;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Compenses" , inversedBy="compenseLignes")
      * @ORM\JoinColumn(nullable=false)
      */

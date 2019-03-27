@@ -269,6 +269,12 @@ class Transactions
         $this->mDebitTotal-=$transactionCompte->getMDebit();
     }
 
+    public function removeAllTransactionCompte(){
+        foreach ($this->getTransactionComptes() as $transactionCompte){
+            $this->removeTransactionCompte($transactionCompte);
+        }
+    }
+
     /**
      * @return mixed
      */

@@ -9,6 +9,8 @@
 namespace App\Utils;
 
 use App\Entity\Caisses;
+use App\Entity\CompenseLignes;
+use App\Entity\Compenses;
 use App\Entity\Comptes;
 use App\Entity\DepotRetraits;
 use App\Entity\InterCaisses;
@@ -116,7 +118,9 @@ class GenererCompta
         $transaction=new Transactions();
 
         //prend la date comptable de la journée caisse ou la date comptable du jour le cas échéant
-        $dateComptable=($dateTime)?$dateTime:($journeeCaisse)?($journeeCaisse->getDateComptable())?$journeeCaisse->getDateComptable():$this::getDateComptable():$this::getDateComptable();
+        if($dateTime) $dateComptable=$dateTime;
+        //elseif($journeeCaisse) $dateComptable=($journeeCaisse->getDateComptable())?$journeeCaisse->getDateComptable():$this::getDateComptable();
+        else $dateComptable = new \DateTime();
 
         //montant=0 alors ressortir avec ERR_ZERO
         if($montant==0 )
@@ -135,7 +139,7 @@ class GenererCompta
 
     }
 
-    private function debiterCrediter(Transactions $transaction, Comptes $compteDebit, Comptes $compteCredit, $montant, $numPiece=null)
+    private function debiterCrediter(Transactions $transaction, Comptes $compteDebit, Comptes $compteCredit, $montant, $numPiece=null, $libelle=null)
     {
         //vérification de la non nullité des comptes transmis
         //if ($compteDebit==null or $compteCredit==null) return new Transactions();
@@ -144,10 +148,10 @@ class GenererCompta
 
         //$montant = abs($montant);
         //ajout de ligne d'écriture debit
-        $transaction->addTransactionCompte($this->fillTransactionCompte($compteDebit, -$montant));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteDebit, -$montant, $libelle));
 
         //ajout de ligne d'écriture credit
-        $transaction->addTransactionCompte($this->fillTransactionCompte($compteCredit, $montant));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($compteCredit, $montant, $libelle));
 
         //$this->em=$this->getDoctrine()->getManager();
         $this->em->persist($transaction);
@@ -608,6 +612,52 @@ class GenererCompta
         }
         $this->em->persist($transaction);
         return $transaction;
+    }
+
+    private function comptaCompensation(Utilisateurs $utilisateur, Compenses $compense, Transactions $transaction=null)
+    {
+        $caisse=$compense->getCaisse();
+        $journalComptable=$this->checkJournalComptable($caisse);
+        if (!$journalComptable) return false;
+        $compteOperation=$this->checkCompteOperation($caisse);
+        if (!$compteOperation) return false;
+        $compteCompense=$this->checkCompteAttenteCompense($caisse);
+        if (!$compteCompense) return false;
+
+        if (!$transaction){
+            $transaction=$this->initTransaction($utilisateur,'Retour de compense',$compense->getTotalEnvoi()-$compense->getTotalReception(), $journalComptable,null,$compense->getDateFin());
+            if (!$transaction) return false ;
+        }
+
+        foreach ($compense->getCompenseLignes() as $compenseLigne){
+            $transaction = $this->debiterCrediter($transaction, $compteOperation, $compteCompense,$compenseLigne->getMEnvoiCompense(), null, 'Emission-'.$compenseLigne->getSystemTransfert()->getLibelle());
+            $transaction = $this->debiterCrediter($transaction, $compteOperation, $compteCompense,$compenseLigne->getMReceptionCompense(), null, 'Paiement-'.$compenseLigne->getSystemTransfert()->getLibelle());
+        }
+
+        $this->transactions->add($transaction);
+        if ($transaction->isDesequilibre()){
+            $this->setE(Transactions::ERR_DESEQUILIBRE);
+            $this->setErrMessage('Ecriture comptable déséquibrée');
+            return false;
+        }
+        $this->em->persist($transaction);
+        return $transaction;
+    }
+    public function genComptaCompensation(Utilisateurs $utilisateur, Compenses $compense )
+    {
+        $transaction=$this->comptaCompensation($utilisateur,$compense);
+        if (!$transaction) return false;
+
+        $compense->setTransaction($transaction);
+        return $transaction;
+    }
+
+    public function modifComptaCompensation(Utilisateurs $utilisateur, Compenses $compense )
+    {
+        $transaction=$compense->getTransaction();
+        $transaction->removeAllTransactionCompte();
+
+        return $this->comptaCompensation($utilisateur,$compense,$transaction);
     }
 
 

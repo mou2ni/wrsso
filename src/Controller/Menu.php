@@ -45,6 +45,7 @@ class Menu  extends Controller
             ,['text'=>'Devises', 'lien'=>'devises_index']
             ,['text'=>'Billets', 'lien'=>'billets_index']
             ,['text'=>'Pays et zones', 'lien'=>'pays_index']
+            ,['text'=>'Système transferts', 'lien'=>'system_transfert_index']
             ,
         ];
 
@@ -85,11 +86,12 @@ class Menu  extends Controller
 
         $this->menu_suivi=[
             ['text'=>'Journées Caisses', 'lien'=>'journee_caisses_index']
-            ,['text'=>'Suivi transferts', 'lien'=>'compta_compenses']
+            ,['text'=>'Suivi transferts', 'lien'=>'transfert_internationaux_tc']
+            ,['text'=>'Suivi Compensation', 'lien'=>'compenses_index']
             ,['text'=>'Depots retraits', 'lien'=>'depot_retraits_index']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Mouvements de Devises', 'lien'=>'devise_mouvements_etat']
-            ,['text'=>'Tableau de bord', 'lien'=>'#']
+            //,['text'=>'Tableau de bord', 'lien'=>'#']
             ,
         ];
 

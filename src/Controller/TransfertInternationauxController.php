@@ -7,6 +7,7 @@ use App\Entity\CriteresDates;
 use App\Entity\JourneeCaisses;
 use App\Entity\SystemTransfert;
 use App\Entity\TransfertInternationaux;
+use App\Form\CriteresDatesType;
 use App\Form\CriteresRecherchesJourneeCaissesType;
 use App\Form\EmissionsType;
 use App\Form\ReceptionsType;
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
- * @Route("/transfert/internationaux")
+ * @Route("/transfertinternationaux")
  */
 class TransfertInternationauxController extends Controller
 {
@@ -79,29 +80,6 @@ class TransfertInternationauxController extends Controller
         ]);
     }
 
-    /*
-     * @Route("/new", name="transfert_internationaux_new", methods="GET|POST")
-
-    public function new(Request $request): Response
-    {
-        $transfertInternationaux = new TransfertInternationaux();
-        $form = $this->createForm(TransfertInternationauxType::class, $transfertInternationaux);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($transfertInternationaux);
-            $em->flush();
-
-            return $this->redirectToRoute('transfert_internationaux_index');
-        }
-
-        return $this->render('transfert_internationaux/new.html.twig', [
-            'transfert_internationaux' => $transfertInternationaux,
-            'form' => $form->createView(),
-        ]);
-    }
-*/
     /**
      * @Route("/saisieTransfert", name="transfert_internationaux_saisie", methods="GET|POST")
      */
@@ -244,4 +222,39 @@ class TransfertInternationauxController extends Controller
             'systemTransfert'=>$request->query->get('systemTransfert'),
         ]);
     }
+
+    /**
+     * @Route("/tableaucroise", name="transfert_internationaux_tc", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function tableauCroise(Request $request): Response
+    {
+        $criteresRecherches=new CriteresDates();
+        $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $type_affichage=$request->request->get('type_affichage');
+
+        if ($type_affichage!='caisse') {
+            $systemTransferts = $this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
+
+            $systemTransfertCompenses = array();
+            foreach ($systemTransferts as $systemTransfert) {
+                $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $type_affichage);
+                if ($compenses) $systemTransfertCompenses[] = ['libelle' => $systemTransfert->getLibelle(),'id'=>$systemTransfert->getId(), 'compenses' => $compenses];
+            }
+        }else{
+            $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), null, $type_affichage);
+            if ($compenses) $systemTransfertCompenses[] = ['libelle' => '', 'compenses' => $compenses];
+        }
+
+        return $this->render('transfert_internationaux/compense_transfert.html.twig', [
+            'form' => $form->createView(),
+            'systemTransfertCompenses' => $systemTransfertCompenses,
+            'affichage' => $type_affichage,
+            'criteres'=>$criteresRecherches,
+        ]);
+
+    }
+
 }

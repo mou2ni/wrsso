@@ -28,6 +28,12 @@ class Compenses
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $transaction;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -37,6 +43,11 @@ class Compenses
      * @ORM\OneToMany(targetEntity="App\Entity\CompenseLignes", mappedBy="compense", cascade={"persist"})
      */
     private $compenseLignes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="compense", cascade={"persist"})
+     */
+    private $transfertInternationaux;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -221,6 +232,42 @@ class Compenses
         }
         $this->setTotalEnvoi($totalEnvoi);
         $this->setTotalReception($totalReception);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTransfertInternationaux()
+    {
+        return $this->transfertInternationaux;
+    }
+
+    /**
+     * @param mixed $transfertInternationaux
+     * @return Compenses
+     */
+    public function setTransfertInternationaux($transfertInternationaux)
+    {
+        $this->transfertInternationaux = $transfertInternationaux;
+        return $this;
+    }
+
+    /**
+     * @return Transactions
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param mixed $transaction
+     * @return Compenses
+     */
+    public function setTransaction($transaction)
+    {
+        $this->transaction = $transaction;
+        return $this;
     }
 
 }

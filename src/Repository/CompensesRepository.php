@@ -24,8 +24,9 @@ class CompensesRepository extends ServiceEntityRepository
 
     public function liste($offset,$limit = 20)
     {
-        $qb = $this->createQueryBuilder('e')
-            ->orderBy('e.dateDebut', 'DESC')
+        $qb = $this->createQueryBuilder('c')
+           // ->innerJoin('c.compenseLignes','cl', 'WITH')
+            ->orderBy('c.dateDebut', 'DESC')
             ->setFirstResult($offset)
             ->setMaxResults($limit)
             //->getQuery()
