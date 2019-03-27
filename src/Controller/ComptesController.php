@@ -76,6 +76,21 @@ class ComptesController extends Controller
         return $this->render('comptes/show.html.twig', ['compte' => $compte,
             'rubriquesGrandLivres' => $rubriquesGrandLivres]);
     }
+    /**
+     * @Route("/solde", name="comptes_solde", methods="GET")
+     */
+    public function consulter(Request $request): Response
+    {
+        $num = $request->request->get("_num");
+        $compte = $this->getDoctrine()
+        ->getRepository(Comptes::class)
+        ->findOneBy(["numCompte"=>$num]);
+        $auj=new \DateTime();
+        //$cetteAnnee=$auj->format('Y');
+
+        return $this->render('comptes/solde.html.twig', ['compte' => $compte,
+            ]);
+    }
 
     /**
      * @Route("/{id}/modifier", name="comptes_edit", methods="GET|POST")

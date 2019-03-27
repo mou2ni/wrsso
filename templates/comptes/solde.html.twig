@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}<div>
+    <div class="box-centered">
+    <form class="form-inline" method="POST" action="{{ path('comptes_solde')}}" >
+        <input type="hidden" name="_method" value="GET">
+        <label>Numero du compte</label>
+        <input type="text" value="{{ (compte)?compte.numCompte:'' }}" name="_num">
+        <button class="btn-primary btn" name=Demander>Demander</button>
+    </form>
+    </div>
+    <div class="form-inline"><label> Solde :</label><input disabled value={{ (compte)?compte.soldeCourant:'' }}></div>
+    </div>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

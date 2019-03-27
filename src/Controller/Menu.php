@@ -62,6 +62,7 @@ class Menu  extends Controller
             ,['text'=>'Devises - Intercaisse', 'lien'=>'devise_intercaisses_gestion']
             ,['text'=>'Depôts', 'lien'=>'depot_retraits_depot']
             ,['text'=>'Retraits', 'lien'=>'depot_retraits_retrait']
+            ,['text'=>'Solde', 'lien'=>'comptes_solde']
         ];
 
         $this->menu_comptable=[
