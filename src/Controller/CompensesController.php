@@ -12,6 +12,8 @@ use App\Form\CompenseCollectionsType;
 use App\Form\CompensesType;
 use App\Form\CriteresDatesType;
 use App\Repository\CompensesRepository;
+use App\Utils\GenererCompta;
+use App\Utils\SessionUtilisateur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,20 +25,34 @@ use Symfony\Component\Validator\Constraints\Date;
  */
 class CompensesController extends Controller
 {
+    private  $utilisateur;
+    public function __construct(SessionUtilisateur $sessionUtilisateur)
+    {
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
+    }
+
     /**
-     * @Route("/", name="compenses_index", methods="GET")
+     * @Route("/", name="compenses_index", methods="GET|POST")
      */
     public function index(Request $request): Response
     {
-        $limit=20;
-        $_page=$request->query->get('_page');
-        $offset = ($_page)?($_page-1)*$limit:0;
-        $liste = $this->getDoctrine()
-            ->getRepository(Compenses::class)
-            ->liste($offset,$limit);
-        $pages = round(count($liste)/$limit);
+        $dateDebut=$request->query->get('dateDebut');
+        $dateFin=$request->query->get('dateFin');
 
-        return $this->render('compenses/index.html.twig', ['compenses' => $liste, 'pages'=>$pages, 'path'=>'compenses_index']);
+        $criteresRecherches=new CriteresDates();
+
+        if ($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut.' 00:00:00'));
+        if ($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin.' 23:59:59'));
+
+        $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $liste = $this->getDoctrine()
+            ->getRepository(CompenseLignes::class)
+            ->listing($criteresRecherches->getDateDebut(), new \DateTime($criteresRecherches->getDateFin()->format('Y-m-d').' 23:59:59'));
+
+        return $this->render('compenses/index.html.twig', ['compenses' => $liste
+        ,'form'=> $form->createView()]);
     }
 
     /**
@@ -77,18 +93,26 @@ class CompensesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $compense->maintenirTotaux();
-            $caisse=$this->getDoctrine()->getRepository(Caisses::class)->find($banque);
+            $caisse=$em->getRepository(Caisses::class)->find($banque);
             $compense->setCaisse($caisse);
 
-            //if($request->request->get('save_and_close') or $request->request->get('save_and_new') ) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($compense);
-                $em->flush();
-                return $this->redirectToRoute('compenses_index');
-            //}
+            //comptabilisation
+            $genCompta=new GenererCompta($em);
+            $transaction=$genCompta->genComptaCompensation($this->utilisateur,$compense);
+            if (!$transaction){
+                $this->addFlash('error', $genCompta->getErrMessage());
+                return $this->redirectToRoute('compenses_saisie');
+            }
 
+            $em->persist($compense);
+            $em->flush();
 
+            //marquer les transferts comme compensés
+            $em->getRepository(TransfertInternationaux::class)->updateCompense($dateDebut,$dateFin,$compense->getId());
+
+            return $this->redirectToRoute('compenses_show',['id'=>$compense->getId()]);
         }
         return $this->render('compenses/new.html.twig', [
             'compense' => $compense,
@@ -118,16 +142,28 @@ class CompensesController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $compense->maintenirTotaux();
-            $this->getDoctrine()->getManager()->flush();
+            $em=$this->getDoctrine()->getManager();
+
+            //mise à jour compta
+            $genCompta=new GenererCompta($em);
+            $transaction=$genCompta->modifComptaCompensation($this->utilisateur,$compense);
+            if (!$transaction){
+                $this->addFlash('error', $genCompta->getErrMessage());
+                return $this->redirectToRoute('compenses_saisie');
+            }
+            $em->flush();
 
             return $this->redirectToRoute('compenses_show',['id'=>$compense->getId()]);
         }
+        $banques=$this->getDoctrine()->getRepository(Caisses::class)->findBy(['typeCaisse'=>Caisses::COMPENSE]);
 
         return $this->render('compenses/edit.html.twig', [
             'compense' => $compense,
             'form' => $form->createView(),
             'dateDebut'=>$compense->getDateDebut(),
             'dateFin'=>$compense->getDateFin(),
+            'banques'=>$banques,
+            'banque_id'=>$compense->getCaisse()->getId(),
         ]);
     }
 

@@ -70,6 +70,12 @@ class TransfertInternationaux
     private $transaction;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Compenses", inversedBy="transfertInternationaux")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $compense;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $sens;
@@ -109,14 +115,7 @@ class TransfertInternationaux
     //private $tva;
     //private $ttz;
 
-    /**
-     * TransfertInternationaux constructor.
-     * @param int $mTransfert
-     * @param int $mFraisHt
-     * @param int $mTva
-     * @param int $mAutresTaxes
-     * @param int $mTransfertTTC
-     */
+   
     public function __construct()
     {
         //$this->ttz = $container->getParameter('ttz');
@@ -449,4 +448,21 @@ class TransfertInternationaux
         return $this;
     }
 
-   }
+    /**
+     * @return mixed
+     */
+    public function getCompense()
+    {
+        return $this->compense;
+    }
+
+    /**
+     * @param mixed $compense
+     * @return TransfertInternationaux
+     */
+    public function setCompense($compense)
+    {
+        $this->compense = $compense;
+        return $this;
+    }
+}

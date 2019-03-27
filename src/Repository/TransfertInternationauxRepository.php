@@ -348,12 +348,23 @@ ORDER BY SystemTransfert.id, z.ordre
             ->innerJoin('st.banque','b', 'WITH', 'st.banque=b.id')
             ->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut)
             ->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin)
+            ->andWhere('ti.compense is null')
             ->andWhere('st.banque=:caisse')->setParameter('caisse',$caisse)
             ->groupBy('st.id');
 
         return   $qb->orderBy('st.libelle')
             ->getQuery()->getResult();
 
+    }
+
+    public function updateCompense(\DateTime $dateDebut, \DateTime $dateFin, $compense){
+        $qb=$this->createQueryBuilder('ti');
+        $qb ->update()
+            ->set('ti.compense',$qb->expr()->literal($compense))
+            ->where('ti.dateTransfert>= ?1')->setParameter(1,$dateDebut)
+            ->andWhere('ti.dateTransfert<= ?2')->setParameter(2,$dateFin);
+
+        return $qb->getQuery()->execute();
     }
 
 }

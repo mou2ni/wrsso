@@ -11,3 +11,8 @@
 
     {{ include('compenses/_delete_form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{   asset('js/compense.js') }}"></script>
+{% endblock %}

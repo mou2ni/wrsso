@@ -226,39 +226,4 @@ class ComptaController extends Controller
 
     }
 
-    /**
-     * @Route("/compenses", name="compta_compenses", methods="GET|POST")
-     * @Security("has_role('ROLE_COMPTABLE')")
-     */
-    public function compenses(Request $request): Response
-    {
-        $criteresRecherches=new CriteresDates();
-        $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
-        $form->handleRequest($request);
-
-        $type_affichage=$request->request->get('type_affichage');
-
-        if ($type_affichage!='caisse') {
-            $systemTransferts = $this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
-
-            $systemTransfertCompenses = array();
-            foreach ($systemTransferts as $systemTransfert) {
-                $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $type_affichage);
-                if ($compenses) $systemTransfertCompenses[] = ['libelle' => $systemTransfert->getLibelle(),'id'=>$systemTransfert->getId(), 'compenses' => $compenses];
-            }
-        }else{
-            $compenses = $this->getDoctrine()->getRepository(TransfertInternationaux::class)->findCompense($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), null, $type_affichage);
-            if ($compenses) $systemTransfertCompenses[] = ['libelle' => '', 'compenses' => $compenses];
-        }
-
-        return $this->render('compta/compense_transfert.html.twig', [
-            'form' => $form->createView(),
-            'systemTransfertCompenses' => $systemTransfertCompenses,
-            'affichage' => $type_affichage,
-            'criteres'=>$criteresRecherches,
-        ]);
-
-    }
-
-
 }

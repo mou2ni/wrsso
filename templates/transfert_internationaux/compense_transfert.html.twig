@@ -16,9 +16,9 @@
     {{ form_end(form) }}
 
     {% if affichage=='detail' %}
-        {{ include('compta/_compense_detail.html.twig') }}
+        {{ include('transfert_internationaux/_compense_detail.html.twig') }}
     {% else %}
-        {{ include('compta/_compense_resume.html.twig') }}
+        {{ include('transfert_internationaux/_compense_resume.html.twig') }}
     {% endif %}
 
 {% endblock %}
