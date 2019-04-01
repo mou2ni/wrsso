@@ -6,6 +6,7 @@ use App\Entity\Caisses;
 use App\Entity\CompenseLignes;
 use App\Entity\Compenses;
 use App\Entity\CriteresDates;
+use App\Entity\JourneeCaisses;
 use App\Entity\SystemTransfert;
 use App\Entity\TransfertInternationaux;
 use App\Form\CompenseCollectionsType;
@@ -36,12 +37,13 @@ class CompensesController extends Controller
      */
     public function index(Request $request): Response
     {
-        $dateDebut=$request->query->get('dateDebut');
-        $dateFin=$request->query->get('dateFin');
+        $dateDebut=($request->request->get('dateDebut'))?$request->request->get('dateDebut'):$request->query->get('dateDebut');
+        $dateFin=($request->request->get('dateFin'))?$request->request->get('dateFin'):$request->query->get('dateFin');
 
         $criteresRecherches=new CriteresDates();
 
         if ($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut.' 00:00:00'));
+
         if ($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin.' 23:59:59'));
 
         $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
@@ -75,6 +77,13 @@ class CompensesController extends Controller
 
         if (!$banque and $banques) $banque=$banques[0]->getId();
 
+        $journeeEncoursBanque=$this->getDoctrine()->getRepository(JourneeCaisses::class)->findOneBy(['caisse'=>$banque, 'statut'=>JourneeCaisses::ENCOURS]);
+
+        if (!$journeeEncoursBanque){
+            $this->addFlash('error', 'Aucune journeeCaisse ouverte pour la caisse sélectionnée');
+            return $this->redirectToRoute('compenses_saisie');
+        }
+
         $compense_attendues= $this->getDoctrine()->getRepository(TransfertInternationaux::class)
             ->findCompensations($dateDebut, $dateFin, $banque);
 
@@ -95,8 +104,10 @@ class CompensesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $compense->maintenirTotaux();
-            $caisse=$em->getRepository(Caisses::class)->find($banque);
-            $compense->setCaisse($caisse);
+            //$caisse=$em->getRepository(Caisses::class)->find($banque);
+            $compense->setCaisse($journeeEncoursBanque->getCaisse());
+            $compense->setUtilisateur($this->utilisateur);
+            $journeeEncoursBanque->addCompense($compense);
 
             //comptabilisation
             $genCompta=new GenererCompta($em);
@@ -106,13 +117,17 @@ class CompensesController extends Controller
                 return $this->redirectToRoute('compenses_saisie');
             }
 
+            $em->persist($journeeEncoursBanque);
             $em->persist($compense);
             $em->flush();
 
             //marquer les transferts comme compensés
             $em->getRepository(TransfertInternationaux::class)->updateCompense($dateDebut,$dateFin,$compense->getId());
 
-            return $this->redirectToRoute('compenses_show',['id'=>$compense->getId()]);
+            $auj=new \DateTime();
+
+            return $this->redirectToRoute('compenses_index',['dateDebut'=>$auj->format('Y-m-').'01',
+            'dateFin'=>$auj->format('Y-m-d')]);
         }
         return $this->render('compenses/new.html.twig', [
             'compense' => $compense,

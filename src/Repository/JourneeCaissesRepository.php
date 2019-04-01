@@ -101,16 +101,15 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findOneJourneeActive1( Caisses $caisse)
+    public function findOneJourneeCaisseOuvert($caisse)
     {
         $qb = $this->createQueryBuilder('j');
 
         return $qb
             -->where($qb->expr()->eq('j.caisse', ':caisse'))
                 ->andWhere($qb->expr()->isNull('j.journeeSuivante'))
-                ->andWhere($qb->expr()->eq('j.statut',':initial'))
-                ->orWhere($qb->expr()->eq('j.statut',':ouvert'))
-                ->setParameters(['caisse'=>$caisse, 'initial'=>JourneeCaisses::INITIAL,'ouvert'=>JourneeCaisses::OUVERT])
+                ->andWhere($qb->expr()->eq('j.statut',':ouvert'))
+                ->setParameters(['caisse'=>$caisse, 'ouvert'=>JourneeCaisses::OUVERT])
                 ->getQuery()
                 ->getOneOrNullResult();
     }

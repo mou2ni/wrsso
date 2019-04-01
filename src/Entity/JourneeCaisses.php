@@ -181,6 +181,16 @@ class JourneeCaisses
     private $depotRetraits;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Compenses", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $compenses;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mCompenses=0;
+
+    /**
      * @ORM\Column(type="bigint")
      */
     private $mIntercaisses=0;
@@ -318,6 +328,7 @@ class JourneeCaisses
         $this->deviseJournees=new ArrayCollection();
         $this->transactions=new ArrayCollection();
         $this->detteCredits=new ArrayCollection();
+        $this->compenses=new ArrayCollection();
 
         $this->billetOuv=new Billetages();
         $this->systemElectInventOuv=new SystemElectInventaires();
@@ -363,9 +374,13 @@ class JourneeCaisses
     public function getSoldeNetFermTheorique(){
         return $this->getSoldeNetOuv()
             + $this->getMouvementFond()
-            + $this->getCompense()
+            + $this->getCompenseNet()
             + $this->getMRecette()
             - $this->getMDepense();
+    }
+
+    public function getCompenseNet(){
+        return $this->getCompenseAttendu() - $this->getMCompenses();
     }
 
     public function setMEcartFerm()
@@ -421,14 +436,6 @@ class JourneeCaisses
     }
 
     public function getSoldeNetOuv(){
-        /*if ($this->journeePrecedente!=null){
-            $detteDivers=$this->journeePrecedente->getMDetteDiversFerm();
-            $creditDivers=$this->journeePrecedente->getMCreditDiversFerm();
-        }else{
-            $detteDivers=0;
-            $creditDivers=0;
-        }*/
-
         return $this->getDisponibiliteOuv() - $this->getMDetteDiversOuv() + $this->getMCreditDiversOuv();
     }
 
@@ -515,6 +522,15 @@ class JourneeCaisses
         return $this;
     }
 
+    public function maintenirCompenses(){
+        $this->mCompenses=0;
+        foreach ($this->getCompenses() as $compense){
+            $this->updateM('mCompenses', $compense->getSoldeCompense());
+        }
+        //die();
+        return $this;
+    }
+
     public function maintenirRecetteDepenses(){
         $this->mRecette=0;
         $this->mDepense=0;
@@ -528,6 +544,19 @@ class JourneeCaisses
                 $this->updateM('mDepense', $recetteDepense->getMDepense());
             }
         }
+        return $this;
+    }
+
+    public function maintenirToutSolde(){
+       $this ->maintenirMLiquiditeFerm()
+            ->maintenirMSoldeElectFerm()
+            ->maintenirMIntercaisses()
+            ->maintenirMDepotRetraits()
+            ->maintenirDetteCreditDiversFerm()
+            ->maintenirMCvd()
+            ->maintenirRecetteDepenses()
+            ->maintenirTransfertsInternationaux()
+           ->maintenirCompenses();
         return $this;
     }
 
@@ -1518,7 +1547,7 @@ class JourneeCaisses
         return $this;
     }
 
-    public function getCompense()
+    public function getCompenseAttendu()
     {
         return $this->getMEmissionTrans() - $this->getMReceptionTrans();
     }
@@ -1682,5 +1711,65 @@ class JourneeCaisses
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCompenses()
+    {
+        return $this->compenses;
+    }
+
+    /**
+     * @param mixed $compenses
+     * @return JourneeCaisses
+     */
+    public function setCompenses($compenses)
+    {
+        $this->compenses = $compenses;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMCompenses()
+    {
+        return $this->mCompenses;
+    }
+
+    /**
+     * @param mixed $mCompenses
+     * @return JourneeCaisses
+     */
+    public function setMCompenses($mCompenses)
+    {
+        $this->mCompenses = $mCompenses;
+        return $this;
+    }
+
+
+    /**
+     * @param Compenses $compense
+     * @return $this
+     */
+    public function addCompense(Compenses $compense)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $compense->setJourneeCaisse($this);
+            $this->compenses->add($compense);
+            $this->updateM('mCompenses', $compense->getSoldeCompense());
+            return $this;
+        }
+    }
+
+    /**
+     * @param Compenses $compense
+     */
+    public function removeCompense(Compenses $compense)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->compenses->removeElement($compense);
+        }
+    }
 
 }

@@ -499,7 +499,7 @@ class GenererCompta
         $compteCompense=$this->checkCompteAttenteCompense($caisse);
         if (!$compteCompense) return false;
 
-        $transaction=$this->initTransaction($utilisateur,'Compenses - '.$utilisateur, $journeeCaisse->getCompense(),$journalComptable, $journeeCaisse);
+        $transaction=$this->initTransaction($utilisateur,'Compenses - '.$utilisateur, $journeeCaisse->getCompenseAttendu(),$journalComptable, $journeeCaisse);
         if (!$transaction) return false ;
 
         if ($caisse->getComptaDetail()){
@@ -521,7 +521,7 @@ class GenererCompta
             $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$mCompense,'Solde compense'));
 
         }else{
-            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompense()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompenseAttendu()));
             //$transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, $journeeCaisse->getMReceptionTrans()));
             $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, $journeeCaisse->getMEmissionTrans(), 'Total Envoi '.$caisse->getCode()));
             $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, -$journeeCaisse->getMReceptionTrans(), 'Total Reception'.$caisse->getCode()));
@@ -539,7 +539,7 @@ class GenererCompta
         $caisse=$journeeCaisse->getCaisse();
 
         //Compenses
-        if ($journeeCaisse->getCompense()!=0)
+        if ($journeeCaisse->getCompenseAttendu()!=0)
             if ( ! $this->genComptaCompensesFerm($utilisateur,$caisse,$journeeCaisse)) {
             return false;
             }
@@ -630,7 +630,7 @@ class GenererCompta
         }
 
         foreach ($compense->getCompenseLignes() as $compenseLigne){
-            $transaction = $this->debiterCrediter($transaction, $compteOperation, $compteCompense,$compenseLigne->getMEnvoiCompense(), null, 'Emission-'.$compenseLigne->getSystemTransfert()->getLibelle());
+            $transaction = $this->debiterCrediter($transaction, $compteCompense, $compteOperation,$compenseLigne->getMEnvoiCompense(), null, 'Emission-'.$compenseLigne->getSystemTransfert()->getLibelle());
             $transaction = $this->debiterCrediter($transaction, $compteOperation, $compteCompense,$compenseLigne->getMReceptionCompense(), null, 'Paiement-'.$compenseLigne->getSystemTransfert()->getLibelle());
         }
 

@@ -9,6 +9,8 @@
 namespace App\Entity;
 
 
+use DateTime;
+
 class CriteresEtatsComptas
 {
 
@@ -24,8 +26,8 @@ class CriteresEtatsComptas
     {
         $auj=new \DateTime();
         $y=$auj->format('Y');
-        $this->dateDebut=new \DateTime($y.'-01-01');
-        $this->dateFin=new \DateTime($y.'-12-31');
+        $this->dateDebut=new \DateTime($y.'-01-01 00:00:00');
+        $this->dateFin=new \DateTime($y.'-12-31 23:59:59');
     }
 
     /**
@@ -69,7 +71,8 @@ class CriteresEtatsComptas
      */
     public function getDateDebut()
     {
-        return $this->dateDebut;
+
+        return new \DateTime($this->dateDebut->format('Y-m-d').' 00:00:00');
     }
 
     /**
@@ -87,7 +90,7 @@ class CriteresEtatsComptas
      */
     public function getDateFin()
     {
-        return $this->dateFin;
+        return new \DateTime($this->dateFin->format('Y-m-d').' 23:59:59');
     }
 
     /**
