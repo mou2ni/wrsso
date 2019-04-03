@@ -43,6 +43,67 @@ class DeviseJourneesRepository extends ServiceEntityRepository
 (SELECT SUM(dj.qte_ouv)  FROM DeviseJournees dj 
  WHERE dj.idJourneeCaisse IN 
  (SELECT jc.id FROM JourneeCaisses jc, JourneeCaisses jcp
+ WHERE jc.journee_precedente_id=jcp.id AND jcp.date_ferm<'$debut' AND jc.date_ouv >= '$debut' AND jc.date_ferm <= '$fin'
+ UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_ferm < '$debut' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))
+ AND dj.devise_id = d.id
+ GROUP BY dj.devise_id
+) AS qteOuv,
+
+(SELECT SUM(dj.qte_achat) FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_ouv >= '$debut' AND jc.date_ferm <= '$fin' AND dj.devise_id = d.id)
+GROUP BY dj.devise_id) AS achat,
+
+ (SELECT SUM(dj.qte_vente) FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_ouv >= '$debut' AND jc.date_ferm <= '$fin' AND dj.devise_id = d.id)
+GROUP BY dj.devise_id) AS vente,
+
+(SELECT SUM(dj.qte_ferm) FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jcp.id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_ouv>='$debut' AND jcp.date_ferm<='$fin' AND ( jc.date_ferm>'$fin')
+    UNION
+    SELECT jcp.journee_precedente_id FROM JourneeCaisses jcp, JourneeCaisses jc
+    WHERE jc.journee_precedente_id=jcp.id AND jcp.date_ouv>='$debut' AND jcp.date_ferm<='$fin' AND  jc.date_ferm IS NULL
+UNION
+SELECT jcp.id FROM JourneeCaisses jcp
+WHERE jcp.date_ferm <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses j WHERE j.journee_precedente_id=jcp.id)))
+AND dj.devise_id = d.id
+GROUP BY dj.devise_id) AS stock,
+
+(SELECT SUM(dm.nombre * dm.taux) FROM DeviseMouvements dm
+WHERE dm.devise_journee_id IN
+(SELECT dj.id FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_ouv >= '$debut' AND jc.date_ferm <= '$fin' AND dj.devise_id = d.id)) AND dm.devise_intercaisse_id IS NULL
+) AS cvd,
+
+(SELECT SUM(dj.ecart_ouv) FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_ouv >= '$debut' AND jc.date_ferm <= '$fin')
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id) AS ecartOuv,
+ 
+ (SELECT SUM(dj.ecart_ferm) FROM DeviseJournees dj
+WHERE dj.idJourneeCaisse 
+IN (SELECT jc.id FROM JourneeCaisses jc
+WHERE jc.date_ouv >= '$debut' AND jc.date_ferm <= '$fin')
+ AND dj.devise_id = d.id
+GROUP BY dj.devise_id) AS ecartFerm
+ 
+ FROM Devises d
+";
+        $req1 = "SELECT d.id as id,d.code as devise, 
+(SELECT SUM(dj.qte_ouv)  FROM DeviseJournees dj 
+ WHERE dj.idJourneeCaisse IN 
+ (SELECT jc.id FROM JourneeCaisses jc, JourneeCaisses jcp
  WHERE jc.journee_precedente_id=jcp.id AND jcp.date_comptable<'$debut' AND jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin'
  UNION
 SELECT jcp.id FROM JourneeCaisses jcp
