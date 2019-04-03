@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Appro Versements{% endblock %}
+
+{% block body %}
+    <h1>Appro Versements de la journee {{ journeeCaisse }}</h1>
+    {{ include('appro_versements/_list.html.twig') }}
+    {{ include ('_btn_close') }}
+{% endblock %}

@@ -273,6 +273,7 @@ class Transactions
         foreach ($this->getTransactionComptes() as $transactionCompte){
             $this->removeTransactionCompte($transactionCompte);
         }
+        return $this;
     }
 
     /**

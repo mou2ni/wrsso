@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ApproVersements{% endblock %}
+
+{% block body %}
+    <h1>Details Virement de fonds |
+        <a href="{{ path('appro_versements_index') }}">Listing</a>
+        | <a href="{{ path('appro_versements_edit', {'id': appro_versement.id}) }}">Modifier</a></h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ appro_versement.id }}</td>
+                <th>Date</th>
+                <td>{{ appro_versement.dateOperation ? appro_versement.dateOperation|date('Y-m-d H:i:s') : '' }}</td>
+                <th>Statut</th>
+                <td>{{ appro_versement.statut }}</td></tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ appro_versement.libelle }}</td>
+                <th>Montant</th>
+                <td>{{ appro_versement.mApproVersement|number_format(0, '.', ' ') }}</td>
+            </tr>
+            <tr>
+                <th>Caisse Origine</th>
+                <td>{{ appro_versement.journeeCaisseSortant }}</td>
+                <th>Caisse Destination</th>
+                <td>{{ appro_versement.journeeCaisseEntrant }}</td>
+            </tr>
+            <tr>
+                <th>Utilisateur initiateur</th>
+                <td>{{ appro_versement.utilisateur }}</td>
+                <th>Utilisateur Validateur</th>
+                <td>{{ appro_versement.utilisateurValidateur }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {{ include('appro_versements/_delete_form.html.twig') }}
+{% endblock %}

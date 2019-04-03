@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Approvisionnement ou versement {% endblock %}
+
+{% block body %}
+    <h1>APPROS - VERSEMENTS </h1>
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+
+    {{ include('appro_versements/_form.html.twig') }}
+    {{ include('appro_versements/_list.html.twig') }}
+
+{% endblock %}

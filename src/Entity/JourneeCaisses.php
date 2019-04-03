@@ -164,7 +164,6 @@ class JourneeCaisses
      */
     private $mCreditDiversFerm=0;
 
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
      */
@@ -174,6 +173,16 @@ class JourneeCaisses
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseSortant", cascade={"persist"})
      */
     private $intercaisseSortants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ApproVersements", mappedBy="journeeCaisseEntrant", cascade={"persist"})
+     */
+    private $approVersementEntrants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ApproVersements", mappedBy="journeeCaisseSortant", cascade={"persist"})
+     */
+    private $approVersementSortants;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DepotRetraits", mappedBy="journeeCaisse", cascade={"persist"})
@@ -262,6 +271,15 @@ class JourneeCaisses
      */
     private $mDepense=0;
 
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mApproVersementEntrant=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mApproVersementSortant=0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseSource", cascade={"persist"})
@@ -329,6 +347,8 @@ class JourneeCaisses
         $this->transactions=new ArrayCollection();
         $this->detteCredits=new ArrayCollection();
         $this->compenses=new ArrayCollection();
+        $this->approVersementEntrants=new ArrayCollection();
+        $this->approVersementSortants=new ArrayCollection();
 
         $this->billetOuv=new Billetages();
         $this->systemElectInventOuv=new SystemElectInventaires();
@@ -423,6 +443,7 @@ class JourneeCaisses
         return
             + $this->getMCvd()
             + $this->getMIntercaisses()
+            + $this->getSoldeApproVersement()
             //- $this->getMIntercaisseSortants()
             + $this->getMDepotClient()
             - $this->getMRetraitClient()
@@ -439,7 +460,9 @@ class JourneeCaisses
         return $this->getDisponibiliteOuv() - $this->getMDetteDiversOuv() + $this->getMCreditDiversOuv();
     }
 
-
+    public function getSoldeApproVersement(){
+        return $this->getMApproVersementEntrant()-$this->getMApproVersementSortant();
+    }
 
 
     public function updateM($champ,$montant){
@@ -531,6 +554,22 @@ class JourneeCaisses
         return $this;
     }
 
+    public function maintenirMApproVersementEntrant(){
+        $this->mApproVersementEntrant=0;
+        foreach ($this->getApproVersementEntrants() as $approVersement){
+            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVersement());
+        }
+        return $this;
+    }
+
+    public function maintenirMApproVersementSortant(){
+        $this->mApproVersementSortant=0;
+        foreach ($this->getApproVersementSortants() as $approVersement){
+            $this->updateM('mApproVersementSortant', $approVersement->getMApproVersement());
+        }
+        return $this;
+    }
+
     public function maintenirRecetteDepenses(){
         $this->mRecette=0;
         $this->mDepense=0;
@@ -556,7 +595,10 @@ class JourneeCaisses
             ->maintenirMCvd()
             ->maintenirRecetteDepenses()
             ->maintenirTransfertsInternationaux()
-           ->maintenirCompenses();
+           ->maintenirCompenses()
+       ->maintenirMApproVersementEntrant()
+       ->maintenirMApproVersementSortant();
+        
         return $this;
     }
 
@@ -1769,7 +1811,130 @@ class JourneeCaisses
     {
         if ($this->getStatut()==JourneeCaisses::ENCOURS) {
             $this->compenses->removeElement($compense);
+            $this->updateM('mCompenses', -$compense->getSoldeCompense());
         }
+    }
+
+    /**
+     * @return ApproVersements
+     */
+    public function getApproVersementEntrants()
+    {
+        return $this->approVersementEntrants;
+    }
+
+    /**
+     * @param ApproVersements $approVersementEntrants
+     * @return JourneeCaisses
+     */
+    public function setApproVersementEntrants(ApproVersements $approVersementEntrants)
+    {
+        $this->approVersementEntrants = $approVersementEntrants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApproVersementSortants()
+    {
+        return $this->approVersementSortants;
+    }
+
+    /**
+     * @param ApproVersements $approVersementSortants
+     * @return JourneeCaisses
+     */
+    public function setApproVersementSortants(ApproVersements $approVersementSortants)
+    {
+        $this->approVersementSortants = $approVersementSortants;
+        return $this;
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     * @return $this
+     */
+    public function addApproVersementEntrant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $approVersement->setJourneeCaisseEntrant($this);
+            $this->approVersementEntrants->add($approVersement);
+            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVirement());
+            return $this;
+        }
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     */
+    public function removeApproVersementEntrant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->approVersementEntrants->removeElement($approVersement);
+            $this->updateM('mApproVersementEntrant', -$approVersement->getMApproVirement());
+        }
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     * @return $this
+     */
+    public function addApproVersementSortant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $approVersement->setJourneeCaisseEntrant($this);
+            $this->approVersementSortants->add($approVersement);
+            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVirement());
+            return $this;
+        }
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     */
+    public function removeApproVersementSortant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->approVersementSortants->removeElement($approVersement);
+            $this->updateM('mApproVersementEntrant', -$approVersement->getMApproVirement());
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMApproVersementEntrant()
+    {
+        return $this->mApproVersementEntrant;
+    }
+
+    /**
+     * @param mixed $mApproVersementEntrant
+     * @return JourneeCaisses
+     */
+    public function setMApproVersementEntrant($mApproVersementEntrant)
+    {
+        $this->mApproVersementEntrant = $mApproVersementEntrant;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMApproVersementSortant()
+    {
+        return $this->mApproVersementSortant;
+    }
+
+    /**
+     * @param mixed $mApproVersementSortant
+     * @return JourneeCaisses
+     */
+    public function setMApproVersementSortant($mApproVersementSortant)
+    {
+        $this->mApproVersementSortant = $mApproVersementSortant;
+        return $this;
     }
 
 }

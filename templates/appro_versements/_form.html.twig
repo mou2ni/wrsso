@@ -1,0 +1,14 @@
+{{ form_start(form, {'attr': {'onsubmit':'return confirm("Confirmez l\'opération ?");'} } ) }}
+<table class="table">
+    <tr>
+        <td>Caisse Partenaire</td><td>{{ form_widget(form.journeeCaissePartenaire) }}</td>
+    </tr>
+    <tr>
+        <td>Montant</td><td>{{ form_widget(form.mSaisie) }} {{ form_errors(form.mSaisie) }}</td>
+    </tr>
+    <tr>
+        <td>Commentaire</td><td>{{ form_widget(form.libelle) }}</td>
+    </tr>
+</table>
+{{ include('_btn_enregistrer.html.twig') }}
+{{ form_end(form) }}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Appro Versements index{% endblock %}
+
+{% block body %}
+    <h1>Listing Appro versements | <a href="{{ path('appro_versements_ajout') }}">Nouvelle saisie</a></h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Libelle</th>
+                <th>Montant</th>
+                <th>Statut</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for appro_versement in appro_versements %}
+            <tr>
+                <td>{{ appro_versement.id }}</td>
+                <td>{{ appro_versement.dateOperation ? appro_versement.dateOperation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ appro_versement.libelle }}</td>
+                <td>{{ appro_versement.mApproVersement|number_format(0, '.', ' ') }}</td>
+                <td>{{ appro_versement.statut }}</td>
+                <td>
+                    <a href="{{ path('appro_versements_show', {'id': appro_versement.id}) }}">Details</a>
+                    | <a href="{{ path('appro_versements_edit', {'id': appro_versement.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun enregistrement</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

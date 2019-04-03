@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/compenses")
@@ -34,6 +35,7 @@ class CompensesController extends Controller
 
     /**
      * @Route("/", name="compenses_index", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function index(Request $request): Response
     {
@@ -59,6 +61,7 @@ class CompensesController extends Controller
 
     /**
      * @Route("/saisie", name="compenses_saisie", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function saisir(Request $request): Response
     {
@@ -149,6 +152,7 @@ class CompensesController extends Controller
 
     /**
      * @Route("/{id}/modifier", name="compenses_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function modifier(Request $request, Compenses $compense): Response
     {
@@ -184,6 +188,7 @@ class CompensesController extends Controller
 
     /**
      * @Route("/{id}", name="compenses_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Compenses $compense): Response
     {
