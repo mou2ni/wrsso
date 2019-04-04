@@ -98,8 +98,8 @@ var app_plugins = {
         
     },
     customScrollBar: function(){
-        if($(".scroll").length > 0)
-            $(".scroll").mCustomScrollbar({axis:"y", autoHideScrollbar: true, scrollInertia: 200, advanced: {autoScrollOnFocus: false}});
+        //if($(".scroll").length > 0)
+          //  $(".scroll").mCustomScrollbar({axis:"y", autoHideScrollbar: true, scrollInertia: 200, advanced: {autoScrollOnFocus: false}});
     },    
     bootstrap_select: function(){       
         if($(".bs-select").length > 0)

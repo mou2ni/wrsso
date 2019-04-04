@@ -46,6 +46,36 @@ class DetteCreditDiversController extends Controller
     }
 
     /**
+     * @Route("/{id}/edit", name="dette_credit_divers_edit", methods="GET|POST")
+     */
+    public function edit(Request $request, DetteCreditDivers $detteCreditDiver): Response
+    {
+        ($detteCreditDiver->getStatut()== DetteCreditDivers::CREDIT_EN_COUR)?
+            $detteCreditDiver->setMSaisie($detteCreditDiver->getMCredit()):
+            $detteCreditDiver->setMSaisie($detteCreditDiver->getMDette());
+
+        $form = $this->createForm(DetteCreditDiversType::class, $detteCreditDiver);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            ($detteCreditDiver->getStatut()== DetteCreditDivers::CREDIT_EN_COUR)?
+                $detteCreditDiver->setMCredit($detteCreditDiver->getMSaisie()):
+                $detteCreditDiver->setMDette($detteCreditDiver->getMSaisie());
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('dette_credit_divers_edit', ['id' => $detteCreditDiver->getId(),
+                ]);
+        }
+
+        return $this->render('dette_credit_divers/edit.html.twig', [
+            'dette_credit_diver' => $detteCreditDiver,
+            'form' => $form->createView(),
+            'journeeCaisse'=>$detteCreditDiver->getJourneeCaisseActive()
+        ]);
+    }
+
+
+    /**
      * @Route("/dettecredits", name="detteCredits_divers", methods="GET|POST|UPDATE")
      */
     public function detteCredit(Request $request)
@@ -191,25 +221,6 @@ class DetteCreditDiversController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="dette_credit_divers_edit", methods="GET|POST")
-     */
-    public function edit(Request $request, DetteCreditDivers $detteCreditDiver): Response
-    {
-        $form = $this->createForm(DetteCreditDiversType::class, $detteCreditDiver);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('dette_credit_divers_edit', ['id' => $detteCreditDiver->getId()]);
-        }
-
-        return $this->render('dette_credit_divers/edit.html.twig', [
-            'dette_credit_diver' => $detteCreditDiver,
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
      * @Route("/{id}", name="dette_credit_divers_delete", methods="DELETE")
