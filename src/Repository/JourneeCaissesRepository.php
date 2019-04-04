@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Caisses;
+use App\Entity\Comptes;
 use App\Entity\JourneeCaisses;
 use App\Entity\Utilisateurs;
 use App\Utils\GenererCompta;
@@ -55,12 +56,29 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         return $pag;
     }
 
+    public function getOpenBanqueQb()
+    {
+        $qb=$this->createQueryBuilder('jc');
+        return $qb->addSelect('c')
+            ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
+            ->where('jc.statut=:statut')
+            ->andWhere('c.typeCaisse=:banque or c.typeCaisse=:compense')
+            ->andWhere('c.dispoGuichet=1')
+            ->setParameter('banque',Caisses::BANQUE)
+            ->setParameter('compense',Caisses::COMPENSE)
+            ->setParameter('statut',JourneeCaisses::ENCOURS);
+    }
+
     public function getOpenJourneeCaisseQb($dateComptable, $myJournee)
     {
         $qb=$this->createQueryBuilder('jc');
         $qb->addSelect('c')
             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
-            ->where('jc.statut=:statut');
+            ->where('jc.statut=:statut')
+            ->andWhere('c.typeCaisse!=:banque and c.typeCaisse!=:compense')
+            ->setParameter('banque',Caisses::BANQUE)->setParameter('compense', Caisses::COMPENSE)
+        ;
+
         if ($myJournee->getCaisse()->getTypeCaisse()<> Caisses::GUICHET){
             $qb->andWhere('jc.dateComptable=:dateComptable or c.typeCaisse!=:typeCaisse')
                 ->setParameter('dateComptable',$dateComptable)
@@ -101,16 +119,15 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findOneJourneeActive1( Caisses $caisse)
+    public function findOneJourneeCaisseOuvert($caisse)
     {
         $qb = $this->createQueryBuilder('j');
 
         return $qb
             -->where($qb->expr()->eq('j.caisse', ':caisse'))
                 ->andWhere($qb->expr()->isNull('j.journeeSuivante'))
-                ->andWhere($qb->expr()->eq('j.statut',':initial'))
-                ->orWhere($qb->expr()->eq('j.statut',':ouvert'))
-                ->setParameters(['caisse'=>$caisse, 'initial'=>JourneeCaisses::INITIAL,'ouvert'=>JourneeCaisses::OUVERT])
+                ->andWhere($qb->expr()->eq('j.statut',':ouvert'))
+                ->setParameters(['caisse'=>$caisse, 'ouvert'=>JourneeCaisses::OUVERT])
                 ->getQuery()
                 ->getOneOrNullResult();
     }

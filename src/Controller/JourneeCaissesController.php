@@ -227,19 +227,22 @@ class JourneeCaissesController extends Controller
 
         return $this->render('journee_caisses/verifierFermeture.html.twig', ['journeeCaisse'=>$this->journeeCaisse]);
     }
-    /**
+
+    /*
      * @Route("/{id}/maintenir", name="journee_caisses_maintSolde", methods="GET|POST")
      * @Security("has_role('ROLE_COMPTABLE')")
-     */
+
     public function maintenirSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
         //dump($journeeCaisse);die();
         $journeeCaisse=$this->maintenirJournee($journeeCaisse);
 
-        $this->addFlash('success', 'LES DONNEES SONT BONNE');
+        $this->addFlash('success', 'LES DONNEES SONT BONNES');
 
         return $this->redirectToRoute('journee_caisse_show', ['id'=>$journeeCaisse->getId()]);
-    }
+    }*/
+
+
     /**
      * @Route("/{id}/maintenance", name="journee_caisses_maintenance", methods="GET|POST")
      * @Security("has_role('ROLE_COMPTABLE')")
@@ -247,8 +250,9 @@ class JourneeCaissesController extends Controller
     public function maintenanceSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
         $copieDeJournee = $this->copierJournee($journeeCaisse);
-        $journeeCaisseMaintenue=$this->maintenirJourneePersonnalise($journeeCaisse);
+        $journeeCaisseMaintenue=$this->maintenirJournee($journeeCaisse);
         $ecartJournees = $this->ecartJournees($copieDeJournee, $journeeCaisseMaintenue);
+
         return $this->render('journee_caisses/maintenance.html.twig', ['journeeCaisse' => $copieDeJournee,'journeeCaisseMaintenue'=>$journeeCaisseMaintenue, 'ecartJournees'=>$ecartJournees]);
 
         //$this->addFlash('success', 'LES DONNEES SONT BONNE');
@@ -720,20 +724,20 @@ class JourneeCaissesController extends Controller
     }
 
     private function maintenirJournee(JourneeCaisses $journeeCaisse){
-        $journeeCaisse
-            ->maintenirMLiquiditeFerm()
+        $journeeCaisse->maintenirToutSolde();
+        /*->maintenirMLiquiditeFerm()
             ->maintenirMSoldeElectFerm()
             ->maintenirMIntercaisses()
             ->maintenirMDepotRetraits()
             ->maintenirDetteCreditDiversFerm()
             ->maintenirMCvd()
             ->maintenirRecetteDepenses()
-            ->maintenirTransfertsInternationaux();
+            ->maintenirTransfertsInternationaux()*/
         $this->getDoctrine()->getManager()->persist($journeeCaisse);
         $this->getDoctrine()->getManager()->flush();
         return $journeeCaisse;
     }
-    private function maintenirJourneePersonnalise(JourneeCaisses $journeeCaisse){
+    /*private function maintenirJourneePersonnalise(JourneeCaisses $journeeCaisse){
         $journeeCaisse
             ->maintenirMLiquiditeFerm()
             ->maintenirMSoldeElectFerm()
@@ -746,7 +750,7 @@ class JourneeCaissesController extends Controller
         //$this->getDoctrine()->getManager()->persist($journeeCaisse);
         //$this->getDoctrine()->getManager()->flush();
         return $journeeCaisse;
-        }
+        }*/
     private function copierJournee(JourneeCaisses $journeeCaisse){
         $em = $this->getDoctrine()->getManager();
         $newjournee = new JourneeCaisses($em);

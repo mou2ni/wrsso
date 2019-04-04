@@ -164,7 +164,6 @@ class JourneeCaisses
      */
     private $mCreditDiversFerm=0;
 
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\InterCaisses", mappedBy="journeeCaisseEntrant", cascade={"persist"})
      */
@@ -176,9 +175,29 @@ class JourneeCaisses
     private $intercaisseSortants;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ApproVersements", mappedBy="journeeCaisseEntrant", cascade={"persist"})
+     */
+    private $approVersementEntrants;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ApproVersements", mappedBy="journeeCaisseSortant", cascade={"persist"})
+     */
+    private $approVersementSortants;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\DepotRetraits", mappedBy="journeeCaisse", cascade={"persist"})
      */
     private $depotRetraits;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Compenses", mappedBy="journeeCaisse", cascade={"persist"})
+     */
+    private $compenses;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mCompenses=0;
 
     /**
      * @ORM\Column(type="bigint")
@@ -252,6 +271,15 @@ class JourneeCaisses
      */
     private $mDepense=0;
 
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mApproVersementEntrant=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mApproVersementSortant=0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DeviseIntercaisses", mappedBy="journeeCaisseSource", cascade={"persist"})
@@ -318,6 +346,9 @@ class JourneeCaisses
         $this->deviseJournees=new ArrayCollection();
         $this->transactions=new ArrayCollection();
         $this->detteCredits=new ArrayCollection();
+        $this->compenses=new ArrayCollection();
+        $this->approVersementEntrants=new ArrayCollection();
+        $this->approVersementSortants=new ArrayCollection();
 
         $this->billetOuv=new Billetages();
         $this->systemElectInventOuv=new SystemElectInventaires();
@@ -363,9 +394,13 @@ class JourneeCaisses
     public function getSoldeNetFermTheorique(){
         return $this->getSoldeNetOuv()
             + $this->getMouvementFond()
-            + $this->getCompense()
+            + $this->getCompenseNet()
             + $this->getMRecette()
             - $this->getMDepense();
+    }
+
+    public function getCompenseNet(){
+        return $this->getCompenseAttendu() - $this->getMCompenses();
     }
 
     public function setMEcartFerm()
@@ -408,6 +443,7 @@ class JourneeCaisses
         return
             + $this->getMCvd()
             + $this->getMIntercaisses()
+            + $this->getSoldeApproVersement()
             //- $this->getMIntercaisseSortants()
             + $this->getMDepotClient()
             - $this->getMRetraitClient()
@@ -421,18 +457,12 @@ class JourneeCaisses
     }
 
     public function getSoldeNetOuv(){
-        /*if ($this->journeePrecedente!=null){
-            $detteDivers=$this->journeePrecedente->getMDetteDiversFerm();
-            $creditDivers=$this->journeePrecedente->getMCreditDiversFerm();
-        }else{
-            $detteDivers=0;
-            $creditDivers=0;
-        }*/
-
         return $this->getDisponibiliteOuv() - $this->getMDetteDiversOuv() + $this->getMCreditDiversOuv();
     }
 
-
+    public function getSoldeApproVersement(){
+        return $this->getMApproVersementEntrant()-$this->getMApproVersementSortant();
+    }
 
 
     public function updateM($champ,$montant){
@@ -515,6 +545,31 @@ class JourneeCaisses
         return $this;
     }
 
+    public function maintenirCompenses(){
+        $this->mCompenses=0;
+        foreach ($this->getCompenses() as $compense){
+            $this->updateM('mCompenses', $compense->getSoldeCompense());
+        }
+        //die();
+        return $this;
+    }
+
+    public function maintenirMApproVersementEntrant(){
+        $this->mApproVersementEntrant=0;
+        foreach ($this->getApproVersementEntrants() as $approVersement){
+            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVersement());
+        }
+        return $this;
+    }
+
+    public function maintenirMApproVersementSortant(){
+        $this->mApproVersementSortant=0;
+        foreach ($this->getApproVersementSortants() as $approVersement){
+            $this->updateM('mApproVersementSortant', $approVersement->getMApproVersement());
+        }
+        return $this;
+    }
+
     public function maintenirRecetteDepenses(){
         $this->mRecette=0;
         $this->mDepense=0;
@@ -528,6 +583,22 @@ class JourneeCaisses
                 $this->updateM('mDepense', $recetteDepense->getMDepense());
             }
         }
+        return $this;
+    }
+
+    public function maintenirToutSolde(){
+       $this ->maintenirMLiquiditeFerm()
+            ->maintenirMSoldeElectFerm()
+            ->maintenirMIntercaisses()
+            ->maintenirMDepotRetraits()
+            ->maintenirDetteCreditDiversFerm()
+            ->maintenirMCvd()
+            ->maintenirRecetteDepenses()
+            ->maintenirTransfertsInternationaux()
+           ->maintenirCompenses()
+       ->maintenirMApproVersementEntrant()
+       ->maintenirMApproVersementSortant();
+        
         return $this;
     }
 
@@ -1518,7 +1589,7 @@ class JourneeCaisses
         return $this;
     }
 
-    public function getCompense()
+    public function getCompenseAttendu()
     {
         return $this->getMEmissionTrans() - $this->getMReceptionTrans();
     }
@@ -1682,5 +1753,188 @@ class JourneeCaisses
         }
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCompenses()
+    {
+        return $this->compenses;
+    }
+
+    /**
+     * @param mixed $compenses
+     * @return JourneeCaisses
+     */
+    public function setCompenses($compenses)
+    {
+        $this->compenses = $compenses;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMCompenses()
+    {
+        return $this->mCompenses;
+    }
+
+    /**
+     * @param mixed $mCompenses
+     * @return JourneeCaisses
+     */
+    public function setMCompenses($mCompenses)
+    {
+        $this->mCompenses = $mCompenses;
+        return $this;
+    }
+
+
+    /**
+     * @param Compenses $compense
+     * @return $this
+     */
+    public function addCompense(Compenses $compense)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $compense->setJourneeCaisse($this);
+            $this->compenses->add($compense);
+            $this->updateM('mCompenses', $compense->getSoldeCompense());
+            return $this;
+        }
+    }
+
+    /**
+     * @param Compenses $compense
+     */
+    public function removeCompense(Compenses $compense)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->compenses->removeElement($compense);
+            $this->updateM('mCompenses', -$compense->getSoldeCompense());
+        }
+    }
+
+    /**
+     * @return ApproVersements
+     */
+    public function getApproVersementEntrants()
+    {
+        return $this->approVersementEntrants;
+    }
+
+    /**
+     * @param ApproVersements $approVersementEntrants
+     * @return JourneeCaisses
+     */
+    public function setApproVersementEntrants(ApproVersements $approVersementEntrants)
+    {
+        $this->approVersementEntrants = $approVersementEntrants;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApproVersementSortants()
+    {
+        return $this->approVersementSortants;
+    }
+
+    /**
+     * @param ApproVersements $approVersementSortants
+     * @return JourneeCaisses
+     */
+    public function setApproVersementSortants(ApproVersements $approVersementSortants)
+    {
+        $this->approVersementSortants = $approVersementSortants;
+        return $this;
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     * @return $this
+     */
+    public function addApproVersementEntrant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $approVersement->setJourneeCaisseEntrant($this);
+            $this->approVersementEntrants->add($approVersement);
+            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVirement());
+            return $this;
+        }
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     */
+    public function removeApproVersementEntrant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->approVersementEntrants->removeElement($approVersement);
+            $this->updateM('mApproVersementEntrant', -$approVersement->getMApproVirement());
+        }
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     * @return $this
+     */
+    public function addApproVersementSortant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $approVersement->setJourneeCaisseEntrant($this);
+            $this->approVersementSortants->add($approVersement);
+            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVirement());
+            return $this;
+        }
+    }
+
+    /**
+     * @param ApproVersements $approVersement
+     */
+    public function removeApproVersementSortant(ApproVersements $approVersement)
+    {
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            $this->approVersementSortants->removeElement($approVersement);
+            $this->updateM('mApproVersementEntrant', -$approVersement->getMApproVirement());
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMApproVersementEntrant()
+    {
+        return $this->mApproVersementEntrant;
+    }
+
+    /**
+     * @param mixed $mApproVersementEntrant
+     * @return JourneeCaisses
+     */
+    public function setMApproVersementEntrant($mApproVersementEntrant)
+    {
+        $this->mApproVersementEntrant = $mApproVersementEntrant;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMApproVersementSortant()
+    {
+        return $this->mApproVersementSortant;
+    }
+
+    /**
+     * @param mixed $mApproVersementSortant
+     * @return JourneeCaisses
+     */
+    public function setMApproVersementSortant($mApproVersementSortant)
+    {
+        $this->mApproVersementSortant = $mApproVersementSortant;
+        return $this;
+    }
 
 }

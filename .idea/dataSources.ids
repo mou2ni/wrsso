@@ -44,2216 +44,2211 @@
       <table id="35" parent="1" name="user"/>
       <table id="36" parent="1" name="utilisateurs"/>
       <table id="37" parent="1" name="zones"/>
-      <column id="38" parent="2" name="id">
+      <table id="38" parent="1" name="appro_versements"/>
+      <table id="39" parent="1" name="compense_lignes"/>
+      <table id="40" parent="1" name="compenses"/>
+      <column id="41" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="39" parent="2" name="billetages_id">
+      <column id="42" parent="2" name="billetages_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="40" parent="2" name="billet_id">
+      <column id="43" parent="2" name="billet_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="41" parent="2" name="valeur_billet">
+      <column id="44" parent="2" name="valeur_billet">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="42" parent="2" name="nb_billet">
+      <column id="45" parent="2" name="nb_billet">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <index id="43" parent="2" name="IDX_612BF20E44973C78">
+      <index id="46" parent="2" name="IDX_612BF20E44973C78">
         <columns>billet_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="44" parent="2" name="IDX_612BF20EF2B35750">
+      <index id="47" parent="2" name="IDX_612BF20EF2B35750">
         <columns>billetages_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="45" parent="2" name="PRIMARY">
+      <key id="48" parent="2" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="46" parent="2" name="FK_612BF20E44973C78">
+      <foreign-key id="49" parent="2" name="FK_612BF20E44973C78">
         <columns>billet_id</columns>
         <ref-key>~.billets.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="47" parent="2" name="FK_612BF20EF2B35750">
+      <foreign-key id="50" parent="2" name="FK_612BF20EF2B35750">
         <columns>billetages_id</columns>
         <ref-key>~.billetages.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="48" parent="3" name="id">
+      <column id="51" parent="3" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="49" parent="3" name="date_billettage">
+      <column id="52" parent="3" name="date_billettage">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="50" parent="3" name="valeur_total">
+      <column id="53" parent="3" name="valeur_total">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <key id="51" parent="3" name="PRIMARY">
+      <key id="54" parent="3" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="52" parent="4" name="id">
+      <column id="55" parent="4" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="53" parent="4" name="devise_id">
+      <column id="56" parent="4" name="devise_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="54" parent="4" name="valeur">
+      <column id="57" parent="4" name="valeur">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="55" parent="4" name="is_active">
+      <column id="58" parent="4" name="is_active">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <index id="56" parent="4" name="IDX_4FCF9B68F4445056">
+      <index id="59" parent="4" name="IDX_4FCF9B68F4445056">
         <columns>devise_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="57" parent="4" name="PRIMARY">
+      <key id="60" parent="4" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="58" parent="4" name="FK_4FCF9B68F4445056">
+      <foreign-key id="61" parent="4" name="FK_4FCF9B68F4445056">
         <columns>devise_id</columns>
         <ref-key>~.devises.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="59" parent="5" name="id">
+      <column id="62" parent="5" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="60" parent="5" name="compte_operation_id">
+      <column id="63" parent="5" name="compte_operation_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="61" parent="5" name="id_cpt_cv_devise">
+      <column id="64" parent="5" name="journal_comptable_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="62" parent="5" name="compte_intercaisse_id">
+      <column id="65" parent="5" name="id_cpt_cv_devise">
         <data-type>int(11)</data-type>
       </column>
-      <column id="63" parent="5" name="compte_attente_compense_id">
+      <column id="66" parent="5" name="compte_intercaisse_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="64" parent="5" name="last_journee_id">
+      <column id="67" parent="5" name="compte_attente_compense_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="65" parent="5" name="last_utilisateur_id">
+      <column id="68" parent="5" name="last_journee_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="66" parent="5" name="libelle">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
+      <column id="69" parent="5" name="last_utilisateur_id">
+        <data-type>int(11)</data-type>
       </column>
-      <column id="67" parent="5" name="code">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="68" parent="5" name="statut">
+      <column id="70" parent="5" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="69" parent="5" name="type_caisse">
+      <column id="71" parent="5" name="code">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="70" parent="5" name="dispo_guichet">
+      <column id="72" parent="5" name="statut">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="73" parent="5" name="type_caisse">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="74" parent="5" name="dispo_guichet">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <column id="71" parent="5" name="journal_comptable_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="72" parent="5" name="compta_detail">
+      <column id="75" parent="5" name="compta_detail">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <index id="73" parent="5" name="IDX_41BE1F462886B1E4">
+      <index id="76" parent="5" name="IDX_41BE1F462886B1E4">
         <columns>compte_operation_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="74" parent="5" name="IDX_41BE1F46699E1206">
+      <index id="77" parent="5" name="IDX_41BE1F46699E1206">
         <columns>journal_comptable_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="75" parent="5" name="IDX_41BE1F468A8E563">
+      <index id="78" parent="5" name="IDX_41BE1F468A8E563">
         <columns>id_cpt_cv_devise</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="76" parent="5" name="IDX_41BE1F46958FE8CB">
+      <index id="79" parent="5" name="IDX_41BE1F46958FE8CB">
         <columns>last_utilisateur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="77" parent="5" name="IDX_41BE1F46E8526BE8">
+      <index id="80" parent="5" name="IDX_41BE1F46E8526BE8">
         <columns>compte_attente_compense_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="78" parent="5" name="IDX_41BE1F46F2823676">
+      <index id="81" parent="5" name="IDX_41BE1F46F2823676">
         <columns>compte_intercaisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="79" parent="5" name="UNIQ_41BE1F4626720BA2">
+      <index id="82" parent="5" name="UNIQ_41BE1F4626720BA2">
         <columns>last_journee_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="80" parent="5" name="PRIMARY">
+      <key id="83" parent="5" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="81" parent="5" name="UNIQ_41BE1F4626720BA2">
+      <key id="84" parent="5" name="UNIQ_41BE1F4626720BA2">
         <columns>last_journee_id</columns>
         <underlying-index>UNIQ_41BE1F4626720BA2</underlying-index>
       </key>
-      <foreign-key id="82" parent="5" name="FK_41BE1F4626720BA2">
+      <foreign-key id="85" parent="5" name="FK_41BE1F4626720BA2">
         <columns>last_journee_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="83" parent="5" name="FK_41BE1F462886B1E4">
+      <foreign-key id="86" parent="5" name="FK_41BE1F462886B1E4">
         <columns>compte_operation_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="84" parent="5" name="FK_41BE1F46699E1206">
+      <foreign-key id="87" parent="5" name="FK_41BE1F46699E1206">
         <columns>journal_comptable_id</columns>
         <ref-key>~.journaux_comptables.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="85" parent="5" name="FK_41BE1F468A8E563">
+      <foreign-key id="88" parent="5" name="FK_41BE1F468A8E563">
         <columns>id_cpt_cv_devise</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="86" parent="5" name="FK_41BE1F46958FE8CB">
+      <foreign-key id="89" parent="5" name="FK_41BE1F46958FE8CB">
         <columns>last_utilisateur_id</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="87" parent="5" name="FK_41BE1F46E8526BE8">
+      <foreign-key id="90" parent="5" name="FK_41BE1F46E8526BE8">
         <columns>compte_attente_compense_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="88" parent="5" name="FK_41BE1F46F2823676">
+      <foreign-key id="91" parent="5" name="FK_41BE1F46F2823676">
         <columns>compte_intercaisse_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="89" parent="6" name="id">
+      <column id="92" parent="6" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="90" parent="6" name="nom">
+      <column id="93" parent="6" name="nom">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="91" parent="6" name="prenom">
+      <column id="94" parent="6" name="prenom">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="92" parent="6" name="adresse">
+      <column id="95" parent="6" name="adresse">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="93" parent="6" name="type_tier">
+      <column id="96" parent="6" name="email">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="94" parent="6" name="email">
+      <column id="97" parent="6" name="type_tier">
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="95" parent="6" name="PRIMARY">
+      <key id="98" parent="6" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="96" parent="7" name="id">
+      <column id="99" parent="7" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="97" parent="7" name="compte_virement_id">
+      <column id="100" parent="7" name="compte_virement_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="98" parent="7" name="entreprise_id">
+      <column id="101" parent="7" name="compte_remuneration_due_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="99" parent="7" name="dernier_salaire_id">
+      <column id="102" parent="7" name="entreprise_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="100" parent="7" name="nom">
+      <column id="103" parent="7" name="dernier_salaire_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="104" parent="7" name="nom">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="101" parent="7" name="prenom">
+      <column id="105" parent="7" name="prenom">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="102" parent="7" name="date_naissance">
+      <column id="106" parent="7" name="date_naissance">
         <data-type>date</data-type>
       </column>
-      <column id="103" parent="7" name="date_entree">
-        <data-type>date</data-type>
-      </column>
-      <column id="104" parent="7" name="date_sortie">
-        <data-type>date</data-type>
-      </column>
-      <column id="105" parent="7" name="statut">
-        <mandatory>1</mandatory>
+      <column id="107" parent="7" name="qualite">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="106" parent="7" name="nb_enfant">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="107" parent="7" name="categorie">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="108" parent="7" name="n_securite_sociale">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="109" parent="7" name="m_salaire_base">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="110" parent="7" name="m_indem_logement">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="111" parent="7" name="m_indem_transport">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="112" parent="7" name="m_indem_fonction">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="113" parent="7" name="m_indem_autres">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="114" parent="7" name="m_heure_sup">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="115" parent="7" name="m_securite_sociale_salarie">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="116" parent="7" name="m_securite_sociale_patronal">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="117" parent="7" name="m_impot_salarie">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="118" parent="7" name="m_taxe_patronale">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="119" parent="7" name="est_representant">
+      <column id="108" parent="7" name="est_representant">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <column id="120" parent="7" name="compte_remuneration_due_id">
+      <column id="109" parent="7" name="date_entree">
+        <data-type>date</data-type>
+      </column>
+      <column id="110" parent="7" name="date_sortie">
+        <data-type>date</data-type>
+      </column>
+      <column id="111" parent="7" name="statut">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="112" parent="7" name="adresse">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="113" parent="7" name="nb_enfant">
+        <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="121" parent="7" name="qualite">
+      <column id="114" parent="7" name="categorie">
+        <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="122" parent="7" name="adresse">
+      <column id="115" parent="7" name="n_securite_sociale">
+        <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <index id="123" parent="7" name="IDX_4A340D9297A0144">
+      <column id="116" parent="7" name="m_salaire_base">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="117" parent="7" name="m_indem_logement">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="118" parent="7" name="m_indem_transport">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="119" parent="7" name="m_indem_fonction">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="120" parent="7" name="m_indem_autres">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="121" parent="7" name="m_heure_sup">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="122" parent="7" name="m_securite_sociale_salarie">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="123" parent="7" name="m_securite_sociale_patronal">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="124" parent="7" name="m_impot_salarie">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="125" parent="7" name="m_taxe_patronale">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <index id="126" parent="7" name="IDX_4A340D9297A0144">
         <columns>compte_remuneration_due_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="124" parent="7" name="IDX_4A340D92C2A202F">
+      <index id="127" parent="7" name="IDX_4A340D92C2A202F">
         <columns>dernier_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="125" parent="7" name="IDX_4A340D9A4AEAFEA">
+      <index id="128" parent="7" name="IDX_4A340D9A4AEAFEA">
         <columns>entreprise_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="126" parent="7" name="IDX_4A340D9D3AA9837">
+      <index id="129" parent="7" name="IDX_4A340D9D3AA9837">
         <columns>compte_virement_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="127" parent="7" name="PRIMARY">
+      <key id="130" parent="7" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="128" parent="7" name="FK_4A340D9297A0144">
+      <foreign-key id="131" parent="7" name="FK_4A340D9297A0144">
         <columns>compte_remuneration_due_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="129" parent="7" name="FK_4A340D92C2A202F">
+      <foreign-key id="132" parent="7" name="FK_4A340D92C2A202F">
         <columns>dernier_salaire_id</columns>
         <ref-key>~.salaires.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="130" parent="7" name="FK_4A340D9A4AEAFEA">
+      <foreign-key id="133" parent="7" name="FK_4A340D9A4AEAFEA">
         <columns>entreprise_id</columns>
         <ref-key>~.entreprises.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="131" parent="7" name="FK_4A340D9D3AA9837">
+      <foreign-key id="134" parent="7" name="FK_4A340D9D3AA9837">
         <columns>compte_virement_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="132" parent="8" name="id">
+      <column id="135" parent="8" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="133" parent="8" name="client">
+      <column id="136" parent="8" name="client">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="134" parent="8" name="num_compte">
+      <column id="137" parent="8" name="num_compte">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="135" parent="8" name="intitule">
+      <column id="138" parent="8" name="intitule">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="136" parent="8" name="solde_courant">
+      <column id="139" parent="8" name="solde_courant">
         <data-type>int(11)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="137" parent="8" name="type_compte">
+      <column id="140" parent="8" name="type_compte">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <index id="138" parent="8" name="IDX_99CE619DC7440455">
+      <index id="141" parent="8" name="IDX_99CE619DC7440455">
         <columns>client</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="139" parent="8" name="UNIQ_99CE619D76D705D8">
+      <index id="142" parent="8" name="UNIQ_99CE619D76D705D8">
         <columns>num_compte</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="140" parent="8" name="PRIMARY">
+      <key id="143" parent="8" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="141" parent="8" name="UNIQ_99CE619D76D705D8">
+      <key id="144" parent="8" name="UNIQ_99CE619D76D705D8">
         <columns>num_compte</columns>
         <underlying-index>UNIQ_99CE619D76D705D8</underlying-index>
       </key>
-      <foreign-key id="142" parent="8" name="FK_99CE619DC7440455">
+      <foreign-key id="145" parent="8" name="FK_99CE619DC7440455">
         <columns>client</columns>
         <ref-key>~.clients.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="143" parent="9" name="id">
+      <column id="146" parent="9" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="144" parent="9" name="utilisateur_id">
+      <column id="147" parent="9" name="utilisateur_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="145" parent="9" name="transaction_id">
+      <column id="148" parent="9" name="transaction_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="146" parent="9" name="compte_operation_caisse_id">
+      <column id="149" parent="9" name="journee_caisse_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="147" parent="9" name="compte_client_id">
+      <column id="150" parent="9" name="compte_operation_caisse_id">
+        <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="148" parent="9" name="date_operation">
+      <column id="151" parent="9" name="compte_client_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="152" parent="9" name="date_operation">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="149" parent="9" name="libelle">
+      <column id="153" parent="9" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
-      </column>
-      <column id="150" parent="9" name="m_depot">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="151" parent="9" name="m_retrait">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="152" parent="9" name="statut">
-        <mandatory>1</mandatory>
-        <data-type>varchar(2)</data-type>
-      </column>
-      <column id="153" parent="9" name="journee_caisse_id">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
       </column>
       <column id="154" parent="9" name="num_compte_saisie">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <index id="155" parent="9" name="IDX_80A0AD9D2FC0CB0F">
+      <column id="155" parent="9" name="m_depot">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="156" parent="9" name="m_retrait">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="157" parent="9" name="statut">
+        <mandatory>1</mandatory>
+        <data-type>varchar(2)</data-type>
+      </column>
+      <index id="158" parent="9" name="IDX_80A0AD9D2FC0CB0F">
         <columns>transaction_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="156" parent="9" name="IDX_80A0AD9D85E92CE6">
+      <index id="159" parent="9" name="IDX_80A0AD9D85E92CE6">
         <columns>compte_operation_caisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="157" parent="9" name="IDX_80A0AD9DDA655713">
+      <index id="160" parent="9" name="IDX_80A0AD9DDA655713">
         <columns>compte_client_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="158" parent="9" name="IDX_80A0AD9DED9240C0">
+      <index id="161" parent="9" name="IDX_80A0AD9DED9240C0">
         <columns>journee_caisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="159" parent="9" name="IDX_80A0AD9DFB88E14F">
+      <index id="162" parent="9" name="IDX_80A0AD9DFB88E14F">
         <columns>utilisateur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="160" parent="9" name="PRIMARY">
+      <key id="163" parent="9" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="161" parent="9" name="FK_80A0AD9D2FC0CB0F">
+      <foreign-key id="164" parent="9" name="FK_80A0AD9D2FC0CB0F">
         <columns>transaction_id</columns>
         <ref-key>~.transactions.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="162" parent="9" name="FK_80A0AD9D85E92CE6">
+      <foreign-key id="165" parent="9" name="FK_80A0AD9D85E92CE6">
         <columns>compte_operation_caisse_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="163" parent="9" name="FK_80A0AD9DDA655713">
+      <foreign-key id="166" parent="9" name="FK_80A0AD9DDA655713">
         <columns>compte_client_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="164" parent="9" name="FK_80A0AD9DED9240C0">
+      <foreign-key id="167" parent="9" name="FK_80A0AD9DED9240C0">
         <columns>journee_caisse_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="165" parent="9" name="FK_80A0AD9DFB88E14F">
+      <foreign-key id="168" parent="9" name="FK_80A0AD9DFB88E14F">
         <columns>utilisateur_id</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="166" parent="10" name="id">
+      <column id="169" parent="10" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="167" parent="10" name="journee_caisse_creation_id">
+      <column id="170" parent="10" name="journee_caisse_creation_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="168" parent="10" name="journee_caisse_remb_id">
+      <column id="171" parent="10" name="journee_caisse_remb_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="169" parent="10" name="date_creation">
+      <column id="172" parent="10" name="date_creation">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="170" parent="10" name="date_remboursement">
+      <column id="173" parent="10" name="date_remboursement">
         <data-type>datetime</data-type>
       </column>
-      <column id="171" parent="10" name="libelle">
+      <column id="174" parent="10" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="172" parent="10" name="statut">
+      <column id="175" parent="10" name="statut">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="173" parent="10" name="m_credit">
+      <column id="176" parent="10" name="m_credit">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="174" parent="10" name="m_dette">
+      <column id="177" parent="10" name="m_dette">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="175" parent="10" name="journeeCaisseActive">
+      <column id="178" parent="10" name="journeeCaisseActive">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="176" parent="10" name="utilisateurCreat">
+      <column id="179" parent="10" name="utilisateurCreat">
         <data-type>int(11)</data-type>
       </column>
-      <column id="177" parent="10" name="utilisateurRemb">
+      <column id="180" parent="10" name="utilisateurRemb">
         <data-type>int(11)</data-type>
       </column>
-      <index id="178" parent="10" name="IDX_1C5147F2666C2D03">
+      <index id="181" parent="10" name="IDX_1C5147F2666C2D03">
         <columns>journee_caisse_remb_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="179" parent="10" name="IDX_1C5147F2933A183">
+      <index id="182" parent="10" name="IDX_1C5147F2933A183">
         <columns>journee_caisse_creation_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="180" parent="10" name="IDX_1C5147F2954C14F1">
+      <index id="183" parent="10" name="IDX_1C5147F2954C14F1">
         <columns>journeeCaisseActive</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="181" parent="10" name="IDX_1C5147F2BD94A1E9">
+      <index id="184" parent="10" name="IDX_1C5147F2BD94A1E9">
         <columns>utilisateurRemb</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="182" parent="10" name="IDX_1C5147F2E97147BA">
+      <index id="185" parent="10" name="IDX_1C5147F2E97147BA">
         <columns>utilisateurCreat</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="183" parent="10" name="PRIMARY">
+      <key id="186" parent="10" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="184" parent="10" name="FK_1C5147F2666C2D03">
+      <foreign-key id="187" parent="10" name="FK_1C5147F2666C2D03">
         <columns>journee_caisse_remb_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="185" parent="10" name="FK_1C5147F2933A183">
+      <foreign-key id="188" parent="10" name="FK_1C5147F2933A183">
         <columns>journee_caisse_creation_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="186" parent="10" name="FK_1C5147F2954C14F1">
+      <foreign-key id="189" parent="10" name="FK_1C5147F2954C14F1">
         <columns>journeeCaisseActive</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="187" parent="10" name="FK_1C5147F2BD94A1E9">
+      <foreign-key id="190" parent="10" name="FK_1C5147F2BD94A1E9">
         <columns>utilisateurRemb</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="188" parent="10" name="FK_1C5147F2E97147BA">
+      <foreign-key id="191" parent="10" name="FK_1C5147F2E97147BA">
         <columns>utilisateurCreat</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="189" parent="11" name="id">
+      <column id="192" parent="11" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="190" parent="11" name="pays_piece_id">
+      <column id="193" parent="11" name="pays_piece_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="191" parent="11" name="date_recu">
+      <column id="194" parent="11" name="date_recu">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="192" parent="11" name="nom">
+      <column id="195" parent="11" name="nom">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="193" parent="11" name="prenom">
+      <column id="196" parent="11" name="prenom">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="194" parent="11" name="adresse">
+      <column id="197" parent="11" name="adresse">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="195" parent="11" name="type_piece">
+      <column id="198" parent="11" name="type_piece">
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="196" parent="11" name="num_piece">
+      <column id="199" parent="11" name="num_piece">
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="197" parent="11" name="expire_le">
+      <column id="200" parent="11" name="expire_le">
         <data-type>date</data-type>
       </column>
-      <column id="198" parent="11" name="motif">
+      <column id="201" parent="11" name="motif">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="199" parent="11" name="comment">
+      <column id="202" parent="11" name="comment">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="200" parent="11" name="sens">
+      <column id="203" parent="11" name="sens">
         <mandatory>1</mandatory>
         <data-type>varchar(1)</data-type>
       </column>
-      <column id="201" parent="11" name="journeeCaisse">
+      <column id="204" parent="11" name="journeeCaisse">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <index id="202" parent="11" name="IDX_22234A8392A0D6EA">
+      <index id="205" parent="11" name="IDX_22234A8392A0D6EA">
         <columns>pays_piece_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="203" parent="11" name="IDX_22234A83CD3EC261">
+      <index id="206" parent="11" name="IDX_22234A83CD3EC261">
         <columns>journeeCaisse</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="204" parent="11" name="PRIMARY">
+      <key id="207" parent="11" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="205" parent="11" name="FK_22234A8392A0D6EA">
+      <foreign-key id="208" parent="11" name="FK_22234A8392A0D6EA">
         <columns>pays_piece_id</columns>
         <ref-key>~.pays.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="206" parent="11" name="FK_22234A83CD3EC261">
+      <foreign-key id="209" parent="11" name="FK_22234A83CD3EC261">
         <columns>journeeCaisse</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="207" parent="12" name="id">
+      <column id="210" parent="12" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="208" parent="12" name="devise_intercaisse_id">
+      <column id="211" parent="12" name="devise_intercaisse_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="209" parent="12" name="devise_id">
+      <column id="212" parent="12" name="devise_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="210" parent="12" name="nombre">
+      <column id="213" parent="12" name="nombre">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="211" parent="12" name="taux">
+      <column id="214" parent="12" name="taux">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <index id="212" parent="12" name="IDX_2C09D40883F78888">
+      <index id="215" parent="12" name="IDX_2C09D40883F78888">
         <columns>devise_intercaisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="213" parent="12" name="IDX_2C09D408F4445056">
+      <index id="216" parent="12" name="IDX_2C09D408F4445056">
         <columns>devise_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="214" parent="12" name="PRIMARY">
+      <key id="217" parent="12" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="215" parent="12" name="FK_2C09D40883F78888">
+      <foreign-key id="218" parent="12" name="FK_2C09D40883F78888">
         <columns>devise_intercaisse_id</columns>
         <ref-key>~.deviseintercaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="216" parent="12" name="FK_2C09D408F4445056">
+      <foreign-key id="219" parent="12" name="FK_2C09D408F4445056">
         <columns>devise_id</columns>
         <ref-key>~.devises.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="217" parent="13" name="id">
+      <column id="220" parent="13" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="218" parent="13" name="journee_caisse_source_id">
+      <column id="221" parent="13" name="journee_caisse_source_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="219" parent="13" name="journee_caisse_destination_id">
+      <column id="222" parent="13" name="journee_caisse_destination_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
-      </column>
-      <column id="220" parent="13" name="date_intercaisse">
-        <mandatory>1</mandatory>
-        <data-type>datetime</data-type>
-      </column>
-      <column id="221" parent="13" name="statut">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="222" parent="13" name="observations">
-        <data-type>varchar(255)</data-type>
       </column>
       <column id="223" parent="13" name="journee_caisse_initiateur_id">
         <data-type>int(11)</data-type>
       </column>
-      <index id="224" parent="13" name="IDX_D7381A144F08E1DE">
+      <column id="224" parent="13" name="date_intercaisse">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="225" parent="13" name="statut">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="226" parent="13" name="observations">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="227" parent="13" name="IDX_D7381A144F08E1DE">
         <columns>journee_caisse_destination_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="225" parent="13" name="IDX_D7381A1453B5438B">
+      <index id="228" parent="13" name="IDX_D7381A1453B5438B">
         <columns>journee_caisse_initiateur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="226" parent="13" name="IDX_D7381A146AE367D">
+      <index id="229" parent="13" name="IDX_D7381A146AE367D">
         <columns>journee_caisse_source_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="227" parent="13" name="PRIMARY">
+      <key id="230" parent="13" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="228" parent="13" name="FK_D7381A144F08E1DE">
+      <foreign-key id="231" parent="13" name="FK_D7381A144F08E1DE">
         <columns>journee_caisse_destination_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="229" parent="13" name="FK_D7381A1453B5438B">
+      <foreign-key id="232" parent="13" name="FK_D7381A1453B5438B">
         <columns>journee_caisse_initiateur_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="230" parent="13" name="FK_D7381A146AE367D">
+      <foreign-key id="233" parent="13" name="FK_D7381A146AE367D">
         <columns>journee_caisse_source_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="231" parent="14" name="id">
+      <column id="234" parent="14" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="232" parent="14" name="devise_id">
+      <column id="235" parent="14" name="devise_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="233" parent="14" name="billet_ouv_id">
+      <column id="236" parent="14" name="billet_ouv_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="234" parent="14" name="billet_ferm_id">
+      <column id="237" parent="14" name="billet_ferm_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="235" parent="14" name="qte_ouv">
+      <column id="238" parent="14" name="qte_ouv">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="236" parent="14" name="ecart_ouv">
+      <column id="239" parent="14" name="ecart_ouv">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="237" parent="14" name="qte_achat">
+      <column id="240" parent="14" name="qte_achat">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="238" parent="14" name="qte_vente">
+      <column id="241" parent="14" name="qte_vente">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="239" parent="14" name="m_cvd_achat">
+      <column id="242" parent="14" name="m_cvd_achat">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="240" parent="14" name="m_cvd_vente">
+      <column id="243" parent="14" name="m_cvd_vente">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="241" parent="14" name="qte_intercaisse">
+      <column id="244" parent="14" name="qte_intercaisse">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="242" parent="14" name="qte_ferm">
+      <column id="245" parent="14" name="qte_ferm">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="243" parent="14" name="ecart_ferm">
+      <column id="246" parent="14" name="ecart_ferm">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="244" parent="14" name="idJourneeCaisse">
+      <column id="247" parent="14" name="idJourneeCaisse">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <index id="245" parent="14" name="IDX_282BE5D27DA9E4F">
+      <index id="248" parent="14" name="IDX_282BE5D27DA9E4F">
         <columns>idJourneeCaisse</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="246" parent="14" name="IDX_282BE5D2F4445056">
+      <index id="249" parent="14" name="IDX_282BE5D2F4445056">
         <columns>devise_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="247" parent="14" name="UNIQ_282BE5D2377E1C61">
+      <index id="250" parent="14" name="UNIQ_282BE5D2377E1C61">
         <columns>billet_ferm_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="248" parent="14" name="UNIQ_282BE5D2B1826C82">
+      <index id="251" parent="14" name="UNIQ_282BE5D2B1826C82">
         <columns>billet_ouv_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="249" parent="14" name="PRIMARY">
+      <key id="252" parent="14" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="250" parent="14" name="UNIQ_282BE5D2377E1C61">
+      <key id="253" parent="14" name="UNIQ_282BE5D2377E1C61">
         <columns>billet_ferm_id</columns>
         <underlying-index>UNIQ_282BE5D2377E1C61</underlying-index>
       </key>
-      <key id="251" parent="14" name="UNIQ_282BE5D2B1826C82">
+      <key id="254" parent="14" name="UNIQ_282BE5D2B1826C82">
         <columns>billet_ouv_id</columns>
         <underlying-index>UNIQ_282BE5D2B1826C82</underlying-index>
       </key>
-      <foreign-key id="252" parent="14" name="FK_282BE5D2377E1C61">
+      <foreign-key id="255" parent="14" name="FK_282BE5D2377E1C61">
         <columns>billet_ferm_id</columns>
         <ref-key>~.billetages.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="253" parent="14" name="FK_282BE5D27DA9E4F">
+      <foreign-key id="256" parent="14" name="FK_282BE5D27DA9E4F">
         <columns>idJourneeCaisse</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="254" parent="14" name="FK_282BE5D2B1826C82">
+      <foreign-key id="257" parent="14" name="FK_282BE5D2B1826C82">
         <columns>billet_ouv_id</columns>
         <ref-key>~.billetages.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="255" parent="14" name="FK_282BE5D2F4445056">
+      <foreign-key id="258" parent="14" name="FK_282BE5D2F4445056">
         <columns>devise_id</columns>
         <ref-key>~.devises.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="256" parent="15" name="id">
+      <column id="259" parent="15" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="257" parent="15" name="devise_journee_id">
+      <column id="260" parent="15" name="devise_journee_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="258" parent="15" name="devise_recu_id">
+      <column id="261" parent="15" name="devise_recu_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="259" parent="15" name="devise_intercaisse_id">
+      <column id="262" parent="15" name="devise_intercaisse_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="260" parent="15" name="devise_id">
+      <column id="263" parent="15" name="devise_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="261" parent="15" name="journee_caisse_id">
+      <column id="264" parent="15" name="journee_caisse_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="262" parent="15" name="nombre">
+      <column id="265" parent="15" name="nombre">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="263" parent="15" name="taux">
+      <column id="266" parent="15" name="taux">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <index id="264" parent="15" name="IDX_F832A38183F78888">
+      <index id="267" parent="15" name="IDX_F832A38183F78888">
         <columns>devise_intercaisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="265" parent="15" name="IDX_F832A3818C999F1">
+      <index id="268" parent="15" name="IDX_F832A3818C999F1">
         <columns>devise_recu_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="266" parent="15" name="IDX_F832A381ED9240C0">
+      <index id="269" parent="15" name="IDX_F832A381ED9240C0">
         <columns>journee_caisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="267" parent="15" name="IDX_F832A381F4445056">
+      <index id="270" parent="15" name="IDX_F832A381F4445056">
         <columns>devise_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="268" parent="15" name="IDX_F832A381FC328454">
+      <index id="271" parent="15" name="IDX_F832A381FC328454">
         <columns>devise_journee_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="269" parent="15" name="PRIMARY">
+      <key id="272" parent="15" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="270" parent="15" name="FK_F832A38183F78888">
+      <foreign-key id="273" parent="15" name="FK_F832A38183F78888">
         <columns>devise_intercaisse_id</columns>
         <ref-key>~.deviseintercaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="271" parent="15" name="FK_F832A3818C999F1">
+      <foreign-key id="274" parent="15" name="FK_F832A3818C999F1">
         <columns>devise_recu_id</columns>
         <ref-key>~.devise_recus.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="272" parent="15" name="FK_F832A381ED9240C0">
+      <foreign-key id="275" parent="15" name="FK_F832A381ED9240C0">
         <columns>journee_caisse_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="273" parent="15" name="FK_F832A381F4445056">
+      <foreign-key id="276" parent="15" name="FK_F832A381F4445056">
         <columns>devise_id</columns>
         <ref-key>~.devises.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="274" parent="15" name="FK_F832A381FC328454">
+      <foreign-key id="277" parent="15" name="FK_F832A381FC328454">
         <columns>devise_journee_id</columns>
         <ref-key>~.devisejournees.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="275" parent="16" name="id">
+      <column id="278" parent="16" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="276" parent="16" name="code">
+      <column id="279" parent="16" name="code">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="277" parent="16" name="libelle">
+      <column id="280" parent="16" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="278" parent="16" name="date_modification">
+      <column id="281" parent="16" name="date_modification">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="279" parent="16" name="tx_achat">
+      <column id="282" parent="16" name="tx_achat">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="280" parent="16" name="tx_vente">
+      <column id="283" parent="16" name="tx_reference">
+        <data-type>double</data-type>
+      </column>
+      <column id="284" parent="16" name="tx_vente">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="281" parent="16" name="tx_reference">
-        <data-type>double</data-type>
-      </column>
-      <column id="282" parent="16" name="formule_achat">
+      <column id="285" parent="16" name="formule_achat">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="283" parent="16" name="formule_vente">
+      <column id="286" parent="16" name="formule_vente">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="284" parent="16" name="PRIMARY">
+      <key id="287" parent="16" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="285" parent="17" name="id">
+      <column id="288" parent="17" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
-      </column>
-      <column id="286" parent="17" name="code">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="287" parent="17" name="libelle">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="288" parent="17" name="adresse">
-        <data-type>varchar(255)</data-type>
       </column>
       <column id="289" parent="17" name="representant_id">
         <data-type>int(11)</data-type>
       </column>
-      <index id="290" parent="17" name="IDX_56B1B7A96C4A52F0">
+      <column id="290" parent="17" name="code">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="291" parent="17" name="libelle">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="292" parent="17" name="adresse">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="293" parent="17" name="IDX_56B1B7A96C4A52F0">
         <columns>representant_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="291" parent="17" name="PRIMARY">
+      <key id="294" parent="17" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="292" parent="17" name="FK_56B1B7A96C4A52F0">
+      <foreign-key id="295" parent="17" name="FK_56B1B7A96C4A52F0">
         <columns>representant_id</columns>
         <ref-key>~.collaborateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="293" parent="18" name="id">
+      <column id="296" parent="18" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="294" parent="18" name="m_intercaisse">
+      <column id="297" parent="18" name="journee_caisse_initiateur_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="298" parent="18" name="transaction_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="299" parent="18" name="recette_depense_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="300" parent="18" name="m_intercaisse">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="295" parent="18" name="statut">
+      <column id="301" parent="18" name="statut">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="296" parent="18" name="observations">
+      <column id="302" parent="18" name="observations">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="297" parent="18" name="journeeCaisseSortant">
+      <column id="303" parent="18" name="journeeCaisseSortant">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="298" parent="18" name="journeeCaisseEntrant">
+      <column id="304" parent="18" name="journeeCaisseEntrant">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="299" parent="18" name="journee_caisse_initiateur_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="300" parent="18" name="transaction_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="301" parent="18" name="recette_depense_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="302" parent="18" name="IDX_F4C41EC1F688F76">
+      <index id="305" parent="18" name="IDX_F4C41EC1F688F76">
         <columns>journeeCaisseSortant</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="303" parent="18" name="IDX_F4C41EC2FC0CB0F">
+      <index id="306" parent="18" name="IDX_F4C41EC2FC0CB0F">
         <columns>transaction_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="304" parent="18" name="IDX_F4C41EC3DB72CBA">
+      <index id="307" parent="18" name="IDX_F4C41EC3DB72CBA">
         <columns>recette_depense_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="305" parent="18" name="IDX_F4C41EC53B5438B">
+      <index id="308" parent="18" name="IDX_F4C41EC53B5438B">
         <columns>journee_caisse_initiateur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="306" parent="18" name="IDX_F4C41EC7A115F5B">
+      <index id="309" parent="18" name="IDX_F4C41EC7A115F5B">
         <columns>journeeCaisseEntrant</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="307" parent="18" name="PRIMARY">
+      <key id="310" parent="18" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="308" parent="18" name="FK_F4C41EC1F688F76">
+      <foreign-key id="311" parent="18" name="FK_F4C41EC1F688F76">
         <columns>journeeCaisseSortant</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="309" parent="18" name="FK_F4C41EC2FC0CB0F">
+      <foreign-key id="312" parent="18" name="FK_F4C41EC2FC0CB0F">
         <columns>transaction_id</columns>
         <ref-key>~.transactions.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="310" parent="18" name="FK_F4C41EC3DB72CBA">
+      <foreign-key id="313" parent="18" name="FK_F4C41EC3DB72CBA">
         <columns>recette_depense_id</columns>
         <ref-key>~.recette_depenses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="311" parent="18" name="FK_F4C41EC53B5438B">
+      <foreign-key id="314" parent="18" name="FK_F4C41EC53B5438B">
         <columns>journee_caisse_initiateur_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="312" parent="18" name="FK_F4C41EC7A115F5B">
+      <foreign-key id="315" parent="18" name="FK_F4C41EC7A115F5B">
         <columns>journeeCaisseEntrant</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="313" parent="19" name="id">
+      <column id="316" parent="19" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="314" parent="19" name="compte_contre_partie_id">
+      <column id="317" parent="19" name="compte_contre_partie_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="315" parent="19" name="code">
+      <column id="318" parent="19" name="code">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="316" parent="19" name="type_journal">
+      <column id="319" parent="19" name="type_journal">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
       </column>
-      <column id="317" parent="19" name="libelle">
+      <column id="320" parent="19" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="318" parent="19" name="dernier_num_piece">
+      <column id="321" parent="19" name="dernier_num_piece">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <index id="319" parent="19" name="IDX_EEB485E91BBCBE86">
+      <index id="322" parent="19" name="IDX_EEB485E91BBCBE86">
         <columns>compte_contre_partie_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="320" parent="19" name="UNIQ_EEB485E977153098">
+      <index id="323" parent="19" name="UNIQ_EEB485E977153098">
         <columns>code</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="321" parent="19" name="PRIMARY">
+      <key id="324" parent="19" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="322" parent="19" name="UNIQ_EEB485E977153098">
+      <key id="325" parent="19" name="UNIQ_EEB485E977153098">
         <columns>code</columns>
         <underlying-index>UNIQ_EEB485E977153098</underlying-index>
       </key>
-      <foreign-key id="323" parent="19" name="FK_EEB485E91BBCBE86">
+      <foreign-key id="326" parent="19" name="FK_EEB485E91BBCBE86">
         <columns>compte_contre_partie_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="324" parent="20" name="id">
+      <column id="327" parent="20" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="325" parent="20" name="caisse_id">
+      <column id="328" parent="20" name="caisse_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="326" parent="20" name="utilisateur_id">
+      <column id="329" parent="20" name="utilisateur_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="327" parent="20" name="journee_precedente_id">
+      <column id="330" parent="20" name="journee_precedente_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="328" parent="20" name="billet_ouv_id">
+      <column id="331" parent="20" name="billet_ouv_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="329" parent="20" name="system_elect_invent_ouv_id">
+      <column id="332" parent="20" name="system_elect_invent_ouv_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="330" parent="20" name="billet_ferm_id">
+      <column id="333" parent="20" name="billet_ferm_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="331" parent="20" name="system_elect_invent_ferm_id">
+      <column id="334" parent="20" name="system_elect_invent_ferm_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="332" parent="20" name="statut">
+      <column id="335" parent="20" name="statut">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="333" parent="20" name="date_ouv">
+      <column id="336" parent="20" name="date_ouv">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="334" parent="20" name="m_liquidite_ouv">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="335" parent="20" name="m_solde_elect_ouv">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="336" parent="20" name="m_ecart_ouv">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="337" parent="20" name="date_ferm">
-        <data-type>datetime</data-type>
-      </column>
-      <column id="338" parent="20" name="m_liquidite_ferm">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="339" parent="20" name="m_solde_elect_ferm">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="340" parent="20" name="m_dette_divers_ouv">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="341" parent="20" name="m_credit_divers_ouv">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="342" parent="20" name="m_dette_divers_ferm">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="343" parent="20" name="m_credit_divers_ferm">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="344" parent="20" name="m_intercaisses">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="345" parent="20" name="m_emission_trans">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="346" parent="20" name="m_reception_trans">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="347" parent="20" name="m_cvd">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="348" parent="20" name="m_retrait_client">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="349" parent="20" name="m_depot_client">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="350" parent="20" name="m_ecart_ferm">
-        <mandatory>1</mandatory>
-        <data-type>bigint(20)</data-type>
-      </column>
-      <column id="351" parent="20" name="date_comptable">
+      <column id="337" parent="20" name="date_comptable">
         <data-type>date</data-type>
       </column>
-      <column id="352" parent="20" name="m_recette">
+      <column id="338" parent="20" name="m_liquidite_ouv">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="353" parent="20" name="m_depense">
+      <column id="339" parent="20" name="m_solde_elect_ouv">
         <mandatory>1</mandatory>
         <data-type>bigint(20)</data-type>
       </column>
-      <index id="354" parent="20" name="IDX_EC12D8DF1E32E5F">
+      <column id="340" parent="20" name="m_ecart_ouv">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="341" parent="20" name="date_ferm">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="342" parent="20" name="m_liquidite_ferm">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="343" parent="20" name="m_solde_elect_ferm">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="344" parent="20" name="m_dette_divers_ouv">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="345" parent="20" name="m_credit_divers_ouv">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="346" parent="20" name="m_dette_divers_ferm">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="347" parent="20" name="m_credit_divers_ferm">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="348" parent="20" name="m_intercaisses">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="349" parent="20" name="m_emission_trans">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="350" parent="20" name="m_reception_trans">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="351" parent="20" name="m_cvd">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="352" parent="20" name="m_retrait_client">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="353" parent="20" name="m_depot_client">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="354" parent="20" name="m_ecart_ferm">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="355" parent="20" name="m_recette">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="356" parent="20" name="m_depense">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="357" parent="20" name="m_compenses">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="358" parent="20" name="m_appro_versement_entrant">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="359" parent="20" name="m_appro_versement_sortant">
+        <mandatory>1</mandatory>
+        <data-type>bigint(20)</data-type>
+      </column>
+      <index id="360" parent="20" name="IDX_EC12D8DF1E32E5F">
         <columns>system_elect_invent_ferm_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="355" parent="20" name="IDX_EC12D8DF27B4FEBF">
+      <index id="361" parent="20" name="IDX_EC12D8DF27B4FEBF">
         <columns>caisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="356" parent="20" name="IDX_EC12D8DF2FFAA428">
+      <index id="362" parent="20" name="IDX_EC12D8DF2FFAA428">
         <columns>system_elect_invent_ouv_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="357" parent="20" name="IDX_EC12D8DFFB88E14F">
+      <index id="363" parent="20" name="IDX_EC12D8DFFB88E14F">
         <columns>utilisateur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="358" parent="20" name="UNIQ_EC12D8DF12DE51E0">
+      <index id="364" parent="20" name="UNIQ_EC12D8DF12DE51E0">
         <columns>journee_precedente_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="359" parent="20" name="UNIQ_EC12D8DF377E1C61">
+      <index id="365" parent="20" name="UNIQ_EC12D8DF377E1C61">
         <columns>billet_ferm_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <index id="360" parent="20" name="UNIQ_EC12D8DFB1826C82">
+      <index id="366" parent="20" name="UNIQ_EC12D8DFB1826C82">
         <columns>billet_ouv_id</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="361" parent="20" name="PRIMARY">
+      <key id="367" parent="20" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="362" parent="20" name="UNIQ_EC12D8DF12DE51E0">
+      <key id="368" parent="20" name="UNIQ_EC12D8DF12DE51E0">
         <columns>journee_precedente_id</columns>
         <underlying-index>UNIQ_EC12D8DF12DE51E0</underlying-index>
       </key>
-      <key id="363" parent="20" name="UNIQ_EC12D8DF377E1C61">
+      <key id="369" parent="20" name="UNIQ_EC12D8DF377E1C61">
         <columns>billet_ferm_id</columns>
         <underlying-index>UNIQ_EC12D8DF377E1C61</underlying-index>
       </key>
-      <key id="364" parent="20" name="UNIQ_EC12D8DFB1826C82">
+      <key id="370" parent="20" name="UNIQ_EC12D8DFB1826C82">
         <columns>billet_ouv_id</columns>
         <underlying-index>UNIQ_EC12D8DFB1826C82</underlying-index>
       </key>
-      <foreign-key id="365" parent="20" name="FK_EC12D8DF12DE51E0">
+      <foreign-key id="371" parent="20" name="FK_EC12D8DF12DE51E0">
         <columns>journee_precedente_id</columns>
         <ref-key>PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="366" parent="20" name="FK_EC12D8DF1E32E5F">
+      <foreign-key id="372" parent="20" name="FK_EC12D8DF1E32E5F">
         <columns>system_elect_invent_ferm_id</columns>
         <ref-key>~.systemelectinventaires.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="367" parent="20" name="FK_EC12D8DF27B4FEBF">
+      <foreign-key id="373" parent="20" name="FK_EC12D8DF27B4FEBF">
         <columns>caisse_id</columns>
         <ref-key>~.caisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="368" parent="20" name="FK_EC12D8DF2FFAA428">
+      <foreign-key id="374" parent="20" name="FK_EC12D8DF2FFAA428">
         <columns>system_elect_invent_ouv_id</columns>
         <ref-key>~.systemelectinventaires.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="369" parent="20" name="FK_EC12D8DF377E1C61">
+      <foreign-key id="375" parent="20" name="FK_EC12D8DF377E1C61">
         <columns>billet_ferm_id</columns>
         <ref-key>~.billetages.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="370" parent="20" name="FK_EC12D8DFB1826C82">
+      <foreign-key id="376" parent="20" name="FK_EC12D8DFB1826C82">
         <columns>billet_ouv_id</columns>
         <ref-key>~.billetages.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="371" parent="20" name="FK_EC12D8DFFB88E14F">
+      <foreign-key id="377" parent="20" name="FK_EC12D8DFFB88E14F">
         <columns>utilisateur_id</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="372" parent="21" name="id">
+      <column id="378" parent="21" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="373" parent="21" name="salaire_id">
+      <column id="379" parent="21" name="transaction_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="374" parent="21" name="compte_virement_id">
+      <column id="380" parent="21" name="salaire_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="375" parent="21" name="m_salaire_base">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="376" parent="21" name="m_indem_logement">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="377" parent="21" name="m_indem_transport">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="378" parent="21" name="m_indem_fonction">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="379" parent="21" name="m_indem_autres">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="380" parent="21" name="m_impot_salarie">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="381" parent="21" name="m_taxe_patronale">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="382" parent="21" name="collaborateur_id">
+      <column id="381" parent="21" name="compte_virement_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="383" parent="21" name="m_heure_sup">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="384" parent="21" name="m_securite_sociale_salarie">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="385" parent="21" name="m_securite_sociale_patronal">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="386" parent="21" name="transaction_id">
+      <column id="382" parent="21" name="compte_remuneration_due_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="387" parent="21" name="compte_remuneration_due_id">
+      <column id="383" parent="21" name="collaborateur_id">
         <data-type>int(11)</data-type>
       </column>
-      <index id="388" parent="21" name="IDX_2E1F35722678C781">
+      <column id="384" parent="21" name="m_salaire_base">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="385" parent="21" name="m_indem_logement">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="386" parent="21" name="m_indem_transport">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="387" parent="21" name="m_indem_fonction">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="388" parent="21" name="m_indem_autres">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="389" parent="21" name="m_heure_sup">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="390" parent="21" name="m_securite_sociale_salarie">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="391" parent="21" name="m_securite_sociale_patronal">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="392" parent="21" name="m_impot_salarie">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="393" parent="21" name="m_taxe_patronale">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <index id="394" parent="21" name="IDX_2E1F35722678C781">
         <columns>salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="389" parent="21" name="IDX_2E1F3572297A0144">
+      <index id="395" parent="21" name="IDX_2E1F3572297A0144">
         <columns>compte_remuneration_due_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="390" parent="21" name="IDX_2E1F35722FC0CB0F">
+      <index id="396" parent="21" name="IDX_2E1F35722FC0CB0F">
         <columns>transaction_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="391" parent="21" name="IDX_2E1F3572A848E3B1">
+      <index id="397" parent="21" name="IDX_2E1F3572A848E3B1">
         <columns>collaborateur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="392" parent="21" name="IDX_2E1F3572D3AA9837">
+      <index id="398" parent="21" name="IDX_2E1F3572D3AA9837">
         <columns>compte_virement_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="393" parent="21" name="PRIMARY">
+      <key id="399" parent="21" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="394" parent="21" name="FK_2E1F35722678C781">
+      <foreign-key id="400" parent="21" name="FK_2E1F35722678C781">
         <columns>salaire_id</columns>
         <ref-key>~.salaires.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="395" parent="21" name="FK_2E1F3572297A0144">
+      <foreign-key id="401" parent="21" name="FK_2E1F3572297A0144">
         <columns>compte_remuneration_due_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="396" parent="21" name="FK_2E1F35722FC0CB0F">
+      <foreign-key id="402" parent="21" name="FK_2E1F35722FC0CB0F">
         <columns>transaction_id</columns>
         <ref-key>~.transactions.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="397" parent="21" name="FK_2E1F3572A848E3B1">
+      <foreign-key id="403" parent="21" name="FK_2E1F3572A848E3B1">
         <columns>collaborateur_id</columns>
         <ref-key>~.collaborateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="398" parent="21" name="FK_2E1F3572D3AA9837">
+      <foreign-key id="404" parent="21" name="FK_2E1F3572D3AA9837">
         <columns>compte_virement_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="399" parent="22" name="version">
+      <column id="405" parent="22" name="version">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="400" parent="22" name="PRIMARY">
+      <key id="406" parent="22" name="PRIMARY">
         <columns>version</columns>
         <primary>1</primary>
       </key>
-      <column id="401" parent="23" name="id">
+      <column id="407" parent="23" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="402" parent="23" name="id_cpt_intercaisse">
+      <column id="408" parent="23" name="id_cpt_intercaisse">
         <data-type>int(11)</data-type>
       </column>
-      <column id="403" parent="23" name="id_cpt_cvd">
+      <column id="409" parent="23" name="id_cpt_cvd">
         <data-type>int(11)</data-type>
       </column>
-      <column id="404" parent="23" name="id_cpt_compense">
+      <column id="410" parent="23" name="id_cpt_compense">
         <data-type>int(11)</data-type>
       </column>
-      <column id="405" parent="23" name="compte_charge_base_salaire_id">
+      <column id="411" parent="23" name="compte_charge_base_salaire_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="406" parent="23" name="id_cpt_ecart">
+      <column id="412" parent="23" name="compte_charge_loge_salaire_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="407" parent="23" name="id_cpt_charges">
+      <column id="413" parent="23" name="compte_charge_transp_salaire_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="408" parent="23" name="id_cpt_produits">
+      <column id="414" parent="23" name="compte_charge_fonct_salaire_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="409" parent="23" name="code_structure">
+      <column id="415" parent="23" name="compte_charge_indem_salaire_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="416" parent="23" name="compte_charge_coti_patronale_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="417" parent="23" name="compte_taxe_salaire_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="418" parent="23" name="compte_orga_social_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="419" parent="23" name="compte_orga_impot_salaire_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="420" parent="23" name="compte_orga_taxe_salaire_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="421" parent="23" name="compte_remuneration_due_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="422" parent="23" name="compte_orga_taxe_fact_clt_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="423" parent="23" name="compte_orga_taxe_fact_fseur_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="424" parent="23" name="id_cpt_ecart">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="425" parent="23" name="id_cpt_charges">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="426" parent="23" name="id_cpt_produits">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="427" parent="23" name="entreprise_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="428" parent="23" name="journal_paye_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="429" parent="23" name="code_structure">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="410" parent="23" name="compte_charge_loge_salaire_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="411" parent="23" name="compte_charge_transp_salaire_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="412" parent="23" name="compte_charge_fonct_salaire_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="413" parent="23" name="compte_charge_indem_salaire_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="414" parent="23" name="compte_charge_coti_patronale_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="415" parent="23" name="compte_taxe_salaire_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="416" parent="23" name="compte_orga_social_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="417" parent="23" name="compte_orga_impot_salaire_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="418" parent="23" name="compte_orga_taxe_salaire_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="419" parent="23" name="compte_orga_taxe_fact_clt_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="420" parent="23" name="compte_orga_taxe_fact_fseur_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="421" parent="23" name="entreprise_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="422" parent="23" name="compte_remuneration_due_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="423" parent="23" name="journal_paye_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="424" parent="23" name="IDX_DED38F08149A7A04">
+      <index id="430" parent="23" name="IDX_DED38F08149A7A04">
         <columns>id_cpt_cvd</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="425" parent="23" name="IDX_DED38F081A661CCE">
+      <index id="431" parent="23" name="IDX_DED38F081A661CCE">
         <columns>id_cpt_intercaisse</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="426" parent="23" name="IDX_DED38F08286A8BF9">
+      <index id="432" parent="23" name="IDX_DED38F08286A8BF9">
         <columns>compte_charge_fonct_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="427" parent="23" name="IDX_DED38F08297A0144">
+      <index id="433" parent="23" name="IDX_DED38F08297A0144">
         <columns>compte_remuneration_due_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="428" parent="23" name="IDX_DED38F08314865F4">
+      <index id="434" parent="23" name="IDX_DED38F08314865F4">
         <columns>id_cpt_ecart</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="429" parent="23" name="IDX_DED38F0832D04E2">
+      <index id="435" parent="23" name="IDX_DED38F0832D04E2">
         <columns>journal_paye_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="430" parent="23" name="IDX_DED38F085A6C77A0">
+      <index id="436" parent="23" name="IDX_DED38F085A6C77A0">
         <columns>compte_charge_base_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="431" parent="23" name="IDX_DED38F085BE3757A">
+      <index id="437" parent="23" name="IDX_DED38F085BE3757A">
         <columns>compte_orga_taxe_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="432" parent="23" name="IDX_DED38F0866CC6179">
+      <index id="438" parent="23" name="IDX_DED38F0866CC6179">
         <columns>compte_charge_coti_patronale_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="433" parent="23" name="IDX_DED38F0870BCF4B6">
+      <index id="439" parent="23" name="IDX_DED38F0870BCF4B6">
         <columns>id_cpt_produits</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="434" parent="23" name="IDX_DED38F087B6CC449">
+      <index id="440" parent="23" name="IDX_DED38F087B6CC449">
         <columns>compte_orga_taxe_fact_fseur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="435" parent="23" name="IDX_DED38F0883AF619">
+      <index id="441" parent="23" name="IDX_DED38F0883AF619">
         <columns>compte_charge_loge_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="436" parent="23" name="IDX_DED38F088D5E0397">
+      <index id="442" parent="23" name="IDX_DED38F088D5E0397">
         <columns>compte_orga_social_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="437" parent="23" name="IDX_DED38F08A4AEAFEA">
+      <index id="443" parent="23" name="IDX_DED38F08A4AEAFEA">
         <columns>entreprise_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="438" parent="23" name="IDX_DED38F08A51C551A">
+      <index id="444" parent="23" name="IDX_DED38F08A51C551A">
         <columns>compte_orga_impot_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="439" parent="23" name="IDX_DED38F08B2EACDB5">
+      <index id="445" parent="23" name="IDX_DED38F08B2EACDB5">
         <columns>id_cpt_compense</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="440" parent="23" name="IDX_DED38F08C34758D1">
+      <index id="446" parent="23" name="IDX_DED38F08C34758D1">
         <columns>compte_charge_transp_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="441" parent="23" name="IDX_DED38F08CA20F56D">
+      <index id="447" parent="23" name="IDX_DED38F08CA20F56D">
         <columns>id_cpt_charges</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="442" parent="23" name="IDX_DED38F08F04745FB">
+      <index id="448" parent="23" name="IDX_DED38F08F04745FB">
         <columns>compte_orga_taxe_fact_clt_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="443" parent="23" name="IDX_DED38F08FC18E500">
+      <index id="449" parent="23" name="IDX_DED38F08FC18E500">
         <columns>compte_charge_indem_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="444" parent="23" name="IDX_DED38F08FD5FA9C3">
+      <index id="450" parent="23" name="IDX_DED38F08FD5FA9C3">
         <columns>compte_taxe_salaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="445" parent="23" name="PRIMARY">
+      <key id="451" parent="23" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="446" parent="23" name="FK_DED38F08149A7A04">
+      <foreign-key id="452" parent="23" name="FK_DED38F08149A7A04">
         <columns>id_cpt_cvd</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="447" parent="23" name="FK_DED38F081A661CCE">
+      <foreign-key id="453" parent="23" name="FK_DED38F081A661CCE">
         <columns>id_cpt_intercaisse</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="448" parent="23" name="FK_DED38F08286A8BF9">
+      <foreign-key id="454" parent="23" name="FK_DED38F08286A8BF9">
         <columns>compte_charge_fonct_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="449" parent="23" name="FK_DED38F08297A0144">
+      <foreign-key id="455" parent="23" name="FK_DED38F08297A0144">
         <columns>compte_remuneration_due_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="450" parent="23" name="FK_DED38F08314865F4">
+      <foreign-key id="456" parent="23" name="FK_DED38F08314865F4">
         <columns>id_cpt_ecart</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="451" parent="23" name="FK_DED38F0832D04E2">
+      <foreign-key id="457" parent="23" name="FK_DED38F0832D04E2">
         <columns>journal_paye_id</columns>
         <ref-key>~.journaux_comptables.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="452" parent="23" name="FK_DED38F085A6C77A0">
+      <foreign-key id="458" parent="23" name="FK_DED38F085A6C77A0">
         <columns>compte_charge_base_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="453" parent="23" name="FK_DED38F085BE3757A">
+      <foreign-key id="459" parent="23" name="FK_DED38F085BE3757A">
         <columns>compte_orga_taxe_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="454" parent="23" name="FK_DED38F0866CC6179">
+      <foreign-key id="460" parent="23" name="FK_DED38F0866CC6179">
         <columns>compte_charge_coti_patronale_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="455" parent="23" name="FK_DED38F0870BCF4B6">
+      <foreign-key id="461" parent="23" name="FK_DED38F0870BCF4B6">
         <columns>id_cpt_produits</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="456" parent="23" name="FK_DED38F087B6CC449">
+      <foreign-key id="462" parent="23" name="FK_DED38F087B6CC449">
         <columns>compte_orga_taxe_fact_fseur_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="457" parent="23" name="FK_DED38F0883AF619">
+      <foreign-key id="463" parent="23" name="FK_DED38F0883AF619">
         <columns>compte_charge_loge_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="458" parent="23" name="FK_DED38F088D5E0397">
+      <foreign-key id="464" parent="23" name="FK_DED38F088D5E0397">
         <columns>compte_orga_social_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="459" parent="23" name="FK_DED38F08A4AEAFEA">
+      <foreign-key id="465" parent="23" name="FK_DED38F08A4AEAFEA">
         <columns>entreprise_id</columns>
         <ref-key>~.entreprises.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="460" parent="23" name="FK_DED38F08A51C551A">
+      <foreign-key id="466" parent="23" name="FK_DED38F08A51C551A">
         <columns>compte_orga_impot_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="461" parent="23" name="FK_DED38F08B2EACDB5">
+      <foreign-key id="467" parent="23" name="FK_DED38F08B2EACDB5">
         <columns>id_cpt_compense</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="462" parent="23" name="FK_DED38F08C34758D1">
+      <foreign-key id="468" parent="23" name="FK_DED38F08C34758D1">
         <columns>compte_charge_transp_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="463" parent="23" name="FK_DED38F08CA20F56D">
+      <foreign-key id="469" parent="23" name="FK_DED38F08CA20F56D">
         <columns>id_cpt_charges</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="464" parent="23" name="FK_DED38F08F04745FB">
+      <foreign-key id="470" parent="23" name="FK_DED38F08F04745FB">
         <columns>compte_orga_taxe_fact_clt_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="465" parent="23" name="FK_DED38F08FC18E500">
+      <foreign-key id="471" parent="23" name="FK_DED38F08FC18E500">
         <columns>compte_charge_indem_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="466" parent="23" name="FK_DED38F08FD5FA9C3">
+      <foreign-key id="472" parent="23" name="FK_DED38F08FD5FA9C3">
         <columns>compte_taxe_salaire_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="467" parent="24" name="id">
+      <column id="473" parent="24" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="468" parent="24" name="libelle">
+      <column id="474" parent="24" name="zone_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="475" parent="24" name="code">
+        <data-type>varchar(5)</data-type>
+      </column>
+      <column id="476" parent="24" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="469" parent="24" name="dans_region">
+      <column id="477" parent="24" name="dans_region">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <column id="470" parent="24" name="zone_id">
+      <column id="478" parent="24" name="ordre">
         <data-type>int(11)</data-type>
       </column>
-      <column id="471" parent="24" name="code">
-        <data-type>varchar(5)</data-type>
-      </column>
-      <column id="472" parent="24" name="ordre">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="473" parent="24" name="FK_94AD93909F2C3FAB">
+      <index id="479" parent="24" name="IDX_94AD93909F2C3FAB">
         <columns>zone_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="474" parent="24" name="UNIQ_94AD939077153098">
+      <index id="480" parent="24" name="UNIQ_94AD939077153098">
         <columns>code</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="475" parent="24" name="PRIMARY">
+      <key id="481" parent="24" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="476" parent="24" name="UNIQ_94AD939077153098">
+      <key id="482" parent="24" name="UNIQ_94AD939077153098">
         <columns>code</columns>
         <underlying-index>UNIQ_94AD939077153098</underlying-index>
       </key>
-      <foreign-key id="477" parent="24" name="FK_94AD93909F2C3FAB">
+      <foreign-key id="483" parent="24" name="FK_94AD93909F2C3FAB">
         <columns>zone_id</columns>
         <ref-key>~.zones.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="478" parent="25" name="id">
+      <column id="484" parent="25" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="479" parent="25" name="utilisateur_id">
+      <column id="485" parent="25" name="utilisateur_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="480" parent="25" name="transaction_id">
+      <column id="486" parent="25" name="type_operation_comptable_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="481" parent="25" name="journee_caisse_id">
+      <column id="487" parent="25" name="transaction_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="482" parent="25" name="date_operation">
+      <column id="488" parent="25" name="journee_caisse_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="489" parent="25" name="compte_gestion_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="490" parent="25" name="compte_tier_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="491" parent="25" name="date_operation">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="483" parent="25" name="libelle">
+      <column id="492" parent="25" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="484" parent="25" name="m_recette">
+      <column id="493" parent="25" name="m_recette">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="485" parent="25" name="m_depense">
+      <column id="494" parent="25" name="m_depense">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="486" parent="25" name="statut">
+      <column id="495" parent="25" name="statut">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="487" parent="25" name="est_comptant">
+      <column id="496" parent="25" name="est_comptant">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <column id="488" parent="25" name="type_operation_comptable_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="489" parent="25" name="compte_tier_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="490" parent="25" name="compte_gestion_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="491" parent="25" name="IDX_5E21EE331B33C58A">
+      <index id="497" parent="25" name="IDX_5E21EE331B33C58A">
         <columns>compte_tier_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="492" parent="25" name="IDX_5E21EE332FC0CB0F">
+      <index id="498" parent="25" name="IDX_5E21EE332FC0CB0F">
         <columns>transaction_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="493" parent="25" name="IDX_5E21EE3342C92C7D">
+      <index id="499" parent="25" name="IDX_5E21EE3342C92C7D">
         <columns>compte_gestion_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="494" parent="25" name="IDX_5E21EE338209B870">
+      <index id="500" parent="25" name="IDX_5E21EE338209B870">
         <columns>type_operation_comptable_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="495" parent="25" name="IDX_5E21EE33ED9240C0">
+      <index id="501" parent="25" name="IDX_5E21EE33ED9240C0">
         <columns>journee_caisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="496" parent="25" name="IDX_5E21EE33FB88E14F">
+      <index id="502" parent="25" name="IDX_5E21EE33FB88E14F">
         <columns>utilisateur_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="497" parent="25" name="PRIMARY">
+      <key id="503" parent="25" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="498" parent="25" name="FK_5E21EE331B33C58A">
+      <foreign-key id="504" parent="25" name="FK_5E21EE331B33C58A">
         <columns>compte_tier_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="499" parent="25" name="FK_5E21EE332FC0CB0F">
+      <foreign-key id="505" parent="25" name="FK_5E21EE332FC0CB0F">
         <columns>transaction_id</columns>
         <ref-key>~.transactions.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="500" parent="25" name="FK_5E21EE3342C92C7D">
+      <foreign-key id="506" parent="25" name="FK_5E21EE3342C92C7D">
         <columns>compte_gestion_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="501" parent="25" name="FK_5E21EE338209B870">
+      <foreign-key id="507" parent="25" name="FK_5E21EE338209B870">
         <columns>type_operation_comptable_id</columns>
         <ref-key>~.type_operation_comptables.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="502" parent="25" name="FK_5E21EE33ED9240C0">
+      <foreign-key id="508" parent="25" name="FK_5E21EE33ED9240C0">
         <columns>journee_caisse_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="503" parent="25" name="FK_5E21EE33FB88E14F">
+      <foreign-key id="509" parent="25" name="FK_5E21EE33FB88E14F">
         <columns>utilisateur_id</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="504" parent="26" name="id">
+      <column id="510" parent="26" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="505" parent="26" name="periode_salaire">
+      <column id="511" parent="26" name="periode_salaire">
         <mandatory>1</mandatory>
         <data-type>varchar(50)</data-type>
-      </column>
-      <column id="506" parent="26" name="m_taxe_total">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="507" parent="26" name="m_impot_total">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="508" parent="26" name="statut">
-        <mandatory>1</mandatory>
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="509" parent="26" name="m_brut_total">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="510" parent="26" name="m_securite_social_salarie">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
-      </column>
-      <column id="511" parent="26" name="m_securite_social_patronal">
-        <mandatory>1</mandatory>
-        <data-type>double</data-type>
       </column>
       <column id="512" parent="26" name="date_salaire">
         <mandatory>1</mandatory>
         <data-type>date</data-type>
       </column>
-      <index id="513" parent="26" name="UNIQ_88F3461291D72643">
+      <column id="513" parent="26" name="m_brut_total">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="514" parent="26" name="m_taxe_total">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="515" parent="26" name="m_impot_total">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="516" parent="26" name="m_securite_social_salarie">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="517" parent="26" name="m_securite_social_patronal">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="518" parent="26" name="statut">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="519" parent="26" name="UNIQ_88F3461291D72643">
         <columns>periode_salaire</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="514" parent="26" name="PRIMARY">
+      <key id="520" parent="26" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="515" parent="26" name="UNIQ_88F3461291D72643">
+      <key id="521" parent="26" name="UNIQ_88F3461291D72643">
         <columns>periode_salaire</columns>
         <underlying-index>UNIQ_88F3461291D72643</underlying-index>
       </key>
-      <column id="516" parent="27" name="id">
+      <column id="522" parent="27" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="517" parent="27" name="date_inventaire">
+      <column id="523" parent="27" name="date_inventaire">
         <mandatory>1</mandatory>
         <data-type>datetime</data-type>
       </column>
-      <column id="518" parent="27" name="solde_total">
+      <column id="524" parent="27" name="solde_total">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <key id="519" parent="27" name="PRIMARY">
+      <key id="525" parent="27" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="520" parent="28" name="id">
+      <column id="526" parent="28" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="521" parent="28" name="id_system_elect_inventaire_id">
+      <column id="527" parent="28" name="id_system_elect_inventaire_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="522" parent="28" name="id_system_elect_id">
+      <column id="528" parent="28" name="id_system_elect_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="523" parent="28" name="solde">
+      <column id="529" parent="28" name="solde">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <index id="524" parent="28" name="IDX_E1A0E8C89D6788D">
+      <index id="530" parent="28" name="IDX_E1A0E8C89D6788D">
         <columns>id_system_elect_inventaire_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="525" parent="28" name="IDX_E1A0E8CCA7D9DB0">
+      <index id="531" parent="28" name="IDX_E1A0E8CCA7D9DB0">
         <columns>id_system_elect_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="526" parent="28" name="PRIMARY">
+      <key id="532" parent="28" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="527" parent="28" name="FK_E1A0E8C89D6788D">
+      <foreign-key id="533" parent="28" name="FK_E1A0E8C89D6788D">
         <columns>id_system_elect_inventaire_id</columns>
         <ref-key>~.systemelectinventaires.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="528" parent="28" name="FK_E1A0E8CCA7D9DB0">
+      <foreign-key id="534" parent="28" name="FK_E1A0E8CCA7D9DB0">
         <columns>id_system_elect_id</columns>
         <ref-key>~.systemelects.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="529" parent="29" name="id">
+      <column id="535" parent="29" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="530" parent="29" name="libelle">
+      <column id="536" parent="29" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="531" parent="29" name="PRIMARY">
+      <key id="537" parent="29" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="532" parent="30" name="id">
+      <column id="538" parent="30" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="533" parent="30" name="libelle">
+      <column id="539" parent="30" name="banque_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="540" parent="30" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="534" parent="30" name="banque_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="535" parent="30" name="IDX_5350E46437E080D9">
+      <index id="541" parent="30" name="IDX_5350E46437E080D9">
         <columns>banque_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="536" parent="30" name="PRIMARY">
+      <key id="542" parent="30" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="537" parent="30" name="FK_5350E46437E080D9">
+      <foreign-key id="543" parent="30" name="FK_5350E46437E080D9">
         <columns>banque_id</columns>
-        <ref-key>~.entreprises.PRIMARY</ref-key>
+        <ref-key>~.caisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="538" parent="31" name="id">
+      <column id="544" parent="31" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="539" parent="31" name="num_compte">
+      <column id="545" parent="31" name="num_compte">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="540" parent="31" name="m_debit">
-        <data-type>double</data-type>
-      </column>
-      <column id="541" parent="31" name="m_credit">
-        <data-type>double</data-type>
-      </column>
-      <column id="542" parent="31" name="IdCompte">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="543" parent="31" name="IdTransaction">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="544" parent="31" name="libelle">
+      <column id="546" parent="31" name="libelle">
         <data-type>varchar(255)</data-type>
       </column>
-      <index id="545" parent="31" name="IDX_4BC64C6E559198AC">
+      <column id="547" parent="31" name="m_debit">
+        <data-type>double</data-type>
+      </column>
+      <column id="548" parent="31" name="m_credit">
+        <data-type>double</data-type>
+      </column>
+      <column id="549" parent="31" name="IdCompte">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="550" parent="31" name="IdTransaction">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="551" parent="31" name="IDX_4BC64C6E559198AC">
         <columns>IdCompte</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="546" parent="31" name="IDX_4BC64C6E8114B15C">
+      <index id="552" parent="31" name="IDX_4BC64C6E8114B15C">
         <columns>IdTransaction</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="547" parent="31" name="PRIMARY">
+      <key id="553" parent="31" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="548" parent="31" name="FK_4BC64C6E559198AC">
+      <foreign-key id="554" parent="31" name="FK_4BC64C6E559198AC">
         <columns>IdCompte</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="549" parent="31" name="FK_4BC64C6E8114B15C">
+      <foreign-key id="555" parent="31" name="FK_4BC64C6E8114B15C">
         <columns>IdTransaction</columns>
         <ref-key>~.transactions.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="550" parent="32" name="id">
+      <column id="556" parent="32" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="551" parent="32" name="libelle">
+      <column id="557" parent="32" name="journaux_comptable_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="558" parent="32" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
-      </column>
-      <column id="552" parent="32" name="date_transaction">
-        <mandatory>1</mandatory>
-        <data-type>datetime</data-type>
-      </column>
-      <column id="553" parent="32" name="created_at">
-        <data-type>datetime</data-type>
-      </column>
-      <column id="554" parent="32" name="updated_at">
-        <data-type>datetime</data-type>
-      </column>
-      <column id="555" parent="32" name="idUtilisateur">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="556" parent="32" name="idJourneeCaisse">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="557" parent="32" name="idUtilisateurLast">
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="558" parent="32" name="journaux_comptable_id">
-        <data-type>int(11)</data-type>
       </column>
       <column id="559" parent="32" name="num_piece">
         <data-type>varchar(50)</data-type>
@@ -2264,329 +2259,600 @@
       <column id="561" parent="32" name="m_credit_total">
         <data-type>double</data-type>
       </column>
-      <index id="562" parent="32" name="IDX_F299C1B443147D00">
+      <column id="562" parent="32" name="date_transaction">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="563" parent="32" name="created_at">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="564" parent="32" name="updated_at">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="565" parent="32" name="idUtilisateur">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="566" parent="32" name="idJourneeCaisse">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="567" parent="32" name="idUtilisateurLast">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="568" parent="32" name="IDX_F299C1B443147D00">
         <columns>idUtilisateurLast</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="563" parent="32" name="IDX_F299C1B45D419CCB">
+      <index id="569" parent="32" name="IDX_F299C1B45D419CCB">
         <columns>idUtilisateur</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="564" parent="32" name="IDX_F299C1B47DA9E4F">
+      <index id="570" parent="32" name="IDX_F299C1B47DA9E4F">
         <columns>idJourneeCaisse</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="565" parent="32" name="IDX_F299C1B49C00096A">
+      <index id="571" parent="32" name="IDX_F299C1B49C00096A">
         <columns>journaux_comptable_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="566" parent="32" name="UNIQ_F299C1B4349BA55">
+      <index id="572" parent="32" name="UNIQ_F299C1B4349BA55">
         <columns>num_piece</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="567" parent="32" name="PRIMARY">
+      <key id="573" parent="32" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="568" parent="32" name="UNIQ_F299C1B4349BA55">
+      <key id="574" parent="32" name="UNIQ_F299C1B4349BA55">
         <columns>num_piece</columns>
         <underlying-index>UNIQ_F299C1B4349BA55</underlying-index>
       </key>
-      <foreign-key id="569" parent="32" name="FK_F299C1B443147D00">
+      <foreign-key id="575" parent="32" name="FK_F299C1B443147D00">
         <columns>idUtilisateurLast</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="570" parent="32" name="FK_F299C1B45D419CCB">
+      <foreign-key id="576" parent="32" name="FK_F299C1B45D419CCB">
         <columns>idUtilisateur</columns>
         <ref-key>~.utilisateurs.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="571" parent="32" name="FK_F299C1B47DA9E4F">
+      <foreign-key id="577" parent="32" name="FK_F299C1B47DA9E4F">
         <columns>idJourneeCaisse</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="572" parent="32" name="FK_F299C1B49C00096A">
+      <foreign-key id="578" parent="32" name="FK_F299C1B49C00096A">
         <columns>journaux_comptable_id</columns>
         <ref-key>~.journaux_comptables.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="573" parent="33" name="id">
+      <column id="579" parent="33" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="574" parent="33" name="id_pays_id">
+      <column id="580" parent="33" name="id_pays_id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="575" parent="33" name="sens">
+      <column id="581" parent="33" name="transaction_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="582" parent="33" name="sens">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="576" parent="33" name="m_transfert">
+      <column id="583" parent="33" name="m_transfert">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="577" parent="33" name="m_frais_ht">
+      <column id="584" parent="33" name="m_frais_ht">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="578" parent="33" name="m_tva">
+      <column id="585" parent="33" name="m_tva">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="579" parent="33" name="m_autres_taxes">
+      <column id="586" parent="33" name="m_autres_taxes">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="580" parent="33" name="m_transfert_ttc">
+      <column id="587" parent="33" name="m_transfert_ttc">
         <mandatory>1</mandatory>
         <data-type>double</data-type>
       </column>
-      <column id="581" parent="33" name="journeeCaisse">
+      <column id="588" parent="33" name="journeeCaisse">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="582" parent="33" name="journeeCaisseEmi">
+      <column id="589" parent="33" name="journeeCaisseEmi">
         <data-type>int(11)</data-type>
       </column>
-      <column id="583" parent="33" name="journeeCaisseRecu">
+      <column id="590" parent="33" name="journeeCaisseRecu">
         <data-type>int(11)</data-type>
       </column>
-      <column id="584" parent="33" name="idSystemTransfert">
+      <column id="591" parent="33" name="idSystemTransfert">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="585" parent="33" name="transaction_id">
+      <column id="592" parent="33" name="date_transfert">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="593" parent="33" name="compense_id">
         <data-type>int(11)</data-type>
       </column>
-      <index id="586" parent="33" name="IDX_CD12576A1C955392">
+      <index id="594" parent="33" name="IDX_CD12576A1C955392">
         <columns>journeeCaisseEmi</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="587" parent="33" name="IDX_CD12576A2FC0CB0F">
+      <index id="595" parent="33" name="IDX_CD12576A2FC0CB0F">
         <columns>transaction_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="588" parent="33" name="IDX_CD12576A7879EB34">
+      <index id="596" parent="33" name="IDX_CD12576A43DB652F">
+        <columns>compense_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="597" parent="33" name="IDX_CD12576A7879EB34">
         <columns>id_pays_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="589" parent="33" name="IDX_CD12576AB24F04ED">
+      <index id="598" parent="33" name="IDX_CD12576AB24F04ED">
         <columns>idSystemTransfert</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="590" parent="33" name="IDX_CD12576ACD3EC261">
+      <index id="599" parent="33" name="IDX_CD12576ACD3EC261">
         <columns>journeeCaisse</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="591" parent="33" name="IDX_CD12576AD542DB11">
+      <index id="600" parent="33" name="IDX_CD12576AD542DB11">
         <columns>journeeCaisseRecu</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="592" parent="33" name="PRIMARY">
+      <key id="601" parent="33" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="593" parent="33" name="FK_CD12576A1C955392">
+      <foreign-key id="602" parent="33" name="FK_CD12576A1C955392">
         <columns>journeeCaisseEmi</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="594" parent="33" name="FK_CD12576A2FC0CB0F">
+      <foreign-key id="603" parent="33" name="FK_CD12576A2FC0CB0F">
         <columns>transaction_id</columns>
         <ref-key>~.transactions.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="595" parent="33" name="FK_CD12576A7879EB34">
+      <foreign-key id="604" parent="33" name="FK_CD12576A43DB652F">
+        <columns>compense_id</columns>
+        <ref-key>~.compenses.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="605" parent="33" name="FK_CD12576A7879EB34">
         <columns>id_pays_id</columns>
         <ref-key>~.pays.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="596" parent="33" name="FK_CD12576AB24F04ED">
+      <foreign-key id="606" parent="33" name="FK_CD12576AB24F04ED">
         <columns>idSystemTransfert</columns>
         <ref-key>~.systemtransfert.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="597" parent="33" name="FK_CD12576ACD3EC261">
+      <foreign-key id="607" parent="33" name="FK_CD12576ACD3EC261">
         <columns>journeeCaisse</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="598" parent="33" name="FK_CD12576AD542DB11">
+      <foreign-key id="608" parent="33" name="FK_CD12576AD542DB11">
         <columns>journeeCaisseRecu</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="599" parent="34" name="id">
+      <column id="609" parent="34" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="600" parent="34" name="compte_id">
+      <column id="610" parent="34" name="compte_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="601" parent="34" name="libelle">
+      <column id="611" parent="34" name="libelle">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <index id="602" parent="34" name="IDX_C0FB3AA4F2C56620">
+      <index id="612" parent="34" name="IDX_C0FB3AA4F2C56620">
         <columns>compte_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="603" parent="34" name="PRIMARY">
+      <key id="613" parent="34" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="604" parent="34" name="FK_C0FB3AA4F2C56620">
+      <foreign-key id="614" parent="34" name="FK_C0FB3AA4F2C56620">
         <columns>compte_id</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="605" parent="35" name="id">
+      <column id="615" parent="35" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="606" parent="35" name="username">
+      <column id="616" parent="35" name="username">
         <mandatory>1</mandatory>
         <data-type>varchar(180)</data-type>
       </column>
-      <column id="607" parent="35" name="roles">
+      <column id="617" parent="35" name="roles">
         <mandatory>1</mandatory>
         <data-type>varchar(200)</data-type>
       </column>
-      <column id="608" parent="35" name="password">
+      <column id="618" parent="35" name="password">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <index id="609" parent="35" name="UNIQ_8D93D649F85E0677">
+      <index id="619" parent="35" name="UNIQ_8D93D649F85E0677">
         <columns>username</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
       </index>
-      <key id="610" parent="35" name="PRIMARY">
+      <key id="620" parent="35" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <key id="611" parent="35" name="UNIQ_8D93D649F85E0677">
+      <key id="621" parent="35" name="UNIQ_8D93D649F85E0677">
         <columns>username</columns>
         <underlying-index>UNIQ_8D93D649F85E0677</underlying-index>
       </key>
-      <column id="612" parent="36" name="id">
+      <column id="622" parent="36" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="613" parent="36" name="id_cpt_ecart">
+      <column id="623" parent="36" name="id_cpt_ecart">
         <data-type>int(11)</data-type>
       </column>
-      <column id="614" parent="36" name="journee_caisse_active_id">
+      <column id="624" parent="36" name="journee_caisse_active_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="615" parent="36" name="last_caisse_id">
+      <column id="625" parent="36" name="last_caisse_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="616" parent="36" name="login">
+      <column id="626" parent="36" name="login">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="617" parent="36" name="mdp">
+      <column id="627" parent="36" name="mdp">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="618" parent="36" name="nom">
+      <column id="628" parent="36" name="nom">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="619" parent="36" name="prenom">
+      <column id="629" parent="36" name="prenom">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="620" parent="36" name="est_caissier">
+      <column id="630" parent="36" name="est_caissier">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <column id="621" parent="36" name="status">
+      <column id="631" parent="36" name="status">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="622" parent="36" name="roles">
+      <column id="632" parent="36" name="roles">
         <comment>(DC2Type:array)</comment>
         <mandatory>1</mandatory>
         <data-type>longtext</data-type>
       </column>
-      <index id="623" parent="36" name="IDX_514AEAA6307B21B9">
+      <index id="633" parent="36" name="IDX_514AEAA6307B21B9">
         <columns>last_caisse_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="624" parent="36" name="IDX_514AEAA6314865F4">
+      <index id="634" parent="36" name="IDX_514AEAA6314865F4">
         <columns>id_cpt_ecart</columns>
         <desc-columns></desc-columns>
       </index>
-      <index id="625" parent="36" name="IDX_514AEAA6B451A8DB">
+      <index id="635" parent="36" name="IDX_514AEAA6B451A8DB">
         <columns>journee_caisse_active_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="626" parent="36" name="PRIMARY">
+      <key id="636" parent="36" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="627" parent="36" name="FK_514AEAA6307B21B9">
+      <foreign-key id="637" parent="36" name="FK_514AEAA6307B21B9">
         <columns>last_caisse_id</columns>
         <ref-key>~.caisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="628" parent="36" name="FK_514AEAA6314865F4">
+      <foreign-key id="638" parent="36" name="FK_514AEAA6314865F4">
         <columns>id_cpt_ecart</columns>
         <ref-key>~.comptes.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="629" parent="36" name="FK_514AEAA6B451A8DB">
+      <foreign-key id="639" parent="36" name="FK_514AEAA6B451A8DB">
         <columns>journee_caisse_active_id</columns>
         <ref-key>~.journeecaisses.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="630" parent="37" name="id">
+      <column id="640" parent="37" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
         <sequence-identity>1</sequence-identity>
       </column>
-      <column id="631" parent="37" name="libelle">
+      <column id="641" parent="37" name="libelle">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="632" parent="37" name="code">
+      <column id="642" parent="37" name="code">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="633" parent="37" name="ordre">
+      <column id="643" parent="37" name="ordre">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="634" parent="37" name="detail">
+      <column id="644" parent="37" name="detail">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
       </column>
-      <key id="635" parent="37" name="PRIMARY">
+      <key id="645" parent="37" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
+      <column id="646" parent="38" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="647" parent="38" name="utilisateur_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="648" parent="38" name="utilisateur_validateur_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="649" parent="38" name="transaction_entrant_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="650" parent="38" name="journee_caisse_entrant_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="651" parent="38" name="journee_caisse_sortant_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="652" parent="38" name="date_operation">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="653" parent="38" name="libelle">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="654" parent="38" name="m_appro_versement">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="655" parent="38" name="statut">
+        <mandatory>1</mandatory>
+        <data-type>varchar(2)</data-type>
+      </column>
+      <column id="656" parent="38" name="transaction_sortant_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="657" parent="38" name="IDX_D7AA10EB6469AA97">
+        <columns>transaction_entrant_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="658" parent="38" name="IDX_D7AA10EB7198A12">
+        <columns>journee_caisse_sortant_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="659" parent="38" name="IDX_D7AA10EB9F6D5343">
+        <columns>journee_caisse_entrant_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="660" parent="38" name="IDX_D7AA10EBC1A7BEAD">
+        <columns>utilisateur_validateur_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="661" parent="38" name="IDX_D7AA10EBFB88E14F">
+        <columns>utilisateur_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="662" parent="38" name="IDX_D7AA10EBFC1D73C6">
+        <columns>transaction_sortant_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="663" parent="38" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="664" parent="38" name="FK_D7AA10EB6469AA97">
+        <columns>transaction_entrant_id</columns>
+        <ref-key>~.transactions.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="665" parent="38" name="FK_D7AA10EB7198A12">
+        <columns>journee_caisse_sortant_id</columns>
+        <ref-key>~.journeecaisses.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="666" parent="38" name="FK_D7AA10EB9F6D5343">
+        <columns>journee_caisse_entrant_id</columns>
+        <ref-key>~.journeecaisses.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="667" parent="38" name="FK_D7AA10EBC1A7BEAD">
+        <columns>utilisateur_validateur_id</columns>
+        <ref-key>~.utilisateurs.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="668" parent="38" name="FK_D7AA10EBFB88E14F">
+        <columns>utilisateur_id</columns>
+        <ref-key>~.utilisateurs.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="669" parent="38" name="FK_D7AA10EBFC1D73C6">
+        <columns>transaction_sortant_id</columns>
+        <ref-key>~.transactions.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="670" parent="39" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="671" parent="39" name="compense_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="672" parent="39" name="system_transfert_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="673" parent="39" name="m_envoi_attendu">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="674" parent="39" name="m_reception_attendu">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="675" parent="39" name="m_envoi_compense">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="676" parent="39" name="m_reception_compense">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <index id="677" parent="39" name="IDX_8773A6B72FAF63A0">
+        <columns>system_transfert_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="678" parent="39" name="IDX_8773A6B743DB652F">
+        <columns>compense_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="679" parent="39" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="680" parent="39" name="FK_8773A6B72FAF63A0">
+        <columns>system_transfert_id</columns>
+        <ref-key>~.systemtransfert.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="681" parent="39" name="FK_8773A6B743DB652F">
+        <columns>compense_id</columns>
+        <ref-key>~.compenses.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="682" parent="40" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <sequence-identity>1</sequence-identity>
+      </column>
+      <column id="683" parent="40" name="caisse_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="684" parent="40" name="date_debut">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="685" parent="40" name="date_fin">
+        <mandatory>1</mandatory>
+        <data-type>datetime</data-type>
+      </column>
+      <column id="686" parent="40" name="total_envoi">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="687" parent="40" name="total_reception">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="688" parent="40" name="transaction_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="689" parent="40" name="utilisateur_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="690" parent="40" name="journee_caisse_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="691" parent="40" name="IDX_66752A5C27B4FEBF">
+        <columns>caisse_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="692" parent="40" name="IDX_66752A5C2FC0CB0F">
+        <columns>transaction_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="693" parent="40" name="IDX_66752A5CED9240C0">
+        <columns>journee_caisse_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="694" parent="40" name="IDX_66752A5CFB88E14F">
+        <columns>utilisateur_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="695" parent="40" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="696" parent="40" name="FK_66752A5C27B4FEBF">
+        <columns>caisse_id</columns>
+        <ref-key>~.caisses.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="697" parent="40" name="FK_66752A5C2FC0CB0F">
+        <columns>transaction_id</columns>
+        <ref-key>~.transactions.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="698" parent="40" name="FK_66752A5CED9240C0">
+        <columns>journee_caisse_id</columns>
+        <ref-key>~.journeecaisses.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="699" parent="40" name="FK_66752A5CFB88E14F">
+        <columns>utilisateur_id</columns>
+        <ref-key>~.utilisateurs.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
     </database-model>
   </data-source>
 </component>

@@ -28,10 +28,22 @@ class Compenses
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $utilisateur;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
      * @ORM\JoinColumn(nullable=true)
      */
     private $transaction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="compenses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $journeeCaisse;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Caisses")
@@ -268,6 +280,46 @@ class Compenses
     {
         $this->transaction = $transaction;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJourneeCaisse()
+    {
+        return $this->journeeCaisse;
+    }
+
+    /**
+     * @param mixed $journeeCaisse
+     * @return Compenses
+     */
+    public function setJourneeCaisse($journeeCaisse)
+    {
+        $this->journeeCaisse = $journeeCaisse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUtilisateur()
+    {
+        return $this->utilisateur;
+    }
+
+    /**
+     * @param mixed $utilisateur
+     * @return Compenses
+     */
+    public function setUtilisateur($utilisateur)
+    {
+        $this->utilisateur = $utilisateur;
+        return $this;
+    }
+    
+    public function getSoldeCompense(){
+        return $this->getTotalEnvoi()-$this->getTotalReception();
     }
 
 }

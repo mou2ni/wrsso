@@ -28,19 +28,19 @@
         {% set TotalCompense=0 %}
         {% set ecartProgressif=0 %}
         {% for compense in compenses %}
-            {% set ecartProgressif= ecartProgressif+compense.mAttendu-compense.mCompense %}
+            {% set ecartProgressif= ecartProgressif+compense.mCompense-compense.mAttendu %}
             <tr>
                 <td>{{ (compense.dateFin) ? compense.dateFin|date('d-m-Y') : '' }}</td>
                 <td class="padding-5 text-right">{{ compense.mAttendu|number_format(0, '.', ' ') }}</td>
                 <td class="padding-5 text-right">{{ compense.mCompense|number_format(0, '.', ' ') }}</td>
-                <td class="padding-5 text-right">{{ (compense.mAttendu-compense.mCompense)|number_format(0, '.', ' ') }}</td>
+                <td class="padding-5 text-right">{{ (compense.mCompense-compense.mAttendu)|number_format(0, '.', ' ') }}</td>
                 <td class="padding-5 text-right">{{ ecartProgressif|number_format(0, '.', ' ') }}</td>
                 <td>
                     <a href="{{ path('compenses_show', {'id': compense.cId}) }}">Details</a> |
                     <a href="{{ path('compenses_edit', {'id': compense.cId}) }}">Modifier</a>
                 </td>
             </tr>
-            {% set TotalEcart=TotalEcart+compense.mAttendu-compense.mCompense %}
+            {% set TotalEcart=TotalEcart+compense.mCompense-compense.mAttendu %}
             {% set TotalAttendu=TotalAttendu+compense.mAttendu %}
             {% set TotalCompense=TotalCompense+compense.mCompense %}
         {% else %}

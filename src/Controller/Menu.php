@@ -53,6 +53,7 @@ class Menu  extends Controller
             ['text'=>'Gerer Caisse','lien'=>'journee_caisses_gerer']
             ,['text'=>'Changer de caisse', 'lien'=>'journee_caisses_init']
             ,['text'=>'Intercaisses', 'lien'=>'intercaisses_ajout']
+            ,['text'=>'Appro-Versements', 'lien'=>'appro_versements_ajout']
             ,['text'=>'Credits et dettes', 'lien'=>'detteCredits_divers']
             ,['text'=>'Achat vente divers', 'lien'=>'#']
             ,['text'=>'Historiques caisses','lien'=>'journee_caisses_etat_de_caisse']

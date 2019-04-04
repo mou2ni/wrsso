@@ -8,6 +8,7 @@
 
 namespace App\Utils;
 
+use App\Entity\ApproVersements;
 use App\Entity\Caisses;
 use App\Entity\CompenseLignes;
 use App\Entity\Compenses;
@@ -499,7 +500,7 @@ class GenererCompta
         $compteCompense=$this->checkCompteAttenteCompense($caisse);
         if (!$compteCompense) return false;
 
-        $transaction=$this->initTransaction($utilisateur,'Compenses - '.$utilisateur, $journeeCaisse->getCompense(),$journalComptable, $journeeCaisse);
+        $transaction=$this->initTransaction($utilisateur,'Compenses - '.$utilisateur, $journeeCaisse->getCompenseAttendu(),$journalComptable, $journeeCaisse);
         if (!$transaction) return false ;
 
         if ($caisse->getComptaDetail()){
@@ -521,7 +522,7 @@ class GenererCompta
             $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$mCompense,'Solde compense'));
 
         }else{
-            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompense()));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, -$journeeCaisse->getCompenseAttendu()));
             //$transaction->addTransactionCompte($this->fillTransactionCompte($compteOperation, $journeeCaisse->getMReceptionTrans()));
             $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, $journeeCaisse->getMEmissionTrans(), 'Total Envoi '.$caisse->getCode()));
             $transaction->addTransactionCompte($this->fillTransactionCompte($compteCompense, -$journeeCaisse->getMReceptionTrans(), 'Total Reception'.$caisse->getCode()));
@@ -539,7 +540,7 @@ class GenererCompta
         $caisse=$journeeCaisse->getCaisse();
 
         //Compenses
-        if ($journeeCaisse->getCompense()!=0)
+        if ($journeeCaisse->getCompenseAttendu()!=0)
             if ( ! $this->genComptaCompensesFerm($utilisateur,$caisse,$journeeCaisse)) {
             return false;
             }
@@ -630,7 +631,7 @@ class GenererCompta
         }
 
         foreach ($compense->getCompenseLignes() as $compenseLigne){
-            $transaction = $this->debiterCrediter($transaction, $compteOperation, $compteCompense,$compenseLigne->getMEnvoiCompense(), null, 'Emission-'.$compenseLigne->getSystemTransfert()->getLibelle());
+            $transaction = $this->debiterCrediter($transaction, $compteCompense, $compteOperation,$compenseLigne->getMEnvoiCompense(), null, 'Emission-'.$compenseLigne->getSystemTransfert()->getLibelle());
             $transaction = $this->debiterCrediter($transaction, $compteOperation, $compteCompense,$compenseLigne->getMReceptionCompense(), null, 'Paiement-'.$compenseLigne->getSystemTransfert()->getLibelle());
         }
 
@@ -643,6 +644,7 @@ class GenererCompta
         $this->em->persist($transaction);
         return $transaction;
     }
+    
     public function genComptaCompensation(Utilisateurs $utilisateur, Compenses $compense )
     {
         $transaction=$this->comptaCompensation($utilisateur,$compense);
@@ -660,6 +662,84 @@ class GenererCompta
         return $this->comptaCompensation($utilisateur,$compense,$transaction);
     }
 
+    private function comptaApproVersement(Utilisateurs $utilisateur, ApproVersements $approVersement, Transactions $transactionEntrant=null, Transactions $transactionSortant=null )
+    {
+        $caisseEntrant=$approVersement->getJourneeCaisseEntrant()->getCaisse();
+        $journalComptableEntrant=$this->checkJournalComptable($caisseEntrant);
+        if (!$journalComptableEntrant) return false;
+        $compteOperationEntrant=$this->checkCompteOperation($caisseEntrant);
+        if (!$compteOperationEntrant) return false;
+        $compteCompenseEntrant=$this->checkCompteAttenteCompense($caisseEntrant);
+        if (!$compteCompenseEntrant) return false;
+
+        $caisseSortant=$approVersement->getJourneeCaisseSortant()->getCaisse();
+        $journalComptableSortant=$this->checkJournalComptable($caisseSortant);
+        if (!$journalComptableSortant) return false;
+        $compteOperationSortant=$this->checkCompteOperation($caisseSortant);
+        if (!$compteOperationSortant) return false;
+        $compteCompenseSortant=$this->checkCompteAttenteCompense($caisseSortant);
+        if (!$compteCompenseSortant) return false;
+
+        //$transactionEntrant=$approVersement->getTransactionEntrant();
+        if (!$transactionEntrant){
+            $transactionEntrant=$this->initTransaction($utilisateur,'Versement '.$approVersement->getLibelle().' en provenance de '.$approVersement->getJourneeCaisseSortant(),$approVersement->getMApproVersement(), $journalComptableEntrant,$approVersement->getJourneeCaisseEntrant(),$approVersement->getDateOperation());
+            if (!$transactionEntrant) return false ;
+        }else{
+            $transactionEntrant->setLibelle('Versement '.$approVersement->getLibelle().' en provenance de '.$approVersement->getJourneeCaisseSortant())
+                ->setUtilisateurLast($utilisateur);
+        }
+        $transactionEntrant = $this->debiterCrediter($transactionEntrant, $compteOperationEntrant, $compteCompenseEntrant,$approVersement->getMApproVersement());
+        if ($transactionEntrant->isDesequilibre()){
+            $this->setE(Transactions::ERR_DESEQUILIBRE);
+            $this->setErrMessage('Ecriture comptable déséquibrée');
+            return false;
+        }
+
+        //$transactionSortant=$approVersement->getTransactionSortant();
+        if (!$transactionSortant){
+            $transactionSortant=$this->initTransaction($utilisateur,'Retrait '.$approVersement->getLibelle().' au profit de '.$approVersement->getJourneeCaisseEntrant(),$approVersement->getMApproVersement(), $journalComptableSortant,$approVersement->getJourneeCaisseSortant(),$approVersement->getDateOperation());
+            if (!$transactionSortant) return false ;
+        }else{
+            $transactionSortant->setLibelle('Retrait '.$approVersement->getLibelle().' au profit de '.$approVersement->getJourneeCaisseEntrant())
+                ->setUtilisateurLast($utilisateur);
+        }
+        $transactionSortant = $this->debiterCrediter($transactionSortant, $compteCompenseSortant, $compteOperationSortant,$approVersement->getMApproVersement());
+        if ($transactionSortant->isDesequilibre()){
+            $this->setE(Transactions::ERR_DESEQUILIBRE);
+            $this->setErrMessage('Ecriture comptable déséquibrée');
+            return false;
+        }
+
+        $this->em->persist($transactionEntrant);
+        $this->em->persist($transactionSortant);
+
+        $this->transactions->add($transactionEntrant);
+        $this->transactions->add($transactionSortant);
+        $approVersement->setTransactionEntrant($transactionEntrant);
+        $approVersement->setTransactionSortant($transactionSortant);
+        return $this->transactions;
+    }
+
+    public function genComptaApproVersement(Utilisateurs $utilisateur, ApproVersements $approVersement)
+    {
+        return $this->comptaApproVersement($utilisateur, $approVersement);
+
+    }
+
+    public function modifComptaApproVersement(Utilisateurs $utilisateur, ApproVersements $approVersement)
+    {
+        $transactionEntrant=$approVersement->getTransactionEntrant();
+        if($transactionEntrant) $transactionEntrant->removeAllTransactionCompte();
+
+        $transactionSortant= $approVersement->getTransactionSortant();
+        if ($transactionSortant) $transactionSortant->removeAllTransactionCompte();
+
+        $this->em->persist($transactionEntrant);
+        $this->em->persist($transactionSortant);
+        //$this->em->flush();
+
+        return $this->comptaApproVersement($utilisateur,$approVersement, $transactionEntrant, $transactionSortant);
+    }
 
     /**
      * @return \DateTime

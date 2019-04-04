@@ -21,7 +21,7 @@
         {% for salaire in salaires %}
             <tr>
                 <td>{{ salaire.id }}</td>
-                <td>{{ salaire.periodeSalaire ? salaire.periodeSalaire|date('Y-m-d') : '' }}</td>
+                <td>{{ salaire.periodeSalaire}}</td>
                 <td>{{ salaire.mNetTotal }}</td>
                 <td>{{ salaire.mTaxeTotal }}</td>
                 <td>{{ salaire.mImpotTotal }}</td>
