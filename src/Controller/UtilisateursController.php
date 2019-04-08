@@ -206,7 +206,7 @@ class UtilisateursController extends Controller
             ->getRepository(Utilisateurs::class)
             ->liste(10);
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!empty($form['role']->getData()))$utilisateur->setRoles($form['role']->getData());
+            //if (!empty($form['role']->getData()))$utilisateur->setRoles($form['role']->getData());
             $em->persist($utilisateur);
             $em->flush();
 

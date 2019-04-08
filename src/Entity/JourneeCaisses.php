@@ -206,7 +206,7 @@ class JourneeCaisses
     private $mIntercaisses=0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisse", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\TransfertInternationaux", mappedBy="journeeCaisse", cascade={"persist"}, orphanRemoval=true)
      */
     private $transfertInternationaux;
 
@@ -672,6 +672,8 @@ class JourneeCaisses
     {
         if ($this->getStatut()==JourneeCaisses::ENCOURS) {
             $this->transfertInternationaux->removeElement($transfertInternationaux);
+            //$transfertInternationaux
+            //dump($this->transfertInternationaux);die();
         }
     }
     public function addTransfertEmi(TransfertInternationaux $transfertInternationaux)

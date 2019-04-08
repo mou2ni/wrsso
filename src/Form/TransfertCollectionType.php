@@ -23,6 +23,7 @@ class TransfertCollectionType extends AbstractType
                 'allow_delete'=>true,
                 'prototype' => true,
                 'by_reference' => false,
+                //'auto_initialize' => true,
                 'attr' => ['class' => 'lignetransfert']
             ))
             /*->add('transfertInternationaux', CollectionType::class, array(

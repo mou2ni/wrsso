@@ -19,8 +19,8 @@ class UtilisateursType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('estCaissier')
-            ->add('role', ChoiceType::class
-                ,array('multiple'=>true, 'expanded'=>true, 'choices'  => ['--- GUICHETIER'=>Utilisateurs::ROLE_GUICHETIER,'--- COMPTABLE'=>Utilisateurs::ROLE_COMPTABLE, '--- ADMIN'=>Utilisateurs::ROLE_ADMIN, '--- AUCUN'=>Utilisateurs::ROLE_AUCUN], 'required' => true, 'mapped' =>false
+            ->add('roles', ChoiceType::class
+                ,array('multiple'=>true, 'expanded'=>true, 'choices'  => ['--- GUICHETIER'=>Utilisateurs::ROLE_GUICHETIER,'--- COMPTABLE'=>Utilisateurs::ROLE_COMPTABLE, '--- ADMIN'=>Utilisateurs::ROLE_ADMIN, '--- AUCUN'=>Utilisateurs::ROLE_AUCUN], 'required' => true, 'mapped' =>true
                 ))
             ->add('compteEcartCaisse')
         ;

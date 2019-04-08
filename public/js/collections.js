@@ -11,9 +11,12 @@ jQuery(document).ready(function() {
     $collectionHolder.append($newLinkLi);
 
     $collectionHolder.data('index', $collectionHolder.find('tr.collection-tag').length);
-
+// add a delete link to all of the existing tag form li elements
+    $collectionHolder.find('tr.collection-tag').each(function() {
+        addTagFormDeleteLink($(this));
+    });
     if ($collectionHolder.data('index') == 0)
-        while ($collectionHolder.data('index') < 1 )
+        while ($collectionHolder.data('index') < 5 )
             addTagForm($collectionHolder, $newLinkLi);
 
     $addLink.on('click', function(e) {
@@ -34,7 +37,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
     var $newFormLi = $('<tr class="collection-tag"></tr>').append(newForm);
 
-    $newFormLi.append('<a href="#" class="remove-collection"> X </a>');
+    $newFormLi.append('<td><a href="#" class="remove-collection"> X </a></td>');
 
     $newLinkLi.before($newFormLi);
 
@@ -42,6 +45,19 @@ function addTagForm($collectionHolder, $newLinkLi) {
         e.preventDefault();
         $(this).parent().remove();
         return false;
+    });
+}
+
+function addTagFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<td><a href="#" class="remove-collection"> X </a></td>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function (e) {
+        // remove the li for the tag form
+        $tagFormLi.remove();
+        //majTransfert();
+
+
     });
 }
 

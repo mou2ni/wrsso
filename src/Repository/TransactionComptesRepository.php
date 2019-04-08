@@ -81,8 +81,7 @@ class TransactionComptesRepository extends ServiceEntityRepository
                 ->innerJoin('tc.transaction','t', 'WITH', 'tc.transaction=t.id')
                 ->leftJoin('t.journauxComptable', 'jc', 'WITH','t.journauxComptable=jc.id')
                 ->where('t.dateTransaction <= :dateFin and t.dateTransaction >= :dateDebut')
-                ->setParameter('dateFin',$dateFin)->setParameter('dateDebut',$dateDebut)
-            ;
+                ->setParameter('dateFin',$dateFin)->setParameter('dateDebut',$dateDebut);
     }
 
     public function findEcrituresJournauxComptables($dateDebut=null, $dateFin=null, JournauxComptables $journauxComptable=null,  $offset=0, $limit=20){
@@ -101,7 +100,7 @@ class TransactionComptesRepository extends ServiceEntityRepository
             ->andWhere('tc.compte=:compte')->setParameter('compte',$compte);
         if ($limit) {
             $qb->setMaxResults($limit)
-            ->orderBy('t.createdAt', 'DESC');
+                ->orderBy('t.createdAt', 'DESC');
         } else $qb->orderBy('t.createdAt', 'ASC');
 
         return  $qb->getQuery()->getResult();
@@ -153,5 +152,22 @@ class TransactionComptesRepository extends ServiceEntityRepository
         return $qb->addOrderBy('tc.numCompte', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function getSoldeCompte(Comptes $compte)
+    {
+        $qb = $this->createQueryBuilder('tc')
+            ->select('IDENTITY(tc.compte) as compte, tc.numCompte as numCompte 
+            , SUM(tc.mDebit) as mDebit
+            , SUM(tc.mCredit) as mCredit
+            , SUM(tc.mCredit)-SUM(tc.mDebit) as solde')
+            ->andWhere('tc.compte=:compte')->setParameter('compte',$compte);
+
+        $qb->groupBy('tc.compte')
+            ->addGroupBy('tc.numCompte');
+
+        return $qb->addOrderBy('tc.numCompte', 'ASC')
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

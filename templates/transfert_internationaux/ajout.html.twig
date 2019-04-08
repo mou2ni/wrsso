@@ -2,6 +2,7 @@
 {% block title %}Saisie des transferts internationaux{% endblock %}
 
 {% block body %}
+    <div>
     <h1>Transferts internationaux</h1> <div class="form-inline">
                     {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
                 </div>
@@ -11,7 +12,7 @@
 
         {# store the prototype on the data-prototype attribute #}
         <div class="table-responsive">
-            <table id="transfert-fields-list"
+            <table id="collections-contener"
                    data-prototype="
 {{ '<td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idSystemTransfert)|e }}
 {##}{{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.sens)|e }}
@@ -19,7 +20,8 @@
 {{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTransfert)|e }}
 {{ '</td><td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.mTransfertTTC)|e }}
 {{ '</td>'|e }}"
-                   data-widget-tags="{{ '<tr classe=\"transfert\"></tr>'|e }}" class="transfert table table-bordered"  data-list="#transfert-fields-list" onchange="majTransfert()">
+                   data-widget-tags="{{ '<tr class=\"collection-tag\"></tr>'|e }}" class="collection-tags table table-bordered"  data-list="#collections-contener" onchange="majTransfert()"
+                   {#data-widget-tags="{{ '<tr classe=\"transfert\"></tr>'|e }}" class="transfert table table-bordered"  data-list="#transfert-fields-list" onchange="majTransfert()"#}>
                 <thead>
                 {#<tr>
                     {% if envoi %}<h1> Saisie des transferts envoyés</h1>{% else %}<h1> Saisie des transferts payés</h1>{% endif %}
@@ -34,11 +36,12 @@
                     <th class="text-bold padding-5 text-center">Pays</th>
                     <th class="text-bold padding-5 text-center">Montant</th>
                     <th class="text-bold padding-5 text-center">Montant Total</th>
+                    <th class="text-bold padding-5 text-center"></th>
 
                 </tr>
                 </thead>
                     {% for trans in form.transfertInternationaux %}
-                        <tr class="transfert ">
+                        <tr class="collection-tag ">
                             <td class="padding-0">{{ form_errors(trans.idSystemTransfert) }} {{ form_widget(trans.idSystemTransfert) }}</td>
                             <td class="padding-0">{{ form_errors(trans.sens) }} {{ form_widget(trans.sens) }}</td>
                              <td class="padding-0">{{ form_errors(trans.idPays) }} {{ form_widget(trans.idPays) }}</td>
@@ -65,3 +68,7 @@
     </div>
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{   asset('js/collections.js') }}"></script>
+{% endblock %}

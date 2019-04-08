@@ -78,15 +78,20 @@ class ComptesController extends Controller
     }
     /**
      * @Route("/solde", name="comptes_solde", methods="GET")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function consulter(Request $request): Response
     {
         $num = $request->request->get("_num");
         $compte = $this->getDoctrine()
-        ->getRepository(Comptes::class)
-        ->findOneBy(["numCompte"=>$num]);
+            ->getRepository(Comptes::class)
+            ->findOneBy(["numCompte"=>$num]);
+        if ($compte)$soldeCompte = $this->getDoctrine()
+        ->getRepository(TransactionComptes::class)
+        ->getSoldeCompte($compte);
         $auj=new \DateTime();
         //$cetteAnnee=$auj->format('Y');
+        //dump($soldeCompte);die();
 
         return $this->render('comptes/solde.html.twig', ['compte' => $compte,
             ]);
