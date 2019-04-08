@@ -1,27 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
-    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="Rapport transferts">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="transferts,...">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/wrsso.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wrsso.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/collections.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/collections.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ComptesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ComptesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/DeviseJourneesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DeviseJourneesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UtilisateursController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UtilisateursController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TransfertCollectionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TransfertCollectionType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/UtilisateursType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UtilisateursType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190219141409.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190302114132.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20190326175101.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TransactionComptesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TransactionComptesRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/devise_journees/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/devise_journees/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transfert_internationaux/ajout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transfert_internationaux/ajout.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/utilisateurs/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/utilisateurs/show.html.twig" afterDir="false" />
     </list>
+    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -61,8 +44,8 @@
       <file leaf-file-name="DeviseJourneesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/DeviseJourneesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="53" column="23" lean-forward="true" selection-start-line="53" selection-start-column="23" selection-end-line="53" selection-end-column="23" />
+            <state relative-caret-position="119">
+              <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
               <folding>
                 <element signature="e#1902#1935#0#PHP" expanded="true" />
               </folding>
@@ -74,7 +57,7 @@
         <entry file="file://$PROJECT_DIR$/src/Repository/DeviseJourneesRepository.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="221">
-              <caret line="31" column="35" lean-forward="true" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+              <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -104,7 +87,7 @@
         <entry file="file://$PROJECT_DIR$/src/Entity/DeviseJournees.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="153">
-              <caret line="33" column="57" lean-forward="true" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+              <caret line="33" column="57" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -112,8 +95,8 @@
       <file leaf-file-name="JourneeCaisses.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+            <state relative-caret-position="187">
+              <caret line="58" column="26" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -851,14 +834,7 @@
       <workItem from="1552582164813" duration="3592000" />
       <workItem from="1552674478383" duration="8221000" />
       <workItem from="1554134776930" duration="37836000" />
-      <workItem from="1554375388422" duration="31258000" />
-    </task>
-    <task id="LOCAL-00078" summary="migration">
-      <created>1547204594664</created>
-      <option name="number" value="00078" />
-      <option name="presentableId" value="LOCAL-00078" />
-      <option name="project" value="LOCAL" />
-      <updated>1547204594664</updated>
+      <workItem from="1554375388422" duration="31933000" />
     </task>
     <task id="LOCAL-00079" summary="migration">
       <created>1547205136398</created>
@@ -1196,11 +1172,18 @@
       <option name="project" value="LOCAL" />
       <updated>1552699511118</updated>
     </task>
-    <option name="localTasksCounter" value="127" />
+    <task id="LOCAL-00127" summary="transferts,...">
+      <created>1554741997268</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1554741997268</updated>
+    </task>
+    <option name="localTasksCounter" value="128" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2578979000" />
+    <option name="totallyTimeSpent" value="2579654000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1213,12 +1196,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="5" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.32843137" />
       <window_info anchor="bottom" id="Event Log" order="0" sideWeight="0.50667655" side_tool="true" weight="0.2659409" />
       <window_info anchor="bottom" id="Database Changes" order="13" weight="0.32843137" />
-      <window_info anchor="bottom" id="Version Control" internal_type="SLIDING" order="1" sideWeight="0.49539876" type="SLIDING" weight="0.34640524" />
+      <window_info active="true" anchor="bottom" id="Version Control" internal_type="SLIDING" order="1" sideWeight="0.49539876" type="SLIDING" visible="true" weight="0.34640524" />
       <window_info anchor="bottom" id="Run" order="4" />
       <window_info id="npm" order="2" sideWeight="0.5054432" side_tool="true" weight="0.24925816" />
       <window_info anchor="bottom" x="-8" y="241" width="1382" height="223" id="Terminal" order="10" sideWeight="0.50512445" weight="0.38398692" />
@@ -1226,7 +1209,7 @@
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.34477124" visible="true" weight="0.20953101" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="0" weight="0.13691376" />
-      <window_info active="true" id="Structure" order="1" sideWeight="0.65522873" side_tool="true" visible="true" weight="0.20953101" />
+      <window_info id="Structure" order="1" sideWeight="0.65522873" side_tool="true" visible="true" weight="0.20953101" />
       <window_info id="Favorites" order="3" sideWeight="0.50512445" side_tool="true" weight="0.2057101" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
@@ -1235,7 +1218,6 @@
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info active="true" anchor="bottom" id="SQL Generator" order="14" visible="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="14" weight="0.4379085" />
-      <window_info anchor="bottom" id="Messages" order="9" visible="true" weight="0.32843137" />
       <window_info anchor="bottom" id="Message" order="2" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Database Console" order="11" weight="0.45588234" />
@@ -1320,7 +1302,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="migration" />
     <MESSAGE value="retouches sur transfert" />
     <MESSAGE value="corrections de petits bugs" />
     <MESSAGE value="corrections de contraintes intercaisses entrants et sortant dans journeeCaisse" />
@@ -1345,7 +1326,8 @@
     <MESSAGE value="etat compenses" />
     <MESSAGE value="etat compenses-balance à 6 colonnes" />
     <MESSAGE value="Rapport transferts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rapport transferts" />
+    <MESSAGE value="transferts,..." />
+    <option name="LAST_COMMIT_MESSAGE" value="transferts,..." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1685,28 +1667,28 @@
     <entry file="file://$PROJECT_DIR$/src/Entity/DeviseJournees.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="33" column="57" lean-forward="true" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
+          <caret line="33" column="57" selection-start-line="33" selection-start-column="57" selection-end-line="33" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/JourneeCaisses.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="57" column="26" selection-start-line="57" selection-start-column="26" selection-end-line="57" selection-end-column="26" />
+        <state relative-caret-position="187">
+          <caret line="58" column="26" selection-start-line="58" selection-start-column="26" selection-end-line="58" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Repository/DeviseJourneesRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="31" column="35" lean-forward="true" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
+          <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/DeviseJourneesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="53" column="23" lean-forward="true" selection-start-line="53" selection-start-column="23" selection-end-line="53" selection-end-column="23" />
+        <state relative-caret-position="119">
+          <caret line="40" column="33" selection-start-line="40" selection-start-column="33" selection-end-line="40" selection-end-column="33" />
           <folding>
             <element signature="e#1902#1935#0#PHP" expanded="true" />
           </folding>
