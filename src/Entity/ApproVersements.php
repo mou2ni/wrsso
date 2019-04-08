@@ -73,7 +73,17 @@ class ApproVersements
     /**
      * @ORM\Column(type="float")
      */
+    private $mAppro=0;
+
+    /*
+     * @ORM\Column(type="float")
+
     private $mApproVersement=0;
+*/
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mVersement=0;
 
     private $mSaisie=0;
 
@@ -178,7 +188,7 @@ class ApproVersements
 
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaisseEntrant()
     {
@@ -196,7 +206,7 @@ class ApproVersements
     }
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaisseSortant()
     {
@@ -252,22 +262,42 @@ class ApproVersements
     /**
      * @return mixed
      */
-    public function getMApproVersement()
+    public function getMAppro()
     {
-        return $this->mApproVersement;
+        return $this->mAppro;
     }
 
     /**
-     * @param mixed $mApproVersement
+     * @param mixed $mAppro
      * @return ApproVersements
      */
-    public function setMApproVersement($mApproVersement)
+    public function setMAppro($mAppro)
     {
-        $this->mApproVersement = $mApproVersement;
+        $this->mAppro = $mAppro;
         return $this;
     }
 
-   
+    /**
+     * @return mixed
+     */
+    public function getMVersement()
+    {
+        return $this->mVersement;
+    }
+
+    /**
+     * @param mixed $mVersement
+     * @return ApproVersements
+     */
+    public function setMVersement($mVersement)
+    {
+        $this->mVersement = $mVersement;
+        return $this;
+    }
+
+  public function getMApproVersement(){
+      return $this->mVersement+$this->mAppro;
+  }
     /**
      * @return mixed
      */
@@ -321,5 +351,5 @@ class ApproVersements
         $this->mSaisie = $mSaisie;
         return $this;
     }
-    
+
 }

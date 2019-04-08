@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Caisses;
+use App\Entity\CompenseLignes;
 use App\Entity\CriteresDates;
 use App\Entity\JourneeCaisses;
 use App\Entity\SystemTransfert;
@@ -211,6 +212,15 @@ class TransfertInternationauxController extends Controller
     {
         if ($this->isCsrfTokenValid('delete'.$transfertInternationaux->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
+            $transfertInternationaux->updateDependanceOnDelete();
+            if ($transfertInternationaux->getCompense()){
+                $mEnvoi=($transfertInternationaux->getSens()==TransfertInternationaux::ENVOI)?$transfertInternationaux->getMTransfertTTC():0;
+                $mReception=($transfertInternationaux->getSens()!=TransfertInternationaux::ENVOI)?$transfertInternationaux->getMTransfertTTC():0;
+                $this->getDoctrine()->getRepository(CompenseLignes::class)
+                    ->increaseDecreaseCompenseLignes($transfertInternationaux->getCompense()->getId()
+                        ,$transfertInternationaux->getIdSystemTransfert()->getId()
+                        ,-$mEnvoi, -$mReception );
+            }
             $em->remove($transfertInternationaux);
             $em->flush();
             $this->addFlash('success','Suppression de transfert de montant ['.$transfertInternationaux->getMTransfert().'] effectuée avec succes !');

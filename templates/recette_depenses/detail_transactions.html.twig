@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}Détails écritures comptables{% endblock %}
+{% block body %}
+    <h1> Détails des écritures comptables Recette-depenses</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+
+                </thead>
+                <tbody class="text-thin">
+                {% set transaction = recette_depense.transactionSortant %}
+                    {{ include('transactions/_entete_transaction.html.twig') }}
+                    {{ include('transactions/_detail_transaction.html.twig') }}
+                {% set transaction = recette_depense.transactionEntrant %}
+                    {{ include('transactions/_entete_transaction.html.twig') }}
+                    {{ include('transactions/_detail_transaction.html.twig') }}
+
+                </tbody>
+            </table>
+        </div>
+{% endblock %}

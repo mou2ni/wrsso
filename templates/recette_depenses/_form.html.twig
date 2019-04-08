@@ -1,15 +1,6 @@
-<div class="form-group">
-    {{ form_start(form, {'attr': {'onsubmit':'return confirm("Enregistrer Recettes et depenses ?");'}} ) }}
-    <div class="row">
-        <div> Date de l'opération : {{ form_widget(form.dateOperation) }}</div>
-        <div> Type de l'opération : {{ form_widget(form.typeOperationComptable) }}</div>
-        <div> Libelle : {{ form_widget(form.libelle) }}</div>
-        <div> Montant : {{ form_widget(form.mSaisie) }}</div>
-    </div>
-    <div class="form-group">
-    </div>
+{{ form_start(form, {'attr': {'onsubmit':'return confirm("Enregistrer Recettes et depenses ?");'}} ) }}
 
-    {{ include('_btn_enregistrer.html.twig') }}
-{#{{ form_widget(form) }}#}
-{{ form_end(form) }}
-</div>
+{{ form_widget(form) }}
+    <button class="btn  btn-info">{{ button_label|default('Enregistrer') }}</button>
+
+{{ form_end(form)  }}

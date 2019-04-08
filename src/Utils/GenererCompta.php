@@ -327,26 +327,30 @@ class GenererCompta
      * @param \DateTime|null $dateTime
      * @return bool
      */
-    private function recetteDepenses(Utilisateurs $utilisateur, Comptes $compteTier, Comptes $compteGestion, RecetteDepenses $recetteDepense, JournauxComptables $journalComptable, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime=null)
+    private function recetteDepenses(Utilisateurs $utilisateur, Comptes $compteTier, Comptes $compteGestion, RecetteDepenses $recetteDepense, JournauxComptables $journalComptable, JourneeCaisses $journeeCaisse=null)
     {
 
-        if (!$recetteDepense->typageCompteGestion()){
+        /*if (!$recetteDepense->typageCompteGestion()){
             $this->setErrMessage('Le compte numero ['.$compteGestion->getNumCompte().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
             $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
             return false;
-        }
+        }*/
+
+        if(!$this->checkCoherenceRececetteDepenses($recetteDepense)) return false;
 
         //dump($recetteDepense); die();
         ///Comptabilisation
         if ($recetteDepense->getMDepense()){
-            $this->genEcritureDebitCredit($utilisateur,$compteGestion,$compteTier,$recetteDepense->getLibelle(),$recetteDepense->getMDepense(),$journalComptable, $journeeCaisse);
+            $this->genEcritureDebitCredit($utilisateur,$compteGestion,$compteTier,$recetteDepense->getLibelle(),$recetteDepense->getMDepense(),$journalComptable, $journeeCaisse, $recetteDepense->getDateOperation());
         }elseif ($recetteDepense->getMRecette()){
-            $this->genEcritureDebitCredit($utilisateur,$compteTier,$compteGestion,$recetteDepense->getLibelle(),$recetteDepense->getMRecette(),$journalComptable, $journeeCaisse);
+            $this->genEcritureDebitCredit($utilisateur,$compteTier,$compteGestion,$recetteDepense->getLibelle(),$recetteDepense->getMRecette(),$journalComptable, $journeeCaisse, $recetteDepense->getDateOperation());
         }else{
             $this->setErrMessage('Comptabilisation Depense, recettes de montant 0 refusé! ! !');
             $this->setE(Transactions::ERR_ZERO);
             return false;
         }
+        $recetteDepense->setStatut($recetteDepense::STAT_COMPTA);
+        $recetteDepense->setTransaction($this->getTransactions()[0]);
         return true;
     }
 
@@ -356,16 +360,38 @@ class GenererCompta
      * @param JourneeCaisses $journeeCaisse
      * @return bool
      */
-    public function genComptaRecetteDepenseComptant(RecetteDepenses $recetteDepense, JourneeCaisses $journeeCaisse){
+    public function genComptaRecetteDepense(Utilisateurs $utilisateur,RecetteDepenses $recetteDepense){
         ////////////////// vérification des condtions d'appel
-        $utilisateur=$journeeCaisse->getUtilisateur();
+        //$utilisateur=$journeeCaisse->getUtilisateur();
         
-        $caisse=$journeeCaisse->getCaisse();
-        $compteOperation=$this->checkCompteOperation($caisse);
-        if (!$compteOperation) return false;
+        if($recetteDepense->getEstComptant()){
+            $caisse=$recetteDepense->getJourneeCaisse()->getCaisse();
+            $compteTier=$this->checkCompteOperation($caisse);
+            if (!$compteTier) return false;
 
-        $journalComptable=$this->checkJournalComptable($caisse);
-        if (!$journalComptable) return false;
+            $journalComptable=$this->checkJournalComptable($caisse);
+            if (!$journalComptable) return false;
+            
+        }else{
+            $compteTier=$recetteDepense->getCompteTier();
+            $paramComptable=$this->em->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
+            if(!$paramComptable){
+                $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+                $this->setErrMessage('Paramètres comptables non trouvés pour la structure [YESBO]');
+            }
+
+            if($recetteDepense->getMDepense()) {
+                $journalComptable= $this->checkDefaulJournalAchat($paramComptable);
+                if (!$journalComptable) return false;
+            }
+
+            if($recetteDepense->getMRecette()) {
+                $journalComptable= $this->checkDefaulJournalVente($paramComptable);
+                if (!$journalComptable) return false;
+            }
+        }
+
+
 
         $compteGestion=$recetteDepense->getCompteGestion();
         if(!$compteGestion) {
@@ -373,12 +399,11 @@ class GenererCompta
             if (!$compteGestion) return false;
             $recetteDepense->setCompteGestion($compteGestion);
         }
-
-        //dump($recetteDepense); die();
-        return $this->recetteDepenses($utilisateur, $compteOperation, $compteGestion, $recetteDepense, $journalComptable,$journeeCaisse);
+        return $this->recetteDepenses($utilisateur, $compteTier, $compteGestion, $recetteDepense, $journalComptable,$recetteDepense->getJourneeCaisse());
     }
 
-    /**
+    /*
+    *
      * @param Utilisateurs $utilisateur
      * @param Comptes $compteTier
      * @param TypeOperationComptables $typeOperationComptable
@@ -386,13 +411,13 @@ class GenererCompta
      * @param $montant
      * @param JournauxComptables $journalComptable
      * @return bool
-     */
-    public function genComptaRecetteDepenseAterme(Utilisateurs $utilisateur, Comptes $compteTier, TypeOperationComptables $typeOperationComptable, $libelle, $montant, JournauxComptables $journalComptable){
 
-        $compteGestion=$this->checkCompteTypeOperationComptables($typeOperationComptable);
+    public function genComptaRecetteDepenseAterme(Utilisateurs $utilisateur,RecetteDepenses $recetteDepense){
+
+        $compteGestion=$this->checkCompteTypeOperationComptables($recetteDepense->getTypeOperationComptable());
         if (!$compteGestion) return false;
         return $this->recetteDepenses($utilisateur,$compteTier,$compteGestion,$libelle,$montant,$journalComptable);
-    }
+    }*/
 
     private function genEcritureDebitCredit(Utilisateurs $utilisateur, Comptes $compteDebit, $compteCredit, $libelle, $montant, JournauxComptables $journalComptable, JourneeCaisses $journeeCaisse=null, \DateTime $dateTime=null)
     {
@@ -717,6 +742,7 @@ class GenererCompta
         $this->transactions->add($transactionSortant);
         $approVersement->setTransactionEntrant($transactionEntrant);
         $approVersement->setTransactionSortant($transactionSortant);
+        $approVersement->setStatut($approVersement::STAT_COMPTABILISE);
         return $this->transactions;
     }
 
@@ -781,7 +807,33 @@ class GenererCompta
         return $journalComptable;
     }
 
-    private function checkCompteTypeOperationComptables(TypeOperationComptables $typeOperationComptable){
+    private function checkDefaulJournalAchat(ParamComptables $paramComptable){
+        $journalComptable=$paramComptable->getJournalAchat();
+        if(!$journalComptable){
+            $this->setErrMessage('Journal Achat par defaut NON PARAMETRE dans paramètres comptables !!!');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $journalComptable;
+    }
+
+    private function checkDefaulJournalVente(ParamComptables $paramComptable){
+        $journalComptable=$paramComptable->getJournalVente();
+        if(!$journalComptable){
+            $this->setErrMessage('Journal Vente par defaut NON PARAMETRE dans paramètres comptables !!!');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $journalComptable;
+    }
+
+    private function checkCompteTypeOperationComptables(TypeOperationComptables $typeOperationComptable=null){
+
+        if (!$typeOperationComptable){
+            $this->setErrMessage('Type d\'opération non défini. Merci de corriger pour continuer.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
         $compteGestion=$typeOperationComptable->getCompte();
         if (!$compteGestion){
             $this->setErrMessage('Compte non paramétré pour l\'opération comptable '.$this->getTypeOperationComptable()->getLibelle());
@@ -898,6 +950,64 @@ class GenererCompta
                 return false;
             }
         }
+        return true;
+    }
+    
+    public function checkCoherenceRececetteDepenses(RecetteDepenses $recetteDepense){
+        $numCompteGestion=$recetteDepense->getCompteGestion()->getNumCompte();
+        $numCompteTier=$recetteDepense->getCompteTier()->getNumCompte();
+        $classCompteGestion=substr($numCompteGestion,0,1);
+        $sousClassCompteContrePartie=substr($numCompteTier,0,2);
+        //si non classe 6 et 7
+        if ($classCompteGestion!=6 and $classCompteGestion!=7){
+            $this->setE(Transactions::ERR_COMPTE_INCOHERANT);
+            $this->setErrMessage('Compte ['.$numCompteGestion.'] n\'est pas un compte de gestion. Classe 6 ou 7. Voir paramétrage opération comptable ');
+            return false;
+        }
+
+        if ($classCompteGestion==6){
+            if($recetteDepense->getEstComptant()){
+                if ($sousClassCompteContrePartie != 52 and $sousClassCompteContrePartie != 55  and $sousClassCompteContrePartie != 57 ){
+                    $this->setE(Transactions::ERR_COMPTE_INCOHERANT);
+                    $this->setErrMessage('Le compte de contre partie d\'une DEPENSE COMPTANT doit être un compte de type BANQUE (52), CAISSE (57) ou ELECTRONIQUE(55). Compte fourni ['.$numCompteTier.']');
+                    return false;
+                }
+            }else{
+                if($sousClassCompteContrePartie != 40){
+                    $this->setE(Transactions::ERR_COMPTE_INCOHERANT);
+                    $this->setErrMessage('Le compte de  contre partie d\'une CHARGE A TERME doit être un compte FOURNISSEUR (40). Compte fourni ['.$numCompteTier.']');
+                    return false;
+                }
+            }
+
+            if($recetteDepense->getMRecette()!=0){
+                $this->setE(Transactions::ERR_COMPTE_INCOHERANT);
+                $this->setErrMessage($recetteDepense->getTypeOperationComptable()->getLibelle().'] Ne peut être une recette. Choisissez le bon type d\'opération comptable ou saisissez le montant avec le signe "-" si c\'est une dépense.');
+                return false;
+            }
+        }
+        if ($classCompteGestion==7) {
+            if($recetteDepense->getEstComptant()){
+                if ($sousClassCompteContrePartie != 52 and $sousClassCompteContrePartie != 55  and $sousClassCompteContrePartie != 57 ){
+                    $this->setE(Transactions::ERR_COMPTE_INCOHERANT);
+                    $this->setErrMessage('Le compte de contre partie d\'une RECETTE COMPTANT doit être un compte de type BANQUE (52), CAISSE (57) ou ELECTRONIQUE(55). Compte fourni ['.$numCompteTier.']');
+                    return false;
+                }
+            }else {
+                if ($sousClassCompteContrePartie != 41) {
+                    $this->setE(Transactions::ERR_COMPTE_INCOHERANT);
+                    $this->setErrMessage('Le compte de contre partie d\'un PRODUIT A TERME doit être un compte CLIENT (41). Compte fourni [' . $numCompteTier . ']');
+                    return false;
+                }
+            }
+
+            if($recetteDepense->getMDepense()!=0){
+                $this->setE(Transactions::ERR_COMPTE_INCOHERANT);
+                $this->setErrMessage($recetteDepense->getTypeOperationComptable()->getLibelle().'] Ne peut être une dépense. Choisissez le bon type d\'opération comptable.');
+                return false;
+            }
+        }
+
         return true;
     }
 

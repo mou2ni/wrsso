@@ -1,0 +1,79 @@
+<table class="table table-bordered table-striped">
+<thead>
+{#{% if journeeCaisse %}
+<tr>
+    <th colspan="2" class="text-bold padding-5 text-right">Total Recettes : </th> <td class="text-bold padding-5 text-right" > {{ (journeeCaisse.mRecette+journeeCaisse.mRecetteAterme)|number_format(0, '.', ' ')  }}</td>
+    <th colspan="2" class="text-bold padding-5 text-right">Total Depenses :</th> <td class="text-bold padding-5 text-right" > {{ (journeeCaisse.mDepense+journeeCaisse.mDepenseAterme)|number_format(0, '.', ' ')  }}</td>
+</tr>
+{% endif %}#}
+<tr>
+    <th class="text-bold padding-5">Date</th>
+    <th class="text-bold padding-5 text-right">Gestion</th>
+    <th class="text-bold padding-5 text-right">Contrepartie</th>
+    <th class="text-bold padding-5 text-center">Libelle</th>
+    <th class="text-bold padding-5 text-right">Recette</th>
+    <th class="text-bold padding-5 text-right">Depense</th>
+    <th class="text-bold padding-5 text-center">Statut</th>
+    <th class="text-bold padding-5 text-center">Pièce</th>
+    <th class="text-bold padding-5">Actions</th>
+
+</tr>
+</thead>
+    <tbody>
+    {% set totalRecette=0 %}
+    {% set totalDepense=0 %}
+    {% for rd in recetteDepenses %}
+        {% if rd.statut!='X' %}
+            {% set totalRecette=totalRecette+rd.mRecette %}
+            {% set totalDepense=totalDepense+rd.mDepense%}
+        <tr>
+            <td class="padding-5">{{ rd.dateOperation ? rd.dateOperation|date('d-m-Y') : '' }}</td>
+            <td class="padding-5 text-right">{{ rd.compteGestion}}</td>
+            <td class="padding-5 text-right">{{ rd.compteTier }}</td>
+            <td class="padding-5">{{ rd.libelle }}</td>
+            <td class="padding-5 text-right">{{ rd.mRecette|number_format(0, '.', ' ') }}</td>
+            <td class="padding-5 text-right">{{ rd.mDepense|number_format(0, '.', ' ') }}</td>
+            <td >
+                {{ (rd.statut=='I')
+                ?'Initié':(rd.statut=='V')
+                ?'Validé':(rd.statut=='VA')
+                ?'Auto validé': (rd.statut=='C')
+                ?'comptabilisée':'Non defini'}}
+            </td>
+            <td class="padding-5">
+                {% if  is_granted('ROLE_COMPTABLE') %} {% if rd.transaction%}<a href="{{ path('transactions_show', {'id': rd.transaction.id}) }}"> {{ rd.transaction.id }}</a>{% endif %}
+                {% endif %}
+            </td>
+            <td class="padding-5">
+            {% if rd.journeeCaisse.statut=='E' %}
+
+                    <div class="form-row">
+                        {% if rd.utilisateur.id==app.user.id and rd.statut!='C'%}
+                            <a href="{{ path('recette_depenses_details', {'id': rd.id}) }}"> Supprimer</a>
+                        {% else %}
+                            {% if  rd.statut=='I' %}
+                                include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Autoriser', 'confirm_message':'AUTORISER LA DEPENSE ?','path':'recette_depenses_autoriser', 'id':rd.id})
+                            {% endif %}
+                        {% endif %}
+                {#{% if rd.utilisateur.id==app.user.id  and rd.statut!='C' and rd.statut!='X' %}
+                             | <a href="{{ path('recette_depenses_modif', {'id': rd.id}) }}"> Modifier</a> |
+                        {% endif %}#}
+                    </div>
+            {% endif %}
+            {% if  is_granted('ROLE_COMPTABLE') %}
+                {% if rd.statut!='C' and rd.statut!='X' %}
+                    | <a href="{{ path('recette_depenses_modif', {'id': rd.id}) }}"> Corriger</a>
+                    | {{ include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'comptabiliser', 'btn_label':'Comptabiliser', 'confirm_message':'COMPTABILISER ?','path':'recette_depenses_comptabiliser', 'id':rd.id}) }}
+                {% endif %}
+            {% endif %}
+            </td>
+        </tr>
+    {% endif %}
+    {% endfor %}
+    <tr>
+        <th colspan="4" class="text-bold padding-5 text-right">TOTAUX : </th>
+        <td class="text-bold padding-5 text-right" > {{ totalRecette|number_format(0, '.', ' ')  }}</td>
+        <td class="text-bold padding-5 text-right" > {{ totalDepense|number_format(0, '.', ' ')  }}</td>
+    </tr>
+    </tbody>
+</table>

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comptes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -96,6 +97,26 @@ class ComptesRepository extends ServiceEntityRepository
         return $qb
             ->where('c.numCompte like \'5%\' ')
             ->orderBy('c.numCompte', 'ASC');
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getCompteContrePartieDepenseRecettesQb(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            ->where('c.numCompte like \'52%\'
+                    or c.numCompte like \'55%\'
+                    or c.numCompte like \'57%\'
+                    or c.numCompte like \'40%\'
+                    or c.numCompte like \'41%\'
+                    ')
+            ->orderBy('c.numCompte', 'ASC');
+    }
+
+    public function findCompteContrePartieDepenseRecettes(){
+        return $qb=$this->getCompteContrePartieDepenseRecettesQb()
+            ->getQuery()->getResult();
     }
 
     public function getCompteEncDecQb(){

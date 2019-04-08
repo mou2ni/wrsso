@@ -64,3 +64,15 @@
         {% endif %}
     </td>
 </tr>
+<tr>
+    <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RECETTES - DEPENSES COMPTANT : </td>
+    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
+    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ (journeeCaisse.mRecette-journeeCaisse.mDepense)|number_format(0, '.', ' ')  }}</td>
+    <td class="padding-0"  bgcolor="{{ bgcolor }}">
+        {% if  journeeCaisse.statut== 'E'%}
+            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_comptant' , 'btn_name':'modifier', 'btn_label':'Recettes/Depenses'})}}
+        {% else %}
+            <a href="{{ path('journee_caisses_recetteDepenses', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+        {% endif %}
+    </td>
+</tr>

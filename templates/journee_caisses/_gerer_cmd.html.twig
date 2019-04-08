@@ -1,4 +1,4 @@
-<tr>
+{#<tr>
     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RECETTES AU COMPTANT</td>
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mRecette|number_format(0, '.', ' ')  }}</td>
@@ -6,7 +6,7 @@
         {% if  journeeCaisse.statut== 'E'%}
         {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'recette_depenses_comptant_groupee' ,'btn_name':'saisieRecetteDepense', 'btn_label':'Recettes et Depenses au comptant'}) }}</td>
         {% else %}
-            <a href="{{ path('recette_depenses_details', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+            <a href="{{ path('journee_caisses_recetteDepenses', {'id': journeeCaisse.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
         {% endif %}
 </tr>
 <tr>
@@ -14,4 +14,6 @@
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">-</td>
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mDepense|number_format(0, '.', ' ')  }}</td>
 
-</tr>
+</tr>#}
+
+

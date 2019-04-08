@@ -5,7 +5,10 @@
 {% block body %}
     <h1>Details Virement de fonds |
         <a href="{{ path('appro_versements_index') }}">Listing</a>
-        | <a href="{{ path('appro_versements_edit', {'id': appro_versement.id}) }}">Modifier</a></h1>
+        {% if appro_versement.statut=='I' %}
+        | <a href="{{ path('appro_versements_edit', {'id': appro_versement.id}) }}">Modifier</a>
+        {% endif %}
+    </h1>
 
     <table class="table">
         <tbody>
@@ -36,5 +39,6 @@
             </tr>
         </tbody>
     </table>
-    {{ include('appro_versements/_delete_form.html.twig') }}
+        {{ include('appro_versements/_delete_form.html.twig') }}
+
 {% endblock %}

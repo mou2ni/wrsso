@@ -3,41 +3,45 @@
 {% block title %}RecetteDepenses index{% endblock %}
 
 {% block body %}
-    <h1>RecetteDepenses index</h1>
+    <h1>Critères de recherche | <a href="{{ path('recette_depenses_aterme') }}">Saisie Recette-Dépenses à terme</a></h1>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>DateOperation</th>
-                <th>Libelle</th>
-                <th>MRecette</th>
-                <th>MDepense</th>
-                <th>Statut</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for recette_depense in recette_depenses %}
-            <tr>
-                <td>{{ recette_depense.id }}</td>
-                <td>{{ recette_depense.dateOperation ? recette_depense.dateOperation|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ recette_depense.libelle }}</td>
-                <td>{{ recette_depense.mRecette }}</td>
-                <td>{{ recette_depense.mDepense }}</td>
-                <td>{{ recette_depense.statut }}</td>
-                <td>
-                    <a href="{{ path('recette_depenses_details', {'id': recette_depense.id}) }}">Details</a>
-                    <a href="{{ path('recette_depenses_modif', {'id': recette_depense.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">Aucun enregistrement</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {{ form_start(form) }}
+    {{ include('_criteres_recherches.html.twig') }}
+    Compte Gestion : <select id="compteGestion" name="compteGestion" class="">
+    <option  {{ (app.request.request.get('compteGestion')=='')?'selected="selected"':''}} value=>Tous</option>
+    {% for compteGestion in compteGestions %}
+        <option  {{ (compteGestion_id==compteGestion.id)?'selected="selected"':''}} value={{ compteGestion.id }}>{{ compteGestion.numCompteIntitule }}</option>
+    {% endfor %}
+</select>
+    Compte Contrepartie : <select id="compteTier" name="compteTier" class="">
+    <option  {{ (app.request.request.get('compteTier')=='')?'selected="selected"':''}} value=>Tous</option>
+    {% for compteTier in compteTiers %}
+        <option  {{ (compteTier_id==compteTier.id)?'selected="selected"':''}} value={{ compteTier.id }}>{{ compteTier.numCompteIntitule }}</option>
+    {% endfor %}
+</select>
+    Utilisateurs : <select id="utilisateur" name="utilisateur" class="">
+    <option  {{ (app.request.request.get('utilisateur')=='')?'selected="selected"':''}} value=>Tous</option>
+    {% for utilisateur in utilisateurs %}
+        <option  {{ (utilisateur_id==utilisateur.id)?'selected="selected"':''}} value={{ utilisateur.id }}>{{ utilisateur }}</option>
+    {% endfor %}
+</select>
+    Type Opération : <select id="typeOperationComptable" name="typeOperationComptable" >
+    <option  {{ (app.request.request.get('typeOperationComptable')=='')?'selected="selected"':''}} value=>Tous</option>
+    {% for typeOperationComptable in typeOperationComptables %}
+        <option  {{ (typeOperationComptable_id==typeOperationComptable.id)?'selected="selected"':''}} value={{ typeOperationComptable.id }}>{{ typeOperationComptable.libelle }}</option>
+    {% endfor %}
+</select>
+    Statut : <select id="statut" name="statut" class="">
+    <option  {{ (app.request.request.get('statut')=='')?'selected="selected"':''}} value="">Tous</option>
+    <option  {{ (statut=='I')?'selected="selected"':''}} value="I">INITIAL</option>
+    <option  {{ (statut=='V')?'selected="selected"':''}} value="V">VALIDE</option>
+    <option  {{ (statut=='C')?'selected="selected"':''}} value="C">COMPTABILISE</option>
+</select>
+    {{ form_end(form) }}
 
-    <a href="{{ path('recette_depenses_saisie') }}">Nouvelle saisie</a>
+    <h1>Recettes et dépenses</h1>
+
+    {{ include('recette_depenses/_liste.html.twig')}}
+
+
 {% endblock %}

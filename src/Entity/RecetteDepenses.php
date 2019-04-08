@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RecetteDepenses
 {
-    const STAT_COMPTA='C', STAT_INITIAL='I', STAT_ANNULER='X', RECETTE=7, DEPENSE=6;
+    const STAT_COMPTA='C', STAT_INITIAL='I',STAT_VALIDE='V',STAT_VALIDATION_AUTO='VA', STAT_ANNULE='X', RECETTE=7, DEPENSE=6;
 
     /**
      * @ORM\Id
@@ -31,6 +31,12 @@ class RecetteDepenses
      * @ORM\JoinColumn(nullable=false)
      */
     private $utilisateur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $utilisateurValidateur;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeOperationComptables")
@@ -71,6 +77,11 @@ class RecetteDepenses
      * @ORM\Column(type="string", length=255)
      */
     private $libelle;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $numDocumentCompta;
 
     /**
      * @ORM\Column(type="float")
@@ -122,7 +133,7 @@ class RecetteDepenses
     }
 
     /**
-     * @return mixed
+     * @return Utilisateurs
      */
     public function getUtilisateur()
     {
@@ -140,7 +151,7 @@ class RecetteDepenses
     }
 
     /**
-     * @return mixed
+     * @return Transactions
      */
     public function getTransaction()
     {
@@ -158,7 +169,7 @@ class RecetteDepenses
     }
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaisse()
     {
@@ -433,30 +444,42 @@ class RecetteDepenses
         $this->setStatut(RecetteDepenses::STAT_COMPTA);
         return true;
     }
-    /*
-        private function comptaAjoutRecetteDepenses(JourneeCaisses $journeeCaisse, GenererCompta $genCompta, Comptes $compte){
-    
-            //$genCompta->genComptaRecetteDepenses()
-            //dump($recetteDepense)ie();
-            /*if($this->estCharge){
-                if (!$genCompta->genComptaDepenses($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse,$this->getDateOperation())){
-                    return $genCompta;
-                };
-                $this->setMDepense($this->getMSaisie());
-            }elseif($this->estProduit){
-                if (!$genCompta->genComptaRecettes($journeeCaisse->getUtilisateur(),$journeeCaisse->getCaisse(),$compte,$this->getLibelle(),$this->getMSaisie(),$journeeCaisse, $this->getDateOperation())){
-                    return $genCompta;
-                };
-                $this->setMRecette($this->getMSaisie());
-            }else{
-                $genCompta->setErrMessage('Le compte numero ['.$compte->getNumCompte().'] parametré dans l\'operation comptable ['.$this->getTypeOperationComptable()->getLibelle().'] n\'est pas un compte de Gestion (classe 6 ou 7).');
-                $genCompta->setE(Transactions::ERR_COMPTE_INEXISTANT);
-                return $genCompta;
-            }
-    
-            $this->setTransaction($genCompta->getTransactions()[0]);
-        $this->setStatut(RecetteDepenses::STAT_COMPTA);
 
-        return $genCompta;
-    }*/
+    /**
+     * @return mixed
+     */
+    public function getUtilisateurValidateur()
+    {
+        return $this->utilisateurValidateur;
+    }
+
+    /**
+     * @param mixed $utilisateurValidateur
+     * @return RecetteDepenses
+     */
+    public function setUtilisateurValidateur($utilisateurValidateur)
+    {
+        $this->utilisateurValidateur = $utilisateurValidateur;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumDocumentCompta()
+    {
+        return $this->numDocumentCompta;
+    }
+
+    /**
+     * @param mixed $numDocumentCompta
+     * @return RecetteDepenses
+     */
+    public function setNumDocumentCompta($numDocumentCompta)
+    {
+        $this->numDocumentCompta = $numDocumentCompta;
+        return $this;
+    }
+
+
 }

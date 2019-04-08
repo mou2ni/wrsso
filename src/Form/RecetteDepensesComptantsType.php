@@ -16,7 +16,10 @@ class RecetteDepensesComptantsType extends AbstractType
     {
         $builder
             ->remove('compteTier')
-        ;
+            ->remove('estComptant')
+            ->remove('typeOperationComptable')
+            ->remove('numDocumentCompta')
+            ;
     }
 
     public function getParent(){

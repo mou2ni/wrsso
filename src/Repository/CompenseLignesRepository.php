@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\CompenseLignes;
+use App\Entity\Compenses;
+use App\Entity\SystemTransfert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -38,6 +40,34 @@ class CompenseLignesRepository extends ServiceEntityRepository
         //$pag = new Paginator($qb);
 
         //return $pag;
+    }
+
+    public function updateCompenseLignes($compense, $systemTransfert, $mEnvoiAttendu, $mReceptionAttendu ){
+
+        $qb=$this->createQueryBuilder('cl');
+        $qb ->update()
+            ->set('cl.mEnvoiAttendu',$qb->expr()->literal($mEnvoiAttendu))
+            ->set('cl.mReceptionAttendu',$qb->expr()->literal($mReceptionAttendu))
+            ->where('cl.compense= ?1')->setParameter(1,$compense)
+            ->andWhere('cl.systemTransfert= ?2')->setParameter(2,$systemTransfert);
+
+        return $qb->getQuery()->execute();
+    }
+
+    public function increaseDecreaseCompenseLignes($compense, $systemTransfert, $mEnvoiAttendu, $mReceptionAttendu ){
+        $qb=$this->createQueryBuilder('cl');
+        $em=$this->getEntityManager();
+        $req='UPDATE compense_lignes SET m_envoi_attendu = m_envoi_attendu+'.$qb->expr()->literal($mEnvoiAttendu).', m_reception_attendu = m_reception_attendu+'.$qb->expr()->literal($mReceptionAttendu).' WHERE compense_id = '.$qb->expr()->literal($compense).' AND system_transfert_id ='.$qb->expr()->literal($systemTransfert);
+        try {
+            $stmt = $em->getConnection()->prepare($req);
+            $stmt->execute([]);
+        } catch (DBALException $e) {
+        }
+        //$stmt->bindParam(1, '2019/01/01');
+        //$stmt->bindValue(2, '2019/01/31');
+        //$stmt->bindParam(1,$dateDeb);
+        //$stmt->bindParam(2,$dateFin);
+
     }
 
 

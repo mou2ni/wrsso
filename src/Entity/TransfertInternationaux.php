@@ -183,7 +183,7 @@ class TransfertInternationaux
     }
 */
     /**
-     * @return mixed
+     * @return SystemTransfert
      */
     public function getIdSystemTransfert()
     {
@@ -359,7 +359,7 @@ class TransfertInternationaux
     }
 
     /**
-     * @return mixed
+     * @return JourneeCaisses
      */
     public function getJourneeCaisse()
     {
@@ -449,7 +449,7 @@ class TransfertInternationaux
     }
 
     /**
-     * @return mixed
+     * @return Compenses
      */
     public function getCompense()
     {
@@ -465,4 +465,24 @@ class TransfertInternationaux
         $this->compense = $compense;
         return $this;
     }
+    
+    public function updateDependanceOnDelete(){
+        if ($this->getSens()==TransfertInternationaux::ENVOI){
+            if($this->getCompense()) $this->getCompense()->setTotalEnvoi($this->getCompense()->getTotalEnvoi()-$this->getMTransfertTTC());
+            if($this->getJourneeCaisse()) $this->getJourneeCaisse()->updateM('mEmissionTrans',-$this->getMTransfertTTC());
+        }else{
+            if($this->getCompense()) $this->getCompense()->setTotalReception($this->getCompense()->getTotalReception()-$this->getMTransfertTTC());
+            if($this->getJourneeCaisse()) $this->getJourneeCaisse()->updateM('mReceptionTrans',-$this->getMTransfertTTC());
+
+        }
+    }
+
+    /*
+    public function getCaisse(){
+        return $this->getJourneeCaisse()->getCaisse();
+    }
+
+    public function getTypeTransfert(){
+        return $this->getIdSystemTransfert()->getLibelle();
+    }*/
 }

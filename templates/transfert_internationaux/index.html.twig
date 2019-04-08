@@ -26,49 +26,6 @@
 </select>
     {{ form_end(form) }}
 
+    {{ include('transfert_internationaux/_liste.html.twig') }}
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Caisse</th>
-                <th>Date</th>
-                <th>Transfert</th>
-                <th>Sens</th>
-                <th>Pays</th>
-                <th>Montant TTC</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for transfert in listingTransferts %}
-            <tr>
-                <td>{{ transfert.caisse }}</td>
-                <td>{{ (transfert.dateTransfert)?transfert.dateTransfert|date('d-m-Y') : ''  }}</td>
-                <td>{{ transfert.typeTransfert }}</td>
-                <td>{{ (transfert.sens ==1)?'Envoi':'Reception'}}</td>
-                <td>{{ transfert.pays }}</td>
-                {#<td>{{ transfert.mTransfert|number_format(0, '.', ' ') }}</td>
-                <td>{{ (transfert.mFraisHt+transfert.mTva+transfert.mAutresTaxes)|number_format(0, '.', ' ') }}</td>#}
-                <td>{{ transfert.mTransfertTTC|number_format(0, '.', ' ') }}</td>
-                <td>
-                    {% if  is_granted('ROLE_COMPTABLE') %}
-                        <a href="{{ path('transfert_internationaux_show', {'id': transfert.id,
-                            'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
-                            'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
-                            'systemTransfert':systemTransfert_id,
-                            }) }}">Supprimer</a> |
-                        <a href="{{ path('transfert_internationaux_edit', {'id': transfert.id,
-                            'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
-                            'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
-                            'systemTransfert':systemTransfert_id,
-                        }) }}">Modifier</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">Aucun enregistrement trouvé !</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 {% endblock %}
