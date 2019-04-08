@@ -2,6 +2,7 @@
     {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
 
 </div>
+
 {{ form_start(form, {'attr': {'onsubmit':'return confirm("Voulez vous continuer ?");'} } ) }}
 <table class="table" onload="reset()">
     <tr id="montant">
@@ -11,9 +12,11 @@
         <td>Commentaire</td><td>{{ form_widget(form.libelle) }}</td>
     </tr>
     <tr>
+        {#{% if dette_credit_diver.mSaisie == 0 %}#}
         <td>
             <button class="btn-info" name="enregistrer" id="enregistrer">{{ button_label|default('Enregistrer et Nouveau') }}</button>
         </td>
+        {#{% endif %}#}
         <td>
             <button class="btn-info" name="enregistreretfermer" id="enregistreretfermer">{{ button_label|default('Enregistrer et Fermer') }}</button>
         </td>

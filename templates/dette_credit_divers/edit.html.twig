@@ -4,10 +4,17 @@
 
 {% block body %}
     <h1>Edit DetteCreditDivers</h1>
+    <div>
 
-    {{ include('dette_credit_divers/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('dette_credit_divers_index') }}">back to list</a>
+    <div class="form-inline" onload="alert()">
+        {{ include('dette_credit_divers/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
+        {#<div class="form-inline">
+        <a href="{{ path('dette_credit_divers_index') }}">back to list</a>
 
     {{ include('dette_credit_divers/_delete_form.html.twig') }}
+    </div>#}
+        <script type="javascript">alert(3);$("#enregistrer").hide() </script>
+
+    </div>
 {% endblock %}
