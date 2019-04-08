@@ -16,7 +16,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use APY\DataGridBundle\Grid\Mapping as GRID;
-use Proxies\__CG__\App\Entity\RecetteDepenses;
+use App\Entity\RecetteDepenses;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
