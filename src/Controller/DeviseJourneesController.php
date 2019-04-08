@@ -29,6 +29,8 @@ class DeviseJourneesController extends Controller
             'devise_journees' => $deviseJournees]);
     }
 
+
+
     /**
      * @Route("/ouverture/{id}", name="devise_journees_ouv", methods="GET")
      */
@@ -180,7 +182,7 @@ class DeviseJourneesController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('devise_journees_edit', ['id' => $deviseJournee->getId()]);
+            //return $this->redirectToRoute('devise_journees_edit', ['id' => $deviseJournee->getId()]);
         }
 
         return $this->render('devise_journees/edit.html.twig', [

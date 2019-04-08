@@ -90,17 +90,17 @@ class TransfertInternationauxController extends Controller
             $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
-        $em =$this->getDoctrine();
+        $em = $this->getDoctrine()->getManager();
+        //$em =$this->getDoctrine();
          
         $form= $this->createForm(TransfertCollectionType::class, $this->journeeCaisse);
         $form->handleRequest($request);
         //dump($form);die();
         if ($form->isSubmitted() && $form->isValid() ) {
-            //dump($this->journeeCaisse);die();
             $this->journeeCaisse->maintenirTransfertsInternationaux();
-            $em = $this->getDoctrine()->getManager();
             $em->persist($this->journeeCaisse);
             $em->flush();
+            //dump($this->journeeCaisse);die();
 
             //dump($request->request);die();
             if ($request->request->has('enregistreretfermer')){
