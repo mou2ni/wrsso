@@ -321,5 +321,9 @@ class Compenses
     public function getSoldeCompense(){
         return $this->getTotalEnvoi()-$this->getTotalReception();
     }
+    
+    public function maintenirCompenseAttendue(){
+        
+    }
 
 }

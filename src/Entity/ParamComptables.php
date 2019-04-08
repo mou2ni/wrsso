@@ -134,11 +134,21 @@ class ParamComptables
      * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", cascade={"persist"})
      */
     private $entreprise;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JournauxComptables")
      */
     private $journalPaye;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JournauxComptables")
+     */
+    private $journalVente;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\JournauxComptables")
+     */
+    private $journalAchat;
 
     /**
      * @return mixed
@@ -551,6 +561,42 @@ class ParamComptables
     public function setJournalPaye($journalPaye)
     {
         $this->journalPaye = $journalPaye;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJournalVente()
+    {
+        return $this->journalVente;
+    }
+
+    /**
+     * @param mixed $journalVente
+     * @return ParamComptables
+     */
+    public function setJournalVente($journalVente)
+    {
+        $this->journalVente = $journalVente;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJournalAchat()
+    {
+        return $this->journalAchat;
+    }
+
+    /**
+     * @param mixed $journalAchat
+     * @return ParamComptables
+     */
+    public function setJournalAchat($journalAchat)
+    {
+        $this->journalAchat = $journalAchat;
         return $this;
     }
 

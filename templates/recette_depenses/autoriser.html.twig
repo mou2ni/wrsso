@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Autorisation des dépenses{% endblock %}
+
+{% block body %}
+    <h1>Autorisation/Comptabilisation des dépenses</h1>
+
+    {{ include('recette_depenses/_liste.html.twig') }}
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Comptes;
 use App\Entity\RecetteDepenses;
+use App\Entity\TypeOperationComptables;
+use App\Entity\Utilisateurs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,5 +23,46 @@ class RecetteDepensesRepository extends ServiceEntityRepository
         parent::__construct($registry, RecetteDepenses::class);
     }
 
+    /**
+     * @return QueryBuilder
+     */
+    private function qbRecetteDepenses(){
+        return $qb = $this->createQueryBuilder('rd')
+            ->select('rd.id as id, rd.dateOperation as dateOperation, cg.numCompte as compteGestion, ct.numCompte as compteTier, rd.libelle as libelle, rd.numDocumentCompta as numDocumentCompta, jc.statut as statutJc
+            , u.nom as nomUtilisateur, u.prenom as prenomUtilisateur, rd.mRecette as mRecette, rd.mDepense as mDepense, rd.statut as statut, toc.libelle as typeOperationComptable, IDENTITY(rd.transaction) as transaction, IDENTITY(rd.utilisateur) as utilisateur')
+            ->innerJoin('rd.typeOperationComptable','toc', 'WITH', 'rd.typeOperationComptable=toc.id')
+            ->innerJoin('rd.utilisateur','u', 'WITH', 'rd.utilisateur= u.id')
+            ->innerJoin('rd.compteGestion','cg', 'WITH', 'rd.compteGestion= cg.id')
+            ->innerJoin('rd.compteTier','ct', 'WITH', 'rd.compteTier= ct.id')
+            ->innerJoin('rd.journeeCaisse','jc', 'WITH', 'rd.journeeCaisse= jc.id')
+            ->orderBy('rd.dateOperation','DESC');
+        ;
 
+    }
+
+    public function findRecetteDepenses()
+    {
+        /*$qb = $this->createQueryBuilder('rd')
+            ->where('rd.statut <> :annule')->setParameter('annule', RecetteDepenses::STAT_ANNULE)
+            ->addOrderBy('rd.id', 'DESC');*/
+        $qb=$this->qbRecetteDepenses();
+         return $qb->getQuery()
+            ->getResult();
+    }
+
+    public function findListingRecetteDepenses(\DateTime $dateDebut=null, \DateTime $dateFin=null, $compteTier=null, $compteGestion=null, $utilisateur=null, $typeOperationComptable=null, $statut=null, $journeeCaisse=null){
+
+        $qb=$this->qbRecetteDepenses();
+
+        if ($dateDebut)$qb->where('rd.dateOperation>=:dateDebut')->setParameter('dateDebut',$dateDebut);
+        if ($dateFin) $qb->andWhere('rd.dateOperation<=:dateFin')->setParameter('dateFin',$dateFin);
+        if ($compteTier) $qb->andWhere('rd.compteTier=:compteTier')->setParameter('compteTier',$compteTier);
+        if ($compteGestion) $qb->andWhere('rd.compteGestion=:compteGestion')->setParameter('compteGestion',$compteGestion);
+        if ($utilisateur) $qb->andWhere('rd.utilisateur=:utilisateur')->setParameter('utilisateur',$utilisateur);
+        if ($typeOperationComptable) $qb->andWhere('rd.typeOperationComptable=:typeOperationComptable')->setParameter('typeOperationComptable',$typeOperationComptable);
+        if ($journeeCaisse) $qb->andWhere('rd.journeeCaisse=:journeeCaisse')->setParameter('journeeCaisse',$journeeCaisse);
+        if ($statut) $qb->andWhere('rd.statut like \''.$statut.'%\'');//->setParameter('statut',$statut);
+
+        return $qb->getQuery()->getResult();
+    }
 }

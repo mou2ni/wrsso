@@ -5,7 +5,8 @@
         <th colspan="2" class="text-center">Montant</th>
         <th rowspan="2">Status</th>
         <th rowspan="2">Observations</th>
-        {% if journeeCaisse.statut=='E' %}<th  rowspan="2">Action</th>{% endif %}
+        <th  rowspan="2">Action</th>
+        {% if  is_granted('ROLE_COMPTABLE') %}<th  rowspan="2">Pièces</th>{% endif %}
     </tr>
     <tr>
         <th class="text-right">Appros</th>
@@ -13,72 +14,18 @@
     </tr>
     </thead>
     <tbody>
-    {% for appro in journeeCaisse.approVersementEntrants  %}
-        {% if not ((appro.statut=='X')) %}
-            <tr>
-                <td>{{appro.journeeCaisseSortant}}</td>
-                <td class="text-right">{{ appro.mApproVersement|number_format(0, '.', ' ')}}</td>
-                <td class="text-right">0</td>
-                <td >
-                    {{ (appro.statut=='I')
-                                ?'Initié':(appro.statut=='V')
-                                ?'Validé':(appro.statut=='VA')
-                                ?'Auto validé': (appro.statut=='C')
-                                ?'comptabilisée':'Non defini'}}
-                </td>
-                <td>{{ appro.libelle }}</td>
-                {% if journeeCaisse.statut=='E' %}
-                    <td><div class="form-row">
-                        {% if  appro.statut=='I' %}
-                            {{ (appro.journeeCaisseSortant.id==journeeCaisse.id)
-                            ?include('appro_versements/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment ?', 'id':appro.id})
-                            :include('appro_versements/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT L\'APPRO-VERSEMENT ?', 'id':appro.id})
-                            }}
-                        {% endif %}
-
-                        </div>
-                    </td>
-                {% endif %}
-            </tr>
-
-        {% endif %}
+    {% set totalAppro=0 %}
+    {% set totalVersement=0 %}
+    {% for approVersement in approVersements  %}
+        {{ include('appro_versements/_ligne_list.html.twig') }}
+        {% set totalAppro=totalAppro+ approVersement.mAppro%}
+        {% set totalVersement=totalVersement+approVersement.mVersement %}
     {% else %}
+        <tr> <td colspan="7" class="text-center"> Aucun enregistrement </td></tr>
     {% endfor %}
-
-    {% for versement in journeeCaisse.approVersementSortants  %}
-        {% if not ((versement.statut=='X')) %}
-            <tr>
-                <td>{{versement.journeeCaisseEntrant}}</td>
-                <td class="text-right">0</td>
-                <td class="text-right">{{ versement.mApproVersement|number_format(0, '.', ' ')}}</td>
-                <td >
-                    {{ (versement.statut=='I')
-                    ?'Initié':(versement.statut=='V')
-                    ?'Validé':(versement.statut=='VA')
-                    ?'Auto validé': (versement.statut=='C')
-                    ?'comptabilisée':'Non defini'}}
-                </td>
-                <td>{{ versement.libelle }}</td>
-                {% if journeeCaisse.statut=='E' %}
-                    <td><div class="form-row">
-                            {% if  versement.statut=='I' %}
-                                {{ (versement.journeeCaisseSortant.id==journeeCaisse.id)
-                                ?include('appro_versements/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment ?', 'id':versement.id})
-                                :include('appro_versements/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT L\'APPRO-VERSEMENT ?', 'id':versement.id})
-                                }}
-                            {% endif %}
-
-                        </div>
-                    </td>
-                {% endif %}
-            </tr>
-
-        {% endif %}
-    {% else %}
-    {% endfor %}
-    <tr><th>Total Validé</th>
-        <th class="text-right">{{ (journeeCaisse.mApproVersementEntrant)|number_format(0, '.', ' ') }}</th>
-        <th class="text-right">{{ (journeeCaisse.mApproVersementSortant)|number_format(0, '.', ' ') }}</th>
+    <tr><th>Totaux</th>
+        <th class="text-right">{{ (totalAppro)|number_format(0, '.', ' ') }}</th>
+        <th class="text-right">{{ (totalVersement)|number_format(0, '.', ' ') }}</th>
         <th></th>
         <th></th>
         <th></th>

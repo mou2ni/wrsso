@@ -15,9 +15,11 @@ use App\Entity\Devises;
 use App\Entity\InterCaisses;
 use App\Entity\JourneeCaisses;
 use App\Entity\ParamComptables;
+use App\Entity\RecetteDepenses;
 use App\Entity\SystemElectInventaires;
 use App\Entity\SystemElectLigneInventaires;
 use App\Entity\SystemElects;
+use App\Entity\TransfertInternationaux;
 use App\Entity\Utilisateurs;
 use App\Form\BilletagesType;
 use App\Form\ChoisirCaisseType;
@@ -46,7 +48,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\VarDumper\Tests\Fixture\DumbFoo;
 
 /**
- * @Route("/journee/caisses")
+ * @Route("/journeecaisses")
  */
 class JourneeCaissesController extends Controller
 {
@@ -791,6 +793,25 @@ class JourneeCaissesController extends Controller
      * @Route("/{id}/listingtransferts", name="journee_caisses_transferts", methods="GET|POST")
      */
     public function listingTransferts(JourneeCaisses $journeeCaisse){
-        return $this->render('transfert_internationaux/liste.html.twig', ['journeeCaisse' => $journeeCaisse]);
+        $listingTransferts=$this->getDoctrine()->getRepository(TransfertInternationaux::class)
+            ->findListingTransferts(null, null, null, null, null,$journeeCaisse);
+        return $this->render('transfert_internationaux/liste_journeeCaisse.html.twig',
+            ['listingTransferts' => $listingTransferts,
+                'journeeCaisse' => $journeeCaisse,
+            ]);
+    }
+
+    /**
+     * @Route("/{id}/listingrecettedepenses", name="journee_caisses_recetteDepenses", methods="GET|POST")
+     */
+    public function listingrecettedepenses(JourneeCaisses $journeeCaisse): Response
+    {
+        $listings=$this->getDoctrine()->getRepository(RecetteDepenses::class)
+            ->findListingRecetteDepenses(null, null,null,null,null,null,null, $journeeCaisse);
+        return $this->render('recette_depenses/liste_journee_caisses.html.twig',
+            ['journeeCaisse' => $journeeCaisse,
+                'recetteDepenses'=>$listings,
+
+            ]);
     }
 }

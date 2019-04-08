@@ -3,22 +3,22 @@
 {% block title %}Saisie des dépenses et recettes{% endblock %}
 
 {% block body %}
-    <h1>Saisie des dépenses et recettes au comptant</h1>
+    <h1>Saisie des dépenses et recettes</h1><div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }} </div>
 
     {{ include('recette_depenses/_form.html.twig') }}
+<div class="row">
+    <div class="col"> <h1> Recettes-depenses au Comptant</h1>
+        {{ include('recette_depenses/_liste_journee_caisse.html.twig', {'recetteDepenses':recetteDepensesComptant}) }}
+    </div>
+    {% if  is_granted('ROLE_COMPTABLE') %}
+    <div class="col"><h1> Recettes-depenses à terme</h1>
+        {{ include('recette_depenses/_liste_journee_caisse.html.twig', {'recetteDepenses':recetteDepensesAterme}) }}
 
-
-    <a href="{{ path('intercaisses_ajout') }}">Retour aux intercaisses</a>
-{% endblock %}
+    </div>
+    {% endif %}
+</div>
+    {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        $(document).ready(function() {
-            // you may need to change this code if you are not using Bootstrap Datepicker
-            $('.js-datepicker').datepicker({
-                format: 'dd-mm-yyyy'
-            });
-        });
-    </script>
-
 {% endblock %}

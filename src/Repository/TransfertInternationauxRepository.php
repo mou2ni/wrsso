@@ -274,7 +274,7 @@ ORDER BY SystemTransfert.id, z.ordre
      * @param string (sum, listing) $typeDonnees
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function qbTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $typeAffichage='detail', $typeDonnees='sum', $caisse=null, $sens=null){
+    private function qbTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $typeAffichage='detail', $typeDonnees='sum', $caisse=null, $sens=null, $journeeCaisse=null){
 
         $qb=$this->createQueryBuilder('ti');
         if ($typeDonnees=='sum')
@@ -318,6 +318,9 @@ ORDER BY SystemTransfert.id, z.ordre
         if($sens){
             $qb->andWhere('ti.sens=:sens')->setParameter('sens',$sens);
         }
+        if($journeeCaisse){
+            $qb->andWhere('ti.journeeCaisse=:journeeCaisse')->setParameter('journeeCaisse',$journeeCaisse);
+        }
         return $qb;
     }
 
@@ -332,14 +335,14 @@ ORDER BY SystemTransfert.id, z.ordre
             ->getQuery()->getResult();
     }
 
-    public function findListingTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $caisse=null, $sens=null){
-        $qb=$this->qbTransferts($dateDebut,$dateFin,$systemTransfert,'','listing',$caisse,$sens);
+    public function findListingTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $caisse=null, $sens=null, $journeeCaisse=null){
+        $qb=$this->qbTransferts($dateDebut,$dateFin,$systemTransfert,'','listing',$caisse,$sens,$journeeCaisse);
         return   $qb->orderBy('c.libelle', 'ASC')->addOrderBy('ti.dateTransfert','DESC')->addOrderBy('st.libelle', 'ASC')
             ->getQuery()->getResult();
 
     }
 
-    public function findCompensations(\DateTime $dateDebut, \DateTime $dateFin, $caisse){
+    public function findCompensations(\DateTime $dateDebut, \DateTime $dateFin, $caisse, $nonCompense=true){
         $qb=$this->createQueryBuilder('ti')
             ->select('st.id, st.libelle,  SUM(CASE WHEN ti.sens=:envoi THEN ti.mTransfertTTC ELSE 0 END) as mEnvoi
             , SUM(CASE WHEN ti.sens=:reception THEN ti.mTransfertTTC ELSE 0 END) as mReception')
@@ -348,9 +351,9 @@ ORDER BY SystemTransfert.id, z.ordre
             ->innerJoin('st.banque','b', 'WITH', 'st.banque=b.id')
             ->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut)
             ->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin)
-            ->andWhere('ti.compense is null')
             ->andWhere('st.banque=:caisse')->setParameter('caisse',$caisse)
             ->groupBy('st.id');
+        if($nonCompense) $qb->andWhere('ti.compense is null');
 
         return   $qb->orderBy('st.libelle')
             ->getQuery()->getResult();

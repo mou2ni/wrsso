@@ -200,4 +200,23 @@ class CompensesController extends Controller
 
         return $this->redirectToRoute('compenses_index');
     }
+
+    /**
+     * @Route("/{id}/maintenir", name="compenses_maintenir", methods="GET")
+     * @Security("has_role('ROLE_COMPTABLE')")
+     */
+    public function maintenir(Request $request, Compenses $compense): Response
+    {
+        $compense_attendues= $this->getDoctrine()->getRepository(TransfertInternationaux::class)
+            ->findCompensations($compense->getDateDebut(), $compense->getDateFin(), $compense->getCaisse(), false);
+
+        foreach ($compense_attendues as $compense_attendue){
+            $this->getDoctrine()->getRepository(CompenseLignes::class)
+                ->updateCompenseLignes($compense->getId(), $compense_attendue['id'], $compense_attendue['mEnvoi'], $compense_attendue['mReception'] );
+        }
+
+        //dump($compense_attendues);
+
+        return $this->render('compenses/show.html.twig', ['compense' => $compense]);
+    }
 }

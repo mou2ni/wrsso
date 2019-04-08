@@ -48,7 +48,7 @@ class ApproVersementsController extends Controller
             ->liste($offset,$limit,$classe);
         $pages = round(count($liste)/$limit);
         
-        return $this->render('appro_versements/index.html.twig', ['appro_versements' => $liste, 'pages'=>$pages]);
+        return $this->render('appro_versements/index.html.twig', ['approVersements' => $liste, 'pages'=>$pages]);
     }
 
     /**
@@ -71,15 +71,21 @@ class ApproVersementsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($approVersement->getMSaisie()>0){
-                $approVersement->setMApproVersement($approVersement->getMSaisie());
+                $approVersement->setMAppro($approVersement->getMSaisie());
+                $approVersement->setMVersement(0);
                 $approVersement->setJourneeCaisseEntrant($this->journeeCaisse);
                 $approVersement->setJourneeCaisseSortant($approVersement->getJourneeCaissePartenaire());
                 $approVersement=$this->valider($approVersement, ApproVersements::STAT_VALIDATION_AUTO);
                 if (!$approVersement) return $this->redirectToRoute('appro_versements_ajout');
             }elseif ($approVersement->getMSaisie()<0){
-                $approVersement->setMApproVersement(-$approVersement->getMSaisie());
+                $approVersement->setMAppro(0);
+                $approVersement->setMVersement(-$approVersement->getMSaisie());
                 $approVersement->setJourneeCaisseEntrant($approVersement->getJourneeCaissePartenaire());
                 $approVersement->setJourneeCaisseSortant($this->journeeCaisse);
+                if($this->isGranted('ROLE_COMPTABLE')){
+                    $approVersement=$this->valider($approVersement, ApproVersements::STAT_VALIDATION_AUTO);
+                    if (!$approVersement) return $this->redirectToRoute('appro_versements_ajout');
+                }
             } else{return $this->redirectToRoute('appro_versements_ajout');}
 
             $approVersement->setDateOperation(new \DateTime());
@@ -103,7 +109,6 @@ class ApproVersementsController extends Controller
 
     /**
      * @Route("/autorise/{id}", name="appro_versements_autoriser", methods="GET|POST|UPDATE")
-     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function autoriser(Request $request, ApproVersements $approVersement): Response
     {
@@ -163,10 +168,14 @@ class ApproVersementsController extends Controller
 
     /**
      * @Route("/{id}/modifier", name="appro_versements_edit", methods="GET|POST")
-     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, ApproVersements $approVersement): Response
     {
+        if($approVersement->getStatut()!=ApproVersements::STAT_INITIAL){
+            $this->addFlash('error', 'Appro-Versement déjà validé. Impossible de le modifier');
+            return $this->redirectToRoute('appro_versements_index');
+        }
+
         $form = $this->createForm(ApproVersementsModifType::class, $approVersement);
         $form->handleRequest($request);
 
@@ -194,23 +203,28 @@ class ApproVersementsController extends Controller
 
     /**
      * @Route("/{id}", name="appro_versements_delete", methods="DELETE")
-     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, ApproVersements $approVersement): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$approVersement->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($approVersement);
-            $em->flush();
+        if($approVersement->getStatut()!=ApproVersements::STAT_COMPTABILISE){
+            if ($this->isCsrfTokenValid('delete'.$approVersement->getId(), $request->request->get('_token'))) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($approVersement);
+                $approVersement->getJourneeCaisseSortant()->removeApproVersementSortant($approVersement);
+                $approVersement->getJourneeCaisseEntrant()->removeApproVersementEntrant($approVersement);
+                $em->flush();
+            }
+        }else{
+            $this->addFlash('error','Recette depenses déjà validées. Impossible de le supprimer ! ! !');
         }
 
-        return $this->redirectToRoute('appro_versements_index');
+        return $this->redirectToRoute('appro_versements_ajout');
     }
 
     private function valider(ApproVersements $approVersement, $statut=ApproVersements::STAT_VALIDE){
 
         if ($statut==ApproVersements::STAT_VALIDE and $approVersement->getUtilisateur()->getId()==$this->utilisateur->getId()){
-            $this->addFlash('error', 'L\'utilisateur ['.$this->utilisateur.'] Impossible de valider un versement dont on initiateur !');
+            $this->addFlash('error', 'L\'utilisateur ['.$this->utilisateur.'] est l\'initiateur de cette opération. Impossible de la valider lui même!');
             return false;
         }
         $approVersement->setStatut($statut);

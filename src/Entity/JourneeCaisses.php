@@ -16,6 +16,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use APY\DataGridBundle\Grid\Mapping as GRID;
+use Proxies\__CG__\App\Entity\RecetteDepenses;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -270,6 +271,15 @@ class JourneeCaisses
      * @ORM\Column(type="bigint")
      */
     private $mDepense=0;
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mRecetteAterme=0;
+
+    /**
+     * @ORM\Column(type="bigint")
+     */
+    private $mDepenseAterme=0;
 
     /**
      * @ORM\Column(type="bigint")
@@ -557,6 +567,10 @@ class JourneeCaisses
     public function maintenirMApproVersementEntrant(){
         $this->mApproVersementEntrant=0;
         foreach ($this->getApproVersementEntrants() as $approVersement){
+            if ($approVersement->getStatut()== ApproVersements::STAT_COMPTABILISE
+                or $approVersement->getStatut()== ApproVersements::STAT_VALIDE
+                or $approVersement->getStatut()== ApproVersements::STAT_VALIDATION_AUTO
+            )
             $this->updateM('mApproVersementEntrant', $approVersement->getMApproVersement());
         }
         return $this;
@@ -565,6 +579,10 @@ class JourneeCaisses
     public function maintenirMApproVersementSortant(){
         $this->mApproVersementSortant=0;
         foreach ($this->getApproVersementSortants() as $approVersement){
+            if ($approVersement->getStatut()== ApproVersements::STAT_COMPTABILISE
+                or $approVersement->getStatut()== ApproVersements::STAT_VALIDE
+                or $approVersement->getStatut()== ApproVersements::STAT_VALIDATION_AUTO
+            )
             $this->updateM('mApproVersementSortant', $approVersement->getMApproVersement());
         }
         return $this;
@@ -574,13 +592,19 @@ class JourneeCaisses
         $this->mRecette=0;
         $this->mDepense=0;
         foreach ($this->getRecetteDepenses() as $recetteDepense){
-            //$this
+            if ($recetteDepense->getStatut()== RecetteDepenses::STAT_COMPTA
+                or $recetteDepense->getStatut()== RecetteDepenses::STAT_VALIDE
+                or $recetteDepense->getStatut()== RecetteDepenses::STAT_VALIDATION_AUTO
+            )
             if ($recetteDepense->getMRecette()!=0) {
-                //dump($detteCredit->getMCredit());
-                $this->updateM('mRecette', $recetteDepense->getMRecette());
+                if($recetteDepense->getEstComptant())
+                    $this->updateM('mRecette', $recetteDepense->getMRecette());
+                else $this->updateM('mRecetteAterme', $recetteDepense->getMRecette());
             }
             else{
-                $this->updateM('mDepense', $recetteDepense->getMDepense());
+                if($recetteDepense->getEstComptant())
+                    $this->updateM('mDepense', $recetteDepense->getMDepense());
+                else $this->updateM('mDepenseAterme', $recetteDepense->getMDepense());
             }
         }
         return $this;
@@ -1694,18 +1718,33 @@ class JourneeCaisses
             $recetteDepense->setUtilisateur($this->getUtilisateur());
             $recetteDepense->setJourneeCaisse($this);
             $this->recetteDepenses->add($recetteDepense);
-            $this->updateM('mRecette', $recetteDepense->getMRecette());
-            $this->updateM('mDepense', $recetteDepense->getMDepense());
+            if($recetteDepense->getEstComptant()) {
+                $this->updateM('mRecette', $recetteDepense->getMRecette());
+                $this->updateM('mDepense', $recetteDepense->getMDepense());
+            }else{
+                $this->updateM('mRecetteAterme', $recetteDepense->getMRecette());
+                $this->updateM('mDepenseAterme', $recetteDepense->getMDepense());
+            }
             return $this;
         }
     }
 
     /**
-     * @param Transactions $transaction
+     * @param RecetteDepenses $recetteDepense
      */
     public function removeRecetteDepense(RecetteDepenses $recetteDepense)
     {
-        $this->recetteDepenses->removeElement($recetteDepense);
+        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
+            if ($recetteDepense->getEstComptant()) {
+                $this->updateM('mRecette', -$recetteDepense->getMRecette());
+                $this->updateM('mDepense', -$recetteDepense->getMDepense());
+            } else {
+                $this->updateM('mRecetteAterme', -$recetteDepense->getMRecette());
+                $this->updateM('mDepenseAterme', -$recetteDepense->getMDepense());
+            }
+            $this->recetteDepenses->removeElement($recetteDepense);
+        }
+
     }
 
     /**
@@ -1860,7 +1899,7 @@ class JourneeCaisses
         if ($this->getStatut()==JourneeCaisses::ENCOURS) {
             $approVersement->setJourneeCaisseEntrant($this);
             $this->approVersementEntrants->add($approVersement);
-            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVirement());
+            $this->updateM('mApproVersementEntrant', $approVersement->getMAppro());
             return $this;
         }
     }
@@ -1872,7 +1911,7 @@ class JourneeCaisses
     {
         if ($this->getStatut()==JourneeCaisses::ENCOURS) {
             $this->approVersementEntrants->removeElement($approVersement);
-            $this->updateM('mApproVersementEntrant', -$approVersement->getMApproVirement());
+            $this->updateM('mApproVersementEntrant', -$approVersement->getMAppro());
         }
     }
 
@@ -1885,7 +1924,7 @@ class JourneeCaisses
         if ($this->getStatut()==JourneeCaisses::ENCOURS) {
             $approVersement->setJourneeCaisseEntrant($this);
             $this->approVersementSortants->add($approVersement);
-            $this->updateM('mApproVersementEntrant', $approVersement->getMApproVirement());
+            $this->updateM('mApproVersementSortant', $approVersement->getMVersement());
             return $this;
         }
     }
@@ -1897,7 +1936,7 @@ class JourneeCaisses
     {
         if ($this->getStatut()==JourneeCaisses::ENCOURS) {
             $this->approVersementSortants->removeElement($approVersement);
-            $this->updateM('mApproVersementEntrant', -$approVersement->getMApproVirement());
+            $this->updateM('mApproVersementEntrant', -$approVersement->getMVersement());
         }
     }
 
@@ -1934,6 +1973,42 @@ class JourneeCaisses
     public function setMApproVersementSortant($mApproVersementSortant)
     {
         $this->mApproVersementSortant = $mApproVersementSortant;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMRecetteAterme()
+    {
+        return $this->mRecetteAterme;
+    }
+
+    /**
+     * @param mixed $mRecetteAterme
+     * @return JourneeCaisses
+     */
+    public function setMRecetteAterme($mRecetteAterme)
+    {
+        $this->mRecetteAterme = $mRecetteAterme;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMDepenseAterme()
+    {
+        return $this->mDepenseAterme;
+    }
+
+    /**
+     * @param mixed $mDepenseAtrerme
+     * @return JourneeCaisses
+     */
+    public function setMDepenseAterme($mDepenseAterme)
+    {
+        $this->mDepenseAterme = $mDepenseAterme;
         return $this;
     }
 

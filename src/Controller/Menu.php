@@ -54,6 +54,7 @@ class Menu  extends Controller
             ,['text'=>'Changer de caisse', 'lien'=>'journee_caisses_init']
             ,['text'=>'Intercaisses', 'lien'=>'intercaisses_ajout']
             ,['text'=>'Appro-Versements', 'lien'=>'appro_versements_ajout']
+            ,['text'=>'Recettes-Depenses', 'lien'=>'recette_depenses_comptant']
             ,['text'=>'Credits et dettes', 'lien'=>'detteCredits_divers']
             ,['text'=>'Achat vente divers', 'lien'=>'#']
             ,['text'=>'Historiques caisses','lien'=>'journee_caisses_etat_de_caisse']
@@ -68,9 +69,10 @@ class Menu  extends Controller
         ];
 
         $this->menu_comptable=[
-            ['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
+            ['text'=>'Recettes - Depenses','lien'=>'recette_depenses_index']
+            ,['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
             ,['text'=>'Compensation', 'lien'=>'compenses_saisie']
-            ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_comptant_groupee']
+           // ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_comptant_groupee']
             ,['text'=>'Salaires-Positionnement', 'lien'=>'salaires_positionnement']
             ,['text'=>'Ecritures comptables', 'lien'=>'transactions_index']
             ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_ecritures']

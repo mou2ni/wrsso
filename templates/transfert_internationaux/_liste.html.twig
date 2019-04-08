@@ -1,0 +1,63 @@
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Caisse</th>
+            <th>Date</th>
+            <th>Transfert</th>
+            <th>Pays</th>
+            <th>Envoi TTC</th>
+            <th>Reception TTC</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set totalEnvoi=0 %}
+    {% set totalReception=0 %}
+    {% set nbEnvoi=0 %}
+    {% set nbReception=0 %}
+    {% for transfert in listingTransferts %}
+        {% if transfert.sens ==1 %}
+            {% set totalEnvoi=totalEnvoi+transfert.mTransfertTTC %}
+            {% set nbEnvoi=nbEnvoi+1 %}
+        {% else %}
+            {% set totalReception=totalReception+ transfert.mTransfertTTC%}
+            {% set nbReception=nbReception+1 %}
+        {% endif %}
+        <tr>
+            <td>{{transfert.caisse}}</td>
+            <td>{{ (transfert.dateTransfert)?transfert.dateTransfert|date('d-m-Y') : ''  }}</td>
+            <td>{{ transfert.typeTransfert }}</td>
+            <td>{{ transfert.pays }}</td>
+            {#<td>{{ transfert.mTransfert|number_format(0, '.', ' ') }}</td>
+            <td>{{ (transfert.mFraisHt+transfert.mTva+transfert.mAutresTaxes)|number_format(0, '.', ' ') }}</td>#}
+            <td class="padding-5 text-right">{{ (transfert.sens ==1)?transfert.mTransfertTTC|number_format(0, '.', ' '):0 }}</td>
+            <td class="padding-5 text-right">{{ (transfert.sens ==2)?transfert.mTransfertTTC|number_format(0, '.', ' '):0}}</td>
+            <td>
+                {% if  is_granted('ROLE_COMPTABLE') %}
+                    <a href="{{ path('transfert_internationaux_show', {'id': transfert.id,
+                        }) }}">Supprimer</a> |
+                    <a href="{{ path('transfert_internationaux_edit', {'id': transfert.id,
+                    }) }}">Modifier</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td class="padding-5 text-center" colspan="8">Aucun enregistrement trouvé !</td>
+        </tr>
+    {% endfor %}
+
+    <tr  bgcolor="#f69f00">
+        <th class="padding-5 text-right" colspan="4">TOTAUX : </th>
+        <th class="padding-5 text-right">{{totalEnvoi|number_format(0, '.', ' ') }}</th>
+        <th class="padding-5 text-right">{{totalReception|number_format(0, '.', ' ') }}</th>
+        <th class="padding-5">{{(totalEnvoi-totalReception)|number_format(0, '.', ' ') }}</th>
+    </tr>
+    <tr  bgcolor="#f69f00">
+        <th class="padding-5 text-right" colspan="4">NOMBRE : </th>
+        <th class="padding-5 text-right">{{nbEnvoi|number_format(0, '.', ' ') }}</th>
+        <th class="padding-5 text-right">{{nbReception|number_format(0, '.', ' ') }}</th>
+        <th class="padding-5">{{(nbEnvoi+nbReception)|number_format(0, '.', ' ') }}</th>
+    </tr>
+    </tbody>
+</table>

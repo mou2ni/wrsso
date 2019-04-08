@@ -41,14 +41,28 @@
             {% set  totalReception=0%}
             {% for compenseLigne in compense.compenseLignes %}
                 <tr class="collection-tag ">
-                    <td class="padding-0" bgcolor="#eee9e6" > {{compenseLigne.systemTransfert }}</td>
-                    <td class="padding-0 text-right" bgcolor="#eee9e6">{{compenseLigne.mEnvoiAttendu|number_format(0, '.', ' ') }}</td>
-                    <td class="padding-0 text-right" bgcolor="#eee9e6">{{ compenseLigne.mEnvoiCompense|number_format(0, '.', ' ') }}</td>
-                    <td class="padding-0 text-right" bgcolor="#eee9e6">{{compenseLigne.mReceptionAttendu|number_format(0, '.', ' ') }}</td>
-                    <td class="padding-0 text-right" bgcolor="#eee9e6">{{compenseLigne.mReceptionCompense|number_format(0, '.', ' ')}}</td>
-                    <td class="padding-0 text-right" bgcolor="#eee9e6">{{(compenseLigne.mEnvoiAttendu-compenseLigne.mReceptionAttendu)|number_format(0, '.', ' ') }}</td>
-                    <td class="padding-0 text-right" bgcolor="#eee9e6">{{(compenseLigne.mEnvoiCompense-compenseLigne.mReceptionCompense)|number_format(0, '.', ' ') }}</td>
-                    <td class="padding-0 text-right" bgcolor="#eee9e6">{{((compenseLigne.mEnvoiAttendu-compenseLigne.mReceptionAttendu) - (compenseLigne.mEnvoiCompense-compenseLigne.mReceptionCompense))|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-5" bgcolor="#eee9e6" > {{compenseLigne.systemTransfert }}</td>
+                    <td class="padding-5 text-right" bgcolor="#eee9e6">
+                        <a href="{{ path('transfert_internationaux_index', {
+                            'dateDebut': (compense.dateDebut)?compense.dateDebut|date('Y-m-d') : '',
+                            'dateFin':(compense.dateFin)?compense.dateFin|date('Y-m-d') : '',
+                            'systemTransfert':compenseLigne.systemTransfert.id,
+                            'sens':1}) }}">
+                        {{compenseLigne.mEnvoiAttendu|number_format(0, '.', ' ') }}</a>
+                    </td>
+                    <td class="padding-5 text-right" bgcolor="#eee9e6">{{ compenseLigne.mEnvoiCompense|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-5 text-right" bgcolor="#eee9e6">
+                        <a href="{{ path('transfert_internationaux_index', {
+                            'dateDebut': (compense.dateDebut)?compense.dateDebut|date('Y-m-d') : '',
+                            'dateFin':(compense.dateFin)?compense.dateFin|date('Y-m-d') : '',
+                            'systemTransfert':compenseLigne.systemTransfert.id,
+                            'sens':2}) }}">
+                        {{compenseLigne.mReceptionAttendu|number_format(0, '.', ' ') }}</a>
+                    </td>
+                    <td class="padding-5 text-right" bgcolor="#eee9e6">{{compenseLigne.mReceptionCompense|number_format(0, '.', ' ')}}</td>
+                    <td class="padding-5 text-right" bgcolor="#eee9e6">{{(compenseLigne.mEnvoiAttendu-compenseLigne.mReceptionAttendu)|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-5 text-right" bgcolor="#eee9e6">{{(compenseLigne.mEnvoiCompense-compenseLigne.mReceptionCompense)|number_format(0, '.', ' ') }}</td>
+                    <td class="padding-5 text-right" bgcolor="#eee9e6">{{((compenseLigne.mEnvoiAttendu-compenseLigne.mReceptionAttendu) - (compenseLigne.mEnvoiCompense-compenseLigne.mReceptionCompense))|number_format(0, '.', ' ') }}</td>
                 </tr>
 
                 {% set  totalEnvoiAttendu=totalEnvoiAttendu+compenseLigne.mEnvoiAttendu%}
@@ -56,7 +70,7 @@
                 {% set  totalEnvoi=totalEnvoi+compenseLigne.mEnvoiCompense%}
                 {% set  totalReception=totalReception+compenseLigne.mReceptionCompense%}
             {% else %}
-                <tr> <td> aucun enregistrement</td></tr>
+                <tr> <td class="text-bold padding-5 text-center" > aucun enregistrement</td></tr>
             {% endfor %}
 
             <tr bgcolor="#f69f00">
@@ -78,6 +92,7 @@
 
     <h1><a href="{{ path('compenses_index') }}">Liste</a> |
         <a href="{{ path('compenses_edit', {'id': compense.id}) }}">Modifier</a> |
+        <a href="{{ path('compenses_maintenir', {'id': compense.id}) }}">Maintenir</a> |
         <a href="{{ path('compenses_saisie') }}">Nouvelle compensation</a> |
         <a href="{{ path('transactions_show',{'id': compense.transaction.id}) }}">Voir écritures comptables</a>
     </h1>

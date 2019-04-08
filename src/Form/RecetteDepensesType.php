@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Comptes;
 use App\Entity\RecetteDepenses;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,7 +20,6 @@ class RecetteDepensesType extends AbstractType
             ->add('dateOperation', DateType::class, [
                 'widget' => 'single_text'
             ])
-            ->add('libelle')
             ->add('typeOperationComptable', EntityType::class, array (
                 'class' => 'App\Entity\TypeOperationComptables',
                 'choice_label' => 'libelle',
@@ -26,10 +27,18 @@ class RecetteDepensesType extends AbstractType
                 'expanded'=>false,))
             ->add('compteTier', EntityType::class, array (
                 'class' => 'App\Entity\Comptes',
-                'choice_label' => 'intitule',
+                'choice_label' => function (Comptes $compte) {
+                    return $compte->getNumCompteIntitule();},
                 'multiple' => false,
-                'expanded'=>false,))
+                'expanded'=>false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->getCompteContrePartieDepenseRecettesQb();
+                }
+            ))
+            ->add('libelle')
             ->add('mSaisie')
+            ->add('estComptant')
+            ->add('numDocumentCompta')
         ;
     }
 

@@ -1,0 +1,43 @@
+{% if not ((approVersement.statut=='X')) %}
+    <tr>
+        <td>{{approVersement.journeeCaisseSortant}}=>{{approVersement.journeeCaisseEntrant}}</td>
+        <td class="padding-5 text-right">{{ approVersement.mAppro|number_format(0, '.', ' ')}}</td>
+        <td class="padding-5 text-right">{{ approVersement.mVersement|number_format(0, '.', ' ')}}</td>
+        <td >
+            {{ (approVersement.statut=='I')
+                        ?'Initié':(approVersement.statut=='V')
+                        ?'Validé':(approVersement.statut=='VA')
+                        ?'Auto validé': (approVersement.statut=='C')
+                        ?'comptabilisée':'Non defini'}}
+        </td>
+        <td>{{ approVersement.libelle }}</td>
+        <td class="padding-5"><div class="form-row">
+            {% if journeeCaisse %}{% if journeeCaisse.statut=='E' %}
+                    {% if  approVersement.statut=='I' %}
+                        {% if approVersement.utilisateur.id== app.user.id %}
+                            <a href="{{ path('appro_versements_show', {'id': approVersement.id}) }}">Supprimer</a> |
+                            {% endif %}
+                        {{ (approVersement.journeeCaisseSortant.id==journeeCaisse.id)
+                        ?include('appro_versements/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment ?', 'id':approVersement.id})
+                        :include('appro_versements/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT L\'APPRO-VERSEMENT ?', 'id':approVersement.id})
+                        }}
+                    {% endif %}
+
+            {% endif %} {% endif %}
+            </div>
+            <a href="{{ path('appro_versements_show', {'id': approVersement.id}) }}">Détails</a>
+
+            {% if approVersement.statut!='C' and approVersement.statut!='X' %}
+                | <a href="{{ path('appro_versements_edit', {'id': approVersement.id}) }}">Modifier</a>
+
+            {% endif %}
+        </td>
+        <td class="padding-5">
+            {% if  is_granted('ROLE_COMPTABLE') %}
+                {% if approVersement.transactionEntrant %}<a href="{{ path('transactions_show', {'id': approVersement.transactionEntrant.id}) }}"> {{ approVersement.transactionEntrant.id }}</a>{% endif %}
+                {% if approVersement.transactionSortant %} | <a href="{{ path('transactions_show', {'id': approVersement.transactionSortant.id}) }}"> {{ approVersement.transactionSortant.id }}</a>{% endif %}
+            {% endif %}
+        </td>
+    </tr>
+
+{% endif %}

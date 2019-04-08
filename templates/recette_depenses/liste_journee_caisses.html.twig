@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1> LISTE DEPENSES RECETTES DE {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}</h1>
+    {{ include('recette_depenses/_liste_journee_caisse.html.twig') }}
+    {{ include('_btn_close.html.twig') }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
