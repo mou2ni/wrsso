@@ -1639,7 +1639,7 @@ class JourneeCaisses
     }
 */
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getDateComptable()
     {

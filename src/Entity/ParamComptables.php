@@ -150,6 +150,12 @@ class ParamComptables
      */
     private $journalAchat;
 
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $comptaPayeDetaille=false;
+
     /**
      * @return mixed
      */
@@ -597,6 +603,24 @@ class ParamComptables
     public function setJournalAchat($journalAchat)
     {
         $this->journalAchat = $journalAchat;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComptaPayeDetaille()
+    {
+        return $this->comptaPayeDetaille;
+    }
+
+    /**
+     * @param mixed $comptaPayeDetaille
+     * @return ParamComptables
+     */
+    public function setComptaPayeDetaille($comptaPayeDetaille)
+    {
+        $this->comptaPayeDetaille = $comptaPayeDetaille;
         return $this;
     }
 

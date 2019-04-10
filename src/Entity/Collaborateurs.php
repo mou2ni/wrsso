@@ -160,7 +160,7 @@ class Collaborateurs
     public function __toString()
     {
         // TODO: Implement __toString() method.
-        return $this->getPrenom().' '.$this->getNom();
+        return $this->getNom().' '.$this->getPrenom();
     }
 
     /**

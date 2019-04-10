@@ -45,7 +45,7 @@ class CaissesType extends AbstractType
                 'expanded'=>false,
                 'query_builder'  => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
-                        ->where('c.numCompte like \'588s%\' ')
+                        ->where('c.numCompte like \'588%\'')
                         ->orderBy('c.numCompte', 'ASC');
                 }))
             ->add('compteAttenteCompense', EntityType::class, array (

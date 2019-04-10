@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recapitulatif Journee Caisses{% endblock %}
+
+{% block body %}
+<h1>Recapitulatif des écarts</h1>
+
+<div class="table-responsive">
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>CAISSIER</th>
+            <th>JANVIER</th>
+            <th>FEVRIER</th>
+            <th>MARS</th>
+            <th>AVRIL</th>
+            <th>MAI</th>
+            <th>JUIN</th>
+            <th>JUILLET</th>
+            <th >AOUT</th>
+            <th >SEPTEMBRE</th>
+            <th >OCTOBRE</th>
+            <th >NOVEMBRE</th>
+            <th >DECEMBRE</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set totalJan=0 %}
+    {% set totalFev=0 %}
+    {% set totalMar=0 %}
+    {% set totalAvr=0 %}
+    {% set totalMai=0 %}
+    {% set totalJuin=0 %}
+    {% set totalJuil=0 %}
+    {% set totalAou=0 %}
+    {% set totalSep=0 %}
+    {% set totalOct=0 %}
+    {% set totalNov=0 %}
+    {% set totalDec=0 %}
+    {% for ecart in ecarts %}
+        {% set totalJan=totalJan+ecart.mEcartJan %}
+        {% set totalFev=totalFev+ecart.mEcartFev %}
+        {% set totalMar=totalMar+ecart.mEcartMar %}
+        {% set totalAvr=totalAvr+ecart.mEcartAvr %}
+        {% set totalMai=totalMai+ecart.mEcartMai %}
+        {% set totalJuin=totalJuin+ecart.mEcartJuin %}
+        {% set totalJuil=totalJuil+ecart.mEcartJuil %}
+        {% set totalAou=totalAou+ecart.mEcartAou %}
+        {% set totalSep=totalSep+ecart.mEcartSep %}
+        {% set totalOct=totalOct+ecart.mEcartOct %}
+        {% set totalNov=totalNov+ecart.mEcartNov %}
+        {% set totalDec=totalDec+ecart.mEcartDec %}
+        <tr>
+            <td class="text-nowrap" >{{ ecart.nom}} {{ ecart.prenom}}</td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-01-01', 'dateFin': annee~'-01-31', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartJan|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-02-01', 'dateFin': annee~'-02-29', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartFev|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-03-01', 'dateFin': annee~'-03-31', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartMar|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-04-01', 'dateFin': annee~'-04-30', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartAvr|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-05-01', 'dateFin': annee~'-05-31', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartMai|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-06-01', 'dateFin': annee~'-06-30', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartJuin|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-07-01', 'dateFin': annee~'-07-31', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartJuil|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-08-01', 'dateFin': annee~'-06-31', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartAou|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-09-01', 'dateFin': annee~'-09-30', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartSep|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-10-01', 'dateFin': annee~'-10-31', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartOct|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-11-01', 'dateFin': annee~'-11-30', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartNov|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('journee_caisses_index'
+                , {'dateDebut': annee~'-12-01', 'dateFin': annee~'-12-31', 'utilisateur':ecart.id}) }}">
+                {{ ecart.mEcartDec|number_format(0, '.', ' ') }}</a>
+            </td>
+
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="12">Aucune ligne trouvée ! ! !</td>
+        </tr>
+    {% endfor %}
+    <tr bgcolor="#f69f00">
+        <th class="text-nowrap text-right"> TOTAUX : </th>
+        <th class="text-nowrap text-right">{{ totalJan|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalFev|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalMar|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalAvr|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalMai|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalJuin|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalJuil|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalAou|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalSep|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalOct|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalNov|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalDec|number_format(0, '.', ' ') }}</th>
+    </tr>
+    </tbody>
+</table>
+</div>
+{% endblock %}

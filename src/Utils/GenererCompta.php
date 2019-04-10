@@ -20,6 +20,7 @@ use App\Entity\JourneeCaisses;
 use App\Entity\LigneSalaires;
 use App\Entity\ParamComptables;
 use App\Entity\RecetteDepenses;
+use App\Entity\Salaires;
 use App\Entity\Transactions;
 use App\Entity\TransactionComptes;
 use App\Entity\TransfertInternationaux;
@@ -591,45 +592,122 @@ class GenererCompta
         return true;
     }
 
-    /**
-     * @param Utilisateurs $utilisateur
-     * @param ParamComptables $paramComptable
-     * @param LigneSalaires $ligneSalaire
-     * @param $periodeSalaire
-     * @param JourneeCaisses $journeeCaisse
-     * @return Transactions|bool
-     */
-    public function genComptaLigneSalaire(Utilisateurs $utilisateur, ParamComptables $paramComptable, LigneSalaires $ligneSalaire, $periodeSalaire, JourneeCaisses $journeeCaisse){
 
-        if (!$this->isSetParamComptablesSalaire($paramComptable)) return false;
-        $mTotalCharge=$ligneSalaire->getMChargeTotal();
+    private function comptaSalaireParLigne(ParamComptables $paramComptable, Utilisateurs $utilisateur, Salaires $salaire, JourneeCaisses $journeeCaisse, $periodeSalaire){
 
-        $transaction=$this->initTransaction($utilisateur,'Salaire de '.$ligneSalaire->getCollaborateur().' - '.$periodeSalaire, $mTotalCharge, $paramComptable->getJournalPaye(), $journeeCaisse, new \DateTime());
-        if ($this->getE()) return false;
-        if( $mTotalCharge<0){
-            $this->setE($transaction::ERR_NEGATIF);
-            return false;
+        //$paramComptable=$this->em->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
+        //if (!$this->isSetParamComptablesSalaire($paramComptable)) return false;
+
+        //$periodeSalaire=$salaire->getPeriodeSalaire();
+        foreach ($salaire->getLigneSalaires() as $ligneSalaire) {
+            $mTotalCharge = $ligneSalaire->getMChargeTotal();
+
+            $transaction = $this->initTransaction($utilisateur, 'Salaire de ' . $ligneSalaire->getCollaborateur() . ' - ' . $periodeSalaire, $mTotalCharge, $paramComptable->getJournalPaye(), $journeeCaisse, new \DateTime());
+            if ($this->getE()) return false;
+            if ($mTotalCharge < 0) {
+                $this->setE($transaction::ERR_NEGATIF);
+                return false;
+            }
+            if (!$transaction) return false;
+            //Débit comptes Charges
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), -$ligneSalaire->getMSalaireBase(), 'Salaire de Base'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), -$ligneSalaire->getMIndemLogement(), 'Indemnités de logement'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), -$ligneSalaire->getMIndemFonction(), 'Indemnités de fonction'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), -$ligneSalaire->getMIndemTransport(), 'Indemnités de transport'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMIndemAutres(), 'Autres primes et indemnités'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMHeureSup(), 'Heures supplémentaires'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), -$ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale patronale'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), -$ligneSalaire->getMTaxePatronale(), 'Taxe patronale sur salaire'));
+
+            //crédit comptes tiers
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $ligneSalaire->getMImpotSalarie(), 'Impots sur salaires'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), 'Taxes patronales sur salaires'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialeSalarie(), 'Sécurité sociale part salarié'));
+            $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale part patronale'));
+            $compteRemunerationDue = ($ligneSalaire->getCompteRemunerationDue()) ? $ligneSalaire->getCompteRemunerationDue() : $paramComptable->getCompteRemunerationDue();
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), 'Remunération nette due'));
+
+            //dump($transaction);
+            $this->transactions->add($transaction);
+            $ligneSalaire->setTransaction($transaction);
+            if ($transaction->isDesequilibre()){
+                $this->setE(Transactions::ERR_DESEQUILIBRE);
+                $this->setErrMessage('Ecriture comptable déséquibrée');
+                return false;
+            }
+            $this->em->persist($transaction);
         }
+        return $this->transactions;
+    }
+    public function genComptaSalaire(Utilisateurs $utilisateur, Salaires $salaire, JourneeCaisses $journeeCaisse)
+    {
+        $paramComptable=$this->em->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
+        $periodeSalaire=$salaire->getPeriodeSalaire();
+        if (!$this->isSetParamComptablesSalaire($paramComptable)) return false;
+
+        if($paramComptable->getComptaPayeDetaille()){
+            $transactions=$this->comptaSalaireParLigne($paramComptable,$utilisateur,$salaire,$journeeCaisse,$periodeSalaire);
+        }else{
+            $transactions=$this->comptaSalaireGroupe($paramComptable,$utilisateur,$salaire,$journeeCaisse,$periodeSalaire);
+        }
+
+        if(!$transactions) return false;
+        $salaire->setStatut(Salaires::STAT_COMPTABILISE);
+        
+        return $transactions;
+    }
+
+    private function comptaSalaireGroupe(ParamComptables $paramComptable, Utilisateurs $utilisateur, Salaires $salaire, JourneeCaisses $journeeCaisse, $periodeSalaire)
+    {
+        //$paramComptable=$this->em->getRepository(ParamComptables::class)->findOneBy(['codeStructure'=>'YESBO']);
+        //$periodeSalaire=$salaire->getPeriodeSalaire();
+        //if (!$this->isSetParamComptablesSalaire($paramComptable)) return false;
+        $mTotalCharge=0;
+        $mTotalSalaireBase=0;
+        $mTotalIndemnLogement=0;
+        $mTotalIndemnFonction=0;
+        $mTotalIndemnTransport=0;
+        $mTotalIndemnAutres=0;
+        $mTotalSecuriteSocialePatronal=0;
+        $mTotalTaxePatronale=0;
+        $mTotalImpotSalarie=0;
+        $mTotalSecuriteSocialeSalarie=0;
+
+        $transaction=$this->initTransaction($utilisateur,'Salaire  - '.$periodeSalaire, 1, $paramComptable->getJournalPaye(), $journeeCaisse, new \DateTime());
+        if ($this->getE()) return false;
         if (!$transaction) return false ;
-        //Débit comptes Charges
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), -$ligneSalaire->getMSalaireBase(), 'Salaire de Base'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), -$ligneSalaire->getMIndemLogement(), 'Indemnités de logement'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), -$ligneSalaire->getMIndemFonction(), 'Indemnités de fonction'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), -$ligneSalaire->getMIndemTransport(), 'Indemnités de transport'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMIndemAutres(), 'Autres primes et indemnités'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$ligneSalaire->getMHeureSup(), 'Heures supplémentaires'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), -$ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale patronale'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), -$ligneSalaire->getMTaxePatronale(), 'Taxe patronale sur salaire'));
+
+        foreach ($salaire->getLigneSalaires() as $ligneSalaire){
+            $mTotalCharge+=$ligneSalaire->getMChargeTotal();
+            $mTotalSalaireBase+=$ligneSalaire->getMSalaireBase();
+            $mTotalIndemnLogement+=$ligneSalaire->getMIndemLogement();
+            $mTotalIndemnFonction+=$ligneSalaire->getMIndemFonction();
+            $mTotalIndemnTransport+=$ligneSalaire->getMIndemTransport();
+            $mTotalIndemnAutres+=$ligneSalaire->getMHeureSup()+$ligneSalaire->getMIndemAutres();
+            $mTotalSecuriteSocialePatronal+=$ligneSalaire->getMSecuriteSocialePatronal();
+            $mTotalTaxePatronale+=$ligneSalaire->getMTaxePatronale();
+            $mTotalImpotSalarie+=$ligneSalaire->getMImpotSalarie();
+            $mTotalSecuriteSocialeSalarie+=$ligneSalaire->getMSecuriteSocialeSalarie();
+
+            $compteRemunerationDue=($ligneSalaire->getCompteRemunerationDue())?$ligneSalaire->getCompteRemunerationDue():$paramComptable->getCompteRemunerationDue();
+            $transaction->addTransactionCompte($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), 'Salaire Net '.$periodeSalaire));
+
+        }
+
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeBaseSalaire(), -$mTotalSalaireBase, 'Salaire de Base '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeLogeSalaire(), -$mTotalIndemnLogement, 'Indemnités de logement '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeFonctSalaire(), -$mTotalIndemnFonction, 'Indemnités de fonction '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeTranspSalaire(), -$mTotalIndemnTransport, 'Indemnités de transport '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeIndemSalaire(), -$mTotalIndemnAutres, 'Autres primes, indemnités et heures suppl'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteChargeCotiPatronale(), -$mTotalSecuriteSocialePatronal, 'Sécurité sociale patronale '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteTaxeSalaire(), -$mTotalTaxePatronale, 'Taxe patronale sur salaire '.$periodeSalaire));
 
         //crédit comptes tiers
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $ligneSalaire->getMImpotSalarie(), 'Impots sur salaires'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $ligneSalaire->getMTaxePatronale(), 'Taxes patronales sur salaires'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialeSalarie(), 'Sécurité sociale part salarié'));
-        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $ligneSalaire->getMSecuriteSocialePatronal(), 'Sécurité sociale part patronale'));
-        $compteRemunerationDue=($ligneSalaire->getCompteRemunerationDue())?$ligneSalaire->getCompteRemunerationDue():$paramComptable->getCompteRemunerationDue();
-        $transaction->addTransactionCompte($this->fillTransactionCompte($compteRemunerationDue, $ligneSalaire->getMNet(), 'Remunération nette due'));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaImpotSalaire(), $mTotalImpotSalarie, 'Impots sur salaires '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaTaxeSalaire(), $mTotalTaxePatronale, 'Taxes patronales sur salaires '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $mTotalSecuriteSocialeSalarie, 'Sécurité sociale part salarié '.$periodeSalaire));
+        $transaction->addTransactionCompte($this->fillTransactionCompte($paramComptable->getCompteOrgaSocial(), $mTotalSecuriteSocialePatronal, 'Sécurité sociale part patronale '.$periodeSalaire));
 
-        //dump($transaction);
         $this->transactions->add($transaction);
         if ($transaction->isDesequilibre()){
             $this->setE(Transactions::ERR_DESEQUILIBRE);
@@ -637,7 +715,8 @@ class GenererCompta
             return false;
         }
         $this->em->persist($transaction);
-        return $transaction;
+        $salaire->setTransaction($transaction);
+        return $this->transactions;
     }
 
     private function comptaCompensation(Utilisateurs $utilisateur, Compenses $compense, Transactions $transaction=null)

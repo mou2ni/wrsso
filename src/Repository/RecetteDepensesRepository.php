@@ -30,11 +30,11 @@ class RecetteDepensesRepository extends ServiceEntityRepository
         return $qb = $this->createQueryBuilder('rd')
             ->select('rd.id as id, rd.dateOperation as dateOperation, cg.numCompte as compteGestion, ct.numCompte as compteTier, rd.libelle as libelle, rd.numDocumentCompta as numDocumentCompta, jc.statut as statutJc
             , u.nom as nomUtilisateur, u.prenom as prenomUtilisateur, rd.mRecette as mRecette, rd.mDepense as mDepense, rd.statut as statut, toc.libelle as typeOperationComptable, IDENTITY(rd.transaction) as transaction, IDENTITY(rd.utilisateur) as utilisateur')
-            ->innerJoin('rd.typeOperationComptable','toc', 'WITH', 'rd.typeOperationComptable=toc.id')
-            ->innerJoin('rd.utilisateur','u', 'WITH', 'rd.utilisateur= u.id')
-            ->innerJoin('rd.compteGestion','cg', 'WITH', 'rd.compteGestion= cg.id')
-            ->innerJoin('rd.compteTier','ct', 'WITH', 'rd.compteTier= ct.id')
-            ->innerJoin('rd.journeeCaisse','jc', 'WITH', 'rd.journeeCaisse= jc.id')
+            ->leftJoin('rd.typeOperationComptable','toc', 'WITH', 'rd.typeOperationComptable=toc.id')
+            ->leftJoin('rd.utilisateur','u', 'WITH', 'rd.utilisateur= u.id')
+            ->leftJoin('rd.compteGestion','cg', 'WITH', 'rd.compteGestion= cg.id')
+            ->leftJoin('rd.compteTier','ct', 'WITH', 'rd.compteTier= ct.id')
+            ->leftJoin('rd.journeeCaisse','jc', 'WITH', 'rd.journeeCaisse= jc.id')
             ->orderBy('rd.dateOperation','DESC');
         ;
 

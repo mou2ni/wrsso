@@ -13,6 +13,12 @@
                 <option  {{ (caisse_id==caisse.id)?'selected="selected"':''}} value={{ caisse.id }}>{{ caisse }}</option>
             {% endfor %}
         </select>
+    UTILISATEURS : <select id="utilisateur" name="utilisateur" class="">
+        <option  {{ (app.request.request.get('utilisateur')=='')?'selected="selected"':''}} value="">Tous</option>
+        {% for utilisateur in utilisateurs %}
+            <option  {{ (utilisateur_id==utilisateur.id)?'selected="selected"':''}} value={{ utilisateur.id }}>{{ utilisateur }}</option>
+        {% endfor %}
+    </select>
     {{ form_end(form) }}
 </div>
     {{ include('journee_caisses/_liste.html.twig') }}

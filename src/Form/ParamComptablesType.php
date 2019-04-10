@@ -35,6 +35,7 @@ class ParamComptablesType extends AbstractType
             ->add('journalPaye')
             ->add('journalVente')
             ->add('journalAchat')
+            ->add('comptaPayeDetaille')
         ;
     }
 

@@ -3,7 +3,7 @@
 {% block title %}Salaires{% endblock %}
 
 {% block body %}
-    <h1>Salaires</h1>
+    <h1>Détails salaire | <a href="{{ path('salaires_index') }}">Listing</a></h1>
 
     <table class="table">
         <tbody>
@@ -12,31 +12,45 @@
                 <td>{{ salaire.id }}</td>
             </tr>
             <tr>
-                <th>PeriodeSalaire</th>
-                <td>{{ salaire.periodeSalaire ? salaire.periodeSalaire|date('Y-m-d') : '' }}</td>
+                <th>Periode</th>
+                <td>{{ salaire.periodeSalaire }}</td>
             </tr>
             <tr>
-                <th>MNetTotal</th>
-                <td>{{ salaire.mNetTotal }}</td>
+                <th>Brut Total</th>
+                <td>{{ salaire.mBrutTotal|number_format(0, '.', ' ') }}</td>
             </tr>
             <tr>
-                <th>MTaxeTotal</th>
-                <td>{{ salaire.mTaxeTotal }}</td>
+                <th>Securité sociale patronale</th>
+                <td>{{ salaire.mSecuriteSocialPatronal|number_format(0, '.', ' ') }}</td>
             </tr>
             <tr>
-                <th>MImpotTotal</th>
-                <td>{{ salaire.mImpotTotal }}</td>
+                <th>Securité sociale salarié</th>
+                <td>{{ salaire.mSecuriteSocialSalarie|number_format(0, '.', ' ') }}</td>
             </tr>
             <tr>
-                <th>MSecuriteSocialTotal</th>
-                <td>{{ salaire.mSecuriteSocialTotal }}</td>
+                <th>Taxes patronales</th>
+                <td>{{ salaire.mTaxeTotal|number_format(0, '.', ' ') }}</td>
+            </tr>
+            <tr>
+                <th>Impôts salarié</th>
+                <td>{{ salaire.mImpotTotal|number_format(0, '.', ' ') }}</td>
+            </tr>
+            <tr>
+                <th>Coût total</th>
+                <td>{{salaire.coutTotal|number_format(0, '.', ' ') }}</td>
+            </tr>
+            <tr>
+                <th>Net total</th>
+                <td>{{salaire.netTotal|number_format(0, '.', ' ') }}</td>
             </tr>
         </tbody>
     </table>
+   {% if salaire.statut !='C' %}
+        <a href="{{ path('salaires_edit', {'id': salaire.id}) }}">Modifier</a> |
+        {{ include('salaires/_delete_form.html.twig') }}
+    {% endif %}
 
-    <a href="{{ path('salaires_index') }}">back to list</a>
+    <h1> Details lignes salaires </h1>
+    {{ include('ligne_salaires/_liste.html.twig') }}
 
-    <a href="{{ path('salaires_edit', {'id': salaire.id}) }}">edit</a>
-
-    {{ include('salaires/_delete_form.html.twig') }}
 {% endblock %}

@@ -74,7 +74,7 @@ class Menu  extends Controller
             ,['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
             ,['text'=>'Compensation', 'lien'=>'compenses_saisie']
            // ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_comptant_groupee']
-            ,['text'=>'Salaires-Positionnement', 'lien'=>'salaires_positionnement']
+            ,['text'=>'Salaires', 'lien'=>'salaires_positionnement']
             ,['text'=>'Ecritures comptables', 'lien'=>'transactions_index']
             ,['text'=>'Journaux comptables', 'lien'=>'journaux_comptables_ecritures']
             ,['text'=>'Grand livre', 'lien'=>'compta_grand_livre']
@@ -91,9 +91,11 @@ class Menu  extends Controller
 
         $this->menu_suivi=[
             ['text'=>'Journées Caisses', 'lien'=>'journee_caisses_index']
+            ,['text'=>'Suivi Ecarts caissier', 'lien'=>'journee_caisses_ecarts_utilisateurs']
             ,['text'=>'Suivi transferts', 'lien'=>'transfert_internationaux_tc']
             ,['text'=>'Suivi Compensation', 'lien'=>'compenses_index']
             ,['text'=>'Depots retraits', 'lien'=>'depot_retraits_index']
+            ,['text'=>'Salaires', 'lien'=>'salaires_index']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Mouvements de Devises', 'lien'=>'devise_mouvements_etat']
             //,['text'=>'Tableau de bord', 'lien'=>'#']

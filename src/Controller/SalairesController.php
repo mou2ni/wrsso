@@ -65,13 +65,13 @@ class SalairesController extends Controller
             return $this->redirectToRoute('journee_caisses_gerer');
         }
 
-        $paramComptable=$this->getDoctrine()->getRepository(ParamComptables::class)->findAll()[0];
-
+        
         $collaborateurs=$this->getDoctrine()->getRepository(Collaborateurs::class)->findBy(['statut'=>Collaborateurs::STAT_SALARIE]);
 
         $salaire = new Salaires();
         //mettre les données par defaut si premier chargement
         if ($request->request->get('operation')!='positionner'){
+            dump($collaborateurs);
             $salaire->fillLigneSalaireFromCollaborateurs($collaborateurs);
         }
         $salaire->setDateSalaire(new \DateTime());
@@ -80,40 +80,40 @@ class SalairesController extends Controller
 
        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
             $genCompta=new GenererCompta($em);
-
-            $mBrutTotal=0;
-            $mTaxeTotal=0;
-            $mImpotTotal=0;
-            $mSecuriteSocialSalarie=0;
-            $mSecuriteSocialPatronal=0;
-
-            foreach ($salaire->getLigneSalaires() as $ligneSalaire){
-                $ligneSalaire->setCompteRemunerationDue($ligneSalaire->getCollaborateur()->getCompteRemunerationDue());
-                $ligneSalaire->setCompteVirement($ligneSalaire->getCollaborateur()->getCompteVirement());
-                $transaction=$genCompta->genComptaLigneSalaire($this->utilisateur,$paramComptable, $ligneSalaire, $salaire->getPeriodeSalaire(),$this->journeeCaisse);
-                if (!$transaction){
-                    $this->addFlash('error', $genCompta->getErrMessage());
-                    if ($genCompta->getE()==Transactions::ERR_DESEQUILIBRE){
-                        return $this->render('transactions/erreur_desequilibre.html.twig',['transaction'=>$genCompta->getTransactions()[0]]);
-                    }
-                    return $this->redirectToRoute('salaires_positionnement');
-                }
-                $ligneSalaire->setTransaction($transaction);
-
-                $mBrutTotal+=$ligneSalaire->getMBrutTotal();
-                $mTaxeTotal+=$ligneSalaire->getMTaxePatronale();
-                $mImpotTotal+=$ligneSalaire->getMImpotSalarie();
-                $mSecuriteSocialSalarie+=$ligneSalaire->getMSecuriteSocialeSalarie();
-                $mSecuriteSocialPatronal+=$ligneSalaire->getMSecuriteSocialePatronal();
-            }
-            $salaire->setMBrutTotal($mBrutTotal);
-            $salaire->setMTaxeTotal($mTaxeTotal);
-            $salaire->setMImpotTotal($mImpotTotal);
-            $salaire->setMSecuriteSocialSalarie($mSecuriteSocialSalarie);
-            $salaire->setMSecuriteSocialPatronal($mSecuriteSocialPatronal);
-            $salaire->setStatut(Salaires::STAT_POSITIONNE);
+           $transaction = $genCompta->genComptaSalaire($this->utilisateur, $salaire, $this->journeeCaisse);
+           if (!$transaction) {
+               $this->addFlash('error', $genCompta->getErrMessage());
+               if ($genCompta->getE() == Transactions::ERR_DESEQUILIBRE) {
+                   return $this->render('transactions/erreur_desequilibre.html.twig', ['transaction' => $genCompta->getTransactions()[0]]);
+               }
+               return $this->redirectToRoute('salaires_positionnement');
+           }
            
+           /*if($salaire->getComptaDetail()) {
+
+               foreach ($salaire->getLigneSalaires() as $ligneSalaire) {
+                   $transaction = $genCompta->genComptaLigneSalaire($this->utilisateur, $ligneSalaire, $salaire->getPeriodeSalaire(), $this->journeeCaisse);
+                   if (!$transaction) {
+                       $this->addFlash('error', $genCompta->getErrMessage());
+                       if ($genCompta->getE() == Transactions::ERR_DESEQUILIBRE) {
+                           return $this->render('transactions/erreur_desequilibre.html.twig', ['transaction' => $genCompta->getTransactions()[0]]);
+                       }
+                       return $this->redirectToRoute('salaires_positionnement');
+                   }
+                   $ligneSalaire->setTransaction($transaction);
+               }
+           }else{
+               $transaction = $genCompta->genComptaSalaire($this->utilisateur, $salaire, $this->journeeCaisse);
+               if (!$transaction) {
+                   $this->addFlash('error', $genCompta->getErrMessage());
+                   if ($genCompta->getE() == Transactions::ERR_DESEQUILIBRE) {
+                       return $this->render('transactions/erreur_desequilibre.html.twig', ['transaction' => $genCompta->getTransactions()[0]]);
+                   }
+                   return $this->redirectToRoute('salaires_positionnement');
+               }
+           }*/
            $em->persist($salaire);
             $em->flush();
             return $this->redirectToRoute('salaires_ecriture_comptables',['id'=>$salaire->getId()]);
@@ -125,9 +125,9 @@ class SalairesController extends Controller
     }
 
 
-    /**
+    /*
      * @Route("/new", name="salaires_new", methods="GET|POST")
-     */
+
     public function new(Request $request): Response
     {
         $salaire = new Salaires();
@@ -146,6 +146,16 @@ class SalairesController extends Controller
             'salaire' => $salaire,
             'form' => $form->createView(),
         ]);
+    }*/
+
+    /**
+     * @Route("/{id}/maintenir", name="salaires_maintenir", methods="GET")
+     */
+    public function maintenir(Salaires $salaire): Response
+    {
+        $salaire->maintenirTotaux();
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('salaires_index');
     }
 
     /**
@@ -153,11 +163,16 @@ class SalairesController extends Controller
      */
     public function show(Salaires $salaire): Response
     {
-        return $this->render('salaires/show.html.twig', ['salaire' => $salaire]);
+        $ligne_salaires=$this->getDoctrine()->getRepository(LigneSalaires::class)->findListingLigneJoinCollabo($salaire);
+
+        return $this->render('salaires/show.html.twig', ['salaire' => $salaire,
+        'ligne_salaires'=>$ligne_salaires,
+        ]);
     }
 
     /**
      * @Route("/{id}/edit", name="salaires_edit", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function edit(Request $request, Salaires $salaire): Response
     {
@@ -178,6 +193,7 @@ class SalairesController extends Controller
 
     /**
      * @Route("/{id}", name="salaires_delete", methods="DELETE")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function delete(Request $request, Salaires $salaire): Response
     {

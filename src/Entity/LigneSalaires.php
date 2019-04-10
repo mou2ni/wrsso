@@ -11,7 +11,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\LigneSalairesRepository")
  */
 class LigneSalaires
 {
@@ -411,8 +411,7 @@ class LigneSalaires
     }
 
     public function fillDataFromCollaborateur(){
-        $this->setCompteVirement($this->getCollaborateur()->getCompteVirement())
-            ->setCompteRemunerationDue($this->getCollaborateur()->getCompteRemunerationDue())
+        $this
             ->setMSalaireBase($this->getCollaborateur()->getMSalaireBase())
             ->setMIndemTransport($this->getCollaborateur()->getMIndemTransport())
             ->setMIndemFonction($this->getCollaborateur()->getMIndemFonction())
