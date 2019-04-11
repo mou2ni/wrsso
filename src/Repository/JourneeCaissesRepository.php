@@ -482,7 +482,7 @@ WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses
              ,jc.mIntercaisses as mIntercaisses, jc.mEmissionTrans as mEmissionTrans, jc.mReceptionTrans as mReceptionTrans, jc.mCvd as mCvd, jc.mRetraitClient as mRetraitClient, jc.mDepotClient as mDepotClient
              ,jc.mRecette as mRecette, jc.mDepense as mDepense' )
  */
-    public function findRecapitulatifJourneeCaisses($dateDebut=null, $dateFin=null, $caisse=null, $offset=0,$limit = 20){
+    public function findRecapitulatifJourneeCaisses($dateDebut=null, $dateFin=null, $caisse=null,$utilisateur=null, $offset=0,$limit = 20){
         $qb=$this->createQueryBuilder('jc')
             ->addSelect('IDENTITY(jc.caisse) as idCaisse, IDENTITY(jc.utilisateur) as idUtilisateur,IDENTITY(jc.journeePrecedente) as idJP, jc.id as id, c.code as caisse, u.nom as nom, u.prenom as prenom
              ,jc.dateOuv as dateOuv, (jc.mLiquiditeOuv + jc.mSoldeElectOuv -jc.mDetteDiversOuv+ jc.mCreditDiversOuv) as soldeNetOuv
@@ -495,6 +495,7 @@ WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses
         if ($dateDebut) $qb->andWhere('jc.dateOuv >=:dateDebut')->setParameter('dateDebut',$dateDebut);
         if ($dateFin) $qb->andWhere('jc.dateOuv <=:dateFin')->setParameter('dateFin',$dateFin);
         if ($caisse) $qb->andWhere('jc.caisse =:caisse')->setParameter('caisse',$caisse);
+        if ($utilisateur) $qb->andWhere('jc.utilisateur =:utilisateur')->setParameter('utilisateur',$utilisateur);
 
         $qb->orderBy('jc.dateOuv','DESC')->addOrderBy('c.code','ASC')->addOrderBy('u.nom','ASC')->addOrderBy('u.prenom', 'ASC')
             ->setFirstResult($offset)->setMaxResults($limit);
@@ -502,5 +503,71 @@ WHERE jcp.date_comptable <= '$fin' AND (NOT EXISTS (SELECT * FROM JourneeCaisses
         $pag=new Paginator($qb);
 
         return $pag;
+    }
+    
+    public function tableauCroiseEcart($annee=null){
+        if(!$annee) {
+            $now=new \DateTime();
+            $annee=$now->format('Y');
+            //$ceMois=$now->format('F');
+        }
+        $qb=$this->createQueryBuilder('jc');
+        /*$qb->select('u.id, u.nom, u.prenom
+            ,SUM(CASE WHEN jc.dateComptable>=:mois0Debut and jc.dateComptable<=:mois0Fin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartMois0
+            ,SUM(CASE WHEN jc.dateComptable>=:mois1Debut and jc.dateComptable<=:mois1Fin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartMois1
+            ,SUM(CASE WHEN jc.dateComptable>=:mois2Debut and jc.dateComptable<=:mois2Fin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartMois2
+            ')*/
+        $qb->select('u.id, u.nom, u.prenom
+            ,SUM(CASE WHEN jc.dateComptable>=:janDebut and jc.dateComptable<=:janFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartJan
+            ,SUM(CASE WHEN jc.dateComptable>=:fevDebut and jc.dateComptable<=:fevFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartFev
+            ,SUM(CASE WHEN jc.dateComptable>=:marDebut and jc.dateComptable<=:marFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartMar
+            ,SUM(CASE WHEN jc.dateComptable>=:avrDebut and jc.dateComptable<=:avrFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartAvr
+            ,SUM(CASE WHEN jc.dateComptable>=:maiDebut and jc.dateComptable<=:maiFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartMai
+            ,SUM(CASE WHEN jc.dateComptable>=:juinDebut and jc.dateComptable<=:juinFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartJuin
+            ,SUM(CASE WHEN jc.dateComptable>=:juilDebut and jc.dateComptable<=:juilFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartJuil
+            ,SUM(CASE WHEN jc.dateComptable>=:aouDebut and jc.dateComptable<=:aouFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartAou
+            ,SUM(CASE WHEN jc.dateComptable>=:sepDebut and jc.dateComptable<=:sepFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartSep
+            ,SUM(CASE WHEN jc.dateComptable>=:octDebut and jc.dateComptable<=:octFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartOct
+            ,SUM(CASE WHEN jc.dateComptable>=:novDebut and jc.dateComptable<=:novFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartNov
+            ,SUM(CASE WHEN jc.dateComptable>=:decDebut and jc.dateComptable<=:decFin THEN jc.mEcartOuv + jc.mEcartFerm ELSE 0 END) as mEcartDec
+            ')
+                ->innerJoin('jc.utilisateur','u', 'WITH', 'jc.utilisateur=u.id')
+                ->setParameter('janDebut',new \DateTime($annee.'-01-01 00:00:00'))
+                ->setParameter('janFin',new \DateTime($annee.'-01-31 23:59:59'))
+                ->setParameter('fevDebut',new \DateTime($annee.'-02-01 00:00:00'))
+                ->setParameter('fevFin',new \DateTime($annee.'-02-29 23:59:59'))
+                ->setParameter('marDebut',new \DateTime($annee.'-03-01 00:00:00'))
+                ->setParameter('marFin',new \DateTime($annee.'-03-31 23:59:59'))
+                ->setParameter('avrDebut',new \DateTime($annee.'-04-01 00:00:00'))
+                ->setParameter('avrFin',new \DateTime($annee.'-04-30 23:59:59'))
+                ->setParameter('maiDebut',new \DateTime($annee.'-05-01 00:00:00'))
+                ->setParameter('maiFin',new \DateTime($annee.'-05-31 23:59:59'))
+                ->setParameter('juinDebut',new \DateTime($annee.'-06-01 00:00:00'))
+                ->setParameter('juinFin',new \DateTime($annee.'-06-30 23:59:59'))
+                ->setParameter('juilDebut',new \DateTime($annee.'-07-01 00:00:00'))
+                ->setParameter('juilFin',new \DateTime($annee.'-07-31 23:59:59'))
+                ->setParameter('aouDebut',new \DateTime($annee.'-08-01 00:00:00'))
+                ->setParameter('aouFin',new \DateTime($annee.'-08-31 23:59:59'))
+                ->setParameter('sepDebut',new \DateTime($annee.'-09-01 00:00:00'))
+                ->setParameter('sepFin',new \DateTime($annee.'-09-30 23:59:59'))
+                ->setParameter('octDebut',new \DateTime($annee.'-10-01 00:00:00'))
+                ->setParameter('octFin',new \DateTime($annee.'-10-31 23:59:59'))
+                ->setParameter('novDebut',new \DateTime($annee.'-11-01 00:00:00'))
+                ->setParameter('novFin',new \DateTime($annee.'-11-30 23:59:59'))
+                ->setParameter('decDebut',new \DateTime($annee.'-12-01 00:00:00'))
+                ->setParameter('decFin',new \DateTime($annee.'-12-31 23:59:59'))
+           /* ->setParameter('mois0Debut',new \DateTime($annee.'-10-01 00:00:00'))
+            ->setParameter('mois0Fin',new \DateTime($annee.'-10-31 23:59:59'))
+            ->setParameter('mois1Debut',new \DateTime($annee.'-11-01 00:00:00'))
+            ->setParameter('mois1fin',new \DateTime($annee.'-11-30 23:59:59'))
+            ->setParameter('mois2Debut',new \DateTime($annee.'-12-01 00:00:00'))
+            ->setParameter('mois2Fin',new \DateTime($annee.'-12-31 23:59:59'))*/
+            ->where('u.estCaissier=1')
+            ->andWhere('jc.statut=:statut')->setParameter('statut',JourneeCaisses::CLOSE)
+            ;
+
+        return $qb->addGroupBy('u.id')
+            ->orderBy('u.nom, u.prenom', 'ASC')
+            ->getQuery()->getResult();
     }
 }

@@ -3,41 +3,77 @@
 {% block title %}Salaires index{% endblock %}
 
 {% block body %}
-    <h1>Salaires index</h1>
+    <h1>Salaires | <a href="{{ path('salaires_positionnement') }}">Nouvelle saisie</a></h1>
 
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>PeriodeSalaire</th>
-                <th>MNetTotal</th>
-                <th>MTaxeTotal</th>
-                <th>MImpotTotal</th>
-                <th>MSecuriteSocialTotal</th>
-                <th>actions</th>
+                <th rowspan="2" class="padding-5">Periode</th>
+                <th rowspan="2" class="padding-5 text-right">Brute</th>
+                <th colspan="2" class="padding-5 text-center">Securité sociale</th>
+                <th colspan="2" class="padding-5 text-center">Impots et taxes</th>
+                <th rowspan="2" class="padding-5 text-right"> Coût total</th>
+                <th rowspan="2" class="padding-5"> Pièce</th>
+                <th rowspan="2" class="padding-5"> Actions</th>
+            </tr>
+            <tr>
+                <th class="padding-5 text-right">Patronale</th>
+                <th class="padding-5 text-right">Salarié</th>
+                <th class="padding-5 text-right">Patronale</th>
+                <th class="padding-5 text-right">Salarié</th>
             </tr>
         </thead>
         <tbody>
+        {% set mTotalBrutTotal=0 %}
+        {% set mTotalSecuriteSocialPatronal=0 %}
+        {% set mTotalSecuriteSocialSalarie=0 %}
+        {% set mTotalTaxeTotal=0 %}
+        {% set mTotalImpotTotal=0 %}
+        {% set mTotalCout=0 %}
         {% for salaire in salaires %}
+            {% set mTotalBrutTotal=mTotalBrutTotal+salaire.mBrutTotal %}
+            {% set mTotalSecuriteSocialPatronal=mTotalSecuriteSocialPatronal+salaire.mSecuriteSocialPatronal %}
+            {% set mTotalSecuriteSocialSalarie=mTotalSecuriteSocialSalarie+salaire.mSecuriteSocialSalarie %}
+            {% set mTotalTaxeTotal=mTotalTaxeTotal+salaire.mTaxeTotal %}
+            {% set mTotalImpotTotal=mTotalImpotTotal %}
+            {% set mTotalCout=mTotalCout+salaire.coutTotal %}
             <tr>
-                <td>{{ salaire.id }}</td>
-                <td>{{ salaire.periodeSalaire}}</td>
-                <td>{{ salaire.mNetTotal }}</td>
-                <td>{{ salaire.mTaxeTotal }}</td>
-                <td>{{ salaire.mImpotTotal }}</td>
-                <td>{{ salaire.mSecuriteSocialTotal }}</td>
-                <td>
-                    <a href="{{ path('salaires_show', {'id': salaire.id}) }}">show</a>
-                    <a href="{{ path('salaires_edit', {'id': salaire.id}) }}">edit</a>
+                <td class="padding-5">{{ salaire.periodeSalaire}}</td>
+                <td class="padding-5 text-right" >{{ salaire.mBrutTotal|number_format(0, '.', ' ') }}</td>
+                <td class="padding-5 text-right" >{{ salaire.mSecuriteSocialPatronal|number_format(0, '.', ' ') }}</td>
+                <td class="padding-5 text-right" >{{ salaire.mSecuriteSocialSalarie|number_format(0, '.', ' ') }}</td>
+                <td class="padding-5 text-right" >{{ salaire.mTaxeTotal|number_format(0, '.', ' ') }}</td>
+                <td class="padding-5 text-right" >{{ salaire.mImpotTotal|number_format(0, '.', ' ') }}</td>
+                <td class="padding-5 text-right" >{{ salaire.coutTotal|number_format(0, '.', ' ') }}</td>
+                <td class="padding-5">
+                    {% if  is_granted('ROLE_COMPTABLE') %} {% if salaire.transaction %}<a href="{{ path('transactions_show', {'id': salaire.transaction.id}) }}"> {{ salaire.transaction.id }}</a>{% endif %}
+                    {% endif %}
+                </td>
+                <td class="padding-5">
+                    <a href="{{ path('salaires_show', {'id': salaire.id}) }}">Details</a> |
+                    <a href="{{ path('salaires_maintenir', {'id': salaire.id}) }}">Maintenir</a>
+                    {% if salaire.statut !='C' %}
+                     | <a href="{{ path('salaires_edit', {'id': salaire.id}) }}">Modifier</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">aucun enregistrement</td>
             </tr>
         {% endfor %}
+        <tr   bgcolor="#f69f00">
+            <th class="padding-5 text-right">TOTAUX: </th>
+            <th class="padding-5 text-right" >{{ mTotalBrutTotal|number_format(0, '.', ' ') }}</th>
+            <th class="padding-5 text-right" >{{ mTotalSecuriteSocialPatronal|number_format(0, '.', ' ') }}</th>
+            <th class="padding-5 text-right" >{{ mTotalSecuriteSocialSalarie|number_format(0, '.', ' ') }}</th>
+            <th class="padding-5 text-right" >{{ mTotalTaxeTotal|number_format(0, '.', ' ') }}</th>
+            <th class="padding-5 text-right" >{{ mTotalImpotTotal|number_format(0, '.', ' ') }}</th>
+            <th class="padding-5 text-right" >{{ mTotalCout|number_format(0, '.', ' ') }}</th>
+            <th>
+            </th>
+        </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('salaires_new') }}">Create new</a>
 {% endblock %}

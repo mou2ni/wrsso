@@ -1,0 +1,91 @@
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th rowspan="2" class="padding-5" >Collaborateur</th>
+            <th rowspan="2" class="padding-5" >Salaire de Base</th>
+            <th colspan="4" class="padding-5 text-center">Indemnités </th>
+            <th colspan="2" class="padding-5 text-center">Securite Sociale</th>
+            <th colspan="2" class="padding-5 text-center">Taxes Impots</th>
+            <th rowspan="2" class="padding-5">Salaire Net</th>
+            <th rowspan="2" class="padding-5" >Pièce</th>
+            {#<th>actions</th>#}
+        </tr>
+        <tr>
+            <th class="padding-5" >Logement</th>
+            <th class="padding-5" >Transport</th>
+            <th class="padding-5" >Fonction</th>
+            <th class="padding-5" >Autres </th>
+            <th>Patronale</th>
+            <th>Salarié</th>
+            <th class="padding-5" >Patronales</th>
+            <th class="padding-5" >Salarié</th>
+            {#<th>actions</th>#}
+        </tr>
+    </thead>
+    <tbody>
+    {% set totalSalaireBase=0 %}
+    {% set totalIndemLogement=0 %}
+    {% set totalIndemTransport=0 %}
+    {% set totalIndemFonction=0 %}
+    {% set totalIndemAutres=0 %}
+    {% set totalSecuriteSocialePatronal=0 %}
+    {% set totalSecuriteSocialeSalarie=0 %}
+    {% set totalTaxePatronale=0 %}
+    {% set totalImpotSalarie=0 %}
+    {% set totalNet=0 %}
+    {% set nb=0 %}
+    {% for ligne_salaire in ligne_salaires %}
+        {% set nb=nb+1 %}
+        {% set totalSalaireBase=totalSalaireBase+ligne_salaire.mSalaireBase %}
+        {% set totalIndemLogement=totalIndemLogement+ligne_salaire.mIndemLogement %}
+        {% set totalIndemTransport=totalIndemTransport+ligne_salaire.mIndemTransport %}
+        {% set totalIndemFonction=totalIndemFonction+ligne_salaire.mIndemFonction %}
+        {% set totalIndemAutres=totalIndemAutres+ligne_salaire.mIndemAutres %}
+        {% set totalSecuriteSocialePatronal=totalSecuriteSocialePatronal+ligne_salaire.mSecuriteSocialePatronal %}
+        {% set totalSecuriteSocialeSalarie=totalSecuriteSocialeSalarie+ligne_salaire.mSecuriteSocialeSalarie %}
+        {% set totalTaxePatronale=totalTaxePatronale+ligne_salaire.mTaxePatronale %}
+        {% set totalImpotSalarie=totalImpotSalarie+ligne_salaire.mImpotSalarie %}
+        {% set totalNet=totalNet+ligne_salaire.mNet %}
+        <tr>
+            <td class="padding-5" >{{ ligne_salaire.collaborateur }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mSalaireBase|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemLogement|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemTransport|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemFonction|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemAutres|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mSecuriteSocialePatronal|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mSecuriteSocialeSalarie|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mTaxePatronale|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mImpotSalarie|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mNet|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5">
+                {% if  is_granted('ROLE_COMPTABLE') %} {% if ligne_salaire.transaction %}<a href="{{ path('transactions_show', {'id': ligne_salaire.transaction.id}) }}"> {{ ligne_salaire.transaction.id }}</a>{% endif %}
+                {% endif %}
+            </td>{#<td>
+                <a href="{{ path('ligne_salaires_show', {'id': ligne_salaire.id}) }}">show</a>
+                <a href="{{ path('ligne_salaires_edit', {'id': ligne_salaire.id}) }}">edit</a>
+            </td>#}
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="11">Aucune ligne</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <th class="padding-5 text-right" >TOTAUX ({{ nb }}) : </th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalSalaireBase|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalIndemLogement|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalIndemTransport|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalIndemFonction|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalIndemAutres|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalSecuriteSocialePatronal|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalSecuriteSocialeSalarie|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalTaxePatronale|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalImpotSalarie|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalNet|number_format(0, '.', ' ')  }}</th>
+
+    </tr>
+    </tbody>
+    </table>
+</div>

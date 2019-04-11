@@ -17,13 +17,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Salaires
 {
-    const STAT_INITIAL='IN', STAT_POSITIONNE='PO', STAT_PAYE='PA';
+    const STAT_INITIAL='I', STAT_POSITIONNE='PO', STAT_PAYE='PA', STAT_COMPTABILISE='C';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $transaction;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true))
@@ -233,6 +239,8 @@ class Salaires
      */
     public function addLigneSalaire(LigneSalaires $ligneSalaire)
     {
+        $ligneSalaire->setCompteRemunerationDue($ligneSalaire->getCollaborateur()->getCompteRemunerationDue());
+        $ligneSalaire->setCompteVirement($ligneSalaire->getCollaborateur()->getCompteVirement());
         $this->ligneSalaires->add($ligneSalaire);
         $ligneSalaire->setSalaire($this);
         return $this;
@@ -245,21 +253,27 @@ class Salaires
     public function removeLigneSalaire(LigneSalaires $ligneSalaire)
     {
         $this->ligneSalaires->removeElement($ligneSalaire);
+
+        $this->mBrutTotal-=$ligneSalaire->getMBrutTotal();
+        $this->mImpotTotal-=$ligneSalaire->getMImpotSalarie();
+        $this->mTaxeTotal-=$ligneSalaire->getMTaxePatronale();
+        $this->mSecuriteSocialSalarie-=$ligneSalaire->getMSecuriteSocialeSalarie();
+        $this->mSecuriteSocialPatronal-=$ligneSalaire->getMSecuriteSocialePatronal();
         return $this;
     }
 
     public function fillLigneSalaireFromCollaborateurs($collaborateurs){
         foreach ($collaborateurs as $collaborateur){
-            $lignSalaire=new LigneSalaires();
-            $lignSalaire->setCollaborateur($collaborateur);
-            $lignSalaire->fillDataFromCollaborateur();
-            $this->addLigneSalaire($lignSalaire);
+            $ligneSalaire=new LigneSalaires();
+            $ligneSalaire->setCollaborateur($collaborateur);
+            $ligneSalaire->fillDataFromCollaborateur();
+            $this->addLigneSalaire($ligneSalaire);
 
-            $this->mBrutTotal+=$lignSalaire->getMBrutTotal();
-            $this->mImpotTotal+=$lignSalaire->getMImpotSalarie();
-            $this->mSecuriteSocialSalarie+=$lignSalaire->getMSecuriteSocialeSalarie();
-            $this->mSecuriteSocialPatronal+=$lignSalaire->getMSecuriteSocialePatronal();
-            $this->mTaxeTotal+=$lignSalaire->getMTaxePatronale();
+            $this->mBrutTotal+=$ligneSalaire->getMBrutTotal();
+            $this->mImpotTotal+=$ligneSalaire->getMImpotSalarie();
+            $this->mTaxeTotal+=$ligneSalaire->getMTaxePatronale();
+            $this->mSecuriteSocialSalarie+=$ligneSalaire->getMSecuriteSocialeSalarie();
+            $this->mSecuriteSocialPatronal+=$ligneSalaire->getMSecuriteSocialePatronal();
         }
 
     }
@@ -319,4 +333,53 @@ class Salaires
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTransaction()
+    {
+        return $this->transaction;
+    }
+
+    /**
+     * @param mixed $transaction
+     * @return Salaires
+     */
+    public function setTransaction($transaction)
+    {
+        $this->transaction = $transaction;
+        return $this;
+    }
+
+    public function maintenirTotaux(){
+        $mBrutTotal=0;
+        $mTaxeTotal=0;
+        $mImpotTotal=0;
+        $mSecuriteSocialSalarie=0;
+        $mSecuriteSocialPatronal=0;
+
+        foreach ($this->getLigneSalaires() as $ligneSalaire){
+            $mBrutTotal+=$ligneSalaire->getMBrutTotal();
+            $mTaxeTotal+=$ligneSalaire->getMTaxePatronale();
+            $mImpotTotal+=$ligneSalaire->getMImpotSalarie();
+            $mSecuriteSocialSalarie+=$ligneSalaire->getMSecuriteSocialeSalarie();
+            $mSecuriteSocialPatronal+=$ligneSalaire->getMSecuriteSocialePatronal();
+        }
+
+        $this->setMBrutTotal($mBrutTotal);
+        $this->setMTaxeTotal($mTaxeTotal);
+        $this->setMImpotTotal($mImpotTotal);
+        $this->setMSecuriteSocialSalarie($mSecuriteSocialSalarie);
+        $this->setMSecuriteSocialPatronal($mSecuriteSocialPatronal);
+
+        return $this;
+    }
+
+    public function getCoutTotal(){
+        return $this->getMBrutTotal()+$this->getMSecuriteSocialPatronal()+$this->getMTaxeTotal();
+    }
+
+    public function getNetTotal(){
+        return $this->getMBrutTotal()-$this->getMImpotTotal()-$this->getMSecuriteSocialSalarie();
+    }
 }

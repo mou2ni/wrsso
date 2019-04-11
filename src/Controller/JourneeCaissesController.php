@@ -78,12 +78,17 @@ class JourneeCaissesController extends Controller
     public function index(Request $request): Response
     {
         $caisse=$request->request->get('caisse')?$request->request->get('caisse'):$request->query->get('caisse');
-        $limit=20;
+        $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
+        $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
+        $utilisateur=$request->request->get('utilisateur')?$request->request->get('utilisateur'):$request->query->get('utilisateur');
+        $limit=60;
         $_page=$request->query->get('_page');
         $offset = ($_page)?($_page-1)*$limit:0;
 
         if (!$_page) {
             $criteresRecherches=new CriteresDates();
+            if($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut));
+            if($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin));
         }else{
             $criteresRecherches=new CriteresDates();
             $criteres=$request->query->get('master');
@@ -105,13 +110,14 @@ class JourneeCaissesController extends Controller
 
         $liste = $this->getDoctrine()
             ->getRepository(JourneeCaisses::class)
-            ->findRecapitulatifJourneeCaisses($dateDebut, $dateFin, $caisse, $offset,$limit);
+            ->findRecapitulatifJourneeCaisses($dateDebut, $dateFin, $caisse, $utilisateur, $offset,$limit);
         $pages = round(count($liste)/$limit);
 
         $request->query->set('master',$dateDebut->format('Y-m-d').'|'.$dateFin->format('Y-m-d').'|'.$caisse);
 
-        
+
         $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAll();
+        $utilisateurs=$this->getDoctrine()->getRepository(Utilisateurs::class)->findAll();
 
         return $this->render('journee_caisses/index.html.twig', [
             'journeeCaisses' => $liste,
@@ -119,8 +125,10 @@ class JourneeCaissesController extends Controller
             'pages'=>$pages,
             'path'=>'journee_caisses_index',
             'caisses'=>$caisses,
-            'criteres'=>$criteresRecherches,
             'caisse_id'=>$caisse,
+            'utilisateurs'=>$utilisateurs,
+            'utilisateur_id'=>$utilisateur,
+            'criteres'=>$criteresRecherches,
         ]);
 
     }
@@ -255,7 +263,15 @@ class JourneeCaissesController extends Controller
         $journeeCaisseMaintenue=$this->maintenirJournee($journeeCaisse);
         $ecartJournees = $this->ecartJournees($copieDeJournee, $journeeCaisseMaintenue);
 
-        return $this->render('journee_caisses/maintenance.html.twig', ['journeeCaisse' => $copieDeJournee,'journeeCaisseMaintenue'=>$journeeCaisseMaintenue, 'ecartJournees'=>$ecartJournees]);
+        $dateDebut=($journeeCaisse->getDateOuv())?$journeeCaisse->getDateOuv():new \DateTime('today');
+        $dateFin=($journeeCaisse->getDateFerm())?$journeeCaisse->getDateFerm():new \DateTime();
+
+        return $this->redirectToRoute('journee_caisses_index',[
+            'dateDebut'=>$dateDebut->format('Y-m-d'),
+            'dateFin'=>$dateFin->format('Y-m-d'),
+        ]);
+
+        //return $this->render('journee_caisses/maintenance.html.twig', ['journeeCaisse' => $copieDeJournee,'journeeCaisseMaintenue'=>$journeeCaisseMaintenue, 'ecartJournees'=>$ecartJournees]);
 
         //$this->addFlash('success', 'LES DONNEES SONT BONNE');
 
@@ -812,6 +828,27 @@ class JourneeCaissesController extends Controller
             ['journeeCaisse' => $journeeCaisse,
                 'recetteDepenses'=>$listings,
 
+            ]);
+    }
+
+    /**
+     * @Route("/ecarts/", name="journee_caisses_ecarts_utilisateurs", methods="GET|POST")
+     */
+    public function ecartsUtilisateurs(Request $request): Response
+    {
+        $annee=$request->request->get('annee')?$request->request->get('annee'):$request->query->get('annee');
+
+        if(!$annee) {
+            $now=new \DateTime();
+            $annee=$now->format('Y');
+        }
+
+        $listings=$this->getDoctrine()->getRepository(JourneeCaisses::class)
+            ->tableauCroiseEcart($annee);
+
+        return $this->render('journee_caisses/tc_ecarts.html.twig',
+            ['ecarts'=>$listings,
+                'annee'=>$annee,
             ]);
     }
 }

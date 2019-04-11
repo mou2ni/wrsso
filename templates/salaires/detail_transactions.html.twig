@@ -1,19 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block title %}Détails écritures comptables{% endblock %}
 {% block body %}
-    <h1> Détails des écritures comptables Salaire de {{ salaire.periodeSalaire }} </h1>
+    <h1> Détails des écritures comptables Salaire de {{ salaire.periodeSalaire }} | <a href="{{ path('salaires_index') }}">Listing</a></h1>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
 
                 </thead>
                 <tbody class="text-thin">
-                {% for ligneSalaire in salaire.ligneSalaires %}
-                    {% set transaction= ligneSalaire.transaction %}
-                    {{ include('transactions/_entete_transaction.html.twig') }}
-                    {{ include('transactions/_detail_transaction.html.twig') }}
-                {% else %} aucune écriture !!!
-                {% endfor %}
+                {% if salaire.transaction %}
+                    {{ include('transactions/_entete_transaction.html.twig',{'transaction':salaire.transaction}) }}
+                    {{ include('transactions/_detail_transaction.html.twig',{'transaction':salaire.transaction}) }}
+                {% else %}
+                    {% for ligneSalaire in salaire.ligneSalaires %}
+                        {% set transaction= ligneSalaire.transaction %}
+                        {{ include('transactions/_entete_transaction.html.twig') }}
+                        {{ include('transactions/_detail_transaction.html.twig') }}
+                    {% else %} aucune écriture !!!
+                    {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </div>

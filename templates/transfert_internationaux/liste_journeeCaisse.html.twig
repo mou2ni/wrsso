@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1> LISTE DES TRANSFERT DE {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}</h1>
+
+    {{ include('transfert_internationaux/_liste.html.twig') }}
+
+    {#<table class="table table-bordered table-striped">
+    <thead>
+    <tr> <th colspan="2">Total des envois : </th> <td class="text-bold padding-5 text-center" > {{ journeeCaisse.mEmissionTrans }}</td>
+        <th>Total des paiements :</th> <td colspan="2" class="text-bold padding-5 text-center" > {{ journeeCaisse.mReceptionTrans }}</td>
+
+    </tr>
+    <tr>
+        <th class="text-bold padding-5 text-center" >Type</th>
+        <th class="text-bold padding-5 text-center" >Sens</th>
+        <th class="text-bold padding-5 text-center">Pays</th>
+        <th class="text-bold padding-5 text-center">Montant</th>
+        <th class="text-bold padding-5 text-center">Montant Total</th>
+        <th class="text-bold padding-5 text-center">Frais HT</th>
+        <th class="text-bold padding-5 text-center">TVA</th>
+        <th class="text-bold padding-5 text-center">Autres Taxes</th>
+
+    </tr>
+    </thead>
+        <tbody>
+        {% for trans in journeeCaisse.transfertInternationaux %}
+            <tr class="transfert ">
+                <td class="padding-0">{{ trans.idSystemTransfert }}</td>
+                <td class="padding-0">{{ (trans.sens == 1)?'ENVOI':'RECEPTION' }}</td>
+                <td class="padding-0">{{ trans.idPays }}</td>
+                <td class="padding-0">{{ trans.mTransfert|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0">{{ trans.mTransfertTTC|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0">{{ trans.mFraisHt|number_format(0,'.',',') }}</td>
+                <td class="padding-0">{{ trans.mTva|number_format(0,'.',',') }}</td>
+                <td class="padding-0">{{ trans.mAutresTaxes|number_format(0,'.',',') }}</td>
+                <td>
+                    <a href="{{ path('transfert_internationaux_show', {'id': trans.id}) }}">Details</a>
+                    {% if  is_granted('ROLE_COMPTABLE') %}| <a href="{{ path('transfert_internationaux_edit', {'id': trans.id}) }}">Modifier</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>#}
+    {{ include('_btn_close.html.twig') }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
