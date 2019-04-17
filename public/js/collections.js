@@ -43,7 +43,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
     $('.remove-collection').click(function(e) {
         e.preventDefault();
-        $(this).parent().remove();
+        $(this).parent().parent().remove();
         return false;
     });
 }
