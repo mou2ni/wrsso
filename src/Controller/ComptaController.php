@@ -99,7 +99,25 @@ class ComptaController extends Controller
      */
     public function grandLivre(Request $request) : Response
     {
+        /*dump($request);
+        $compteDebut=$request->request->get('criteres_etats_comptas[compteDebut]')?$request->request->get('criteres_etats_comptas[compteDebut]'):$request->query->get('criteres_etats_comptas[compteDebut]');
+        $compteFin=$request->request->get('criteres_etats_comptas[compteFin]')?$request->request->get('criteres_etats_comptas[compteFin]'):$request->query->get('criteres_etats_comptas[compteFin]');
+        $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
+        $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
+        */
         $criteresGrandLivre=new CriteresEtatsComptas();
+        /*if($compteDebut){
+            $criteresGrandLivre->setCompteDebut($compteDebut);
+        }
+        if($compteFin){
+            $criteresGrandLivre->setCompteDebut($compteFin);
+        }
+        if($dateDebut){
+            $criteresGrandLivre->setDateDebut($dateDebut);
+        }
+        if($dateFin){
+            $criteresGrandLivre->setDateFin($dateFin);
+        }*/
         $form = $this->createForm(CriteresEtatsComptasType::class, $criteresGrandLivre);
         $form->handleRequest($request);
 

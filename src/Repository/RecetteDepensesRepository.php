@@ -65,4 +65,46 @@ class RecetteDepensesRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getSumRecetteDepensesParAgence(\DateTime $debutMois, \DateTime $finMois){
+        //$moisPrecedentDebut= new \DateTime( );
+        //$cetteAnnee=$date->format('Y');
+        //$ceMois=$date->format('m');
+        //$moisSuivant=$ceMois+1;
+        //$moisDebut= new \DateTime($cetteAnnee.'-'.$ceMois.'-01');
+        //$moisFin= new \DateTime($cetteAnnee.'-'.$moisSuivant.'-00');
+
+        /*$moisDebut=new \DateTime($date);
+        $moisDebut->modify('first day of month');
+        $moisFin=new \DateTime($date);
+        $moisFin->modify('last day of month'); ;
+
+
+        
+        $moisPrecedentDebut=new \DateTime($date);
+        $moisPrecedentDebut->modify('first day of previous month');
+        $moisPrecedentFin=new \DateTime($date);
+        $moisPrecedentFin->modify('last day of previous month');*/
+
+
+        $qb = $this->createQueryBuilder('rd')
+        ->innerJoin('rd.agence','a');
+
+        /*,SUM(CASE WHEN rd.dateOperation>=:moisPrecedentDebut and rd.dateOperation<=:moisPrecedentFin THEN rd.mRecette ELSE 0 END) as MPRecette
+            ,SUM(CASE WHEN rd.dateOperation>=:moisPrecedentDebut and rd.dateOperation<=:moisPrecedentFin THEN rd.mDepense ELSE 0 END) as MPDepense
+           */
+
+       return $qb->select('a.code as agence
+            ,SUM(CASE WHEN rd.dateOperation>=:debutMois and rd.dateOperation<=:finMois THEN rd.mRecette ELSE 0 END) as mRecette
+            ,SUM(CASE WHEN rd.dateOperation>=:debutMois and rd.dateOperation<=:finMois THEN rd.mDepense ELSE 0 END) as mDepense
+         ')
+            //->setParameter('moisPrecedentDebut', $moisPrecedentDebut)
+            //->setParameter('moisPrecedentFin', $moisPrecedentFin)
+            ->setParameter('debutMois', $debutMois)
+            ->setParameter('finMois', $finMois)
+            ->groupBy('a.code')
+            ->orderBy('a.code')
+            ->getQuery()->getResult();
+            
+    }
 }

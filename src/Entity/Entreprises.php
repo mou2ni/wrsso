@@ -39,10 +39,9 @@ class Entreprises
     private $adresse;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Collaborateurs", mappedBy="entreprise", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Agences", mappedBy="entreprise", cascade={"persist"})
      */
-    private $collaborateurs;
-
+    private $agences;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Collaborateurs", cascade={"persist"})
@@ -52,11 +51,11 @@ class Entreprises
 
     /**
      * Entreprises constructor.
-     * @param $collaborateurs
+     * @internal param $agences
      */
     public function __construct()
     {
-        $this->collaborateurs = new ArrayCollection();
+        $this->agences = new ArrayCollection();
     }
 
 
@@ -157,33 +156,32 @@ class Entreprises
         return $this;
     }
 
+    public function addAgence(Agences $agence)
+    {
+        $this->agences->add($agence);
+        $agence->setEntreprise($this);
+    }
+
+    public function removeCollaborateur(Agences $agence)
+    {
+        $this->agences->removeElement($agence);
+    }
+
     /**
      * @return mixed
      */
-    public function getCollaborateurs()
+    public function getAgences()
     {
-        return $this->collaborateurs;
+        return $this->agences;
     }
 
     /**
-     * @param mixed $collaborateurs
+     * @param mixed $agences
      * @return Entreprises
      */
-    public function setCollaborateurs($collaborateurs)
+    public function setAgences($agences)
     {
-        $this->collaborateurs = $collaborateurs;
+        $this->agences = $agences;
         return $this;
     }
-
-    public function addCollaborateur(Collaborateurs $collaborateur)
-    {
-        $this->collaborateurs->add($collaborateur);
-        $collaborateur->setEntreprise($this);
-    }
-
-    public function removeCollaborateur(Collaborateurs $collaborateur)
-    {
-        $this->collaborateurs->removeElement($collaborateur);
-    }
-
 }

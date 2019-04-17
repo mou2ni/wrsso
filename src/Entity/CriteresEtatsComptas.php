@@ -26,8 +26,9 @@ class CriteresEtatsComptas
     {
         $auj=new \DateTime();
         $y=$auj->format('Y');
-        $this->dateDebut=new \DateTime($y.'-01-01 00:00:00');
-        $this->dateFin=new \DateTime($y.'-12-31 23:59:59');
+        $m=$auj->format('m');
+        $this->dateDebut=new \DateTime($y.'-'.$m.'-01 00:00:00');
+        $this->dateFin=new \DateTime($y.'-'.$m.'-31 23:59:59');
     }
 
     /**
@@ -76,7 +77,7 @@ class CriteresEtatsComptas
     }
 
     /**
-     * @param \DateTime $dateDebut
+     * @param $dateDebut
      * @return GrandLivres
      */
     public function setDateDebut($dateDebut)
@@ -94,7 +95,7 @@ class CriteresEtatsComptas
     }
 
     /**
-     * @param \DateTime $dateFin
+     * @param $dateFin
      * @return GrandLivres
      */
     public function setDateFin($dateFin)

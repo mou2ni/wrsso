@@ -65,7 +65,7 @@
                 <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseReception_{{ i }}" onchange="changeReception({{ i }})">{{ form_errors(compenseLigne.mReceptionCompense) }} {{ form_widget(compenseLigne.mReceptionCompense) }}</td>
                 <td class="padding-0 text-right" bgcolor="#eee9e6" id="AttenduNet_{{ i }}">{{(compenseLigne.mEnvoiAttendu.vars.data-compenseLigne.mReceptionAttendu.vars.data)|number_format(0, '.', ' ') }}</td>
                 <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseNet_{{ i }}">{{(compenseLigne.mEnvoiCompense.vars.data-compenseLigne.mReceptionCompense.vars.data)|number_format(0, '.', ' ') }}</td>
-                <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseEcart_{{ i }}">{{((compenseLigne.mEnvoiCompense.vars.data-compenseLigne.mReceptionCompense.vars.data)-(compenseLigne.mEnvoiAttendu.vars.data-compenseLigne.mReceptionAttendu.vars.data))|number_format(0, '.', ' ') }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6" id="compenseEcart_{{ i }}">{{((compenseLigne.mEnvoiAttendu.vars.data-compenseLigne.mReceptionAttendu.vars.data)-(compenseLigne.mEnvoiCompense.vars.data-compenseLigne.mReceptionCompense.vars.data))|number_format(0, '.', ' ') }}</td>
             </tr>
 
             {% set  totalEnvoiAttendu=totalEnvoiAttendu+compenseLigne.mEnvoiAttendu.vars.data%}
@@ -85,7 +85,7 @@
             <th class="text-bold padding-5" id="compenseTotalReception">{{totalReception|number_format(0, '.', ' ')}}</th>
             <th class="text-bold padding-5 text-right"> {{ (totalEnvoiAttendu-totalReceptionAttendu)|number_format(0, '.', ' ')}}</th>
             <th class="text-bold padding-5 text-right" id="compenseTotalNet"> {{ (totalEnvoi-totalReception)|number_format(0, '.', ' ') }}</th>
-            <th class="text-bold padding-5 text-right" id="compenseTotalEcart"> {{ ((totalEnvoi-totalReception)-(totalEnvoiAttendu-totalReceptionAttendu))|number_format(0, '.', ' ') }}</th>
+            <th class="text-bold padding-5 text-right" id="compenseTotalEcart"> {{ ((totalEnvoiAttendu-totalReceptionAttendu)-(totalEnvoi-totalReception))|number_format(0, '.', ' ') }}</th>
         </tr>
 
 

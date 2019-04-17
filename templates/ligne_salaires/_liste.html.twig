@@ -2,6 +2,7 @@
     <table class="table table-striped table-bordered">
     <thead>
         <tr>
+            <th rowspan="2" class="padding-5" >Agence</th>
             <th rowspan="2" class="padding-5" >Collaborateur</th>
             <th rowspan="2" class="padding-5" >Salaire de Base</th>
             <th colspan="4" class="padding-5 text-center">Indemnités </th>
@@ -48,6 +49,7 @@
         {% set totalImpotSalarie=totalImpotSalarie+ligne_salaire.mImpotSalarie %}
         {% set totalNet=totalNet+ligne_salaire.mNet %}
         <tr>
+            <td class="padding-5" >{{ ligne_salaire.agence }}</td>
             <td class="padding-5" >{{ ligne_salaire.collaborateur }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mSalaireBase|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemLogement|number_format(0, '.', ' ')  }}</td>
@@ -69,11 +71,11 @@
         </tr>
     {% else %}
         <tr>
-            <td colspan="11">Aucune ligne</td>
+            <td colspan="12">Aucune ligne</td>
         </tr>
     {% endfor %}
     <tr>
-        <th class="padding-5 text-right" >TOTAUX ({{ nb }}) : </th>
+        <th class="padding-5 text-right" colspan="2">TOTAUX ({{ nb }}) : </th>
         <th class="padding-5 text-right text-nowrap" >{{ totalSalaireBase|number_format(0, '.', ' ')  }}</th>
         <th class="padding-5 text-right text-nowrap" >{{ totalIndemLogement|number_format(0, '.', ' ')  }}</th>
         <th class="padding-5 text-right text-nowrap" >{{ totalIndemTransport|number_format(0, '.', ' ')  }}</th>

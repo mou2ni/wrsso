@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Agences;
 use App\Entity\Caisses;
 use App\Entity\Comptes;
 use App\Repository\ComptesRepository;
@@ -19,6 +20,16 @@ class CaissesType extends AbstractType
         $builder
             ->add('libelle')
             ->add('code')
+            ->add('agence', EntityType::class, array (
+                'class' => 'App\Entity\Agences',
+                'choice_label' => function (Agences $agence) {
+                    return $agence->getDisplayName();},
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.code', 'ASC');
+                }))
             ->add('compteOperation', EntityType::class, array (
                 'class' => 'App\Entity\Comptes',
                 'choice_label' => function (Comptes $compte) {
@@ -64,7 +75,7 @@ class CaissesType extends AbstractType
             ->add('dispoGuichet')
             ->add('lastUtilisateur')
             ->add('typeCaisse', ChoiceType::class
-                ,array('choices'  => ['GUICHETIER'=>Caisses::GUICHET,'CMD'=>Caisses::MENUDEPENSE, 'TONTINE'=>Caisses::TONTINE,  'COMPENSE'=>Caisses::COMPENSE, 'BANQUE'=>Caisses::BANQUE], 'required' => true
+                ,array('choices'  => ['GUICHETIER'=>Caisses::GUICHET,'CMD'=>Caisses::MENUDEPENSE, 'TONTINE'=>Caisses::TONTINE,  'COMPENSE'=>Caisses::COMPENSE, 'BANQUE'=>Caisses::BANQUE, 'RETOUR CLIENT'=>Caisses::TYP_RETOUR], 'required' => true
                 ))
         ;
     }

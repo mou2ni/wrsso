@@ -55,7 +55,7 @@ class CaissesRepository extends ServiceEntityRepository
             //->select('c.id, c.libelle, c.code, co.numCompte')
             //->innerJoin('c.compteOperation','co', 'WITH', 'c.compteOperation= co.id')
             ->orderBy('c.code', 'ASC')
-            ->setMaxResults($limit)
+            //->setMaxResults($limit)
             ->getQuery()
             ->getResult()
             ;

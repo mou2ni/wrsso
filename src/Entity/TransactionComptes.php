@@ -11,6 +11,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Proxies\__CG__\App\Entity\Comptes;
+use Swift_Mailer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -54,12 +55,6 @@ class TransactionComptes
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit être positive")
      */
     private $mCredit=0;
-
-    /*
-     * @ORM\Column(type="float", nullable=true)
-
-    private $mSoldeApres;*/
-
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transactions", inversedBy="transactionComptes", cascade={"persist"})

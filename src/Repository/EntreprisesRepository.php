@@ -42,11 +42,9 @@ class EntreprisesRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('e')
             //->innerJoin('pc.entreprise', 'e', 'WITH', 'pc.entreprise = e.id')
-            ->innerJoin('e.collaborateurs', 'c', 'WITH', 'c.entreprise = e.id')
+            ->innerJoin('e.representant', 'c', 'WITH', 'e.representant = c.id')
             ->select('e.code as code','c.nom as nomRepresentant','c.prenom as prenomRepresentant','c.qualite as qualiteRepresentant','e.adresse')
-            ->where('c.estRepresentant =:representant')
             ->andWhere('e.code =:structure')
-            ->setParameter('representant',true)
             ->setParameter('structure',$structure)
             ->getQuery()
             ->getOneOrNullResult()

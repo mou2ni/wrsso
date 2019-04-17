@@ -45,8 +45,16 @@ class CompensesController extends Controller
         $criteresRecherches=new CriteresDates();
 
         if ($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut.' 00:00:00'));
+        else{
+            $auj=new \DateTime(); $moisEncours=$auj->format('m'); $annee=$auj->format('Y');
+            $criteresRecherches->setDateDebut(new \DateTime($annee.'-'.$moisEncours.'-01 00:00:00'));
+        }
 
         if ($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin.' 23:59:59'));
+        else{
+            $auj=new \DateTime(); $moisEncours=$auj->format('m'); $annee=$auj->format('Y');$moisSuiv=$moisEncours+1;
+            $criteresRecherches->setDateFin(new \DateTime($annee.'-'.$moisSuiv.'-00 23:59:59'));
+        }
 
         $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
         $form->handleRequest($request);

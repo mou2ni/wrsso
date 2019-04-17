@@ -33,9 +33,20 @@ class LigneSalaires
     private $salaire;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Agences", inversedBy="ligneSalaires", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $agence;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $mSalaireBase;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $mAnciennete=0;
 
     /**
      * @ORM\Column(type="float")
@@ -101,6 +112,7 @@ class LigneSalaires
 
     public function getMBrutTotal(){
         return $this->getMSalaireBase()
+            +$this->getMAnciennete()
             +$this->getMHeureSup()
             +$this->getMIndemLogement()
             +$this->getMIndemTransport()
@@ -427,6 +439,42 @@ class LigneSalaires
         return $this;
     }
 
-    
+    /**
+     * @return mixed
+     */
+    public function getAgence()
+    {
+        return $this->agence;
+    }
+
+    /**
+     * @param mixed $agence
+     * @return LigneSalaires
+     */
+    public function setAgence($agence)
+    {
+        $this->agence = $agence;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMAnciennete()
+    {
+        return $this->mAnciennete;
+    }
+
+    /**
+     * @param mixed $mAnciennete
+     * @return LigneSalaires
+     */
+    public function setMAnciennete($mAnciennete)
+    {
+        $this->mAnciennete = $mAnciennete;
+        return $this;
+    }
+
+
 
 }

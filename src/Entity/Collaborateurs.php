@@ -26,6 +26,12 @@ class Collaborateurs
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Agences", inversedBy="collaborateurs", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $agence;
+
+    /**
      * @ORM\Column(type="string")
      */
     private $nom;
@@ -145,11 +151,6 @@ class Collaborateurs
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes")
      */
     private $compteRemunerationDue;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Entreprises", inversedBy="collaborateurs", cascade={"persist"})
-     */
-    private $entreprise;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Salaires", cascade={"persist"})
@@ -542,20 +543,56 @@ class Collaborateurs
     }
 
     /**
-     * @return Entreprises
+     * @return mixed
      */
-    public function getEntreprise()
+    public function getQualite()
     {
-        return $this->entreprise;
+        return $this->qualite;
     }
 
     /**
-     * @param Entreprises $entreprise
+     * @param mixed $qualite
      * @return Collaborateurs
      */
-    public function setEntreprise($entreprise)
+    public function setQualite($qualite)
     {
-        $this->entreprise = $entreprise;
+        $this->qualite = $qualite;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param mixed $adresse
+     * @return Collaborateurs
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAgence()
+    {
+        return $this->agence;
+    }
+
+    /**
+     * @param mixed $agence
+     * @return Collaborateurs
+     */
+    public function setAgence($agence)
+    {
+        $this->agence = $agence;
         return $this;
     }
 

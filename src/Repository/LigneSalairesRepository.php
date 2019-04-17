@@ -24,10 +24,28 @@ class LigneSalairesRepository extends ServiceEntityRepository
     public function findListingLigneJoinCollabo($salaire){
         return $qb = $this->createQueryBuilder('ls')
             ->addSelect('col')
+            ->addSelect('a')
             ->innerJoin('ls.collaborateur','col')
+            ->innerJoin('col.agence','a')
             ->where('ls.salaire=:salaire')->setParameter('salaire',$salaire)
-            ->orderBy('col.nom, col.prenom', 'ASC')
+            ->orderBy('a.code, col.nom, col.prenom', 'ASC')
             ->getQuery()->getResult();
 
+    }
+
+    public function getSumSalairesParAgence(\DateTime $debutMois, \DateTime $finMois, $agenceCode){
+        $qb = $this->createQueryBuilder('ls')
+            ->innerJoin('ls.agence','a')
+            ->innerJoin('ls.salaire','s');
+
+        return $qb->select('a.code as agence
+            ,SUM(CASE WHEN s.periode>=:debutMois and s.periode<=:finMois THEN ls.mSalaireBase+ls.mAnciennete+ls.mIndemLogement+ls.mIndemTransport+ls.mIndemFonction+ls.mIndemAutres+ls.mHeureSup+ls.mSecuriteSocialePatronal+ls.mTaxePatronale ELSE 0 END) as mCoutSalaire
+        ')
+            ->setParameter('debutMois',$debutMois)
+            ->setParameter('finMois',$finMois)
+            ->where('a.code=:code')->setParameter('code',$agenceCode)
+            ->groupBy('a.code')
+            ->orderBy('a.code')
+            ->getQuery()->getOneOrNullResult();
     }
 }

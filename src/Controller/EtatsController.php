@@ -2,15 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\CriteresDates;
 use App\Entity\DeviseJournees;
 use App\Entity\Entreprises;
+use App\Entity\LigneSalaires;
 use App\Entity\ParamComptables;
+use App\Entity\RecetteDepenses;
 use App\Entity\SystemTransfert;
 use App\Entity\TransfertInternationaux;
 use App\Entity\Zones;
+use App\Form\CriteresDatesType;
 use App\Form\trimestreType;
 use App\Repository\EntreprisesRepository;
 use App\Utils\SessionUtilisateur;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\ArrayType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,6 +26,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\EtatRepository;
 
+/**
+ * @Route("/etats")
+ */
 class EtatsController extends AbstractController
 {
     public function __construct(SessionUtilisateur $sessionUtilisateur)
@@ -37,7 +45,7 @@ class EtatsController extends AbstractController
     }
 
     /**
-     * @Route("/etats", name="etats")
+     * @Route("/", name="etats")
      */
     public function index()
     {
@@ -46,7 +54,7 @@ class EtatsController extends AbstractController
         ]);
     }
     /**
-     * @Route("/etats/transfert1", name="etats_rapport_transfert1", methods="GET|POST|UPDATE")
+     * @Route("/transfert1", name="etats_rapport_transfert1", methods="GET|POST|UPDATE")
      */
     public function transfert1(Request $request): Response
     {
@@ -117,7 +125,7 @@ class EtatsController extends AbstractController
     }
 
     /**
-     * @Route("/etats/transfert", name="etats_rapport_transfert", methods="GET|POST|UPDATE")
+     * @Route("/transfert", name="etats_rapport_transfert", methods="GET|POST|UPDATE")
      */
     public function transfert(Request $request): Response
     {
@@ -167,7 +175,7 @@ class EtatsController extends AbstractController
     }
 
     /**
-     * @Route("/etats/transfert/apercue", name="etats_rapport_transfert_apercu", methods="GET|POST|UPDATE")
+     * @Route("/transfert/apercue", name="etats_rapport_transfert_apercu", methods="GET|POST|UPDATE")
      */
     public function apercue($etatTransfert,$etatTransfertTypeZone,$etatTransfertType,$entreprise,$dateDeb,$dateFin){
         return $this->render('etats/etat_transfert_bceao_impression.html.twig', [
@@ -181,7 +189,7 @@ class EtatsController extends AbstractController
         ]);
     }
     /**
-     * @Route("/etats/devises", name="etats_rapport_devises")
+     * @Route("/devises", name="etats_rapport_devises")
      */
     public function devises(Request $request)
     {
@@ -232,7 +240,7 @@ class EtatsController extends AbstractController
         ]);
     }
     /**
-     * @Route("/etats/devises/apercue", name="etats_rapport_devise_apercu", methods="GET|POST|UPDATE")
+     * @Route("/devises/apercue", name="etats_rapport_devise_apercu", methods="GET|POST|UPDATE")
      */
     public function apercueDevise($etatDevise,$entreprise,$dateDeb,$dateFin){
         return $this->render('etats/etat_devise_bceao_impression.html.twig', [
@@ -242,4 +250,75 @@ class EtatsController extends AbstractController
             'dateFin' => $dateFin,
         ]);
     }
+
+    /**
+     * @Route("/gestion", name="etats_rapport_gestion", methods="GET|POST|UPDATE")
+     */
+    public function rapportGestion(Request $request)
+    {
+        /*$date=$request->request->get('date')?$request->request->get('date'):$request->query->get('date');
+
+
+        //$moisPrecedentDebut=new \DateTime($date);
+        //$moisPrecedentFin=new \DateTime($date);
+        $auj=new \DateTime(); $moisEncours=$auj->format('m');
+        
+        $date=new \DateTime($date);
+
+        $form = $this->createForm(DateTimeType::class, $date);
+        $form->handleRequest($request);*/
+
+        $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
+        $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
+
+        $criteresRecherches=new CriteresDates();
+
+        if ($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut.' 00:00:00'));
+        else{
+            $auj=new \DateTime(); $moisEncours=$auj->format('m'); $annee=$auj->format('Y');
+            $criteresRecherches->setDateDebut(new \DateTime($annee.'-'.$moisEncours.'-01 00:00:00'));
+        }
+        if ($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin.' 23:59:59'));
+        else{
+            $auj=new \DateTime(); $moisEncours=$auj->format('m'); $annee=$auj->format('Y');$moisSuiv=$moisEncours+1;
+            $criteresRecherches->setDateFin(new \DateTime($annee.'-'.$moisSuiv.'-00 23:59:59'));
+        }
+
+        $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        /*$mois=$date->format('m');
+        
+        $debutMois=new \DateTime($date->format('Y-').$mois.'-01');
+        $moisSuiv=$mois+1;
+        $finMois=new \DateTime($date->format('Y-').$moisSuiv.'-00');*/
+        
+        //if ($mois==$moisEncours){
+        $LigneRapports=new ArrayCollection();
+        $recetteDepenses=$this->getDoctrine()->getRepository(RecetteDepenses::class)
+            ->getSumRecetteDepensesParAgence($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin());
+
+        foreach ($recetteDepenses as $recetteDepense){
+            $salaires=$this->getDoctrine()->getRepository(LigneSalaires::class)
+                ->getSumSalairesParAgence($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin(),$recetteDepense['agence']);
+            $mCoutSalaire=($salaires)?$salaires['mCoutSalaire']:0;
+            $LigneRapports->add(['agence'=>$recetteDepense['agence']
+                ,'dateDebutRapport'=>$criteresRecherches->getDateDebut()
+                ,'dateFinRapport'=>$criteresRecherches->getDateFin()
+                ,'mRecette'=>$recetteDepense['mRecette']
+                ,'mDepense'=>$recetteDepense['mDepense']
+                ,'mCoutSalaire'=>$mCoutSalaire]);
+        }
+            
+
+        
+
+        return $this->render('etats/tc_gestion_agences.html.twig',[
+            'LigneRapports'=>$LigneRapports,
+            'form'=>$form->createView(),
+        ]);
+        
+    }
+
+
 }

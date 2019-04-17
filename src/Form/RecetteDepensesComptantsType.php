@@ -19,6 +19,7 @@ class RecetteDepensesComptantsType extends AbstractType
             ->remove('estComptant')
             ->remove('typeOperationComptable')
             ->remove('numDocumentCompta')
+            ->remove('agence')
             ;
     }
 

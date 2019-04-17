@@ -52,7 +52,7 @@
                             <a href="{{ path('recette_depenses_details', {'id': rd.id}) }}"> Supprimer</a>
                         {% else %}
                             {% if  rd.statut=='I' %}
-                                include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Autoriser', 'confirm_message':'AUTORISER LA DEPENSE ?','path':'recette_depenses_autoriser', 'id':rd.id})
+                                {{ include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Autoriser', 'confirm_message':'AUTORISER LA DEPENSE ?','path':'recette_depenses_autoriser', 'id':rd.id,'btn_class':'btn-danger'}) }}
                             {% endif %}
                         {% endif %}
                 {#{% if rd.utilisateur.id==app.user.id  and rd.statut!='C' and rd.statut!='X' %}

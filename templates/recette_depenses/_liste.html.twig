@@ -65,6 +65,8 @@
                 {% if rd.statut!='C' and rd.statut!='X' %}
                     <a href="{{ path('recette_depenses_modif', {'id': rd.id}) }}"> Corriger</a> |
                     {{ include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'comptabiliser', 'btn_label':'Comptabiliser', 'confirm_message':'COMPTABILISER ?','path':'recette_depenses_comptabiliser', 'id':rd.id}) }}
+                {% elseif rd.statut=='C' %}
+                    | <a href="{{ path('recette_depenses_modif', {'id': rd.id}) }}"> Corriger</a>
                 {% endif %}
             {% endif %}
             </td>

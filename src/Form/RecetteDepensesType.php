@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Agences;
 use App\Entity\Comptes;
 use App\Entity\RecetteDepenses;
 use Doctrine\ORM\EntityRepository;
@@ -39,6 +40,16 @@ class RecetteDepensesType extends AbstractType
             ->add('mSaisie')
             ->add('estComptant')
             ->add('numDocumentCompta')
+            ->add('agence', EntityType::class, array (
+                'class' => 'App\Entity\Agences',
+                'choice_label' => function (Agences $agence) {
+                    return $agence->getDisplayName();},
+                'multiple' => false,
+                'expanded'=>false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.code', 'ASC');
+                }))
         ;
     }
 

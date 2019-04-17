@@ -1,33 +1,37 @@
-<div class="app-sidebar app-navigation app-navigation-style-default dir-left" data-type="close-other" >
+{#<div class="app-sidebar app-navigation app-navigation-style-default dir-left" data-type="close-other" >
+#}
 
-    <nav>
-        <ul>
-			{% for  item in menu %}
-				{#{% set open='' %}
-				{% if app.request.attributes.get('_route') ==  item.lien%} {% set open='open' %}
-				{% endif %}#}
-			<li class="openable {{ item.open }}">
-				{% if item.lien != "#"%}
-					<a href="{{path( item.lien ) }}">{{ item.text }}</a>
-				{%else %}
-					<a href="#">{{ item.text }}</a>
-				{%endif%}
+<div class="app-sidebar app-navigation app-navigation-fixed scroll app-navigation-style-default app-navigation-open-hover dir-left mCustomScrollbar _mCS_1 mCS-autoHide" data-type="close-other" ><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: none;" tabindex="0"><div id="mCSB_1_container" class="mCSB_container" dir="ltr">
+
+            <nav>
                 <ul>
-                    {% for child in item.child %}
-						{% if child.lien != "#"%}
-							<li>
-								<a href="{{ path(child.lien) }}">{{ child.text}}</a>
-							</li>
-						{%else %}
-							<li class="divider" >
-								<a href="#">{{ child.text}}</a>
-							</li>
-						{%endif%}
-                    {% endfor %}
+                    {% for  item in menu %}
+                        {#{% set open='' %}
+                        {% if app.request.attributes.get('_route') ==  item.lien%} {% set open='open' %}
+                        {% endif %}#}
+                        <li class="openable {{ item.open }}">
+                            {% if item.lien != "#"%}
+                                <a href="{{path( item.lien ) }}">{{ item.text }}</a>
+                            {%else %}
+                                <a href="#">{{ item.text }}</a>
+                            {%endif%}
+                            <ul>
+                                {% for child in item.child %}
+                                    {% if child.lien != "#"%}
+                                        <li>
+                                            <a href="{{ path(child.lien) }}">{{ child.text}}</a>
+                                        </li>
+                                    {%else %}
+                                        <li class="divider" >
+                                            <a href="#">{{ child.text}}</a>
+                                        </li>
+                                    {%endif%}
+                                {% endfor %}
 
+                            </ul>
+                        </li>
+                    {% endfor %}
                 </ul>
-            </li>
-            {% endfor %}
-        </ul>
-    </nav>
-</div>
+            </nav>
+
+        </div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: block;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; height: 117px; top: 267px; display: block; max-height: 394px;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
