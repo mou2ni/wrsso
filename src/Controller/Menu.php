@@ -97,7 +97,8 @@ class Menu  extends Controller
             ,['text'=>'Depots retraits', 'lien'=>'depot_retraits_index']
             ,['text'=>'Salaires', 'lien'=>'salaires_index']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
-            ,['text'=>'Mouvements de Devises', 'lien'=>'devise_mouvements_etat']
+            ,['text'=>'Etat Devises', 'lien'=>'devise_mouvements_etat']
+            ,['text'=>'Mouvements de Devises', 'lien'=>'devise_journees_index']
             //,['text'=>'Tableau de bord', 'lien'=>'#']
             ,
         ];
