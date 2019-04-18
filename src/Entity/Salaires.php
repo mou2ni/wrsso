@@ -32,9 +32,9 @@ class Salaires
     private $transaction;
 
     /**
-     * @ORM\Column(type="string", length=50, unique=true))
+     * @ORM\Column(type="date"))
      */
-    private $periodeSalaire;
+    private $periode;
 
     /**
      * @ORM\Column(type="date"))
@@ -85,6 +85,8 @@ class Salaires
     public function __construct()
     {
         $this->ligneSalaires=new ArrayCollection();
+        $this->dateSalaire=new \DateTime();
+        $this->periode=new \DateTime();
     }
 
     /**
@@ -108,24 +110,6 @@ class Salaires
     /**
      * @return mixed
      */
-    public function getPeriodeSalaire()
-    {
-        return $this->periodeSalaire;
-    }
-
-    /**
-     * @param mixed $periodeSalaire
-     * @return Salaires
-     */
-    public function setPeriodeSalaire($periodeSalaire)
-    {
-        $this->periodeSalaire = $periodeSalaire;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getMBrutTotal()
     {
         return $this->mBrutTotal;
@@ -139,6 +123,10 @@ class Salaires
     {
         $this->mBrutTotal = $mBrutTotal;
         return $this;
+    }
+
+    public function getPeriodeSalaire(){
+        return $this->getPeriode()->format('m-Y');
     }
 
 
@@ -240,7 +228,8 @@ class Salaires
     public function addLigneSalaire(LigneSalaires $ligneSalaire)
     {
         $ligneSalaire->setCompteRemunerationDue($ligneSalaire->getCollaborateur()->getCompteRemunerationDue());
-        $ligneSalaire->setCompteVirement($ligneSalaire->getCollaborateur()->getCompteVirement());
+        $ligneSalaire->setCompteVirement($ligneSalaire->getCollaborateur()->getCompteVirement())
+            ->setAgence($ligneSalaire->getCollaborateur()->getAgence());
         $this->ligneSalaires->add($ligneSalaire);
         $ligneSalaire->setSalaire($this);
         return $this;
@@ -382,4 +371,24 @@ class Salaires
     public function getNetTotal(){
         return $this->getMBrutTotal()-$this->getMImpotTotal()-$this->getMSecuriteSocialSalarie();
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getPeriode()
+    {
+        return $this->periode;
+    }
+
+    /**
+     * @param mixed $periode
+     * @return Salaires
+     */
+    public function setPeriode($periode)
+    {
+        $this->periode = $periode;
+        return $this;
+    }
+
+
 }

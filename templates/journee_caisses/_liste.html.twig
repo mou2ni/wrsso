@@ -29,7 +29,7 @@
         {% set totalDepotClient=totalDepotClient + journeeCaisse.mDepotClient %}
         {% set totalRetraitClient=totalRetraitClient + journeeCaisse.mRetraitClient %}
         <tr>
-            <td>{{ journeeCaisse.dateOuv ? journeeCaisse.dateOuv|date('d H:i') : '' }} {{ journeeCaisse.dateFerm ? journeeCaisse.dateFerm|date('d H:i') : '' }}</td>
+            <td>{{ journeeCaisse.dateOuv ? journeeCaisse.dateOuv|date('d/m H:i') : '' }} {{ journeeCaisse.dateFerm ? journeeCaisse.dateFerm|date('d/m H:i') : '' }}</td>
             <td>{{ journeeCaisse.caisse}}-{{ journeeCaisse.prenom}}</td>
             <th class="text-right">{{ journeeCaisse.soldeNetOuv|number_format(0, '.', ' ') }}</th>
             <td class="text-right">{{ journeeCaisse.mDetteCredit|number_format(0, '.', ' ') }}</td>

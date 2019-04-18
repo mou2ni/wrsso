@@ -39,6 +39,12 @@ class RecetteDepenses
     private $utilisateurValidateur;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Agences", inversedBy="recetteDepenses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $agence;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TypeOperationComptables")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -188,7 +194,7 @@ class RecetteDepenses
     }
 
     /**
-     * @return mixed
+     * @return \DateTime
      */
     public function getDateOperation()
     {
@@ -481,5 +487,22 @@ class RecetteDepenses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAgence()
+    {
+        return $this->agence;
+    }
 
+    /**
+     * @param mixed $agence
+     * @return RecetteDepenses
+     */
+    public function setAgence($agence)
+    {
+        $this->agence = $agence;
+        return $this;
+    }
+    
 }

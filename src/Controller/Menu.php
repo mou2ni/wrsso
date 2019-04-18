@@ -46,6 +46,8 @@ class Menu  extends Controller
             ,['text'=>'Billets', 'lien'=>'billets_index']
             ,['text'=>'Pays et zones', 'lien'=>'pays_index']
             ,['text'=>'Système transferts', 'lien'=>'system_transfert_index']
+            ,['text'=>'Entreprises', 'lien'=>'entreprises_index']
+            ,['text'=>'Agences', 'lien'=>'agences_index']
             ,
         ];
 
@@ -96,6 +98,7 @@ class Menu  extends Controller
             ,['text'=>'Suivi Compensation', 'lien'=>'compenses_index']
             ,['text'=>'Depots retraits', 'lien'=>'depot_retraits_index']
             ,['text'=>'Salaires', 'lien'=>'salaires_index']
+            ,['text'=>'Appro/Versement', 'lien'=>'appro_versements_index']
             ,['text'=>'Etat consolidé tresorerie', 'lien'=>'journee_caisses_tresorerie']
             ,['text'=>'Etat Devises', 'lien'=>'devise_mouvements_etat']
             ,['text'=>'Mouvements de Devises', 'lien'=>'devise_journees_index']
@@ -106,6 +109,7 @@ class Menu  extends Controller
         $this->menu_rapport=[
             ['text'=>'Transferts BCEAO MINEFID', 'lien'=>'etats_rapport_transfert']
             ,['text'=>'Devises BCEAO MINEFID','lien'=>'etats_rapport_devises']
+            ,['text'=>'Rapport de Gestion','lien'=>'etats_rapport_gestion']
             ,
         ];
     }
@@ -113,17 +117,18 @@ class Menu  extends Controller
     public function getSideBarMenu($active_route ) : Response
     {
         $menu=array();
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
+            $menu[]=['text'=>'Paramètres','child'=>$this->menu_parametre, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_parametre,$active_route)];
+            $menu[]=['text'=>'Comptabilité','child'=>$this->menu_comptable, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_comptable,$active_route)];
+            $menu[]=['text'=>'Suivi','child'=>$this->menu_suivi, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_suivi,$active_route)];
+            $menu[]=['text'=>'Rapports','child'=>$this->menu_rapport, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_rapport,$active_route)];
+        }
         $menu[]=['text'=>'Gestion Caisse','child'=>$this->menu_common, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_common,$active_route)];
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_GUICHETIER')) {
             $menu[]=['text'=>'Opération de GUICHET','child'=>$this->menu_guichetier, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_guichetier,$active_route)];
         }
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
-            $menu[]=['text'=>'Comptabilité','child'=>$this->menu_comptable, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_comptable,$active_route)];
-            $menu[]=['text'=>'Suivi','child'=>$this->menu_suivi, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_suivi,$active_route)];
-            $menu[]=['text'=>'Rapports','child'=>$this->menu_rapport, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_rapport,$active_route)];
-            $menu[]=['text'=>'Paramètres','child'=>$this->menu_parametre, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_parametre,$active_route)];
-        }
+
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $menu[]=['text'=>'Administration','child'=>$this->menu_superAdmin, 'lien'=>'#','open'=>$this->getOpenMenu($this->menu_superAdmin,$active_route)];
         }

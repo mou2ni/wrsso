@@ -20,7 +20,7 @@ use phpDocumentor\Reflection\Types\Boolean;
  */
 class Caisses
 {
-    const OUVERT='O', FERME='F', COMPENSE='C', GUICHET='G', TONTINE='T', MENUDEPENSE='M', BANQUE='B';
+    const OUVERT='O', FERME='F', COMPENSE='C', GUICHET='G', TONTINE='T', MENUDEPENSE='M', BANQUE='B', TYP_RETOUR='R';
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -33,9 +33,15 @@ class Caisses
     private $libelle;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=20, unique=true)
      */
     private $code;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Agences", inversedBy="caisses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $agence;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Comptes", inversedBy="caisses", cascade={"persist"})
@@ -498,7 +504,21 @@ class Caisses
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getAgence()
+    {
+        return $this->agence;
+    }
 
-
-
+    /**
+     * @param mixed $agence
+     * @return Caisses
+     */
+    public function setAgence($agence)
+    {
+        $this->agence = $agence;
+        return $this;
+    }
 }

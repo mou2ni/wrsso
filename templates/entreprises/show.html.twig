@@ -3,7 +3,9 @@
 {% block title %}Entreprises{% endblock %}
 
 {% block body %}
-    <h1>Entreprises</h1>
+    <h1>Entreprises |  <a href="{{ path('entreprises_index') }}">Listing</a> |
+
+        <a href="{{ path('entreprises_edit', {'id': entreprise.id}) }}">Modifier</a> </h1>
 
     <table class="table">
         <tbody>
@@ -19,12 +21,16 @@
                 <th>Libelle</th>
                 <td>{{ entreprise.libelle }}</td>
             </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ entreprise.adresse }}</td>
+            </tr>
+            <tr>
+                <th>Libelle</th>
+                <td>{{ entreprise.representant }}</td>
+            </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('entreprises_index') }}">back to list</a>
-
-    <a href="{{ path('entreprises_edit', {'id': entreprise.id}) }}">edit</a>
 
     {{ include('entreprises/_delete_form.html.twig') }}
 {% endblock %}

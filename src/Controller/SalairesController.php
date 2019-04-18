@@ -71,10 +71,10 @@ class SalairesController extends Controller
         $salaire = new Salaires();
         //mettre les données par defaut si premier chargement
         if ($request->request->get('operation')!='positionner'){
-            dump($collaborateurs);
+            //dump($collaborateurs);
             $salaire->fillLigneSalaireFromCollaborateurs($collaborateurs);
         }
-        $salaire->setDateSalaire(new \DateTime());
+        //$salaire->setDateSalaire(new \DateTime());
         $form = $this->createForm(SalairesType::class, $salaire);
         $form->handleRequest($request);
 
@@ -90,30 +90,7 @@ class SalairesController extends Controller
                }
                return $this->redirectToRoute('salaires_positionnement');
            }
-           
-           /*if($salaire->getComptaDetail()) {
 
-               foreach ($salaire->getLigneSalaires() as $ligneSalaire) {
-                   $transaction = $genCompta->genComptaLigneSalaire($this->utilisateur, $ligneSalaire, $salaire->getPeriodeSalaire(), $this->journeeCaisse);
-                   if (!$transaction) {
-                       $this->addFlash('error', $genCompta->getErrMessage());
-                       if ($genCompta->getE() == Transactions::ERR_DESEQUILIBRE) {
-                           return $this->render('transactions/erreur_desequilibre.html.twig', ['transaction' => $genCompta->getTransactions()[0]]);
-                       }
-                       return $this->redirectToRoute('salaires_positionnement');
-                   }
-                   $ligneSalaire->setTransaction($transaction);
-               }
-           }else{
-               $transaction = $genCompta->genComptaSalaire($this->utilisateur, $salaire, $this->journeeCaisse);
-               if (!$transaction) {
-                   $this->addFlash('error', $genCompta->getErrMessage());
-                   if ($genCompta->getE() == Transactions::ERR_DESEQUILIBRE) {
-                       return $this->render('transactions/erreur_desequilibre.html.twig', ['transaction' => $genCompta->getTransactions()[0]]);
-                   }
-                   return $this->redirectToRoute('salaires_positionnement');
-               }
-           }*/
            $em->persist($salaire);
             $em->flush();
             return $this->redirectToRoute('salaires_ecriture_comptables',['id'=>$salaire->getId()]);

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}gesttion agences{% endblock %}
+
+{% block body %}
+<h1>COMPTE DE GESTION AGENCES</h1>
+    <div class="form-inline">
+    {{ form_start(form) }}
+        {{ include('_criteres_recherches.html.twig') }}
+    {{ form_end(form) }}
+    </div>
+
+<div class="table-responsive">
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Agences</th>
+            <th>Recettes</th>
+            <th>Depenses</th>
+            <th>VA</th>
+            <th>Salaires</th>
+            <th>EBE</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set totalRecette=0 %}
+    {% set totalDepense=0 %}
+    {% set totalVA=0 %}
+    {% set totalSalaire=0 %}
+    {% set totalEBE=0 %}
+    {% for LigneRapport in LigneRapports %}
+        {% set totalRecette=totalRecette+LigneRapport.mRecette %}
+        {% set totalDepense=totalDepense+LigneRapport.mDepense %}
+        {% set totalVA=totalVA+LigneRapport.mRecette-LigneRapport.mDepense %}
+        {% set totalSalaire=totalSalaire+LigneRapport.mCoutSalaire %}
+        {% set totalEBE=totalEBE+LigneRapport.mRecette-LigneRapport.mDepense-LigneRapport.mCoutSalaire %}
+
+        <tr>
+            <td class="text-nowrap" >{{ LigneRapport.agence}}</td>
+            <td class="text-nowrap text-right">{{ LigneRapport.mRecette|number_format(0, '.', ' ') }}</td>
+            <td class="text-nowrap text-right">{{ LigneRapport.mDepense|number_format(0, '.', ' ') }}</td>
+            <td class="text-nowrap text-right">{{ (LigneRapport.mRecette-LigneRapport.mDepense)|number_format(0, '.', ' ') }}</td>
+            <td class="text-nowrap text-right">{{ (LigneRapport.mCoutSalaire)|number_format(0, '.', ' ') }}</td>
+            <td class="text-nowrap text-right">{{ (LigneRapport.mRecette-LigneRapport.mDepense-LigneRapport.mCoutSalaire)|number_format(0, '.', ' ') }}</td>
+
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">Aucune ligne trouvée ! ! !</td>
+        </tr>
+    {% endfor %}
+
+    <tr bgcolor="#f69f00">
+        <th class="text-nowrap text-right"> TOTAUX : </th>
+        <th class="text-nowrap text-right">{{ totalRecette|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalDepense|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalVA|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalSalaire|number_format(0, '.', ' ') }}</th>
+        <th class="text-nowrap text-right">{{ totalEBE|number_format(0, '.', ' ') }}</th>
+    </tr>
+    </tbody>
+</table>
+</div>
+{% endblock %}

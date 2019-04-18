@@ -14,6 +14,8 @@ class EntreprisesType extends AbstractType
         $builder
             ->add('code')
             ->add('libelle')
+            ->add('adresse')
+            ->add('representant')
         ;
     }
 
