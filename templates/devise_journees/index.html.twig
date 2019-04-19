@@ -4,38 +4,60 @@
 
 {% block body %}
     <h1>LISTE DES DEVISES JOURNEES</h1>
-
-    <table class="table table-striped">
+    <div>
+        {{ form_start(form) }}
+        {{ include('_criteres_recherches.html.twig') }}
+        CAISSE : <select id="caisse" name="caisse" class="">
+            <option  {{ (app.request.request.get('caisse')=='')?'selected="selected"':''}} value="">Tous</option>
+            {% for caisse in caisses %}
+                <option  {{ (caisse_id==caisse.id)?'selected="selected"':''}} value={{ caisse.id }}>{{ caisse }}</option>
+            {% endfor %}
+        </select>
+        DEVISE : <select id="devise" name="devise" class="">
+            <option  {{ (app.request.request.get('devise')=='')?'selected="selected"':''}} value="">Tous</option>
+            {% for devise in devises %}
+                <option {{ (devise_id==devise.id)?'selected="selected"':''}} value={{ devise.id }}>{{ devise }}</option>
+            {% endfor %}
+        </select>
+        UNIQUEMENT LES JOURNEES MOUVEMENTEES : <input {{ (app.request.request.get('ujm'))?'checked="true"':''}} type="checkbox" id="ujm" name="ujm" class="">
+        {{ form_end(form) }}
+    </div>
+    {{ include('_pagination.html.twig') }}
+<div id="sortable-data_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+    <table id="sortable-data" class="table table-striped table-bordered datatable-basic dataTable no-footer" role="grid">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>journée caisse</th>
-                <th>QteOuv</th>
-                <th>EcartOuv</th>
-                <th>QteAchat</th>
-                <th>QteVente</th>
-                <th>MCvdAchat</th>
-                <th>MCvdVente</th>
-                <th>QteIntercaisse</th>
-                <th>QteFerm</th>
-                <th>EcartFerm</th>
+            <tr role="row">
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Date</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Caisse</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Devise</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteOuv</th>
+                {#<th>EcartOuv</th>#}
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteAchat</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteVente</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">CVD</th>
+                {#<th>MCvdVente</th>
+                <th>QteIntercaisse</th>#}
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteFerm</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">ecart</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for devise_journee in devise_journees %}
-            <tr>
+            <tr role="row">
                 {% if src == 'orm' %}
-                <td>{{ devise_journee.id }}</td>
+                    <td>{{ devise_journee.dateOuv.format('d-m-Y') }}</td>
+                    <td>{{ devise_journee.caisse }}</td>
+                    <td>{{ devise_journee.devise }}</td>
                 <td>{{ devise_journee.qteOuv }}</td>
-                <td>{{ devise_journee.ecartOuv }}</td>
+                {#<td>{{ devise_journee.ecartOuv }}</td>#}
                 <td>{{ devise_journee.qteAchat }}</td>
                 <td>{{ devise_journee.qteVente }}</td>
-                <td>{{ devise_journee.mCvdAchat|number_format(0,',', ' ') }}</td>
-                <td>{{ devise_journee.mCvdVente|number_format(0,',', ' ') }}</td>
-                <td>{{ devise_journee.qteIntercaisse }}</td>
+                <td>{{ devise_journee.cvd|number_format(0,',', ' ') }}</td>
+                {#<td>{{ devise_journee.mCvdVente|number_format(0,',', ' ') }}</td>
+                <td>{{ devise_journee.qteIntercaisse }}</td>#}
                 <td>{{ devise_journee.qteFerm }}</td>
-                <td>{{ devise_journee.ecartFerm }}</td>
+                <td>{{ devise_journee.ecart }}</td>
                 {% else %}
                     <td>{{ devise_journee.id }}</td>
                     <td>{{ devise_journee.idJourneeCaisse }}</td>
@@ -61,6 +83,21 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
 
     {#<a href="{{ path('devise_journees_new') }}">Ajouter</a>#}
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/tableExport.js') }}"></script>
+    <script src="{{ asset('js/jspdf.js') }}"></script>
+    <script src="{{ asset('js/sprintf.js') }}"></script>
+    <script src="{{ asset('js/base64.js') }}"></script>
+    <script src="{{ asset('js/jquery.base64.js') }}"></script>
+    <script src="{{ asset('js/app_plugins.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.js') }}"></script>
 {% endblock %}

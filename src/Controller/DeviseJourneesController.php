@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Caisses;
+use App\Entity\CriteresDates;
 use App\Entity\DeviseJournees;
 use App\Entity\Devises;
+use App\Form\CriteresRecherchesJourneeCaissesType;
 use App\Form\DeviseJourneesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,8 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DeviseJourneesController extends Controller
 {
-    /**
-     * @Route("/", name="devise_journees_index", methods="GET")
+    /*
+    *
+     * @
+     * Route("/", name="devise_journees_index", methods="GET")
      */
     public function index(): Response
     {
@@ -31,6 +36,68 @@ class DeviseJourneesController extends Controller
 
 
 
+    /**
+     * @Route("/", name="devise_journees_index", methods="GET|POST")
+     */
+    public function getDevise(Request $request): Response
+    {
+
+        $caisse=$request->request->get('caisse')?$request->request->get('caisse'):$request->query->get('caisse');
+        $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
+        $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
+        $devise=$request->request->get('devise')?$request->request->get('devise'):$request->query->get('devise');
+        $ujm=$request->request->get('ujm')?$request->request->get('ujm'):$request->query->get('ujm');
+        $limit=60;
+        //dump($devise);die();
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        if (!$_page) {
+            $criteresRecherches=new CriteresDates();
+            if($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut));
+            if($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin));
+        }else{
+            $criteresRecherches=new CriteresDates();
+            $criteres=$request->query->get('master');
+            $criteres= explode ('|',$criteres);
+            // dump($criteres);
+            // dump($caisse);
+            if (count($criteres)==4) {
+                $criteresRecherches->setDateDebut(new \DateTime($criteres[0]));
+                $criteresRecherches->setDateFin(new \DateTime($criteres[1]));
+                $caisse=($caisse)?$caisse:$criteres[2];
+                $devise=($devise)?$devise:$criteres[3];
+                $ujm=($ujm)?$ujm:$criteres[4];
+            }
+        }
+
+        $form = $this->createForm(CriteresRecherchesJourneeCaissesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $dateDebut=new \DateTime($criteresRecherches->getDateDebut()->format('Y-m-d').' 00:00:00');
+        $dateFin=new \DateTime($criteresRecherches->getDateFin()->format('Y-m-d').' 23:59:59');
+        $deviseJournees = $this->getDoctrine()
+            ->getRepository(DeviseJournees::class)
+            ->getDevises($caisse,$devise,$dateDebut,$dateFin,$offset,$limit,$ujm);
+        //dump($deviseJournees);die();
+        $pages = round(count($deviseJournees)/$limit);
+//dump($pages);die();
+        $request->query->set('master',$dateDebut->format('Y-m-d').'|'.$dateFin->format('Y-m-d').'|'.$caisse.'|'.$devise);
+
+
+        $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAll();
+        $devises=$this->getDoctrine()->getRepository(Devises::class)->findAll();
+        return $this->render('devise_journees/index.html.twig', [
+            'pages'=>$pages,
+            'caisses'=>$caisses,
+            'form'=>$form->createView(),
+            'caisse_id'=>$caisse,
+            'ujm'=>$ujm,
+            'devises'=>$devises,
+            'devise_id'=>$devise,
+            'path'=>'devise_journees_index',
+            'src'=>'orm',
+            'devise_journees' => $deviseJournees]);
+    }
     /**
      * @Route("/ouverture/{id}", name="devise_journees_ouv", methods="GET")
      */

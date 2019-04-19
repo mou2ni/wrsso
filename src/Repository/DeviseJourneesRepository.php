@@ -9,6 +9,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Types\DateTimeType;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Validator\Constraints\DateTime;
 
@@ -35,6 +36,44 @@ class DeviseJourneesRepository extends ServiceEntityRepository
             ;
         return $qb;
     }
+    public function getDevises($caisse,$devise, $dateDeb = null, $dateFin = null,$offset,$limit = 10,$ujm)
+    {
+        $qb = $this->createQueryBuilder('dj')
+            ->leftJoin('dj.journeeCaisse','jc', 'WITH', 'dj.journeeCaisse = jc.id')
+            ->leftJoin('jc.caisse','c', 'WITH', 'jc.caisse = c.id')
+            ->leftJoin('dj.devise','d', 'WITH', 'dj.devise = d.id')
+            ->addSelect('dj.id as id, c.id as idCaisse,d.id as idDevise,  jc.dateOuv as dateOuv , jc.dateFerm as dateFerm , c.code as caisse , d.code as devise, dj.qteOuv as qteOuv, dj.qteAchat as qteAchat, dj.qteVente as qteVente, dj.qteFerm as qteFerm, dj.mCvdVente - dj.mCvdVente as cvd, dj.ecartOuv - dj.ecartFerm as ecart')
+            ;
+        if ($dateDeb) {
+            $qb->where('jc.dateOuv >= :dateDeb');
+            $qb->setParameter('dateDeb',$dateDeb);
+        }
+        if ($dateFin) {
+            $qb->andWhere('jc.dateFerm <= :dateFin');
+            $qb->setParameter('dateFin',$dateFin);
+        }
+        if ($caisse) {
+            $qb->andWhere('jc.caisse =:caisse');
+            $qb->setParameter('caisse',$caisse);
+        }
+        if ($devise) {
+            $qb->andWhere('dj.devise =:devise');
+            $qb->setParameter('devise',$devise);
+        }
+        if ($ujm) {
+            $qb->andWhere('dj.qteVente <>:zero or dj.qteAchat <>:zero');
+            //$qb->andWhere('dj.qteAchat <>:zero');
+            $qb->setParameter('zero',0);
+        }
+        $qb->orderBy('jc.id', 'DESC')->setFirstResult($offset)->setMaxResults($limit);
+        $pag = new Paginator($qb);
+        //dump($pag);die();
+        /**/
+//dump($qb->getQuery()->getResult());die();
+
+        return $pag;
+    }
+
     public function getDeviseTresorerie(\DateTime $dateDeb, \DateTime $dateFin){
         $debut = $dateDeb->format('Y/m/d');
         $fin = $dateFin->format('Y/m/d');
