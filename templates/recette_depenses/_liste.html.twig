@@ -8,6 +8,7 @@
 {% endif %}#}
 <tr>
     <th class="text-bold padding-5">Date</th>
+    <th class="text-bold padding-5 text-right">Agence</th>
     <th class="text-bold padding-5 text-right">Utilisateur</th>
     <th class="text-bold padding-5 text-right">Gestion</th>
     <th class="text-bold padding-5 text-right">Contrepartie</th>
@@ -29,21 +30,23 @@
             {% set totalDepense=totalDepense+rd.mDepense%}
         <tr>
             <td class="padding-5">{{ rd.dateOperation ? rd.dateOperation|date('d-m-Y') : '' }}</td>
+            <td class="padding-5 text-right">{{ rd.agence}}</td>
             <td class="padding-5 text-right">{{ rd.prenomUtilisateur}} {{ rd.nomUtilisateur}}</td>
             <td class="padding-5 text-right">{{ rd.compteGestion}}</td>
             <td class="padding-5 text-right">{{ rd.compteTier }}</td>
             <td class="padding-5">{{ rd.libelle }}</td>
-            <td class="padding-5 text-right">{{ rd.mRecette|number_format(0, '.', ' ') }}</td>
-            <td class="padding-5 text-right">{{ rd.mDepense|number_format(0, '.', ' ') }}</td>
+            <td class="padding-5 text-right text-nowrap">{{ rd.mRecette|number_format(0, '.', ' ') }}</td>
+            <td class="padding-5 text-right text-nowrap">{{ rd.mDepense|number_format(0, '.', ' ') }}</td>
             <td >
-                {{ (rd.statut=='I')
+                {{ rd.statut }}
+            {#{{ (rd.statut=='I')
                 ?'Initié':(rd.statut=='V')
                 ?'Validé':(rd.statut=='VA')
                 ?'Auto validé': (rd.statut=='C')
-                ?'comptabilisée':'Non defini'}}
+                ?'comptabilisée':'Non defini'}}#}
             </td>
             <td class="padding-5">
-                {% if  is_granted('ROLE_COMPTABLE') %} {% if rd.transaction %}<a href="{{ path('transactions_show', {'id': rd.transaction}) }}"> {{ rd.transaction }}</a>{% endif %}
+                {% if  is_granted('ROLE_COMPTABLE') %} {% if rd.transaction %}<a href="{{ path('transactions_show', {'id': rd.transaction,'returnRoute':app.request.attributes.get('_route')}) }}"> {{ rd.transaction }}</a>{% endif %}
                 {% endif %}
             </td>
             <td class="padding-5">
@@ -62,7 +65,7 @@
                     </div>
             {% endif %}
             {% if  is_granted('ROLE_COMPTABLE') %}
-                {% if rd.statut!='C' and rd.statut!='X' %}
+                {% if rd.transaction==null and rd.statut!='X' %}
                     <a href="{{ path('recette_depenses_modif', {'id': rd.id}) }}"> Corriger</a> |
                     {{ include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'comptabiliser', 'btn_label':'Comptabiliser', 'confirm_message':'COMPTABILISER ?','path':'recette_depenses_comptabiliser', 'id':rd.id}) }}
                 {% elseif rd.statut=='C' %}
@@ -74,9 +77,9 @@
     {% endif %}
     {% endfor %}
     <tr>
-        <th colspan="5" class="text-bold padding-5 text-right">TOTAUX : </th>
-        <td class="text-bold padding-5 text-right" > {{ totalRecette|number_format(0, '.', ' ')  }}</td>
-        <td class="text-bold padding-5 text-right" > {{ totalDepense|number_format(0, '.', ' ')  }}</td>
+        <th colspan="6" class="text-bold padding-5 text-right">TOTAUX : </th>
+        <td class="text-bold padding-5 text-right text-nowrap" > {{ totalRecette|number_format(0, '.', ' ')  }}</td>
+        <td class="text-bold padding-5 text-right text-nowrap" > {{ totalDepense|number_format(0, '.', ' ')  }}</td>
     </tr>
     </tbody>
 </table>

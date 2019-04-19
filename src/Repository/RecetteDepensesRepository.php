@@ -28,13 +28,15 @@ class RecetteDepensesRepository extends ServiceEntityRepository
      */
     private function qbRecetteDepenses(){
         return $qb = $this->createQueryBuilder('rd')
-            ->select('rd.id as id, rd.dateOperation as dateOperation, cg.numCompte as compteGestion, ct.numCompte as compteTier, rd.libelle as libelle, rd.numDocumentCompta as numDocumentCompta, jc.statut as statutJc
-            , u.nom as nomUtilisateur, u.prenom as prenomUtilisateur, rd.mRecette as mRecette, rd.mDepense as mDepense, rd.statut as statut, toc.libelle as typeOperationComptable, IDENTITY(rd.transaction) as transaction, IDENTITY(rd.utilisateur) as utilisateur')
+            ->select('rd.id as id, rd.dateOperation as dateOperation, rd.libelle as libelle, rd.numDocumentCompta as numDocumentCompta, rd.mRecette as mRecette, rd.mDepense as mDepense, rd.statut as statut, IDENTITY(rd.transaction) as transaction, IDENTITY(rd.utilisateur) as utilisateur
+            , cg.numCompte as compteGestion, ct.numCompte as compteTier, jc.statut as statutJc
+            , u.nom as nomUtilisateur, u.prenom as prenomUtilisateur, toc.libelle as typeOperationComptable, a.code as agence')
             ->leftJoin('rd.typeOperationComptable','toc', 'WITH', 'rd.typeOperationComptable=toc.id')
             ->leftJoin('rd.utilisateur','u', 'WITH', 'rd.utilisateur= u.id')
             ->leftJoin('rd.compteGestion','cg', 'WITH', 'rd.compteGestion= cg.id')
             ->leftJoin('rd.compteTier','ct', 'WITH', 'rd.compteTier= ct.id')
             ->leftJoin('rd.journeeCaisse','jc', 'WITH', 'rd.journeeCaisse= jc.id')
+            ->leftJoin('rd.agence','a', 'WITH', 'rd.agence= a.id')
             ->orderBy('rd.dateOperation','DESC');
         ;
 
@@ -50,7 +52,7 @@ class RecetteDepensesRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findListingRecetteDepenses(\DateTime $dateDebut=null, \DateTime $dateFin=null, $compteTier=null, $compteGestion=null, $utilisateur=null, $typeOperationComptable=null, $statut=null, $journeeCaisse=null){
+    public function findListingRecetteDepenses(\DateTime $dateDebut=null, \DateTime $dateFin=null, $compteTier=null, $compteGestion=null, $utilisateur=null, $typeOperationComptable=null, $statut=null, $journeeCaisse=null, $agence=null){
 
         $qb=$this->qbRecetteDepenses();
 
@@ -61,32 +63,13 @@ class RecetteDepensesRepository extends ServiceEntityRepository
         if ($utilisateur) $qb->andWhere('rd.utilisateur=:utilisateur')->setParameter('utilisateur',$utilisateur);
         if ($typeOperationComptable) $qb->andWhere('rd.typeOperationComptable=:typeOperationComptable')->setParameter('typeOperationComptable',$typeOperationComptable);
         if ($journeeCaisse) $qb->andWhere('rd.journeeCaisse=:journeeCaisse')->setParameter('journeeCaisse',$journeeCaisse);
+        if ($agence) $qb->andWhere('rd.agence=:agence')->setParameter('agence',$agence);
         if ($statut) $qb->andWhere('rd.statut like \''.$statut.'%\'');//->setParameter('statut',$statut);
 
         return $qb->getQuery()->getResult();
     }
 
     public function getSumRecetteDepensesParAgence(\DateTime $debutMois, \DateTime $finMois){
-        //$moisPrecedentDebut= new \DateTime( );
-        //$cetteAnnee=$date->format('Y');
-        //$ceMois=$date->format('m');
-        //$moisSuivant=$ceMois+1;
-        //$moisDebut= new \DateTime($cetteAnnee.'-'.$ceMois.'-01');
-        //$moisFin= new \DateTime($cetteAnnee.'-'.$moisSuivant.'-00');
-
-        /*$moisDebut=new \DateTime($date);
-        $moisDebut->modify('first day of month');
-        $moisFin=new \DateTime($date);
-        $moisFin->modify('last day of month'); ;
-
-
-        
-        $moisPrecedentDebut=new \DateTime($date);
-        $moisPrecedentDebut->modify('first day of previous month');
-        $moisPrecedentFin=new \DateTime($date);
-        $moisPrecedentFin->modify('last day of previous month');*/
-
-
         $qb = $this->createQueryBuilder('rd')
         ->innerJoin('rd.agence','a');
 
@@ -94,7 +77,7 @@ class RecetteDepensesRepository extends ServiceEntityRepository
             ,SUM(CASE WHEN rd.dateOperation>=:moisPrecedentDebut and rd.dateOperation<=:moisPrecedentFin THEN rd.mDepense ELSE 0 END) as MPDepense
            */
 
-       return $qb->select('a.code as agence
+       return $qb->select('a.code as agence, a.id as agence_id
             ,SUM(CASE WHEN rd.dateOperation>=:debutMois and rd.dateOperation<=:finMois THEN rd.mRecette ELSE 0 END) as mRecette
             ,SUM(CASE WHEN rd.dateOperation>=:debutMois and rd.dateOperation<=:finMois THEN rd.mDepense ELSE 0 END) as mDepense
          ')

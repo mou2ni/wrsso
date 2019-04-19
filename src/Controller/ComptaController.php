@@ -99,31 +99,44 @@ class ComptaController extends Controller
      */
     public function grandLivre(Request $request) : Response
     {
-        /*dump($request);
-        $compteDebut=$request->request->get('criteres_etats_comptas[compteDebut]')?$request->request->get('criteres_etats_comptas[compteDebut]'):$request->query->get('criteres_etats_comptas[compteDebut]');
-        $compteFin=$request->request->get('criteres_etats_comptas[compteFin]')?$request->request->get('criteres_etats_comptas[compteFin]'):$request->query->get('criteres_etats_comptas[compteFin]');
-        $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
-        $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
-        */
+       // dump($request); //$request->query->get('criteres_etats_comptas');//
+        $criteres=$request->request->get('criteres_etats_comptas')?$request->request->get('criteres_etats_comptas'):$request->query->get('criteres_etats_comptas');
+
         $criteresGrandLivre=new CriteresEtatsComptas();
-        /*if($compteDebut){
-            $criteresGrandLivre->setCompteDebut($compteDebut);
+
+        dump($criteres);
+
+        if ($criteres){
+            $compteDebut_id=$criteres['compteDebut'];
+            $compteFin_id=$criteres['compteFin'];
+            $dateDebut=$criteres['dateDebut'];
+            $dateFin=$criteres['dateFin'];
+
+            if($compteDebut_id){
+                $compteDebut=$this->getDoctrine()->getRepository(Comptes::class)->find($compteDebut_id);
+                $criteresGrandLivre->setCompteDebut($compteDebut);
+            }
+            if($compteFin_id){
+                $compteFin=$this->getDoctrine()->getRepository(Comptes::class)->find($compteFin_id);
+                $criteresGrandLivre->setCompteFin($compteFin);
+            }
+            if($dateDebut){
+                $criteresGrandLivre->setDateDebut(new \DateTime($dateDebut));
+            }
+            if($dateFin){
+                $criteresGrandLivre->setDateFin(new \DateTime($dateFin));
+            }
         }
-        if($compteFin){
-            $criteresGrandLivre->setCompteDebut($compteFin);
-        }
-        if($dateDebut){
-            $criteresGrandLivre->setDateDebut($dateDebut);
-        }
-        if($dateFin){
-            $criteresGrandLivre->setDateFin($dateFin);
-        }*/
+        /**/
+
         $form = $this->createForm(CriteresEtatsComptasType::class, $criteresGrandLivre);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->afficherGrandLivre($form,$criteresGrandLivre);
+        //if ($form->isSubmitted() && $form->isValid()) {
+        if($criteresGrandLivre->getCompteDebut() && $criteresGrandLivre->getCompteFin()) {
+            return $this->afficherGrandLivre($form, $criteresGrandLivre);
         }
+        //}
 
         return $this->render('compta/criteres_etats.html.twig', [
             'form' => $form->createView(),
@@ -151,6 +164,7 @@ class ComptaController extends Controller
     {
         $compteDebut=$criteresGrandLivre->getCompteDebut()->getNumCompte();
         $compteFin=$criteresGrandLivre->getCompteFin()->getNumCompte();
+
         if ($compteDebut>$compteFin){
             $tmp=$compteDebut;
             $compteDebut=$compteFin;
@@ -161,6 +175,7 @@ class ComptaController extends Controller
         foreach ($comptes as $compte){
             $rubriquesGrandLivres[]=['compte'=>$compte, 'ecritures'=>$this->getDoctrine()->getRepository(TransactionComptes::class)->findEcrituresComptes($compte, $criteresGrandLivre->getDateDebut(), $criteresGrandLivre->getDateFin())];
         }
+        //dump($criteresGrandLivre);
         return $this->render('compta/grand_livre.html.twig',[
             'rubriquesGrandLivres'=>$rubriquesGrandLivres,
             'form' => $form->createView(),

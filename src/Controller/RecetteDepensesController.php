@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agences;
 use App\Entity\Comptes;
 use App\Entity\CriteresDates;
 use App\Entity\JourneeCaisses;
@@ -41,6 +42,7 @@ class RecetteDepensesController extends Controller
      */
     public function index(Request $request): Response
     {
+        $agence=$request->request->get('agence')?$request->request->get('agence'):$request->query->get('agence');
         $compteTier=$request->request->get('compteTier')?$request->request->get('compteTier'):$request->query->get('compteTier');
         $utilisateur=$request->request->get('utilisateur')?$request->request->get('utilisateur'):$request->query->get('utilisateur');
         $compteGestion=$request->request->get('compteGestion')?$request->request->get('compteGestion'):$request->query->get('compteGestion');
@@ -67,10 +69,11 @@ class RecetteDepensesController extends Controller
 
         $listingRecetteDepenses = $this->getDoctrine()
             ->getRepository(RecetteDepenses::class)
-            ->findListingRecetteDepenses($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $compteTier, $compteGestion, $utilisateur, $typeOperationComptable, $statut);
+            ->findListingRecetteDepenses($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $compteTier, $compteGestion, $utilisateur, $typeOperationComptable, $statut, null, $agence);
 
         $compteTiers=$this->getDoctrine()->getRepository(Comptes::class)->findCompteContrePartieDepenseRecettes();
         $utilisateurs=$this->getDoctrine()->getRepository(Utilisateurs::class)->findAll();
+        $agences=$this->getDoctrine()->getRepository(Agences::class)->findAll();
         $compteGestions=$this->getDoctrine()->getRepository(Comptes::class)->findCompteGestions();
         $typeOperationComptables=$this->getDoctrine()->getRepository(TypeOperationComptables::class)->findAll();
 
@@ -86,6 +89,8 @@ class RecetteDepensesController extends Controller
             'typeOperationComptables'=>$typeOperationComptables,
             'typeOperationComptable_id'=>$typeOperationComptable,
             'statut'=>$statut,
+            'agences'=>$agences,
+            'agence_id'=>$agence,
             'criteres'=>$criteresRecherches,
         ]);
     }
@@ -237,7 +242,7 @@ class RecetteDepensesController extends Controller
         $form = $this->createForm(RecetteDepensesType::class, $recetteDepense);
         $form->handleRequest($request);
 
-        if($recetteDepense->getStatut()==RecetteDepenses::STAT_COMPTA){
+        if($recetteDepense->getTransaction()!=null){
             $this->addFlash('error', 'Recette-depense déjà comptabilisés.');
             return $this->redirectToRoute('recette_depenses_index');
         }
@@ -257,18 +262,12 @@ class RecetteDepensesController extends Controller
                     }
 
                     $genCompta = new GenererCompta($this->getDoctrine()->getManager());
-                    /*$compta = ($recetteDepense->getEstComptant())
-                        ?$genCompta->genComptaRecetteDepenseComptant($this->utilisateur,$recetteDepense)
-                        :$genCompta->genComptaRecetteDepenseAterme($this->utilisateur,$recetteDepense);*/
+                    
                     $compta = $genCompta->genComptaRecetteDepense($this->utilisateur, $recetteDepense);
                     if (!$compta) {
                         $this->addFlash('error', $genCompta->getErrMessage());
                         return $this->redirectToRoute('recette_depenses_modif',['id'=>$recetteDepense->getId()]);
-                        /*return $this->render('recette_depenses/comptabiliser.html.twig', [
-                            'recette_depense' => $recetteDepense,
-                            'journeeCaisse' => $this->journeeCaisse,
-                            'form' => $form->createView(),
-                        ]);*/
+
                     }
                     $em->persist($recetteDepense);
                     $em->flush();

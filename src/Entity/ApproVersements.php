@@ -38,13 +38,13 @@ class ApproVersements
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $transactionEntrant;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $transactionSortant;
 

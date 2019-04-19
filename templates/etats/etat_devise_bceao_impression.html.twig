@@ -48,7 +48,7 @@
             </tdead>
             <tbody>
             {% for row in etat %}
-                <tr><td>{{ row.devise }}</td><td>{{ row.qteOuv }}</td><td>{{ row.achat }}</td><td></td><td>{{ row.vente }}</td><td></td><td>{{ row.stock }}</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>{{ row.devise }}</td><td class="text-nowrap text-right">{{ row.qteOuv }}</td><td class="text-nowrap text-right">{{ row.achat }}</td><td></td><td class="text-nowrap text-right">{{ row.vente }}</td><td></td><td class="text-nowrap text-right">{{ row.stock }}</td><td></td><td></td><td></td><td></td></tr>
             {% endfor %}
             </tbody>
         </table>

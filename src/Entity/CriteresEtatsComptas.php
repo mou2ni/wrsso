@@ -27,8 +27,9 @@ class CriteresEtatsComptas
         $auj=new \DateTime();
         $y=$auj->format('Y');
         $m=$auj->format('m');
+        $ms=$m+1;
         $this->dateDebut=new \DateTime($y.'-'.$m.'-01 00:00:00');
-        $this->dateFin=new \DateTime($y.'-'.$m.'-31 23:59:59');
+        $this->dateFin=new \DateTime($y.'-'.$ms.'-00 23:59:59');
     }
 
     /**

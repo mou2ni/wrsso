@@ -52,7 +52,7 @@ class RecetteDepenses
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $transaction;
 

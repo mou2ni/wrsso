@@ -62,7 +62,7 @@
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mImpotSalarie|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mNet|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5">
-                {% if  is_granted('ROLE_COMPTABLE') %} {% if ligne_salaire.transaction %}<a href="{{ path('transactions_show', {'id': ligne_salaire.transaction.id}) }}"> {{ ligne_salaire.transaction.id }}</a>{% endif %}
+                {% if  is_granted('ROLE_COMPTABLE') %} {% if ligne_salaire.transaction %}<a href="{{ path('transactions_show', {'id': ligne_salaire.transaction.id,'returnRoute':app.request.attributes.get('_route')}) }}"> {{ ligne_salaire.transaction.id }}</a>{% endif %}
                 {% endif %}
             </td>{#<td>
                 <a href="{{ path('ligne_salaires_show', {'id': ligne_salaire.id}) }}">show</a>

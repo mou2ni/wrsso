@@ -1,4 +1,13 @@
-<form method="post" action="{{ path('transactions_delete', {'id': transaction.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('transactions_delete', {'id': transaction.id}) }}" onsubmit="return confirm('Supprimer cette écriture et toutes ces lignes ?');">
+    <input type="hidden" name="returnRoute" value={{ returnRoute }}>
+
+    {% if  returnRoute=='compta_grand_livre'%}
+        <input type="hidden" name="criteres_etats_comptas[compteDebut]" value={{ app.request.get('compteDebut') }}>
+        <input type="hidden" name="criteres_etats_comptas[compteFin]" value={{ app.request.get('compteFin') }}>
+        <input type="hidden" name="criteres_etats_comptas[dateDebut]" value={{ app.request.get('dateDebut') }}>
+        <input type="hidden" name="criteres_etats_comptas[dateFin]" value={{ app.request.get('dateFin') }}>
+    {% endif %}
+
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ transaction.id) }}">
     <button class="btn">Supprimer</button>

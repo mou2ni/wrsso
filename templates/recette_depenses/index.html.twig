@@ -37,6 +37,12 @@
     <option  {{ (statut=='V')?'selected="selected"':''}} value="V">VALIDE</option>
     <option  {{ (statut=='C')?'selected="selected"':''}} value="C">COMPTABILISE</option>
 </select>
+    Agences : <select id="agence" name="agence" >
+    <option  {{ (app.request.request.get('agence')=='')?'selected="selected"':''}} value=>Tous</option>
+    {% for agence in agences %}
+        <option  {{ (agence_id==agence.id)?'selected="selected"':''}} value={{ agence.id }}>{{ agence.code }}</option>
+    {% endfor %}
+</select>
     {{ form_end(form) }}
 
     <h1>Recettes et dépenses</h1>

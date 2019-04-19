@@ -28,8 +28,8 @@
                 <td>{{ transaction.mDebit }}</td>
                 <td>{{ transaction.mCredit}}</td>
                 <td>
-                    <a href="{{ path('transactions_show', {'id': transaction.id}) }}"> Fiche d'imputation</a> |
-                    <a href="{{ path('transactions_edit', {'id': transaction.id}) }}"> Modifier</a>
+                    <a href="{{ path('transactions_show', {'id': transaction.id,'returnRoute':app.request.attributes.get('_route')}) }}"> Fiche d'imputation</a> |
+                    <a href="{{ path('transactions_edit', {'id': transaction.id,'returnRoute':app.request.attributes.get('_route')}) }}"> Modifier</a>
                 </td>
             </tr>
         {% else %}

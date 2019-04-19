@@ -72,8 +72,7 @@ class Menu  extends Controller
         ];
 
         $this->menu_comptable=[
-            ['text'=>'Recettes - Depenses','lien'=>'recette_depenses_index']
-            ,['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
+            ['text'=>'Saisie Caisses/Banques','lien'=>'compta_saisie_tresorerie']
             ,['text'=>'Compensation', 'lien'=>'compenses_saisie']
            // ,['text'=>'Recettes Depenses Comptant','lien'=>'recette_depenses_comptant_groupee']
             ,['text'=>'Salaires', 'lien'=>'salaires_positionnement']
@@ -93,6 +92,7 @@ class Menu  extends Controller
 
         $this->menu_suivi=[
             ['text'=>'Journées Caisses', 'lien'=>'journee_caisses_index']
+            ,['text'=>'Recettes - Depenses','lien'=>'recette_depenses_index']
             ,['text'=>'Suivi Ecarts caissier', 'lien'=>'journee_caisses_ecarts_utilisateurs']
             ,['text'=>'Suivi transferts', 'lien'=>'transfert_internationaux_tc']
             ,['text'=>'Suivi Compensation', 'lien'=>'compenses_index']

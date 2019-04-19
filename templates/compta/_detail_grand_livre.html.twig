@@ -24,7 +24,7 @@
                 <tr>
                     <td class="padding-5 ">{{ (ecriture.dateTransaction)?ecriture.dateTransaction|date('d-m-Y'):''}}</td>
                     <td class="padding-5 "><a href="{{ path('journaux_comptables_ecritures', {'master': ecriture.idJournal}) }}">{{ ecriture.codeJournal}}</a></td>
-                    <td class="padding-5 "><a href="{{ path('transactions_edit', {'id': ecriture.id}) }}">{{(ecriture.numPiece)?ecriture.numPiece:ecriture.id}}</a></td>
+                    <td class="padding-5 "><a href="{{ path('transactions_edit', {'id': ecriture.id,'returnRoute':app.request.attributes.get('_route'),'compteDebut':criteres.compteDebut.id,'compteFin':criteres.compteFin.id,'dateDebut':criteres.dateDebut|date('Y-m-d'),'dateFin':criteres.dateFin|date('Y-m-d')}) }}">{{(ecriture.numPiece)?ecriture.numPiece:ecriture.id}}</a></td>
                     <td class="padding-5 ">{{ (ecriture.libelleTC)?ecriture.libelleTC:ecriture.libelleT}}</td>
                     <td class="padding-5 text-right">{{ ecriture.mDebit|number_format(0, '.', ' ')}}</td>
                     <td class="padding-5 text-right">{{ ecriture.mCredit|number_format(0, '.', ' ')}}</td>
