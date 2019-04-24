@@ -102,6 +102,29 @@ class ComptesRepository extends ServiceEntityRepository
     /**
      * @return QueryBuilder
      */
+    public function getCompteTierComptantQb(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            ->where('c.numCompte like \'52%\'
+                    or c.numCompte like \'55%\'
+                    or c.numCompte like \'57%\'
+                    ')
+            ->orderBy('c.numCompte', 'ASC');
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getCompteTierAtermeQb(){
+        $qb=$this->createQueryBuilder('c');
+        return $qb
+            ->where('c.numCompte like \'4%\'
+                    ')
+            ->orderBy('c.numCompte', 'ASC');
+    }
+    /**
+     * @return QueryBuilder
+     */
     public function getCompteContrePartieDepenseRecettesQb(){
         $qb=$this->createQueryBuilder('c');
         return $qb

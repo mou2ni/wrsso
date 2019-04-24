@@ -32,7 +32,7 @@ class Salaires
     private $transaction;
 
     /**
-     * @ORM\Column(type="date"))
+     * @ORM\Column(type="date", unique=true))
      */
     private $periode;
 

@@ -3,7 +3,13 @@
 {% block title %}Saisie des dépenses et recettes{% endblock %}
 
 {% block body %}
-    <h1>Saisie des dépenses et recettes</h1><div class="form-inline">
+    <h1>Saisie des dépenses et recettes
+        {% if estComptant %}
+            au COMPTANT
+        {% else %}
+            à TERME
+        {% endif %}
+    </h1><div class="form-inline">
     {{ include('journee_caisses/_btn_return_gerer.html.twig') }} </div>
 
     {{ include('recette_depenses/_form.html.twig') }}

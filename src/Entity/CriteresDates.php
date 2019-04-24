@@ -35,7 +35,8 @@ class CriteresDates
      */
     public function getDateDebut()
     {
-        return $this->dateDebut;
+        $string_date=$this->dateDebut->format('Y-m-d');
+        return new \DateTime($string_date.' 00:00:00');
     }
 
     /**
@@ -53,7 +54,8 @@ class CriteresDates
      */
     public function getDateFin()
     {
-        return $this->dateFin;
+        $string_date=$this->dateFin->format('Y-m-d');
+        return new \DateTime($string_date.' 23:59:59');
     }
 
     /**

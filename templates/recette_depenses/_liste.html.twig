@@ -56,7 +56,7 @@
                         {% if  rd.statut=='I' %}
                             {{ (rd.utilisateur==app.user.id)
                             ?include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment ?','path':'recette_depenses_autoriser', 'id':rd.id})
-                            :include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Autoriser', 'confirm_message':'AUTORISER LA DEPENSE ?','path':'recette_depenses_autoriser', 'id':rd.id})
+                            :include('recette_depenses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Autoriser', 'confirm_message':'AUTORISER LA DEPENSE ?','path':'recette_depenses_autoriser', 'id':rd.id,'btn_class':'btn-danger'})
                             }}
                         {% endif %}
                         {% if rd.utilisateur==app.user.id  and rd.statut!='C' and rd.statut!='X' %}

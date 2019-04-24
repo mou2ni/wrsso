@@ -52,9 +52,9 @@ class TransactionComptesController extends Controller
         return $this->render('transaction_comptes/index.html.twig', ['transaction_comptes' => $transactionComptes]);
     }
 
-    /**
+    /*
      * @Route("/depot", name="depot", methods="GET|POST|UPDATE")
-     */
+
     public function depot(Request $request): Response
     {
         $operation=$request->request->get('_operation');
@@ -117,10 +117,10 @@ class TransactionComptesController extends Controller
             'operation'=>$operation
         ]);
     }
-
-    /**
+*/
+    /*
      * @Route("/retrait", name="retrait", methods="GET|POST|UPDATE")
-     */
+
     public function retrait(Request $request): Response
     {
         $operation=$request->request->get('_operation');
@@ -135,20 +135,7 @@ class TransactionComptesController extends Controller
             $compteClient=$this->getDoctrine()->getRepository(Comptes::class)->findOneBy(['numCompte'=>$retrait->getNumCompte()]);
             if(!$genererCompta->genComptaRetrait($this->journeeCaisse->getUtilisateur(),$this->journeeCaisse->getCaisse(),$compteClient, $retrait->getLibele(), $retrait->getMDebit(),$this->journeeCaisse))
             {
-                //dump($genererCompta->getE()===2);die();
-               /* switch ($genererCompta->getE()){
-                    case Transactions::ERR_ZERO:$message =  'Opération de montant 0 impossible !!!';break;
-                    case Transactions::ERR_NEGATIF:$message =  'Opération de montant négatif non autorisée !!!';break;
-                    case Transactions::ERR_SOLDE_INSUFISANT:$message =  'Solde du compte insuffisant pour cette opération !!!';break;
-                    case Transactions::ERR_RETRAIT_COMPTE_INTERNE:$message =  'Retrait interdit sur ce compte !!!';break;
-                    default : $message='Code erreur N° '.$genererCompta->getE().' Non connu ! ! !';
-                }*/
-                /*
-                if($genererCompta->getE()==Transactions::ERR_ZERO)$message =  'Montant égale 0';
-                elseif ($genererCompta->getE()==Transactions::ERR_NEGATIF)$message = 'Montant négatif';
-                elseif ($genererCompta->getE()===Transactions::ERR_SOLDE_INSUFISANT)$message = ' Solde Insuffisant';
-                else $message = 'Deséquilibre';
-                */
+
                 $this->addFlash('error', 'erreur : '.$genererCompta->getErrMessage());
                 //dump($genererCompta->getE());die();
             }
@@ -185,10 +172,10 @@ class TransactionComptesController extends Controller
             'operation'=>$operation
         ]);
     }
-    
-    /**
+*/
+    /*
      * @Route("/new", name="transaction_comptes_new", methods="GET|POST")
-     */
+
     public function new(Request $request): Response
     {
         $transactionCompte = new TransactionComptes();
@@ -208,18 +195,18 @@ class TransactionComptesController extends Controller
             'form' => $form->createView(),
         ]);
     }
-
-    /**
+*/
+    /*
      * @Route("/{id}", name="transaction_comptes_show", methods="GET|POST")
-     */
+
     public function show(JourneeCaisses $journeeCaisse): Response
     {
         return $this->render('transaction_comptes/show.html.twig', ['journeeCaisse' => $journeeCaisse]);
     }
-
-    /**
+*/
+    /*
      * @Route("/{id}/edit", name="transaction_comptes_edit", methods="GET|POST")
-     */
+
     public function edit(Request $request, TransactionComptes $transactionCompte): Response
     {
         $form = $this->createForm(TransactionComptesType::class, $transactionCompte);
@@ -236,10 +223,10 @@ class TransactionComptesController extends Controller
             'form' => $form->createView(),
         ]);
     }
-
-    /**
+*/
+    /*
      * @Route("/{id}", name="transaction_comptes_delete", methods="DELETE")
-     */
+
     public function delete(Request $request, TransactionComptes $transactionCompte): Response
     {
         if ($this->isCsrfTokenValid('delete'.$transactionCompte->getId(), $request->request->get('_token'))) {
@@ -267,5 +254,5 @@ class TransactionComptesController extends Controller
         $retraits=$em->getRepository('App:TransactionComptes')->findBy(['transaction'=>$transactions]);
         foreach ($retraits as $retrait) $total=$total+$retrait->getMDebit();
         return $total;
-    }
+    }*/
 }

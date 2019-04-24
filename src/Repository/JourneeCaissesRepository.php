@@ -80,6 +80,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         ;
 
         if ($myJournee->getCaisse()->getTypeCaisse()<> Caisses::GUICHET){
+
             $qb->andWhere('jc.dateComptable=:dateComptable or c.typeCaisse!=:typeCaisse')
                 ->setParameter('dateComptable',$dateComptable)
                 ->setParameter('typeCaisse',Caisses::GUICHET)
@@ -89,6 +90,16 @@ class JourneeCaissesRepository extends ServiceEntityRepository
             ->setParameter('statut',JourneeCaisses::ENCOURS)
             ->setParameter('myJournee',$myJournee)
             ;
+    }
+
+    public function getOpenJourneeCaisseRDQb(){
+        $qb=$this->createQueryBuilder('jc');
+        return $qb->addSelect('c')
+            ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
+            ->where('jc.statut=:statut')->setParameter('statut',JourneeCaisses::ENCOURS)
+            ->andWhere('c.typeCaisse!=:guichet')->setParameter('guichet',Caisses::GUICHET)
+            ->orderBy('c.code')
+        ;
     }
 
 

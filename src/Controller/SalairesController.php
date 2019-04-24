@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Collaborateurs;
+use App\Entity\Comptes;
 use App\Entity\LigneSalaires;
 use App\Entity\ParamComptables;
 use App\Entity\Salaires;
@@ -55,7 +56,7 @@ class SalairesController extends Controller
     /**
      * @Route("/positionnement", name="salaires_positionnement", methods="GET|POST")
      */
-    public function positionner(Request $request): Response
+    public function positionner(Request $request,\Swift_Mailer $mailer): Response
     {
         //$em=$this->getDoctrine()->getManager();
         //$salaire=$em->getRepository(Salaires::class)->findOneBy(['periodeSalaire'=>$periodeSalaire]);
@@ -79,7 +80,9 @@ class SalairesController extends Controller
         $form->handleRequest($request);
 
        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+           $em = $this->getDoctrine()->getManager();
+
+           //$verif_salaire=$em->getRepository(Salaires::class)->findOneBy('periode')
 
             $genCompta=new GenererCompta($em);
            $transaction = $genCompta->genComptaSalaire($this->utilisateur, $salaire, $this->journeeCaisse);
@@ -93,6 +96,26 @@ class SalairesController extends Controller
 
            $em->persist($salaire);
             $em->flush();
+
+           //envoi mail si non compte interne
+           foreach ($genCompta->getTransactions() as $transaction){
+               foreach ($transaction->getTransactionComptes() as $transactionCompte)
+               {
+                   $compte=$transactionCompte->getCompte();
+                   $adresseMailTo=$compte->getClient()->getEmail();
+                   if ($compte->getTypeCompte() != Comptes::INTERNE and $adresseMailTo) {
+                       $message_object = 'WARISSO - Confirmation de mouvement';
+                       $message = (new \Swift_Message($message_object))
+                           ->setFrom('warisso-confirm@yesbo.bf')
+                           ->setTo($adresseMailTo)
+                           ->setBody($this->renderView('transaction_comptes/confirmation_mail.html.twig',
+                               ['transactionCompte' => $transactionCompte]
+                           ), 'text/html');
+
+                       $mailer->send($message);
+                   }
+               }
+           }
             return $this->redirectToRoute('salaires_ecriture_comptables',['id'=>$salaire->getId()]);
         }
         return $this->render('salaires/positionnement.html.twig', [

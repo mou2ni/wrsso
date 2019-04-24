@@ -292,7 +292,7 @@ class RecetteDepenses
     {
         //retourne la valeur saisi oubien mdepense ou mrecette le cas échéant
         if ($this->mSaisie!=0) return $this->mSaisie;
-        if ($this->getMDepense()) return $this->getMDepense();
+        if ($this->getMDepense()) return -$this->getMDepense();
         if ($this->getMRecette()) return $this->getMRecette();
         return $this->mSaisie;
     }
