@@ -5,7 +5,7 @@
             <th rowspan="2" class="padding-5" >Agence</th>
             <th rowspan="2" class="padding-5" >Collaborateur</th>
             <th rowspan="2" class="padding-5" >Salaire de Base</th>
-            <th colspan="4" class="padding-5 text-center">Indemnités </th>
+            <th colspan="5" class="padding-5 text-center">Indemnités </th>
             <th colspan="2" class="padding-5 text-center">Securite Sociale</th>
             <th colspan="2" class="padding-5 text-center">Taxes Impots</th>
             <th rowspan="2" class="padding-5">Salaire Net</th>
@@ -17,9 +17,10 @@
             <th class="padding-5" >Transport</th>
             <th class="padding-5" >Fonction</th>
             <th class="padding-5" >Autres </th>
+            <th class="padding-5" >HSup </th>
             <th>Patronale</th>
             <th>Salarié</th>
-            <th class="padding-5" >Patronales</th>
+            <th class="padding-5" >Patron</th>
             <th class="padding-5" >Salarié</th>
             {#<th>actions</th>#}
         </tr>
@@ -30,6 +31,7 @@
     {% set totalIndemTransport=0 %}
     {% set totalIndemFonction=0 %}
     {% set totalIndemAutres=0 %}
+    {% set totalHeureSup=0 %}
     {% set totalSecuriteSocialePatronal=0 %}
     {% set totalSecuriteSocialeSalarie=0 %}
     {% set totalTaxePatronale=0 %}
@@ -42,7 +44,8 @@
         {% set totalIndemLogement=totalIndemLogement+ligne_salaire.mIndemLogement %}
         {% set totalIndemTransport=totalIndemTransport+ligne_salaire.mIndemTransport %}
         {% set totalIndemFonction=totalIndemFonction+ligne_salaire.mIndemFonction %}
-        {% set totalIndemAutres=totalIndemAutres+ligne_salaire.mIndemAutres %}
+        {% set totalIndemAutres=totalIndemAutres+ligne_salaire.mIndemAutres%}
+        {% set totalHeureSup=totalHeureSup+ligne_salaire.mHeureSup%}
         {% set totalSecuriteSocialePatronal=totalSecuriteSocialePatronal+ligne_salaire.mSecuriteSocialePatronal %}
         {% set totalSecuriteSocialeSalarie=totalSecuriteSocialeSalarie+ligne_salaire.mSecuriteSocialeSalarie %}
         {% set totalTaxePatronale=totalTaxePatronale+ligne_salaire.mTaxePatronale %}
@@ -56,6 +59,7 @@
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemTransport|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemFonction|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mIndemAutres|number_format(0, '.', ' ')  }}</td>
+            <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mHeureSup|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mSecuriteSocialePatronal|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mSecuriteSocialeSalarie|number_format(0, '.', ' ')  }}</td>
             <td class="padding-5 text-right text-nowrap" >{{ ligne_salaire.mTaxePatronale|number_format(0, '.', ' ')  }}</td>
@@ -71,7 +75,7 @@
         </tr>
     {% else %}
         <tr>
-            <td colspan="12">Aucune ligne</td>
+            <td colspan="13">Aucune ligne</td>
         </tr>
     {% endfor %}
     <tr>
@@ -81,6 +85,7 @@
         <th class="padding-5 text-right text-nowrap" >{{ totalIndemTransport|number_format(0, '.', ' ')  }}</th>
         <th class="padding-5 text-right text-nowrap" >{{ totalIndemFonction|number_format(0, '.', ' ')  }}</th>
         <th class="padding-5 text-right text-nowrap" >{{ totalIndemAutres|number_format(0, '.', ' ')  }}</th>
+        <th class="padding-5 text-right text-nowrap" >{{ totalHeureSup|number_format(0, '.', ' ')  }}</th>
         <th class="padding-5 text-right text-nowrap" >{{ totalSecuriteSocialePatronal|number_format(0, '.', ' ')  }}</th>
         <th class="padding-5 text-right text-nowrap" >{{ totalSecuriteSocialeSalarie|number_format(0, '.', ' ')  }}</th>
         <th class="padding-5 text-right text-nowrap" >{{ totalTaxePatronale|number_format(0, '.', ' ')  }}</th>

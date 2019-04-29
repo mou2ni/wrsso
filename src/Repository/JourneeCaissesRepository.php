@@ -97,7 +97,7 @@ class JourneeCaissesRepository extends ServiceEntityRepository
         return $qb->addSelect('c')
             ->innerJoin('jc.caisse', 'c', 'WITH', 'jc.caisse= c.id')
             ->where('jc.statut=:statut')->setParameter('statut',JourneeCaisses::ENCOURS)
-            ->andWhere('c.typeCaisse!=:guichet')->setParameter('guichet',Caisses::GUICHET)
+            //->andWhere('c.typeCaisse!=:guichet')->setParameter('guichet',Caisses::GUICHET)
             ->orderBy('c.code')
         ;
     }

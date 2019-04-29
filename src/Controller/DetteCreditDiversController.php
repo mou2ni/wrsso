@@ -87,6 +87,7 @@ class DetteCreditDiversController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
         $detteCredit = new DetteCreditDivers();
+        $detteCredit->setUtilisateurCreation($this->utilisateur);
         $form = $this->createForm(DetteCreditDiversType::class, $detteCredit);
         $form->handleRequest($request);
 
@@ -104,6 +105,7 @@ class DetteCreditDiversController extends Controller
             $detteCredit = new DetteCreditDivers($this->journeeCaisse);
             $request = new Request();
             //$form = ($dette)?$this->createForm(DetteType::class, $detteCredit):$this->createForm(CreditType::class, $detteCredit);
+            $detteCredit->setUtilisateurCreation($this->utilisateur);
             $form = $this->createForm(DetteCreditDiversType::class, $detteCredit);
             $form->handleRequest($request);
 

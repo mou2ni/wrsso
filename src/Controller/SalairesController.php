@@ -82,6 +82,8 @@ class SalairesController extends Controller
        if ($form->isSubmitted() && $form->isValid()) {
            $em = $this->getDoctrine()->getManager();
 
+           $salaire->maintenirTotaux();
+
            //$verif_salaire=$em->getRepository(Salaires::class)->findOneBy('periode')
 
             $genCompta=new GenererCompta($em);

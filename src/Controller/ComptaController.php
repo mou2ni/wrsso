@@ -104,7 +104,7 @@ class ComptaController extends Controller
 
         $criteresGrandLivre=new CriteresEtatsComptas();
 
-        dump($criteres);
+        //dump($criteres);
 
         if ($criteres){
             $compteDebut_id=$criteres['compteDebut'];

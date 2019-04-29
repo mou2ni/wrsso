@@ -15,18 +15,21 @@ class SalairesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $today=new \DateTime();
-        $annee=$today->format('Y');
+        /*$today=new \DateTime();
+        $annee=$today->format('Y');*/
         $builder
-            ->add('dateSalaire', DateType::class, [
+            /*-->add('dateSalaire', DateType::class, [
                 'widget' => 'single_text'
             ])
-            /*->add('periodeSalaire', ChoiceType::class
+            >add('periodeSalaire', ChoiceType::class
                 ,array('choices'  => ['Janvier'=> 'Jan-'.$annee, 'Février'=>'Fev-'.$annee,'Mars'=>'Mar-'.$annee,'Avril'=>'Avri-'.$annee,
                     'Mai'=>'Mai-'.$annee,'Juin'=>'Juin-'.$annee,'Juillet'=>'Juil-'.$annee,'Aout'=>'Aout-'.$annee,'Septembre'=>'Sept-'.$annee,
                     'Octobre'=>'Oct-'.$annee,'Novembre'=>'Nov-'.$annee,'Décembre'=>'Dec-'.$annee,], 'required' => true
                 ))*/
-            ->add('periode', DateType::class,['label'=>'Periode', 'widget'=>'single_text'])
+            //->add('periode', DateType::class,['label'=>'Periode', 'widget'=>'single_text'])
+            ->add('periode', DateType::class, [
+                'format' => 'yyyy-MM-dd',
+            ])
             ->add('mBrutTotal')
             ->add('mTaxeTotal')
             ->add('mImpotTotal')

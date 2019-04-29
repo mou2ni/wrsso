@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RubriqueAnalyses index{% endblock %}
+
+{% block body %}
+    <h1>RubriqueAnalyses index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>Libelle</th>
+                <th>IsRecette</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for rubrique_analysis in rubrique_analyses %}
+            <tr>
+                <td>{{ rubrique_analysis.id }}</td>
+                <td>{{ rubrique_analysis.code }}</td>
+                <td>{{ rubrique_analysis.libelle }}</td>
+                <td>{{ rubrique_analysis.isRecette ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('rubrique_analyses_show', {'id': rubrique_analysis.id}) }}">show</a>
+                    <a href="{{ path('rubrique_analyses_edit', {'id': rubrique_analysis.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('rubrique_analyses_new') }}">Create new</a>
+{% endblock %}

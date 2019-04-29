@@ -151,8 +151,8 @@ class RecetteDepensesController extends Controller
 
             if ($recetteDepense->getMSaisie()>0){
                 $recetteDepense->setMRecette($recetteDepense->getMSaisie());
-                $recetteDepense=$this->valider($recetteDepense, RecetteDepenses::STAT_VALIDATION_AUTO);
-                if (!$recetteDepense) {
+                $ok=$this->valider($recetteDepense, RecetteDepenses::STAT_VALIDATION_AUTO);
+                if (!$ok) {
                     return $this->render('recette_depenses/new.html.twig', [
                         'recette_depense' => $recetteDepense,
                         'journeeCaisse'=>$this->journeeCaisse,
@@ -165,13 +165,13 @@ class RecetteDepensesController extends Controller
             }elseif ($recetteDepense->getMSaisie()<0){
                 $recetteDepense->setMDepense(-$recetteDepense->getMSaisie());
                 if ($this->isGranted('ROLE_COMPTABLE')){ //auto validé si c'est un comptable
-                    $recetteDepense=$this->valider($recetteDepense, RecetteDepenses::STAT_VALIDATION_AUTO);
-                    if (!$recetteDepense) return $this->redirectToRoute($returnRoute);
+                    $ok=$this->valider($recetteDepense, RecetteDepenses::STAT_VALIDATION_AUTO);
+                    if (!$ok) return $this->redirectToRoute($returnRoute);
                 }
             } else{return $this->redirectToRoute($returnRoute);}
 
             $em->persist($recetteDepense);
-            //$em->persist($this->journeeCaisse);
+            $em->persist($this->journeeCaisse);
             $em->flush();
 
             return $this->redirectToRoute('journee_caisses_gerer');
@@ -222,8 +222,8 @@ class RecetteDepensesController extends Controller
                 //bouton "valider" cliqué
                 if ( $request->request->has('valider')){
                     if ($this->isGranted('ROLE_COMPTABLE'))
-                        $recetteDepense=$this->valider($recetteDepense);
-                    if($recetteDepense==false) {
+                        $ok=$this->valider($recetteDepense);
+                    if(!$ok) {
                         return $this->redirectToRoute('recette_depenses_modif',['id'=>$recetteDepense->getId()]);
                         /*if ($recetteDepense->getEstComptant()) return $this->redirectToRoute('recette_depenses_comptant');
                         else return $this->redirectToRoute('recette_depenses_aterme');*/
@@ -397,6 +397,7 @@ class RecetteDepensesController extends Controller
             if($recetteDepense->getTransaction())
                 $recetteDepense->getTransaction()->setDateTransaction($recetteDepense->getDateOperation())
                     ->setLibelle($recetteDepense->getLibelle());
+
             $this->getDoctrine()->getManager()->flush();
 
             if ($this->isGranted('ROLE_COMPTABLE'))
@@ -434,18 +435,19 @@ class RecetteDepensesController extends Controller
     private function valider(RecetteDepenses $recetteDepense, $statut=RecetteDepenses::STAT_VALIDE){
 
         if ($statut==RecetteDepenses::STAT_VALIDE and $recetteDepense->getUtilisateur()->getId()==$this->utilisateur->getId()){
-            $this->addFlash('error', 'L\'utilisateur ['.$this->utilisateur.'] Impossible de valider un versement dont on initiateur !');
+            $this->addFlash('error', 'L\'utilisateur ['.$this->utilisateur.'] Impossible de valider une depenses dont on initiateur !');
             return false;
         }
         $recetteDepense->setStatut($statut);
 
-        if($this->isGranted('ROLE_COMPTABLE')){
+        /*if($this->isGranted('ROLE_COMPTABLE')){
             $genCompta=new GenererCompta($this->getDoctrine()->getManager());
             if (!$genCompta->checkCoherenceRececetteDepenses($recetteDepense)){
                 $this->addFlash('error', $genCompta->getErrMessage());
                 return false;
             }
-        }
+        }*/
+        /**/
         if ($recetteDepense->getEstComptant()) {
             $recetteDepense->getJourneeCaisse()->updateM('mRecette', $recetteDepense->getMRecette());
             $recetteDepense->getJourneeCaisse()->updateM('mDepense', $recetteDepense->getMDepense());
@@ -454,9 +456,10 @@ class RecetteDepensesController extends Controller
             $recetteDepense->getJourneeCaisse()->updateM('mRecetteAterme', $recetteDepense->getMRecette());
             $recetteDepense->getJourneeCaisse()->updateM('mDepenseAterme', $recetteDepense->getMDepense());
         }
+        //$recetteDepense->getJourneeCaisse()->maintenirRecetteDepenses();
         $recetteDepense->setUtilisateurValidateur($this->utilisateur);
 
-        return $recetteDepense;
+        return true;
     }
 
     private function annulerValide(RecetteDepenses $recetteDepense){

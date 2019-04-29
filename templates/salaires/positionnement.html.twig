@@ -6,31 +6,50 @@
     <h1>Positionnement des salaires</h1>
 {{ form_start(form, {'attr': {'onsubmit':'return confirm("OPERATION IRREVERSIBLE. CONFIRMER ?");'} }) }}
     <div class="form-group">
-        <div class="row">
-            <div class="col">
+        <div class="row form-inline">
+            {#<div class="col">
                 {{ form_row(form.dateSalaire) }}
+            </div>#}
+            <div class="col">
+                PERIODE :
             </div>
             <div class="col">
-                {{ form_row(form.periode) }}
+                {{ form_widget(form.periode.month) }}{{ form_widget(form.periode.year) }}
+                {{ form_widget(form.periode.day) }}
             </div>
             <div class="col">
-                {{ form_row(form.mBrutTotal) }}
+                Brute total :
+            </div>
+            <div class="col">
+                {{ form_widget(form.mBrutTotal) }}
             </div>
         </div>
-        <div class="row">
+        <div class="row form-inline">
             <div class="col">
-                {{ form_row(form.mImpotTotal) }}
+                IUTS Total :
             </div>
             <div class="col">
-                {{ form_row(form.mSecuriteSocialSalarie) }}
+                {{ form_widget(form.mImpotTotal) }}
+            </div>
+            <div class="col">
+                Retenue CNSS Total :
+            </div>
+            <div class="col">
+                {{ form_widget(form.mSecuriteSocialSalarie) }}
             </div>
         </div>
-        <div class="row">
+        <div class="row form-inline">
             <div class="col">
-                {{ form_row(form.mTaxeTotal) }}
+                Taxes patronales :
             </div>
             <div class="col">
-                {{ form_row(form.mSecuriteSocialPatronal) }}
+                {{ form_widget(form.mTaxeTotal) }}
+            </div>
+            <div class="col">
+                CNSS Patronale :
+            </div>
+            <div class="col">
+                {{ form_widget(form.mSecuriteSocialPatronal) }}
             </div>
         </div>
 
@@ -94,6 +113,7 @@
         </table>
         {#<button type="button" id="add-another-collection-widget" class="add-another-collection-widget" data-list="#transfert-fields-list">Ajouter</button>#}
             {{ include('salaires/_btn_valider.html.twig') }}
+
         {{ form_end(form) }} {#, {'render_rest': false}#}
 
     </div>
