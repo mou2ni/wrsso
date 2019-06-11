@@ -274,7 +274,7 @@ ORDER BY SystemTransfert.id, z.ordre
      * @param string (sum, listing) $typeDonnees
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function qbTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $typeAffichage='detail', $typeDonnees='sum', $caisse=null, $sens=null, $journeeCaisse=null){
+    private function qbTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $typeAffichage='detail', $typeDonnees='sum', $caisse=null, $sens=null, $journeeCaisse=null, $agence=null){
 
         $qb=$this->createQueryBuilder('ti');
         if ($typeDonnees=='sum')
@@ -299,14 +299,21 @@ ORDER BY SystemTransfert.id, z.ordre
                 ->addSelect('c.libelle as caisse');
 
         }
+        if ($typeAffichage=='agence'){
+            $qb->leftJoin('ti.journeeCaisse','jc')
+                ->leftJoin('jc.caisse','c')
+                ->leftJoin('c.agence','a')
+                ->addSelect('a.code as agence');
+
+        }
         if ($dateDebut){
-            $string_date=$dateDebut->format('Y-m-d');
-            $dateDebut= new \DateTime($string_date.' 00:00:00');
+            //$string_date=$dateDebut->format('Y-m-d');
+            //$dateDebut= new \DateTime($string_date.' 00:00:00');
             $qb->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut);
         }
         if ($dateFin) {
-            $string_date=$dateFin->format('Y-m-d');
-            $dateFin= new \DateTime($string_date.' 23:59:59');
+            //$string_date=$dateFin->format('Y-m-d');
+            //$dateFin= new \DateTime($string_date.' 23:59:59');
             $qb->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin);
         }
         if($systemTransfert){
@@ -321,6 +328,9 @@ ORDER BY SystemTransfert.id, z.ordre
         if($journeeCaisse){
             $qb->andWhere('ti.journeeCaisse=:journeeCaisse')->setParameter('journeeCaisse',$journeeCaisse);
         }
+        if($agence){
+            $qb->andWhere('c.agence=:agence')->setParameter('agence',$agence);
+        }
         return $qb;
     }
 
@@ -328,10 +338,11 @@ ORDER BY SystemTransfert.id, z.ordre
 
         $qb=$this->qbTransferts($dateDebut,$dateFin,$systemTransfert,$typeAffichage,'sum');
 
-        if ($typeAffichage!='caisse') $qb->groupBy('st.id');
-        if ($typeAffichage=='detail' or $typeAffichage=='caisse')  $qb->addGroupBy('c.id');
+        if ($typeAffichage=='transfert' or $typeAffichage=='detail' or $typeAffichage==null) $qb->groupBy('st.id');
+        if ($typeAffichage=='detail' or $typeAffichage=='caisse')  $qb->addGroupBy('c.id')->orderBy('c.code','ASC');
+        if ($typeAffichage=='agence')  $qb->addGroupBy('a.id')->orderBy('a.code','ASC');
 
-         return   $qb->orderBy('st.libelle')
+         return   $qb->addOrderBy('st.libelle')
             ->getQuery()->getResult();
     }
 
@@ -368,6 +379,15 @@ ORDER BY SystemTransfert.id, z.ordre
             ->andWhere('ti.dateTransfert<= ?2')->setParameter(2,$dateFin);
 
         return $qb->getQuery()->execute();
+    }
+
+    public function getSumTransfert(\DateTime $dateDebut, \DateTime $dateFin){
+        return $qb=$this->createQueryBuilder('ti')
+            ->select('SUM (ti.mTransfertTTC) as mTotalTransfert')
+            ->where('ti.dateTransfert>=:dateDebut')->setParameter('dateDebut',$dateDebut)
+            ->andWhere('ti.dateTransfert<=:dateFin')->setParameter('dateFin',$dateFin)
+            ->getQuery()->getOneOrNullResult();
+
     }
 
 }

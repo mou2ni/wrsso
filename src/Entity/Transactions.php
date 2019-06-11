@@ -90,7 +90,7 @@ class Transactions
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TransactionComptes", mappedBy="transaction", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\TransactionComptes", mappedBy="transaction", cascade={"persist", "remove"})
      */
     private $transactionComptes;
 

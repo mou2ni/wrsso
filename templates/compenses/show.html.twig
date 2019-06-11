@@ -94,7 +94,7 @@
         <a href="{{ path('compenses_edit', {'id': compense.id}) }}">Modifier</a> |
         <a href="{{ path('compenses_maintenir', {'id': compense.id}) }}">Maintenir</a> |
         <a href="{{ path('compenses_saisie') }}">Nouvelle compensation</a> |
-        <a href="{{ path('transactions_show',{'id': compense.transaction.id}) }}">Voir écritures comptables</a>
+        <a href="{{ path('transactions_show',{'id': compense.transaction.id,'returnRoute':app.request.attributes.get('_route')}) }}">Voir écritures comptables</a>
     </h1>
 
     {{ include('compenses/_delete_form.html.twig') }}

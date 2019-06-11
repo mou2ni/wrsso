@@ -100,8 +100,8 @@ class TransactionComptesRepository extends ServiceEntityRepository
             ->andWhere('tc.compte=:compte')->setParameter('compte',$compte);
         if ($limit) {
             $qb->setMaxResults($limit)
-                ->orderBy('t.createdAt', 'DESC');
-        } else $qb->orderBy('t.createdAt', 'ASC');
+                ->orderBy('t.dateTransaction', 'DESC');
+        } else $qb->orderBy('t.dateTransaction', 'ASC');
 
         return  $qb->getQuery()->getResult();
     }

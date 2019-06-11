@@ -69,25 +69,28 @@ class TransactionsController extends Controller
     /**
      * @Route("/{id}/detail", name="transactions_show", methods="GET")
      */
-    public function show(Transactions $transaction): Response
+    public function show(Request $request, Transactions $transaction): Response
     {
         //$transaction=$this->getDoctrine()->getRepository(TransactionComptes::class)->getEcriture($id);
         //dump($transaction);die();
-        return $this->render('transactions/show.html.twig', ['transaction' => $transaction]);
+        $returnRoute=($request->request->get('returnRoute'))?$request->request->get('returnRoute'):$request->query->get('returnRoute');
+        return $this->render('transactions/show.html.twig', ['transaction' => $transaction, 'returnRoute'=>$returnRoute]);
     }
 
     /**
-     * @Route("/{id}/modifier", name="transactions_edit", methods="GET|POST")
+     * @Route("/{id}/modifier", name="transactions_edit", methods="GET|POST|DELETE")
      */
     public function edit(Request $request, Transactions $transaction): Response
     {
-        $journeeCaisse=$transaction->getJourneeCaisse();
+        $returnRoute=($request->request->get('returnRoute'))?$request->request->get('returnRoute'):$request->query->get('returnRoute');
+
+        /*$journeeCaisse=$transaction->getJourneeCaisse();
         if($journeeCaisse){
             if( $journeeCaisse->getCaisse()->getTypeCaisse()==Caisses::GUICHET){
                 $this->addFlash('error','Modification impossible des écritures comptables de guichet');
                 return $this->redirectToRoute('transactions_ajout');
             }
-        }
+        }*/
         $form = $this->createForm(TransactionsType::class, $transaction);
         $form->handleRequest($request);
 
@@ -95,7 +98,7 @@ class TransactionsController extends Controller
             $transaction->maintenir();
             if ($transaction->isDesequilibre()){
                 $this->addFlash('error','Ecriture déséquilibrée ! ! !');
-                return $this->redirectToRoute('transactions_edit',['id'=>$transaction->getId()]);
+                return $this->redirectToRoute('transactions_edit',['id'=>$transaction->getId(),'returnRoute'=>$returnRoute]);
             }
             $this->getDoctrine()->getManager()->flush();
 
@@ -107,6 +110,7 @@ class TransactionsController extends Controller
             'transaction' => $transaction,
             'transactions'=>$transactions,
             'form' => $form->createView(),
+            'returnRoute'=>$returnRoute,
         ]);
     }
 
@@ -115,10 +119,17 @@ class TransactionsController extends Controller
      */
     public function delete(Request $request, Transactions $transaction): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$transaction->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $transaction->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($transaction);
             $em->flush();
+        }
+        $returnRoute = $request->request->get('returnRoute');
+       if ($returnRoute == 'compta_grand_livre') {
+           $criteres=$request->request->get('criteres_etats_comptas');
+           return $this->redirectToRoute($returnRoute, [
+                'criteres_etats_comptas' => $criteres,
+            ]);
         }
 
         return $this->redirectToRoute('transactions_index');

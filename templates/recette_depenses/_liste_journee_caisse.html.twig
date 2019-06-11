@@ -41,7 +41,7 @@
                 ?'comptabilisée':'Non defini'}}
             </td>
             <td class="padding-5">
-                {% if  is_granted('ROLE_COMPTABLE') %} {% if rd.transaction%}<a href="{{ path('transactions_show', {'id': rd.transaction.id}) }}"> {{ rd.transaction.id }}</a>{% endif %}
+                {% if  is_granted('ROLE_COMPTABLE') %} {% if rd.transaction%}<a href="{{ path('transactions_show', {'id': rd.transaction.id,'returnRoute':app.request.attributes.get('_route')}) }}"> {{ rd.transaction.id }}</a>{% endif %}
                 {% endif %}
             </td>
             <td class="padding-5">

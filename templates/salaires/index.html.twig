@@ -46,7 +46,7 @@
                 <td class="padding-5 text-right" >{{ salaire.mImpotTotal|number_format(0, '.', ' ') }}</td>
                 <td class="padding-5 text-right" >{{ salaire.coutTotal|number_format(0, '.', ' ') }}</td>
                 <td class="padding-5">
-                    {% if  is_granted('ROLE_COMPTABLE') %} {% if salaire.transaction %}<a href="{{ path('transactions_show', {'id': salaire.transaction.id}) }}"> {{ salaire.transaction.id }}</a>{% endif %}
+                    {% if  is_granted('ROLE_COMPTABLE') %} {% if salaire.transaction %}<a href="{{ path('transactions_show', {'id': salaire.transaction.id,'returnRoute':app.request.attributes.get('_route')}) }}"> {{ salaire.transaction.id }}</a>{% endif %}
                     {% endif %}
                 </td>
                 <td class="padding-5">

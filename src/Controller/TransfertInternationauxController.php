@@ -245,7 +245,7 @@ class TransfertInternationauxController extends Controller
 
         $type_affichage=$request->request->get('type_affichage');
 
-        if ($type_affichage!='caisse') {
+        if ($type_affichage=='transfert' or $type_affichage=='detail' or $type_affichage==null) {
             $systemTransferts = $this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
 
             $systemTransfertCompenses = array();
@@ -258,11 +258,14 @@ class TransfertInternationauxController extends Controller
             if ($compenses) $systemTransfertCompenses[] = ['libelle' => '', 'compenses' => $compenses];
         }
 
+        $totalTransfert=$this->getDoctrine()->getRepository(TransfertInternationaux::class)->getSumTransfert($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin());
+
         return $this->render('transfert_internationaux/compense_transfert.html.twig', [
             'form' => $form->createView(),
             'systemTransfertCompenses' => $systemTransfertCompenses,
             'affichage' => $type_affichage,
             'criteres'=>$criteresRecherches,
+            'mTotalTransfert'=>$totalTransfert['mTotalTransfert'],
         ]);
 
     }

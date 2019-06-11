@@ -14,7 +14,7 @@
             <tr>
                 <td class="padding-5 ">{{(ligneEcriture.dateTransaction)?ligneEcriture.dateTransaction|date('d-m-Y'):'' }}</td>
 
-                <td class="padding-5 "><a href="{{ path('transactions_edit', {'id': ligneEcriture.id}) }}">{{ (ligneEcriture.numPiece)?ligneEcriture.numPiece:ligneEcriture.id}}</a></td>
+                <td class="padding-5 "><a href="{{ path('transactions_edit', {'id': ligneEcriture.id,'returnRoute':app.request.attributes.get('_route')}) }}">{{ (ligneEcriture.numPiece)?ligneEcriture.numPiece:ligneEcriture.id}}</a></td>
 
                 <td class="padding-5 "><a href="{{ path('compta_grand_livre_specific',{'id': ligneEcriture.compte}) }}">{{ ligneEcriture.numCompte}}</a></td>
                 <td class="padding-5 ">{{ (ligneEcriture.libelleTC)?ligneEcriture.libelleTC:ligneEcriture.libelleT}}</td>

@@ -43,27 +43,27 @@
                 <table class="table table-bordered">
                     <tr>
                         <th>TRANSFERT EN MILLIONS</th>
-                        <th>EMIS</th>
-                        <th>RECUS</th>
+                        <th class="text-nowrap text-right" colspan="2">EMIS</th>
+                        <th class="text-nowrap text-right" colspan="2">RECUS</th>
                     </tr>
                     {% for etatTypeZone in etatTypeZone %}
                         {% if etatTypeZone.typeId == etatType.typeId %}
-                            <tr><th>{{ etatTypeZone.zone }}</th><th>{{ (etatTypeZone.emis)?etatTypeZone.emis|number_format(0, '.', ' '):0 }}</th><th>{{ (etatTypeZone.recus)?etatTypeZone.recus|number_format(0, '.', ' '):0 }}</th></tr>
+                            <tr><th>{{ etatTypeZone.zone }}</th><th class="text-nowrap text-right" colspan="2">{{ (etatTypeZone.emis)?etatTypeZone.emis|number_format(0, '.', ' '):0 }}</th><th class="text-nowrap text-right" colspan="2">{{ (etatTypeZone.recus)?etatTypeZone.recus|number_format(0, '.', ' '):0 }}</th></tr>
                             {% for transfert in etat %}
                                 {% if transfert.typeId == etatTypeZone.typeId %}
                                     {#{% if transfert.0.sens==1 %} {% set nemis = nemis + 1 %}{% else %}{% set nrecus = nrecus + 1 %}{% endif %}#}
                                     {% if transfert.zone == etatTypeZone.zone and etatTypeZone.detail!=0 %}
-                                        <tr><td>{{ transfert.paysId }}</td><td>{{ (transfert.emis)?transfert.emis|number_format(0, '.', ' '):0 }}</td><td>{{ (transfert.recus)?transfert.recus|number_format(0, '.', ' '):0 }}</td></tr>
+                                        <tr><td  class="padding-left-30">{{ transfert.paysId }}</td><td class="text-nowrap text-right" colspan="2">{{ (transfert.emis)?transfert.emis|number_format(0, '.', ' '):0 }}</td><td class="text-nowrap text-right" colspan="2">{{ (transfert.recus)?transfert.recus|number_format(0, '.', ' '):0 }}</td></tr>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
                         {% endif %}
                     {% endfor %}
-                    <tr><th>TOTAL</th><th>{{ (etatType.EMIS)?etatType.EMIS|number_format(0, '.', ' '):0 }}</th><th>{{ (etatType.RECUS)?etatType.RECUS|number_format(0, '.', ' '):0 }}</th></tr>
-                    <tr><th>NOMBRE D'OPERATIONS</th><th>{{ etatType.NEMIS }}</th><th>{{ etatType.NRECUS }}</th></tr>
-                    <tr> <th>MONTANT DES TAXES RECUES (en F CFA)</th><th></th><th></th></tr>
-                    <tr><th>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</th><th></th><th></th></tr>
-                    <tr><th>NOMBRE D'EMPLOIS GENERES</th><th></th><th></th></tr>
+                    <tr><th>TOTAL</th><th class="text-nowrap text-right" colspan="2">{{ (etatType.EMIS)?etatType.EMIS|number_format(0, '.', ' '):0 }}</th><th class="text-nowrap text-right" colspan="2">{{ (etatType.RECUS)?etatType.RECUS|number_format(0, '.', ' '):0 }}</th></tr>
+                    <tr><th>NOMBRE D'OPERATIONS</th><th class="text-nowrap text-right" colspan="2">{{ etatType.NEMIS }}</th><th class="text-nowrap text-right" colspan="2">{{ etatType.NRECUS }}</th></tr>
+                    <tr> <th>MONTANT DES TAXES RECUES (en F CFA)</th><th colspan="2"></th><th colspan="2"></th></tr>
+                    <tr><th>MONTANT DES TAXES REVERSEES A L'ETAT (en F CFA)</th><th colspan="2"></th><th colspan="2"></th></tr>
+                    <tr><th>NOMBRE D'EMPLOIS GENERES</th><th colspan="2"></th><th colspan="2"></th></tr>
                 </table>
 
             </div>

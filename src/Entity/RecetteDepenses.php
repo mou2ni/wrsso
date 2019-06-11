@@ -52,7 +52,7 @@ class RecetteDepenses
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Transactions")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     private $transaction;
 
@@ -292,7 +292,7 @@ class RecetteDepenses
     {
         //retourne la valeur saisi oubien mdepense ou mrecette le cas échéant
         if ($this->mSaisie!=0) return $this->mSaisie;
-        if ($this->getMDepense()) return $this->getMDepense();
+        if ($this->getMDepense()) return -$this->getMDepense();
         if ($this->getMRecette()) return $this->getMRecette();
         return $this->mSaisie;
     }

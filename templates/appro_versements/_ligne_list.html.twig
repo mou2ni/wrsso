@@ -34,8 +34,8 @@
         </td>
         <td class="padding-5">
             {% if  is_granted('ROLE_COMPTABLE') %}
-                {% if approVersement.transactionEntrant %}<a href="{{ path('transactions_show', {'id': approVersement.transactionEntrant.id}) }}"> {{ approVersement.transactionEntrant.id }}</a>{% endif %}
-                {% if approVersement.transactionSortant %} | <a href="{{ path('transactions_show', {'id': approVersement.transactionSortant.id}) }}"> {{ approVersement.transactionSortant.id }}</a>{% endif %}
+                {% if approVersement.transactionEntrant %}<a href="{{ path('transactions_show', {'id': approVersement.transactionEntrant.id,'returnRoute':app.request.attributes.get('_route')}) }}"> {{ approVersement.transactionEntrant.id }}</a>{% endif %}
+                {% if approVersement.transactionSortant %} | <a href="{{ path('transactions_show', {'id': approVersement.transactionSortant.id,'returnRoute':app.request.attributes.get('_route')}) }}"> {{ approVersement.transactionSortant.id }}</a>{% endif %}
             {% endif %}
         </td>
     </tr>

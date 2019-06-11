@@ -11,6 +11,7 @@
 
     <a href="{{ path('transactions_index') }}"> Liste des écritures </a> |
 
-    <a href="{{ path('transactions_edit', {'id': transaction.id}) }}"> Modifier</a>
-     | {{ include('_btn_close.html.twig') }}
+    <a href="{{ path('transactions_edit', {'id': transaction.id, 'returnRoute':returnRoute}) }}"> Modifier</a>
+     | {{ include('_btn_close.html.twig') }} |
+    {{ include('transactions/_delete_form.html.twig',{'returnRoute':returnRoute}) }}
 {% endblock %}

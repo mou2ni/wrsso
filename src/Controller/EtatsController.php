@@ -256,18 +256,6 @@ class EtatsController extends AbstractController
      */
     public function rapportGestion(Request $request)
     {
-        /*$date=$request->request->get('date')?$request->request->get('date'):$request->query->get('date');
-
-
-        //$moisPrecedentDebut=new \DateTime($date);
-        //$moisPrecedentFin=new \DateTime($date);
-        $auj=new \DateTime(); $moisEncours=$auj->format('m');
-        
-        $date=new \DateTime($date);
-
-        $form = $this->createForm(DateTimeType::class, $date);
-        $form->handleRequest($request);*/
-
         $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
         $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
 
@@ -287,13 +275,6 @@ class EtatsController extends AbstractController
         $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
         $form->handleRequest($request);
 
-        /*$mois=$date->format('m');
-        
-        $debutMois=new \DateTime($date->format('Y-').$mois.'-01');
-        $moisSuiv=$mois+1;
-        $finMois=new \DateTime($date->format('Y-').$moisSuiv.'-00');*/
-        
-        //if ($mois==$moisEncours){
         $LigneRapports=new ArrayCollection();
         $recetteDepenses=$this->getDoctrine()->getRepository(RecetteDepenses::class)
             ->getSumRecetteDepensesParAgence($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin());
@@ -303,6 +284,7 @@ class EtatsController extends AbstractController
                 ->getSumSalairesParAgence($criteresRecherches->getDateDebut(),$criteresRecherches->getDateFin(),$recetteDepense['agence']);
             $mCoutSalaire=($salaires)?$salaires['mCoutSalaire']:0;
             $LigneRapports->add(['agence'=>$recetteDepense['agence']
+                ,'agence_id'=>$recetteDepense['agence_id']
                 ,'dateDebutRapport'=>$criteresRecherches->getDateDebut()
                 ,'dateFinRapport'=>$criteresRecherches->getDateFin()
                 ,'mRecette'=>$recetteDepense['mRecette']

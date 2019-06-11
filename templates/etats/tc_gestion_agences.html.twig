@@ -38,8 +38,12 @@
 
         <tr>
             <td class="text-nowrap" >{{ LigneRapport.agence}}</td>
-            <td class="text-nowrap text-right">{{ LigneRapport.mRecette|number_format(0, '.', ' ') }}</td>
-            <td class="text-nowrap text-right">{{ LigneRapport.mDepense|number_format(0, '.', ' ') }}</td>
+            <td class="text-nowrap text-right"><a href="{{ path('recette_depenses_index',{'dateDebut':LigneRapport.dateDebutRapport|date('Y-m-d'),'dateFin':LigneRapport.dateFinRapport|date('Y-m-d'),'agence': LigneRapport.agence_id}) }}">
+                {{ LigneRapport.mRecette|number_format(0, '.', ' ') }}</a>
+            </td>
+            <td class="text-nowrap text-right"><a href="{{ path('recette_depenses_index',{'dateDebut':LigneRapport.dateDebutRapport|date('Y-m-d'),'dateFin':LigneRapport.dateFinRapport|date('Y-m-d'),'agence': LigneRapport.agence_id}) }}">
+                {{ LigneRapport.mDepense|number_format(0, '.', ' ') }}</a>
+            </td>
             <td class="text-nowrap text-right">{{ (LigneRapport.mRecette-LigneRapport.mDepense)|number_format(0, '.', ' ') }}</td>
             <td class="text-nowrap text-right">{{ (LigneRapport.mCoutSalaire)|number_format(0, '.', ' ') }}</td>
             <td class="text-nowrap text-right">{{ (LigneRapport.mRecette-LigneRapport.mDepense-LigneRapport.mCoutSalaire)|number_format(0, '.', ' ') }}</td>

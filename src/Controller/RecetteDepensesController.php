@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agences;
 use App\Entity\Comptes;
 use App\Entity\CriteresDates;
 use App\Entity\JourneeCaisses;
@@ -41,6 +42,7 @@ class RecetteDepensesController extends Controller
      */
     public function index(Request $request): Response
     {
+        $agence=$request->request->get('agence')?$request->request->get('agence'):$request->query->get('agence');
         $compteTier=$request->request->get('compteTier')?$request->request->get('compteTier'):$request->query->get('compteTier');
         $utilisateur=$request->request->get('utilisateur')?$request->request->get('utilisateur'):$request->query->get('utilisateur');
         $compteGestion=$request->request->get('compteGestion')?$request->request->get('compteGestion'):$request->query->get('compteGestion');
@@ -67,10 +69,11 @@ class RecetteDepensesController extends Controller
 
         $listingRecetteDepenses = $this->getDoctrine()
             ->getRepository(RecetteDepenses::class)
-            ->findListingRecetteDepenses($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $compteTier, $compteGestion, $utilisateur, $typeOperationComptable, $statut);
+            ->findListingRecetteDepenses($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $compteTier, $compteGestion, $utilisateur, $typeOperationComptable, $statut, null, $agence);
 
         $compteTiers=$this->getDoctrine()->getRepository(Comptes::class)->findCompteContrePartieDepenseRecettes();
         $utilisateurs=$this->getDoctrine()->getRepository(Utilisateurs::class)->findAll();
+        $agences=$this->getDoctrine()->getRepository(Agences::class)->findAll();
         $compteGestions=$this->getDoctrine()->getRepository(Comptes::class)->findCompteGestions();
         $typeOperationComptables=$this->getDoctrine()->getRepository(TypeOperationComptables::class)->findAll();
 
@@ -86,6 +89,8 @@ class RecetteDepensesController extends Controller
             'typeOperationComptables'=>$typeOperationComptables,
             'typeOperationComptable_id'=>$typeOperationComptable,
             'statut'=>$statut,
+            'agences'=>$agences,
+            'agence_id'=>$agence,
             'criteres'=>$criteresRecherches,
         ]);
     }
@@ -129,10 +134,12 @@ class RecetteDepensesController extends Controller
         $recetteDepense = new RecetteDepenses();
         $recetteDepense->setUtilisateur($this->utilisateur)->setJourneeCaisse($this->journeeCaisse)->setStatut(RecetteDepenses::STAT_INITIAL)->setEstComptant($estComptant)->setAgence($this->caisse->getAgence());
 
-        if ($estComptant){
+        /*if ($estComptant){
             if ($this->isGranted('ROLE_COMPTABLE')) $form=$this->createForm(RecetteDepensesType::class, $recetteDepense);
             else $form=$this->createForm(RecetteDepensesComptantsType::class, $recetteDepense);
-        }else $form=$this->createForm(RecetteDepensesType::class, $recetteDepense);
+        }else $form=$this->createForm(RecetteDepensesType::class, $recetteDepense);*/
+
+        $form=$this->createForm(RecetteDepensesType::class, $recetteDepense, ['isComptable'=>$this->isGranted('ROLE_COMPTABLE'),'isComptant'=>$estComptant]);
 
         $form->handleRequest($request);
 
@@ -152,6 +159,7 @@ class RecetteDepensesController extends Controller
                         'recetteDepensesComptant'=>$recetteDepensesComptant,
                         'recetteDepensesAterme'=>$recetteDepensesAterme,
                         'form' => $form->createView(),
+                        'estComptant'=>$estComptant,
                     ]);
                 }
             }elseif ($recetteDepense->getMSaisie()<0){
@@ -178,6 +186,7 @@ class RecetteDepensesController extends Controller
             'recetteDepensesComptant'=>$recetteDepensesComptant,
             'recetteDepensesAterme'=>$recetteDepensesAterme,
             'form' => $form->createView(),
+            'estComptant'=>$estComptant,
         ]);
     }
 
@@ -237,7 +246,7 @@ class RecetteDepensesController extends Controller
         $form = $this->createForm(RecetteDepensesType::class, $recetteDepense);
         $form->handleRequest($request);
 
-        if($recetteDepense->getStatut()==RecetteDepenses::STAT_COMPTA){
+        if($recetteDepense->getTransaction()!=null){
             $this->addFlash('error', 'Recette-depense déjà comptabilisés.');
             return $this->redirectToRoute('recette_depenses_index');
         }
@@ -257,18 +266,12 @@ class RecetteDepensesController extends Controller
                     }
 
                     $genCompta = new GenererCompta($this->getDoctrine()->getManager());
-                    /*$compta = ($recetteDepense->getEstComptant())
-                        ?$genCompta->genComptaRecetteDepenseComptant($this->utilisateur,$recetteDepense)
-                        :$genCompta->genComptaRecetteDepenseAterme($this->utilisateur,$recetteDepense);*/
+                    
                     $compta = $genCompta->genComptaRecetteDepense($this->utilisateur, $recetteDepense);
                     if (!$compta) {
                         $this->addFlash('error', $genCompta->getErrMessage());
                         return $this->redirectToRoute('recette_depenses_modif',['id'=>$recetteDepense->getId()]);
-                        /*return $this->render('recette_depenses/comptabiliser.html.twig', [
-                            'recette_depense' => $recetteDepense,
-                            'journeeCaisse' => $this->journeeCaisse,
-                            'form' => $form->createView(),
-                        ]);*/
+
                     }
                     $em->persist($recetteDepense);
                     $em->flush();
@@ -358,20 +361,13 @@ class RecetteDepensesController extends Controller
     public function edit(Request $request, RecetteDepenses $recetteDepense): Response
     {
         //$recetteDepenseOld=$recetteDepense;
-        if($recetteDepense->getStatut()==RecetteDepenses::STAT_COMPTA){
-            //$this->addFlash('error', 'Impossible de modifier une recette-depense déjà comptabilisé');
-            if ($this->isGranted('ROLE_COMPTABLE'))
-            {
-                $form = $this->createForm(RecetteDepensesCorrectionsType::class, $recetteDepense);
-            }
-            else {
-                $this->addFlash('error', 'Impossible de modifier une recette-depense déjà comptabilisé');
-                return $this->redirectToRoute('recette_depenses_comptant');
-            }
-        }else{
-            $form = $this->createForm(RecetteDepensesType::class, $recetteDepense);
+        if($recetteDepense->getStatut()==RecetteDepenses::STAT_COMPTA and !$this->isGranted('ROLE_COMPTABLE')){
+
+            $this->addFlash('error', 'Impossible de modifier une recette-depense déjà comptabilisé');
+            return $this->redirectToRoute('recette_depenses_comptant');
         }
-        
+
+        $form = $this->createForm(RecetteDepensesType::class, $recetteDepense,['isComptant'=>$recetteDepense->getEstComptant(),'isComptable'=>$this->isGranted('ROLE_COMPTABLE'),'statut'=>$recetteDepense->getStatut()]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -398,6 +394,9 @@ class RecetteDepensesController extends Controller
             }
             
             $recetteDepense->getJourneeCaisse()->maintenirRecetteDepenses();
+            if($recetteDepense->getTransaction())
+                $recetteDepense->getTransaction()->setDateTransaction($recetteDepense->getDateOperation())
+                    ->setLibelle($recetteDepense->getLibelle());
             $this->getDoctrine()->getManager()->flush();
 
             if ($this->isGranted('ROLE_COMPTABLE'))
@@ -439,15 +438,19 @@ class RecetteDepensesController extends Controller
             return false;
         }
         $recetteDepense->setStatut($statut);
-        if ($recetteDepense->getEstComptant()) {
-            $recetteDepense->getJourneeCaisse()->updateM('mRecette', $recetteDepense->getMRecette());
-            $recetteDepense->getJourneeCaisse()->updateM('mDepense', $recetteDepense->getMDepense());
-        }else{
+
+        if($this->isGranted('ROLE_COMPTABLE')){
             $genCompta=new GenererCompta($this->getDoctrine()->getManager());
             if (!$genCompta->checkCoherenceRececetteDepenses($recetteDepense)){
                 $this->addFlash('error', $genCompta->getErrMessage());
                 return false;
             }
+        }
+        if ($recetteDepense->getEstComptant()) {
+            $recetteDepense->getJourneeCaisse()->updateM('mRecette', $recetteDepense->getMRecette());
+            $recetteDepense->getJourneeCaisse()->updateM('mDepense', $recetteDepense->getMDepense());
+        }else{
+
             $recetteDepense->getJourneeCaisse()->updateM('mRecetteAterme', $recetteDepense->getMRecette());
             $recetteDepense->getJourneeCaisse()->updateM('mDepenseAterme', $recetteDepense->getMDepense());
         }
