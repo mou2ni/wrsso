@@ -6,6 +6,7 @@ use App\Entity\Clients;
 use App\Entity\Comptes;
 use App\Entity\Utilisateurs;
 use App\Form\PassType;
+use App\Form\PassTypeAdmin;
 use App\Form\ProfileType;
 use App\Form\UtilisateursType;
 use App\Utils\SessionUtilisateur;
@@ -67,7 +68,7 @@ class UtilisateursController extends Controller
             $em = $this->getDoctrine()->getManager();
             $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$utilisateur->getMdp()));
             //dump($form['role']->getData()); die();
-            $utilisateur->setRoles($form['role']->getData());
+            $utilisateur->setRoles($form['roles']->getData());
             $em->persist($utilisateur);
             $em->flush();
 
@@ -145,24 +146,24 @@ class UtilisateursController extends Controller
     public function changerUser(Request $request, Utilisateurs $utilisateur): Response
     {
         $user = new Utilisateurs();
-        $form = $this->createForm(PassType::class, $user);
+        $form = $this->createForm(PassTypeAdmin::class, $user);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            if(password_verify($form['actmdp']->getData(), $this->utilisateur->getMdp()))
-            {
+            //if(password_verify($form['actmdp']->getData(), $this->utilisateur->getMdp()))
+            //{
                 //dump($this->getUser());die();
                 $utilisateur->setMdp($this->container->get('security.password_encoder')->encodePassword($utilisateur,$user->getMdp()));
                 $em->persist($utilisateur);
                 $em->flush();
                 $this->addFlash('success', 'Mot de passe modifié avec succes!');
                 return $this->redirectToRoute('utilisateurs_index');
-            }
+            /*}
             else
-                $this->addFlash('error', 'Mot de passe actuel incorrect!');
+                $this->addFlash('error', 'Mot de passe actuel incorrect!');*/
         }
 
         return $this->render('utilisateurs/passe.html.twig', [

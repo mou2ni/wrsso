@@ -39,10 +39,11 @@ class DeviseJourneesRepository extends ServiceEntityRepository
     public function getDevises($caisse,$devise, $dateDeb = null, $dateFin = null,$offset,$limit = 10,$ujm)
     {
         $qb = $this->createQueryBuilder('dj')
-            ->leftJoin('dj.journeeCaisse','jc', 'WITH', 'dj.journeeCaisse = jc.id')
-            ->leftJoin('jc.caisse','c', 'WITH', 'jc.caisse = c.id')
-            ->leftJoin('dj.devise','d', 'WITH', 'dj.devise = d.id')
-            ->addSelect('dj.id as id, c.id as idCaisse,d.id as idDevise,  jc.dateOuv as dateOuv , jc.dateFerm as dateFerm , c.code as caisse , d.code as devise, dj.qteOuv as qteOuv, dj.qteAchat as qteAchat, dj.qteVente as qteVente, dj.qteFerm as qteFerm, dj.mCvdVente - dj.mCvdVente as cvd, dj.ecartOuv - dj.ecartFerm as ecart')
+            ->innerJoin('dj.journeeCaisse','jc', 'WITH', 'dj.journeeCaisse = jc.id')
+            ->innerJoin('jc.caisse','c', 'WITH', 'jc.caisse = c.id')
+            ->innerJoin('dj.devise','d', 'WITH', 'dj.devise = d.id')
+            ->leftJoin('dj.deviseMouvements','dm', 'WITH', 'jc.id=dm.journeeCaisse')
+            ->addSelect('dj.id as id, c.id as idCaisse,d.id as idDevise,  jc.dateOuv as dateOuv , jc.dateFerm as dateFerm , c.code as caisse , d.code as devise, dj.qteOuv as qteOuv, dj.qteAchat as qteAchat, dj.qteVente as qteVente, dj.qteFerm as qteFerm, dj.mCvdVente - dj.mCvdVente as cvd, dj.ecartOuv as ecartOuv, dj.ecartFerm as ecartFerm')
             ;
         if ($dateDeb) {
             $qb->where('jc.dateOuv >= :dateDeb');
@@ -65,7 +66,10 @@ class DeviseJourneesRepository extends ServiceEntityRepository
             //$qb->andWhere('dj.qteAchat <>:zero');
             $qb->setParameter('zero',0);
         }
-        $qb->orderBy('jc.id', 'DESC')->setFirstResult($offset)->setMaxResults($limit);
+        $qb
+            ->orderBy('jc.id', 'DESC')
+            //->groupBy('c.agence','d.id')
+            ->setFirstResult($offset)->setMaxResults($limit);
         $pag = new Paginator($qb);
         //dump($pag);die();
         /**/

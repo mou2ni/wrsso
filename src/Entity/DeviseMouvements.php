@@ -68,6 +68,16 @@ class DeviseMouvements
     private $nombre=0;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $soldeOuv=0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $tauxMoyen=0;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $taux=0;
@@ -212,6 +222,36 @@ class DeviseMouvements
         return $this;
     }
 
+    public function setSoldeOuvByDeviseAndCaisse(DeviseMouvements $deviseMouvement, JourneeCaisses $journeeCaisse, ObjectManager $em)
+    {
+        // trouver la DeviseJournee é partir de la Devise saisie et la journeeCaisse passée par le constructeur
+        $deviseMouvementPrec=$em->getRepository(DeviseMouvements::class)
+            ->getDeviseMouvementPrec($deviseMouvement);
+        if ($deviseMouvementPrec!=null){
+            $deviseMouvement->setSoldeOuv($deviseMouvementPrec->getSoldeOuv()+$deviseMouvementPrec->getNombre());
+            $deviseMouvement->setTauxMoyen(($deviseMouvementPrec->getTauxMoyen()+$deviseMouvement->getTaux())/2);
+        }
+        else{
+            $deviseMouvement->setSoldeOuv(0);
+            $deviseMouvement->setTauxMoyen($deviseMouvement->getTaux());
+            //dump($deviseMouvement);die();
+            }
+
+
+        //dump($deviseMouvement); dump($deviseMouvementPrec);die();
+
+        //Créer un nouveau au cas où çc n'existe pas
+        /*if ($deviseJournee==null) {
+            $deviseJournee=new DeviseJournees($journeeCaisse,$this->getDevise());
+            //$deviseJournee->setDevise($this->getDevise())->setJourneeCaisse($journeeCaisse);
+        }
+
+        $this->setJourneeCaisse($journeeCaisse);
+        $this->setDeviseJournee($deviseJournee);
+*/
+        return $this;
+    }
+
     /**
      * @param mixed $deviseJournee
      * @return DeviseMouvements
@@ -318,6 +358,43 @@ class DeviseMouvements
         $this->journeeCaisse = $journeeCaisse;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSoldeOuv()
+    {
+        return $this->soldeOuv;
+    }
+
+    /**
+     * @param mixed $soldeOuv
+     * @return DeviseMouvements
+     */
+    public function setSoldeOuv($soldeOuv)
+    {
+        $this->soldeOuv = $soldeOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTauxMoyen()
+    {
+        return $this->tauxMoyen;
+    }
+
+    /**
+     * @param mixed $tauxMoyen
+     * @return DeviseMouvements
+     */
+    public function setTauxMoyen($tauxMoyen)
+    {
+        $this->tauxMoyen = $tauxMoyen;
+        return $this;
+    }
+
 
     /**
      * @return mixed

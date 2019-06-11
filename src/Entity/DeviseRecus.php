@@ -136,16 +136,18 @@ class DeviseRecus
      */
     public function addDeviseMouvement(DeviseMouvements $deviseMouvement)
     {
-        //dump($deviseMouvement); die();
+
 
         $deviseMouvement->setSens($this->getSens())
-            ->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)
             ->setDeviseRecu($this);
 
         $this->setComment($this->getComment().' | '.$deviseMouvement->getNombre().' '.$deviseMouvement->getDevise().' = '.$deviseMouvement->getContreValeur());
 
         $this->updateCvd($deviseMouvement->getContreValeur());
         $this->deviseMouvements->add($deviseMouvement);
+        $deviseMouvement->setDeviseJourneeByJourneeCaisse($this->journeeCaisse, $this->em)
+            ->setSoldeOuvByDeviseAndCaisse($deviseMouvement, $this->journeeCaisse, $this->em);
+        //dump($deviseMouvement); die();
         return $this;
     }
 
