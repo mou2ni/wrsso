@@ -33,7 +33,7 @@ class SystemElectInventaires
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\SystemElectLigneInventaires", mappedBy="idSystemElectInventaire", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\SystemElectLigneInventaires", mappedBy="idSystemElectInventaire", cascade={"persist"}, orphanRemoval=true)
      */
     private $systemElectLigneInventaires;
 
@@ -58,8 +58,16 @@ class SystemElectInventaires
 
     public function addSystemElectLigneInventaires(SystemElectLigneInventaires $systemElectLigneInventaire)
     {
-        $this->systemElectLigneInventaires->add($systemElectLigneInventaire);
-        $systemElectLigneInventaire->setIdSystemElectInventaire($this);
+        /*****TEST D'EXISTANCE D'UNE LIGNE DEJA LE MEME SYSTEMELECT QUE LA NOUVELLE LIGNE*****/
+        $exist=false;
+        foreach ($this->systemElectLigneInventaires as $sei){
+            if ($systemElectLigneInventaire->getIdSystemElect()==$sei->getIdSystemElect())
+                $exist=true;
+        }
+        if (!$exist) { /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LE MEME BILLET
+            $this->systemElectLigneInventaires->add($systemElectLigneInventaire);
+            $systemElectLigneInventaire->setIdSystemElectInventaire($this);
+        }
     }
 
     public function removeSystemElectLigneInventaires(SystemElectLigneInventaires $systemElectLigneInventaire)

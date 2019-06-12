@@ -36,7 +36,7 @@ class Billetages
     private $dateBillettage;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billetages", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billetages", cascade={"persist"}, orphanRemoval=true)
      */
     private $billetageLignes;
 
@@ -122,12 +122,21 @@ class Billetages
 
     public function addBilletageLigne(BilletageLignes $billetageLigne)
 {
-    $this->billetageLignes->add($billetageLigne);
-    $billetageLigne->setBilletages($this);
-    $this->valeurTotal += $billetageLigne->getValeurLigne();
+    /*****TEST D'EXISTANCE D'UNE LIGNE DEJA LE MEME BILLET QUE LA NOUVELLE LIGNE*****/
+    $exist=false;
+    foreach ($this->billetageLignes as $bl){
+        if ($billetageLigne->getBillet()==$bl->getBillet())
+            $exist=true;
+    }
+    if (!$exist){ /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LE MEME BILLET
+        $this->billetageLignes->add($billetageLigne);
+        $billetageLigne->setBilletages($this);
+        $this->valeurTotal += $billetageLigne->getValeurLigne();
+    }
+
 }
 
-    public function removeBilletageLignes(BilletageLignes $billetageLigne)
+    public function removeBilletageLigne(BilletageLignes $billetageLigne)
     {
         $this->billetageLignes->removeElement($billetageLigne);
         $this->valeurTotal -= $billetageLigne->getValeurLigne();

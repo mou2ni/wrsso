@@ -610,7 +610,7 @@ class JourneeCaissesController extends Controller
                 $newDetteCredit->setDateCreation($detteCredit->getDateCreation());
                 $newDetteCredit->setUtilisateurCreation($detteCredit->getUtilisateurCreation());
                 $newDetteCredit->setJourneeCaisseCreation($detteCredit->getJourneeCaisseCreation());
-                dump($newDetteCredit->getMCredit());
+                //dump($newDetteCredit->getMCredit());
 
                 $em->persist($newDetteCredit);
             }
@@ -638,6 +638,14 @@ class JourneeCaissesController extends Controller
                 $newdvj->getBilletOuv()->addBilletageLigne($newBl);
                 $em->persist($newBl);
             }
+            //////TEST D'OCCURENCE/////////
+            $occurence=0;
+            foreach ($newJournee->getDeviseJournee() as $dj){
+                if ($newdvj->getDevise()==$dj->getDevise()){
+                    $occurence=$occurence+1;
+                }
+            }
+            if ($occurence==0)
             $newJournee->addDeviseJournee($newdvj);
             $em->persist($newdvj);
             //}
@@ -651,6 +659,22 @@ class JourneeCaissesController extends Controller
                 $em->persist($deviseJournee);
             }
 
+        }
+        //////SUPPRESSION D'EVENTUELLES LIGNES SUPPLEMENTAIRES
+        while($newJournee->getDeviseJournee()->count()>count($devises)) {
+            $occurence = 0;
+            foreach ($newJournee->getDeviseJournee() as $dj1) {
+                foreach ($newJournee->getDeviseJournee() as $dj2) {
+                    if ($dj1->getBillet() == $dj2->getBillet() && $dj1 != $dj2) {
+                        $newJournee->removeDeviseJournee($dj2);
+                        $occurence = $occurence + 1;
+                        break;
+                    }
+                }
+                if ($occurence > 0) {
+                    break;
+                }
+            }
         }
         //dump($newJournee->getDeviseJournee()); die();
 

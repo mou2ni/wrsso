@@ -123,9 +123,7 @@ class SystemElectInventairesController extends Controller
         $systemElects = $em->getRepository('App:SystemElects')->findAll();
         $systemElectInventaire =($operation == 'OUV')? $this->journeeCaisse->getSystemElectInventOuv():
             $this->journeeCaisse->getSystemElectInventFerm();
-        //dump($operation=$request->request->get('_operation')); die();
-        //$operation=$request->request->get('_operation');
-        //dump(!$systemElectInventaire->getSystemElectLigneInventaires());die();
+
 
                 //////////// creation du formulaire personnalise///////////////////////////////
         if (!$systemElectInventaire) {
@@ -147,14 +145,25 @@ class SystemElectInventairesController extends Controller
                 $systemElectInventaire->addSystemElectLigneInventaires($systemElectLigneInventaire);
             }
         }
-        /*$jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventOuv'=>$systemElectInventaire]);
-        $jc?:$jc=$em->getRepository(JourneeCaisses::class)->findOneBy(['systemElectInventFerm'=>$systemElectInventaire]);
-        */
-        //if ($request->request->get('_journeeCaisse')){
-            //$jc = ($request->request->get('_journeeCaisse'))?$em->getRepository(JourneeCaisses::class)->find($request->request->get('_journeeCaisse')):null;
-            //$systemElectInventaire->setJourneeCaisse($jc);
-        //}
-        //dump($systemElectInventaire);die();
+
+        //////SUPPRESSION D'EVENTUELLES LIGNES SUPPLEMENTAIRES
+        while($systemElectInventaire->getSystemElectLigneInventaires()->count()>count($systemElects)) {
+            $occurence=0;
+            foreach ($systemElectInventaire->getSystemElectLigneInventaires() as $seli1){
+                foreach ($systemElectInventaire->getSystemElectLigneInventaires() as $seli2) {
+                    if ($seli1->getIdSystemElect() == $seli2->getIdSystemElect() && $seli1 != $seli2) {
+                        $systemElectInventaire->removeSystemElectLigneInventaires($seli2);
+                        $occurence=$occurence+1;
+                        break;
+                    }
+                }
+                if ($occurence>0){
+                    break;
+                }
+            }
+
+        }
+
         $form = $this->createForm(SystemElectInventairesType::class, $systemElectInventaire);
         // only handles data on POST
         $form->handleRequest($request);

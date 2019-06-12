@@ -96,13 +96,33 @@ class BilletagesController extends Controller
 
         $billetage=$em->getRepository(Billetages::class)->find($id);
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
-        if ($billetage->getBilletageLignes()->isEmpty()){
+        if ($billetage->getBilletageLignes()->isEmpty())
+        {
             foreach ($billets as $billet) {
                 $billetageLigne=new BilletageLignes();
                 $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
                 $billetage->addBilletageLigne($billetageLigne);
             }
         }
+
+        //////SUPPRESSION D'EVENTUELLES LIGNES SUPPLEMENTAIRES
+        while($billetage->getBilletageLignes()->count()>count($billets)) {
+            $occurence=0;
+            foreach ($billetage->getBilletageLignes() as $bl1){
+                foreach ($billetage->getBilletageLignes() as $bl2) {
+                    if ($bl1->getBillet() == $bl2->getBillet() && $bl1 != $bl2) {
+                        $billetage->removeBilletageLigne($bl2);
+                        $occurence=$occurence+1;
+                        break;
+                    }
+                }
+                if ($occurence>0){
+                    break;
+                }
+            }
+
+        }
+        //dump($billetage->getBilletageLignes()); die();
 
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
