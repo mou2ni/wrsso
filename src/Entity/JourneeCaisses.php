@@ -648,10 +648,10 @@ class JourneeCaisses
                 $exist=true;
         }
         if (!$exist) { /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LA MEME DEVISE
-            if ($this->getStatut() == JourneeCaisses::ENCOURS) {
+            //if ($this->getStatut() != JourneeCaisses::CLOSE) {
                 $deviseJournee->setJourneeCaisse($this);
                 $this->deviseJournees->add($deviseJournee);
-            }
+            //}
         }
     }
 

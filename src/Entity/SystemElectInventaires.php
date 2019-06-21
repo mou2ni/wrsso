@@ -50,6 +50,11 @@ class SystemElectInventaires
      */
     private $soldeTotal;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $systemElectLigneInventaire='';
+
     public function __construct()
     {
         $this->dateInventaire=new \DateTime('now');
@@ -61,18 +66,23 @@ class SystemElectInventaires
         /*****TEST D'EXISTANCE D'UNE LIGNE DEJA LE MEME SYSTEMELECT QUE LA NOUVELLE LIGNE*****/
         $exist=false;
         foreach ($this->systemElectLigneInventaires as $sei){
-            if ($systemElectLigneInventaire->getIdSystemElect()==$sei->getIdSystemElect())
+            if ($systemElectLigneInventaire->getIdSystemElect()==$sei->getIdSystemElect() && $systemElectLigneInventaire->getId()!=$sei->getId())
                 $exist=true;
         }
-        if (!$exist) { /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LE MEME BILLET
+        if (!$exist) { /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LE MEME LIBELLE
             $this->systemElectLigneInventaires->add($systemElectLigneInventaire);
             $systemElectLigneInventaire->setIdSystemElectInventaire($this);
         }
+        /*else {
+            dump('error'); die();
+        }*/
+
     }
 
     public function removeSystemElectLigneInventaires(SystemElectLigneInventaires $systemElectLigneInventaire)
     {
         $this->systemElectLigneInventaires->removeElement($systemElectLigneInventaire);
+        die();
     }
 
     /**
@@ -224,4 +234,23 @@ class SystemElectInventaires
         //$this->fillBilletageLignes();
         $this->fillOnUpdate();
     }
+
+    /**
+     * @return mixed
+     */
+    public function getSystemElectLigneInventaire()
+    {
+        return $this->systemElectLigneInventaire;
+    }
+
+    /**
+     * @param mixed $systemElectLigneInventaire
+     * @return SystemElectInventaires
+     */
+    public function setSystemElectLigneInventaire($systemElectLigneInventaire)
+    {
+        $this->systemElectLigneInventaire = $systemElectLigneInventaire;
+        return $this;
+    }
+
 }

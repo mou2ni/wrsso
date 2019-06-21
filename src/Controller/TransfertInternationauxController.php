@@ -96,7 +96,6 @@ class TransfertInternationauxController extends Controller
          
         $form= $this->createForm(TransfertCollectionType::class, $this->journeeCaisse);
         $form->handleRequest($request);
-        //dump($form);die();
         if ($form->isSubmitted() && $form->isValid() ) {
             $this->journeeCaisse->maintenirTransfertsInternationaux();
             $em->persist($this->journeeCaisse);
@@ -112,7 +111,7 @@ class TransfertInternationauxController extends Controller
         return $this->render('transfert_internationaux/ajout.html.twig', [
             'form' => $form->createView(),
             'operation'=>'',
-            //'envoi'=>$envoi,
+            'nombre'=>$this->journeeCaisse->getTransfertInternationaux()->count(),
             'journeeCaisse'=>$this->journeeCaisse
         ]);
     }

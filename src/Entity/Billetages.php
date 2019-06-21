@@ -49,6 +49,11 @@ class Billetages
      */
     private $valeurTotal=0;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $billetageLigne='';
+
     /*
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, unique=false)
@@ -120,12 +125,12 @@ class Billetages
         $this->billetageLigneAffiches->removeElement($billetageLigne);
     }
 
-    public function addBilletageLigne(BilletageLignes $billetageLigne)
+    public function addBilletageLignes(BilletageLignes $billetageLigne)
 {
     /*****TEST D'EXISTANCE D'UNE LIGNE DEJA LE MEME BILLET QUE LA NOUVELLE LIGNE*****/
     $exist=false;
     foreach ($this->billetageLignes as $bl){
-        if ($billetageLigne->getBillet()==$bl->getBillet())
+        if ($billetageLigne->getBillet()==$bl->getBillet() or $billetageLigne->getValeurBillet()==$bl->getValeurBillet())
             $exist=true;
     }
     if (!$exist){ /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LE MEME BILLET
@@ -285,6 +290,24 @@ class Billetages
     public function setEm(ObjectManager $em): Billetages
     {
         $this->em = $em;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBilletageLigne()
+    {
+        return $this->billetageLigne;
+    }
+
+    /**
+     * @param mixed $billetageLigne
+     * @return Billetages
+     */
+    public function setBilletageLigne($billetageLigne)
+    {
+        $this->billetageLigne = $billetageLigne;
         return $this;
     }
 
