@@ -1,22 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <list default="true" id="ea481e1e-336a-46ff-a343-270f8f77d1e2" name="nocomit" comment="corrections des dupplicqtion de lignes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BilletagesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BilletagesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JourneeCaissesController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TransfertInternationauxController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Billetages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Billetages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/JourneeCaisses.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/SystemElectInventaires.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SystemElectInventaires.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BilletagesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BilletagesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/SystemElectInventairesType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SystemElectInventairesType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/_form_ouverture.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/_form_ouverture.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/journee_caisses/_gerer_head_common.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/journee_caisses/_gerer_head_common.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/transfert_internationaux/ajout.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/transfert_internationaux/ajout.html.twig" afterDir="false" />
     </list>
-    <list id="dfa3ccdf-618d-457c-a4ee-f7221a4c722e" name="Default" comment="correction des fixtures" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -142,8 +131,8 @@
       <file leaf-file-name="SystemElectInventairesController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="180" column="17" lean-forward="true" selection-start-line="180" selection-start-column="17" selection-end-line="180" selection-end-column="17" />
+            <state relative-caret-position="609">
+              <caret line="196" column="19" lean-forward="true" selection-start-line="196" selection-start-column="19" selection-end-line="196" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -845,14 +834,7 @@
       <workItem from="1557133348099" duration="591000" />
       <workItem from="1557414746197" duration="8985000" />
       <workItem from="1560262549213" duration="51966000" />
-      <workItem from="1560513273008" duration="61577000" />
-    </task>
-    <task id="LOCAL-00085" summary="corrections de petits bugs">
-      <created>1547463178193</created>
-      <option name="number" value="00085" />
-      <option name="presentableId" value="LOCAL-00085" />
-      <option name="project" value="LOCAL" />
-      <updated>1547463178193</updated>
+      <workItem from="1560513273008" duration="63354000" />
     </task>
     <task id="LOCAL-00086" summary="corrections de contraintes intercaisses entrants et sortant dans journeeCaisse">
       <created>1547556279582</created>
@@ -1190,11 +1172,18 @@
       <option name="project" value="LOCAL" />
       <updated>1560351023444</updated>
     </task>
-    <option name="localTasksCounter" value="134" />
+    <task id="LOCAL-00134" summary="corrections des dupplicqtion de lignes">
+      <created>1561117538409</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1561117538409</updated>
+    </task>
+    <option name="localTasksCounter" value="135" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2818160000" />
+    <option name="totallyTimeSpent" value="2819937000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1217,7 +1206,7 @@
       <window_info id="npm" order="2" sideWeight="0.5054432" side_tool="true" weight="0.24925816" />
       <window_info anchor="bottom" x="-8" y="241" width="1382" height="223" id="Terminal" order="10" sideWeight="0.50512445" weight="0.38398692" />
       <window_info anchor="right" id="Remote Host" order="1" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.3448276" visible="true" weight="0.23146747" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.3448276" visible="true" weight="0.23146747" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="0" visible="true" weight="0.13691376" />
       <window_info id="Structure" order="1" sideWeight="0.6551724" side_tool="true" weight="0.20953101" />
@@ -1698,8 +1687,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/SystemElectInventairesController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="180" column="17" lean-forward="true" selection-start-line="180" selection-start-column="17" selection-end-line="180" selection-end-column="17" />
+        <state relative-caret-position="609">
+          <caret line="196" column="19" lean-forward="true" selection-start-line="196" selection-start-column="19" selection-end-line="196" selection-end-column="19" />
         </state>
       </provider>
     </entry>

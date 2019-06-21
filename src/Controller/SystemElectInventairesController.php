@@ -194,7 +194,7 @@ class SystemElectInventairesController extends Controller
             }
 
             $em->persist($systemElectInventaire);
-            $this->journeeCaisse->setMSoldeElectOuv($this->journeeCaisse->getSystemElectInventOuv()->getSoldeTotal());
+            ($operation == 'OUV')?$this->journeeCaisse->setMSoldeElectOuv($this->journeeCaisse->getSystemElectInventOuv()->getSoldeTotal()):
             $this->journeeCaisse->setMSoldeElectFerm($this->journeeCaisse->getSystemElectInventFerm()->getSoldeTotal());
             $em->persist($this->journeeCaisse);
             $em->flush();
