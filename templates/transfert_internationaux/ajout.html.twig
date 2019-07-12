@@ -2,7 +2,7 @@
 {% block title %}Saisie des transferts internationaux{% endblock %}
 
 {% block body %}
-    <div>
+    <div >
     <h1>Transferts internationaux</h1> <div class="form-inline">
                     {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
                 </div>
@@ -11,7 +11,7 @@
         {# ... #}
 
         {# store the prototype on the data-prototype attribute #}
-        <div class="table-responsive">
+        <div class="table-responsive" onchange="nombreTransfert()">
             <table id="collections-contener"
                    data-prototype="
 {{ '<td class="padding-0">'|e }}{{ form_widget(form.transfertInternationaux.vars.prototype.idSystemTransfert)|e }}
@@ -60,6 +60,7 @@
                 <div class="form-group">
                     <button class="btn btn-info" type="submit" name="enregistreretfermer" id="enregistreretfermer" >Enregistrer et Fermer</button>
                     <button class="btn btn-info" type="submit" name="enregistrer" id="enregistrer" >Enregistrer</button>
+                    <div class="form-group">  NOMBRE DE TRANSFERT EN BD <span class="label label-warning label-bordered label-ghost">{{ nombre|number_format(0, '.', ' ') }}</span>{#|NOMBRE DE TRANSFERT AFFICHES <span class="label label-warning label-bordered label-ghost" id="nombre">{{ nombre|number_format(0, '.', ' ') }}</span>#}</div>
                 </div>
             {% endif %}
             {{ form_end(form) }}
@@ -71,4 +72,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{   asset('js/collections.js') }}"></script>
+    <script type="javascript">
+
+    </script>
 {% endblock %}

@@ -96,19 +96,47 @@ class BilletagesController extends Controller
 
         $billetage=$em->getRepository(Billetages::class)->find($id);
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
-        if ($billetage->getBilletageLignes()->isEmpty()){
+        if ($billetage->getBilletageLignes()->isEmpty())
+        {
             foreach ($billets as $billet) {
                 $billetageLigne=new BilletageLignes();
                 $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
-                $billetage->addBilletageLigne($billetageLigne);
+                $billetage->addBilletageLignes($billetageLigne);
             }
+            $em->persist($billetage);
+            //dump($billetage->getBilletageLignes());die();
         }
+
+        //////SUPPRESSION D'EVENTUELLES LIGNES SUPPLEMENTAIRES
+        while($billetage->getBilletageLignes()->count()>count($billets)) {
+            $occurence=0;
+            foreach ($billetage->getBilletageLignes() as $bl1){
+                foreach ($billetage->getBilletageLignes() as $bl2) {
+                    if ($bl1->getBillet() == $bl2->getBillet() && $bl1 != $bl2) {
+                        $billetage->removeBilletageLigne($bl2);
+                        $occurence=$occurence+1;
+                        break;
+                    }
+                }
+                if ($occurence>0){
+                    break;
+                }
+            }
+
+        }
+
+        //dump($billetage); die();
 
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
 
 
+        //$lig=new BilletageLignes();$lig->getNbBillet()
         if ($form->isSubmitted() && $form->isValid()) {
+            $billetage->setBilletageLigne('');
+            foreach ($billetage->getBilletageLignes() as $bl){
+                $billetage->setBilletageLigne($billetage->getBilletageLigne().''.$bl->getValeurBillet().'x'.$bl->getNbBillet().';');
+            }
             $em->persist($billetage);
             $em->flush();
             switch ($operation){
@@ -172,9 +200,31 @@ class BilletagesController extends Controller
      */
     public function show(Billetages $billetage): Response
     {
-        /*$billetageLignes = $this->getDoctrine()
-            ->getRepository(BilletageLignes::class)
-            ->findBy(['idBilletage' => $billetage]);*/
+        dump($billetage->getBilletageLignes());
+        $em=$this->getDoctrine()->getManager();
+        //dump(count(explode('x',$billetage)));
+        foreach (explode(';',$billetage->getBilletageLigne()) as $lg)
+        {
+            //dump(count(explode('x',$lg)));
+            if (count(explode('x',$lg))>1){
+                $nombre = explode('x',$lg)['1'];
+                $valeur = explode('x',$lg)['0'];
+                //dump($nombre);dump($valeur);
+
+            $billet = $this->getDoctrine()
+                ->getRepository(Billets::class)
+                ->findOneBy(['valeur' => $valeur]);
+            $bl = new BilletageLignes();
+            $bl->setNbBillet($nombre)->setBillet($billet)->setValeurBillet($billet->getValeur());
+            $billetage->addBilletageLignes($bl);
+            //dump($billetage->getBilletageLignes());
+            //$bl->setBilletages($billetage);
+
+            //$em->persist($bl);
+            }
+        }            //dump($billetage);die();
+
+        //dump($billetage);die();
         $billetageLignes = $billetage->getBilletageLignes();
         return $this->render('billetages/show.html.twig', [
             'billetage' => $billetage

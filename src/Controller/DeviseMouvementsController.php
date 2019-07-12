@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Agences;
+use App\Entity\CriteresDates;
 use App\Entity\DeviseAchatVentes;
 use App\Entity\DeviseMouvements;
 use App\Entity\DeviseRecus;
+use App\Entity\Devises;
 use App\Entity\JourneeCaisses;
+use App\Form\CriteresRecherchesJourneeCaissesType;
 use App\Form\DeviseMouvementsType;
 use App\Form\DeviseAchatVentesType;
 
@@ -46,6 +50,83 @@ class DeviseMouvementsController extends Controller
                 'pages'=>$pages,
             ]);
     }
+
+    /**
+     * @Route("/deviseCVD", name="devise_cvd", methods="GET|POST")
+     */
+    public function getDeviseCVD(Request $request): Response
+    {
+        ///////////script de mise à jour des enregistrements anciens//////////
+        /*$em=$this->getDoctrine()->getManager();
+        $deviseMouvements = $this->getDoctrine()->getRepository(DeviseMouvements::class)->findAll();
+        foreach ($deviseMouvements as $deviseMouvement){
+            if ($deviseMouvement->getDeviseRecu()) {
+                $deviseMouvement->setSoldeOuvByDeviseAndCaisse($deviseMouvement, $deviseMouvement->getJourneeCaisse(), $em);
+                $em->persist($deviseMouvement);
+            }
+        }
+            $em->flush();
+        dump("success"); die();
+*/
+        $caisse=$request->request->get('caisse')?$request->request->get('caisse'):$request->query->get('caisse');
+        $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
+        $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
+        $devise=$request->request->get('devise')?$request->request->get('devise'):$request->query->get('devise');
+        $devise=$request->request->get('agence')?$request->request->get('agence'):$request->query->get('agence');
+        $uam=$request->request->get('uam')?$request->request->get('uam'):$request->query->get('uam');
+        $limit=10000;
+        //dump($devise);die();
+        $_page=$request->query->get('_page');
+        $offset = ($_page)?($_page-1)*$limit:0;
+        if (!$_page) {
+            $criteresRecherches=new CriteresDates();
+            if($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut));
+            if($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin));
+        }else{
+            $criteresRecherches=new CriteresDates();
+            $criteres=$request->query->get('master');
+            $criteres= explode ('|',$criteres);
+            // dump($criteres);
+            // dump($caisse);
+            if (count($criteres)==4) {
+                $criteresRecherches->setDateDebut(new \DateTime($criteres[0]));
+                $criteresRecherches->setDateFin(new \DateTime($criteres[1]));
+                $caisse=($caisse)?$caisse:$criteres[2];
+                $devise=($devise)?$devise:$criteres[3];
+                $ujm=($uam)?$uam:$criteres[4];
+            }
+        }
+
+        $form = $this->createForm(CriteresRecherchesJourneeCaissesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $dateDebut=new \DateTime($criteresRecherches->getDateDebut()->format('Y-m-d').' 00:00:00');
+        $dateFin=new \DateTime($criteresRecherches->getDateFin()->format('Y-m-d').' 23:59:59');
+        $result = $this->getDoctrine()
+            ->getRepository(DeviseMouvements::class)
+            ->getDevisesCVD($caisse,$devise,$dateDebut,$dateFin,$offset,$limit,$uam);
+        //dump($deviseJournees);die();
+        $pages = round(count($result)/$limit);
+//dump($result);die();
+        $request->query->set('master',$dateDebut->format('Y-m-d').'|'.$dateFin->format('Y-m-d').'|'.$caisse.'|'.$devise);
+
+
+        $caisses=$this->getDoctrine()->getRepository(Agences::class)->findAll();
+        $devises=$this->getDoctrine()->getRepository(Devises::class)->findAll();
+        return $this->render('devise_mouvements/deviseCVD.html.twig', [
+            'pages'=>$pages,
+            'caisses'=>$caisses,
+            'form'=>$form->createView(),
+            'caisse_id'=>$caisse,
+            'uam'=>$uam,
+            'devises'=>$devises,
+            'devise_id'=>$devise,
+            'path'=>'devise_journees_index',
+            'src'=>'orm',
+            'mouvement_devises' => $result]);
+    }
+
+
     /**
      * @Route("/etat", name="devise_mouvements_etat", methods="GET")
      */

@@ -46,7 +46,6 @@
         {% for devise_journee in devise_journees %}
             <tr role="row">
                 {% if src == 'orm' %}
-                    {#<td>{{ devise_journee.id }}</td>#}
                     <td>{{ devise_journee.dateOuv.format('d-m-Y') }}</td>
                     <td>{{ devise_journee.caisse }}</td>
                     <td>{{ devise_journee.devise }}</td>

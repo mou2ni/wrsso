@@ -138,6 +138,7 @@ class JourneeCaissesController extends Controller
      */
     public function gerer(Request $request): Response
     {
+        //dump($this->journeeCaisse);die();
         /*//si un comptable ouvrir saisie caisse menu depense
         if ($this->get('security.authorization_checker')->isGranted('ROLE_COMPTABLE')) {
             return $this->redirectToRoute('compta_saisie_cmd');
@@ -152,16 +153,17 @@ class JourneeCaissesController extends Controller
             //initier nouvelle journeeCaisse
             $this->journeeCaisse=$this->initJournee($this->caisse);
         }
-
+        //dump($this->journeeCaisse->getJourneePrecedente()->getDeviseJournees());die();
         switch ($this->journeeCaisse->getStatut()){
             case JourneeCaisses::CLOSE :
                 //initier nouvelle journeeCaisse;
+                //dump($this->journeeCaisse);die();
                 $journeePrecedent=$this->journeeCaisse;
                 $this->journeeCaisse=$this->initJournee($this->caisse,$journeePrecedent);
                 return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null,'journeePrecedente'=>$journeePrecedent]);
                 break;
             case JourneeCaisses::INITIAL :
-                //dump($this->journeeCaisse->getBilletOuv());die();
+                //dump($this->journeeCaisse);die();
                 return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
                 break;
             case JourneeCaisses::ENCOURS :
@@ -209,6 +211,7 @@ class JourneeCaissesController extends Controller
      */
     public function verifierFermeture(Request $request)
     {
+        //dump($this->journeeCaisse); die();
         if (!$this->journeeCaisse){
             $this->addFlash('error', 'ERREUR D\'ENREGISTREMENT RENCONTREE. RECOMMENCEZ !!!');
             return $this->redirectToRoute('journee_caisses_gerer');
@@ -218,6 +221,8 @@ class JourneeCaissesController extends Controller
             $this->addFlash('error', 'JOURNEE DEJA FERMEE !!!');
             return $this->redirectToRoute('journee_caisses_gerer');
         }
+        //dump($this->journeeCaisse); die();
+
         //Maintenir les solde de la journee
         $this->addFlash('success', 'MAINTENANCE DES SOLDES DE LA JOURNEE');
         $this->maintenirJournee($this->journeeCaisse);
@@ -259,6 +264,7 @@ class JourneeCaissesController extends Controller
      */
     public function maintenanceSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
+        //dump($this->journeeCaisse); die();
         $copieDeJournee = $this->copierJournee($journeeCaisse);
         $journeeCaisseMaintenue=$this->maintenirJournee($journeeCaisse);
         $ecartJournees = $this->ecartJournees($copieDeJournee, $journeeCaisseMaintenue);
@@ -331,6 +337,7 @@ class JourneeCaissesController extends Controller
         $this->journeeCaisse->setStatut(JourneeCaisses::ENCOURS);
         $this->journeeCaisse->setDateOuv(new \DateTime());
         $this->journeeCaisse->setUtilisateur($this->utilisateur);
+
         $this->setSoldeFerm();
         $em->persist($this->journeeCaisse);
 
@@ -567,6 +574,7 @@ class JourneeCaissesController extends Controller
 
     private function initJournee(Caisses $caisse, JourneeCaisses $journeeCaissePrecedent=null)
     {
+        $error = false;
         $em = $this->getDoctrine()->getManager();
 
         $newJournee = new JourneeCaisses($em);
@@ -587,6 +595,7 @@ class JourneeCaissesController extends Controller
             //dump($newJournee);die();
             return $newJournee;
         }
+
         $newJournee->setJourneePrecedente($journeeCaissePrecedent)
             ->setMCreditDiversOuv($journeeCaissePrecedent->getMCreditDiversFerm())
             ->setMDetteDiversOuv($journeeCaissePrecedent->getMDetteDiversFerm())
@@ -610,41 +619,56 @@ class JourneeCaissesController extends Controller
                 $newDetteCredit->setDateCreation($detteCredit->getDateCreation());
                 $newDetteCredit->setUtilisateurCreation($detteCredit->getUtilisateurCreation());
                 $newDetteCredit->setJourneeCaisseCreation($detteCredit->getJourneeCaisseCreation());
-                dump($newDetteCredit->getMCredit());
+                //dump($newDetteCredit->getMCredit());
 
                 $em->persist($newDetteCredit);
             }
         }
+        if (count($journeeCaissePrecedent->getBilletFerm()->getBilletageLignes())>0) {
+            foreach ($journeeCaissePrecedent->getBilletFerm()->getBilletageLignes() as $bl) {
+                $newJournee->getBilletOuv()->addBilletageLignes($bl);
+                $newJournee->getBilletOuv()->setBilletageLigne($newJournee->getBilletOuv()->getBilletageLigne() . '' . $bl->getValeurBillet() . 'x' . $bl->getNbBillet() . ';');
+                $em->persist($bl);
+            }
+        }else {dump("billetage fermeture precedente n'avait aucune ligne");$error=true;}
 
-        foreach ($journeeCaissePrecedent->getBilletFerm()->getBilletageLignes() as $bl){
-            $newBl = new BilletageLignes();
-            $newBl->setNbBillet($bl->getNbBillet());
-            $newBl->setValeurBillet($bl->getValeurBillet());
-            $newBl->setBillet($bl->getBillet());
-            $newJournee->getBilletOuv()->addBilletageLigne($newBl);
-            $em->persist($newBl);
+        if (count($journeeCaissePrecedent->getSystemElectInventFerm()->getSystemElectLigneInventaires())>0) {
+            foreach ($journeeCaissePrecedent->getSystemElectInventFerm()->getSystemElectLigneInventaires() as $seli) {
+                $newJournee->getSystemElectInventOuv()->addSystemElectLigneInventaires($seli);
+                $newJournee->getSystemElectInventOuv()->setSystemElectLigneInventaire($newJournee->getSystemElectInventOuv()->getSystemElectLigneInventaire() . ';' . $seli->getIdSystemElect()->getLibelle() . '=' . $seli->getSolde());
+                $em->persist($seli);
+            }
         }
-
+        else {dump("Electronique fermeture precedente n'avait aucune ligne");$error=true;}
 
         foreach ($journeeCaissePrecedent->getDeviseJournees() as $dvj){
-
             $newdvj = new DeviseJournees($newJournee, $dvj->getDevise());
             $newdvj->setQteOuv($dvj->getQteFerm());
-            foreach ($dvj->getBilletFerm()->getBilletageLignes() as $bl){
-                $newBl = new BilletageLignes();
-                $newBl->setNbBillet($bl->getNbBillet());
-                $newBl->setValeurBillet($bl->getValeurBillet());
-                $newBl->setBillet($bl->getBillet());
-                $newdvj->getBilletOuv()->addBilletageLigne($newBl);
-                $em->persist($newBl);
+            if ($dvj->getBilletFerm()->getBilletageLignes()) {
+                foreach ($dvj->getBilletFerm()->getBilletageLignes() as $bl) {
+                    $newdvj->getBilletOuv()->addBilletageLignes($bl);
+                    $newdvj->getBilletOuv()->setBilletageLigne($newdvj->getBilletOuv()->getBilletageLigne() . '' . $bl->getValeurBillet() . 'x' . $bl->getNbBillet() . ';');
+
+                }
             }
+
+            //////TEST D'OCCURENCE/////////
+            $occurence=0;
+            foreach ($newJournee->getDeviseJournee() as $dj){
+                if ($newdvj->getDevise()==$dj->getDevise()){
+                    $occurence=$occurence+1;
+                }
+            }
+            if ($occurence==0)
             $newJournee->addDeviseJournee($newdvj);
+
+            //if ($error){die();}
             $em->persist($newdvj);
-            //}
-            //}
+
         }
+
+        $devises = $em->getRepository(Devises::class)->findAll();
         if ($newJournee->getDeviseJournee()->isEmpty()){
-            $devises = $em->getRepository(Devises::class)->findAll();
             foreach ($devises as $devise){
                 $deviseJournee = new DeviseJournees($journeeCaissePrecedent,$devise);
                 $newJournee->addDeviseJournee($deviseJournee);
@@ -652,18 +676,24 @@ class JourneeCaissesController extends Controller
             }
 
         }
-        //dump($newJournee->getDeviseJournee()); die();
-
-        foreach ($journeeCaissePrecedent->getSystemElectInventFerm()->getSystemElectLigneInventaires() as $seli){
-            $newSeli = new SystemElectLigneInventaires();
-            $newSeli->setSolde($seli->getSolde());
-            $newSeli->setIdSystemElect($seli->getIdSystemElect());
-            //$newSeli->getIdSystemElect()
-            $newJournee->getSystemElectInventOuv()->addSystemElectLigneInventaires($newSeli);
+        //////SUPPRESSION D'EVENTUELLES LIGNES SUPPLEMENTAIRES
+        while($newJournee->getDeviseJournee()->count()>count($devises)) {
+            $occurence = 0;
+            foreach ($newJournee->getDeviseJournee() as $dj1) {
+                foreach ($newJournee->getDeviseJournee() as $dj2) {
+                    if ($dj1->getBillet() == $dj2->getBillet() && $dj1 != $dj2) {
+                        $newJournee->removeDeviseJournee($dj2);
+                        $occurence = $occurence + 1;
+                        break;
+                    }
+                }
+                if ($occurence > 0) {
+                    break;
+                }
+            }
         }
-
         $em->persist($newJournee);
-        //$em->persist($caisse);
+        //dump($newJournee);die();
         $em->flush();
         return $newJournee;
     }
@@ -671,41 +701,38 @@ class JourneeCaissesController extends Controller
     private function setSoldeFerm(){
 
         //maj solde fermeture avec les données d'ouverture
-        foreach ($this->journeeCaisse->getBilletOuv()->getBilletageLignes() as $billetageLigneOuv){
-            $newLigne=new BilletageLignes();
-            $newLigne->setBillet($billetageLigneOuv->getBillet())
-                ->setNbBillet($billetageLigneOuv->getNbBillet())
-                ->setValeurBillet($billetageLigneOuv->getValeurBillet())
-               // ->setBilletages($this->journeeCaisse->getBilletFerm())
-            ;
+        $error=false;
+        if (count($this->journeeCaisse->getBilletOuv()->getBilletageLignes())>0) {
+            foreach ($this->journeeCaisse->getBilletOuv()->getBilletageLignes() as $billetageLigneOuv) {
+                $this->journeeCaisse->getBilletFerm()->addBilletageLignes($billetageLigneOuv);
+                $this->journeeCaisse->getBilletFerm()->setBilletageLigne($this->journeeCaisse->getBilletFerm()->getBilletageLigne() . '' . $billetageLigneOuv->getValeurBillet() . 'x' . $billetageLigneOuv->getNbBillet() . ';');
+            }
+        }else {dump("billetage ouverture n'avait aucune ligne");$error=true;}
 
-            $this->journeeCaisse->getBilletFerm()->addBilletageLigne($newLigne);
-            $this->getDoctrine()->getManager()->persist($newLigne);
-        }
         $this->journeeCaisse->setMLiquiditeFerm($this->journeeCaisse->getMLiquiditeOuv());
 
         //soldes électroniques
-        foreach ($this->journeeCaisse->getSystemElectInventOuv()->getSystemElectLigneInventaires() as $seli){
-            $newSeli=new SystemElectLigneInventaires();
-            $newSeli->setSolde($seli->getSolde())
-                ->setIdSystemElect($seli->getIdSystemElect())
-                ->setIdSystemElectInventaire($this->journeeCaisse->getSystemElectInventFerm());
-            $this->getDoctrine()->getManager()->persist($newSeli);
-        }
+        if(count($this->journeeCaisse->getSystemElectInventOuv()->getSystemElectLigneInventaires())>0) {
+            foreach ($this->journeeCaisse->getSystemElectInventOuv()->getSystemElectLigneInventaires() as $seli) {
+                $this->journeeCaisse->getSystemElectInventFerm()->addSystemElectLigneInventaires($seli);
+                $this->journeeCaisse->getSystemElectInventFerm()->setSystemElectLigneInventaire($this->journeeCaisse->getSystemElectInventFerm()->getSystemElectLigneInventaire().''.$seli->getIdSystemElect()->getLibelle().'='.$seli->getSolde().';');
+            }
+        }else {dump("Electronique ouverture n'avait aucune ligne");$error=true;}
+
         $this->journeeCaisse->setMSoldeElectFerm($this->journeeCaisse->getMSoldeElectOuv());
 
         //soldes fermeture devises
         foreach ($this->journeeCaisse->getDeviseJournees() as $dvj){
             $dvj->setQteFerm($dvj->getQteOuv());
-            foreach ($dvj->getBilletOuv()->getBilletageLignes() as $bl){
-                $newBl = new BilletageLignes();
-                $newBl->setNbBillet($bl->getNbBillet())
-                    ->setValeurBillet($bl->getValeurBillet())
-                    ->setBillet($bl->getBillet())
-                    ->setBilletages($dvj->getBilletFerm());
-                $this->getDoctrine()->getManager()->persist($newBl);
+            if (count($dvj->getBilletOuv()->getBilletageLignes())>0) {
+                foreach ($dvj->getBilletOuv()->getBilletageLignes() as $bl) {
+                    $dvj->getBilletFerm()->addBilletageLignes($bl);
+                    $dvj->getBilletFerm()->setBilletageLigne($dvj->getBilletFerm()->getBilletageLigne() . '' . $bl->getValeurBillet() . 'x' . $bl->getNbBillet() . ';');
+                }
             }
+            else{dump("billetage ouverture de devise n'avait aucune ligne"); $error=true;}
         }
+        //if ($error)die();
 
     }
 

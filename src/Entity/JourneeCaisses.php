@@ -302,7 +302,7 @@ class JourneeCaisses
     private $deviseIntercaisseEntrants;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="journeeCaisse", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\DeviseJournees", mappedBy="journeeCaisse", cascade={"persist"}, orphanRemoval=true)
      */
     private $deviseJournees;
 
@@ -643,9 +643,17 @@ class JourneeCaisses
 
     public function addDeviseJournee(DeviseJournees $deviseJournee)
     {
-        if ($this->getStatut()==JourneeCaisses::ENCOURS) {
-            $deviseJournee->setJourneeCaisse($this);
-            $this->deviseJournees->add($deviseJournee);
+        /*****TEST D'EXISTANCE D'UNE LIGNE DEJA LA MEME DEVISE QUE LA NOUVELLE LIGNE*****/
+        $exist=false;
+        foreach ($this->deviseJournees as $dj){
+            if ($deviseJournee->getDevise()==$dj->getDevise())
+                $exist=true;
+        }
+        if (!$exist) { /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LA MEME DEVISE
+            //if ($this->getStatut() != JourneeCaisses::CLOSE) {
+                $deviseJournee->setJourneeCaisse($this);
+                $this->deviseJournees->add($deviseJournee);
+            //}
         }
     }
 

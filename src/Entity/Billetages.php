@@ -36,7 +36,7 @@ class Billetages
     private $dateBillettage;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billetages", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billetages", cascade={"persist"}, orphanRemoval=true)
      */
     private $billetageLignes;
 
@@ -48,6 +48,11 @@ class Billetages
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $valeurTotal=0;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $billetageLigne='';
 
     /*
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", cascade={"persist"})
@@ -120,14 +125,23 @@ class Billetages
         $this->billetageLigneAffiches->removeElement($billetageLigne);
     }
 
-    public function addBilletageLigne(BilletageLignes $billetageLigne)
+    public function addBilletageLignes(BilletageLignes $billetageLigne)
 {
-    $this->billetageLignes->add($billetageLigne);
-    $billetageLigne->setBilletages($this);
-    $this->valeurTotal += $billetageLigne->getValeurLigne();
+    /*****TEST D'EXISTANCE D'UNE LIGNE DEJA LE MEME BILLET QUE LA NOUVELLE LIGNE*****/
+    $exist=false;
+    foreach ($this->billetageLignes as $bl){
+        if ($billetageLigne->getBillet()==$bl->getBillet() or $billetageLigne->getValeurBillet()==$bl->getValeurBillet())
+            $exist=true;
+    }
+    if (!$exist){ /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LE MEME BILLET
+        $this->billetageLignes->add($billetageLigne);
+        $billetageLigne->setBilletages($this);
+        $this->valeurTotal += $billetageLigne->getValeurLigne();
+    }
+
 }
 
-    public function removeBilletageLignes(BilletageLignes $billetageLigne)
+    public function removeBilletageLigne(BilletageLignes $billetageLigne)
     {
         $this->billetageLignes->removeElement($billetageLigne);
         $this->valeurTotal -= $billetageLigne->getValeurLigne();
@@ -276,6 +290,24 @@ class Billetages
     public function setEm(ObjectManager $em): Billetages
     {
         $this->em = $em;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBilletageLigne()
+    {
+        return $this->billetageLigne;
+    }
+
+    /**
+     * @param mixed $billetageLigne
+     * @return Billetages
+     */
+    public function setBilletageLigne($billetageLigne)
+    {
+        $this->billetageLigne = $billetageLigne;
         return $this;
     }
 

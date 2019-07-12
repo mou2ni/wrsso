@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% set i=0 %}
-        {% for bl in form.billetageLignes %}
+        {% for bl in form.billetageLignes|sort %}
             <tr class="">
                 <td>{{ form_errors(bl.valeurBillet) }} {{ form_widget(bl.valeurBillet) }}</td>
                 <td>{{ form_errors(bl.nbBillet) }} {{ form_widget(bl.nbBillet) }}</td>
@@ -56,7 +56,7 @@
     function majBilletage() {
         var nbrBillet = valeur("#nombreLigne");
         var totalBillet = 0;
-        for (b = 0; b <= nbrBillet; b++) {
+        for (b = 0; b < nbrBillet; b++) {
             var nbr = Echape($("#billetages_billetageLignes_" + b + "_nbBillet").val());
             var valeurBillet=Echape($("#billetages_billetageLignes_" + b + "_valeurBillet").val());
             $("#billetages_billetageLignes_" + b + "_valeurLigne").val(valeurBillet * nbr);

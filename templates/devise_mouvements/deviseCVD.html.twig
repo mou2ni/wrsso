@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}etat devise cvd{% endblock %}
+
+{% block body %}
+    <h1>ETAT DEVISE CVD</h1>
+    <div>
+        {{ form_start(form) }}
+        {{ include('_criteres_recherches.html.twig') }}
+        CAISSE : <select id="caisse" name="caisse" class="">
+            <option  {{ (app.request.request.get('caisse')=='')?'selected="selected"':''}} value="">Tous</option>
+            {% for caisse in caisses %}
+                <option  {{ (caisse_id==caisse.id)?'selected="selected"':''}} value={{ caisse.id }}>{{ caisse }}</option>
+            {% endfor %}
+        </select>
+        DEVISE : <select id="devise" name="devise" class="">
+            <option  {{ (app.request.request.get('devise')=='')?'selected="selected"':''}} value="">Tous</option>
+            {% for devise in devises %}
+                <option {{ (devise_id==devise.id)?'selected="selected"':''}} value={{ devise.id }}>{{ devise }}</option>
+            {% endfor %}
+        </select>
+        UNIQUEMENT LES AGENCES MOUVEMENTEES : <input {{ (app.request.request.get('ujm'))?'checked="true"':''}} type="checkbox" id="ujm" name="ujm" class="">
+        {{ form_end(form) }}
+    </div>
+    {{ include('_pagination.html.twig') }}
+    <div id="sortable-data_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+        <table id="sortable-data" class="table table-striped table-bordered datatable-basic dataTable no-footer" role="grid">
+            <thead>
+            <tr>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="2" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Agence</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="2" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Devise</th>
+                <th colspan="4"> divise</th>
+                <th colspan="5"> CVD</th>
+            </tr>
+            <tr role="row">
+                {#<th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Date</th>
+                #}<th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Ouverture</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Achat</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Vente</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Fermeture</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Ouverture</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Achat</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Vente</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">Fermeture</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">comminsion</th>
+                {#<th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">CVD</th>
+                <th>MCvdVente</th>
+                <th>QteIntercaisse</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteFerm</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">ecart</th>
+                <th>actions</th>#}
+            </tr>
+            </thead>
+            <tbody>
+            {% for mouvement_devise in mouvement_devises %}
+                <tr role="row">
+                    {#{% if src == 'orm' %}
+                    <td>{{ mouvement_devise.date|date }}</td>#}
+                    <td>{{ mouvement_devise.agence }}</td>
+                    <td>{{ mouvement_devise.devise }}</td>
+                    <td>{{ mouvement_devise.ouverture|number_format(0,',', ' ') }} {#| {{ mouvement_devise.qteOuv }}#}</td>
+                    <td>{{ mouvement_devise.achat|number_format(0,',', ' ') }}{# | {{ mouvement_devise.qteAchat }}#}</td>
+                    <td>{{ mouvement_devise.vente|number_format(0,',', ' ') }}{# | {{ mouvement_devise.qteVente }}#}</td>
+                    <td>{{ mouvement_devise.fermeture }}</td>
+                    <td>{{ mouvement_devise.cvouverture|number_format(0,',', ' ') }} </td>
+                    <td>{{ mouvement_devise.cvachat|number_format(0,',', ' ') }} </td>
+                    <td>{{ mouvement_devise.cvvente|number_format(0,',', ' ') }} </td>
+                    <td>{{ mouvement_devise.cvfermeture|number_format(0,',', ' ') }}</td>
+                    <td>{{ mouvement_devise.commission|number_format(0,',', ' ') }}</td>
+                    {#<td>{{ devise_urnee.qteVente }}</td>
+                    <td>{{ devise_journee.cvd|number_format(0,',', ' ') }}</td>
+                    <td>{{ devise_journee.mCvdVente|number_format(0,',', ' ') }}</td>
+                    <td>{{ devise_journee.qteIntercaisse }}</td>
+                    <td>{{ devise_journee.qteFerm }}</td>
+                    <td>{{ devise_journee.ecartFerm }}</td>
+                {% else %}
+                    <td>{{ devise_journee.id }}</td>
+                    <td>{{ devise_journee.idJourneeCaisse }}</td>
+                    <td>{{ devise_journee.qte_ouv }}</td>
+                    <td>{{ devise_journee.ecart_ouv }}</td>
+                    <td>{{ devise_journee.qte_achat }}</td>
+                    <td>{{ devise_journee.qte_vente }}</td>
+                    <td>{{ devise_journee.m_cvd_achat|number_format(0,',', ' ') }}</td>
+                    <td>{{ devise_journee.m_cvd_vente|number_format(0,',', ' ') }}</td>
+                    <td>{{ devise_journee.qte_intercaisse }}</td>
+                    <td>{{ devise_journee.qte_ferm }}</td>
+                    <td>{{ devise_journee.ecart_ferm }}</td>
+                {% endif %}#}
+                    {#<td>
+                        <a href="{{ path('devise_journees_show', {'id': devise_journee.id}) }}">Detail</a>
+                        <a href="{{ path('devise_journees_edit', {'id': devise_journee.id}) }}">Modifier</a>
+                    </td>#}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11">Aucune Devise Mouvement n'est trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {#<a href="{{ path('devise_journees_new') }}">Ajouter</a>#}
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script src="{{ asset('js/tableExport.js') }}"></script>
+    <script src="{{ asset('js/jspdf.js') }}"></script>
+    <script src="{{ asset('js/sprintf.js') }}"></script>
+    <script src="{{ asset('js/base64.js') }}"></script>
+    <script src="{{ asset('js/jquery.base64.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/html2canvas.js') }}"></script>
+{% endblock %}
