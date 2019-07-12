@@ -75,11 +75,11 @@ class ApproVersements
      */
     private $mAppro=0;
 
-    /*
+    /**
      * @ORM\Column(type="float")
-
+     */
     private $mApproVersement=0;
-*/
+
     /**
      * @ORM\Column(type="float")
      */
@@ -295,9 +295,29 @@ class ApproVersements
         return $this;
     }
 
-  public function getMApproVersement(){
+    /**
+     * @return mixed
+     */
+    public function getMApproVersement()
+    {
+        return $this->mApproVersement;
+    }
+
+    /**
+     * @param mixed $mApproVersement
+     * @return ApproVersements
+     */
+    public function setMApproVersement($mApproVersement)
+    {
+        $this->mApproVersement = $mApproVersement;
+        return $this;
+    }
+
+    
+
+  /*public function getMApproVersement(){
       return $this->mVersement+$this->mAppro;
-  }
+  }*/
     /**
      * @return mixed
      */
