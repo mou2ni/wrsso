@@ -1,0 +1,51 @@
+<table class="table table-striped">
+    <thead><tr><th>Partenaire</th><th>Montant</th><th>Status</th><th>Observations</th>{% if journeeCaisse.statut=='E' %}<th>Action</th>{% endif %}</tr></thead>
+    <tbody>
+    {% set totalV = 0 %}
+    {% set totalE = 0 %}
+    {% for intercaisse in myIntercaisses  %}
+        {% if not ((intercaisse.statut=='X')) %}
+            <tr id="{{ intercaisse.id }}S">
+                <td>{{ (intercaisse.journeeCaisseSource.id==journeeCaisse.id)?intercaisse.journeeCaisseDestination:intercaisse.journeeCaisseSource }}</td>
+                <td>{{ (intercaisse.journeeCaisseSource.id==journeeCaisse.id)?intercaisse.|number_format(0, '.', ' ') :(-intercaisse.mIntercaisse)|number_format(0, '.', ' ')}}</td>
+                {#<td>{{ intercaisse.mIntercaisse|number_format(0, '.', ' ')}}</td>  or  (intercaisse.statut=='CC') or  (intercaisse.statut=='CP')#}
+                <td >
+
+                            <span id="statut{{intercaisse.id}}V">{{ (intercaisse.statut=='I')
+                                ?'Initié':(intercaisse.statut=='V')
+                                ?'Validé':(intercaisse.statut=='VA')
+                                ?'Auto validé': (intercaisse.statut=='CC')
+                                ?'Charge comptabilisée':(intercaisse.statut=='CP')
+                                ?'Produit comptabilisé':'Non defini'}}
+                            </span>
+                </td>
+                <td>{{ intercaisse.observations }}</td>
+        {% if journeeCaisse.statut=='E' %}<td><div class="form-row">
+                        {% if  intercaisse.statut=='I' %}
+                            {{ (intercaisse.journeeCaisseDestination.id==journeeCaisse.id)
+                            ?include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler', 'confirm_message':'Annuler Vraiment cet intercaisse ?'})
+                            :include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'valider', 'btn_label':'Valider', 'confirm_message':'VALIDER DEFINITIVEMENT INTERCAISSE ?'})
+                            }}
+                        {% endif %}
+                        {% if  intercaisse.statut=='V' or intercaisse.statut=='VA'%}
+                            {% if is_granted('ROLE_COMPTABLE') %}
+                                {{ include('intercaisses/_btn_comptabiliser.html.twig')}}
+                            {% endif %}
+                            {% if intercaisse.journeeCaisseDestination.id==journeeCaisse.id and intercaisse.journeeCaisseSource.statut=='E'%}
+                                {{ include('intercaisses/_btn_valider_annuler.html.twig',{'btn_name':'annuler', 'btn_label':'Annuler déjà valide','btn_class':'btn-danger', 'confirm_message':'OPERATION IRREVERSIBLE : ANNULER UNE INTERCAISSE DEJA VALIDE !!!!?'}) }}
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
+                </td>
+            {% endif %}
+            </tr>
+
+        {% endif %}
+    {% else %}
+        <tr> <td colspan="5">Aucun Enregistrement trouve.</td></tr>
+    {% endfor %}
+
+    <tr><th>Total Validé</th><th>{{ (journeeCaisse.mIntercaisses)|number_format(0, '.', ' ') }}</th></tr>
+    </tbody>
+</table>

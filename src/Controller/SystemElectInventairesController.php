@@ -64,11 +64,15 @@ class SystemElectInventairesController extends Controller
     }
 
     /**
-     * @Route("/system/elect/inventaires/{id}", name="system_elect_inventaires_show", methods="GET|UPDATE")
+     * @Route("/system/elect/inventaires/{id}/{operation}", name="system_elect_inventaires_show", methods="GET|UPDATE")
      */
-    public function show(SystemElectInventaires $systemElectInventaire): Response
+    public function show(JourneeCaisses $journeeCaisse, $operation): Response
     {
-        foreach (explode(';',$systemElectInventaire->getSystemElectLigneInventaire()) as $lg)
+        $detailElectInventaire =($operation == 'OUV')? $journeeCaisse->getDetailSoldeElectOuv():
+            $journeeCaisse->getDetailSoldeElectFerm();
+        //dump($journeeCaisse);die();
+        $systemElectInventaire = new SystemElectInventaires();
+        foreach (explode(';',$detailElectInventaire) as $lg)
         {
             //dump(count(explode('x',$lg)));
             if (count(explode('=',$lg))>1){
@@ -140,8 +144,30 @@ class SystemElectInventairesController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $systemElects = $em->getRepository('App:SystemElects')->findAll();
-        $systemElectInventaire =($operation == 'OUV')? $this->journeeCaisse->getSystemElectInventOuv():
-            $this->journeeCaisse->getSystemElectInventFerm();
+        //$systemElectInventaire =($operation == 'OUV')? $this->journeeCaisse->getSystemElectInventOuv():
+        //           // $this->journeeCaisse->getSystemElectInventFerm();
+        $detailElectInventaire =($operation == 'OUV')? $this->journeeCaisse->getDetailSoldeElectOuv():
+        $this->journeeCaisse->getDetailSoldeElectFerm();
+        $systemElectInventaire = new SystemElectInventaires();
+
+        foreach (explode(';',$detailElectInventaire) as $lg)
+        {
+            //dump(count(explode('x',$lg)));
+            if (count(explode('=',$lg))>1){
+                $valeur = explode('=',$lg)['1'];
+                $libelle = explode('=',$lg)['0'];
+                //dump($libelle);dump($valeur);
+
+                $elect = $this->getDoctrine()
+                    ->getRepository(SystemElects::class)
+                    ->findOneBy(['Libelle' => $libelle]);
+                $seli = new SystemElectLigneInventaires();
+                $seli->setIdSystemElect($elect)->setSolde($valeur);
+                //dump($seli);
+                $systemElectInventaire->addSystemElectLigneInventaires($seli);
+            }
+            //$em->persist($bl);
+        }
 
                 //////////// creation du formulaire personnalise///////////////////////////////
         if (!$systemElectInventaire) {
@@ -187,15 +213,16 @@ class SystemElectInventairesController extends Controller
         // only handles data on POST
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid() && $this->journeeCaisse) {
-            $systemElectInventaire->setSystemElectLigneInventaire('');
+            $detailElect = '';
             foreach ($systemElectInventaire->getSystemElectLigneInventaires() as $seli){
-                $systemElectInventaire->setSystemElectLigneInventaire($systemElectInventaire->getSystemElectLigneInventaire().''.$seli->getIdSystemElect()->getLibelle().'='.$seli->getSolde().';');
-                $em->persist($seli);
+                $detailElect = $detailElect.''.$seli->getIdSystemElect()->getLibelle().'='.$seli->getSolde().';';
+                //$systemElectInventaire->setSystemElectLigneInventaire($detailElect);
+                //$em->persist($seli);
             }
 
-            $em->persist($systemElectInventaire);
-            ($operation == 'OUV')?$this->journeeCaisse->setMSoldeElectOuv($this->journeeCaisse->getSystemElectInventOuv()->getSoldeTotal()):
-            $this->journeeCaisse->setMSoldeElectFerm($this->journeeCaisse->getSystemElectInventFerm()->getSoldeTotal());
+            //$em->persist($systemElectInventaire);
+            ($operation == 'OUV')?$this->journeeCaisse->setMSoldeElectOuv($systemElectInventaire->getSoldeTotal())->setDetailSoldeElectOuv($detailElect):
+            $this->journeeCaisse->setMSoldeElectFerm($systemElectInventaire->getSoldeTotal())->setDetailSoldeElectFerm($detailElect);
             $em->persist($this->journeeCaisse);
             $em->flush();
             $this->addFlash('success', 'Inventaire electronique Créé!');

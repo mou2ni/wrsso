@@ -54,6 +54,11 @@ class DeviseJournees
     private $qteOuv=0;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $detailLiquiditeOuv='';
+
+    /**
      * @ORM\Column(type="float")
      */
     private $ecartOuv=0;
@@ -96,6 +101,11 @@ class DeviseJournees
     private $qteFerm=0;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $detailLiquiditeFerm='';
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $ecartFerm=0;
@@ -113,8 +123,8 @@ class DeviseJournees
         $this->deviseMouvements = new ArrayCollection();
         $this->journeeCaisse = $journeeCaisse;
         $this->devise = $devise;
-        $this->billetOuv = new Billetages();
-        $this->billetFerm = new Billetages();
+        //$this->billetOuv = new Billetages();
+        //$this->billetFerm = new Billetages();
     }
 
     public function updateM($champ,$montant){
@@ -434,6 +444,43 @@ class DeviseJournees
         $this->billetFerm = $billetFerm;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDetailLiquiditeOuv()
+    {
+        return $this->detailLiquiditeOuv;
+    }
+
+    /**
+     * @param mixed $detailLiquiditeOuv
+     * @return DeviseJournees
+     */
+    public function setDetailLiquiditeOuv($detailLiquiditeOuv)
+    {
+        $this->detailLiquiditeOuv = $detailLiquiditeOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetailLiquiditeFerm()
+    {
+        return $this->detailLiquiditeFerm;
+    }
+
+    /**
+     * @param mixed $detailLiquiditeFerm
+     * @return DeviseJournees
+     */
+    public function setDetailLiquiditeFerm($detailLiquiditeFerm)
+    {
+        $this->detailLiquiditeFerm = $detailLiquiditeFerm;
+        return $this;
+    }
+
 
 
 }

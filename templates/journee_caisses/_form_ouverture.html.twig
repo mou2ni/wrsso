@@ -16,15 +16,15 @@
             <tbody class="text-thin">
             <tr>
                 <td class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >LIQUIDITE : </td>
-                <td class="padding-5 text-right" colspan="2"><a href="{{ path('billetages_show', {'id': journeePrecedente.billetFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ (journeePrecedente) ? journeePrecedente.mLiquiditeFerm|number_format(0, '.', ' ') : 0}}</a></td>
+                <td class="padding-5 text-right" colspan="2"><a href="{{ path('billetages_show', {'id': journeePrecedente.id, 'operation':'liquiditeFerm', 'devise':0}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ (journeePrecedente) ? journeePrecedente.mLiquiditeFerm|number_format(0, '.', ' ') : 0}}</a></td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ') }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetOuv.id, 'operation':'liquiditeOuv', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.id, 'operation':'liquiditeOuv', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >ELECTRONIQUE : </td>
-                <td class="padding-5 text-right" colspan="2"><a href="{{ path('system_elect_inventaires_show', {'id': journeePrecedente.systemElectInventFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeePrecedente ? journeePrecedente.mSoldeElectFerm|number_format(0, '.', ' ') : 0}}</a></td>
+                <td class="padding-5 text-right" colspan="2"><a href="{{ path('system_elect_inventaires_show', {'id': journeePrecedente.id, 'operation':'liquiditeFerm'}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeePrecedente ? journeePrecedente.mSoldeElectFerm|number_format(0, '.', ' ') : 0}}</a></td>
                 <td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</td>
-                <td class="padding-0" >{{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventOuv.id, 'operation':'OUV', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}</td>
+                <td class="padding-0" >{{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.id, 'operation':'OUV', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}</td>
             </tr>
             <tr>
                 <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
@@ -92,7 +92,7 @@
                                 {#<td class="padding-5 text-right">{{ deviseJournee.solde }}</td>#}
                                 <td colspan="2" class="padding-5 text-right">{{ deviseJournee.qteOuv }} </td>
                                 <td colspan="2" class="text-bold text-bloody-500 padding-0 text-right"><div class="form-inline">
-                                        {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.billetOuv.id, 'operation':'deviseOuv', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
+                                        {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee, 'operation':'deviseOuv', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
                                         {{ deviseJournee.ecartOuv|number_format(0, '.', ' ') }}
                                     </div>
                                 </td>

@@ -259,7 +259,8 @@ class JourneeCaissesController extends Controller
 
 
     /**
-     * @Route("/{id}/maintenance/", name="journee_caisses_maintenance", methods="GET|POST")
+     * @Route("/{id}/maintenance", name="journee_caisses_maintenance", methods="GET|POST")
+     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function maintenanceSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
@@ -271,15 +272,7 @@ class JourneeCaissesController extends Controller
         $dateDebut=($journeeCaisse->getDateOuv())?$journeeCaisse->getDateOuv():new \DateTime('today');
         $dateFin=($journeeCaisse->getDateFerm())?$journeeCaisse->getDateFerm():new \DateTime();
 
-        /*return $this->redirectToRoute('journee_caisses_index',[
-            'dateDebut'=>$dateDebut->format('Y-m-d'),
-            'dateFin'=>$dateFin->format('Y-m-d'),
-        ]);*/
-        $returnPath=$request->query->get('return');
-        $criteria=$request->query->get('criteria');
-        if ($returnPath){
-            return $this->redirectToRoute($returnPath, [$criteria]);
-        }else return $this->redirectToRoute('journee_caisses_index',[
+        return $this->redirectToRoute('journee_caisses_index',[
             'dateDebut'=>$dateDebut->format('Y-m-d'),
             'dateFin'=>$dateFin->format('Y-m-d'),
         ]);
@@ -714,7 +707,7 @@ class JourneeCaissesController extends Controller
                 $this->journeeCaisse->getBilletFerm()->addBilletageLignes($billetageLigneOuv);
                 $this->journeeCaisse->getBilletFerm()->setBilletageLigne($this->journeeCaisse->getBilletFerm()->getBilletageLigne() . '' . $billetageLigneOuv->getValeurBillet() . 'x' . $billetageLigneOuv->getNbBillet() . ';');
             }
-        }//else {dump("billetage ouverture n'avait aucune ligne");$error=true;}
+        }else {dump("billetage ouverture n'avait aucune ligne");$error=true;}
 
         $this->journeeCaisse->setMLiquiditeFerm($this->journeeCaisse->getMLiquiditeOuv());
 
@@ -724,7 +717,7 @@ class JourneeCaissesController extends Controller
                 $this->journeeCaisse->getSystemElectInventFerm()->addSystemElectLigneInventaires($seli);
                 $this->journeeCaisse->getSystemElectInventFerm()->setSystemElectLigneInventaire($this->journeeCaisse->getSystemElectInventFerm()->getSystemElectLigneInventaire().''.$seli->getIdSystemElect()->getLibelle().'='.$seli->getSolde().';');
             }
-        }//else {dump("Electronique ouverture n'avait aucune ligne");$error=true;}
+        }else {dump("Electronique ouverture n'avait aucune ligne");$error=true;}
 
         $this->journeeCaisse->setMSoldeElectFerm($this->journeeCaisse->getMSoldeElectOuv());
 
@@ -737,7 +730,7 @@ class JourneeCaissesController extends Controller
                     $dvj->getBilletFerm()->setBilletageLigne($dvj->getBilletFerm()->getBilletageLigne() . '' . $bl->getValeurBillet() . 'x' . $bl->getNbBillet() . ';');
                 }
             }
-            //else{dump("billetage ouverture de devise n'avait aucune ligne"); $error=true;}
+            else{dump("billetage ouverture de devise n'avait aucune ligne"); $error=true;}
         }
         //if ($error)die();
 

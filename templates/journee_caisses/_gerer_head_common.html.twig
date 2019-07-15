@@ -1,25 +1,25 @@
 <tr>
     <td class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >LIQUIDITE : </td>
     {#<td class="padding-5 text-right" colspan="2">{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</td>
-    #}<td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ path('billetages_show', {'id': journeeCaisse.billetOuv.id}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</a></td>
+    #}<td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ path('billetages_show', {'id': journeeCaisse.id, 'operation':'liquiditeOuv', 'devise':0}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeeCaisse.mLiquiditeOuv|number_format(0, '.', ' ')  }}</a></td>
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mLiquiditeFerm|number_format(0, '.', ' ') }}</td>
     <td class="padding-0"  bgcolor="{{ bgcolor }}">
         {% if  journeeCaisse.statut== 'E'%}
-            {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.billetFerm.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}
+            {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':journeeCaisse.id, 'operation':'liquiditeFerm', 'devise':0,'btn_name':'Billetage', 'btn_label':'Billetage'}) }}
         {% else %}
-            <a href="{{ path('billetages_show', {'id': journeeCaisse.billetFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+            <a href="{{ path('billetages_show', {'id': journeeCaisse.id,'operation':'liquiditeFerm', 'devise':0}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
         {% endif %}
     </td>
 </tr>
 <tr>
     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >ELECTRONIQUE : </td>
-    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ path('system_elect_inventaires_show', {'id': journeeCaisse.systemElectInventOuv.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> {{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</a></td>
+    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ path('system_elect_inventaires_show', {'id': journeeCaisse.id, 'operation':'OUV'}) }}"><span class="glyphicon glyphicon-eye-open"></span> {{ journeeCaisse.mSoldeElectOuv|number_format(0, '.', ' ')  }}</a></td>
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mSoldeElectFerm|number_format(0, '.', ' ')  }}</td>
     <td class="padding-0"  bgcolor="{{ bgcolor }}">
      {% if  journeeCaisse.statut== 'E'%}
-        {{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.systemElectInventFerm.id, 'operation':'FERMER', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}
+        {{ include('journee_caisses/_btn_action_elect.html.twig',{'id':journeeCaisse.id, 'operation':'FERMER', 'btn_name':'Solde', 'btn_label':'Soldes electroniques'}) }}
     {% else %}
-        <a href="{{ path('system_elect_inventaires_show', {'id': journeeCaisse.systemElectInventFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
+        <a href="{{ path('system_elect_inventaires_show', {'id': journeeCaisse.id, 'operation':'FERMER'}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails </a>
     {% endif %}
     </td>
 </tr>
