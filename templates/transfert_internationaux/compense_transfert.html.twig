@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}compense transfert{% endblock %}
+{% block title %}Compense transfert{% endblock %}
 
 {% block body %}
     <h1>Suivi des transferts | <a href="{{ path('transfert_internationaux_index') }}">Listing des transferts</a></h1>
@@ -8,10 +8,10 @@
     {{ form_start(form) }}
         {{ include('_criteres_recherches.html.twig') }}
        <select id="type_affichage" name="type_affichage" class="">
-            <option  {{ (affichage=='transfert')?'selected="selected"':''}} value="transfert">Par transfert</option>
            <option {{ (affichage=='agence')?'selected="selected"':'' }} value="agence">Par agence</option>
+           <option  {{ (affichage=='transfert')?'selected="selected"':''}} value="transfert">Par transfert</option>
            <option {{ (affichage=='caisse')?'selected="selected"':'' }} value="caisse">Par caisse</option>
-            <option {{ (affichage=='detail')?'selected="selected"':'' }} value="detail">Détails</option>
+           <option {{ (affichage=='detail')?'selected="selected"':'' }} value="detail">Détails</option>
         </select>
 
     {{ form_end(form) }}

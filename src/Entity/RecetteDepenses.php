@@ -39,6 +39,16 @@ class RecetteDepenses
     private $utilisateurValidateur;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecetteDepenseAgences", mappedBy="recetteDepense", cascade={"persist"})
+     */
+    private $recetteDepenseAgences;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecetteDepenseRubriques", mappedBy="recetteDepense", cascade={"persist"})
+     */
+    private $recetteDepenseRubriques;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Agences", inversedBy="recetteDepenses", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */

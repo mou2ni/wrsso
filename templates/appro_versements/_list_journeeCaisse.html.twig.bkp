@@ -1,0 +1,36 @@
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th rowspan="2">Partenaire</th>
+        <th colspan="2" class="text-center">Montant</th>
+        <th rowspan="2">Status</th>
+        <th rowspan="2">Observations</th>
+        {% if journeeCaisse.statut=='E' %}<th  rowspan="2">Action</th>{% endif %}
+        {% if  is_granted('ROLE_COMPTABLE') %}<th  rowspan="2">Pièces</th>{% endif %}
+    </tr>
+    <tr>
+        <th class="text-right">Entrant</th>
+        <th class="text-right">Sortant</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for approVersement in journeeCaisse.approVersementEntrants  %}
+        {{ include('appro_versements/_ligne_list.html.twig') }}
+    {% else %}
+        <tr> <td colspan="7" class="text-center"> Aucun Appro </td></tr>
+    {% endfor %}
+
+    {% for approVersement in journeeCaisse.approVersementSortants  %}
+        {{ include('appro_versements/_ligne_list.html.twig') }}
+    {% else %}
+        <tr> <td colspan="7" class="text-center"> Aucun Versement </td></tr>
+    {% endfor %}
+    <tr><th>Total Validé</th>
+        <th class="text-right">{{ (journeeCaisse.mApproVersementEntrant)|number_format(0, '.', ' ') }}</th>
+        <th class="text-right">{{ (journeeCaisse.mApproVersementSortant)|number_format(0, '.', ' ') }}</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </tbody>
+</table>

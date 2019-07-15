@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecetteDepenseRubriques index{% endblock %}
+
+{% block body %}
+    <h1>RecetteDepenseRubriques index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>MPart</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for recette_depense_rubrique in recette_depense_rubriques %}
+            <tr>
+                <td>{{ recette_depense_rubrique.id }}</td>
+                <td>{{ recette_depense_rubrique.mPart }}</td>
+                <td>
+                    <a href="{{ path('recette_depense_rubriques_show', {'id': recette_depense_rubrique.id}) }}">show</a>
+                    <a href="{{ path('recette_depense_rubriques_edit', {'id': recette_depense_rubrique.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('recette_depense_rubriques_new') }}">Create new</a>
+{% endblock %}

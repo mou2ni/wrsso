@@ -49,18 +49,19 @@ class RecetteDepensesType extends AbstractType
                     'multiple' => false,
                     'expanded'=>false,))
             ;
-            if ($isComptant)
-                if ($statut!=RecetteDepenses::STAT_COMPTA)
+            if ($isComptant) {
+                if ($statut == RecetteDepenses::STAT_INITIAL) {
                     $builder
-                    ->add('journeeCaisse', EntityType::class, array (
-                        'class' => 'App\Entity\JourneeCaisses',
-                        'multiple' => false,
-                        'expanded'=>false,
-                        'query_builder' => function (EntityRepository $er) {
-                            return $er->getOpenJourneeCaisseRDQb();
-                        }
-                    ))
-                ;
+                        ->add('journeeCaisse', EntityType::class, array(
+                            'class' => 'App\Entity\JourneeCaisses',
+                            'multiple' => false,
+                            'expanded' => false,
+                            'query_builder' => function (EntityRepository $er) {
+                                return $er->getOpenJourneeCaisseRDQb();
+                            }
+                        ));
+                }
+            }
             else
                 if ($statut!=RecetteDepenses::STAT_COMPTA)
                     $builder
@@ -75,7 +76,6 @@ class RecetteDepensesType extends AbstractType
                         }
                     ))
                 ;
-
             $builder
                 ->add('numDocumentCompta');
         }

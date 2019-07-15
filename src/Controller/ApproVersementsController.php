@@ -71,15 +71,17 @@ class ApproVersementsController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($approVersement->getMSaisie()>0){
-                $approVersement->setMAppro($approVersement->getMSaisie());
-                $approVersement->setMVersement(0);
+                //$approVersement->setMAppro($approVersement->getMSaisie());
+                //$approVersement->setMVersement(0);
+                $approVersement->setMApproVersement($approVersement->getMSaisie());
                 $approVersement->setJourneeCaisseEntrant($this->journeeCaisse);
                 $approVersement->setJourneeCaisseSortant($approVersement->getJourneeCaissePartenaire());
                 $approVersement=$this->valider($approVersement, ApproVersements::STAT_VALIDATION_AUTO);
                 if (!$approVersement) return $this->redirectToRoute('appro_versements_ajout');
             }elseif ($approVersement->getMSaisie()<0){
-                $approVersement->setMAppro(0);
-                $approVersement->setMVersement(-$approVersement->getMSaisie());
+                //$approVersement->setMAppro(0);
+                //$approVersement->setMVersement(-$approVersement->getMSaisie());
+                $approVersement->setMApproVersement(-$approVersement->getMSaisie());
                 $approVersement->setJourneeCaisseEntrant($approVersement->getJourneeCaissePartenaire());
                 $approVersement->setJourneeCaisseSortant($this->journeeCaisse);
                 if($this->isGranted('ROLE_COMPTABLE')){
@@ -255,7 +257,7 @@ class ApproVersementsController extends Controller
             return false;
         }
         $approVersement->getJourneeCaisseEntrant()->updateM('mApproVersementEntrant', -$approVersement->getMApproVersement());
-        $approVersement->getJourneeCaisseSortant()->updateM('mApproVersementEntrant', $approVersement->getMApproVersement());
+        $approVersement->getJourneeCaisseSortant()->updateM('mApproVersementSortant', -$approVersement->getMApproVersement());
         $approVersement->setStatut(ApproVersements::STAT_ANNULE);
         $approVersement->setUtilisateurValidateur($this->utilisateur);
 

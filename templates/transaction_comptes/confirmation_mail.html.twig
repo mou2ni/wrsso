@@ -18,7 +18,7 @@
             <td height="40"> <span style=" font-family:'Arial'; font-size:16px;"><u>RECU DE : {{ (transactionCompte.mDebit!=0)?'DEBIT':'CREDIT' }}  </u></span></td>
         </tr>
         <tr>
-            <td height="30">N°<span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ transactionCompte.id }} </span><span style=" font-family:'Arial'; font-size:16px;"> du </span><span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ transactionCompte.transaction.dateTransaction|date('d-m-Y H:i:s') }}</span></td>
+            <td height="30">N°<span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ transactionCompte.id }} </span><span style=" font-family:'Arial'; font-size:16px;"> du </span><span style=" font-family:'Arial'; color:blue; font-size:16px;">{{ transactionCompte.transaction.createdAt|date('d-m-Y H:i:s') }}</span></td>
         </tr>
         <tr>
             <td style="text-align: right">Montant : </td>

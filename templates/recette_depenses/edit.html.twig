@@ -15,5 +15,8 @@
 
     {{ include('recette_depenses/_form.html.twig', {'button_label': 'Modifier'}) }}
 
+<h1>Montant : {{ (recette_depense.mRecette)?recette_depense.mRecette|number_format(0, ',', ' ') :(-recette_depense.mDepense)|number_format(0, ',', ' ') }}
+    | Utilisateur : {{ recette_depense.utilisateur }}</h1>
+
     {{ include('recette_depenses/_delete_form.html.twig') }}
 {% endblock %}

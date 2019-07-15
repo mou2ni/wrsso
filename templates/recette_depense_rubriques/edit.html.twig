@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit RecetteDepenseRubriques{% endblock %}
+
+{% block body %}
+    <h1>Edit RecetteDepenseRubriques</h1>
+
+    {{ include('recette_depense_rubriques/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('recette_depense_rubriques_index') }}">back to list</a>
+
+    {{ include('recette_depense_rubriques/_delete_form.html.twig') }}
+{% endblock %}

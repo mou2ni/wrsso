@@ -614,6 +614,8 @@ class JourneeCaisses
     public function maintenirRecetteDepenses(){
         $this->mRecette=0;
         $this->mDepense=0;
+        $this->mRecetteAterme=0;
+        $this->mDepenseAterme=0;
         foreach ($this->getRecetteDepenses() as $recetteDepense){
             if ($recetteDepense->getStatut()== RecetteDepenses::STAT_COMPTA
                 or $recetteDepense->getStatut()== RecetteDepenses::STAT_VALIDE

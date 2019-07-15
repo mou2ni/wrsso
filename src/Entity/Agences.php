@@ -61,6 +61,11 @@ class Agences
     private $ligneSalaires;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RecetteDepenseAgences", mappedBy="agence", cascade={"persist"})
+     */
+    private $recetteDepenseAgences;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\RecetteDepenses", mappedBy="agence", cascade={"persist"})
      */
     private $recetteDepenses;
@@ -236,4 +241,24 @@ class Agences
         $this->ligneSalaires = $ligneSalaires;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRecetteDepenseAgences()
+    {
+        return $this->recetteDepenseAgences;
+    }
+
+    /**
+     * @param mixed $recetteDepenseAgences
+     * @return Agences
+     */
+    public function setRecetteDepenseAgences($recetteDepenseAgences)
+    {
+        $this->recetteDepenseAgences = $recetteDepenseAgences;
+        return $this;
+    }
+    
+    
 }

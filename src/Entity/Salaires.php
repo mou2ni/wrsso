@@ -85,8 +85,9 @@ class Salaires
     public function __construct()
     {
         $this->ligneSalaires=new ArrayCollection();
+        $auj=new \DateTime();
         $this->dateSalaire=new \DateTime();
-        $this->periode=new \DateTime();
+        $this->periode=new \DateTime($auj->format('Y-m').'-25');
     }
 
     /**

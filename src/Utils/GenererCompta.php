@@ -602,7 +602,7 @@ class GenererCompta
         foreach ($salaire->getLigneSalaires() as $ligneSalaire) {
             $mTotalCharge = $ligneSalaire->getMChargeTotal();
 
-            $transaction = $this->initTransaction($utilisateur, 'Salaire de ' . $ligneSalaire->getCollaborateur() . ' - ' . $periodeSalaire, $mTotalCharge, $paramComptable->getJournalPaye(), $journeeCaisse, new \DateTime());
+            $transaction = $this->initTransaction($utilisateur, 'Salaire de ' . $ligneSalaire->getCollaborateur() . ' - ' . $periodeSalaire, $mTotalCharge, $paramComptable->getJournalPaye(), $journeeCaisse,$salaire->getPeriode());
             if ($this->getE()) return false;
             if ($mTotalCharge < 0) {
                 $this->setE($transaction::ERR_NEGATIF);
@@ -673,7 +673,7 @@ class GenererCompta
         $mTotalImpotSalarie=0;
         $mTotalSecuriteSocialeSalarie=0;
 
-        $transaction=$this->initTransaction($utilisateur,'Salaire  - '.$periodeSalaire, 1, $paramComptable->getJournalPaye(), $journeeCaisse, new \DateTime());
+        $transaction=$this->initTransaction($utilisateur,'Salaire  - '.$periodeSalaire, 1, $paramComptable->getJournalPaye(), $journeeCaisse, $salaire->getPeriode());
         if ($this->getE()) return false;
         if (!$transaction) return false ;
 
@@ -926,7 +926,23 @@ class GenererCompta
     private function checkCompteAttenteCompense(Caisses $caisse){
         $compte=$caisse->getCompteAttenteCompense();
         if(!$compte){
-            $this->$this->setErrMessage('Compte Attente compense de caisse '.$caisse->getCode().' NON PARAMETRE.');
+            $this->setErrMessage('Compte Attente compense de caisse '.$caisse->getCode().' NON PARAMETRE.');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        return $compte;
+    }
+
+    private function checkCompteRecetteDepense(RecetteDepenses $recetteDepense){
+        $compte=$recetteDepense->getCompteGestion();
+        if(!$compte){
+            $this->setErrMessage('Compte de gestion ou type d\'opération non renseigné ');
+            $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
+            return false;
+        }
+        $compte=$recetteDepense->getCompteTier();
+        if(!$compte){
+            $this->setErrMessage('Compte de tier de caisse non renseigné ');
             $this->setE(Transactions::ERR_COMPTE_INEXISTANT);
             return false;
         }
@@ -1033,6 +1049,7 @@ class GenererCompta
     }
     
     public function checkCoherenceRececetteDepenses(RecetteDepenses $recetteDepense){
+        if (!$this->checkCompteRecetteDepense($recetteDepense)) return false;
         $numCompteGestion=$recetteDepense->getCompteGestion()->getNumCompte();
         $numCompteTier=$recetteDepense->getCompteTier()->getNumCompte();
         $classCompteGestion=substr($numCompteGestion,0,1);
