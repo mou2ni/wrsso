@@ -64,6 +64,22 @@ class DeviseIntercaissesRepository extends ServiceEntityRepository
 
     }
 
+    public function findMyIntercaisses(JourneeCaisses $journeeCaisse)
+    {
+        $qb = $this->createQueryBuilder('i');
+
+        // On fait une jointure
+        return $qb->select('i')
+            //->addSelect('IDENTITY (i.journeeCaisseSortant)')
+            //->addSelect('IDENTITY (i.journeeCaisseEntrant)')
+            //->addSelect('i.mIntercaisse')
+            ->where('i.journeeCaisseSource=:journeeCaisse OR i.journeeCaisseDestination=:journeeCaisse')
+            ->setParameters(['journeeCaisse'=>$journeeCaisse])
+            ->addOrderBy('i.statut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    /**
 //     * @return DeviseRecus[] Returns an array of DeviseRecus objects

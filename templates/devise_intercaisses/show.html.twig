@@ -1,34 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}DeviseIntercaisses{% endblock %}
-
 {% block body %}
-    <h1>DeviseIntercaisses</h1>
+    <h3>INTERCAISSES DE {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }}</h3>
+    {{ include('devise_intercaisses/_list_mouvements.html.twig') }}
+    {{ include('_btn_close.html.twig') }}
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ devise_intercaiss.id }}</td>
-            </tr>
-            <tr>
-                <th>QteIntercaisse</th>
-                <td>{{ devise_intercaiss.qteIntercaisse }}</td>
-            </tr>
-            <tr>
-                <th>Statut</th>
-                <td>{{ devise_intercaiss.statut }}</td>
-            </tr>
-            <tr>
-                <th>Observations</th>
-                <td>{{ devise_intercaiss.observations }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block title %}
 
-    <a href="{{ path('devise_intercaisses_index') }}">back to list</a>
-
-    <a href="{{ path('devise_intercaisses_edit', {'id': devise_intercaiss.id}) }}">edit</a>
-
-    {{ include('devise_intercaisses/_delete_form.html.twig') }}
 {% endblock %}

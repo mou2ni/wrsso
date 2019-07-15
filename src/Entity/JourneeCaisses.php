@@ -85,6 +85,11 @@ class JourneeCaisses
     private $mLiquiditeOuv=0;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $detailLiquiditeOuv='';
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", inversedBy="journeeCaisse", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -95,6 +100,11 @@ class JourneeCaisses
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mSoldeElectOuv=0;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $detailSoldeElectOuv='';
 
     /**
      * @ORM\Column(type="bigint")
@@ -120,6 +130,11 @@ class JourneeCaisses
     private $mLiquiditeFerm=0;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $detailLiquiditeFerm='';
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\SystemElectInventaires", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -130,6 +145,11 @@ class JourneeCaisses
      * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
      */
     private $mSoldeElectFerm=0;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $detailSoldeElectFerm='';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\DetteCreditDivers", mappedBy="journeeCaisseActive", cascade={"persist"})
@@ -360,10 +380,13 @@ class JourneeCaisses
         $this->approVersementEntrants=new ArrayCollection();
         $this->approVersementSortants=new ArrayCollection();
 
-        $this->billetOuv=new Billetages();
-        $this->systemElectInventOuv=new SystemElectInventaires();
-        $this->billetFerm=new Billetages();
-        $this->systemElectInventFerm=new SystemElectInventaires();
+        ///////DECOMMENTER POUR ENREGISTRER LES BILLETAGES ET ELECTRONIQUE EN BD
+        //$this->billetOuv=new Billetages();
+        //$this->systemElectInventOuv=new SystemElectInventaires();
+        //$this->billetFerm=new Billetages();
+        //$this->systemElectInventFerm=new SystemElectInventaires();
+
+
         ///$devises = $this->em->getRepository(Devises::class)->findAll();
         /*foreach ($devises as $devise){
             $deviseJournee = new DeviseJournees($this,$devise);
@@ -382,7 +405,7 @@ class JourneeCaisses
      */
     public function updateMEcarts(){
         $this->setMEcarts();
-        $this->setMLiquiditeOuv($this->billetOuv->getValeurTotal());
+        //$this->setMLiquiditeOuv($this->billetOuv->getValeurTotal());
         //$this->setMIntercaisses($this->getmIntercaisseEntrants()-$this->getmIntercaisseSortants());
     }
 
@@ -487,12 +510,12 @@ class JourneeCaisses
         return $this;
     }
     public function maintenirMLiquiditeFerm(){
-        $this->mLiquiditeFerm=$this->getBilletFerm()->getValeurTotal();
+        //$this->mLiquiditeFerm=$this->getBilletFerm()->getValeurTotal();
 
         return $this;
     }
     public function maintenirMSoldeElectFerm(){
-        $this->mSoldeElectFerm=$this->getSystemElectInventFerm()->getValeurTotal();
+        //$this->mSoldeElectFerm=$this->getSystemElectInventFerm()->getValeurTotal();
 
         return $this;
     }
@@ -2021,5 +2044,78 @@ class JourneeCaisses
         $this->mDepenseAterme = $mDepenseAterme;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDetailLiquiditeOuv()
+    {
+        return $this->detailLiquiditeOuv;
+    }
+
+    /**
+     * @param mixed $detailLiquiditeOuv
+     * @return JourneeCaisses
+     */
+    public function setDetailLiquiditeOuv($detailLiquiditeOuv)
+    {
+        $this->detailLiquiditeOuv = $detailLiquiditeOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetailSoldeElectOuv()
+    {
+        return $this->detailSoldeElectOuv;
+    }
+
+    /**
+     * @param mixed $detailSoldeElectOuv
+     * @return JourneeCaisses
+     */
+    public function setDetailSoldeElectOuv($detailSoldeElectOuv)
+    {
+        $this->detailSoldeElectOuv = $detailSoldeElectOuv;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetailLiquiditeFerm()
+    {
+        return $this->detailLiquiditeFerm;
+    }
+
+    /**
+     * @param mixed $detailLiquiditeFerm
+     * @return JourneeCaisses
+     */
+    public function setDetailLiquiditeFerm($detailLiquiditeFerm)
+    {
+        $this->detailLiquiditeFerm = $detailLiquiditeFerm;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDetailSoldeElectFerm()
+    {
+        return $this->detailSoldeElectFerm;
+    }
+
+    /**
+     * @param mixed $detailSoldeElectFerm
+     * @return JourneeCaisses
+     */
+    public function setDetailSoldeElectFerm($detailSoldeElectFerm)
+    {
+        $this->detailSoldeElectFerm = $detailSoldeElectFerm;
+        return $this;
+    }
+
 
 }

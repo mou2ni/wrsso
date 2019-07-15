@@ -94,8 +94,43 @@ class BilletagesController extends Controller
     {
         $em=$this->getDoctrine()->getManager();
 
-        $billetage=$em->getRepository(Billetages::class)->find($id);
+        //$billetage=$em->getRepository(Billetages::class)->find($id);
+        $billetage= new Billetages();
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
+        $detailLiquidite = '';
+        switch ($operation){
+            case 'liquiditeOuv' : $detailLiquidite = $this->journeeCaisse->getDetailLiquiditeOuv();
+                break;
+            case 'liquiditeFerm' : $detailLiquidite = $this->journeeCaisse->getDetailLiquiditeFerm();
+            //dump($detailLiquidite);die();
+                break;
+            case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
+            $detailLiquidite = $djOuv->getDetailLiquiditeOuv();
+                break;
+            case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
+                $detailLiquidite = $djFerm->getDetailLiquiditeFerm();
+                break;
+        }
+
+        foreach (explode(';',$detailLiquidite) as $lg) {
+            //dump(count(explode('x',$lg)));
+            if (count(explode('x', $lg)) > 1) {
+                $nombre = explode('x', $lg)['1'];
+                $valeur = explode('x', $lg)['0'];
+                //dump($nombre);dump($valeur);
+
+                $billet = $this->getDoctrine()
+                    ->getRepository(Billets::class)
+                    ->findOneBy(['valeur' => $valeur]);
+                $bl = new BilletageLignes();
+                $bl->setNbBillet($nombre)->setBillet($billet)->setValeurBillet($billet->getValeur());
+                $billetage->addBilletageLignes($bl);
+                //dump($billetage->getBilletageLignes());die();
+                //$bl->setBilletages($billetage);
+
+                //$em->persist($bl);
+            }
+        }
         if ($billetage->getBilletageLignes()->isEmpty())
         {
             foreach ($billets as $billet) {
@@ -104,8 +139,9 @@ class BilletagesController extends Controller
                 $billetage->addBilletageLignes($billetageLigne);
             }
             $em->persist($billetage);
-            //dump($billetage->getBilletageLignes());die();
+            //dump($this->journeeCaisse->getDetailLiquiditeOuv());die();
         }
+
 
         //////SUPPRESSION D'EVENTUELLES LIGNES SUPPLEMENTAIRES
         while($billetage->getBilletageLignes()->count()>count($billets)) {
@@ -133,28 +169,29 @@ class BilletagesController extends Controller
 
         //$lig=new BilletageLignes();$lig->getNbBillet()
         if ($form->isSubmitted() && $form->isValid()) {
-            $billetage->setBilletageLigne('');
+            $detailBilletage = '';
             foreach ($billetage->getBilletageLignes() as $bl){
-                $billetage->setBilletageLigne($billetage->getBilletageLigne().''.$bl->getValeurBillet().'x'.$bl->getNbBillet().';');
+                $detailBilletage=$detailBilletage.''.$bl->getValeurBillet().'x'.$bl->getNbBillet().';';
+                $billetage->setBilletageLigne($detailBilletage);
             }
             $em->persist($billetage);
-            $em->flush();
+            //$em->flush();
             switch ($operation){
-                case 'liquiditeOuv' : $this->journeeCaisse->setMLiquiditeOuv($billetage->getValeurTotal());
+                case 'liquiditeOuv' : $this->journeeCaisse->setMLiquiditeOuv($billetage->getValeurTotal())->setDetailLiquiditeOuv($detailBilletage);
                     $em->persist($this->journeeCaisse);
                     break;
-                case 'liquiditeFerm' : $this->journeeCaisse->setMLiquiditeFerm($billetage->getValeurTotal());
+                case 'liquiditeFerm' : $this->journeeCaisse->setMLiquiditeFerm($billetage->getValeurTotal())->setDetailLiquiditeFerm($detailBilletage);
                     $em->persist($this->journeeCaisse);
                     break;
-                case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['billetOuv'=>$billetage]);
+                case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
                 $djPrec = $em->getRepository(DeviseJournees::class)->getDeviseJourneePrec($djOuv);
-                $djOuv->setQteOuv($billetage->getValeurTotal());
+                $djOuv->setQteOuv($billetage->getValeurTotal())->setDetailLiquiditeOuv($detailBilletage);
                 $djOuv->setEcartOuv(($djPrec)?$billetage->getValeurTotal() - $djPrec->getQteFerm():$billetage->getValeurTotal());
                     //dump($em->getRepository(DeviseJournees::class)->getDeviseJourneePrec($djOuv)); die();
                     $em->persist($djOuv);
                     break;
-                case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['billetFerm'=>$billetage]);
-                    $djFerm->setQteFerm($billetage->getValeurTotal());
+                case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
+                    $djFerm->setQteFerm($billetage->getValeurTotal())->setDetailLiquiditeFerm($detailBilletage);
                                    // dump($billetage);die();
                     $em->persist($djFerm);
                     break;
@@ -196,14 +233,31 @@ class BilletagesController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="billetages_show", methods="GET|UPDATE")
+     * @Route("/show/{id}/{devise}/{operation}", name="billetages_show", methods="GET|UPDATE")
      */
-    public function show(Billetages $billetage): Response
+    public function show(JourneeCaisses $journeeCaisse, int $devise, $operation): Response
     {
+        $em=$this->getDoctrine()->getManager();
+        $billetage= new Billetages();
+        $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
+        $detailLiquidite = '';
+        switch ($operation){
+            case 'liquiditeOuv' : $detailLiquidite = $journeeCaisse->getDetailLiquiditeOuv();
+                break;
+            case 'liquiditeFerm' : $detailLiquidite = $journeeCaisse->getDetailLiquiditeFerm();
+                //dump($detailLiquidite);die();
+                break;
+            case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$journeeCaisse,'devise'=>$devise]);
+                $detailLiquidite = $djOuv->getDetailLiquiditeOuv();
+                break;
+            case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$journeeCaisse,'devise'=>$devise]);
+                $detailLiquidite = $djFerm->getDetailLiquiditeFerm();
+                break;
+        }
         dump($billetage->getBilletageLignes());
         $em=$this->getDoctrine()->getManager();
         //dump(count(explode('x',$billetage)));
-        foreach (explode(';',$billetage->getBilletageLigne()) as $lg)
+        foreach (explode(';',$detailLiquidite) as $lg)
         {
             //dump(count(explode('x',$lg)));
             if (count(explode('x',$lg))>1){

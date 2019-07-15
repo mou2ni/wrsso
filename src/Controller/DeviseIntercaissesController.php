@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DeviseIntercaisses;
 use App\Entity\DeviseMouvements;
 use App\Entity\DeviseTmpMouvements;
+use App\Entity\InterCaisses;
 use App\Entity\JourneeCaisses;
 use App\Form\DeviseIntercaissesType;
 use App\Utils\SessionUtilisateur;
@@ -134,8 +135,11 @@ class DeviseIntercaissesController extends Controller
     /**
     * @Route("/voir/{id}", name="devise_intercaisses_show", methods="GET")
     */
-    public function show(Request $request, JourneeCaisses $journeeCaisses  ): Response
+    public function show(Request $request, JourneeCaisses $journeeCaisse  ): Response
     {
-        return $this->render(null);
+        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
+        $myIntercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMyIntercaisses($journeeCaisse);
+        return $this->render('devise_intercaisses/show.html.twig', ['journeeCaisse' => $journeeCaisse, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses,
+            'myIntercaisses'=>$myIntercaisses, 'devise_tmp_mvt_intercaisses'=> null ]);
     }
 }

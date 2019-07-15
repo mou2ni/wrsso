@@ -74,10 +74,10 @@
     <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.qteFerm|number_format(0, '.', ' ') }}</td>
     <td class="text-bold text-bloody-500 padding-0 text-right"  bgcolor="{{ bgcolor }}"><div class="form-inline">
             {% if journeeCaisse.statut == 'E' %}
-            {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.billetFerm.id, 'operation':'deviseFerm', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
+            {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.id, 'operation':'deviseFerm', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
             {{ deviseJournee.ecartFerm|number_format(0, '.', ' ') }}
             {% else %}
-                <a href="{{ path('billetages_show', {'id': deviseJournee.billetFerm.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a>
+                <a href="{{ path('billetages_show', {'id': deviseJournee.id, 'operation':'deviseFerm', 'devise':deviseJournee.devise.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a>
             {% endif %}
         </div></td>
 </tr>
