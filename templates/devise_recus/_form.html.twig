@@ -67,7 +67,7 @@
         <div class="col-2">
             {{ form_label(form.sens) }}
         </div>
-        <div class="col-4">
+        <div class="col-4" onchange="changeSensTx()">
             {{ form_widget(form.sens) }}
         </div>
     </div>
@@ -75,32 +75,8 @@
 </div>
 
     <div class="form-group">
-        <div class="table-responsive">
-        <table>
-            <thead>
-            <tr class="form-inline">
-                <th width="180"> DEVISES</th>
-                <th width="180"> QUANTITE</th>
-                <th width="180"> TAUX</th>
-            </tr>
-            </thead>
-            <tbody class="form-row deviseMouvements" data-prototype="
-<td>{{ form_widget(form.deviseMouvements.vars.prototype.devise)|e('html_attr')}}</td>
-<td>{{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e('html_attr')}}</td>
-<td>{{ form_widget(form.deviseMouvements.vars.prototype.taux)|e('html_attr')}} </td> ">
+        {{ include('devise_recus/_collection_form.html.twig') }}
 
-            {% for deviseMouvement in form.deviseMouvements %}
-                <tr class="form-inline">
-                    <td>{{ form_widget(deviseMouvement.devise) }}</td>
-                    <td>{{ form_widget(deviseMouvement.nombre) }}</td>
-                    <td>{{ form_widget(deviseMouvement.taux) }}</td>
-                </tr>
-            {% endfor %}
-
-            </tbody>
-
-        </table>
-        </div>
     </div>
 
     <div class="form-group">

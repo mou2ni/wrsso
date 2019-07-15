@@ -35,7 +35,7 @@ function addTagForm($collectionHolder, $newLinkLi) {
 
     $collectionHolder.data('index', index + 1);
 
-    var $newFormLi = $('<tr class="collection-tag"></tr>').append(newForm);
+    var $newFormLi = $('<tr class="collection-tag" ></tr>').append(newForm);
 
     $newFormLi.append('<td><a href="#" class="remove-collection"> X </a></td>');
 

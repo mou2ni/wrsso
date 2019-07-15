@@ -141,7 +141,7 @@ class DeviseRecus
         $deviseMouvement->setSens($this->getSens())
             ->setDeviseRecu($this);
 
-        $this->setComment($this->getComment().' | '.$deviseMouvement->getNombre().' '.$deviseMouvement->getDevise().' = '.$deviseMouvement->getContreValeur());
+        $this->setComment($this->getComment().' | '.$deviseMouvement->getNombre().$deviseMouvement->getDevise().' X '.$deviseMouvement->getTaux().' = '.$deviseMouvement->getContreValeur());
 
         $this->updateCvd($deviseMouvement->getContreValeur());
         $this->deviseMouvements->add($deviseMouvement);

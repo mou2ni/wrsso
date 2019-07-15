@@ -89,6 +89,8 @@ class ComptaController extends Controller
             $this->getDoctrine()->getManager()->flush();
         }
 
+        //if (!$journeeCaisse) $journeeCaisse=$journeeCaisses[0];
+
         return $this->render('journee_caisses/gerer.html.twig', ['journeeCaisse' => $journeeCaisse, 'journeeCaisses' => $journeeCaisses]);
 
     }

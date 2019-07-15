@@ -134,8 +134,16 @@ class DeviseIntercaissesController extends Controller
     /**
     * @Route("/voir/{id}", name="devise_intercaisses_show", methods="GET")
     */
-    public function show(Request $request, JourneeCaisses $journeeCaisses  ): Response
+    public function show(Request $request, JourneeCaisses $journeeCaisse  ): Response
     {
-        return $this->render(null);
+        $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
+        $devise_tmp_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findTmpMvtIntercaisses($journeeCaisse);
+
+        //dump($deviseIntercaiss); die();
+
+        return $this->render('devise_intercaisses/gestion.html.twig', [
+            'devise_mvt_intercaisses'=>$devise_mvt_intercaisses
+            , 'journeeCaisse'=>$journeeCaisse, 'devise_tmp_mvt_intercaisses'=>$devise_tmp_mvt_intercaisses,
+        ]);
     }
 }

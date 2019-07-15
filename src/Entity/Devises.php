@@ -66,6 +66,11 @@ class Devises
      */
     private $billets;
 
+    public function displayForNegoce(){
+        //utiliser pour le prechargerment des tayx de devises
+        return $this->getLibelle().' => '.$this->getTxAchat().'|'.$this->getTxVente();
+    }
+
     /**
      * @return mixed
      */

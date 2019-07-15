@@ -29,5 +29,5 @@
     <td class="text-bold text-bloody-500 padding-5 text-right" bgcolor="#a9a9a9" >ECARTS : </td>
     <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mEcartOuv|number_format(0, '.', ' ')  }}</td>
     <td colspan="2" class="text-bold text-bloody-500 padding-5 text-right" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mEcartFerm|number_format(0, '.', ' ')  }}</td>
-    <td  class="text-bold padding-5 text-right" bgcolor="{{ bgcolor }}"></td>
+    <td  class="text-bold padding-5 text-left" bgcolor="{{ bgcolor }}">{% if  journeeCaisse.statut== 'E'%}<a href="{{ path('journee_caisses_maintenance', {'id': journeeCaisse.id,'return':'journee_caisses_gerer'}) }}" class="text-bold"> >>MAINTENIR </a>{% endif %}</td>
 </tr>
