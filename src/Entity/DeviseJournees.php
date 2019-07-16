@@ -32,7 +32,7 @@ class DeviseJournees
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses" , inversedBy="deviseJournees", cascade={"persist"})
-     * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="idJourneeCaisse", referencedColumnName="id", nullable=true)
      */
     private $journeeCaisse;
 

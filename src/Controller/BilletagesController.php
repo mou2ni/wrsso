@@ -254,7 +254,7 @@ class BilletagesController extends Controller
                 $detailLiquidite = $djFerm->getDetailLiquiditeFerm();
                 break;
         }
-        dump($billetage->getBilletageLignes());
+        //dump($billetage->getBilletageLignes());
         $em=$this->getDoctrine()->getManager();
         //dump(count(explode('x',$billetage)));
         foreach (explode(';',$detailLiquidite) as $lg)

@@ -25,7 +25,7 @@
 </tr>
 <tr>
     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >DETTES DIVERSES : </td>
-    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ path('dette_credit_divers_show', {'id': (journeeCaisse.journeePrecedente)?journeeCaisse.journeePrecedente.id:0}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</a></td>
+    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ (journeeCaisse.journeePrecedente)?path('dette_credit_divers_show', {'id': journeeCaisse.journeePrecedente.id}):0 }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeeCaisse.mDetteDiversOuv|number_format(0, '.', ' ')  }}</a></td>
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mDetteDiversFerm|number_format(0, '.', ' ')  }}</td>
     <td class="padding-0" rowspan="2"  bgcolor="{{ bgcolor }}">
         {% if  journeeCaisse.statut== 'E'%}
@@ -37,7 +37,7 @@
 </tr>
 <tr>
     <td  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >CREDITS DIVERS : </td>
-    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ path('dette_credit_divers_show', {'id': (journeeCaisse.journeePrecedente)?journeeCaisse.journeePrecedente.id:0}) }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</a></td>
+    <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}"><a href="{{ (journeeCaisse.journeePrecedente)?path('dette_credit_divers_show', {'id': journeeCaisse.journeePrecedente.id}):0 }}"><span class="glyphicon glyphicon-eye-open"></span>{{ journeeCaisse.mCreditDiversOuv|number_format(0, '.', ' ')  }}</a></td>
     <td class="padding-5 text-right" colspan="2" bgcolor="{{ bgcolor }}">{{ journeeCaisse.mCreditDiversFerm|number_format(0, '.', ' ')  }}</td>
 </tr>
 <tr>
