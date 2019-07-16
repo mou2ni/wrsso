@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\DeviseIntercaisses;
 use App\Entity\DeviseMouvements;
 use App\Entity\DeviseTmpMouvements;
+use App\Entity\InterCaisses;
 use App\Entity\JourneeCaisses;
 use App\Form\DeviseIntercaissesType;
 use App\Utils\SessionUtilisateur;
@@ -137,13 +138,9 @@ class DeviseIntercaissesController extends Controller
     public function show(Request $request, JourneeCaisses $journeeCaisse  ): Response
     {
         $devise_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMvtIntercaisses($journeeCaisse);
-        $devise_tmp_mvt_intercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findTmpMvtIntercaisses($journeeCaisse);
-
-        //dump($deviseIntercaiss); die();
-
-        return $this->render('devise_intercaisses/gestion.html.twig', [
-            'devise_mvt_intercaisses'=>$devise_mvt_intercaisses
-            , 'journeeCaisse'=>$journeeCaisse, 'devise_tmp_mvt_intercaisses'=>$devise_tmp_mvt_intercaisses,
-        ]);
+        $myIntercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMyIntercaisses($journeeCaisse);
+        return $this->render('devise_intercaisses/show.html.twig', ['journeeCaisse' => $journeeCaisse, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses,
+            'myIntercaisses'=>$myIntercaisses, 'devise_tmp_mvt_intercaisses'=> null ]);
+        
     }
 }
