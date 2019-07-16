@@ -97,6 +97,7 @@ class BilletagesController extends Controller
         //$billetage=$em->getRepository(Billetages::class)->find($id);
         $billetage= new Billetages();
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
+        //dump($billets);die();
         $detailLiquidite = '';
         switch ($operation){
             case 'liquiditeOuv' : $detailLiquidite = $this->journeeCaisse->getDetailLiquiditeOuv();

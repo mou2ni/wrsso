@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% set i=0 %}
-        {% for bl in form.billetageLignes|sort %}
+        {% for bl in form.billetageLignes %}
             <tr class="">
                 <td>{{ form_errors(bl.valeurBillet) }} {{ form_widget(bl.valeurBillet) }}</td>
                 <td>{{ form_errors(bl.nbBillet) }} {{ form_widget(bl.nbBillet) }}</td>

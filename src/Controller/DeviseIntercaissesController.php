@@ -141,5 +141,6 @@ class DeviseIntercaissesController extends Controller
         $myIntercaisses=$this->getDoctrine()->getRepository(DeviseIntercaisses::class)->findMyIntercaisses($journeeCaisse);
         return $this->render('devise_intercaisses/show.html.twig', ['journeeCaisse' => $journeeCaisse, 'devise_mvt_intercaisses'=>$devise_mvt_intercaisses,
             'myIntercaisses'=>$myIntercaisses, 'devise_tmp_mvt_intercaisses'=> null ]);
+        
     }
 }
