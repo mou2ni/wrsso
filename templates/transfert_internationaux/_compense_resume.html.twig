@@ -22,9 +22,21 @@
                 {% set mTotalReception=mTotalReception+compense.mReception%}
                 {% if affichage=='caisse' or  affichage=='agence'%}
                     <tr>
-                        <td class="padding-5  text-right">{{(affichage=='caisse')?compense.caisse|upper:compense.agence|upper}}</td>
-                        <td class="padding-5 text-right">{{mEnvoiTTC|number_format(0, '.', ' ')}}</td>
-                        <td class="padding-5 text-right">{{compense.mReception|number_format(0, '.', ' ')}}</td>
+                        <td class="padding-5  text-right">{{(affichage=='caisse')?compense.caisseLibelle|upper:compense.agenceCode|upper}}</td>
+                        <td class="padding-5 text-right"><a href="{{ path('transfert_internationaux_index', {
+                                'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                                'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                                'caisse':(affichage=='caisse')?compense.caisseId:'',
+                                'agence':(affichage=='agence')?compense.agenceId:'',
+                                'sens':1}) }}">{{mEnvoiTTC|number_format(0, '.', ' ')}}</a>
+                        </td>
+                        <td class="padding-5 text-right"><a href="{{ path('transfert_internationaux_index', {
+                                'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                                'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                                'caisse':(affichage=='caisse')?compense.caisseId:'',
+                                'agence':(affichage=='agence')?compense.agenceId:'',
+                                'sens':2}) }}">{{compense.mReception|number_format(0, '.', ' ')}}</a>
+                        </td>
                         <td class="padding-5 text-right">{{(mEnvoiTTC-compense.mReception)|number_format(0, '.', ' ')}}</td>
                         <td class="padding-5 text-right">{{(compense.mReception+mEnvoiTTC)|number_format(0, '.', ' ')}}</td>
                         <td class="padding-5 text-right">{{(mTotalTransfert!=0)?((compense.mReception+mEnvoiTTC)/mTotalTransfert*100)|number_format(2, ',', ' '):0}} %</td>
@@ -69,8 +81,16 @@
         {% endfor %}
         <tr bgcolor="#f69f00">
             <th class="padding-5  text-right">TOTAL GENERAL</th>
-            <th class="padding-5 text-right">{{mEnvoiTTCGeneral|number_format(0, '.', ' ')}}</th>
-            <th class="padding-5 text-right">{{mReceptionGeneral|number_format(0, '.', ' ')}}</th>
+            <th class="padding-5 text-right"><a href="{{ path('transfert_internationaux_index', {
+                    'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                    'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                    'sens':1}) }}" class="text-blue-500">{{mEnvoiTTCGeneral|number_format(0, '.', ' ')}}</a>
+            </th>
+            <th class="padding-5 text-right"><a href="{{ path('transfert_internationaux_index', {
+                    'dateDebut': (criteres.dateDebut)?criteres.dateDebut|date('Y-m-d') : '',
+                    'dateFin':(criteres.dateFin)?criteres.dateFin|date('Y-m-d') : '',
+                    'sens':2}) }}" class="text-blue-500">{{mReceptionGeneral|number_format(0, '.', ' ')}}</a>
+            </th>
             <th class="padding-5 text-right">{{(mEnvoiTTCGeneral-mReceptionGeneral)|number_format(0, '.', ' ')}}</th>
             <th class="padding-5 text-right">{{(mEnvoiTTCGeneral+mReceptionGeneral)|number_format(0, '.', ' ')}}</th>
             <th class="padding-5 text-right">{{(mTotalTransfert!=0)?((mEnvoiTTCGeneral+mReceptionGeneral)/mTotalTransfert*100)|number_format(0, '.', ' '):0}} %</th>
