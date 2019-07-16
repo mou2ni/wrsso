@@ -94,8 +94,10 @@ class Billetages
         $total = 0;
         foreach ($this->billetageLignes as $bl)
         {
+            //dump($bl->getValeurLigne());
             $total += $bl->getValeurLigne();
         }
+        //die();
         $this->valeurTotal=$total;
 
     }
