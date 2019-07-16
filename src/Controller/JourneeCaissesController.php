@@ -264,7 +264,6 @@ class JourneeCaissesController extends Controller
 
     /**
      * @Route("/{id}/maintenance", name="journee_caisses_maintenance", methods="GET|POST")
-     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function maintenanceSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
@@ -275,6 +274,10 @@ class JourneeCaissesController extends Controller
 
         $dateDebut=($journeeCaisse->getDateOuv())?$journeeCaisse->getDateOuv():new \DateTime('today');
         $dateFin=($journeeCaisse->getDateFerm())?$journeeCaisse->getDateFerm():new \DateTime();
+
+        $return=$caisse=$request->request->get('return')?$request->request->get('return'):$request->query->get('return');
+
+        if($return) return $this->redirectToRoute($return);
 
         return $this->redirectToRoute('journee_caisses_index',[
             'dateDebut'=>$dateDebut->format('Y-m-d'),
