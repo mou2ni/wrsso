@@ -160,12 +160,14 @@ class JourneeCaissesController extends Controller
         switch ($this->journeeCaisse->getStatut()){
             case JourneeCaisses::CLOSE :
                 //initier nouvelle journeeCaisse;
+                //dump($this->journeeCaisse);die();
                 $journeePrecedent=$this->journeeCaisse;
                 $this->journeeCaisse=$this->initJournee($this->caisse,$journeePrecedent);
                 //dump($this->journeeCaisse);die();
                 return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null,'journeePrecedente'=>$journeePrecedent]);
                 break;
             case JourneeCaisses::INITIAL :
+                //dump($this->journeeCaisse);die();
                 return $this->render('journee_caisses/ouvrir.html.twig', ['journeeCaisse' => $this->journeeCaisse,'journeeCaisses'=>null,'journeePrecedente'=>$this->journeeCaisse->getJourneePrecedente()]);
                 break;
             case JourneeCaisses::ENCOURS :
@@ -262,7 +264,6 @@ class JourneeCaissesController extends Controller
 
     /**
      * @Route("/{id}/maintenance", name="journee_caisses_maintenance", methods="GET|POST")
-     * @Security("has_role('ROLE_COMPTABLE')")
      */
     public function maintenanceSolde(Request $request, JourneeCaisses $journeeCaisse)
     {
@@ -273,6 +274,10 @@ class JourneeCaissesController extends Controller
 
         $dateDebut=($journeeCaisse->getDateOuv())?$journeeCaisse->getDateOuv():new \DateTime('today');
         $dateFin=($journeeCaisse->getDateFerm())?$journeeCaisse->getDateFerm():new \DateTime();
+
+        $return=$caisse=$request->request->get('return')?$request->request->get('return'):$request->query->get('return');
+
+        if($return) return $this->redirectToRoute($return);
 
         return $this->redirectToRoute('journee_caisses_index',[
             'dateDebut'=>$dateDebut->format('Y-m-d'),
@@ -597,6 +602,7 @@ class JourneeCaissesController extends Controller
             //dump($newJournee);die();
             return $newJournee;
         }
+
         $newJournee->setJourneePrecedente($journeeCaissePrecedent)
             ->setMCreditDiversOuv($journeeCaissePrecedent->getMCreditDiversFerm())
             ->setMDetteDiversOuv($journeeCaissePrecedent->getMDetteDiversFerm())
@@ -684,6 +690,7 @@ class JourneeCaissesController extends Controller
             $em->persist($newdvj);
 
         }
+
         $devises = $em->getRepository(Devises::class)->findAll();
         if ($newJournee->getDeviseJournee()->isEmpty()){
             foreach ($devises as $devise){
@@ -698,8 +705,7 @@ class JourneeCaissesController extends Controller
             $occurence = 0;
             foreach ($newJournee->getDeviseJournee() as $dj1) {
                 foreach ($newJournee->getDeviseJournee() as $dj2) {
-                    if ($dj1->getDevise() == $dj2->getDevise() && $dj1 != $dj2) {
-                        dump($dj2);
+                    if ($dj1->getBillet() == $dj2->getBillet() && $dj1 != $dj2) {
                         $newJournee->removeDeviseJournee($dj2);
                         $occurence = $occurence + 1;
                         break;

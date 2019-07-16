@@ -1,0 +1,45 @@
+{{ form_start(form, {'attr': {'onsubmit':'return confirm("Confirmer l\'enregistrement ?");'} } ) }}
+<div class="table-responsive">
+    <table id="collections-contener" class="collection-tags table"
+           data-prototype="
+{{ '<td class="padding-0" onchange="chargerTx(this.firstChild)">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.devise)|e}}
+{{ '</td><td class="padding-0 text-right" onchange="totalLigne()">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e}}
+{{ '</td><td class="padding-0 text-right" onchange="totalLigne()">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.taux)|e}}
+{{ '</td><td class="text-bold padding-0 text-right">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.total)|e}}
+{{ '</td>'|e }}"
+           data-widget-tags="{{ '<tr class="collection-tag"></tr>'|e }}"  data-list="#collections-contener" >
+
+        <thead>
+        <tr>
+            <th class="text-bold padding-0 text-center">Devise </th>
+            <th class="text-bold padding-0 text-center">nombre</th>
+            <th class="text-bold padding-0 text-center">Taux</th>
+            <th class="text-bold padding-0 text-center">Total</th>
+            <th class="text-bold padding-0 text-center"></th>
+
+        </tr>
+        </thead>
+
+        {% for deviseMouvement in form.deviseMouvements %}
+            <tr class="collection-tag ">
+                <td class="padding-0" bgcolor="#eee9e6">{{ form_errors(deviseMouvement.devise) }} {{ form_widget(deviseMouvement.devise) }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6">{{ form_errors(deviseMouvement.nombre) }} {{ form_widget(deviseMouvement.nombre) }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6">{{ form_errors(deviseMouvement.taux) }} {{ form_widget(deviseMouvement.taux) }}</td>
+                <td class="padding-0 text-right" bgcolor="#eee9e6">{{ form_errors(deviseMouvement.total) }} {{ form_widget(deviseMouvement.total) }}</td>
+                <td class="padding-0" bgcolor="#eee9e6"></td>
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <th class="text-bold padding-5 text-center" colspan="2"> </th>
+            <th class="text-bloody-500 padding-5 text-right">TOTAL GENERAL : </th>
+            <th class="text-bloody-500 padding-5 text-left" id="totalGeneral"></th>
+            <th class="text-bold padding-5 text-center"></th>
+
+        </tr>
+
+
+    </table>
+    {{ form_widget(form.save_and_new) }} {{ form_widget(form.save_and_close) }} {{ form_widget(form.save_and_print) }}
+</div>
+{{ form_end(form) }}

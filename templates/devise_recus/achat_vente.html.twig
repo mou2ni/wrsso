@@ -5,14 +5,19 @@
 {% block title %}Devises - Achat | Vente{% endblock %}
 
 {% block body %}
-    {{ include('devise_recus/_achat_vente_body.html.twig') }}
+    <h1>Bordereau de négociation des devises</h1><div class="form-inline">
+    {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
+</div>
+
+    {{ (journeeCaisse.statut == 'E')?include('devise_recus/_form.html.twig'):'' }}
+    {{ include('devise_recus/_inline_achat_vente_form.html.twig') }}
 {% endblock %}
 
 {% block javascripts %}
 
     {{ parent() }}
-
-    <script src="{{ asset('js/dm.js') }}"></script>
+    {#<script src="{{   asset('js/collections.js') }}"></script>#}
+    <script src="{{   asset('js/negoce_collections.js') }}"></script>
 
 
 {% endblock %}

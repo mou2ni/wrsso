@@ -526,3 +526,9 @@ function formatMillier( nombre, nbDecimal ) {
     var nbrArrnd = Arrondir(nombre, nbDecimal);
     return new Intl.NumberFormat().format( nbrArrnd );
 }
+
+function input1Xinput2(input1, input2, resultId) {
+    var total=0;
+    total=Echape($("#"+input1).val())*Echape($("#"+input2).val());
+    document.getElementById(resultId).innerHTML=formatMillier(total,0);
+}

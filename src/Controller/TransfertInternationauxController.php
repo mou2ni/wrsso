@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Agences;
 use App\Entity\Caisses;
 use App\Entity\CompenseLignes;
 use App\Entity\CriteresDates;
@@ -49,6 +50,7 @@ class TransfertInternationauxController extends Controller
     {
         //si données envoyé pour post ou get
         $caisse=$request->request->get('caisse')?$request->request->get('caisse'):$request->query->get('caisse');
+        $agence=$request->request->get('agence')?$request->request->get('agence'):$request->query->get('agence');
         $systemTransfert=$request->request->get('systemTransfert')?$request->request->get('systemTransfert'):$request->query->get('systemTransfert');
         $sens=$request->request->get('sens')?$request->request->get('sens'):$request->query->get('sens');
         $dateDebut=$request->query->get('dateDebut');
@@ -64,14 +66,17 @@ class TransfertInternationauxController extends Controller
 
         $listingTransferts = $this->getDoctrine()
             ->getRepository(TransfertInternationaux::class)
-            ->findListingTransferts($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $caisse, $sens);
+            ->findListingTransferts($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $caisse, $sens, null, $agence);
 
         $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAll();
+        $agences=$this->getDoctrine()->getRepository(Agences::class)->findAll();
         $systemTransferts=$this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
 
         return $this->render('transfert_internationaux/index.html.twig', [
             'listingTransferts' => $listingTransferts,
             'form' => $form->createView(),
+            'agences'=>$agences,
+            'agence_id'=>$agence,
             'caisses'=>$caisses,
             'caisse_id'=>$caisse,
             'systemTransferts'=>$systemTransferts,

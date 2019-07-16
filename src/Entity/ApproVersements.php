@@ -26,7 +26,7 @@ class ApproVersements
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Utilisateurs")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $utilisateur;
 
@@ -50,13 +50,13 @@ class ApproVersements
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="approVersementEntrants", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $journeeCaisseEntrant;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", inversedBy="approVersementSortants", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $journeeCaisseSortant;
 

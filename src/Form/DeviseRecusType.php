@@ -29,7 +29,7 @@ class DeviseRecusType extends AbstractType
             ->add('typePiece', ChoiceType::class
                 ,array('choices'  => ['Carte nationale'=>'CNI', 'Passport'=>'Passort', 'Autres'=>'Autres'], 'required' => true ))
             ->add('numPiece', TextType::class, array('required' => true))
-            ->add('expireLe', DateType::class, array('required' => true))
+            ->add('expireLe', DateType::class, array('required' => true, 'years' => range(date('Y'), date('Y')+10)))
             ->add('paysPiece', EntityType::class, array (
                 'class' => 'App\Entity\Pays',
                 'choice_label' => 'libelle',

@@ -7,6 +7,12 @@
 
     {{ form_start(form) }}
     {{ include('_criteres_recherches.html.twig') }}
+    AGENCE : <select id="agence" name="agence" class="">
+    <option  {{ (app.request.request.get('agence')=='')?'selected="selected"':''}} value="">Tous</option>
+    {% for agence in agences %}
+        <option  {{ (agence_id==agence.id)?'selected="selected"':''}} value={{ agence.id }}>{{ agence }}</option>
+    {% endfor %}
+</select>
     CAISSE : <select id="caisse" name="caisse" class="">
     <option  {{ (app.request.request.get('caisse')=='')?'selected="selected"':''}} value="">Tous</option>
     {% for caisse in caisses %}

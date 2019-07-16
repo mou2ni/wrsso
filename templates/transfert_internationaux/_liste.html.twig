@@ -24,7 +24,7 @@
             {% set nbReception=nbReception+1 %}
         {% endif %}
         <tr>
-            <td>{{transfert.caisse}}</td>
+            <td>{{transfert.caisseLibelle}}</td>
             <td>{{ (transfert.dateTransfert)?transfert.dateTransfert|date('d-m-Y') : ''  }}</td>
             <td>{{ transfert.typeTransfert }}</td>
             <td>{{ transfert.pays }}</td>

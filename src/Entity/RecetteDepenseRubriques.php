@@ -26,11 +26,13 @@ class RecetteDepenseRubriques
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\RecetteDepenses", inversedBy="recetteDepenseRubriques", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $recetteDepense;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\RubriqueAnalyses", inversedBy="recetteDepenseAgences", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $rubriqueAnalyse;
 

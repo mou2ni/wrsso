@@ -296,14 +296,16 @@ ORDER BY SystemTransfert.id, z.ordre
         if ($typeAffichage=='detail' or $typeAffichage=='caisse' or $typeDonnees!='sum'){
             $qb->leftJoin('ti.journeeCaisse','jc')
                 ->leftJoin('jc.caisse','c')
-                ->addSelect('c.libelle as caisse');
+                ->addSelect('c.libelle as caisseLibelle')
+                ->addSelect('c.id as caisseId');
 
         }
         if ($typeAffichage=='agence'){
             $qb->leftJoin('ti.journeeCaisse','jc')
                 ->leftJoin('jc.caisse','c')
                 ->leftJoin('c.agence','a')
-                ->addSelect('a.code as agence');
+                ->addSelect('a.code as agenceCode')
+                ->addSelect('a.id as agenceId');
 
         }
         if ($dateDebut){
@@ -346,8 +348,8 @@ ORDER BY SystemTransfert.id, z.ordre
             ->getQuery()->getResult();
     }
 
-    public function findListingTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $caisse=null, $sens=null, $journeeCaisse=null){
-        $qb=$this->qbTransferts($dateDebut,$dateFin,$systemTransfert,'','listing',$caisse,$sens,$journeeCaisse);
+    public function findListingTransferts(\DateTime $dateDebut=null, \DateTime $dateFin=null, $systemTransfert=null, $caisse=null, $sens=null, $journeeCaisse=null, $agence=null){
+        $qb=$this->qbTransferts($dateDebut,$dateFin,$systemTransfert,'','listing',$caisse,$sens,$journeeCaisse,$agence);
         return   $qb->orderBy('c.libelle', 'ASC')->addOrderBy('ti.dateTransfert','DESC')->addOrderBy('st.libelle', 'ASC')
             ->getQuery()->getResult();
 

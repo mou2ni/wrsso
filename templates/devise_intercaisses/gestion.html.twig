@@ -7,7 +7,7 @@
     {{ include('journee_caisses/_btn_return_gerer.html.twig') }}
 </div>
 
-    {{ include('devise_intercaisses/_form.html.twig') }}
+    {{ (journeeCaisse.statut == 'E')?include('devise_intercaisses/_form.html.twig'):'' }}
 
     {{ include('devise_intercaisses/_list_mouvements.html.twig') }}
 
