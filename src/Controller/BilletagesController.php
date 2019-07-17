@@ -175,16 +175,19 @@ class BilletagesController extends Controller
                 $detailBilletage=$detailBilletage.''.$bl->getValeurBillet().'x'.$bl->getNbBillet().';';
                 $billetage->setBilletageLigne($detailBilletage);
             }
+            $billetage->fillOnUpdate();
             $em->persist($billetage);
             //$em->flush();
             switch ($operation){
-                case 'liquiditeOuv' : $this->journeeCaisse->setMLiquiditeOuv($billetage->getValeurTotal())->setDetailLiquiditeOuv($detailBilletage);
-                    $em->persist($this->journeeCaisse);
+                case 'liquiditeOuv' :
+                    $this->journeeCaisse->setMLiquiditeOuv($billetage->getValeurTotal())->setDetailLiquiditeOuv($detailBilletage);
+                    //dump($this->journeeCaisse);die();
                     break;
                 case 'liquiditeFerm' : $this->journeeCaisse->setMLiquiditeFerm($billetage->getValeurTotal())->setDetailLiquiditeFerm($detailBilletage);
-                    $em->persist($this->journeeCaisse);
                     break;
-                case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
+                case 'deviseOuv' :
+                    //dump($billetage->getValeurTotal());die();
+                    $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
                 $djPrec = $em->getRepository(DeviseJournees::class)->getDeviseJourneePrec($djOuv);
                 $djOuv->setQteOuv($billetage->getValeurTotal())->setDetailLiquiditeOuv($detailBilletage);
                 $djOuv->setEcartOuv(($djPrec)?$billetage->getValeurTotal() - $djPrec->getQteFerm():$billetage->getValeurTotal());
@@ -197,6 +200,7 @@ class BilletagesController extends Controller
                     $em->persist($djFerm);
                     break;
             }
+            $em->persist($this->journeeCaisse);
             $em->flush();
             $this->addFlash('success', 'Billetage enregistré!');
             return $this->redirectToRoute('journee_caisses_gerer');
