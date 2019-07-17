@@ -68,7 +68,7 @@ class TransfertInternationauxController extends Controller
             ->getRepository(TransfertInternationaux::class)
             ->findListingTransferts($criteresRecherches->getDateDebut(), $criteresRecherches->getDateFin(), $systemTransfert, $caisse, $sens, null, $agence);
 
-        $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findAll();
+        $caisses=$this->getDoctrine()->getRepository(Caisses::class)->findBy(['agence'=>$agence]);
         $agences=$this->getDoctrine()->getRepository(Agences::class)->findAll();
         $systemTransferts=$this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
 
@@ -247,9 +247,9 @@ class TransfertInternationauxController extends Controller
         $form = $this->createForm(CriteresDatesType::class, $criteresRecherches);
         $form->handleRequest($request);
 
-        $type_affichage=$request->request->get('type_affichage');
+        $type_affichage=($request->request->get('type_affichage'))?$request->request->get('type_affichage'):'agence';
 
-        if ($type_affichage=='transfert' or $type_affichage=='detail' or $type_affichage==null) {
+        if ($type_affichage=='transfert' or $type_affichage=='detail') {
             $systemTransferts = $this->getDoctrine()->getRepository(SystemTransfert::class)->findAll();
 
             $systemTransfertCompenses = array();

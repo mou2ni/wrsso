@@ -502,12 +502,25 @@ function totalInnerHTMLCol(colonnePrefix, colonneSufix, resultId) {
 function totalInputCol(colonnePrefix, colonneSufix, resultId) {
     var i=0;
     var total=0;
-    while ($("#"+colonnePrefix+i+colonneSufix).val()!=undefined ) {
+    while ($("#"+colonnePrefix+i+colonneSufix).val()!=undefined) {
         total=total+Echape($("#"+colonnePrefix+i+colonneSufix).val())*1;
         //console.log(colonnePrefix+i+colonneSufix+"="+$("#"+colonnePrefix+i+colonneSufix).val());
         i++;
+        if (($("#"+colonnePrefix+i+colonneSufix).val()!=undefined)) i++;
+
     }
     //$("#"+resultId).val(total);
+    document.getElementById(resultId).innerHTML=formatMillier(total,0);
+}
+
+function totalInputClassCol(className,resultId) {
+    var i=0;
+    var total=0;
+    var tabElements=document.getElementsByClassName(className);
+    for (i = 0; i < tabElements.length; i++) {
+        alert(tabElements[i].value());
+        total=total+Echape(tabElements[i].firstChild.val())*1;
+    }
     document.getElementById(resultId).innerHTML=formatMillier(total,0);
 }
 

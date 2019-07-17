@@ -8,7 +8,7 @@
     {{ form_start(form) }}
         {{ include('_criteres_recherches.html.twig') }}
        <select id="type_affichage" name="type_affichage" class="">
-           <option {{ (affichage=='agence')?'selected="selected"':'' }} value="agence">Par agence</option>
+           <option {{ (affichage=='agence' or affichage==null)?'selected="selected"':'' }} value="agence">Par agence</option>
            <option  {{ (affichage=='transfert')?'selected="selected"':''}} value="transfert">Par transfert</option>
            <option {{ (affichage=='caisse')?'selected="selected"':'' }} value="caisse">Par caisse</option>
            <option {{ (affichage=='detail')?'selected="selected"':'' }} value="detail">Détails</option>

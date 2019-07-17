@@ -20,7 +20,7 @@
                 {% set mEnvoiTTC=compense.mEnvoi +compense.mFrais +compense.mTVA+compense.mAutresTaxes%}
                 {% set mTotalEnvoiTTC=mTotalEnvoiTTC+mEnvoiTTC%}
                 {% set mTotalReception=mTotalReception+compense.mReception%}
-                {% if affichage=='caisse' or  affichage=='agence'%}
+                {% if affichage=='caisse' or  affichage=='agence'  or affichage==null%}
                     <tr>
                         <td class="padding-5  text-right">{{(affichage=='caisse')?compense.caisseLibelle|upper:compense.agenceCode|upper}}</td>
                         <td class="padding-5 text-right"><a href="{{ path('transfert_internationaux_index', {
@@ -47,7 +47,7 @@
                     <td colspan="6" class="text-center"> Aucune ligne trouvée</td>
                 </tr>
             {% endfor %}
-            {% if affichage=='transfert' or affichage==null%}
+            {% if affichage=='transfert'%}
             <tr>
                 <td class="padding-5  text-right">{{ ( sytemTransfert.libelle)?sytemTransfert.libelle|upper:''}}</td>
                 <td class="padding-5 text-right">

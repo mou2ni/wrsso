@@ -31,7 +31,7 @@ class IntercaissesRepository extends ServiceEntityRepository
             //->addSelect('i.mIntercaisse')
             ->where('i.journeeCaisseSortant=:journeeCaisse OR i.journeeCaisseEntrant=:journeeCaisse')
             ->setParameters(['journeeCaisse'=>$journeeCaisse])
-            ->addOrderBy('i.statut', 'ASC')
+            //->addOrderBy('i.statut', 'ASC')
             ->getQuery()
             ->getResult();
     }

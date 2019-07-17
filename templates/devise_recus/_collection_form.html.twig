@@ -3,9 +3,9 @@
     <table id="collections-contener" class="collection-tags table"
            data-prototype="
 {{ '<td class="padding-0" onchange="chargerTx(this.firstChild)">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.devise)|e}}
-{{ '</td><td class="padding-0 text-right" onchange="totalLigne()">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e}}
-{{ '</td><td class="padding-0 text-right" onchange="totalLigne()">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.taux)|e}}
-{{ '</td><td class="text-bold padding-0 text-right">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.total)|e}}
+{{ '</td><td class="padding-0 text-right" onchange="totalLigne(this.firstChild)">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.nombre)|e}}
+{{ '</td><td class="padding-0 text-right" onchange="totalLigne(this.firstChild)">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.taux)|e}}
+{{ '</td><td class="text-bold padding-0 text-right totalLigne">'|e }}{{ form_widget(form.deviseMouvements.vars.prototype.total)|e}}
 {{ '</td>'|e }}"
            data-widget-tags="{{ '<tr class="collection-tag"></tr>'|e }}"  data-list="#collections-contener" >
 

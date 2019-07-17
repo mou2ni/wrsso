@@ -65,7 +65,7 @@ function addTagFormDeleteLink($tagFormLi) {
     });
 }
 
-function totalLigne(){
+function totalLigne(element){
     var total = 0;
     var totalLigne=0
     var i=0;
@@ -79,8 +79,19 @@ function totalLigne(){
         i++;
     };
 
-    //alert(total);
-    document.getElementById('totalGeneral').innerHTML=formatMillier(total,0);
+     document.getElementById('totalGeneral').innerHTML=formatMillier(total,0);
+
+
+   /* var id=element.id;
+    var i=id.split('__')[1];
+    $("#devise_recus_deviseMouvements__"+i+"__total").val(formatMillier(Echape($("#devise_recus_deviseMouvements__"+i+"__nombre").val())*Echape($("#devise_recus_deviseMouvements__"+i+"__taux").val()),0));
+
+    //alert(total); totalLigne
+
+    totalInputCol('devise_recus_deviseMouvements__','__total','totalGeneral');*/
+
+    //totalInputClassCol('totalLigne','totalGeneral');
+
 }
 
 function prechargerTx(i){
@@ -97,7 +108,7 @@ function chargerTx(element){
 
     $("#devise_recus_deviseMouvements__"+i+"__taux").val(getTx(devise));
 
-    totalLigne();
+    totalLigne(element);
 }
 
 function getTx(devise){
@@ -119,4 +130,6 @@ function changeSensTx(){
         chargerTx(element);
         i++;
     };
+
+    //var tabElements=document.getElementsByClassName('collection-tag');
 }
