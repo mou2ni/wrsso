@@ -58,13 +58,24 @@ class DetteCreditDiversController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            ($detteCreditDiver->getStatut()== DetteCreditDivers::CREDIT_EN_COUR)?
-                $detteCreditDiver->setMCredit($detteCreditDiver->getMSaisie()):
+            if($detteCreditDiver->getStatut()== DetteCreditDivers::CREDIT_EN_COUR){
+                $detteCreditDiver->setMCredit($detteCreditDiver->getMSaisie());
+                //$this->journeeCaisse->updateM('mCreditDiversFerm',$detteCreditDiver->getMCredit());
+                }
+            else
+            {
                 $detteCreditDiver->setMDette($detteCreditDiver->getMSaisie());
+                //$this->journeeCaisse->updateM('mDetteDiversFerm',$detteCreditDiver->getMDette());
+            }
+            $this->journeeCaisse->maintenirDetteCreditDiversFerm();
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('dette_credit_divers_edit', ['id' => $detteCreditDiver->getId(),
-                ]);
+            //return $this->redirectToRoute('dette_credit_divers_edit', ['id' => $detteCreditDiver->getId(),]);
+            if($request->request->has('enregistreretfermer')){
+                return $this->redirectToRoute('journee_caisses_gerer');
+            }
+            return $this->redirectToRoute('detteCredits_divers');
+
         }
 
         return $this->render('dette_credit_divers/edit.html.twig', [
