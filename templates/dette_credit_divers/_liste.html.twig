@@ -25,9 +25,17 @@
                     <td>{{ myCredit.libelle }}</td>
                     <td>{{ myCredit.mCredit|number_format(0, '.', ' ') }}</td>
                     <td>
-                        {{ (journeeCaisse.statut == 'E')?include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'})
+                        {% if (journeeCaisse.statut == 'E') %}
+                            {{ include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'}) }}
+                        {{ include('dette_credit_divers/_btn_action_url.html.twig',{'id':myCredit.id,'path':'dette_credit_divers_edit', 'operation':'FERMER' ,'btn_name':'edit', 'btn_label':'Modifier','confirm_message':'Voulez vous vraiment modifier cette ligne'}) }}
+                        {% else %}
+                            {{ include('journee_caisses/_btn_action_url.html.twig',{'id':myCredit.id,'path':'dette_credit_divers_detail', 'operation':'FERMER' ,'btn_name':'detail', 'btn_label':'Detail'})}}
+                            {% endif %}
+                        {#{{ (journeeCaisse.statut == 'E')
+                        ? include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'})
+                        include('journee_caisses/_btn_action_url.html.twig',{'id':myCredit.id,'path':'dette_credit_divers_edit', 'operation':'FERMER' ,'btn_name':'edit', 'btn_label':'edit'})
                         : include('journee_caisses/_btn_action_url.html.twig',{'id':myCredit.id,'path':'dette_credit_divers_detail', 'operation':'FERMER' ,'btn_name':'detail', 'btn_label':'Detail'})}}
-                    </td>
+                        #}</td>
                 </tr>
             {% else %}
                 <tr>
@@ -63,9 +71,15 @@
                     <td>{{ myDette.libelle }}</td>
                     <td>{{ myDette.mDette|number_format(0, '.', ' ') }}</td>
                     <td>
-                        {{ (journeeCaisse.statut == 'E')?include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'})
+                        {% if (journeeCaisse.statut == 'E') %}
+                            {{ include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'}) }}
+                            {{ include('dette_credit_divers/_btn_action_url.html.twig',{'id':myDette.id,'path':'dette_credit_divers_edit', 'operation':'FERMER' ,'btn_name':'edit', 'btn_label':'Modifier','confirm_message':'Voulez vous vraiment modifier cette ligne'}) }}
+                        {% else %}
+                            {{ include('journee_caisses/_btn_action_url.html.twig',{'id':myDette.id,'path':'dette_credit_divers_detail', 'operation':'FERMER' ,'btn_name':'detail', 'btn_label':'Detail'})}}
+                        {% endif %}
+                        {#{{ (journeeCaisse.statut == 'E')?include('dette_credit_divers/_btn_action_url.html.twig',{'path':'dette_credit_divers_rembourser', 'operation':'FERMER' ,'btn_name':'rembourser', 'btn_label':'Rembourser', 'confirm_message':'Confirmation du remboursement irreversible. Confirmer ?'})
                         : include('journee_caisses/_btn_action_url.html.twig',{'id':myDette.id,'path':'dette_credit_divers_detail', 'operation':'FERMER' ,'btn_name':'detail', 'btn_label':'Detail'})}}
-                    </td>
+                        #}</td>
                 </tr>
             {% else %}
                 <tr>
