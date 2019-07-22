@@ -20,11 +20,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class BilletagesController extends Controller
 {
     private $journeeCaisse;
+    private $utilisateur;
 
     public function __construct(SessionUtilisateur $sessionUtilisateur)
     {
         //dump($sessionUtilisateur);die();
         $this->journeeCaisse=$sessionUtilisateur->getJourneeCaisse();
+        $this->utilisateur=$sessionUtilisateur->getUtilisateur();
 
         if(!$this->journeeCaisse){
             return $this->redirectToRoute('app_login');
@@ -32,291 +34,121 @@ class BilletagesController extends Controller
 
         }
     }
+
     /**
-     * @Route("/", name="billetages_index", methods="GET")
+     * @Route("/{devise}", name="billetages_ajout", methods="GET|POST|UPDATE")
      */
-    public function index(): Response
+    public function compter(Request $request, $devise): Response
     {
-        $em=$this->getDoctrine()->getManager();
-        $billets=$this->getDoctrine()->getRepository(Billets::class)->findAll();
-        $billetage=new Billetages();
-        foreach ($billets as $billet) {
-            $billetageLigne=new BilletageLignes();
-            $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
-            $billetage->addBilletageLigne($billetageLigne);
-        }
-        $form = $this->createForm(BilletagesType::class, $billetage);
-        //$form->handleRequest($request);
-        return $this->render('billetages/billetage.html.twig', [
-            'billets' => $billets,
-            'billetage' => $billetage,
-            'form' => $form->createView(),
-        ]);
-
-        /*$billetages = $this->getDoctrine()
-            ->getRepository(Billetages::class)
-            ->findAll();
-
-        return $this->render('billetages/index.html.twig', ['billetages' => $billetages]);*/
-    }
-
-    /**
- * @Route("/new", name="billetages_new", methods="GET|POST|UPDATE")
- */
-    public function new(Request $request): Response
-    {
-        if ($request->getMethod()=='UPDATE')
-        $billetage = new Billetages();
-        $form = $this->createForm(BilletagesType::class, $billetage);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($billetage);
-            $em->flush();
-
-            return $this->redirectToRoute('billetages_index');
-        }
-
-        return $this->render('billetages/new.html.twig', [
-            'billetage' => $billetage,
-            'form' => $form->createView(),
-        ]);
-    }
-
-
-
-
-    /**
-     * @Route("/{id}/{devise}/{operation}", name="billetages_ajout", methods="GET|POST|UPDATE")
-     */
-    public function ajouter(Request $request, int $id, int $devise, $operation): Response
-    {
-        $em=$this->getDoctrine()->getManager();
-
-        //$billetage=$em->getRepository(Billetages::class)->find($id);
         $billetage= new Billetages();
+
+        $detailText=$request->query->get('dt');
+
         $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
-        //dump($billets);die();
-        $detailLiquidite = '';
-        switch ($operation){
-            case 'liquiditeOuv' : $detailLiquidite = $this->journeeCaisse->getDetailLiquiditeOuv();
-                break;
-            case 'liquiditeFerm' : $detailLiquidite = $this->journeeCaisse->getDetailLiquiditeFerm();
-            //dump($detailLiquidite);die();
-                break;
-            case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
-            $detailLiquidite = $djOuv->getDetailLiquiditeOuv();
-                break;
-            case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
-                $detailLiquidite = $djFerm->getDetailLiquiditeFerm();
-                break;
+
+        //$billetage->setBilletageLignesFromBillets($billets);
+
+        if ($detailText){
+            $billetage->setBilletageLignesFromText($detailText,$billets);
+            //foreach ($billets)
+
+        }else{
+            $billetage->setBilletageLignesFromBillets($billets);
         }
-
-        foreach (explode(';',$detailLiquidite) as $lg) {
-            //dump(count(explode('x',$lg)));
-            if (count(explode('x', $lg)) > 1) {
-                $nombre = explode('x', $lg)['1'];
-                $valeur = explode('x', $lg)['0'];
-                //dump($nombre);dump($valeur);
-
-                $billet = $this->getDoctrine()
-                    ->getRepository(Billets::class)
-                    ->findOneBy(['valeur' => $valeur]);
-                $bl = new BilletageLignes();
-                $bl->setNbBillet($nombre)->setBillet($billet)->setValeurBillet($billet->getValeur());
-                $billetage->addBilletageLignes($bl);
-                //dump($billetage->getBilletageLignes());die();
-                //$bl->setBilletages($billetage);
-
-                //$em->persist($bl);
-            }
-        }
-        if ($billetage->getBilletageLignes()->isEmpty())
-        {
-            foreach ($billets as $billet) {
-                $billetageLigne=new BilletageLignes();
-                $billetageLigne->setValeurBillet($billet->getValeur())->setNbBillet(0)->setBillet($billet);
-                $billetage->addBilletageLignes($billetageLigne);
-            }
-            $em->persist($billetage);
-            //dump($this->journeeCaisse->getDetailLiquiditeOuv());die();
-        }
-
-
-        //////SUPPRESSION D'EVENTUELLES LIGNES SUPPLEMENTAIRES
-        while($billetage->getBilletageLignes()->count()>count($billets)) {
-            $occurence=0;
-            foreach ($billetage->getBilletageLignes() as $bl1){
-                foreach ($billetage->getBilletageLignes() as $bl2) {
-                    if ($bl1->getBillet() == $bl2->getBillet() && $bl1 != $bl2) {
-                        $billetage->removeBilletageLigne($bl2);
-                        $occurence=$occurence+1;
-                        break;
-                    }
-                }
-                if ($occurence>0){
-                    break;
-                }
-            }
-
-        }
-
-        //dump($billetage); die();
-
+ 
         $form = $this->createForm(BilletagesType::class, $billetage);
         $form->handleRequest($request);
 
-
-        //$lig=new BilletageLignes();$lig->getNbBillet()
         if ($form->isSubmitted() && $form->isValid()) {
-            $detailBilletage = '';
-            foreach ($billetage->getBilletageLignes() as $bl){
-                $detailBilletage=$detailBilletage.''.$bl->getValeurBillet().'x'.$bl->getNbBillet().';';
-                $billetage->setBilletageLigne($detailBilletage);
-            }
-            $billetage->fillOnUpdate();
-            $em->persist($billetage);
-            //$em->flush();
-            switch ($operation){
-                case 'liquiditeOuv' :
-                    $this->journeeCaisse->setMLiquiditeOuv($billetage->getValeurTotal())->setDetailLiquiditeOuv($detailBilletage);
-                    //dump($this->journeeCaisse);die();
-                    break;
-                case 'liquiditeFerm' : $this->journeeCaisse->setMLiquiditeFerm($billetage->getValeurTotal())->setDetailLiquiditeFerm($detailBilletage);
-                    break;
-                case 'deviseOuv' :
-                    //dump($billetage->getValeurTotal());die();
-                    $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
-                $djPrec = $em->getRepository(DeviseJournees::class)->getDeviseJourneePrec($djOuv);
-                $djOuv->setQteOuv($billetage->getValeurTotal())->setDetailLiquiditeOuv($detailBilletage);
-                $djOuv->setEcartOuv(($djPrec)?$billetage->getValeurTotal() - $djPrec->getQteFerm():$billetage->getValeurTotal());
-                    //dump($em->getRepository(DeviseJournees::class)->getDeviseJourneePrec($djOuv)); die();
-                    $em->persist($djOuv);
-                    break;
-                case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$this->journeeCaisse,'devise'=>$devise]);
-                    $djFerm->setQteFerm($billetage->getValeurTotal())->setDetailLiquiditeFerm($detailBilletage);
-                                   // dump($billetage);die();
-                    $em->persist($djFerm);
-                    break;
-            }
-            $em->persist($this->journeeCaisse);
-            $em->flush();
-            $this->addFlash('success', 'Billetage enregistré!');
-            return $this->redirectToRoute('journee_caisses_gerer');
-
+            $this->enregistrer($request, $billetage, $devise);
+            $return=$request->query->get('return');
+            if ($return)return $this->redirectToRoute($return);
+            else return $this->redirectToRoute('journee_caisses_gerer');
         }
 
-        return $this->render('billetages/ajout.html.twig', [
+            return $this->render('billetages/ajout.html.twig', [
             'devise' => $devise,
-            'billets' => $billets,
+            //'billets' => $billets,
             'billetage' => $billetage,
             'form' => $form->createView(),
             'journeeCaisse'=>$this->journeeCaisse,
-            'operation'=>''
         ]);
+
     }
 
-    /**
-     * @Route("/{id}/edit", name="billetages_edit", methods="GET|POST")
-     */
-    public function edit(Request $request, Billetages $billetage): Response
-    {
-        $form = $this->createForm(BilletagesType::class, $billetage);
-        $form->handleRequest($request);
+    private function enregistrer(Request $request, Billetages $billetage, $id=null){
+        if ($this->journeeCaisse->getStatut() != JourneeCaisses::CLOSE and
+            $this->utilisateur->getId() == $this->journeeCaisse->getUtilisateur()->getId()){
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $operation = $request->query->get('operation');
+            $billetage->calcValeurTotal();
 
-            return $this->redirectToRoute('billetages_edit', ['id' => $billetage->getId()]);
-        }
+            //dump($billetage->getStringDetail());
 
-        return $this->render('billetages/edit.html.twig', [
-            'billetage' => $billetage,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/show/{id}/{devise}/{operation}", name="billetages_show", methods="GET|UPDATE")
-     */
-    public function show(JourneeCaisses $journeeCaisse, int $devise, $operation): Response
-    {
-        $em=$this->getDoctrine()->getManager();
-        $billetage= new Billetages();
-        $billets=$this->getDoctrine()->getRepository(Billets::class)->findActive($devise);
-        $detailLiquidite = '';
-        switch ($operation){
-            case 'liquiditeOuv' : $detailLiquidite = $journeeCaisse->getDetailLiquiditeOuv();
-                break;
-            case 'liquiditeFerm' : $detailLiquidite = $journeeCaisse->getDetailLiquiditeFerm();
-                //dump($detailLiquidite);die();
-                break;
-            case 'deviseOuv' : $djOuv = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$journeeCaisse,'devise'=>$devise]);
-                $detailLiquidite = $djOuv->getDetailLiquiditeOuv();
-                break;
-            case 'deviseFerm' : $djFerm = $em->getRepository(DeviseJournees::class)->findOneBy(['journeeCaisse'=>$journeeCaisse,'devise'=>$devise]);
-                $detailLiquidite = $djFerm->getDetailLiquiditeFerm();
-                break;
-        }
-        //dump($billetage->getBilletageLignes());
-        $em=$this->getDoctrine()->getManager();
-        //dump(count(explode('x',$billetage)));
-        foreach (explode(';',$detailLiquidite) as $lg)
-        {
-            //dump(count(explode('x',$lg)));
-            if (count(explode('x',$lg))>1){
-                $nombre = explode('x',$lg)['1'];
-                $valeur = explode('x',$lg)['0'];
-                //dump($nombre);dump($valeur);
-
-            $billet = $this->getDoctrine()
-                ->getRepository(Billets::class)
-                ->findOneBy(['valeur' => $valeur]);
-            $bl = new BilletageLignes();
-            $bl->setNbBillet($nombre)->setBillet($billet)->setValeurBillet($billet->getValeur());
-            $billetage->addBilletageLignes($bl);
-            //dump($billetage->getBilletageLignes());
-            //$bl->setBilletages($billetage);
-
-            //$em->persist($bl);
+            switch ($operation) {
+                case 'liquiditeOuv' :
+                    $this->journeeCaisse->setMLiquiditeOuv($billetage->getValeurTotal());
+                    $this->journeeCaisse->setDetailLiquiditeOuv($billetage->getStringDetail());
+                    break;
+                case 'liquiditeFerm' :
+                    $this->journeeCaisse->setMLiquiditeFerm($billetage->getValeurTotal());
+                    $this->journeeCaisse->setDetailLiquiditeFerm($billetage->getStringDetail());
+                    break;
+                case 'deviseOuv' :
+                    $deviseJournee=$this->getDoctrine()->getRepository(DeviseJournees::class)->find($request->query->get('id'));
+                    $deviseJournee->setQteOuv($billetage->getValeurTotal());
+                    $deviseJournee->setDetailLiquiditeOuv($billetage->getStringDetail());
+                    //dump($deviseJournee);die();
+                    $this->getDoctrine()->getManager()->persist($deviseJournee);
+                    break;
+                case 'deviseFerm' :
+                    $deviseJournee=$this->getDoctrine()->getRepository(DeviseJournees::class)->find($request->query->get('id'));
+                    $deviseJournee->setQteFerm($billetage->getValeurTotal());
+                    $deviseJournee->setDetailLiquiditeFerm($billetage->getStringDetail());
+                    $this->getDoctrine()->getManager()->persist($deviseJournee);
+                    break;
             }
-        }            //dump($billetage);die();
+            if ($operation){
+                $this->getDoctrine()->getManager()->persist($this->journeeCaisse);
+                $this->getDoctrine()->getManager()->flush();
+            }else $this->addFlash('warning','Non enregistré. Opération on précisé.');
+        }else{
+            $this->addFlash('error','Enregistrement impossible : Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+        }
+    }
 
+    /**
+     * @Route("/show/", name="billetages_show", methods="GET|UPDATE")
+     */
+    public function show(Request $request): Response
+    {
+        $detailBilletage=$request->query->get('dt');
+        /*$detailBilletage='';
+        switch ($operation) {
+            case 'liquiditeOuv' :
+                $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->find($id);
+                $detailBilletage=$journeeCaisse->getDetailLiquiditeOuv();
+                break;
+            case 'liquiditeFerm' :
+                $journeeCaisse=$this->getDoctrine()->getRepository(JourneeCaisses::class)->find($id);
+                $detailBilletage=$journeeCaisse->getDetailLiquiditeFerm();
+                break;
+            case 'deviseOuv' :
+                $deviseJournee=$this->getDoctrine()->getRepository(DeviseJournees::class)->find($id);
+                $detailBilletage=$deviseJournee->getDetailLiquiditeOuv();
+                break;
+            case 'deviseFerm' :
+                $deviseJournee=$this->getDoctrine()->getRepository(DeviseJournees::class)->find($id);
+                $detailBilletage=$deviseJournee->getDetailLiquiditeFerm();
+                break;
+        }*/
+        $billetage=new Billetages();
+        $billetage->setBilletageLignesFromText($detailBilletage);
         //dump($billetage);die();
         $billetageLignes = $billetage->getBilletageLignes();
         return $this->render('billetages/show.html.twig', [
             'billetage' => $billetage
             ,'billetage_lignes' => $billetageLignes
         ]);
-    }
-    /**
-     * @Route("/{id}/maintenir", name="billetages_maint", methods="GET|UPDATE")
-     */
-    public function maintenir(Billetages $billetage): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $billetage->maintenir();
-        $em->persist($billetage);
-        $em->flush();
-        $billetageLignes = $billetage->getBilletageLignes();
-        $this->addFlash('success', 'Les données sont bonnes!');
-        return $this->render('billetages/show.html.twig', [
-            'billetage' => $billetage
-            ,'billetage_lignes' => $billetageLignes
-        ]);
-    }
-    /**
-     * @Route("/{id}", name="billetages_delete", methods="DELETE")
-     */
-    public function delete(Request $request, Billetages $billetage): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$billetage->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($billetage);
-            $em->flush();
-        }
-
-        return $this->redirectToRoute('billetages_index');
     }
 }

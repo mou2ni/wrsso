@@ -36,14 +36,14 @@ class DeviseJourneesRepository extends ServiceEntityRepository
             ;
         return $qb;
     }
-    public function getDevises($caisse,$devise, $dateDeb = null, $dateFin = null,$offset,$limit = 10,$ujm)
+    public function getDevises($caisse,$devise, $dateDeb = null, $dateFin = null,$offset,$limit = 10)
     {
         $qb = $this->createQueryBuilder('dj')
             ->innerJoin('dj.journeeCaisse','jc', 'WITH', 'dj.journeeCaisse = jc.id')
             ->innerJoin('jc.caisse','c', 'WITH', 'jc.caisse = c.id')
             ->innerJoin('dj.devise','d', 'WITH', 'dj.devise = d.id')
-            ->leftJoin('dj.deviseMouvements','dm', 'WITH', 'jc.id=dm.journeeCaisse')
-            ->addSelect('dj.id as id, c.id as idCaisse,d.id as idDevise,  jc.dateOuv as dateOuv , jc.dateFerm as dateFerm , c.code as caisse , d.code as devise, dj.qteOuv as qteOuv, dj.qteAchat as qteAchat, dj.qteVente as qteVente, dj.qteFerm as qteFerm, dj.mCvdVente - dj.mCvdVente as cvd, dj.ecartOuv as ecartOuv, dj.ecartFerm as ecartFerm')
+            ->leftJoin('dj.deviseJourneePrecedente','djp', 'WITH', 'dj.deviseJourneePrecedente=djp.id')
+            ->addSelect('dj.id as id, c.id as idCaisse,d.id as idDevise,  jc.dateOuv as dateOuv , jc.dateFerm as dateFerm , c.code as caisse , d.code as devise, dj.qteOuv as qteOuv, dj.qteAchat as qteAchat, dj.qteVente as qteVente,dj.qteIntercaisse as qteIntercaisse, dj.qteFerm as qteFerm, dj.mCvdVente - dj.mCvdVente as cvd, djp.qteFerm-dj.qteOuv as ecartOuv, dj.qteFerm - (dj.qteOuv +dj.qteAchat+dj.qteVente+dj.qteIntercaisse) as ecartFerm')
             ;
         if ($dateDeb) {
             $qb->where('jc.dateOuv >= :dateDeb');
@@ -61,13 +61,13 @@ class DeviseJourneesRepository extends ServiceEntityRepository
             $qb->andWhere('dj.devise =:devise');
             $qb->setParameter('devise',$devise);
         }
-        if ($ujm) {
+        /*if ($ujm) {
             $qb->andWhere('dj.qteVente <>:zero or dj.qteAchat <>:zero');
             //$qb->andWhere('dj.qteAchat <>:zero');
             $qb->setParameter('zero',0);
-        }
+        }*/
         $qb
-            ->orderBy('jc.id', 'DESC')
+            ->orderBy('dj.id', 'ASC')
             //->groupBy('c.agence','d.id')
             ->setFirstResult($offset)->setMaxResults($limit);
         $pag = new Paginator($qb);

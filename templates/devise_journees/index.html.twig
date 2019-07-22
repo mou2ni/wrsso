@@ -19,8 +19,8 @@
                 <option {{ (devise_id==devise.id)?'selected="selected"':''}} value={{ devise.id }}>{{ devise }}</option>
             {% endfor %}
         </select>
-        UNIQUEMENT LES JOURNEES MOUVEMENTEES : <input {{ (app.request.request.get('ujm'))?'checked="true"':''}} type="checkbox" id="ujm" name="ujm" class="">
-        {{ form_end(form) }}
+        {#UNIQUEMENT LES JOURNEES MOUVEMENTEES : <input {{ (app.request.request.get('ujm'))?'checked="true"':''}} type="checkbox" id="ujm" name="ujm" class="">
+        #}{{ form_end(form) }}
     </div>
     {{ include('_pagination.html.twig') }}
 <div id="sortable-data_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
@@ -34,11 +34,13 @@
                 {#<th>EcartOuv</th>#}
                 <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteAchat</th>
                 <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteVente</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteIntercaisse</th>
                 <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">CVD</th>
                 {#<th>MCvdVente</th>
                 <th>QteIntercaisse</th>#}
                 <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">QteFerm</th>
-                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">ecart</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">ecart Ouv</th>
+                <th class="sorting" tabindex="0" aria-controls="sortable-data" rowspan="1" colspan="1" style="width: 203.767px;" aria-label="Name: activate to sort column ascending">ecart Ferm</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -54,11 +56,13 @@
                 {#<td>{{ devise_journee.ecartOuv }}</td>#}
                 <td>{{ devise_journee.qteAchat }}</td>
                 <td>{{ devise_journee.qteVente }}</td>
+                <td>{{ devise_journee.qteIntercaisse }}</td>
                 <td>{{ devise_journee.cvd|number_format(0,',', ' ') }}</td>
                 {#<td>{{ devise_journee.mCvdVente|number_format(0,',', ' ') }}</td>
                 <td>{{ devise_journee.qteIntercaisse }}</td>#}
                 <td>{{ devise_journee.qteFerm }}</td>
-                <td>{{ devise_journee.ecartFerm }}</td>
+                    <td>{{ devise_journee.ecartOuv }}</td>
+                    <td>{{ devise_journee.ecartFerm }}</td>
                 {% else %}
                     <td>{{ devise_journee.id }}</td>
                     <td>{{ devise_journee.idJourneeCaisse }}</td>
@@ -70,6 +74,7 @@
                     <td>{{ devise_journee.m_cvd_vente|number_format(0,',', ' ') }}</td>
                     <td>{{ devise_journee.qte_intercaisse }}</td>
                     <td>{{ devise_journee.qte_ferm }}</td>
+                    <td>{{ devise_journee.ecart_ouv }}</td>
                     <td>{{ devise_journee.ecart_ferm }}</td>
                     {% endif %}
                 <td>

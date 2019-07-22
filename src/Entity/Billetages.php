@@ -10,172 +10,53 @@ namespace App\Entity;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="billetages")
- * @ORM\HasLifecycleCallbacks()
- */
+
 class Billetages
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    Const SEP_LINE='|', SEP_COL='X';
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateBillettage;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billetages", cascade={"persist"}, orphanRemoval=true)
-     */
     private $billetageLignes;
-
-    private $billetageLigneAffiches;
-
-    ////METTRE EN BD A RENSEIGNER POUR TOUT AJOUT DE LIGNE
-    /**
-     * @ORM\Column(type="float")
-     * @Assert\GreaterThanOrEqual(value="0", message="la valeur doit positive")
-     */
-    private $valeurTotal=0;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $billetageLigne='';
-
-    /*
-     * @ORM\ManyToOne(targetEntity="App\Entity\JourneeCaisses", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true, unique=false)
-
-    private $journeeCaisse;*/
-
-    private $em;
+    private $valeurTotal;
+    private $stringDetail;
 
     public function __construct()
     {
-        $this->dateBillettage=new \DateTime('now');
-        $this->billetageLignes = new ArrayCollection();
-        $this->billetageLigneAffiches = new ArrayCollection();
-    }
-
-    public function fillBilletageLignes(){
-        //$this->billetageLignes = new ArrayCollection();
-        foreach ($this->billetageLignes as $bl){
-
-            $this->billetageLignes->remove($bl);
-        }
-
-        foreach ($this->billetageLigneAffiches as $billetageLigne){
-            //$this->billetageLignes->remove($billetageLigne);
-            //$this->removeBilletageLignes($billetageLigne);
-            if ($billetageLigne->getNbBillet()>0) {
-                $this->billetageLignes->add($billetageLigne);
-            }
-
-        }
+        $this->billetageLignes=new ArrayCollection();
     }
 
     /**
-     * @ORM\PreUpdate
+     * @return ArrayCollection
      */
-    public function fillOnUpdate(){
-        //$this->fillBilletageLignes();
-        $total = 0;
-        foreach ($this->billetageLignes as $bl)
-        {
-            //dump($bl->getValeurLigne());
-            $total += $bl->getValeurLigne();
-        }
-        //die();
-        $this->valeurTotal=$total;
-
+    public function getBilletageLignes()
+    {
+        return $this->billetageLignes;
     }
 
     /**
-     * @ORM\PrePersist
+     * @param ArrayCollection $billetageLignes
+     * @return Billetages
      */
-    public function fillOnPersist(){
-        //$this->fillBilletageLignes();
-        $this->fillOnUpdate();
-    }
-
-
-    public function addBilletageLigneAffiche(BilletageLignes $billetageLigne)
+    public function setBilletageLignes($billetageLignes)
     {
-        //dump($billetageLigne);die();
-        $this->billetageLigneAffiches->add($billetageLigne);
-        $billetageLigne->setBilletages($this);
-        if ($billetageLigne->getNbBillet()>0) {
-            $this->addBilletageLignes($billetageLigne);
-        }
-
+        $this->billetageLignes = $billetageLignes;
+        return $this;
     }
 
-    public function removeBilletageLigneAffiche(BilletageLignes $billetageLigne)
+    public function addBilletageLigne(BilletageLignes $billetageLigne)
     {
-        $this->billetageLigneAffiches->removeElement($billetageLigne);
-    }
-
-    public function addBilletageLignes(BilletageLignes $billetageLigne)
-{
-    /*****TEST D'EXISTANCE D'UNE LIGNE DEJA LE MEME BILLET QUE LA NOUVELLE LIGNE*****/
-    $exist=false;
-    foreach ($this->billetageLignes as $bl){
-        if ($billetageLigne->getBillet()==$bl->getBillet() or $billetageLigne->getValeurBillet()==$bl->getValeurBillet())
-            $exist=true;
-    }
-    if (!$exist){ /////AJOUT S'IL N'EXISTE PAS ENCORE DE LIGNE PORTANT LE MEME BILLET
+        //dump($billetageLigne->getNbBillet());dump($billetageLigne->getValeurBillet());
+        $this->valeurTotal=$this->valeurTotal+$billetageLigne->getTotalLigne();
         $this->billetageLignes->add($billetageLigne);
-        $billetageLigne->setBilletages($this);
-        $this->valeurTotal += $billetageLigne->getValeurLigne();
-    }
+        return $this;
 
-}
+    }
 
     public function removeBilletageLigne(BilletageLignes $billetageLigne)
     {
+        $this->valeurTotal=$this->valeurTotal-$billetageLigne->getTotalLigne();
         $this->billetageLignes->removeElement($billetageLigne);
-        $this->valeurTotal -= $billetageLigne->getValeurLigne();
-    }
-
-    //// FIN AJOUT HAMADO
-
-    /*public function addTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
-    {
-        $this->transfertInternationaux->add($transfertInternationaux);
-        $transfertInternationaux->setIdJourneeCaisse($this);
-    }
-
-    public function removeTransfertInternationaux(TransfertInternationaux $transfertInternationaux)
-    {
-        $this->transfertInternationaux->removeElement($transfertInternationaux);
-    }*/
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -185,132 +66,76 @@ class Billetages
     {
         return $this->valeurTotal;
     }
-    /**
-     * @return mixed
-     */
-    public function maintenir()
-    {
-        $this->valeurTotal=0;
-        foreach ($this->getBilletageLignes() as $ligne){
-            $this->valeurTotal += $ligne->getValeurLigne();
-        }
-        return $this;
-    }
 
 
     /**
-     * @return mixed
-     */
-    public function getDateBillettage()
-    {
-        return $this->dateBillettage;
-    }
-
-    /**
-     * @param $dateBillettage
      * @return $this
      */
-    public function setDateBillettage($dateBillettage)
+    public function calcValeurTotal()
     {
-        $this->dateBillettage = $dateBillettage;
-        return $this;
-    }
-
-    public function __toString()
-    {
-        return ''.$this->getValeurTotal();
-    }
-
-    /**
-     * @return Collection|BilletageLignes[]
-     */
-    public function getBilletageLignes()
-    {
-        return $this->billetageLignes;
-    }
-
-    /**
-     * @param mixed $billetageLignes
-     * @return Billetages
-     */
-    public function  setBilletageLignes($billetageLignes)
-    {
-        $this->billetageLignes = $billetageLignes;
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getBilletageLigneAffiches(): ArrayCollection
-    {
-        if (!$this->billetageLigneAffiches)$this->billetageLigneAffiches=new ArrayCollection();
-        $billets=$this->em->getRepository('App:Billets')->findActive();
-        foreach ($billets as $billet){
-            $billetageLigne = new BilletageLignes();
-            $billetageLigne->setBillet($billet)->setValeurBillet($billet->getValeur())->setNbBillet(0);
-            //dump($this->billetageLignes);die();
-            foreach ($this->billetageLignes as $ligneEnreg){
-                if ($ligneEnreg->getBillet()->getValeur()==$billet->getValeur()){
-                    echo($ligneEnreg->getNbBillet());echo(":");//echo($billet->getValeur()); echo("===\n");
-                    //dump($billet);die();
-                    $billetageLigne->setNbBillet($ligneEnreg->getNbBillet());
-                }
+        $this->valeurTotal=0;
+        $this->stringDetail='';
+        foreach ($this->getBilletageLignes() as $billetageLigne){
+            if ($billetageLigne->getNbBillet()){
+                $this->valeurTotal= $this->valeurTotal+$billetageLigne->getTotalLigne();
+                $this->stringDetail= ($this->stringDetail)
+                    ?$this->stringDetail.$this::SEP_LINE.$billetageLigne->getNbBillet().$this::SEP_COL.$billetageLigne->getValeurBillet()
+                    :$this->stringDetail.$billetageLigne->getNbBillet().$this::SEP_COL.$billetageLigne->getValeurBillet();
             }
-            //die();
-
-            //$this->addBilletageLigneAffiche($billetageLigne);
-            $this->addBilletageLigneAffiche($billetageLigne);
         }
-
-
-        return $this->billetageLigneAffiches;
-    }
-
-    /**
-     * @param ArrayCollection $billetageLigneAffiches
-     * @return Billetages
-     */
-    public function setBilletageLigneAffiches(ArrayCollection $billetageLigneAffiches): Billetages
-    {
-        $this->billetageLigneAffiches = $billetageLigneAffiches;
-        return $this;
-    }
-
-    /**
-     * @return ObjectManager
-     */
-    public function getEm(): ObjectManager
-    {
-        return $this->em;
-    }
-
-    /**
-     * @param ObjectManager $em
-     * @return Billetages
-     */
-    public function setEm(ObjectManager $em): Billetages
-    {
-        $this->em = $em;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getBilletageLigne()
+    public function getStringDetail()
     {
-        return $this->billetageLigne;
+        return $this->stringDetail;
     }
 
-    /**
-     * @param mixed $billetageLigne
-     * @return Billetages
-     */
-    public function setBilletageLigne($billetageLigne)
-    {
-        $this->billetageLigne = $billetageLigne;
-        return $this;
+    public function setBilletageLignesFromText($detailBilletage, $billets=false){
+        $billetageLignesFromTexts=explode($this::SEP_LINE,$detailBilletage);
+
+        if($billets) {
+            $this->setBilletageLignesFromBillets($billets);
+            foreach ($billetageLignesFromTexts as $billetageLignesFromText) {
+                $cols = explode($this::SEP_COL, $billetageLignesFromText);
+
+                $billetExist=false;
+                if (count($cols) > 1) {
+                    foreach ($this->getBilletageLignes() as $billetageLigne) {
+                        if ($billetageLigne->getValeurBillet() == $cols[1]) {
+                            $billetageLigne->setNbBillet($cols[0]);
+                            $billetExist=true;
+                        }
+                    }
+                }
+                //Billet de ligneBilletageTexs n'exitant plus
+                if (!$billetExist){
+                    $billetageLigne=new BilletageLignes();
+                    $billetageLigne->setNbBillet($cols[0]);
+                    $billetageLigne->setValeurBillet($cols[1]);
+                    $this->addBilletageLigne($billetageLigne);
+                }
+            }
+        }else{
+            foreach ($billetageLignesFromTexts as $billetageLignesFromText) {
+                $cols = explode($this::SEP_COL, $billetageLignesFromText);
+                $billetageLigne=new BilletageLignes();
+                $billetageLigne->setNbBillet($cols[0]);
+                $billetageLigne->setValeurBillet($cols[1]);
+                $this->addBilletageLigne($billetageLigne);
+            }
+        }
+    }
+
+    public function setBilletageLignesFromBillets($billets){
+        foreach ($billets as $billet){
+            $billetageLigne=new BilletageLignes();
+            $billetageLigne->setValeurBillet($billet->getValeur());
+            $this->addBilletageLigne($billetageLigne);
+        }
     }
 
 

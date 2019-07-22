@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Billetages{% endblock %}
+
+{% block body %}
+    <h1>Effectuer billetage</h1>
+
+    {{ form_start(form)  }}
+
+    <table onchange="majBilletage()">
+        <thead>
+        <tr><th class="text-bold padding-0 text-left" bgcolor="#f69f00"> Date</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"> {{ billetage.dateBillettage.format('d-m-Y H:i:s') }}</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00"> TOTAL</th> {#<td><input  id="billetages_valeurTotal"  name="billetages_valeurTotal" required="required" class="form-control" value="" > </td>#}</tr>
+        <tr>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">VALEUR</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#f69f00">NOMBRE</th>
+            <th class="text-bold padding-0 text-left" bgcolor="#ffb2a8">{{ form_widget(form.valeurTotal) }}</th></tr>
+        </thead>
+        <tbody>
+        {% set i=0 %}
+        {% for bl in form.billetageLignes %}
+            <tr class="">
+                <td>{{ form_errors(bl.valeurBillet) }} {{ form_widget(bl.valeurBillet) }}</td>
+                <td>{{ form_errors(bl.nbBillet) }} {{ form_widget(bl.nbBillet) }}</td>
+                <td>{{ form_errors(bl.valeurLigne) }} {{ form_widget(bl.valeurLigne) }}</td>
+                {#<td><input  id="billetages_billetageLignes_{{i}}_valeurLigne"  name="[valeurLigne][{{ i }}]" required="required" class="form-control" value="" type="text"></td>
+                #}</tr>
+            {% set i=i+1 %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if journeeCaisse.statut!="F" %}
+    <input type="submit" class="btn-info" value="Enregistrer" >
+        {{ include('_btn_close.html.twig') }}
+
+    {% endif %}
+    <div hidden>
+        {{ form_rest(form) }}
+        <input type="hidden" name="_journeeCaisse" value="{{ journeeCaisse.id }}">
+        <input type="hidden" name="_operation" value="{{ operation }}">
+        <input id="nombreLigne" value="{{ billets|length}}">
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+        majBilletage();
+    });
+    function majBilletage() {
+        var nbrBillet = valeur("#nombreLigne");
+        var totalBillet = 0;
+        for (b = 0; b < nbrBillet; b++) {
+            var nbr = Echape($("#billetages_billetageLignes_" + b + "_nbBillet").val());
+            var valeurBillet=Echape($("#billetages_billetageLignes_" + b + "_valeurBillet").val());
+            $("#billetages_billetageLignes_" + b + "_valeurLigne").val(valeurBillet * nbr);
+
+            totalBillet = totalBillet + valeur("#billetages_billetageLignes_" + b + "_valeurLigne");
+
+            $("#billetages_valeurTotal").val(totalBillet);
+
+
+        }
+    }
+
+
+</script>
+
+{% endblock %}

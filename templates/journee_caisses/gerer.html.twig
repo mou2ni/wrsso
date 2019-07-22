@@ -10,20 +10,14 @@
         {{ include ('journee_caisses/_liste_journee_caisses.html.twig') }}
     {% endif %}
     {#{% set color=(journeeCaisse.statut=='X')?"#eee9e6":"#FFF" %}#}
- {% if journeeCaisse %}
+    {% set journeeNonFerme=(journeeCaisse.statut== 'E' or journeeCaisse.statut== 'I') %}
+    {% if journeeCaisse %}
         <div class="form-inline text-bold text-center"><h1>OPERATION COURANTE CAISSE : {{ journeeCaisse.caisse }} DU {{ journeeCaisse.dateOuv|date('d-m-Y') }} | <a href="{{ path('journee_caisses_etat_de_caisse') }}" class="glyphicon glyphicon-list-alt float-right">Historiques</a></h1>
     </div>
     <div class="row">
         <div class="table-responsive">
             <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >RUBRIQUE</th>
-                    <th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE OUVERTURE</th>
-                    <th class="text-bold padding-5 text-right" colspan="2" bgcolor="#a9a9a9" >SOLDE FERMETURE</th>
-                    <th bgcolor="#a9a9a9" >ACTIONS</th>
-                </tr>
-                </thead>
+                {{ include('journee_caisses/_gerer_table_head.html.twig') }}
                 <tbody class="text-thin">
                 {{ include('journee_caisses/_gerer_head_common.html.twig') }}
 
@@ -40,6 +34,7 @@
                 {% endif %}
                 {% if is_granted('ROLE_GUICHETIER')%}
                     {{ include('journee_caisses/_gerer_guichet.html.twig') }}
+                    {{ include('journee_caisses/_gerer_devise_journee.html.twig') }}
                 {% endif %}
 
                 {{ include('journee_caisses/_gerer_recap_solde.html.twig') }}

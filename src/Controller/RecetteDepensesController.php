@@ -131,6 +131,11 @@ class RecetteDepensesController extends Controller
 
     private function ajout(Request $request, $returnRoute, $estComptant=true): Response
     {
+        if($this->journeeCaisse->getStatut()!=JourneeCaisses::ENCOURS or
+            $this->utilisateur->getId()!=$this->journeeCaisse->getUtilisateur()->getId()){
+            $this->addFlash('error','Aucune journée ouverte. Merci d\'ouvrir une journée avant de continuer');
+            return $this->redirectToRoute('journee_caisses_gerer');
+        }
         $recetteDepense = new RecetteDepenses();
         $recetteDepense->setUtilisateur($this->utilisateur)->setJourneeCaisse($this->journeeCaisse)->setStatut(RecetteDepenses::STAT_INITIAL)->setEstComptant($estComptant)->setAgence($this->caisse->getAgence());
 

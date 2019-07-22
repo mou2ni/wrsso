@@ -30,7 +30,7 @@ class Billets
      */
     private $valeur;
 
-    /**
+    /*
      * @ORM\OneToMany(targetEntity="App\Entity\BilletageLignes", mappedBy="billet", cascade={"persist"})
      */
     private $billetageLignes;

@@ -545,3 +545,8 @@ function input1Xinput2(input1, input2, resultId) {
     total=Echape($("#"+input1).val())*Echape($("#"+input2).val());
     document.getElementById(resultId).innerHTML=formatMillier(total,0);
 }
+
+function formatFrNumeric(inputElement){
+    var num=formatMillier(inputElement.val(),0)
+    inputElement.val(num);
+}

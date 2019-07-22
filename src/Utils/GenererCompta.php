@@ -584,7 +584,7 @@ class GenererCompta
             }
 
         //ecart de caisse
-        if ($journeeCaisse->getMEcartOuv()!=0 and $journeeCaisse->getMEcartFerm()!=0 and ($journeeCaisse->getMEcartOuv()-$journeeCaisse->getMEcartFerm())!=0 )
+        if ($journeeCaisse->getMEcartOuv()!=0 and $journeeCaisse->getMEcartFerm()!=0 and ($journeeCaisse->getMEcartOuv()+$journeeCaisse->getMEcartFerm())!=0 )
             if (!$this->genComptaEcart($utilisateur,$caisse,$journeeCaisse)){
                 return false;
             }

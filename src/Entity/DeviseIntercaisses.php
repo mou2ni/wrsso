@@ -241,18 +241,18 @@ class DeviseIntercaisses
     {
         foreach ($this->getDeviseTmpMouvements() as $deviseTmpMouvement) {
             $deviseMouvement = new DeviseMouvements();
-            $deviseMouvement->setDevise($deviseTmpMouvement->getDevise())
+            $deviseMouvement->setSens(DeviseMouvements::INTERCAISSE)
+                ->setDevise($deviseTmpMouvement->getDevise())
                 ->setNombre($deviseTmpMouvement->getNombre())
-                ->setTaux($deviseTmpMouvement->getTaux())
+                //->setTaux($deviseTmpMouvement->getTaux())
                 ->setDeviseJourneeByJourneeCaisse($this->getJourneeCaisseDestination(), $this->em)
-                ->setSens($deviseMouvement::INTERCAISSE)
                 ->setDeviseIntercaisse($this);
             $this->deviseMouvements->add($deviseMouvement);
             $this->expendObservations($deviseMouvement->getDevise() . ' = ' . $deviseMouvement->getNombre());
 
             //ajout du mouvement partenaire correspondant avec signe contraire
             $deviseMouvementPartenaire = new DeviseMouvements();
-            $deviseMouvementPartenaire->setSens($deviseMouvementPartenaire::INTERCAISSE)
+            $deviseMouvementPartenaire->setSens(DeviseMouvements::INTERCAISSE)
                 ->setDevise($deviseMouvement->getDevise())
                 ->setNombre(-$deviseMouvement->getNombre())
                 ->setDeviseJourneeByJourneeCaisse($this->getJourneeCaisseSource(), $this->em)

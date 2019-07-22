@@ -10,15 +10,26 @@
     {% if  is_granted('ROLE_COMPTABLE') %}
         {{ include ('journee_caisses/_liste_journee_caisses.html.twig') }}
     {% endif %}
-    <div class="row text-bold text-center "><h1>OUVERTURE CAISSE : {{ journeeCaisse.caisse }}
-            {{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_init' , 'operation':'Changer','btn_name':'changer', 'btn_label':'Changer de Caisse', 'btn_class':'btn btn-info'}) }}</h1>
+    <div class="form-group text-bold text-center ">{{ include('journee_caisses/_btn_action_url.html.twig',{'path':'journee_caisses_init' , 'operation':'Changer','btn_name':'changer', 'btn_label':'Changer de Caisse', 'btn_class':'btn btn-info'}) }}
+        <h1>OUVERTURE CAISSE : {{ journeeCaisse.caisse }}
+            </h1>
     </div>
-    <div class="journee_fermeture_prec">
-
-    {{ include ('journee_caisses/_form_ouverture.html.twig') }}
+    <div class="form-group">
+        {{ include ('journee_caisses/_form_ouverture.html.twig') }}
+        {#{% set bgcolor="#FAFAFA" %}
+        {% set journeeNonFerme = true %}
+        <table class="table table-bordered">
+            {{ include('journee_caisses/_gerer_table_head.html.twig') }}
+            <tbody class="text-thin">
+            {{ include('journee_caisses/_gerer_head_common.html.twig') }}
+            {% if is_granted('ROLE_GUICHETIER')%}
+                {{ include('journee_caisses/_gerer_devise_journee.html.twig') }}
+            {% endif %}
+            {{ include('journee_caisses/_gerer_recap_solde.html.twig') }}
+            </tbody>
+        </table>#}
 
     </div>
-
 
 {#{{ journeeCaisse.billetOuv ? include('_modal_form.html.twig',{'modal_id':'modal_billetage', 'modal_form': 'billetages/_form.html.twig', 'titre':'Billetage'}) }}
 

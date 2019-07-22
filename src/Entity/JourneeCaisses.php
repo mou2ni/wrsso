@@ -72,7 +72,7 @@ class JourneeCaisses
     private $dateComptable;
 
 
-    /**
+    /*
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -117,7 +117,7 @@ class JourneeCaisses
      */
     private $dateFerm;
 
-    /**
+    /*
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -636,8 +636,9 @@ class JourneeCaisses
     }
 
     public function maintenirToutSolde(){
-       $this ->maintenirMLiquiditeFerm()
-            ->maintenirMSoldeElectFerm()
+       $this 
+           //->maintenirMLiquiditeFerm()
+            //->maintenirMSoldeElectFerm()
             ->maintenirMIntercaisses()
             ->maintenirMDepotRetraits()
             ->maintenirDetteCreditDiversFerm()
@@ -1448,6 +1449,7 @@ class JourneeCaisses
         $this->mLiquiditeOuv = $mLiquiditeOuv;
         return $this;
     }
+    
 
     /**
      * @return mixed
@@ -2064,6 +2066,8 @@ class JourneeCaisses
         $this->detailLiquiditeOuv = $detailLiquiditeOuv;
         return $this;
     }
+    
+    
 
     /**
      * @return mixed

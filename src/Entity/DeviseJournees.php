@@ -26,6 +26,12 @@ class DeviseJournees
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\DeviseJournees")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    private $deviseJourneePrecedente;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\DeviseMouvements", mappedBy="deviseJournee", cascade={"persist"})
      */
     private $deviseMouvements;
@@ -42,7 +48,7 @@ class DeviseJournees
      */
     private $devise;
 
-    /**
+    /*
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -58,10 +64,6 @@ class DeviseJournees
      */
     private $detailLiquiditeOuv='';
 
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $ecartOuv=0;
 
     /**
      * @ORM\Column(type="integer")
@@ -89,7 +91,7 @@ class DeviseJournees
      */
     private $qteIntercaisse=0;
 
-    /**
+    /*
      * @ORM\OneToOne(targetEntity="App\Entity\Billetages", cascade={"persist"} )
      * @ORM\JoinColumn(nullable=true)
      */
@@ -105,18 +107,11 @@ class DeviseJournees
      */
     private $detailLiquiditeFerm='';
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $ecartFerm=0;
 
     /**
      * DeviseJournees constructor.
-     * @param $deviseMouvements
      * @param $journeeCaisse
      * @param $devise
-     * @param $billetOuv
-     * @param $billetFerm
      */
     public function __construct($journeeCaisse, $devise)
     {
@@ -126,6 +121,7 @@ class DeviseJournees
         //$this->billetOuv = new Billetages();
         //$this->billetFerm = new Billetages();
     }
+
 
     public function updateM($champ,$montant){
         $this->$champ+=$montant;
@@ -202,17 +198,8 @@ class DeviseJournees
      */
     public function getEcartOuv()
     {
-        return $this->ecartOuv;
-    }
-
-    /**
-     * @param mixed $ecartOuv
-     * @return DeviseJournees
-     */
-    public function setEcartOuv($ecartOuv)
-    {
-        $this->ecartOuv = $ecartOuv;
-        return $this;
+        $qteFermPrecedent=($this->getDeviseJourneePrecedente())?$this->getDeviseJourneePrecedente()->getQteFerm():0;
+        return $this->getQteOuv()-$qteFermPrecedent;
     }
 
     /**
@@ -240,14 +227,12 @@ class DeviseJournees
     {
         return $this->qteFerm;
     }
-
     /**
-     * @param mixed $qteFerm
-     * @return DeviseJournees
+     * @return this
      */
     public function setQteFerm($qteFerm)
     {
-        $this->qteFerm = $qteFerm;
+        $this->qteFerm=$qteFerm;
         return $this;
     }
 
@@ -453,9 +438,10 @@ class DeviseJournees
         return $this->detailLiquiditeOuv;
     }
 
+
     /**
      * @param mixed $detailLiquiditeOuv
-     * @return DeviseJournees
+     * @return $this
      */
     public function setDetailLiquiditeOuv($detailLiquiditeOuv)
     {
@@ -471,9 +457,10 @@ class DeviseJournees
         return $this->detailLiquiditeFerm;
     }
 
+
     /**
      * @param mixed $detailLiquiditeFerm
-     * @return DeviseJournees
+     * @return $this
      */
     public function setDetailLiquiditeFerm($detailLiquiditeFerm)
     {
@@ -481,6 +468,22 @@ class DeviseJournees
         return $this;
     }
 
+    /**
+     * @return DeviseJournees
+     */
+    public function getDeviseJourneePrecedente()
+    {
+        return $this->deviseJourneePrecedente;
+    }
 
+    /**
+     * @param mixed $deviseJourneePrecedente
+     * @return DeviseJournees
+     */
+    public function setDeviseJourneePrecedente($deviseJourneePrecedente)
+    {
+        $this->deviseJourneePrecedente = $deviseJourneePrecedente;
+        return $this;
+    }
 
 }

@@ -1,0 +1,27 @@
+<tr>
+    <th  class="text-bold padding-5 text-right" bgcolor="#a9a9a9" >Devises </th>
+    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Ouverture</th>
+    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Mouvements</th>
+    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Solde</th>
+    <th  class="text-bold padding-5 text-center" bgcolor="#a9a9a9" >Inventaire</th>
+    <th class="text-bold text-bloody-500 text-center" bgcolor="#a9a9a9" >Ecart</th>
+</tr>
+{% for deviseJournee in journeeCaisse.deviseJournees%}
+<tr>
+    <td class="padding-5 text-right text-bold" bgcolor="#a9a9a9" >{{ deviseJournee.devise }}</td>
+    <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.qteOuv|number_format(0, '.', ' ') }}</td>
+    <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.qteMouvement|number_format(0, '.', ' ') }}</td>
+    <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.solde|number_format(0, '.', ' ') }}</td>
+    <td class="padding-5 text-right" bgcolor="{{ bgcolor }}">{{ deviseJournee.qteFerm|number_format(0, '.', ' ') }}</td>
+    <td class="text-bold text-bloody-500 padding-0 text-right"  bgcolor="{{ bgcolor }}"><div class="form-inline">
+            {% if journeeNonFerme %}
+            {{ include('journee_caisses/_btn_action_billetage.html.twig',{'id':deviseJournee.id, 'dt':deviseJournee.detailLiquiditeFerm, 'operation':'deviseFerm', 'devise':deviseJournee.devise.id,'btn_name':'inventaire', 'btn_label':'Saisir inventaire'}) }}
+            {{ deviseJournee.ecartFerm|number_format(0, '.', ' ') }}
+            {% else %}
+                <a href="{{ path('billetages_show', {'id': deviseJournee.id, 'dt':deviseJournee.detailLiquiditeFerm, 'operation':'deviseFerm', 'devise':deviseJournee.devise.id}) }}"><span class="glyphicon glyphicon-eye-open"></span> Voir détails</a>
+            {% endif %}
+        </div></td>
+</tr>
+{% else %}
+    <tr> <td class="padding-5 text-center text-bold" bgcolor="{{ bgcolor }}" colspan="6"> Aucune Journée Devise</td></tr>
+{% endfor %}
