@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DeviseJournees index{% endblock %}
+
+{% block body %}
+    {% set bgQte='#FFF' %}
+    {% set bgCvd='#FAFAFA' %}
+    {% set bgMarge='#F0F0F0' %}
+<h1>Tableau analytique des devises</h1>
+<div>
+    {{ form_start(form) }}
+    {{ include('_criteres_recherches.html.twig') }}
+    AGENCE : <select id="agence" name="agence" class="">
+        <option  {{ (app.request.request.get('agence')=='')?'selected="selected"':''}} value="">Tous</option>
+        {% for agence in agences %}
+            <option  {{ (agence_id==agence.id)?'selected="selected"':''}} value={{ agence.id }}>{{ agence }}</option>
+        {% endfor %}
+    </select>
+    UTILISATEUR : <select id="utilisateur" name="utilisateur" class="">
+        <option  {{ (app.request.request.get('utilisateur')=='')?'selected="selected"':''}} value="">Tous</option>
+        {% for utilisateur in utilisateurs %}
+            <option {{ (utilisateur_id==utilisateur.id)?'selected="selected"':''}} value={{ utilisateur.id }}>{{ utilisateur }}</option>
+        {% endfor %}
+    </select>
+    {#UNIQUEMENT LES JOURNEES MOUVEMENTEES : <input {{ (app.request.request.get('ujm'))?'checked="true"':''}} type="checkbox" id="ujm" name="ujm" class="">
+    #}{{ form_end(form) }}
+</div>
+
+<div class="table-responsive">
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr> <td colspan="10" class="text-center"><h1>Etat analytique des devises</h1></td> </tr>
+    {#<tr> <td colspan="10" class="text-center">CRITERES : </td> </tr>#}
+    <tr>
+        <th class="text-center padding-5" rowspan="2">Devises</th>
+        <th class="text-center padding-5" colspan="4">Quantité</th>
+        <th class="text-center padding-5" colspan="4">Valorisation en monnaie locale</th>
+        <th class="text-center padding-5">Marges Brutes</th>
+    </tr>
+    <tr>
+        <th class="text-center padding-5" >Initiale (I)</th>
+        <th class="text-center padding-5" >Achat (A)</th>
+        <th class="text-center padding-5" >Vente (V)</th>
+        <th class="text-center padding-5" >Finale (F)</th>
+
+        <th class="text-center padding-5" >Initiale (I)</th>
+        <th class="text-center padding-5" >Achat (A)</th>
+        <th class="text-center padding-5" >Vente (V)</th>
+        <th class="text-center padding-5" >Finale (F)</th>
+        <th class="text-center padding-5">(V)-(A)-(I)+(F)</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set totalOuv=0 %}
+    {% set totalAchat=0 %}
+    {% set totalVente=0 %}
+    {% set totalFerm=0 %}
+    {% set totalMarge=0 %}
+    {% for ligneAnalyse in tableauAnalyse %}
+        {% set totalOuv=totalOuv+ ligneAnalyse.cvdOuv %}
+        {% set totalAchat=totalAchat+ligneAnalyse.cvdAchat%}
+        {% set totalVente=totalVente+ligneAnalyse.cvdVente %}
+        {% set totalFerm=totalFerm+ligneAnalyse.cvdFerm %}
+        {% set marge = ligneAnalyse.cvdVente-ligneAnalyse.cvdAchat-ligneAnalyse.cvdOuv+ ligneAnalyse.cvdFerm %}
+        {% set totalMarge=totalMarge+marge %}
+        <tr>
+            <td class="text-center padding-5">{{ ligneAnalyse.devise }}</td>
+            <td class="text-center padding-5">{{ ligneAnalyse.qteOuv|number_format(0, '.', ' ')  }}</td>
+            <td class="text-center padding-5">{{ ligneAnalyse.qteAchat|number_format(0, '.', ' ')  }}</td>
+            <td class="text-center padding-5">{{ ligneAnalyse.qteVente|number_format(0, '.', ' ')  }}</td>
+            <td class="text-center padding-5">{{ ligneAnalyse.qteFerm|number_format(0, '.', ' ')  }}</td>
+            <td class="text-right padding-5"> {{ ligneAnalyse.cvdOuv|number_format(0, '.', ' ')  }}</td>
+            <td class="text-right padding-5">{{ ligneAnalyse.cvdAchat|number_format(0, '.', ' ')  }}</td>
+            <td class="text-right padding-5">{{ ligneAnalyse.cvdVente|number_format(0, '.', ' ')  }}</td>
+            <td class="text-right padding-5">{{ ligneAnalyse.cvdFerm|number_format(0, '.', ' ')  }}</td>
+            <td class="text-right padding-5">{{ marge|number_format(0, '.', ' ')  }}</td>
+
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="10">Aucune journée devise trouvée ! ! !</td>
+        </tr>
+    {% endfor %}
+    <tr bgcolor="#f69f00">
+        <th colspan="5" class="text-right"> TOTAUX : </th>
+        <th class="text-right padding-5">{{totalOuv|number_format(0, '.', ' ') }}</th>
+        <th class="text-right padding-5">{{totalAchat|number_format(0, '.', ' ') }}</th>
+        <th class="text-right padding-5">{{ totalVente|number_format(0, '.', ' ') }}</th>
+        <th class="text-right padding-5">{{ totalFerm|number_format(0, '.', ' ') }}</th>
+        <th class="text-right padding-5">{{ totalMarge|number_format(0, '.', ' ') }}</th>
+    </tr>
+    </tbody>
+</table>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

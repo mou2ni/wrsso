@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Agences;
 use App\Entity\Caisses;
 use App\Entity\CriteresDates;
 use App\Entity\DeviseJournees;
 use App\Entity\Devises;
+use App\Entity\Utilisateurs;
 use App\Form\CriteresRecherchesJourneeCaissesType;
 use App\Form\DeviseJourneesType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -79,6 +81,45 @@ class DeviseJourneesController extends Controller
             'path'=>'devise_journees_index',
             'src'=>'orm',
             'devise_journees' => $deviseJournees]);
+    }
+
+    /**
+     * @Route("/analytique", name="devise_journees_analytique", methods="GET")
+     */
+    public function analyse(Request $request): Response
+    {
+        $agence=$request->request->get('agence')?$request->request->get('agence'):$request->query->get('agence');
+        $utilisateur=$request->request->get('utilisateur')?$request->request->get('utilisateur'):$request->query->get('utilisateur');
+        $dateDebut=$request->request->get('dateDebut')?$request->request->get('dateDebut'):$request->query->get('dateDebut');
+        $dateFin=$request->request->get('dateFin')?$request->request->get('dateFin'):$request->query->get('dateFin');
+
+        $criteresRecherches=new CriteresDates();
+        if($dateDebut) $criteresRecherches->setDateDebut(new \DateTime($dateDebut));
+        if($dateFin) $criteresRecherches->setDateFin(new \DateTime($dateFin));
+
+        $form = $this->createForm(CriteresRecherchesJourneeCaissesType::class, $criteresRecherches);
+        $form->handleRequest($request);
+
+        $dateDebut=new \DateTime($criteresRecherches->getDateDebut()->format('Y-m-d').' 00:00:00');
+        $dateFin=new \DateTime($criteresRecherches->getDateFin()->format('Y-m-d').' 23:59:59');
+        
+        $tableauAnalyse[]=['devise'=>'EUR','qteOuv'=>10,'qteAchat'=>5,'qteVente'=>10,'qteFerm'=>5
+            ,'cvdOuv'=>5000,'cvdAchat'=>2500,'cvdVente'=>6000,'cvdFerm'=>2500];
+
+        $agences=$this->getDoctrine()->getRepository(Agences::class)->findAll();
+        $utilisateurs=$this->getDoctrine()->getRepository(Utilisateurs::class)->findAll();
+
+        return $this->render('devise_journees/analytique.html.twig', [
+            'form'=>$form->createView()
+            ,'tableauAnalyse' => $tableauAnalyse
+            ,'agences'=>$agences
+            ,'agence_id'=>$agence
+            ,'utilisateurs'=>$utilisateurs
+            ,'utilisateur_id'=>$utilisateur
+            ,]
+        );
+
+
     }
     /**
      * @Route("/ouverture/{id}", name="devise_journees_ouv", methods="GET")
@@ -186,29 +227,6 @@ class DeviseJourneesController extends Controller
         return $this->render('devise_mouvements/index.html.twig', [
             'devise_mouvements' => $deviseJournees,
             'journeeCaisse'=>null,
-        ]);
-    }
-
-    /*
-     * @Route("/new", name="devise_journees_new", methods="GET|POST")
-     */
-    public function new(Request $request): Response
-    {
-        $deviseJournee = new DeviseJournees();
-        $form = $this->createForm(DeviseJourneesType::class, $deviseJournee);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($deviseJournee);
-            $em->flush();
-
-            return $this->redirectToRoute('devise_journees_index');
-        }
-
-        return $this->render('devise_journees/new.html.twig', [
-            'devise_journee' => $deviseJournee,
-            'form' => $form->createView(),
         ]);
     }
 

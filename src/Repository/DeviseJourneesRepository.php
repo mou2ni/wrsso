@@ -375,37 +375,4 @@ WHERE jc.date_comptable >= '$debut' AND jc.date_comptable <= '$fin' AND dj.devis
         //dump($stmt);die();
         return $stmt->fetchAll();
     }
-
-
-
-
-    //    /**
-//     * @return DeviseRecus[] Returns an array of DeviseRecus objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?DeviseRecus
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
 }
